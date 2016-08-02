@@ -16,7 +16,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
+    self.loadController()
+    self.adaptInterface()
+    
     return true
+  }
+  
+  private func adaptInterface() {
+    UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+    self.window?.backgroundColor = UIColor.blackColor()
+  }
+  
+  private func loadController() {
+    let splashViewController = SplashViewController()
+    let mainNavigationController = UINavigationController.init(rootViewController: splashViewController)
+    
+    window = UIWindow.init(frame: UIScreen.mainScreen().bounds)
+    window?.rootViewController = mainNavigationController
+    window?.makeKeyAndVisible()
+    
+    
+    //    if self.window != nil {
+    //      window!.rootViewController = mainNavigationController
+    //      window!.makeKeyAndVisible()
+    //    }
   }
 
   func applicationWillResignActive(application: UIApplication) {
