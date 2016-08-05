@@ -7,10 +7,17 @@
 //
 
 import UIKit
+import Alamofire
 
-class LoginViewController: UIViewController, FlipCardViewDelegate {
+class LoginViewController: UIViewController {
+  
+  let kCreateAccountText = "No estás registrado? Crea Cuenta"
   
   private var flipCard:FlipCardView! = nil
+  private var createAccountLabel: UILabel! = nil
+  private var lastFramePosition: CGRect! = nil
+  private var alreadyAppearKeyboard: Bool = false
+  private var loginGoldenPitchCard: GoldenPitchLoginView! = nil
   
   override func loadView() {
     self.view = self.createGradientView()
@@ -18,33 +25,93 @@ class LoginViewController: UIViewController, FlipCardViewDelegate {
 
   override func viewDidLoad() {
     
+    self.addObserverToKeyboardNotification()
     self.createFlipCardView()
+    self.addCreateAccountLabel()
+    
+    //DELETE
+    //self.testConnection()
+    //DELETE
+    
+  }
   
+  private func addObserverToKeyboardNotification() {
+    
+    NSNotificationCenter.defaultCenter().addObserver(self,
+                                    selector: #selector(keyboardAppear),
+                                        name: UIKeyboardDidShowNotification,
+                                      object: nil)
+    
+    NSNotificationCenter.defaultCenter().addObserver(self,
+                                            selector: #selector(keyboardDisappear),
+                                                name: UIKeyboardDidHideNotification,
+                                                     object: nil)
+    
+    
   }
   
   private func createFlipCardView() {
-    let colorsOne = [UIColor.redColor(), UIColor.blueColor()]
-    let colorsTwo = [UIColor.blueColor(), UIColor.redColor()]
-    
+
     let widthOfCard = self.view.frame.size.width - 80.0
     let heightOfCard = self.view.frame.size.height - 136.0
-    let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
+    let frameForCard = CGRect.init(x: 40.0,
+                                   y: 60.0,
+                               width: widthOfCard,
+                              height: heightOfCard)
     
-    let frameForCard = CGRect.init(x: 40.0, y: 60.0, width: widthOfCard, height: heightOfCard)
+    loginGoldenPitchCard = GoldenPitchLoginView.init(frame: frameForCard)
+    self.view.addSubview(loginGoldenPitchCard)
     
-    let viewGradientOne = GradientView.init(frame: frameForViewsOfCard, arrayOfcolors: colorsOne, typeOfInclination: GradientView.TypeOfInclination.leftToRightInclination)
-    let viewGradientTwo = GradientView.init(frame: frameForViewsOfCard, arrayOfcolors: colorsTwo, typeOfInclination: GradientView.TypeOfInclination.rightToLeftInclination)
+  }
+  
+  private func addCreateAccountLabel() {
+    createAccountLabel = UILabel.init(frame: CGRectZero)
     
-    flipCard = FlipCardView.init(frame: frameForCard, viewOne: viewGradientOne, viewTwo: viewGradientTwo)
-    flipCard.delegate = self
+    let font = UIFont(name: "SFUIDisplay-Semibold", size: 11.0)
+    let color = UIColor.init(red: 0.0/255.0, green: 64.0/255.0, blue: 89.0/255.0, alpha: 1.0)
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
     
-    self.view.addSubview(flipCard)
+    let stringWithFormat = NSMutableAttributedString(
+      string: kCreateAccountText,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    createAccountLabel.attributedText = stringWithFormat
+    createAccountLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (self.view.frame.size.width / 2.0) - (createAccountLabel.frame.size.width / 2.0),
+                               y: self.loginGoldenPitchCard.frame.origin.y + self.loginGoldenPitchCard.frame.size.height + 17.0,
+                               width: createAccountLabel.frame.size.width,
+                               height: createAccountLabel.frame.size.height)
+    
+    createAccountLabel.frame = newFrame
+    let tapToCreateAccount = UITapGestureRecognizer.init(target: self, action: #selector(pushCreateAccount))
+    tapToCreateAccount.numberOfTapsRequired = 1
+    createAccountLabel.userInteractionEnabled = true
+    createAccountLabel.addGestureRecognizer(tapToCreateAccount)
+    
+    self.view.addSubview(createAccountLabel)
+  }
+  
+  @objc private func pushCreateAccount() {
+    
+//    ///////PRUEBA ELIMINAR////
+//    
+//    let changePassController = ChangePasswordViewController()
+//    self.navigationController?.pushViewController(changePassController, animated: true)
+//    
+//    //////PRUEBA ELIMINAR////
+    
+    let createAccountViewController = CreateAccountViewController()
+    self.navigationController?.pushViewController(createAccountViewController, animated: true)
   }
   
   private func createGradientView() -> GradientView{
     
-    let firstColorGradient = UIColor.init(red: 135.0/255.0, green: 255.0/255.0, blue: 161.0/255.0, alpha: 1.0)
-    let secondColorGradient = UIColor.init(red: 106.0/255.0, green: 241.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+    let firstColorGradient = UIColor.init(red: 145.0/255.0, green: 255.0/255.0, blue: 171.0/255.0, alpha: 1.0)
+    let secondColorGradient = UIColor.init(red: 117.0/255.0, green: 244.0/255.0, blue: 255.0/255.0, alpha: 1.0)
     let colorsForBackground = [firstColorGradient,secondColorGradient]
     return GradientView.init(frame: UIScreen.mainScreen().bounds, arrayOfcolors: colorsForBackground, typeOfInclination: GradientView.TypeOfInclination.leftToRightInclination)
     
@@ -62,6 +129,76 @@ class LoginViewController: UIViewController, FlipCardViewDelegate {
     flipCard.flip()
   }
   
+  override func viewWillAppear(animated: Bool) {
+    self.navigationController?.setNavigationBarHidden(true, animated: true)
+  }
   
+  override func viewWillDisappear(animated: Bool) {
+    NSNotificationCenter.defaultCenter().removeObserver(self)
+  }
+  
+  //DELETE
+  @objc private func testConnection(){
+    //GET TEST
+    //let urlToRequest = "http://amap-dev.herokuapp.com/api/users"
+    
+    //POST TEST
+    let urlToRequest2 = "https://amap-dev.herokuapp.com/api/new_user_requests"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest2)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue("Token 40e97aa81c2be2de4b99f1c243bec9c4", forHTTPHeaderField: "Authorization")
+    
+    let rawValues = [
+      "new_user_request" :
+        [
+          "email" : "isrel",
+         "agency" : "Pequeño Cuervo"
+        ]
+    ]
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(rawValues, options: [])
+  
+    Alamofire.request(requestConnection)
+    .validate(statusCode: 200..<300)
+//      .response{
+//        (request, response, data, error) -> Void in
+//        
+//        let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: [])
+//        print (json)
+//      }
+    .responseJSON{ response in
+//      if response.response?.statusCode == 200 {
+//        print("SUCCESS")
+//      }
+      let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+      print (json)
+      
+      print("\(response.response) \n\n\(response.response?.statusCode)")
+
+    }
+  }
+  //DELETE
+  
+  @objc private func keyboardAppear(notification: NSNotification) {
+    if alreadyAppearKeyboard != true {
+      self.lastFramePosition = self.view.frame
+      alreadyAppearKeyboard = true
+      UIView.animateWithDuration(0.5){
+        let newFrame = CGRect.init(x: self.view.frame.origin.x, y: self.view.frame.origin.y - 200.0 , width: self.view.frame.size.width, height: self.view.frame.size.height)
+        self.view.frame = newFrame
+      }
+    }
+  }
+  
+  @objc private func keyboardDisappear(notification: NSNotification) {
+    if alreadyAppearKeyboard == true {
+      alreadyAppearKeyboard = false
+      UIView.animateWithDuration(0.5){
+        self.view.frame = self.lastFramePosition
+      }
+    }
+  }
   
 }
