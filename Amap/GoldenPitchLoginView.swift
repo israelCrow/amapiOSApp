@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol GoldenPitchLoginViewDelegate {
+  func nextButtonPressedGoldenPitchLoginView(name: String, email: String)
+}
+
 class GoldenPitchLoginView: UIView {
   
   private var goldenPitchStarImageView: UIImageView! = nil
@@ -31,6 +35,8 @@ class GoldenPitchLoginView: UIView {
   private var cancelButtonForEMailTextField: UIButton! = nil
   
   private var nextButton: UIButton! = nil
+  
+  var delegate: GoldenPitchLoginViewDelegate?
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -499,21 +505,27 @@ class GoldenPitchLoginView: UIView {
     
     nextButton.userInteractionEnabled = false
     
-    let mailValid = UtilityManager.sharedInstance.isValidEmail(eMailTextField.text!)
-    let nameValid = UtilityManager.sharedInstance.isValidText(nameTextField.text!)
+    //let passwordValid = UtilityManager.sharedInstance.isValidEmail(eMailTextField.text!)
+    let mailValid = UtilityManager.sharedInstance.isValidEmail(nameTextField.text!)
     
-    if mailValid == true && nameValid == true {
+    if mailValid == true {
 //      do request login
+      self.delegate?.nextButtonPressedGoldenPitchLoginView(nameTextField.text!, email: eMailTextField.text!)
+      
+      nextButton.userInteractionEnabled = true
+      
     } else
-      if mailValid == false && nameValid == true {
+      if mailValid == false {
         self.showValidMailError()
-      } else
-        if nameValid == false && mailValid == true {
-          self.showValidNameError()
-        }else
-          if nameValid == false && mailValid == false {
-            self.showBothTextErrorLabel()
-    }
+      }
+//      
+//      else
+//        if nameValid == false && mailValid == true {
+//          self.showValidNameError()
+//        }else
+//          if nameValid == false && mailValid == false {
+//            self.showBothTextErrorLabel()
+//        }
     
   }
   

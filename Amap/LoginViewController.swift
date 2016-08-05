@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
   
   let kCreateAccountText = "No estás registrado? Crea Cuenta"
   
@@ -17,7 +17,7 @@ class LoginViewController: UIViewController {
   private var createAccountLabel: UILabel! = nil
   private var lastFramePosition: CGRect! = nil
   private var alreadyAppearKeyboard: Bool = false
-  private var loginGoldenPitchCard: GoldenPitchLoginView! = nil
+  private var loginGoldenPitchView: GoldenPitchLoginView! = nil
   
   override func loadView() {
     self.view = self.createGradientView()
@@ -59,8 +59,9 @@ class LoginViewController: UIViewController {
                                width: widthOfCard,
                               height: heightOfCard)
     
-    loginGoldenPitchCard = GoldenPitchLoginView.init(frame: frameForCard)
-    self.view.addSubview(loginGoldenPitchCard)
+    loginGoldenPitchView = GoldenPitchLoginView.init(frame: frameForCard)
+    self.loginGoldenPitchView.delegate = self
+    self.view.addSubview(loginGoldenPitchView)
     
   }
   
@@ -83,7 +84,7 @@ class LoginViewController: UIViewController {
     createAccountLabel.attributedText = stringWithFormat
     createAccountLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.view.frame.size.width / 2.0) - (createAccountLabel.frame.size.width / 2.0),
-                               y: self.loginGoldenPitchCard.frame.origin.y + self.loginGoldenPitchCard.frame.size.height + (17.0  * UtilityManager.sharedInstance.conversionHeight),
+                               y: self.loginGoldenPitchView.frame.origin.y + self.loginGoldenPitchView.frame.size.height + (17.0  * UtilityManager.sharedInstance.conversionHeight),
                                width: createAccountLabel.frame.size.width,
                                height: createAccountLabel.frame.size.height)
     
@@ -202,4 +203,39 @@ class LoginViewController: UIViewController {
     }
   }
   
+  //MARK - GoldenPitchLoginViewDelegate
+  func nextButtonPressedGoldenPitchLoginView(name: String, email: String) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/sessions"
+
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue("Token 40e97aa81c2be2de4b99f1c243bec9c4", forHTTPHeaderField: "Authorization")
+    
+    let values = [
+      "user_session" :
+        [ "email" : name,
+          "password" : email
+      ]
+    ]
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(values, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<300)
+//      .response{
+//        (request, response, data, error) -> Void in
+//        print(response)
+////          let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: [])
+////            print (json)
+////          }
+      .responseJSON{ response in
+        let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+        print (json)
+        
+        print("\(response.response) \n\n\(response.response?.statusCode)")
+    }
+    
+  }
 }
