@@ -41,7 +41,10 @@ class ExistingAccountView: UIView {
   
   private func createLikeImageView() {
     errorImageView = UIImageView.init(image: UIImage.init(named: "error"))
-    let frameForImageView = CGRect.init(x: (self.frame.size.width / 2.0) - (errorImageView.frame.size.width / 2.0), y: 40.0, width: errorImageView.frame.size.width, height: errorImageView.frame.size.height)
+    let frameForImageView = CGRect.init(x: (self.frame.size.width / 2.0) - (errorImageView.frame.size.width / 2.0),
+                                        y: (40.0 * UtilityManager.sharedInstance.conversionHeight),
+                                    width: errorImageView.frame.size.width,
+                                  height: errorImageView.frame.size.height)
     errorImageView.frame = frameForImageView
     
     self.addSubview(errorImageView)
@@ -51,7 +54,8 @@ class ExistingAccountView: UIView {
     
     oopsLabel = UILabel.init(frame: CGRectZero)
     
-    let font = UIFont(name: "SFUIDisplay-Ultralight", size: 53.0)
+    let font = UIFont(name: "SFUIDisplay-Ultralight",
+                      size: 53.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -66,9 +70,9 @@ class ExistingAccountView: UIView {
     oopsLabel.attributedText = stringWithFormat
     oopsLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (oopsLabel.frame.size.width / 2.0),
-                               y: errorImageView.frame.origin.y + errorImageView.frame.size.height + 33.0,
-                               width: oopsLabel.frame.size.width,
-                               height: oopsLabel.frame.size.height)
+                               y: errorImageView.frame.origin.y + errorImageView.frame.size.height + (33.0 * UtilityManager.sharedInstance.conversionHeight),
+                           width: oopsLabel.frame.size.width,
+                          height: oopsLabel.frame.size.height)
     
     oopsLabel.frame = newFrame
     
@@ -80,7 +84,8 @@ class ExistingAccountView: UIView {
     
     alreadyHaveAnAccountLabel = UILabel.init(frame: CGRectZero)
     
-    let font = UIFont(name: "SFUIText-Light", size: 16.0)
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -95,9 +100,9 @@ class ExistingAccountView: UIView {
     alreadyHaveAnAccountLabel.attributedText = stringWithFormat
     alreadyHaveAnAccountLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (alreadyHaveAnAccountLabel.frame.size.width / 2.0),
-                               y: oopsLabel.frame.origin.y + oopsLabel.frame.size.height + 40.0,
-                               width: alreadyHaveAnAccountLabel.frame.size.width,
-                               height: alreadyHaveAnAccountLabel.frame.size.height)
+                               y: oopsLabel.frame.origin.y + oopsLabel.frame.size.height + (40.0 * UtilityManager.sharedInstance.conversionHeight),
+                           width: alreadyHaveAnAccountLabel.frame.size.width,
+                          height: alreadyHaveAnAccountLabel.frame.size.height)
     
     alreadyHaveAnAccountLabel.frame = newFrame
     
@@ -107,10 +112,11 @@ class ExistingAccountView: UIView {
   
   private func createRecommendationLabel() {
     
-    recommendationLabel = UILabel.init(frame: CGRect.init(x: 0.0, y: 0.0, width: self.frame.size.width - 55.0, height: 0.0))
+    recommendationLabel = UILabel.init(frame: CGRect.init(x: 0.0, y: 0.0, width: self.frame.size.width - (55.0 * UtilityManager.sharedInstance.conversionWidth), height: 0.0))
     recommendationLabel.adjustsFontSizeToFitWidth = true
     recommendationLabel.numberOfLines = 5
-    let font = UIFont(name: "SFUIText-Light", size: 16.0)
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -125,7 +131,7 @@ class ExistingAccountView: UIView {
     recommendationLabel.attributedText = stringWithFormat
     recommendationLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (recommendationLabel.frame.size.width / 2.0),
-                               y: alreadyHaveAnAccountLabel.frame.origin.y + alreadyHaveAnAccountLabel.frame.size.height + 15.0,
+                               y: alreadyHaveAnAccountLabel.frame.origin.y + alreadyHaveAnAccountLabel.frame.size.height + (15.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: recommendationLabel.frame.size.width,
                                height: recommendationLabel.frame.size.height)
     
@@ -137,7 +143,8 @@ class ExistingAccountView: UIView {
   
   private func createNextButton() {
     
-    let font = UIFont(name: "SFUIDisplay-Light", size: 22.0)
+    let font = UIFont(name: "SFUIDisplay-Light",
+                      size: 22.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.whiteColor()
     let colorWhenPressed = UIColor.greenColor()
     let style = NSMutableParagraphStyle()
@@ -159,7 +166,7 @@ class ExistingAccountView: UIView {
       ]
     )
     
-    let frameForButton = CGRect.init(x: 0.0, y: self.frame.size.height - 70.0, width: self.frame.size.width, height: 70.0)
+    let frameForButton = CGRect.init(x: 0.0, y: self.frame.size.height - (70.0 * UtilityManager.sharedInstance.conversionHeight), width: self.frame.size.width, height: (70.0 * UtilityManager.sharedInstance.conversionHeight))
     nextButton = UIButton.init(frame: frameForButton)
     nextButton.addTarget(self,
                          action: #selector(nextButtonWasPressed),

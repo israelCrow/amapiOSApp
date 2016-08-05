@@ -84,10 +84,13 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
   
   override func viewDidLoad() {
 
-    let widthOfCard = self.view.frame.size.width - 80.0
-    let heightOfCard = self.view.frame.size.height - 184.0
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let frameForFlipCard = CGRect.init(x: 40.0, y: 100.0, width: widthOfCard, height: heightOfCard)
+    let frameForFlipCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth),
+                                       y: (100.0 * UtilityManager.sharedInstance.conversionHeight),
+                                   width: widthOfCard,
+                                  height: heightOfCard)
   
     let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
     
@@ -95,17 +98,17 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
     createAccountView.delegate = self
     let blankView = UIView.init(frame:frameForViewsOfCard)
 
-//    let blankView2 = UIView.init(frame: frameForViewsOfCard)
-//    blankView2.backgroundColor = UIColor.blueColor()
-//    let successView = SuccessfullyAskForAccountView.init(frame: frameForViewsOfCard)
-//    successView.hidden = true
+    let blankView2 = UIView.init(frame: frameForViewsOfCard)
+    blankView2.backgroundColor = UIColor.blueColor()
+    let successView = SuccessfullyAskForAccountView.init(frame: frameForViewsOfCard)
+    successView.hidden = true
     
     flipCard = FlipCardView.init(frame: frameForFlipCard, viewOne: createAccountView, viewTwo: blankView)
     
     
-    let alreadyBegun = CreateAccountProcessAlreadyBegunView.init(frame: frameForFlipCard)
+//    let alreadyBegun = CreateAccountProcessAlreadyBegunView.init(frame: frameForFlipCard)
     
-    self.view.addSubview(alreadyBegun)
+    self.view.addSubview(flipCard)
     
   }
   
@@ -157,8 +160,8 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
   }
   
   private func flipCardToSuccess() {
-    let widthOfCard = self.view.frame.size.width - 80.0
-    let heightOfCard = self.view.frame.size.height - 184.0
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
     let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
     let successView = SuccessfullyAskForAccountView.init(frame: frameForViewsOfCard)
     successView.hidden = true
@@ -170,8 +173,8 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
   
   private func flipCardToFailed() {
     
-    let widthOfCard = self.view.frame.size.width - 80.0
-    let heightOfCard = self.view.frame.size.height - 184.0
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
     let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
     let existingAccView = ExistingAccountView.init(frame: frameForViewsOfCard)
     existingAccView.hidden = true

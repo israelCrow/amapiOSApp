@@ -21,6 +21,6 @@ class GoldenPitchConstants {
   static let nextButtonText = "siguiente"
   
   static let separationBetweenGoldenPitchStarAndGoldenPitchLabel = 10.0
-  static let separationBetweenGoldenPitchStarAndAmap = 36.0
+  static let separationBetweenGoldenPitchStarAndAmap = 1.0
   
 }

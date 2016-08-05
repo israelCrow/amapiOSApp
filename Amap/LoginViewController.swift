@@ -52,10 +52,10 @@ class LoginViewController: UIViewController {
   
   private func createFlipCardView() {
 
-    let widthOfCard = self.view.frame.size.width - 80.0
-    let heightOfCard = self.view.frame.size.height - 136.0
-    let frameForCard = CGRect.init(x: 40.0,
-                                   y: 60.0,
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (136.0 * UtilityManager.sharedInstance.conversionHeight)
+    let frameForCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth),
+                                   y: (60.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: widthOfCard,
                               height: heightOfCard)
     
@@ -67,7 +67,8 @@ class LoginViewController: UIViewController {
   private func addCreateAccountLabel() {
     createAccountLabel = UILabel.init(frame: CGRectZero)
     
-    let font = UIFont(name: "SFUIDisplay-Semibold", size: 11.0)
+    let font = UIFont(name: "SFUIDisplay-Semibold",
+                      size: 11.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.init(red: 0.0/255.0, green: 64.0/255.0, blue: 89.0/255.0, alpha: 1.0)
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -82,7 +83,7 @@ class LoginViewController: UIViewController {
     createAccountLabel.attributedText = stringWithFormat
     createAccountLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.view.frame.size.width / 2.0) - (createAccountLabel.frame.size.width / 2.0),
-                               y: self.loginGoldenPitchCard.frame.origin.y + self.loginGoldenPitchCard.frame.size.height + 17.0,
+                               y: self.loginGoldenPitchCard.frame.origin.y + self.loginGoldenPitchCard.frame.size.height + (17.0  * UtilityManager.sharedInstance.conversionHeight),
                                width: createAccountLabel.frame.size.width,
                                height: createAccountLabel.frame.size.height)
     

@@ -13,13 +13,12 @@ class UtilityManager: NSObject {
   static let sharedInstance = UtilityManager()
   
   
-  static let baseScreen = CGSize.init(width: 750.0, height: 1334.0)
-  static let screenSize = CGSize.init(width: UIScreen.mainScreen().bounds.size.width * UIScreen.mainScreen().scale, height: UIScreen.mainScreen().bounds.size.height * UIScreen.mainScreen().scale)
+  static let baseScreen = CGSize.init(width: 365.0, height: 667.0)
+  static let screenSize = CGSize.init(width: UIScreen.mainScreen().bounds.size.width, height: UIScreen.mainScreen().bounds.size.height)
   static let frameOfConversion = CGSize.init(width: screenSize.height/baseScreen.height, height: screenSize.width/baseScreen.width)
   
   let conversionWidth = frameOfConversion.width
   let conversionHeight = frameOfConversion.height
-//  print("HEIGHT CONVERSE: \(screenSize.height/baseScreen.height), WIDTH CONVERSE: \(screenSize.width/baseScreen.width)")
   var loadingView: UIView!
   
 //  func currentViewController() -> UIViewController {
@@ -29,15 +28,43 @@ class UtilityManager: NSObject {
 //  }
   
   func getRatioOfScreen() -> Double {
+    
     let screenWidth = UIScreen.mainScreen().bounds.size.width
     let ratio = Double(screenWidth) / 187.5
     return ratio
+    
   }
   
   func frameWithRatio(rectToChange: CGRect) -> CGRect {
     
     return CGRectZero
     
+  }
+  
+  func isValidEmail(testStr:String) -> Bool {
+    
+    let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+    
+    let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+    return emailTest.evaluateWithObject(testStr)
+    
+  }
+  
+  //return true when there are not blanks
+  func isValidText(testString: String) -> Bool {
+    
+    let whiteSpace = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+    let trimmed = testString.stringByTrimmingCharactersInSet(whiteSpace)
+    
+    if trimmed.characters.count != 0 {
+      
+      return true
+      
+    }else{
+      
+      return false
+      
+    }
     
   }
   

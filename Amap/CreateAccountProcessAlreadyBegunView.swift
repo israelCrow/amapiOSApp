@@ -33,7 +33,10 @@ class CreateAccountProcessAlreadyBegunView: UIView {
   
   private func createLikeImageView() {
     errorImageView = UIImageView.init(image: UIImage.init(named: "error"))
-    let frameForImageView = CGRect.init(x: (self.frame.size.width / 2.0) - (errorImageView.frame.size.width / 2.0), y: 40.0, width: errorImageView.frame.size.width, height: errorImageView.frame.size.height)
+    let frameForImageView = CGRect.init(x: (self.frame.size.width / 2.0) - (errorImageView.frame.size.width / 2.0),
+                                        y: 40.0 * UtilityManager.sharedInstance.conversionHeight,
+                                    width: errorImageView.frame.size.width,
+                                   height: errorImageView.frame.size.height)
     errorImageView.frame = frameForImageView
     
     self.addSubview(errorImageView)
@@ -43,7 +46,8 @@ class CreateAccountProcessAlreadyBegunView: UIView {
     
     oopsLabel = UILabel.init(frame: CGRectZero)
     
-    let font = UIFont(name: "SFUIDisplay-Ultralight", size: 53.0)
+    let font = UIFont(name: "SFUIDisplay-Ultralight",
+                      size: 53.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -58,7 +62,7 @@ class CreateAccountProcessAlreadyBegunView: UIView {
     oopsLabel.attributedText = stringWithFormat
     oopsLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (oopsLabel.frame.size.width / 2.0),
-                               y: errorImageView.frame.origin.y + errorImageView.frame.size.height + 33.0,
+                               y: errorImageView.frame.origin.y + errorImageView.frame.size.height + (33.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: oopsLabel.frame.size.width,
                                height: oopsLabel.frame.size.height)
     
@@ -70,10 +74,14 @@ class CreateAccountProcessAlreadyBegunView: UIView {
   
   private func createAlreadyBegunProcessLabel() {
     
-    alreadyBegunProcessLabel = UILabel.init(frame: CGRect.init(x: 0.0, y: 0.0, width: self.frame.size.width - 63.0, height: 0.0))
+    alreadyBegunProcessLabel = UILabel.init(frame: CGRect.init(x: 0.0,
+      y: 0.0,
+      width: self.frame.size.width - (63.0 * UtilityManager.sharedInstance.conversionWidth),
+      height: 0.0))
     alreadyBegunProcessLabel.adjustsFontSizeToFitWidth = true
     alreadyBegunProcessLabel.numberOfLines = 5
-    let font = UIFont(name: "SFUIText-Light", size: 16.0)
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -88,7 +96,7 @@ class CreateAccountProcessAlreadyBegunView: UIView {
     alreadyBegunProcessLabel.attributedText = stringWithFormat
     alreadyBegunProcessLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (alreadyBegunProcessLabel.frame.size.width / 2.0),
-                               y: oopsLabel.frame.origin.y + oopsLabel.frame.size.height + 40.0,
+                               y: oopsLabel.frame.origin.y + oopsLabel.frame.size.height + (40.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: alreadyBegunProcessLabel.frame.size.width,
                                height: alreadyBegunProcessLabel.frame.size.height)
     
@@ -100,7 +108,8 @@ class CreateAccountProcessAlreadyBegunView: UIView {
   
   private func createNextButton() {
     
-    let font = UIFont(name: "SFUIDisplay-Light", size: 22.0)
+    let font = UIFont(name: "SFUIDisplay-Light",
+                      size: 22.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.whiteColor()
     let colorWhenPressed = UIColor.greenColor()
     let style = NSMutableParagraphStyle()
@@ -122,7 +131,7 @@ class CreateAccountProcessAlreadyBegunView: UIView {
       ]
     )
     
-    let frameForButton = CGRect.init(x: 0.0, y: self.frame.size.height - 70.0, width: self.frame.size.width, height: 70.0)
+    let frameForButton = CGRect.init(x: 0.0, y: self.frame.size.height - (70.0 * UtilityManager.sharedInstance.conversionHeight), width: self.frame.size.width, height: (70.0 * UtilityManager.sharedInstance.conversionHeight))
     nextButton = UIButton.init(frame: frameForButton)
     nextButton.addTarget(self,
                          action: #selector(doSomething),

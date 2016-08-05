@@ -57,7 +57,10 @@ class ChangePasswordRequestView: UIView {
   
   private func createGoldenPitchStar() {
     goldenPitchStarImageView = UIImageView.init(image: UIImage.init(named: "goldenPitch_star"))
-    let goldenPitchStarFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (goldenPitchStarImageView.frame.size.width / 2.0), y: 30.0, width: goldenPitchStarImageView.frame.size.width, height: goldenPitchStarImageView.frame.size.height)
+    let goldenPitchStarFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (goldenPitchStarImageView.frame.size.width / 2.0),
+                                           y: (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                       width: goldenPitchStarImageView.frame.size.width,
+                                      height: goldenPitchStarImageView.frame.size.height)
     goldenPitchStarImageView.frame = goldenPitchStarFrame
     
     self.addSubview(goldenPitchStarImageView)
