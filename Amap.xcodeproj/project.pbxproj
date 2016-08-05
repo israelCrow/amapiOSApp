@@ -17,6 +17,7 @@
 		AA2DB85A1D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB8591D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift */; };
 		AA2DB85C1D53C17400E9FB8A /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB85B1D53C17400E9FB8A /* ChangePasswordViewController.swift */; };
 		AA40C9D91D51051F00FF2B4D /* FlipCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */; };
+		AA681E381D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA681E371D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift */; };
 		AA7AC7801D52654D007522FB /* SF-UI-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA7AC7691D52654D007522FB /* SF-UI-Display-Black.otf */; };
 		AA7AC7811D52654D007522FB /* SF-UI-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA7AC7691D52654D007522FB /* SF-UI-Display-Black.otf */; };
 		AA7AC7821D52654D007522FB /* SF-UI-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA7AC7691D52654D007522FB /* SF-UI-Display-Black.otf */; };
@@ -134,6 +135,7 @@
 		AA2DB8591D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordRequestConstants.swift; sourceTree = "<group>"; };
 		AA2DB85B1D53C17400E9FB8A /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipCardView.swift; sourceTree = "<group>"; };
+		AA681E371D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessfullyAskForChangePasswordView.swift; sourceTree = "<group>"; };
 		AA7AC7691D52654D007522FB /* SF-UI-Display-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Black.otf"; path = "Resources/fonts/SF-UI-Display-Black.otf"; sourceTree = "<group>"; };
 		AA7AC76A1D52654D007522FB /* SF-UI-Display-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Bold.otf"; path = "Resources/fonts/SF-UI-Display-Bold.otf"; sourceTree = "<group>"; };
 		AA7AC76B1D52654D007522FB /* SF-UI-Display-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Heavy.otf"; path = "Resources/fonts/SF-UI-Display-Heavy.otf"; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				AA2DB8571D53B97D00E9FB8A /* ChangePasswordRequestView.swift */,
+				AA681E371D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift */,
 				AA2DB8591D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift */,
 			);
 			name = ChangePassword;
@@ -647,6 +650,7 @@
 				AA92D6401D50EF7400CE7D95 /* LoginViewController.swift in Sources */,
 				AA2DB8581D53B97D00E9FB8A /* ChangePasswordRequestView.swift in Sources */,
 				AA92D63C1D50EE0F00CE7D95 /* SplashViewController.swift in Sources */,
+				AA681E381D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift in Sources */,
 				AA2DB85A1D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift in Sources */,
 				AAB61E8E1D52335D00407FFD /* GoldenPitchConstants.swift in Sources */,
 				AA92D6421D50F05300CE7D95 /* GradientView.swift in Sources */,
@@ -804,6 +808,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pequenocuervo.Amap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -817,6 +822,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pequenocuervo.Amap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -41,6 +41,7 @@ class GoldenPitchLoginView: UIView {
 
     self.backgroundColor = UIColor.whiteColor()
     self.addActions()
+    self.adaptMyself()
     self.createGoldenPitchStar()
     self.createGoldenPitchTitleLabel()
     self.createAmapLabel()
@@ -66,6 +67,13 @@ class GoldenPitchLoginView: UIView {
     tapToDismissKeyboard.numberOfTapsRequired = 1
     self.addGestureRecognizer(tapToDismissKeyboard)
     
+  }
+  
+  private func adaptMyself() {
+    self.layer.shadowColor = UIColor.blackColor().CGColor
+    self.layer.shadowOpacity = 1
+    self.layer.shadowOffset = CGSizeZero
+    self.layer.shadowRadius = 5
   }
   
   private func createGoldenPitchStar() {

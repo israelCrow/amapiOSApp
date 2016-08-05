@@ -44,7 +44,7 @@ class FlipCardView: UIView{
     self.addSubview(self.viewOne)
     self.addSubview(self.viewTwo)
 //
-//    self.adaptMyself()
+    self.adaptMyself()
   }
   
 //  private func addButtons(){
@@ -57,13 +57,12 @@ class FlipCardView: UIView{
 //    self.viewTwo.addSubview(self.bottomButtonSecondView)
 //  }
   
-//  private func adaptMyself() {
-//    self.layer.shadowColor = UIColor.blackColor().CGColor
-//    self.layer.shadowOpacity = 1
-//    self.layer.shadowOffset = CGSizeZero
-//    self.layer.shadowRadius = 5
-//    self.layer.shouldRasterize = true
-//  }
+  private func adaptMyself() {
+    self.layer.shadowColor = UIColor.blackColor().CGColor
+    self.layer.shadowOpacity = 1
+    self.layer.shadowOffset = CGSizeZero
+    self.layer.shadowRadius = 5
+  }
   
   @objc func flip() {
     self.viewTwo.hidden = false

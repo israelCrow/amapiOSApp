@@ -64,7 +64,8 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
   private func changeNavigationBarTitle() {
     let titleLabel = UILabel.init(frame: CGRectZero)
     
-    let font = UIFont(name: "SFUIText-Regular", size: 17.0)
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 17.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.whiteColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -105,8 +106,9 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
     
     flipCard = FlipCardView.init(frame: frameForFlipCard, viewOne: createAccountView, viewTwo: blankView)
     
-    
-//    let alreadyBegun = CreateAccountProcessAlreadyBegunView.init(frame: frameForFlipCard)
+    //PRUEBAS
+    //let alreadyBegun = CreateAccountProcessAlreadyBegunView.init(frame: frameForFlipCard)
+
     
     self.view.addSubview(flipCard)
     

@@ -69,7 +69,8 @@ class ChangePasswordRequestView: UIView {
   private func createGoldenPitchTitleLabel() {
     goldenPitchLabel = UILabel.init(frame: CGRectZero)
     
-    let font = UIFont(name: "SFUIDisplay-Semibold", size: 22.0)
+    let font = UIFont(name: "SFUIDisplay-Semibold",
+                      size: 22.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.init(red: 0.0/255.0, green: 64.0/255.0, blue: 89.0/255.0, alpha: 1.0)
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -85,7 +86,7 @@ class ChangePasswordRequestView: UIView {
     goldenPitchLabel.attributedText = stringWithFormat
     goldenPitchLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (goldenPitchLabel.frame.size.width / 2.0),
-                               y: goldenPitchStarImageView.frame.origin.y + goldenPitchStarImageView.frame.size.height + 10.0,
+                               y: goldenPitchStarImageView.frame.origin.y + goldenPitchStarImageView.frame.size.height + (10.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: goldenPitchLabel.frame.size.width,
                                height: goldenPitchLabel.frame.size.height)
     
@@ -97,7 +98,8 @@ class ChangePasswordRequestView: UIView {
   private func createAmapLabel() {
     amapLabel = UILabel.init(frame: CGRectZero)
     
-    let font = UIFont(name: "SFUIDisplay-Regular", size: 14.0)
+    let font = UIFont(name: "SFUIDisplay-Regular",
+                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.init(red: 0.0/255.0, green: 64.0/255.0, blue: 89.0/255.0, alpha: 1.0)
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -113,7 +115,7 @@ class ChangePasswordRequestView: UIView {
     amapLabel.attributedText = stringWithFormat
     amapLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (amapLabel.frame.size.width / 2.0),
-                               y: goldenPitchStarImageView.frame.origin.y + goldenPitchStarImageView.frame.size.height + 31.0,
+                               y: goldenPitchStarImageView.frame.origin.y + goldenPitchStarImageView.frame.size.height + (31.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: amapLabel.frame.size.width,
                                height: amapLabel.frame.size.height)
     
@@ -123,10 +125,11 @@ class ChangePasswordRequestView: UIView {
   }
   
   private func createMessageLabel() {
-    messageLabel = UILabel.init(frame: CGRect.init(x: 0.0, y: 0.0, width: self.frame.size.width - 63.0, height: 0.0))
+    messageLabel = UILabel.init(frame: CGRect.init(x: 0.0, y: 0.0, width: self.frame.size.width - (63.0 * UtilityManager.sharedInstance.conversionWidth), height: 0.0))
     messageLabel.adjustsFontSizeToFitWidth = true
     messageLabel.numberOfLines = 5
-    let font = UIFont(name: "SFUIText-Light", size: 16.0)
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -142,7 +145,7 @@ class ChangePasswordRequestView: UIView {
     messageLabel.attributedText = stringWithFormat
     messageLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (messageLabel.frame.size.width / 2.0),
-                               y: amapLabel.frame.origin.y + amapLabel.frame.size.height + 31.0,
+                               y: amapLabel.frame.origin.y + amapLabel.frame.size.height + (31.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: messageLabel.frame.size.width,
                                height: messageLabel.frame.size.height)
     
@@ -155,7 +158,8 @@ class ChangePasswordRequestView: UIView {
     
     writeEMailDescriptionLabel = UILabel.init(frame: CGRectZero)
     
-    let font = UIFont(name: "SFUIText-Medium", size: 10.0)
+    let font = UIFont(name: "SFUIText-Medium",
+                      size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -169,8 +173,8 @@ class ChangePasswordRequestView: UIView {
     )
     writeEMailDescriptionLabel.attributedText = stringWithFormat
     writeEMailDescriptionLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 38.0,
-                               y: messageLabel.frame.origin.y + messageLabel.frame.size.height + 29.0,
+    let newFrame = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: messageLabel.frame.origin.y + messageLabel.frame.size.height + (29.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: writeEMailDescriptionLabel.frame.size.width,
                                height: writeEMailDescriptionLabel.frame.size.height)
     
@@ -184,7 +188,8 @@ class ChangePasswordRequestView: UIView {
     
     eMailLabel = UILabel.init(frame: CGRectZero)
     
-    let font = UIFont(name: "SFUIText-Regular", size: 14.0)
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -198,8 +203,8 @@ class ChangePasswordRequestView: UIView {
     )
     eMailLabel.attributedText = stringWithFormat
     eMailLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 48.0,
-                               y: writeEMailDescriptionLabel.frame.origin.y + writeEMailDescriptionLabel.frame.size.height + 20.0,
+    let newFrame = CGRect.init(x: 48.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: writeEMailDescriptionLabel.frame.origin.y + writeEMailDescriptionLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: eMailLabel.frame.size.width,
                                height: eMailLabel.frame.size.height)
     
@@ -210,14 +215,20 @@ class ChangePasswordRequestView: UIView {
   }
   
   private func createEMailTextField() {
-    let frameForTextField = CGRect.init(x: 38.0, y: eMailLabel.frame.origin.y + eMailLabel.frame.size.height + 5.0, width: 220.0, height: 25.0)
+    let frameForTextField = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        y: eMailLabel.frame.origin.y + eMailLabel.frame.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight),
+                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
     
     eMailTextField = UITextField.init(frame: frameForTextField)
     
     let border = CALayer()
     let width = CGFloat(0.5)
     border.borderColor = UIColor.darkGrayColor().CGColor
-    border.frame = CGRect(x: 0, y: eMailTextField.frame.size.height - width, width:  eMailTextField.frame.size.width, height: eMailTextField.frame.size.height)
+    border.frame = CGRect(x: 0,
+                          y: eMailTextField.frame.size.height - width,
+                      width: eMailTextField.frame.size.width,
+                     height: eMailTextField.frame.size.height)
     
     border.borderWidth = width
     eMailTextField.layer.addSublayer(border)
@@ -229,7 +240,8 @@ class ChangePasswordRequestView: UIView {
   
   private func createNextButton() {
     
-    let font = UIFont(name: "SFUIDisplay-Light", size: 22.0)
+    let font = UIFont(name: "SFUIDisplay-Light",
+                      size: 22.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.whiteColor()
     let colorWhenPressed = UIColor.greenColor()
     let style = NSMutableParagraphStyle()
@@ -251,7 +263,10 @@ class ChangePasswordRequestView: UIView {
       ]
     )
     
-    let frameForButton = CGRect.init(x: 0.0, y: self.frame.size.height - 70.0, width: self.frame.size.width, height: 70.0)
+    let frameForButton = CGRect.init(x: 0.0,
+                                     y: self.frame.size.height - (70.0 * UtilityManager.sharedInstance.conversionHeight),
+                                 width: self.frame.size.width,
+                                height: (70.0 * UtilityManager.sharedInstance.conversionHeight))
     nextButton = UIButton.init(frame: frameForButton)
     nextButton.addTarget(self,
                          action: #selector(requestChangePassword),

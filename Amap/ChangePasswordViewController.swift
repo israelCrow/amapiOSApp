@@ -43,7 +43,8 @@ class ChangePasswordViewController: UIViewController {
   private func changeNavigationBarTitle() {
     let titleLabel = UILabel.init(frame: CGRectZero)
     
-    let font = UIFont(name: "SFUIText-Regular", size: 17.0)
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 17.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.whiteColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -63,9 +64,15 @@ class ChangePasswordViewController: UIViewController {
   
   override func viewDidLoad() {
     
-    let frameForViewCard = CGRect.init(x: 40.0, y: 100.0, width: self.view.frame.width - 80.0, height: self.view.frame.height - 116.0 - 60)
+    let frameForViewCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth),
+                                       y: (100.0 * UtilityManager.sharedInstance.conversionHeight),
+                                   width: self.view.frame.width - (80.0 * UtilityManager.sharedInstance.conversionWidth),
+                                  height: self.view.frame.height - (176 * UtilityManager.sharedInstance.conversionHeight))
     
     let changePassView = ChangePasswordRequestView.init(frame: frameForViewCard)
+//    let success = SuccessfullyAskForChangePasswordView.init(frame: frameForViewCard)
+    
+    
     self.view.addSubview(changePassView)
     
   }
