@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SuccessfullyAskForChangePasswordViewDelegate {
-  func nextButtonPressedSuccessfullyAskForAccountView()
+  func nextButtonPressedSuccessfullyRequestForChangePasswordView()
 }
 
 
@@ -154,7 +154,7 @@ class SuccessfullyAskForChangePasswordView: UIView {
   }
   
   @objc private func nextButtonPressed() {
-    self.delegate?.nextButtonPressedSuccessfullyAskForAccountView()
+    self.delegate?.nextButtonPressedSuccessfullyRequestForChangePasswordView()
   }
   
   

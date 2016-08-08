@@ -8,12 +8,19 @@
 
 import UIKit
 
+protocol CreateAccountProcessAlreadyBegunViewDelegate {
+  func nextButtonPressedCreateAccountProcessAlreadyBegun()
+}
+
+
 class CreateAccountProcessAlreadyBegunView: UIView {
   
   private var errorImageView: UIImageView! = nil
   private var oopsLabel: UILabel! = nil
   private var alreadyBegunProcessLabel: UILabel! = nil
   private var nextButton: UIButton! = nil
+  
+  var delegate: CreateAccountProcessAlreadyBegunViewDelegate?
   
   override init(frame: CGRect) {
     super.init(frame: frame)

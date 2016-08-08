@@ -45,14 +45,17 @@ class CreateAccountView: UIView {
     
     self.addActions()
     self.createCreateAccountLabel()
+    self.createAgencyButton()
+    self.createBrandButton()
     self.createWriteNameDescriptionLabel()
-    self.createNameLabel()
-    //self.createButton1
+//    self.createNameLabel()
     self.createNameTextField()
+    self.createCancelButtonForNameTextField()
     self.createWriteEMailDescriptionLabel()
-    self.createEMailLabel()
+//    self.createEMailLabel()
     //self.createButton2
     self.createEMailTextField()
+    self.createCancelButtonForEMailTextField()
     self.createAskPasswordButton()
     self.createErrorEMailLabel()
     self.createErrorNameLabel()
@@ -102,12 +105,37 @@ class CreateAccountView: UIView {
     
   }
   
+  private func createAgencyButton() {
+    let frameForButton = CGRect.init(x: 37.5 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: createAccountLabel.frame.origin.y + createAccountLabel.frame.size.height + (1.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: 100.0,
+                                     height: 100.0)
+    agencyButton = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "agency_black") as UIImage?
+    agencyButton.setImage(image, forState: .Normal)
+    self.addSubview(agencyButton)
+    
+  }
+  
+  private func createBrandButton() {
+    let frameForButton = CGRect.init(x: 140.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: createAccountLabel.frame.origin.y + createAccountLabel.frame.size.height + (1.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: 100.0,
+                                     height: 100.0)
+    agencyButton = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "brand_black") as UIImage?
+    agencyButton.setImage(image, forState: .Normal)
+    self.addSubview(agencyButton)
+    
+  }
+  
+  
   private func createWriteNameDescriptionLabel() {
     writeNameDescriptionLabel = UILabel.init(frame: CGRectZero)
     
     let font = UIFont(name: "SFUIText-Medium",
                       size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
-    let color = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.24)
+    let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
     
@@ -162,12 +190,13 @@ class CreateAccountView: UIView {
   
   private func createNameTextField() {
     let frameForTextField = CGRect.init(x: 38.0,
-                                        y: nameLabel.frame.origin.y + nameLabel.frame.size.height + 5.0,
+                                        y: writeNameDescriptionLabel.frame.origin.y + writeNameDescriptionLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
                                     width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
     
     nameTextField = UITextField.init(frame: frameForTextField)
     nameTextField.tag = 1
+    nameTextField.placeholder = "Agencia/Marca"
     
     let border = CALayer()
     let width = CGFloat(0.5)
@@ -181,13 +210,25 @@ class CreateAccountView: UIView {
     self.addSubview(nameTextField)
   }
   
+  private func createCancelButtonForNameTextField() {
+    let frameForButton = CGRect.init(x:nameTextField.frame.origin.x + nameTextField.frame.size.width - (20.0 * UtilityManager.sharedInstance.conversionWidth),
+                                     y: nameTextField.frame.origin.y - (6.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: 20.0,
+                                     height: 20.0)
+    cancelButtonForNameTextField = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "deleteButton") as UIImage?
+    cancelButtonForNameTextField.setImage(image, forState: .Normal)
+    cancelButtonForNameTextField.addTarget(self, action: #selector(deleteNameTextField), forControlEvents:.TouchUpInside)
+    self.addSubview(cancelButtonForNameTextField)
+  }
+  
   private func createWriteEMailDescriptionLabel() {
     
     writeEMailDescriptionLabel = UILabel.init(frame: CGRectZero)
     
     let font = UIFont(name: "SFUIText-Medium",
                       size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
-    let color = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.24)
+    let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
     
@@ -201,7 +242,7 @@ class CreateAccountView: UIView {
     writeEMailDescriptionLabel.attributedText = stringWithFormat
     writeEMailDescriptionLabel.sizeToFit()
     let newFrame = CGRect.init(x: 38.0,
-                               y: nameLabel.frame.origin.y + nameLabel.frame.size.height + (51.0 * UtilityManager.sharedInstance.conversionHeight),
+                               y: nameTextField.frame.origin.y + nameTextField.frame.size.height + (35.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: writeEMailDescriptionLabel.frame.size.width,
                                height: writeEMailDescriptionLabel.frame.size.height)
     
@@ -243,12 +284,13 @@ class CreateAccountView: UIView {
   
   private func createEMailTextField() {
     let frameForTextField = CGRect.init(x: 38.0,
-                                        y: eMailLabel.frame.origin.y + eMailLabel.frame.size.height + 5.0,
+                                        y: writeEMailDescriptionLabel.frame.origin.y + writeEMailDescriptionLabel.frame.size.height + 5.0,
                                     width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
     
     eMailTextField = UITextField.init(frame: frameForTextField)
     eMailTextField.tag = 2
+    eMailTextField.placeholder = "jen@ejemplo.com"
     
     let border = CALayer()
     let width = CGFloat(0.5)
@@ -261,6 +303,19 @@ class CreateAccountView: UIView {
     
     
     self.addSubview(eMailTextField)
+  }
+  
+  private func createCancelButtonForEMailTextField() {
+    let frameForButton = CGRect.init(x:eMailTextField.frame.origin.x + eMailTextField.frame.size.width - (20.0 * UtilityManager.sharedInstance.conversionWidth),
+                                     y: eMailTextField.frame.origin.y - (6.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: 20.0,
+                                     height: 20.0)
+    cancelButtonForEMailTextField = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "deleteButton") as UIImage?
+    cancelButtonForEMailTextField.setImage(image, forState: .Normal)
+    cancelButtonForEMailTextField.addTarget(self, action: #selector(deleteEMailTextField), forControlEvents:.TouchUpInside)
+    
+    self.addSubview(cancelButtonForEMailTextField)
   }
   
   private func createAskPasswordButton() {
@@ -470,6 +525,14 @@ class CreateAccountView: UIView {
         self.hideErrorBothTextFieldLabel()
       }
     }
+  }
+
+  @objc private func deleteNameTextField(){
+    self.nameTextField.text = ""
+  }
+  
+  @objc private func deleteEMailTextField(){
+    self.eMailTextField.text = ""
   }
   
   @objc private func hideErrorBothTextFieldLabel() {

@@ -7,18 +7,40 @@
 //
 
 import UIKit
+import Alamofire
 
-class ChangePasswordViewController: UIViewController {
+class ChangePasswordViewController: UIViewController, ChangePasswordRequestViewDelegate, SuccessfullyAskForChangePasswordViewDelegate {
   
   let kCreateAccount = "Crear Cuenta"
   
+  private var flipCard:FlipCardView! = nil
+  private var lastFramePosition: CGRect! = nil
+  private var alreadyAppearedKeyboard: Bool = false
+  
   override func loadView() {
+    
+    self.addObserverToKeyboardNotification()
     self.editNavigationBar()
     
     self.view = UIView.init(frame: UIScreen.mainScreen().bounds)
     self.view.backgroundColor = UIColor.blackColor()
     
     self.view.addSubview(self.createGradientView())
+  }
+  
+  private func addObserverToKeyboardNotification() {
+    
+    NSNotificationCenter.defaultCenter().addObserver(self,
+                                                     selector: #selector(keyboardAppear),
+                                                     name: UIKeyboardDidShowNotification,
+                                                     object: nil)
+    
+    NSNotificationCenter.defaultCenter().addObserver(self,
+                                                     selector: #selector(keyboardDisappear),
+                                                     name: UIKeyboardDidHideNotification,
+                                                     object: nil)
+    
+    
   }
   
   private func editNavigationBar() {
@@ -64,16 +86,24 @@ class ChangePasswordViewController: UIViewController {
   
   override func viewDidLoad() {
     
-    let frameForViewCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth),
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let frameForFlipCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth),
                                        y: (100.0 * UtilityManager.sharedInstance.conversionHeight),
-                                   width: self.view.frame.width - (80.0 * UtilityManager.sharedInstance.conversionWidth),
-                                  height: self.view.frame.height - (176 * UtilityManager.sharedInstance.conversionHeight))
+                                       width: widthOfCard,
+                                       height: heightOfCard)
     
-    let changePassView = ChangePasswordRequestView.init(frame: frameForViewCard)
-//    let success = SuccessfullyAskForChangePasswordView.init(frame: frameForViewCard)
+    let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
     
     
-    self.view.addSubview(changePassView)
+    let changePasswordView = ChangePasswordRequestView.init(frame: frameForViewsOfCard)
+    changePasswordView.delegate = self
+    let blankView = UIView.init(frame:frameForViewsOfCard)
+    
+    flipCard = FlipCardView.init(frame: frameForFlipCard, viewOne: changePasswordView, viewTwo: blankView)
+        
+    self.view.addSubview(flipCard)
     
   }
   
@@ -96,6 +126,93 @@ class ChangePasswordViewController: UIViewController {
     
     self.navigationController?.popViewControllerAnimated(true)
     
+  }
+  
+  @objc private func keyboardAppear(notification: NSNotification) {
+    self.moveFlipCardWhenKeyboardAppear()
+  }
+  
+  @objc private func keyboardDisappear(notification: NSNotification) {
+    self.moveFlipCardWhenKeyboardDesappear()
+  }
+  
+  private func moveFlipCardWhenKeyboardAppear() {
+    if alreadyAppearedKeyboard != true {
+      self.lastFramePosition = flipCard.frame
+      alreadyAppearedKeyboard = true
+      UIView.animateWithDuration(0.5){
+        let newFrame = CGRect.init(x: self.flipCard.frame.origin.x,
+                                   y: self.flipCard.frame.origin.y - (185.0 * UtilityManager.sharedInstance.conversionHeight) ,
+                                   width: self.flipCard.frame.size.width,
+                                   height: self.flipCard.frame.size.height)
+        self.flipCard.frame = newFrame
+      }
+    }
+  }
+  
+  private func moveFlipCardWhenKeyboardDesappear() {
+    if alreadyAppearedKeyboard == true {
+      alreadyAppearedKeyboard = false
+      UIView.animateWithDuration(0.5){
+        self.flipCard.frame = self.lastFramePosition
+      }
+    }
+  }
+  
+  //MARK - ChangePasswordRequestViewDelegate
+  func changePasswordRequestViewWhenKeyboardDesappear(sender: AnyObject) {
+    self.moveFlipCardWhenKeyboardDesappear()
+  }
+  
+  func requestChangePassword(email: String) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/users/send_password_reset"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue("Token 40e97aa81c2be2de4b99f1c243bec9c4", forHTTPHeaderField: "Authorization")
+    
+    let values = ["email" : email]
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(values, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<300)
+      //      .response{
+      //        (request, response, data, error) -> Void in
+      //        print(response)
+      ////          let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: [])
+      ////            print (json)
+      ////          }
+      .responseJSON{ response in
+        let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+        print (json)
+        let answer = json["success"] as? String
+//        let error = json["errors"] as? String
+        if answer == "Se ha enviado un correo con instrucciones para restablecer contraseña" {
+          print(answer)
+          self.flipCardToSuccess()
+        }
+    }
+  }
+  
+  private func flipCardToSuccess() {
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
+    let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
+    
+    let successRequestChangePassword = SuccessfullyAskForChangePasswordView.init(frame: frameForViewsOfCard)
+    successRequestChangePassword.hidden = true
+    successRequestChangePassword.delegate = self
+    
+    flipCard.setSecondView(successRequestChangePassword)
+    flipCard.flip()
+  }
+  
+  //MARK - SuccessfullyAskForChangePasswordViewDelegate
+  func nextButtonPressedSuccessfullyRequestForChangePasswordView() {
+    self.flipCardToSuccess()
   }
   
   

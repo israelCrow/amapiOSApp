@@ -16,7 +16,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
   private var flipCard:FlipCardView! = nil
   private var createAccountLabel: UILabel! = nil
   private var lastFramePosition: CGRect! = nil
-  private var alreadyAppearKeyboard: Bool = false
+  private var alreadyAppearedKeyboard: Bool = false
   private var loginGoldenPitchView: GoldenPitchLoginView! = nil
   
   override func loadView() {
@@ -122,15 +122,6 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
   override func didReceiveMemoryWarning() {
   }
   
-  //MARK - FlipCardViewDelegate
-  func bottomButtonOfFirstViewOfCardTapped() {
-    flipCard.flip()
-  }
-  
-  func bottomButtonOfSecondViewOfCardTapped() {
-    flipCard.flip()
-  }
-  
   override func viewWillAppear(animated: Bool) {
     self.navigationController?.setNavigationBarHidden(true, animated: true)
   }
@@ -184,21 +175,32 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
   //DELETE
   
   @objc private func keyboardAppear(notification: NSNotification) {
-    if alreadyAppearKeyboard != true {
-      self.lastFramePosition = self.view.frame
-      alreadyAppearKeyboard = true
+    self.moveLoginGoldenPitchViewWhenKeyboardAppear()
+  }
+  
+  @objc private func keyboardDisappear(notification: NSNotification) {
+    self.moveLoginGoldenPitchViewWhenKeyboardDesappear()
+  }
+  
+  private func moveLoginGoldenPitchViewWhenKeyboardAppear() {
+    if alreadyAppearedKeyboard != true {
+      self.lastFramePosition = loginGoldenPitchView.frame
+      alreadyAppearedKeyboard = true
       UIView.animateWithDuration(0.5){
-        let newFrame = CGRect.init(x: self.view.frame.origin.x, y: self.view.frame.origin.y - 200.0 , width: self.view.frame.size.width, height: self.view.frame.size.height)
-        self.view.frame = newFrame
+        let newFrame = CGRect.init(x: self.loginGoldenPitchView.frame.origin.x,
+                                   y: self.loginGoldenPitchView.frame.origin.y - (185.0 * UtilityManager.sharedInstance.conversionHeight) ,
+                                   width: self.loginGoldenPitchView.frame.size.width,
+                                   height: self.loginGoldenPitchView.frame.size.height)
+        self.loginGoldenPitchView.frame = newFrame
       }
     }
   }
   
-  @objc private func keyboardDisappear(notification: NSNotification) {
-    if alreadyAppearKeyboard == true {
-      alreadyAppearKeyboard = false
+  private func moveLoginGoldenPitchViewWhenKeyboardDesappear() {
+    if alreadyAppearedKeyboard == true {
+      alreadyAppearedKeyboard = false
       UIView.animateWithDuration(0.5){
-        self.view.frame = self.lastFramePosition
+        self.loginGoldenPitchView.frame = self.lastFramePosition
       }
     }
   }
@@ -223,19 +225,67 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(values, options: [])
     
     Alamofire.request(requestConnection)
-      .validate(statusCode: 200..<300)
+      .validate(statusCode: 200..<450)
 //      .response{
 //        (request, response, data, error) -> Void in
 //        print(response)
 ////          let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: [])
 ////            print (json)
 ////          }
+      
       .responseJSON{ response in
-        let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
-        print (json)
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          let info = json["user"] as? [String: AnyObject]
+          let name = info!["first_name"] as? String
+          let lastName = info!["last_name"] as? String
+          let email = info!["email"] as? String
+          
+          let frameLabel = CGRect.init(x: 0.0,
+                                       y: 0.0,
+                                   width: self.view.frame.size.width,
+                                  height: self.view.frame.size.height / 2.0)
+          
+          let infoOfUser = UILabel.init(frame: frameLabel)
+          infoOfUser.text = "Nombre: \(name!)\nApellido: \(lastName!)\nEmail: \(email!)"
+          infoOfUser.numberOfLines = 10
+          
+
+          let blankVC = BlankViewController()
+          blankVC.view.addSubview(infoOfUser)
+          
+          self.navigationController?.pushViewController(blankVC, animated: true)
+        } else
+          if response.response?.statusCode == 422 {
+            let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+            let stringError = json["errors"] as? String
+            if stringError == "Email o password incorrecto" {
+              self.loginGoldenPitchView.showErrorFromLoginControllerLabel()
+            }
+            //print(json)
+          }
         
-        print("\(response.response) \n\n\(response.response?.statusCode)")
+        
+        
+//        let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+//        print (json)
+//        
+//        print("\(response.response) \n\n\(response.response?.statusCode)")
     }
-    
   }
+  
+  func textFieldSelected(sender: AnyObject) {
+    self.moveLoginGoldenPitchViewWhenKeyboardAppear()
+  }
+  
+  func goldenPitchLoginRequestWhenKeyboardDesappear(sender: AnyObject) {
+    self.moveLoginGoldenPitchViewWhenKeyboardDesappear()
+  }
+  
+  func forgotPasswordLabelInGoldenPtichLoginViewPressed(sender: AnyObject) {
+    let changePasswordVC = ChangePasswordViewController()
+    self.navigationController?.pushViewController(changePasswordVC, animated: true)
+  }
+  
 }

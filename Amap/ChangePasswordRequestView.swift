@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol  ChangePasswordRequestViewDelegate {
+  func requestChangePassword(email: String)
+  func changePasswordRequestViewWhenKeyboardDesappear(sender: AnyObject)
+}
+
 class ChangePasswordRequestView: UIView {
   
   private var goldenPitchStarImageView: UIImageView! = nil
@@ -17,9 +22,12 @@ class ChangePasswordRequestView: UIView {
   private var messageLabel: UILabel! = nil
   private var writeEMailDescriptionLabel: UILabel! = nil
   private var eMailLabel: UILabel! = nil
+  private var errorEMailLabel: UILabel! = nil
   private var nextButton: UIButton! = nil
   
   private var eMailTextField: UITextField! = nil
+  
+  var delegate: ChangePasswordRequestViewDelegate?
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -39,8 +47,9 @@ class ChangePasswordRequestView: UIView {
     self.createAmapLabel()
     self.createMessageLabel()
     self.createWriteEMailDescriptionLabel()
-    self.createEMailLabel()
+//    self.createEMailLabel()
     self.createEMailTextField()
+    self.createErrorEMailLabel()
 //    self.createButton1
     self.createNextButton()
     
@@ -204,7 +213,7 @@ class ChangePasswordRequestView: UIView {
     eMailLabel.attributedText = stringWithFormat
     eMailLabel.sizeToFit()
     let newFrame = CGRect.init(x: 48.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: writeEMailDescriptionLabel.frame.origin.y + writeEMailDescriptionLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
+                               y: writeEMailDescriptionLabel.frame.origin.y + writeEMailDescriptionLabel.frame.size.height + (10.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: eMailLabel.frame.size.width,
                                height: eMailLabel.frame.size.height)
     
@@ -216,11 +225,12 @@ class ChangePasswordRequestView: UIView {
   
   private func createEMailTextField() {
     let frameForTextField = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        y: eMailLabel.frame.origin.y + eMailLabel.frame.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight),
+                                        y: writeEMailDescriptionLabel.frame.origin.y + writeEMailDescriptionLabel.frame.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight),
                                     width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
     
     eMailTextField = UITextField.init(frame: frameForTextField)
+    eMailTextField.placeholder = "jen@ejemplo.com"
     
     let border = CALayer()
     let width = CGFloat(0.5)
@@ -236,6 +246,37 @@ class ChangePasswordRequestView: UIView {
     
     
     self.addSubview(eMailTextField)
+  }
+  
+  private func createErrorEMailLabel() {
+    
+    errorEMailLabel = UILabel.init(frame: CGRectZero)
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 11.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.redColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Formato de mail incorrecto",
+      attributes:[NSFontAttributeName:font!,
+        NSParagraphStyleAttributeName:style,
+        NSForegroundColorAttributeName:color
+      ]
+    )
+    
+    errorEMailLabel.attributedText = stringWithFormat
+    errorEMailLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (errorEMailLabel.frame.size.width / 2.0),
+                               y: eMailTextField.frame.origin.y + eMailTextField.frame.size.height + (3.0 * UtilityManager.sharedInstance.conversionHeight),
+                           width: errorEMailLabel.frame.size.width,
+                          height: errorEMailLabel.frame.size.height)
+    
+    errorEMailLabel.frame = newFrame
+    errorEMailLabel.alpha = 0.0
+    self.addSubview(errorEMailLabel)
+    
   }
   
   private func createNextButton() {
@@ -269,22 +310,57 @@ class ChangePasswordRequestView: UIView {
                                 height: (70.0 * UtilityManager.sharedInstance.conversionHeight))
     nextButton = UIButton.init(frame: frameForButton)
     nextButton.addTarget(self,
-                         action: #selector(requestChangePassword),
+                         action: #selector(requestChangePasswordButtonPressed),
                          forControlEvents: .TouchUpInside)
     nextButton.backgroundColor = UIColor.blackColor()
     nextButton.setAttributedTitle(stringWithFormat, forState: .Normal)
     nextButton.setAttributedTitle(stringWithFormatWhenpressed, forState: .Highlighted)
     
     self.addSubview(nextButton)
+    
   }
   
   @objc private func dismissKeyboard(sender:AnyObject) {
     self.endEditing(true)
   }
   
-  @objc private func requestChangePassword() {
+  @objc private func requestChangePasswordButtonPressed() {
+    
+    let validEMail = UtilityManager.sharedInstance.isValidEmail(eMailTextField.text!)
+    let validText = UtilityManager.sharedInstance.isValidText(eMailTextField.text!)
+    
+    if validEMail == true && validText == true {
+      self.delegate?.requestChangePassword(eMailTextField.text!)
+      self.dismissKeyboard(eMailTextField)
+      self.delegate?.changePasswordRequestViewWhenKeyboardDesappear(self)
+    }else{
+      self.showValidMailError()
+    }
+  }
+  
+  private func showValidMailError() {
+    
+    nextButton.userInteractionEnabled = false
+    UIView.animateWithDuration(0.4,
+                               animations: {
+                                self.errorEMailLabel.alpha = 1.0
+    }) { (finished) in
+      if finished {
+        self.hideErrorMailLabel()
+      }
+    }
     
   }
-
-
+  
+  @objc private func hideErrorMailLabel() {
+    
+    UIView.animateWithDuration(1.0, animations: {
+      self.errorEMailLabel.alpha = 0.0
+    }) { (finished) in
+      if finished {
+        self.nextButton.userInteractionEnabled = true
+      }
+    }
+  }
+  
 }

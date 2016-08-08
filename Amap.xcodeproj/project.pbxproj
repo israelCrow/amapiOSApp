@@ -100,6 +100,7 @@
 		AA92D63C1D50EE0F00CE7D95 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA92D63B1D50EE0F00CE7D95 /* SplashViewController.swift */; };
 		AA92D6401D50EF7400CE7D95 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA92D63F1D50EF7400CE7D95 /* LoginViewController.swift */; };
 		AA92D6421D50F05300CE7D95 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA92D6411D50F05300CE7D95 /* GradientView.swift */; };
+		AAA837DB1D590DBD00A47376 /* BlankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA837DA1D590DBD00A47376 /* BlankViewController.swift */; };
 		AAB61E8E1D52335D00407FFD /* GoldenPitchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB61E8D1D52335D00407FFD /* GoldenPitchConstants.swift */; };
 		AAECDF661D51472700CCDA85 /* GoldenPitchLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAECDF651D51472700CCDA85 /* GoldenPitchLoginView.swift */; };
 		C04FC772F5442066639C311A /* Pods_Amap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730B22C94A0E292BE5556150 /* Pods_Amap.framework */; };
@@ -176,6 +177,7 @@
 		AA92D63B1D50EE0F00CE7D95 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		AA92D63F1D50EF7400CE7D95 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AA92D6411D50F05300CE7D95 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		AAA837DA1D590DBD00A47376 /* BlankViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlankViewController.swift; sourceTree = "<group>"; };
 		AAB61E8D1D52335D00407FFD /* GoldenPitchConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoldenPitchConstants.swift; sourceTree = "<group>"; };
 		AAECDF651D51472700CCDA85 /* GoldenPitchLoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoldenPitchLoginView.swift; sourceTree = "<group>"; };
 		D32EBDE6D734E5F3142D1570 /* Pods-Amap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amap.release.xcconfig"; path = "Pods/Target Support Files/Pods-Amap/Pods-Amap.release.xcconfig"; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				AA92D63F1D50EF7400CE7D95 /* LoginViewController.swift */,
 				AA0949621D528A01000E76E1 /* CreateAccountViewController.swift */,
 				AA2DB85B1D53C17400E9FB8A /* ChangePasswordViewController.swift */,
+				AAA837DA1D590DBD00A47376 /* BlankViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -659,6 +662,7 @@
 				AA2DB84C1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift in Sources */,
 				AA7AC7C61D526C23007522FB /* UtilityManager.swift in Sources */,
 				AA40C9D91D51051F00FF2B4D /* FlipCardView.swift in Sources */,
+				AAA837DB1D590DBD00A47376 /* BlankViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

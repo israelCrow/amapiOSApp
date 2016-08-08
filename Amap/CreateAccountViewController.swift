@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, SuccessfullyAskForAccountViewDelegate, ExistingAccountViewDelegate {
+class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, SuccessfullyAskForAccountViewDelegate, ExistingAccountViewDelegate, CreateAccountProcessAlreadyBegunViewDelegate {
   
   let kCreateAccount = "Crear Cuenta"
   
@@ -98,11 +98,6 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
     let createAccountView = CreateAccountView.init(frame: frameForViewsOfCard)
     createAccountView.delegate = self
     let blankView = UIView.init(frame:frameForViewsOfCard)
-
-    let blankView2 = UIView.init(frame: frameForViewsOfCard)
-    blankView2.backgroundColor = UIColor.blueColor()
-    let successView = SuccessfullyAskForAccountView.init(frame: frameForViewsOfCard)
-    successView.hidden = true
     
     flipCard = FlipCardView.init(frame: frameForFlipCard, viewOne: createAccountView, viewTwo: blankView)
     
@@ -143,11 +138,14 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
   
   @objc private func keyboardAppear(notification: NSNotification) {
     if alreadyAppearKeyboard != true {
-      self.lastFramePosition = self.view.frame
+      self.lastFramePosition = self.flipCard.frame
       alreadyAppearKeyboard = true
       UIView.animateWithDuration(0.5){
-        let newFrame = CGRect.init(x: self.view.frame.origin.x, y: self.view.frame.origin.y - 200.0 , width: self.view.frame.size.width, height: self.view.frame.size.height)
-        self.view.frame = newFrame
+        let newFrame = CGRect.init(x: self.flipCard.frame.origin.x,
+                                   y: self.flipCard.frame.origin.y - (200.0 * UtilityManager.sharedInstance.conversionHeight) ,
+                               width: self.flipCard.frame.size.width,
+                              height: self.flipCard.frame.size.height)
+        self.flipCard.frame = newFrame
       }
     }
   }
@@ -156,7 +154,7 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
     if alreadyAppearKeyboard == true {
       alreadyAppearKeyboard = false
       UIView.animateWithDuration(0.5){
-        self.view.frame = self.lastFramePosition
+        self.flipCard.frame = self.lastFramePosition
       }
     }
   }
@@ -173,7 +171,7 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
     flipCard.flip()
   }
   
-  private func flipCardToFailed() {
+  private func flipCardToFailedExistingAccount() {
     
     let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
     let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -184,6 +182,21 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
     
     flipCard.setSecondView(existingAccView)
     flipCard.flip()
+    
+  }
+  
+  private func flipCardFailedCreateAccountProcessAlreadyBegun() {
+    
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
+    let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
+    let createAccountAlreadyBegun = CreateAccountProcessAlreadyBegunView.init(frame: frameForViewsOfCard)
+    createAccountAlreadyBegun.hidden = true
+    createAccountAlreadyBegun.delegate = self
+    
+    flipCard.setSecondView(createAccountAlreadyBegun)
+    flipCard.flip()
+    
   }
   
   //MARK: - CreateAccountViewDelegate
@@ -208,11 +221,34 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
       .responseJSON{ response in
         if response.response?.statusCode >= 200 && response.response?.statusCode <= 300 {
           print("SUCCESS")
-          
+
           self.flipCardToSuccess()
 
         }else if response.response?.statusCode == 422 {
-          self.flipCardToFailed()
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          
+          if let errors = json["errors"] as? [String: AnyObject] {
+            
+            if let emailError = errors["email"] as? String{
+              
+              if emailError == "Ya existe una cuenta con ese email" {
+                self.flipCardToFailedExistingAccount()
+              }else
+                if emailError == "Ya existe una solicitud con ese email" {
+                  self.flipCardFailedCreateAccountProcessAlreadyBegun()
+              }
+              
+            }
+            print(json)
+          }
+
+          
+          
+          
+          
+          
         }
     }
   }
@@ -224,6 +260,11 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
   
   //MARK: - ExistingAccountViewDelegate
   func nextButtonPressedExistingAccountView() {
+    self.popThisViewController()
+  }
+  
+  //MARK: - CreateAccountProcessAlreadyBegunViewDelegate
+  func nextButtonPressedCreateAccountProcessAlreadyBegun() {
     self.popThisViewController()
   }
   
