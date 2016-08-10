@@ -59,7 +59,7 @@ class FlipCardView: UIView{
   
   private func adaptMyself() {
     self.layer.shadowColor = UIColor.blackColor().CGColor
-    self.layer.shadowOpacity = 1
+    self.layer.shadowOpacity = 0.25
     self.layer.shadowOffset = CGSizeZero
     self.layer.shadowRadius = 5
   }

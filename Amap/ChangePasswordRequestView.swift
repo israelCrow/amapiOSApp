@@ -13,7 +13,7 @@ protocol  ChangePasswordRequestViewDelegate {
     func changePasswordRequestViewWhenKeyboardDesappear(sender: AnyObject)
 }
 
-class ChangePasswordRequestView: UIView {
+class ChangePasswordRequestView: UIView, UITextFieldDelegate {
     
     private var goldenPitchStarImageView: UIImageView! = nil
     
@@ -230,33 +230,41 @@ class ChangePasswordRequestView: UIView {
     private func createEMailTextField() {
         let frameForTextField = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                             y: writeEMailDescriptionLabel.frame.origin.y + writeEMailDescriptionLabel.frame.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight),
-                                            width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                            width: 200.0 * UtilityManager.sharedInstance.conversionWidth,
                                             height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
         
         eMailTextField = UITextField.init(frame: frameForTextField)
         eMailTextField.placeholder = "jen@ejemplo.com"
         eMailTextField.tag = 1
+        eMailTextField.delegate = self
         eMailTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
         
         let border = CALayer()
         let width = CGFloat(0.5)
         border.borderColor = UIColor.darkGrayColor().CGColor
-        border.frame = CGRect(x: 0,
-                              y: eMailTextField.frame.size.height - width,
-                              width: eMailTextField.frame.size.width,
-                              height: eMailTextField.frame.size.height)
-        
+        let frameForLine = CGRect(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                                  y: eMailTextField.frame.origin.y + eMailTextField.frame.size.height,
+                                  width: 220 * UtilityManager.sharedInstance.conversionWidth,
+                                  height: 0.5)
+        let viewForLine = UIView.init(frame: frameForLine)
+        viewForLine.backgroundColor = UIColor.clearColor()
         border.borderWidth = width
-        eMailTextField.layer.addSublayer(border)
-        eMailTextField.layer.masksToBounds = true
+        border.frame = CGRect.init(x: 0.0,
+                                   y: 0.0,
+                                   width: 220 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 0.5)
+        viewForLine.layer.addSublayer(border)
+        viewForLine.layer.masksToBounds = true
+        
+        self.addSubview(viewForLine)
         
         
         self.addSubview(eMailTextField)
     }
     
     private func createCancelButtonForEMailTextField() {
-        let frameForButton = CGRect.init(x:eMailTextField.frame.origin.x + eMailTextField.frame.size.width - (20.0 * UtilityManager.sharedInstance.conversionWidth),
-                                         y: eMailTextField.frame.origin.y - (12.0 * UtilityManager.sharedInstance.conversionHeight),
+        let frameForButton = CGRect.init(x:eMailTextField.frame.origin.x + eMailTextField.frame.size.width,
+                                         y: eMailTextField.frame.origin.y,
                                          width: 20.0,
                                          height: 20.0)
         cancelButtonForEMailTextField = UIButton.init(frame: frameForButton)
@@ -372,8 +380,10 @@ class ChangePasswordRequestView: UIView {
         
     }
     
-    @objc private func dismissKeyboard(sender:AnyObject) {
+    @objc func dismissKeyboard(sender:AnyObject) {
+        
         self.endEditing(true)
+        
     }
     
     @objc private func requestChangePasswordButtonPressed() {
@@ -391,6 +401,9 @@ class ChangePasswordRequestView: UIView {
     }
     
     @objc private func animateCancelButton(textField: UITextField) {
+        
+        self.removeAllErrorLabels()
+        
         if textField.tag == 1 { //EMailTextField
             if textField.text!.characters.count != 0 {
                 self.showButtonCancelForEMailTextField()
@@ -402,13 +415,15 @@ class ChangePasswordRequestView: UIView {
     
     private func showValidMailError() {
         
+        self.removeAllErrorLabels()
         nextButton.userInteractionEnabled = false
         UIView.animateWithDuration(0.4,
                                    animations: {
                                     self.errorEMailLabel.alpha = 1.0
         }) { (finished) in
             if finished {
-                self.hideErrorMailLabel()
+              self.nextButton.userInteractionEnabled = true
+//                self.hideErrorMailLabel()
             }
         }
         
@@ -416,11 +431,11 @@ class ChangePasswordRequestView: UIView {
     
     @objc private func hideErrorMailLabel() {
         
-        UIView.animateWithDuration(1.0, animations: {
+        UIView.animateWithDuration(0.3, animations: {
             self.errorEMailLabel.alpha = 0.0
         }) { (finished) in
             if finished {
-                self.nextButton.userInteractionEnabled = true
+//                self.nextButton.userInteractionEnabled = true
             }
         }
     }
@@ -428,6 +443,7 @@ class ChangePasswordRequestView: UIView {
     @objc private func deleteEMailTextField(){
         self.eMailTextField.text = ""
         self.hideButtonCancelForEMailTextField()
+        self.removeAllErrorLabels()
     }
     
     private func showButtonCancelForEMailTextField() {
@@ -448,6 +464,7 @@ class ChangePasswordRequestView: UIView {
     
     func showErrorFromServerNotExistingUserLabel() {
         
+        self.removeAllErrorLabels()
         nextButton.userInteractionEnabled = false
         UIView.animateWithDuration(1.0,
           animations: {
@@ -455,21 +472,33 @@ class ChangePasswordRequestView: UIView {
           })
           {(finished) in
               if finished {
-                self.hideErrorFromServerNotExistingUserLabel()
+                self.nextButton.userInteractionEnabled = true
+//                self.hideErrorFromServerNotExistingUserLabel()
               }
         }
     }
     
     private func hideErrorFromServerNotExistingUserLabel() {
         
-        UIView.animateWithDuration(1.0,
+        UIView.animateWithDuration(0.3,
           animations: {
             self.errorFromServerNotExistingUserLabel.alpha = 0.0
           }) { (finished) in
             if finished {
-                self.nextButton.userInteractionEnabled = true
+//                self.nextButton.userInteractionEnabled = true
             }
         }
+    }
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        self.removeAllErrorLabels()
+        return true
+    }
+    
+    private func removeAllErrorLabels() {
+        
+        self.hideErrorMailLabel()
+        self.hideErrorFromServerNotExistingUserLabel()
         
     }
     

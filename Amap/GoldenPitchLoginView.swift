@@ -69,6 +69,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         self.createErrorEMailLabel()
         self.createErrorNameLabel()
         self.createErrorBothTextFieldLabel()
+        self.createErrorFromLoginControllerLabel()
         
     }
     
@@ -83,7 +84,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
     
     private func adaptMyself() {
         self.layer.shadowColor = UIColor.blackColor().CGColor
-        self.layer.shadowOpacity = 1
+        self.layer.shadowOpacity = 0.3
         self.layer.shadowOffset = CGSizeZero
         self.layer.shadowRadius = 5
     }
@@ -175,7 +176,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         )
         writeNameDescriptionLabel.attributedText = stringWithFormat
         writeNameDescriptionLabel.sizeToFit()
-        let newFrame = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+        let newFrame = CGRect.init(x: 48.0 * UtilityManager.sharedInstance.conversionWidth,
                                    y: (210 * UtilityManager.sharedInstance.conversionHeight),
                                    width: writeNameDescriptionLabel.frame.size.width,
                                    height: writeNameDescriptionLabel.frame.size.height)
@@ -218,7 +219,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
     private func createNameTextField() {
         let frameForTextField = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                             y: writeNameDescriptionLabel.frame.origin.y + writeNameDescriptionLabel.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
-                                            width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                            width: 200.0 * UtilityManager.sharedInstance.conversionWidth,
                                             height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
         
         nameTextField = UITextField.init(frame: frameForTextField)
@@ -230,18 +231,27 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         let border = CALayer()
         let width = CGFloat(0.5)
         border.borderColor = UIColor.darkGrayColor().CGColor
-        border.frame = CGRect(x: 0, y: nameTextField.frame.size.height - width, width:  nameTextField.frame.size.width, height: nameTextField.frame.size.height)
-        
+        let frameForLine = CGRect(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                                  y: nameTextField.frame.origin.y + nameTextField.frame.size.height,
+                                  width: 220 * UtilityManager.sharedInstance.conversionWidth,
+                                  height: 0.5)
+        let viewForLine = UIView.init(frame: frameForLine)
+        viewForLine.backgroundColor = UIColor.clearColor()
         border.borderWidth = width
-        nameTextField.layer.addSublayer(border)
-        nameTextField.layer.masksToBounds = true
+        border.frame = CGRect.init(x: 0.0,
+                                   y: 0.0,
+                               width: 220 * UtilityManager.sharedInstance.conversionWidth,
+                              height: 0.5)
+        viewForLine.layer.addSublayer(border)
+        viewForLine.layer.masksToBounds = true
         
+        self.addSubview(viewForLine)
         self.addSubview(nameTextField)
     }
     
     private func createCancelButtonForNameTextField() {
-        let frameForButton = CGRect.init(x:nameTextField.frame.origin.x + nameTextField.frame.size.width - (20.0 * UtilityManager.sharedInstance.conversionWidth),
-                                         y: nameTextField.frame.origin.y - (12.0 * UtilityManager.sharedInstance.conversionHeight),
+        let frameForButton = CGRect.init(x:nameTextField.frame.origin.x + nameTextField.frame.size.width,
+                                         y: nameTextField.frame.origin.y,
                                          width: 20.0,
                                          height: 20.0)
         cancelButtonForNameTextField = UIButton.init(frame: frameForButton)
@@ -272,7 +282,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         )
         writeEMailDescriptionLabel.attributedText = stringWithFormat
         writeEMailDescriptionLabel.sizeToFit()
-        let newFrame = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+        let newFrame = CGRect.init(x: 48.0 * UtilityManager.sharedInstance.conversionWidth,
                                    y: nameTextField.frame.origin.y + nameTextField.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
                                    width: writeEMailDescriptionLabel.frame.size.width,
                                    height: writeEMailDescriptionLabel.frame.size.height)
@@ -316,7 +326,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
     private func createEMailTextField() {
         let frameForTextField = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                             y: writeEMailDescriptionLabel.frame.origin.y + writeEMailDescriptionLabel.frame.size.height + (35.0 * UtilityManager.sharedInstance.conversionHeight),
-                                            width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                            width: 200.0 * UtilityManager.sharedInstance.conversionWidth,
                                             height: (25.0 * UtilityManager.sharedInstance.conversionHeight))
         
         eMailTextField = UITextField.init(frame: frameForTextField)
@@ -329,19 +339,27 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         let border = CALayer()
         let width = CGFloat(0.5)
         border.borderColor = UIColor.darkGrayColor().CGColor
-        border.frame = CGRect(x: 0, y: eMailTextField.frame.size.height - width, width:  eMailTextField.frame.size.width, height: eMailTextField.frame.size.height)
-        
+        let frameForLine = CGRect(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                                  y: eMailTextField.frame.origin.y + eMailTextField.frame.size.height,
+                                  width: 220 * UtilityManager.sharedInstance.conversionWidth,
+                                  height: 0.5)
+        let viewForLine = UIView.init(frame: frameForLine)
+        viewForLine.backgroundColor = UIColor.clearColor()
         border.borderWidth = width
-        eMailTextField.layer.addSublayer(border)
-        eMailTextField.layer.masksToBounds = true
+        border.frame = CGRect.init(x: 0.0,
+                                   y: 0.0,
+                                   width: 220 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 0.5)
+        viewForLine.layer.addSublayer(border)
+        viewForLine.layer.masksToBounds = true
         
-        
+        self.addSubview(viewForLine)
         self.addSubview(eMailTextField)
     }
     
     private func createCancelButtonForEMailTextField() {
-        let frameForButton = CGRect.init(x:eMailTextField.frame.origin.x + eMailTextField.frame.size.width - (20.0 * UtilityManager.sharedInstance.conversionWidth),
-                                         y: eMailTextField.frame.origin.y - (12.0 * UtilityManager.sharedInstance.conversionHeight),
+        let frameForButton = CGRect.init(x:eMailTextField.frame.origin.x + eMailTextField.frame.size.width,
+                                         y: eMailTextField.frame.origin.y,
                                          width: 20.0,
                                          height: 20.0)
         cancelButtonForEMailTextField = UIButton.init(frame: frameForButton)
@@ -371,6 +389,8 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
                 NSForegroundColorAttributeName:color
             ]
         )
+        stringWithFormat.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSMakeRange(0, GoldenPitchConstants.forgotPasswordText.characters.count))
+        
         forgotPasswordLabel.attributedText = stringWithFormat
         forgotPasswordLabel.sizeToFit()
         let newFrame = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -593,8 +613,6 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
             //      do request login
             self.delegate?.nextButtonPressedGoldenPitchLoginView(nameTextField.text!, email: eMailTextField.text!)
             
-            nextButton.userInteractionEnabled = true
-            
         } else
             if mailValid == false {
                 self.showValidMailError()
@@ -610,25 +628,34 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         
     }
     
+    func activateInteractionEnabledOfNextButton() {
+        
+        self.nextButton.userInteractionEnabled = true
+        
+    }
+    
     private func showValidMailError() {
+        
+        self.removeAllErrorLabels()
         nextButton.userInteractionEnabled = false
         UIView.animateWithDuration(1.0,
                                    animations: {
                                     self.errorEMailLabel.alpha = 1.0
         }) { (finished) in
             if finished {
-                self.hideErrorMailLabel()
+//                self.hideErrorMailLabel()
+                self.nextButton.userInteractionEnabled = true
             }
         }
     }
     
     @objc private func hideErrorMailLabel() {
         
-        UIView.animateWithDuration(1.0, animations: {
+        UIView.animateWithDuration(0.3, animations: {
             self.errorEMailLabel.alpha = 0.0
         }) { (finished) in
             if finished {
-                self.nextButton.userInteractionEnabled = true
+//                self.nextButton.userInteractionEnabled = true
             }
         }
         
@@ -636,13 +663,15 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
     
     private func showValidNameError() {
         
+        self.removeAllErrorLabels()
         self.nextButton.userInteractionEnabled = false
         UIView.animateWithDuration(1.0,
                                    animations: {
                                     self.errorNameLabel.alpha = 1.0
         }) { (finished) in
             if finished {
-                self.hideErrorNameLabel()
+                self.nextButton.userInteractionEnabled = true
+//                self.hideErrorNameLabel()
             }
         }
         
@@ -650,59 +679,65 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
     
     @objc private func hideErrorNameLabel() {
         
-        UIView.animateWithDuration(1.2, animations: {
+        UIView.animateWithDuration(0.3, animations: {
             self.errorNameLabel.alpha = 0.0
         }) { (finished) in
             if finished {
-                self.nextButton.userInteractionEnabled = true
+//                self.nextButton.userInteractionEnabled = true
             }
         }
         
     }
     
     private func showBothTextErrorLabel() {
+        
+        self.removeAllErrorLabels()
         self.nextButton.userInteractionEnabled = false
         UIView.animateWithDuration(1.0,
                                    animations: {
                                     self.errorBothTextFieldLabel.alpha = 1.0
         }) { (finished) in
             if finished {
-                self.hideErrorBothTextFieldLabel()
+                self.nextButton.userInteractionEnabled = true
+                //self.hideErrorBothTextFieldLabel()
             }
         }
     }
     
     @objc private func hideErrorBothTextFieldLabel() {
         
-        UIView.animateWithDuration(1.2, animations: {
+        UIView.animateWithDuration(0.3, animations: {
             self.errorBothTextFieldLabel.alpha = 0.0
         }) { (finished) in
             if finished {
-                self.nextButton.userInteractionEnabled = true
+//                self.nextButton.userInteractionEnabled = true
             }
         }
         
     }
     
     func showErrorFromLoginControllerLabel() {
+        
+        self.removeAllErrorLabels()
         self.nextButton.userInteractionEnabled = false
         UIView.animateWithDuration(1.0,
                                    animations: {
                                     self.errorFromLoginControllerLabel.alpha = 1.0
         }) { (finished) in
             if finished {
-                self.hideErrorFromLoginControllerLabel()
+                self.nextButton.userInteractionEnabled = true
+                //self.hideErrorFromLoginControllerLabel()
             }
         }
     }
     
     @objc private func hideErrorFromLoginControllerLabel() {
         
-        UIView.animateWithDuration(1.2, animations: {
+        UIView.animateWithDuration(0.3, animations: {
             self.errorFromLoginControllerLabel.alpha = 0.0
         }) { (finished) in
             if finished {
-                self.nextButton.userInteractionEnabled = true
+//                self.nextButton.userInteractionEnabled = true
             }
         }
         
@@ -717,14 +752,16 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
     @objc private func deleteNameTextField(){
         self.nameTextField.text = ""
         self.hideButtonCancelForNameTextField()
+        self.removeAllErrorLabels()
     }
     
     @objc private func deleteEMailTextField(){
         self.eMailTextField.text = ""
         self.hideButtonCancelForEMailTextField()
+        self.removeAllErrorLabels()
     }
     
-    @objc private func dismissKeyboard(sender:AnyObject) {
+    @objc func dismissKeyboard(sender:AnyObject) {
         self.endEditing(true)
         self.delegate?.goldenPitchLoginRequestWhenKeyboardDesappear(self)
     }
@@ -738,6 +775,9 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
     }
     
     @objc private func animateCancelButton(textField: UITextField) {
+        
+        self.removeAllErrorLabels()
+        
         if textField.tag == 1 { //NameTextField
             if textField.text!.characters.count != 0 {
                 self.showButtonCancelForNameTextField()
@@ -784,6 +824,20 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
             self.cancelButtonForEMailTextField.alpha = 0.0
         }
         
+    }
+    
+    private func removeAllErrorLabels() {
+        
+        self.hideErrorMailLabel()
+        self.hideErrorNameLabel()
+        self.hideErrorBothTextFieldLabel()
+        self.hideErrorFromLoginControllerLabel()
+        
+    }
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        self.removeAllErrorLabels()
+        return true
     }
     
     required init?(coder aDecoder: NSCoder) {

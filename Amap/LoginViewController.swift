@@ -21,17 +21,25 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
     override func loadView() {
         self.view = self.createGradientView()
+        self.view.userInteractionEnabled = true
     }
     
     override func viewDidLoad() {
         
+        self.createTapGestureForDismissKeyboard()
         self.addObserverToKeyboardNotification()
         self.createFlipCardView()
         self.addCreateAccountLabel()
         
-        //DELETE
-        //self.testConnection()
-        //DELETE
+    }
+    
+    private func createTapGestureForDismissKeyboard() {
+        
+        let tapForHideKeyboard = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
+        tapForHideKeyboard.numberOfTapsRequired = 1
+        
+        self.view.addGestureRecognizer(tapForHideKeyboard)
+        
         
     }
     
@@ -78,15 +86,16 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
             string: kCreateAccountText,
             attributes:[NSFontAttributeName: font!,
                 NSParagraphStyleAttributeName: style,
-                NSForegroundColorAttributeName: color
+                NSForegroundColorAttributeName: color,
             ]
         )
+        stringWithFormat.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSMakeRange(21, 11))
         createAccountLabel.attributedText = stringWithFormat
         createAccountLabel.sizeToFit()
         let newFrame = CGRect.init(x: (self.view.frame.size.width / 2.0) - (createAccountLabel.frame.size.width / 2.0),
                                    y: self.loginGoldenPitchView.frame.origin.y + self.loginGoldenPitchView.frame.size.height + (17.0  * UtilityManager.sharedInstance.conversionHeight),
                                    width: createAccountLabel.frame.size.width,
-                                   height: createAccountLabel.frame.size.height)
+                                   height: createAccountLabel.frame.size.height + (22.0 * UtilityManager.sharedInstance.conversionHeight))
         
         createAccountLabel.frame = newFrame
         let tapToCreateAccount = UITapGestureRecognizer.init(target: self, action: #selector(pushCreateAccount))
@@ -129,50 +138,6 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     override func viewWillDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
-    //DELETE
-    @objc private func testConnection(){
-        //GET TEST
-        //let urlToRequest = "http://amap-dev.herokuapp.com/api/users"
-        
-        //POST TEST
-        let urlToRequest2 = "https://amap-dev.herokuapp.com/api/new_user_requests"
-        
-        let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest2)!)
-        requestConnection.HTTPMethod = "POST"
-        requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        requestConnection.setValue("Token 40e97aa81c2be2de4b99f1c243bec9c4", forHTTPHeaderField: "Authorization")
-        
-        let rawValues = [
-            "new_user_request" :
-                [
-                    "email" : "isrel",
-                    "agency" : "Pequeño Cuervo"
-            ]
-        ]
-        
-        requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(rawValues, options: [])
-        
-        Alamofire.request(requestConnection)
-            .validate(statusCode: 200..<300)
-            //      .response{
-            //        (request, response, data, error) -> Void in
-            //
-            //        let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: [])
-            //        print (json)
-            //      }
-            .responseJSON{ response in
-                //      if response.response?.statusCode == 200 {
-                //        print("SUCCESS")
-                //      }
-                let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
-                print (json)
-                
-                print("\(response.response) \n\n\(response.response?.statusCode)")
-                
-        }
-    }
-    //DELETE
     
     @objc private func keyboardAppear(notification: NSNotification) {
         self.moveLoginGoldenPitchViewWhenKeyboardAppear()
@@ -225,7 +190,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
         requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(values, options: [])
         
         Alamofire.request(requestConnection)
-            .validate(statusCode: 200..<450)
+            .validate(statusCode: 200..<500)
             //      .response{
             //        (request, response, data, error) -> Void in
             //        print(response)
@@ -234,12 +199,11 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
             ////          }
             
             .responseJSON{ response in
+                print(response)
                 if response.response?.statusCode == 200 {
                     
                     let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
                     let info = json["user"] as? [String: AnyObject]
-                    let name = info!["first_name"] as? String
-                    let lastName = info!["last_name"] as? String
                     let email = info!["email"] as? String
                     
                     let frameLabel = CGRect.init(x: 0.0,
@@ -248,7 +212,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                         height: self.view.frame.size.height / 2.0)
                     
                     let infoOfUser = UILabel.init(frame: frameLabel)
-                    infoOfUser.text = "Nombre: \(name!)\nApellido: \(lastName!)\nEmail: \(email!)"
+                    infoOfUser.text = "Email: \(email!)"
                     infoOfUser.numberOfLines = 10
                     
                     
@@ -256,14 +220,22 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                     blankVC.view.addSubview(infoOfUser)
                     
                     self.navigationController?.pushViewController(blankVC, animated: true)
-                } else
-                    if response.response?.statusCode == 422 {
-                        let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
-                        let stringError = json["errors"] as? String
-                        if stringError == "Email o password incorrecto" {
+                    self.loginGoldenPitchView.activateInteractionEnabledOfNextButton()
+                } else {
+                        self.loginGoldenPitchView.activateInteractionEnabledOfNextButton()
+                        if response.response?.statusCode == 422 {
+                          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+                            let error = json["errors"] as? [String:AnyObject]
+                            let stringError = error!["email"] as? [AnyObject]
+                            let errorinString = stringError![0] as? String
+                          if errorinString == "Email o password incorrecto" {
+                            self.loginGoldenPitchView.showErrorFromLoginControllerLabel()
+                          }
+                          //print(json)
+                        } else
+                        if response.response?.statusCode == 500 { //error de servidor
                             self.loginGoldenPitchView.showErrorFromLoginControllerLabel()
                         }
-                        //print(json)
                 }
                 
                 
@@ -273,6 +245,12 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                 //        
                 //        print("\(response.response) \n\n\(response.response?.statusCode)")
         }
+    }
+    
+    @objc private func dismissKeyboard() {
+        
+        self.loginGoldenPitchView.dismissKeyboard(self)
+        
     }
     
     func textFieldSelected(sender: AnyObject) {

@@ -91,6 +91,22 @@ class ChangePasswordViewController: UIViewController, ChangePasswordRequestViewD
     
     override func viewDidLoad() {
         
+        self.createTapGestureForDismissKeyboard()
+        self.createAndAddFlipCard()
+        
+    }
+    
+    private func createTapGestureForDismissKeyboard() {
+        
+        let tapForHideKeyboard = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
+        tapForHideKeyboard.numberOfTapsRequired = 1
+        
+        self.view.addGestureRecognizer(tapForHideKeyboard)
+        
+    }
+    
+    private func createAndAddFlipCard() {
+        
         let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
         let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
         
@@ -204,8 +220,14 @@ class ChangePasswordViewController: UIViewController, ChangePasswordRequestViewD
                 if answer == "Se ha enviado un correo con instrucciones para restablecer contraseña" {
                 //    print(answer)
                     self.flipCardToSuccess()
-                } else{
-                    self.changePasswordView.showErrorFromServerNotExistingUserLabel()
+                } else {
+                    let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+                    let error = json["errors"] as? [String:AnyObject]
+                    let stringError = error!["email"] as? [AnyObject]
+                    let errorinString = stringError![0] as? String
+                    if errorinString == "No existe ningún usuario con ese email" {
+                        self.changePasswordView.showErrorFromServerNotExistingUserLabel()
+                    }
                 }
                 
         }
@@ -222,6 +244,12 @@ class ChangePasswordViewController: UIViewController, ChangePasswordRequestViewD
         
         flipCard.setSecondView(successRequestChangePassword)
         flipCard.flip()
+    }
+    
+    @objc private func dismissKeyboard() {
+        
+        changePasswordView.dismissKeyboard(self)
+        
     }
     
     //MARK - SuccessfullyAskForChangePasswordViewDelegate

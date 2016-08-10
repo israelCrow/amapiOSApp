@@ -16,6 +16,7 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
     private var flipCard:FlipCardView! = nil
     private var lastFramePosition: CGRect! = nil
     private var alreadyAppearKeyboard: Bool = false
+    private var createAccView: CreateAccountView! = nil
     
     override func loadView() {
         self.addObserverToKeyboardNotification()
@@ -87,6 +88,22 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
     
     override func viewDidLoad() {
         
+        self.createTapGestureForDismissKeyboard()
+        self.createAndAddFlipCard()
+        
+    }
+    
+    private func createTapGestureForDismissKeyboard() {
+        
+        let tapForHideKeyboard = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
+        tapForHideKeyboard.numberOfTapsRequired = 1
+        
+        self.view.addGestureRecognizer(tapForHideKeyboard)
+        
+    }
+    
+    private func createAndAddFlipCard() {
+        
         let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
         let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
         
@@ -97,15 +114,14 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
         
         let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
         
-        let createAccountView = CreateAccountView.init(frame: frameForViewsOfCard)
-        createAccountView.delegate = self
+        createAccView = CreateAccountView.init(frame: frameForViewsOfCard)
+        createAccView.delegate = self
         let blankView = UIView.init(frame:frameForViewsOfCard)
         
-        flipCard = FlipCardView.init(frame: frameForFlipCard, viewOne: createAccountView, viewTwo: blankView)
+        flipCard = FlipCardView.init(frame: frameForFlipCard, viewOne: createAccView, viewTwo: blankView)
         
         //PRUEBAS
         //let alreadyBegun = CreateAccountProcessAlreadyBegunView.init(frame: frameForFlipCard)
-        
         
         self.view.addSubview(flipCard)
         
@@ -201,6 +217,12 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
         
     }
     
+    @objc private func dismissKeyboard() {
+        
+        self.createAccView.dismissKeyboard(self)
+        
+    }
+    
     //MARK: - CreateAccountViewDelegate
     func requestCreateAccount(email: String, agency: String) {
         let urlToRequest2 = "https://amap-dev.herokuapp.com/api/new_user_requests"
@@ -226,33 +248,23 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
                     
                     self.flipCardToSuccess()
                     
-                }else if response.response?.statusCode == 422 {
+                }else
+                  if response.response?.statusCode == 422 {
                     
                     let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+                    let error = json["errors"] as? [String:AnyObject]
+                    let stringError = error!["email"] as? [AnyObject]
+                    let errorinString = stringError![0] as? String
                     
-                    
-                    if let errors = json["errors"] as? [String: AnyObject] {
-                        
-                        if let emailError = errors["email"] as? String{
-                            
-                            if emailError == "Ya existe una cuenta con ese email" {
+                    if errorinString == "Ya existe una cuenta con ese email" {
                                 self.flipCardToFailedExistingAccount()
-                            }else
-                                if emailError == "Ya existe una solicitud con ese email" {
-                                    self.flipCardFailedCreateAccountProcessAlreadyBegun()
-                            }
-                            
+                    }else
+                       if errorinString == "Ya existe una solicitud con ese email" {
+                         self.flipCardFailedCreateAccountProcessAlreadyBegun()
                         }
-                        print(json)
-                    }
-                    
-                    
-                    
-                    
-                    
-                    
-                }
-        }
+
+                  }
+           }
     }
     
     //MARK: - SuccessfullyAskForAccountViewDelegate

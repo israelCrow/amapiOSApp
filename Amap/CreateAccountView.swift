@@ -12,7 +12,7 @@ protocol CreateAccountViewDelegate{
     func requestCreateAccount(email:String, agency:String)
 }
 
-class CreateAccountView: UIView {
+class CreateAccountView: UIView, UITextFieldDelegate {
     
     private var createAccountLabel: UILabel! = nil
     private var agencyButton: UIButton! = nil
@@ -147,7 +147,7 @@ class CreateAccountView: UIView {
         )
         writeNameDescriptionLabel.attributedText = stringWithFormat
         writeNameDescriptionLabel.sizeToFit()
-        let newFrame = CGRect.init(x: 38.0,
+        let newFrame = CGRect.init(x: 48.0 * UtilityManager.sharedInstance.conversionWidth,
                                    y: 184.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: writeNameDescriptionLabel.frame.size.width,
                                    height: writeNameDescriptionLabel.frame.size.height)
@@ -188,31 +188,42 @@ class CreateAccountView: UIView {
     }
     
     private func createNameTextField() {
-        let frameForTextField = CGRect.init(x: 38.0,
+        let frameForTextField = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                             y: writeNameDescriptionLabel.frame.origin.y + writeNameDescriptionLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
-                                            width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                            width: 200.0 * UtilityManager.sharedInstance.conversionWidth,
                                             height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
         
         nameTextField = UITextField.init(frame: frameForTextField)
         nameTextField.tag = 1
+        nameTextField.delegate = self
         nameTextField.placeholder = "Agencia/Marca"
         nameTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
         
         let border = CALayer()
         let width = CGFloat(0.5)
         border.borderColor = UIColor.darkGrayColor().CGColor
-        border.frame = CGRect(x: 0, y: nameTextField.frame.size.height - width, width:  nameTextField.frame.size.width, height: nameTextField.frame.size.height)
-        
+        let frameForLine = CGRect(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                                  y: nameTextField.frame.origin.y + nameTextField.frame.size.height,
+                                  width: 220 * UtilityManager.sharedInstance.conversionWidth,
+                                  height: 0.5)
+        let viewForLine = UIView.init(frame: frameForLine)
+        viewForLine.backgroundColor = UIColor.clearColor()
         border.borderWidth = width
-        nameTextField.layer.addSublayer(border)
-        nameTextField.layer.masksToBounds = true
+        border.frame = CGRect.init(x: 0.0,
+                                   y: 0.0,
+                                   width: 220 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 0.5)
+        viewForLine.layer.addSublayer(border)
+        viewForLine.layer.masksToBounds = true
+        
+        self.addSubview(viewForLine)
         
         self.addSubview(nameTextField)
     }
     
     private func createCancelButtonForNameTextField() {
-        let frameForButton = CGRect.init(x:nameTextField.frame.origin.x + nameTextField.frame.size.width - (20.0 * UtilityManager.sharedInstance.conversionWidth),
-                                         y: nameTextField.frame.origin.y - (12.0 * UtilityManager.sharedInstance.conversionHeight),
+        let frameForButton = CGRect.init(x:nameTextField.frame.origin.x + nameTextField.frame.size.width,
+                                         y: nameTextField.frame.origin.y,
                                          width: 20.0,
                                          height: 20.0)
         cancelButtonForNameTextField = UIButton.init(frame: frameForButton)
@@ -243,7 +254,7 @@ class CreateAccountView: UIView {
         )
         writeEMailDescriptionLabel.attributedText = stringWithFormat
         writeEMailDescriptionLabel.sizeToFit()
-        let newFrame = CGRect.init(x: 38.0,
+        let newFrame = CGRect.init(x: 48.0 * UtilityManager.sharedInstance.conversionWidth,
                                    y: nameTextField.frame.origin.y + nameTextField.frame.size.height + (35.0 * UtilityManager.sharedInstance.conversionHeight),
                                    width: writeEMailDescriptionLabel.frame.size.width,
                                    height: writeEMailDescriptionLabel.frame.size.height)
@@ -285,32 +296,41 @@ class CreateAccountView: UIView {
     }
     
     private func createEMailTextField() {
-        let frameForTextField = CGRect.init(x: 38.0,
+        let frameForTextField = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                             y: writeEMailDescriptionLabel.frame.origin.y + writeEMailDescriptionLabel.frame.size.height + 5.0,
-                                            width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                            width: 200.0 * UtilityManager.sharedInstance.conversionWidth,
                                             height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
         
         eMailTextField = UITextField.init(frame: frameForTextField)
         eMailTextField.tag = 2
         eMailTextField.placeholder = "jen@ejemplo.com"
+        eMailTextField.delegate = self
         eMailTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
         
         let border = CALayer()
         let width = CGFloat(0.5)
         border.borderColor = UIColor.darkGrayColor().CGColor
-        border.frame = CGRect(x: 0, y: eMailTextField.frame.size.height - width, width:  eMailTextField.frame.size.width, height: eMailTextField.frame.size.height)
-        
+        let frameForLine = CGRect(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                                  y: eMailTextField.frame.origin.y + eMailTextField.frame.size.height,
+                                  width: 220 * UtilityManager.sharedInstance.conversionWidth,
+                                  height: 0.5)
+        let viewForLine = UIView.init(frame: frameForLine)
+        viewForLine.backgroundColor = UIColor.clearColor()
         border.borderWidth = width
-        eMailTextField.layer.addSublayer(border)
-        eMailTextField.layer.masksToBounds = true
+        border.frame = CGRect.init(x: 0.0,
+                                   y: 0.0,
+                                   width: 220 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 0.5)
+        viewForLine.layer.addSublayer(border)
+        viewForLine.layer.masksToBounds = true
         
-        
+        self.addSubview(viewForLine)
         self.addSubview(eMailTextField)
     }
     
     private func createCancelButtonForEMailTextField() {
-        let frameForButton = CGRect.init(x:eMailTextField.frame.origin.x + eMailTextField.frame.size.width - (20.0 * UtilityManager.sharedInstance.conversionWidth),
-                                         y: eMailTextField.frame.origin.y - (12.0 * UtilityManager.sharedInstance.conversionHeight),
+        let frameForButton = CGRect.init(x:eMailTextField.frame.origin.x + eMailTextField.frame.size.width,
+                                         y: eMailTextField.frame.origin.y,
                                          width: 20.0,
                                          height: 20.0)
         cancelButtonForEMailTextField = UIButton.init(frame: frameForButton)
@@ -470,24 +490,27 @@ class CreateAccountView: UIView {
     }
     
     private func showValidMailError() {
+        
+        self.removeAllErrorLabels()
         self.askPasswordButton.userInteractionEnabled = false
-        UIView.animateWithDuration(0.4,
+        UIView.animateWithDuration(1.0,
                                    animations: {
                                     self.errorEMailLabel.alpha = 1.0
         }) { (finished) in
             if finished {
-                self.hideErrorMailLabel()
+                self.askPasswordButton.userInteractionEnabled = true
+//                self.hideErrorMailLabel()
             }
         }
     }
     
     @objc private func hideErrorMailLabel() {
         
-        UIView.animateWithDuration(1.0, animations: {
+        UIView.animateWithDuration(0.3, animations: {
             self.errorEMailLabel.alpha = 0.0
         }) { (finished) in
             if finished {
-                self.askPasswordButton.userInteractionEnabled = true
+//                self.askPasswordButton.userInteractionEnabled = true
             }
         }
         
@@ -495,13 +518,15 @@ class CreateAccountView: UIView {
     
     private func showValidNameError() {
         
+        self.removeAllErrorLabels()
         self.askPasswordButton.userInteractionEnabled = false
-        UIView.animateWithDuration(0.4,
+        UIView.animateWithDuration(1.0,
                                    animations: {
                                     self.errorNameLabel.alpha = 1.0
         }) { (finished) in
             if finished {
-                self.hideErrorNameLabel()
+                self.askPasswordButton.userInteractionEnabled = true
+//                self.hideErrorNameLabel()
             }
         }
         
@@ -509,7 +534,7 @@ class CreateAccountView: UIView {
     
     @objc private func hideErrorNameLabel() {
         
-        UIView.animateWithDuration(1.0, animations: {
+        UIView.animateWithDuration(0.3, animations: {
             self.errorNameLabel.alpha = 0.0
         }) { (finished) in
             if finished {
@@ -520,13 +545,27 @@ class CreateAccountView: UIView {
     }
     
     private func showBothTextErrorLabel() {
+        
+        self.removeAllErrorLabels()
         self.askPasswordButton.userInteractionEnabled = false
-        UIView.animateWithDuration(0.4,
+        UIView.animateWithDuration(1.0,
                                    animations: {
                                     self.errorBothTextFieldLabel.alpha = 1.0
         }) { (finished) in
             if finished {
-                self.hideErrorBothTextFieldLabel()
+                self.askPasswordButton.userInteractionEnabled = true
+//                self.hideErrorBothTextFieldLabel()
+            }
+        }
+    }
+    
+    @objc private func hideErrorBothTextFieldLabel() {
+        
+        UIView.animateWithDuration(0.3, animations: {
+            self.errorBothTextFieldLabel.alpha = 0.0
+        }) { (finished) in
+            if finished {
+                self.askPasswordButton.userInteractionEnabled = true
             }
         }
     }
@@ -534,30 +573,23 @@ class CreateAccountView: UIView {
     @objc private func deleteNameTextField(){
         self.nameTextField.text = ""
         self.hideButtonCancelForNameTextField()
+        self.removeAllErrorLabels()
     }
     
     @objc private func deleteEMailTextField(){
         self.eMailTextField.text = ""
         self.hideButtonCancelForEMailTextField()
+        self.removeAllErrorLabels()
     }
     
-    @objc private func hideErrorBothTextFieldLabel() {
-        
-        UIView.animateWithDuration(1.0, animations: {
-            self.errorBothTextFieldLabel.alpha = 0.0
-        }) { (finished) in
-            if finished {
-                self.askPasswordButton.userInteractionEnabled = true
-            }
-        }
-        
-    }
-    
-    @objc private func dismissKeyboard(sender:AnyObject) {
+    @objc func dismissKeyboard(sender:AnyObject) {
         self.endEditing(true)
     }
     
     @objc private func animateCancelButton(textField: UITextField) {
+        
+        self.removeAllErrorLabels()
+        
         if textField.tag == 1 { //NameTextField
             if textField.text!.characters.count != 0 {
                 self.showButtonCancelForNameTextField()
@@ -604,6 +636,19 @@ class CreateAccountView: UIView {
             self.cancelButtonForEMailTextField.alpha = 0.0
         }
         
+    }
+    
+    private func removeAllErrorLabels() {
+        
+        self.hideErrorNameLabel()
+        self.hideErrorMailLabel()
+        self.hideErrorBothTextFieldLabel()
+        
+    }
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        self.removeAllErrorLabels()
+        return true
     }
     
     required init?(coder aDecoder: NSCoder) {
