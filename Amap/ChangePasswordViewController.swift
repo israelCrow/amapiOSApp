@@ -214,7 +214,7 @@ class ChangePasswordViewController: UIViewController, ChangePasswordRequestViewD
             ////          }
             .responseJSON{ response in
                 let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
-                print (json)
+
                 let answer = json["success"] as? String
                 //        let error = json["errors"] as? String
                 if answer == "Se ha enviado un correo con instrucciones para restablecer contraseña" {

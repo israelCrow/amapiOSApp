@@ -244,7 +244,6 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
         Alamofire.request(requestConnection)
             .responseJSON{ response in
                 if response.response?.statusCode >= 200 && response.response?.statusCode <= 300 {
-                    print("SUCCESS")
                     
                     self.flipCardToSuccess()
                     

@@ -199,7 +199,6 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
             ////          }
             
             .responseJSON{ response in
-                print(response)
                 if response.response?.statusCode == 200 {
                     
                     let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
