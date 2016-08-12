@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		047818A51D5E204F00BB498C /* CriterionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047818A41D5E204F00BB498C /* CriterionView.swift */; };
+		047818A91D5E2E6700BB498C /* CustomSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047818A81D5E2E6700BB498C /* CustomSwitchView.swift */; };
+		047818AB1D5E557300BB498C /* ParticipateInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047818AA1D5E557300BB498C /* ParticipateInView.swift */; };
+		047818AE1D5E883100BB498C /* ExclusiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047818AD1D5E883100BB498C /* ExclusiveView.swift */; };
+		04AB39321D5D06EC009B1D5C /* EditAgencyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AB39311D5D06EC009B1D5C /* EditAgencyProfileViewController.swift */; };
+		04AB393A1D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AB39391D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift */; };
+		04AB393E1D5D1808009B1D5C /* AgencyProfileEditConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AB393D1D5D1808009B1D5C /* AgencyProfileEditConstants.swift */; };
 		AA0949631D528A01000E76E1 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0949621D528A01000E76E1 /* CreateAccountViewController.swift */; };
 		AA0949681D52955E000E76E1 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0949671D52955E000E76E1 /* CreateAccountView.swift */; };
 		AA09496A1D529A59000E76E1 /* CreateAccountConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0949691D529A59000E76E1 /* CreateAccountConstants.swift */; };
@@ -124,6 +131,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		047818A41D5E204F00BB498C /* CriterionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriterionView.swift; sourceTree = "<group>"; };
+		047818A81D5E2E6700BB498C /* CustomSwitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSwitchView.swift; sourceTree = "<group>"; };
+		047818AA1D5E557300BB498C /* ParticipateInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipateInView.swift; sourceTree = "<group>"; };
+		047818AD1D5E883100BB498C /* ExclusiveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExclusiveView.swift; sourceTree = "<group>"; };
+		04AB39311D5D06EC009B1D5C /* EditAgencyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditAgencyProfileViewController.swift; sourceTree = "<group>"; };
+		04AB39391D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriteriaAgencyProfileEditView.swift; sourceTree = "<group>"; };
+		04AB393D1D5D1808009B1D5C /* AgencyProfileEditConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyProfileEditConstants.swift; sourceTree = "<group>"; };
 		730B22C94A0E292BE5556150 /* Pods_Amap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Amap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9069B28B896861F13A6FF564 /* Pods-Amap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Amap/Pods-Amap.debug.xcconfig"; sourceTree = "<group>"; };
 		AA0949621D528A01000E76E1 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
@@ -209,6 +223,63 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04AB392F1D5D0539009B1D5C /* Login/Account/Password */ = {
+			isa = PBXGroup;
+			children = (
+				AA92D63F1D50EF7400CE7D95 /* LoginViewController.swift */,
+				AA0949621D528A01000E76E1 /* CreateAccountViewController.swift */,
+				AA2DB85B1D53C17400E9FB8A /* ChangePasswordViewController.swift */,
+			);
+			name = Login/Account/Password;
+			sourceTree = "<group>";
+		};
+		04AB39301D5D0567009B1D5C /* Create/Edit/Visualize_Agency */ = {
+			isa = PBXGroup;
+			children = (
+				04AB39381D5D0F68009B1D5C /* Edit */,
+			);
+			name = Create/Edit/Visualize_Agency;
+			sourceTree = "<group>";
+		};
+		04AB39331D5D0E99009B1D5C /* Login/Account/Password */ = {
+			isa = PBXGroup;
+			children = (
+				AA2DB8561D53B93600E9FB8A /* ChangePassword */,
+				AAECDF631D51461700CCDA85 /* Login */,
+				AA0949641D529513000E76E1 /* CreateAccount */,
+			);
+			name = Login/Account/Password;
+			sourceTree = "<group>";
+		};
+		04AB39341D5D0EB0009B1D5C /* Create/Edit/Visualize_Agency */ = {
+			isa = PBXGroup;
+			children = (
+				04AB39371D5D0F41009B1D5C /* Edit */,
+			);
+			name = Create/Edit/Visualize_Agency;
+			sourceTree = "<group>";
+		};
+		04AB39371D5D0F41009B1D5C /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				04AB39391D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift */,
+				047818AA1D5E557300BB498C /* ParticipateInView.swift */,
+				047818AD1D5E883100BB498C /* ExclusiveView.swift */,
+				047818A41D5E204F00BB498C /* CriterionView.swift */,
+				047818A81D5E2E6700BB498C /* CustomSwitchView.swift */,
+				04AB393D1D5D1808009B1D5C /* AgencyProfileEditConstants.swift */,
+			);
+			name = Edit;
+			sourceTree = "<group>";
+		};
+		04AB39381D5D0F68009B1D5C /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				04AB39311D5D06EC009B1D5C /* EditAgencyProfileViewController.swift */,
+			);
+			name = Edit;
+			sourceTree = "<group>";
+		};
 		06EDB93685B2E90139E87767 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,7 +329,9 @@
 				3CA66705DCF014EC82C34792 /* Pods */,
 				06EDB93685B2E90139E87767 /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		AA92D6081D50E7D300CE7D95 /* Products */ = {
 			isa = PBXGroup;
@@ -310,10 +383,9 @@
 			isa = PBXGroup;
 			children = (
 				AA92D63B1D50EE0F00CE7D95 /* SplashViewController.swift */,
-				AA92D63F1D50EF7400CE7D95 /* LoginViewController.swift */,
-				AA0949621D528A01000E76E1 /* CreateAccountViewController.swift */,
-				AA2DB85B1D53C17400E9FB8A /* ChangePasswordViewController.swift */,
 				AAA837DA1D590DBD00A47376 /* BlankViewController.swift */,
+				04AB392F1D5D0539009B1D5C /* Login/Account/Password */,
+				04AB39301D5D0567009B1D5C /* Create/Edit/Visualize_Agency */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -321,11 +393,10 @@
 		AA92D6391D50EA2B00CE7D95 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				04AB39331D5D0E99009B1D5C /* Login/Account/Password */,
+				04AB39341D5D0EB0009B1D5C /* Create/Edit/Visualize_Agency */,
 				AA92D6411D50F05300CE7D95 /* GradientView.swift */,
 				AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */,
-				AA0949641D529513000E76E1 /* CreateAccount */,
-				AAECDF631D51461700CCDA85 /* Login */,
-				AA2DB8561D53B93600E9FB8A /* ChangePassword */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -652,18 +723,25 @@
 				AA0949631D528A01000E76E1 /* CreateAccountViewController.swift in Sources */,
 				AAECDF661D51472700CCDA85 /* GoldenPitchLoginView.swift in Sources */,
 				AA92D6401D50EF7400CE7D95 /* LoginViewController.swift in Sources */,
+				047818A91D5E2E6700BB498C /* CustomSwitchView.swift in Sources */,
 				AA2DB8581D53B97D00E9FB8A /* ChangePasswordRequestView.swift in Sources */,
+				04AB39321D5D06EC009B1D5C /* EditAgencyProfileViewController.swift in Sources */,
 				AA92D63C1D50EE0F00CE7D95 /* SplashViewController.swift in Sources */,
+				04AB393E1D5D1808009B1D5C /* AgencyProfileEditConstants.swift in Sources */,
 				AA681E381D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift in Sources */,
 				AA2DB85A1D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift in Sources */,
 				AAB61E8E1D52335D00407FFD /* GoldenPitchConstants.swift in Sources */,
 				AA92D6421D50F05300CE7D95 /* GradientView.swift in Sources */,
+				047818A51D5E204F00BB498C /* CriterionView.swift in Sources */,
+				047818AB1D5E557300BB498C /* ParticipateInView.swift in Sources */,
 				AA92D60D1D50E7D300CE7D95 /* ViewController.swift in Sources */,
 				AA92D60B1D50E7D300CE7D95 /* AppDelegate.swift in Sources */,
 				AA2DB84C1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift in Sources */,
 				AA7AC7C61D526C23007522FB /* UtilityManager.swift in Sources */,
 				AA40C9D91D51051F00FF2B4D /* FlipCardView.swift in Sources */,
+				04AB393A1D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift in Sources */,
 				AAA837DB1D590DBD00A47376 /* BlankViewController.swift in Sources */,
+				047818AE1D5E883100BB498C /* ExclusiveView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

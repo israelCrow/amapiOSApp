@@ -13,7 +13,7 @@ class UtilityManager: NSObject {
   static let sharedInstance = UtilityManager()
   
   
-  static let baseScreen = CGSize.init(width: 365.0, height: 667.0)
+  static let baseScreen = CGSize.init(width: 375.0, height: 667.0)
   static let screenSize = CGSize.init(width: UIScreen.mainScreen().bounds.size.width, height: UIScreen.mainScreen().bounds.size.height)
   static let frameOfConversion = CGSize.init(width: screenSize.height/baseScreen.height, height: screenSize.width/baseScreen.width)
   
