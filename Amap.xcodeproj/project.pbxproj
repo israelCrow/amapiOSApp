@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		044F89D61D6377E800AA7FF3 /* CustomSkillTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F89D51D6377E800AA7FF3 /* CustomSkillTableViewCell.swift */; };
+		044F89D91D6383D200AA7FF3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F89D81D6383D200AA7FF3 /* ProfileView.swift */; };
+		044F89DB1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F89DA1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift */; };
+		0462295C1D620DC70087E572 /* BasicCustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462295B1D620DC70087E572 /* BasicCustomTextField.swift */; };
+		0462295E1D626F640087E572 /* SkillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462295D1D626F640087E572 /* SkillsView.swift */; };
+		046229641D62746D0087E572 /* ExtensionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046229631D62746D0087E572 /* ExtensionView.swift */; };
+		046229661D6275E50087E572 /* CollapsibleTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046229651D6275E50087E572 /* CollapsibleTableViewHeader.swift */; };
+		046229681D6284AF0087E572 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046229671D6284AF0087E572 /* Skill.swift */; };
+		0462296A1D6285090087E572 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046229691D6285090087E572 /* Section.swift */; };
 		047818A51D5E204F00BB498C /* CriterionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047818A41D5E204F00BB498C /* CriterionView.swift */; };
 		047818A91D5E2E6700BB498C /* CustomSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047818A81D5E2E6700BB498C /* CustomSwitchView.swift */; };
 		047818AB1D5E557300BB498C /* ParticipateInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047818AA1D5E557300BB498C /* ParticipateInView.swift */; };
@@ -131,6 +140,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		044F89D51D6377E800AA7FF3 /* CustomSkillTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSkillTableViewCell.swift; sourceTree = "<group>"; };
+		044F89D81D6383D200AA7FF3 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		044F89DA1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextFieldWithTitleView.swift; sourceTree = "<group>"; };
+		0462295B1D620DC70087E572 /* BasicCustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCustomTextField.swift; sourceTree = "<group>"; };
+		0462295D1D626F640087E572 /* SkillsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillsView.swift; sourceTree = "<group>"; };
+		046229631D62746D0087E572 /* ExtensionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionView.swift; sourceTree = "<group>"; };
+		046229651D6275E50087E572 /* CollapsibleTableViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollapsibleTableViewHeader.swift; sourceTree = "<group>"; };
+		046229671D6284AF0087E572 /* Skill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
+		046229691D6285090087E572 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		047818A41D5E204F00BB498C /* CriterionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriterionView.swift; sourceTree = "<group>"; };
 		047818A81D5E2E6700BB498C /* CustomSwitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSwitchView.swift; sourceTree = "<group>"; };
 		047818AA1D5E557300BB498C /* ParticipateInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipateInView.swift; sourceTree = "<group>"; };
@@ -223,6 +241,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		044F89D11D6370D600AA7FF3 /* Skills */ = {
+			isa = PBXGroup;
+			children = (
+				0462295D1D626F640087E572 /* SkillsView.swift */,
+				046229651D6275E50087E572 /* CollapsibleTableViewHeader.swift */,
+				046229691D6285090087E572 /* Section.swift */,
+				046229671D6284AF0087E572 /* Skill.swift */,
+				044F89D51D6377E800AA7FF3 /* CustomSkillTableViewCell.swift */,
+			);
+			name = Skills;
+			sourceTree = "<group>";
+		};
+		044F89D21D6370FD00AA7FF3 /* Criteria */ = {
+			isa = PBXGroup;
+			children = (
+				04AB39391D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift */,
+				047818A41D5E204F00BB498C /* CriterionView.swift */,
+				047818A81D5E2E6700BB498C /* CustomSwitchView.swift */,
+			);
+			name = Criteria;
+			sourceTree = "<group>";
+		};
+		044F89D71D63837300AA7FF3 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				044F89D81D6383D200AA7FF3 /* ProfileView.swift */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
 		04AB392F1D5D0539009B1D5C /* Login/Account/Password */ = {
 			isa = PBXGroup;
 			children = (
@@ -262,11 +310,12 @@
 		04AB39371D5D0F41009B1D5C /* Edit */ = {
 			isa = PBXGroup;
 			children = (
-				04AB39391D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift */,
 				047818AA1D5E557300BB498C /* ParticipateInView.swift */,
 				047818AD1D5E883100BB498C /* ExclusiveView.swift */,
-				047818A41D5E204F00BB498C /* CriterionView.swift */,
-				047818A81D5E2E6700BB498C /* CustomSwitchView.swift */,
+				044F89D21D6370FD00AA7FF3 /* Criteria */,
+				044F89D11D6370D600AA7FF3 /* Skills */,
+				044F89D71D63837300AA7FF3 /* Profile */,
+				0462295B1D620DC70087E572 /* BasicCustomTextField.swift */,
 				04AB393D1D5D1808009B1D5C /* AgencyProfileEditConstants.swift */,
 			);
 			name = Edit;
@@ -397,6 +446,8 @@
 				04AB39341D5D0EB0009B1D5C /* Create/Edit/Visualize_Agency */,
 				AA92D6411D50F05300CE7D95 /* GradientView.swift */,
 				AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */,
+				046229631D62746D0087E572 /* ExtensionView.swift */,
+				044F89DA1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -715,21 +766,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				044F89D61D6377E800AA7FF3 /* CustomSkillTableViewCell.swift in Sources */,
 				AA0949681D52955E000E76E1 /* CreateAccountView.swift in Sources */,
 				AA2DB84E1D53B0D900E9FB8A /* ExistingAccountView.swift in Sources */,
 				AA09496A1D529A59000E76E1 /* CreateAccountConstants.swift in Sources */,
 				AA2DB85C1D53C17400E9FB8A /* ChangePasswordViewController.swift in Sources */,
 				AA2DB8541D53B6C800E9FB8A /* CreateAccountProcessAlreadyBegunView.swift in Sources */,
+				046229681D6284AF0087E572 /* Skill.swift in Sources */,
 				AA0949631D528A01000E76E1 /* CreateAccountViewController.swift in Sources */,
 				AAECDF661D51472700CCDA85 /* GoldenPitchLoginView.swift in Sources */,
+				0462295E1D626F640087E572 /* SkillsView.swift in Sources */,
 				AA92D6401D50EF7400CE7D95 /* LoginViewController.swift in Sources */,
 				047818A91D5E2E6700BB498C /* CustomSwitchView.swift in Sources */,
+				044F89D91D6383D200AA7FF3 /* ProfileView.swift in Sources */,
+				046229661D6275E50087E572 /* CollapsibleTableViewHeader.swift in Sources */,
+				044F89DB1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift in Sources */,
 				AA2DB8581D53B97D00E9FB8A /* ChangePasswordRequestView.swift in Sources */,
 				04AB39321D5D06EC009B1D5C /* EditAgencyProfileViewController.swift in Sources */,
 				AA92D63C1D50EE0F00CE7D95 /* SplashViewController.swift in Sources */,
+				0462296A1D6285090087E572 /* Section.swift in Sources */,
 				04AB393E1D5D1808009B1D5C /* AgencyProfileEditConstants.swift in Sources */,
 				AA681E381D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift in Sources */,
 				AA2DB85A1D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift in Sources */,
+				046229641D62746D0087E572 /* ExtensionView.swift in Sources */,
 				AAB61E8E1D52335D00407FFD /* GoldenPitchConstants.swift in Sources */,
 				AA92D6421D50F05300CE7D95 /* GradientView.swift in Sources */,
 				047818A51D5E204F00BB498C /* CriterionView.swift in Sources */,
@@ -738,6 +797,7 @@
 				AA92D60B1D50E7D300CE7D95 /* AppDelegate.swift in Sources */,
 				AA2DB84C1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift in Sources */,
 				AA7AC7C61D526C23007522FB /* UtilityManager.swift in Sources */,
+				0462295C1D620DC70087E572 /* BasicCustomTextField.swift in Sources */,
 				AA40C9D91D51051F00FF2B4D /* FlipCardView.swift in Sources */,
 				04AB393A1D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift in Sources */,
 				AAA837DB1D590DBD00A47376 /* BlankViewController.swift in Sources */,

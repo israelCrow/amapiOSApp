@@ -32,6 +32,31 @@ class AgencyProfileEditConstants {
   enum ExclusiveView {
     
     static let exclusiveLabelText = "Exclusividad"
+    static let descriptionLabelText = "Escribe la nueva marca"
+    
+  }
+  
+  enum SkillsView {
+    
+    static let skillsLabelText = "Skills"
+    
+  }
+  
+  enum ProfileView {
+    
+    static let profileLabelText = "Perfil"
+    static let changeProfilePictureButtonText = "Cambiar Foto de Perfil"
+    static let deleteProfilePictureButtonText = "Borrar Foto de Perfil"
+    static let agencyPhoneTitleText = "Escribe tu teléfono con LADA"
+    static let agencyContactTitleText = "Escribe un nombre de contacto"
+    static let agencyAddressTitleText = "Escribe la dirección de la agencia"
+    static let agencyWebSiteTitleText = "Escribe tu website"
+    static let agencyNumberOfEmployeTitleText = "Número de empleados"
+    
+    
+    
+    
+    
   }
   
   

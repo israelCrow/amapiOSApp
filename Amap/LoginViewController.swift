@@ -136,7 +136,10 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     }
     
     override func viewWillDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+      
+      super.viewWillDisappear(animated)
+      NSNotificationCenter.defaultCenter().removeObserver(self)
+      
     }
     
     @objc private func keyboardAppear(notification: NSNotification) {
