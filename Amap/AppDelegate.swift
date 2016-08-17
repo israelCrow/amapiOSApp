@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,16 +17,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
-        
+    
+    self.initGooglePlaces()
     self.loadController()
     self.adaptInterface()
     
     return true
   }
   
-  private func adaptInterface() {
-    UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
-    self.window?.backgroundColor = UIColor.blackColor()
+  private func initGooglePlaces() {
+    
+    GMSPlacesClient.provideAPIKey("AIzaSyDpb82IHdJA9y8xnsjWkSa44qlX1iAHJdM")
+    
   }
   
   private func loadController() {
@@ -36,11 +39,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window?.rootViewController = mainNavigationController
     window?.makeKeyAndVisible()
     
-    
-    //    if self.window != nil {
-    //      window!.rootViewController = mainNavigationController
-    //      window!.makeKeyAndVisible()
-    //    }
+  }
+  
+  private func adaptInterface() {
+    UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+    self.window?.backgroundColor = UIColor.blackColor()
   }
 
   func applicationWillResignActive(application: UIApplication) {

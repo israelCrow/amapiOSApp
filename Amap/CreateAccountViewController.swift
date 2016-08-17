@@ -231,12 +231,16 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
         requestConnection.HTTPMethod = "POST"
         requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
         requestConnection.setValue("Token 40e97aa81c2be2de4b99f1c243bec9c4", forHTTPHeaderField: "Authorization")
-        
+      
+      
+      //if agency = 2
+      //if brand = 4
         let values = [
             "new_user_request" :
-                [ "email" : email,
-                    "agency" : agency
-            ]
+              [ "user_type" : 2, //Change with buttons
+                "email" : email,
+                "agency" : agency
+                ]
         ]
         
         requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(values, options: [])

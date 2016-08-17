@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import GooglePlaces
 
 protocol ProfileViewDelegate {
   func selectProfileImageFromLibrary()
 }
 
-class ProfileView: UIView {
+class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
   
   private var mainScrollView: UIScrollView! = nil
   private var profileLabel: UILabel! = nil
@@ -29,6 +30,11 @@ class ProfileView: UIView {
   private var agencyNumberOfEmploye: CustomTextFieldWithTitleView! = nil
   
   var delegate: ProfileViewDelegate?
+  
+  //Google places
+  private var fetcher: GMSAutocompleteFetcher?
+  private var resultText: UITextView?
+  private var lastPredictionPlaceFromGoogle: GMSAutocompletePrediction?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -57,6 +63,8 @@ class ProfileView: UIView {
     self.createAgencyAddressView()
     self.createAgencyWebsiteView()
     self.createNumberOfEmployeView()
+    
+    self.initGooglePlaces()
     
   }
   
@@ -205,6 +213,7 @@ class ProfileView: UIView {
     agencyNameView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: nil, image: nil)
     agencyNameView.mainTextField.placeholder = "Nombre de la agencia"
     agencyNameView.backgroundColor = UIColor.clearColor()
+    agencyNameView.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyNameView)
     
   }
@@ -221,6 +230,7 @@ class ProfileView: UIView {
                                                         image: "skill")
     agencyPhoneView.mainTextField.placeholder = "00 00000000"
     agencyPhoneView.backgroundColor = UIColor.clearColor()
+    agencyPhoneView.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyPhoneView)
     
   }
@@ -237,6 +247,7 @@ class ProfileView: UIView {
                                                         image: nil)
     agencyContactView.mainTextField.placeholder = "Nombre de contacto"
     agencyContactView.backgroundColor = UIColor.clearColor()
+    agencyContactView.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyContactView)
     
   }
@@ -253,6 +264,7 @@ class ProfileView: UIView {
                                                           image: "skill")
     agencyEMailView.mainTextField.placeholder = "Email de contacto"
     agencyEMailView.backgroundColor = UIColor.clearColor()
+    agencyEMailView.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyEMailView)
     
   }
@@ -268,7 +280,9 @@ class ProfileView: UIView {
                                                         title: AgencyProfileEditConstants.ProfileView.agencyAddressTitleText,
                                                         image: "skill")
     agencyAddressView.mainTextField.placeholder = "Dirección de contacto"
+    agencyAddressView.mainTextField.tag = 9
     agencyAddressView.backgroundColor = UIColor.clearColor()
+    agencyAddressView.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyAddressView)
     
   }
@@ -285,6 +299,7 @@ class ProfileView: UIView {
                                                           image: "skill")
     agencyWebsiteView.mainTextField.placeholder = "Website de contacto"
     agencyWebsiteView.backgroundColor = UIColor.clearColor()
+    agencyWebsiteView.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyWebsiteView)
     
   }
@@ -301,12 +316,135 @@ class ProfileView: UIView {
                                                           image: "skill")
     agencyNumberOfEmploye.mainTextField.placeholder = "888"
     agencyNumberOfEmploye.backgroundColor = UIColor.clearColor()
+    agencyNumberOfEmploye.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyNumberOfEmploye)
     
   }
   
+  private func initGooglePlaces() {
+
+    // Set up the autocomplete filter.
+    let filter = GMSAutocompleteFilter()
+    filter.type = .Address
+    
+    //Create the fetcher
+    fetcher = GMSAutocompleteFetcher(bounds: nil, filter: filter)
+    fetcher?.delegate = self
+    
+    agencyAddressView.mainTextField.addTarget(self,
+                                              action: #selector(addressFieldDidChange),
+                                    forControlEvents: .EditingChanged)
+    
+    let frameForResultText = CGRect(x: agencyAddressView.frame.origin.x,
+                                    y: agencyAddressView.frame.origin.y + agencyAddressView.frame.size.height + (2.5 * UtilityManager.sharedInstance.conversionHeight),
+                                    width: agencyAddressView.frame.size.width,
+                                    height: 40.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    resultText = UITextView(frame: frameForResultText)
+    resultText?.attributedText
+    resultText?.backgroundColor = UIColor.lightGrayColor()
+    resultText?.alpha = 0.0
+    resultText?.editable = false
+    
+    let tapForResultText = UITapGestureRecognizer.init(target: self, action: #selector(selectDirectionFromGoogle))
+    tapForResultText.numberOfTapsRequired = 1
+    
+    resultText?.addGestureRecognizer(tapForResultText)
+    resultText?.userInteractionEnabled = true
+    
+    self.mainScrollView.addSubview(resultText!)
+    
+  }
   
+  @objc private func addressFieldDidChange(textField: UITextField) {
+    
+    if resultText?.alpha == 0.0 {
+      self.showResultText()
+    } else {
+    }
+    
+    fetcher?.sourceTextHasChanged(textField.text!)
+    
+  }
   
+  private func showResultText() {
+    
+    UIView.animateWithDuration(0.35){
+      
+      self.resultText?.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideResultText() {
+    
+    UIView.animateWithDuration(0.35){
+      
+      self.resultText?.alpha = 0.0
+      
+    }
+    
+  }
+  
+  @objc private func selectDirectionFromGoogle() {
+   
+    agencyAddressView.mainTextField.text = resultText?.text
+    
+    if resultText?.alpha == 1.0 {
+      
+      self.hideResultText()
+      
+    }
+    
+    self.getCoordinates()
+    
+  }
+  
+  func didAutocompleteWithPredictions(predictions: [GMSAutocompletePrediction]) {
+    
+    resultText?.attributedText = predictions.first?.attributedFullText
+    
+    lastPredictionPlaceFromGoogle = predictions.first
+    
+  }
+  
+  private func getCoordinates() {
+    
+    let placesClient = GMSPlacesClient()
+    
+    let placeID = lastPredictionPlaceFromGoogle?.placeID
+    if lastPredictionPlaceFromGoogle != nil {
+      placesClient.lookUpPlaceID(placeID!, callback: { (place: GMSPlace?, error: NSError?) -> Void in
+        if let error = error {
+          print("lookup place id query error: \(error.localizedDescription)")
+          return
+        }
+      
+        if let place = place {
+          print("Place latitude: \(place.coordinate.latitude)")
+          print("Place longitude: \(place.coordinate.longitude)")
+        } else {
+          print("No place details for \(placeID)")
+        }
+      })
+    }
+    
+  }
+  
+  func didFailAutocompleteWithError(error: NSError) {
+    
+    resultText?.text = "No hay conexión con el servidor"
+    
+  }
+  
+  func textFieldDidBeginEditing(textField: UITextField) {
+    if textField.tag != 9 {
+      
+      self.hideResultText()
+      
+    }
+  }
   
   @objc private func selectImageFromLibrary() {
     
@@ -325,6 +463,8 @@ class ProfileView: UIView {
     profileImageView.image = image
     
   }
+  
+  
   
   
 }

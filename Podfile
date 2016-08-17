@@ -3,6 +3,9 @@ use_frameworks!
 
 target 'Amap' do
 pod 'Alamofire'
+pod 'GooglePlaces'
+pod 'GooglePlacePicker'
+pod 'GoogleMaps'
 
 end
 
