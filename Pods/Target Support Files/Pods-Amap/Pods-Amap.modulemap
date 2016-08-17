@@ -1,0 +1,6 @@
+framework module Pods_Amap {
+  umbrella header "Pods-Amap-umbrella.h"
+
+  export *
+  module * { export * }
+}

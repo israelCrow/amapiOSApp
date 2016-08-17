@@ -1,0 +1,330 @@
+//
+//  ProfileView.swift
+//  Amap
+//
+//  Created by Mac on 8/16/16.
+//  Copyright © 2016 Alejandro Aristi C. All rights reserved.
+//
+
+import UIKit
+
+protocol ProfileViewDelegate {
+  func selectProfileImageFromLibrary()
+}
+
+class ProfileView: UIView {
+  
+  private var mainScrollView: UIScrollView! = nil
+  private var profileLabel: UILabel! = nil
+  private var profileImageView: UIImageView! = nil
+  private var changeProfileImageButton: UIButton! = nil
+  private var deleteProfileImageButton: UIButton! = nil
+  
+  private var agencyNameView: CustomTextFieldWithTitleView! = nil
+  private var agencyPhoneView: CustomTextFieldWithTitleView! = nil
+  private var agencyContactView: CustomTextFieldWithTitleView! = nil
+  private var agencyEMailView: CustomTextFieldWithTitleView! = nil
+  private var agencyAddressView: CustomTextFieldWithTitleView! = nil
+  private var agencyWebsiteView: CustomTextFieldWithTitleView! = nil
+  private var agencyNumberOfEmploye: CustomTextFieldWithTitleView! = nil
+  
+  var delegate: ProfileViewDelegate?
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override init(frame: CGRect) {
+    
+    super.init(frame: frame)
+    self.initInterface()
+    
+  }
+  
+  private func initInterface() {
+    
+    self.backgroundColor = UIColor.whiteColor()
+    
+    self.createMainScrollView()
+    self.createProfileLabel()
+    self.createProfileImageView()
+    self.createChangeProfileImageButton()
+    self.createDeleteProfileImageButton()
+    self.createAgencyNameView()
+    self.createAgencyPhoneView()
+    self.createAgencyContactView()
+    self.createAgencyEMailView()
+    self.createAgencyAddressView()
+    self.createAgencyWebsiteView()
+    self.createNumberOfEmployeView()
+    
+  }
+  
+  private func createMainScrollView() {
+    
+    let frameForMainScrollView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                                             y: 86.0 * UtilityManager.sharedInstance.conversionHeight,
+                                             width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                             height: 374.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
+    let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
+                                               height: frameForMainScrollView.size.height + (150.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
+    
+    mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
+    mainScrollView.backgroundColor = UIColor.clearColor()
+    mainScrollView.contentSize = sizeForContentScrollView
+    mainScrollView.directionalLockEnabled = true
+    mainScrollView.alwaysBounceVertical = true
+    mainScrollView.showsVerticalScrollIndicator = false
+    self.addSubview(mainScrollView)
+    
+  }
+  
+  private func createProfileLabel() {
+    
+    profileLabel = UILabel.init(frame: CGRectZero)
+    
+    let font = UIFont(name: "SFUIDisplay-Ultralight",
+                      size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: AgencyProfileEditConstants.ProfileView.profileLabelText,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSKernAttributeName: CGFloat(2.0),
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    profileLabel.attributedText = stringWithFormat
+    profileLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (profileLabel.frame.size.width / 2.0),
+                               y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: profileLabel.frame.size.width,
+                               height: profileLabel.frame.size.height)
+    
+    profileLabel.frame = newFrame
+    
+    self.addSubview(profileLabel)
+    
+  }
+  
+  private func createProfileImageView() {
+    
+    let frameForProfileImageView = CGRect.init(x: 0.0,
+                                               y: 0.0,
+                                           width: 48.0 * UtilityManager.sharedInstance.conversionWidth,
+                                          height: 48.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    profileImageView = UIImageView.init(frame: frameForProfileImageView)
+    profileImageView.backgroundColor = UIColor.lightGrayColor()
+    profileImageView.layer.borderWidth = 0.35
+    profileImageView.layer.masksToBounds = false
+    profileImageView.layer.borderColor = UIColor.blackColor().CGColor
+    profileImageView.layer.cornerRadius = profileImageView.frame.size.height / 2.0
+    profileImageView.clipsToBounds = true
+    
+    mainScrollView.addSubview(profileImageView)
+    
+  }
+  
+  private func createChangeProfileImageButton() {
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 11.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Left
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: AgencyProfileEditConstants.ProfileView.changeProfilePictureButtonText,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color,
+      ]
+    )
+    
+    stringWithFormat.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSMakeRange(0, AgencyProfileEditConstants.ProfileView.changeProfilePictureButtonText.characters.count))
+    
+    
+    let frameForButton = CGRect.init(x: 78.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 0.0,
+                                 width: 116.0 * UtilityManager.sharedInstance.conversionWidth,
+                                height: ((13.0 + 4.0) * UtilityManager.sharedInstance.conversionHeight))
+    changeProfileImageButton = UIButton.init(frame: frameForButton)
+    changeProfileImageButton.addTarget(self,
+                         action: #selector(selectImageFromLibrary),
+                         forControlEvents: .TouchUpInside)
+    changeProfileImageButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+    
+    self.mainScrollView.addSubview(changeProfileImageButton)
+    
+  }
+  
+  private func createDeleteProfileImageButton() {
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 11.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Left
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: AgencyProfileEditConstants.ProfileView.deleteProfilePictureButtonText,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color,
+      ]
+    )
+    
+    stringWithFormat.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSMakeRange(0, AgencyProfileEditConstants.ProfileView.deleteProfilePictureButtonText.characters.count))
+    
+    
+    let frameForButton = CGRect.init(x: 78.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: changeProfileImageButton.frame.origin.y + changeProfileImageButton.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: 116.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: ((13.0 + 4.0) * UtilityManager.sharedInstance.conversionHeight))
+    deleteProfileImageButton = UIButton.init(frame: frameForButton)
+    deleteProfileImageButton.addTarget(self,
+                                       action: #selector(deleteProfileImage),
+                                       forControlEvents: .TouchUpInside)
+    deleteProfileImageButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+    
+    self.mainScrollView.addSubview(deleteProfileImageButton)
+    
+  }
+  
+  private func createAgencyNameView() {
+    
+    let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                             y: 55.0 * UtilityManager.sharedInstance.conversionHeight,
+                                         width: self.frame.size.width,
+                                        height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    agencyNameView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: nil, image: nil)
+    agencyNameView.mainTextField.placeholder = "Nombre de la agencia"
+    agencyNameView.backgroundColor = UIColor.clearColor()
+    self.mainScrollView.addSubview(agencyNameView)
+    
+  }
+  
+  private func createAgencyPhoneView() {
+    
+    let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                             y: agencyNameView.frame.origin.y + agencyNameView.frame.size.height,
+                                             width: self.frame.size.width,
+                                             height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    agencyPhoneView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
+                                                        title: AgencyProfileEditConstants.ProfileView.agencyPhoneTitleText,
+                                                        image: "skill")
+    agencyPhoneView.mainTextField.placeholder = "00 00000000"
+    agencyPhoneView.backgroundColor = UIColor.clearColor()
+    self.mainScrollView.addSubview(agencyPhoneView)
+    
+  }
+  
+  private func createAgencyContactView() {
+    
+    let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: agencyPhoneView.frame.origin.y + agencyPhoneView.frame.size.height,
+                                         width: self.frame.size.width,
+                                         height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    agencyContactView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
+                                                        title: AgencyProfileEditConstants.ProfileView.agencyContactTitleText,
+                                                        image: nil)
+    agencyContactView.mainTextField.placeholder = "Nombre de contacto"
+    agencyContactView.backgroundColor = UIColor.clearColor()
+    self.mainScrollView.addSubview(agencyContactView)
+    
+  }
+  
+  private func createAgencyEMailView() {
+  
+    let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: agencyContactView.frame.origin.y + agencyContactView.frame.size.height,
+                                         width: self.frame.size.width,
+                                         height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    agencyEMailView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
+                                                          title: nil,
+                                                          image: "skill")
+    agencyEMailView.mainTextField.placeholder = "Email de contacto"
+    agencyEMailView.backgroundColor = UIColor.clearColor()
+    self.mainScrollView.addSubview(agencyEMailView)
+    
+  }
+  
+  private func createAgencyAddressView() {
+    
+    let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: agencyEMailView.frame.origin.y + agencyEMailView.frame.size.height,
+                                         width: self.frame.size.width,
+                                         height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    agencyAddressView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
+                                                        title: AgencyProfileEditConstants.ProfileView.agencyAddressTitleText,
+                                                        image: "skill")
+    agencyAddressView.mainTextField.placeholder = "Dirección de contacto"
+    agencyAddressView.backgroundColor = UIColor.clearColor()
+    self.mainScrollView.addSubview(agencyAddressView)
+    
+  }
+  
+  private func createAgencyWebsiteView() {
+    
+    let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: agencyAddressView.frame.origin.y + agencyAddressView.frame.size.height,
+                                         width: self.frame.size.width,
+                                         height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    agencyWebsiteView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
+                                                          title: AgencyProfileEditConstants.ProfileView.agencyWebSiteTitleText,
+                                                          image: "skill")
+    agencyWebsiteView.mainTextField.placeholder = "Website de contacto"
+    agencyWebsiteView.backgroundColor = UIColor.clearColor()
+    self.mainScrollView.addSubview(agencyWebsiteView)
+    
+  }
+  
+  private func createNumberOfEmployeView() {
+    
+    let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: agencyWebsiteView.frame.origin.y + agencyWebsiteView.frame.size.height,
+                                         width: self.frame.size.width,
+                                         height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    agencyNumberOfEmploye = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
+                                                          title: AgencyProfileEditConstants.ProfileView.agencyNumberOfEmployeTitleText,
+                                                          image: "skill")
+    agencyNumberOfEmploye.mainTextField.placeholder = "888"
+    agencyNumberOfEmploye.backgroundColor = UIColor.clearColor()
+    self.mainScrollView.addSubview(agencyNumberOfEmploye)
+    
+  }
+  
+  
+  
+  
+  @objc private func selectImageFromLibrary() {
+    
+    delegate?.selectProfileImageFromLibrary()
+    
+  }
+  
+  @objc private func deleteProfileImage() {
+    
+    profileImageView.image = nil
+    
+  }
+  
+  func changeProfileImageView(image: UIImage) {
+    
+    profileImageView.image = image
+    
+  }
+  
+  
+}

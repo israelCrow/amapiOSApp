@@ -25,11 +25,12 @@ class SplashViewController: UIViewController {
   }
   
   private func showLogin() {
-    let loginViewController = LoginViewController()
-    self.navigationController?.pushViewController(loginViewController, animated: true)
+//    let loginViewController = LoginViewController()
+//    self.navigationController?.pushViewController(loginViewController, animated: true)
     
-//    let tutorialViewController = TutorialViewController()
-//    self.navigationController?.pushViewController(tutorialViewController, animated: true)
+    let stuffAgency = EditAgencyProfileViewController()
+    self.navigationController?.pushViewController(stuffAgency, animated: true)
+    
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
