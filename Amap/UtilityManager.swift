@@ -13,6 +13,8 @@ class UtilityManager: NSObject {
   static let sharedInstance = UtilityManager()
   
   
+  let apiToken = "Token 40e97aa81c2be2de4b99f1c243bec9c4"
+  
   static let baseScreen = CGSize.init(width: 375.0, height: 667.0)
   static let screenSize = CGSize.init(width: UIScreen.mainScreen().bounds.size.width, height: UIScreen.mainScreen().bounds.size.height)
   static let frameOfConversion = CGSize.init(width: screenSize.height/baseScreen.height, height: screenSize.width/baseScreen.width)
@@ -61,6 +63,72 @@ class UtilityManager: NSObject {
       return true
       
     }else{
+      
+      return false
+      
+    }
+    
+  }
+  
+  func validateIfLinkIsYoutube(url: String?) -> Bool {
+    
+    if url != nil {
+
+      let path = NSURL.fileURLWithPath(url!)
+      if path.pathComponents?.count >= 3 {
+        
+        let host = path.pathComponents![2]
+      
+        if host == "m.youtube.com" || host == "youtube" || host == "youtu.be" || host == "youtube.com" || host == "www.youtube.com" {
+          
+          return true
+          
+        } else {
+          
+          return false
+          
+        }
+        
+      }else{
+        
+        return false
+        
+      }
+      
+    } else {
+      
+      return false
+      
+    }
+    
+  }
+  
+  func validateIfLinkIsVimeo(url: String?) -> Bool {
+    
+    if url != nil {
+      
+      let path = NSURL.fileURLWithPath(url!)
+      if path.pathComponents?.count >= 3 {
+        
+        let host = path.pathComponents![2]
+        
+        if host == "vimeo" || host == "vimeo.com" || host == "www.vimeo.com" {
+          
+          return true
+          
+        } else {
+          
+          return false
+          
+        }
+        
+      }else{
+        
+        return false
+        
+      }
+      
+    } else {
       
       return false
       

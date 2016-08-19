@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041DA48A1D66213400BAE262 /* ExtensionUIIMageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041DA4891D66213400BAE262 /* ExtensionUIIMageView.swift */; };
+		041DA48C1D6636A400BAE262 /* CaseCardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041DA48B1D6636A400BAE262 /* CaseCardInfo.swift */; };
+		041DA4901D6653E200BAE262 /* VideoPlayerVimeoYoutubeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041DA48F1D6653E200BAE262 /* VideoPlayerVimeoYoutubeView.swift */; };
 		044F89D61D6377E800AA7FF3 /* CustomSkillTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F89D51D6377E800AA7FF3 /* CustomSkillTableViewCell.swift */; };
 		044F89D91D6383D200AA7FF3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F89D81D6383D200AA7FF3 /* ProfileView.swift */; };
 		044F89DB1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F89DA1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift */; };
+		045F5C281D650CE100F0C077 /* CasesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045F5C271D650CE100F0C077 /* CasesView.swift */; };
 		0462295C1D620DC70087E572 /* BasicCustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462295B1D620DC70087E572 /* BasicCustomTextField.swift */; };
 		0462295E1D626F640087E572 /* SkillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462295D1D626F640087E572 /* SkillsView.swift */; };
 		046229641D62746D0087E572 /* ExtensionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046229631D62746D0087E572 /* ExtensionView.swift */; };
@@ -23,6 +27,7 @@
 		04AB39321D5D06EC009B1D5C /* EditAgencyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AB39311D5D06EC009B1D5C /* EditAgencyProfileViewController.swift */; };
 		04AB393A1D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AB39391D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift */; };
 		04AB393E1D5D1808009B1D5C /* AgencyProfileEditConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AB393D1D5D1808009B1D5C /* AgencyProfileEditConstants.swift */; };
+		04D458A71D6607440036FFFF /* CreateCaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D458A61D6607440036FFFF /* CreateCaseView.swift */; };
 		AA0949631D528A01000E76E1 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0949621D528A01000E76E1 /* CreateAccountViewController.swift */; };
 		AA0949681D52955E000E76E1 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0949671D52955E000E76E1 /* CreateAccountView.swift */; };
 		AA09496A1D529A59000E76E1 /* CreateAccountConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0949691D529A59000E76E1 /* CreateAccountConstants.swift */; };
@@ -140,9 +145,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		041DA4891D66213400BAE262 /* ExtensionUIIMageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionUIIMageView.swift; sourceTree = "<group>"; };
+		041DA48B1D6636A400BAE262 /* CaseCardInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaseCardInfo.swift; sourceTree = "<group>"; };
+		041DA48F1D6653E200BAE262 /* VideoPlayerVimeoYoutubeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerVimeoYoutubeView.swift; sourceTree = "<group>"; };
 		044F89D51D6377E800AA7FF3 /* CustomSkillTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSkillTableViewCell.swift; sourceTree = "<group>"; };
 		044F89D81D6383D200AA7FF3 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		044F89DA1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextFieldWithTitleView.swift; sourceTree = "<group>"; };
+		045F5C271D650CE100F0C077 /* CasesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CasesView.swift; sourceTree = "<group>"; };
 		0462295B1D620DC70087E572 /* BasicCustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCustomTextField.swift; sourceTree = "<group>"; };
 		0462295D1D626F640087E572 /* SkillsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillsView.swift; sourceTree = "<group>"; };
 		046229631D62746D0087E572 /* ExtensionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionView.swift; sourceTree = "<group>"; };
@@ -156,6 +165,8 @@
 		04AB39311D5D06EC009B1D5C /* EditAgencyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditAgencyProfileViewController.swift; sourceTree = "<group>"; };
 		04AB39391D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriteriaAgencyProfileEditView.swift; sourceTree = "<group>"; };
 		04AB393D1D5D1808009B1D5C /* AgencyProfileEditConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyProfileEditConstants.swift; sourceTree = "<group>"; };
+		04D458A61D6607440036FFFF /* CreateCaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCaseView.swift; sourceTree = "<group>"; };
+		04D458AB1D66106F0036FFFF /* Amap-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Amap-Bridging-Header.h"; sourceTree = "<group>"; };
 		730B22C94A0E292BE5556150 /* Pods_Amap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Amap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9069B28B896861F13A6FF564 /* Pods-Amap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Amap/Pods-Amap.debug.xcconfig"; sourceTree = "<group>"; };
 		AA0949621D528A01000E76E1 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
@@ -241,6 +252,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		041DA4911D66746E00BAE262 /* ParticipateIn */ = {
+			isa = PBXGroup;
+			children = (
+				047818AA1D5E557300BB498C /* ParticipateInView.swift */,
+			);
+			name = ParticipateIn;
+			sourceTree = "<group>";
+		};
+		041DA4921D66747B00BAE262 /* Exclusive */ = {
+			isa = PBXGroup;
+			children = (
+				047818AD1D5E883100BB498C /* ExclusiveView.swift */,
+			);
+			name = Exclusive;
+			sourceTree = "<group>";
+		};
 		044F89D11D6370D600AA7FF3 /* Skills */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +296,17 @@
 				044F89D81D6383D200AA7FF3 /* ProfileView.swift */,
 			);
 			name = Profile;
+			sourceTree = "<group>";
+		};
+		045F5C261D650C8800F0C077 /* Cases */ = {
+			isa = PBXGroup;
+			children = (
+				045F5C271D650CE100F0C077 /* CasesView.swift */,
+				04D458A61D6607440036FFFF /* CreateCaseView.swift */,
+				041DA48B1D6636A400BAE262 /* CaseCardInfo.swift */,
+				041DA48F1D6653E200BAE262 /* VideoPlayerVimeoYoutubeView.swift */,
+			);
+			name = Cases;
 			sourceTree = "<group>";
 		};
 		04AB392F1D5D0539009B1D5C /* Login/Account/Password */ = {
@@ -310,9 +348,10 @@
 		04AB39371D5D0F41009B1D5C /* Edit */ = {
 			isa = PBXGroup;
 			children = (
-				047818AA1D5E557300BB498C /* ParticipateInView.swift */,
-				047818AD1D5E883100BB498C /* ExclusiveView.swift */,
 				044F89D21D6370FD00AA7FF3 /* Criteria */,
+				041DA4911D66746E00BAE262 /* ParticipateIn */,
+				041DA4921D66747B00BAE262 /* Exclusive */,
+				045F5C261D650C8800F0C077 /* Cases */,
 				044F89D11D6370D600AA7FF3 /* Skills */,
 				044F89D71D63837300AA7FF3 /* Profile */,
 				0462295B1D620DC70087E572 /* BasicCustomTextField.swift */,
@@ -447,6 +486,7 @@
 				AA92D6411D50F05300CE7D95 /* GradientView.swift */,
 				AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */,
 				046229631D62746D0087E572 /* ExtensionView.swift */,
+				041DA4891D66213400BAE262 /* ExtensionUIIMageView.swift */,
 				044F89DA1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift */,
 			);
 			name = Views;
@@ -463,6 +503,7 @@
 		AAB61E901D52582200407FFD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				04D458AB1D66106F0036FFFF /* Amap-Bridging-Header.h */,
 				AAB61E951D52589600407FFD /* Fonts */,
 			);
 			name = Resources;
@@ -779,13 +820,17 @@
 				AA92D6401D50EF7400CE7D95 /* LoginViewController.swift in Sources */,
 				047818A91D5E2E6700BB498C /* CustomSwitchView.swift in Sources */,
 				044F89D91D6383D200AA7FF3 /* ProfileView.swift in Sources */,
+				045F5C281D650CE100F0C077 /* CasesView.swift in Sources */,
 				046229661D6275E50087E572 /* CollapsibleTableViewHeader.swift in Sources */,
 				044F89DB1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift in Sources */,
 				AA2DB8581D53B97D00E9FB8A /* ChangePasswordRequestView.swift in Sources */,
+				041DA48A1D66213400BAE262 /* ExtensionUIIMageView.swift in Sources */,
 				04AB39321D5D06EC009B1D5C /* EditAgencyProfileViewController.swift in Sources */,
+				04D458A71D6607440036FFFF /* CreateCaseView.swift in Sources */,
 				AA92D63C1D50EE0F00CE7D95 /* SplashViewController.swift in Sources */,
 				0462296A1D6285090087E572 /* Section.swift in Sources */,
 				04AB393E1D5D1808009B1D5C /* AgencyProfileEditConstants.swift in Sources */,
+				041DA48C1D6636A400BAE262 /* CaseCardInfo.swift in Sources */,
 				AA681E381D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift in Sources */,
 				AA2DB85A1D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift in Sources */,
 				046229641D62746D0087E572 /* ExtensionView.swift in Sources */,
@@ -801,6 +846,7 @@
 				AA40C9D91D51051F00FF2B4D /* FlipCardView.swift in Sources */,
 				04AB393A1D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift in Sources */,
 				AAA837DB1D590DBD00A47376 /* BlankViewController.swift in Sources */,
+				041DA4901D6653E200BAE262 /* VideoPlayerVimeoYoutubeView.swift in Sources */,
 				047818AE1D5E883100BB498C /* ExclusiveView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -946,12 +992,15 @@
 			baseConfigurationReference = 9069B28B896861F13A6FF564 /* Pods-Amap.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Amap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pequenocuervo.Amap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Amap/Amap-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -961,12 +1010,14 @@
 			baseConfigurationReference = D32EBDE6D734E5F3142D1570 /* Pods-Amap.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Amap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pequenocuervo.Amap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Amap/Amap-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

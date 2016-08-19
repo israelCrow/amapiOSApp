@@ -7,22 +7,31 @@
 //
 
 import UIKit
+import Alamofire
 
-class EditAgencyProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ProfileViewDelegate {
+class EditAgencyProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CasesViewDelegate, CreateCaseViewDelegate, ProfileViewDelegate {
     
   private let kEditAgencyProfile = "Editar Perfil Agencia"
-  private let kNumberOfCardsInScrollViewMinusOne = 4
+  private let kNumberOfCardsInScrollViewMinusOne = 5
   
   private var flipCard: FlipCardView! = nil
   private var scrollViewFrontFlipCard: UIScrollView! = nil
   private var criteriaAgencyProfileEdit: CriteriaAgencyProfileEditView! = nil
   private var actualPage: Int! = 0
+  private var saveChangesButton: UIButton! = nil
+  private var leftButton: UIButton! = nil
+  private var rightButton: UIButton! = nil
   private var lastFrameForFlipCard: CGRect! = nil
   private var isKeyboardAlreadyShown = false
+  
+  private var requestImageForCase: Bool = false
+  private var requestImageForProfile: Bool = false
   
 //  private var criteriaView: CriterionView! = nil
 //  private var participateView: ParticipateInView! = nil
 //  private var exclusiveView: ExclusiveView! = nil
+  private var createCaseView: CreateCaseView?
+  private var casesView: CasesView! = nil
 //  private var skillsView: SkillsView! = nil
   private var profileView: ProfileView! = nil
 
@@ -156,12 +165,18 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       width: frameForCards.size.width,
       height: frameForCards.size.height))
     
-    let skillsView = SkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 3.0,
+    casesView = CasesView.init(frame: CGRect.init(x: frameForCards.size.width * 3.0,
+      y: 0.0,
+      width:frameForCards.size.width,
+      height:frameForCards.size.height))
+    casesView.delegate = self
+    
+    let skillsView = SkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 4.0,
       y: 0.0,
       width: frameForCards.size.width,
       height: frameForCards.size.height))
     
-    profileView = ProfileView.init(frame: CGRect.init(x: frameForCards.size.width * 4.0,
+    profileView = ProfileView.init(frame: CGRect.init(x: frameForCards.size.width * 5.0,
       y: 0.0,
       width: frameForCards.size.width,
       height: frameForCards.size.height))
@@ -170,12 +185,16 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     scrollViewFrontFlipCard.addSubview(editCriteria)
     scrollViewFrontFlipCard.addSubview(participateView)
     scrollViewFrontFlipCard.addSubview(exclusiveView)
+    scrollViewFrontFlipCard.addSubview(casesView)
     scrollViewFrontFlipCard.addSubview(skillsView)
     scrollViewFrontFlipCard.addSubview(profileView)
 
   }
   
   private func createButtonsForFlipCard() {
+    leftButton = nil
+    rightButton = nil
+    
     
     let sizeForButtons = CGSize.init(width: 7.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 18.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -193,8 +212,8 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     let leftButtonImage = UIImage(named: "next") as UIImage?
     let rightButtonImage = UIImage(named: "prev") as UIImage?
     
-    let leftButton = UIButton.init(frame: frameForLeftButton)
-    let rightButton = UIButton.init(frame: frameForRightButton)
+    leftButton = UIButton.init(frame: frameForLeftButton)
+    rightButton = UIButton.init(frame: frameForRightButton)
     
     leftButton.setImage(leftButtonImage, forState: .Normal)
     rightButton.setImage(rightButtonImage, forState: .Normal)
@@ -206,6 +225,45 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     flipCard.addSubview(rightButton)
     
   }
+  
+  private func createSaveCaseButton() {
+    
+    let font = UIFont(name: "SFUIDisplay-Light",
+                      size: 22.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.whiteColor()
+    let colorWhenPressed = UIColor.greenColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: AgencyProfileEditConstants.EditAgencyProfileViewController.saveChangesButtonText,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    
+    let stringWithFormatWhenpressed = NSMutableAttributedString(
+      string: AgencyProfileEditConstants.EditAgencyProfileViewController.saveChangesButtonText,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: colorWhenPressed
+      ]
+    )
+    
+    let frameForButton = CGRect.init(x: 0.0, y: self.flipCard.frame.size.height - (70.0 * UtilityManager.sharedInstance.conversionHeight), width: self.flipCard.frame.size.height, height: (70.0 * UtilityManager.sharedInstance.conversionHeight))
+    saveChangesButton = UIButton.init(frame: frameForButton)
+    saveChangesButton.addTarget(self,
+                             action: #selector(requestToEveryScreenToSave),
+                             forControlEvents: .TouchUpInside)
+    saveChangesButton.backgroundColor = UIColor.blackColor()
+    saveChangesButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+    saveChangesButton.setAttributedTitle(stringWithFormatWhenpressed, forState: .Highlighted)
+    
+    self.flipCard.addSubview(saveChangesButton)
+    
+  }
+
   
   @objc private func moveScrollViewToLeft() {
     
@@ -294,24 +352,229 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     }
   }
   
-  //MARK: - ProfileViewDelegate
+  //MARK: - CasesViewDelegate
   
-  func selectProfileImageFromLibrary() {
+  func flipCardAndShowCreateNewCase() {
+    
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (136.0 * UtilityManager.sharedInstance.conversionHeight)
+    let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
+    
+    createCaseView = CreateCaseView.init(frame: frameForViewsOfCard)
+    createCaseView!.delegate = self
+    createCaseView!.hidden = true
+    flipCard.setSecondView(createCaseView!)
+    flipCard.flip()
+    
+  }
+  
+  //MARK: - CreateCaseViewDelegate
+  
+  func createCaseRequest(parameters: [String : AnyObject]) {
+    
+    var newParameters = parameters
+    
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/success_cases"
+    
+    let headers = [
+      "Content-Type" : "application/json",
+      "Authorization": UtilityManager.sharedInstance.apiToken
+    ]
+    
+    let keyauth_token = "auth_token"
+    let auth_token = newParameters[keyauth_token]
+    
+    let keyfilename = "filename"
+    let filename = newParameters[keyfilename]
+    
+    var params = newParameters["success_case"] as! [String:AnyObject]
+ 
+    let imageData = params["case_image"]
+    params.removeValueForKey("case_image")
+    
+    let keyAgency_id = "agency_id"
+    let agency_id = params[keyAgency_id] as! Int
+    let agency_id_string = String(agency_id)
+    params.removeValueForKey(keyAgency_id)
+    
+//    var caseName = newParamters["name"]
+//    var caseDescription = newParamters["description"]
+//    var caseURL = newParamters["url"]
+//    var caseAgencyID = newParamters["agency_id"]
+    
+    let caseName = params["name"]
+    let caseDescription = params["description"]
+    let caseURL = params["url"]
+    
+    
+    
+    Alamofire.upload(.POST, urlToRequest, headers: headers, multipartFormData:{
+      multipartFormData in
+     
+      if imageData != nil {
+        multipartFormData.appendBodyPart(data: imageData as! NSData,
+              name: "case_image",
+          fileName: "AgencyExample.png",
+          mimeType: "image/png")
+      }
+      
+      multipartFormData.appendBodyPart(data: auth_token!.dataUsingEncoding(NSUTF8StringEncoding)!, name: keyauth_token)
+      
+      multipartFormData.appendBodyPart(data: filename!.dataUsingEncoding(NSUTF8StringEncoding)!, name: keyfilename)
+      
+      multipartFormData.appendBodyPart(data: caseName!.dataUsingEncoding(NSUTF8StringEncoding)!,
+      name: "success_case[name]")
+      
+      multipartFormData.appendBodyPart(data: caseDescription!.dataUsingEncoding(NSUTF8StringEncoding)!,
+      name: "success_case[description]")
+      
+      multipartFormData.appendBodyPart(data: caseURL!.dataUsingEncoding(NSUTF8StringEncoding)!,
+      name: "success_case[url]")
+      
+      multipartFormData.appendBodyPart(data: agency_id_string.dataUsingEncoding(NSUTF8StringEncoding)!,
+      name: "success_case[agency_id]")
+      
+      }, encodingCompletion:{ encodingResult in
+    
+        self.flipCard.flip()
+        self.createButtonsForFlipCard()
+        
+        switch encodingResult {
+        case .Success(let upload, _, _):
+          print("SUCCESSFUL")
+          upload.responseJSON { response in
+            print(response.request)  // original URL request
+            print(response.response) // URL response
+            print(response.data)     // server data
+            print(response.result)   // result of response serialization
+            
+            if let JSON = response.result.value {
+              print("JSON: \(JSON)")
+            }
+          }
+        
+        case .Failure(let error):
+          print(error)
+        
+        }
+      }
+    )
+  }
+  
+  func cancelCreateCase() {
+    flipCard.flip()
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (136.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
+    
+    //createTheBackCard
+    let blankView = UIView.init(frame:frameForViewsOfCard)
+    blankView.hidden = true
+    flipCard.setSecondView(blankView)
+    self.createButtonsForFlipCard()
+  }
+  
+  func selectImageCaseFromLibrary() {
+    
     if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
       let imagePicker = UIImagePickerController()
       imagePicker.delegate = self
       imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
       imagePicker.allowsEditing = true
+      
+      requestImageForCase = true
+      
+      self.presentViewController(imagePicker, animated: true, completion: nil)
+    }
+  }
+  
+  //MARK: - ProfileViewDelegate
+  
+  func selectProfileImageFromLibrary() {
+    
+    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+      let imagePicker = UIImagePickerController()
+      imagePicker.delegate = self
+      imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
+      imagePicker.allowsEditing = true
+      
+      requestImageForProfile = true
+      
       self.presentViewController(imagePicker, animated: true, completion: nil)
     }
   }
   
   func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
     
-    self.profileView.changeProfileImageView(image)
+    if requestImageForProfile == true {
+      
+      self.profileView.changeProfileImageView(image)
+      requestImageForProfile = false
+
+    }else
+      if requestImageForCase == true {
+        
+        self.createCaseView?.changeCaseImageView(image)
+        requestImageForCase = false
+        
+    }
+
     self.dismissViewControllerAnimated(true, completion: nil);
     
   }
   
+  @objc private func requestToEveryScreenToSave() {
+    //this for every screen
+    self.profileView.saveChangesOfAgencyProfile()
+    
+  }
+  
+  func saveChangesFromEditProfile(parameters: [String:AnyObject]) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/agencies/update"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(parameters, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      //      .response{
+      //        (request, response, data, error) -> Void in
+      //        print(response)
+      ////          let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: [])
+      ////            print (json)
+      ////          }
+      
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          
+//          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+//          let info = json["user"] as? [String: AnyObject]  //Ejemplo
+
+        } else
+          
+          if response.response?.statusCode == 422 {
+
+          } else
+            if response.response?.statusCode == 500 { //error de servidor
+              
+          }
+        
+        
+        
+        //        let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+        //        print (json)
+        //
+        //        print("\(response.response) \n\n\(response.response?.statusCode)")
+    }
+  }
+
   
 }

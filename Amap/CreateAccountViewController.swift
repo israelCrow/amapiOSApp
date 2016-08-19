@@ -230,7 +230,7 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
         let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest2)!)
         requestConnection.HTTPMethod = "POST"
         requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        requestConnection.setValue("Token 40e97aa81c2be2de4b99f1c243bec9c4", forHTTPHeaderField: "Authorization")
+        requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
       
       
       //if agency = 2

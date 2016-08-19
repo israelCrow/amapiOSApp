@@ -12,7 +12,7 @@ class FlipCardView: UIView{
   
   private var viewOne: UIView
   private var viewTwo: UIView
-  private var showingBack = false
+  private var isShowingBack = false
   
 //  var bottomButtonFirstView: UIButton = {
 //    let button = UIButton.init(frame: CGRect.init(x: 0.0, y: 0.0, width: 10.0, height: 10.0))
@@ -65,16 +65,31 @@ class FlipCardView: UIView{
   }
   
   @objc func flip() {
-    self.viewTwo.hidden = false
-    self.viewOne.hidden = true
-    UIView.transitionFromView(self.viewOne,
-                              toView: self.viewTwo,
-                            duration: 0.5,
-                             options: .TransitionFlipFromLeft) { (finished) in
-                                if finished {
-                                  self.showingBack = true
+    if isShowingBack != true {
+      self.viewTwo.hidden = false
+      self.viewOne.hidden = true
+      UIView.transitionFromView(self.viewOne,
+                                toView: self.viewTwo,
+                              duration: 0.5,
+                               options: .TransitionFlipFromLeft) { (finished) in
+                                  if finished {
+                                    self.isShowingBack = true
+                                  }
                                 }
-                              }
+    }else{
+      self.viewTwo.hidden = true
+      self.viewOne.hidden = false
+      UIView.transitionFromView(self.viewTwo,
+                                toView: self.viewOne,
+                                duration: 0.5,
+                                options: .TransitionFlipFromLeft) { (finished) in
+                                  if finished {
+                                    self.isShowingBack = false
+                                  }
+      }
+      
+      
+    }
   }
   
   func setSecondView(newSecondView: UIView) {

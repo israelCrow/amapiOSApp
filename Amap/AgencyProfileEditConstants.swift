@@ -8,6 +8,12 @@
 
 class AgencyProfileEditConstants {
   
+  enum EditAgencyProfileViewController {
+    
+    static let saveChangesButtonText = "guardar cambios"
+    
+  }
+  
   enum CriteriaView {
     
     static let criteriaLabelText = "Criterios"
@@ -53,9 +59,19 @@ class AgencyProfileEditConstants {
     static let agencyWebSiteTitleText = "Escribe tu website"
     static let agencyNumberOfEmployeTitleText = "Número de empleados"
     
+  }
+  
+  enum CasesView {
     
+    static let casesLabelText = "Casos"
+    static let createNewCaseButtonText = "+"
     
+  }
+  
+  enum CreateCaseView {
     
+    static let caseAddImageLabelText = "Agrega una imagen para el caso"
+    static let caseWebLinkLabelText = "Agrega un link del caso"
     
   }
   
