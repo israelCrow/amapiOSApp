@@ -45,6 +45,8 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
   override init(frame: CGRect) {
     
     super.init(frame: frame)
+    
+    self.addSomeGestures()
     self.initInterface()
     
   }
@@ -55,8 +57,19 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     
     super.init(frame: frame)
   
+    self.addSomeGestures()
     self.initInterfaceForPreview()
   
+  }
+  
+  private func addSomeGestures() {
+    
+    let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                              action: #selector(dismissKeyboard))
+    tapToDismissKeyboard.numberOfTapsRequired = 1
+    self.userInteractionEnabled = true
+    self.addGestureRecognizer(tapToDismissKeyboard)
+    
   }
   
   private func initInterface() {
@@ -692,6 +705,11 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
       
     }
   }
+  
+  @objc func dismissKeyboard(sender:AnyObject) {
+    self.endEditing(true)
+  }
+  
   
   //MARK: - VideoPlayerVimeoYoutubeDelegate
   

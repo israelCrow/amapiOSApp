@@ -642,6 +642,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       
       self.profileView.changeProfileImageView(image)
       requestImageForProfile = false
+      self.goToLastPage()
 
     }else
       if requestImageForCase == true {
@@ -651,7 +652,18 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         
     }
 
+    
     self.dismissViewControllerAnimated(true, completion: nil);
+    
+  }
+  
+  private func goToLastPage() {
+    
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    
+    let pointToMove = CGPoint.init(x: widthOfCard * CGFloat(kNumberOfCardsInScrollViewMinusOne), y: 0.0)
+    
+    scrollViewFrontFlipCard.setContentOffset(pointToMove, animated: false)
     
   }
   
