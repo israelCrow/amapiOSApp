@@ -54,6 +54,7 @@ class AgencyProfileEditConstants {
     static let changeProfilePictureButtonText = "Cambiar Foto de Perfil"
     static let deleteProfilePictureButtonText = "Borrar Foto de Perfil"
     static let agencyPhoneTitleText = "Escribe tu teléfono con LADA"
+    static let agencyMailContactTitleText = "Escribe tu mail y nombre de contacto"
     static let agencyContactTitleText = "Escribe un nombre de contacto"
     static let agencyAddressTitleText = "Escribe la dirección de la agencia"
     static let agencyWebSiteTitleText = "Escribe tu website"
@@ -64,7 +65,7 @@ class AgencyProfileEditConstants {
   enum CasesView {
     
     static let casesLabelText = "Casos"
-    static let createNewCaseButtonText = "+"
+    static let createNewCaseButtonText = "Agregar caso"
     
   }
   

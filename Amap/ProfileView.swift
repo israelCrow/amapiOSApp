@@ -11,6 +11,7 @@ import GooglePlaces
 
 protocol ProfileViewDelegate {
   func selectProfileImageFromLibrary()
+  func saveChangesFromEditProfileView(parameters: [String:AnyObject])
 }
 
 class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
@@ -45,7 +46,17 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
   override init(frame: CGRect) {
     
     super.init(frame: frame)
+    self.addSomeGestures()
     self.initInterface()
+    
+  }
+  
+  private func addSomeGestures() {
+    
+    let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                              action: #selector(dismissKeyboard))
+    tapToDismissKeyboard.numberOfTapsRequired = 1
+    self.addGestureRecognizer(tapToDismissKeyboard)
     
   }
   
@@ -77,7 +88,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                              width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                              height: 374.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
     let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
-                                               height: frameForMainScrollView.size.height + (150.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
+                                               height: frameForMainScrollView.size.height + (230.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.clearColor()
@@ -192,7 +203,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     
     
     let frameForButton = CGRect.init(x: 78.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: changeProfileImageButton.frame.origin.y + changeProfileImageButton.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     y: changeProfileImageButton.frame.origin.y + changeProfileImageButton.frame.size.height + (16.0 * UtilityManager.sharedInstance.conversionHeight),
                                      width: 116.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: ((13.0 + 4.0) * UtilityManager.sharedInstance.conversionHeight))
     deleteProfileImageButton = UIButton.init(frame: frameForButton)
@@ -210,7 +221,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
                                              y: 55.0 * UtilityManager.sharedInstance.conversionHeight,
                                          width: self.frame.size.width,
-                                        height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
+                                        height: 64.0 * UtilityManager.sharedInstance.conversionHeight)
     
     agencyNameView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: nil, image: nil)
     agencyNameView.mainTextField.placeholder = "Nombre de la agencia"
@@ -223,13 +234,13 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
   private func createAgencyPhoneView() {
     
     let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
-                                             y: agencyNameView.frame.origin.y + agencyNameView.frame.size.height,
+                                             y: agencyNameView.frame.origin.y + agencyNameView.frame.size.height + (16.0 * UtilityManager.sharedInstance.conversionHeight),
                                              width: self.frame.size.width,
-                                             height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+                                             height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
     
     agencyPhoneView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                         title: AgencyProfileEditConstants.ProfileView.agencyPhoneTitleText,
-                                                        image: "skill")
+                                                        image: "iconPhone")
     agencyPhoneView.mainTextField.placeholder = "00 00000000"
     agencyPhoneView.backgroundColor = UIColor.clearColor()
     agencyPhoneView.mainTextField.delegate = self
@@ -240,9 +251,9 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
   private func createAgencyContactView() {
     
     let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: agencyPhoneView.frame.origin.y + agencyPhoneView.frame.size.height,
+                                         y: agencyPhoneView.frame.origin.y + agencyPhoneView.frame.size.height + (16.0 * UtilityManager.sharedInstance.conversionHeight),
                                          width: self.frame.size.width,
-                                         height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+                                         height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
     
     agencyContactView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                         title: AgencyProfileEditConstants.ProfileView.agencyContactTitleText,
@@ -257,13 +268,13 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
   private func createAgencyEMailView() {
   
     let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: agencyPhoneView.frame.origin.y + agencyPhoneView.frame.size.height,
+                                         y: agencyPhoneView.frame.origin.y + agencyPhoneView.frame.size.height + (16.0 * UtilityManager.sharedInstance.conversionHeight),
                                          width: self.frame.size.width,
-                                         height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
+                                         height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
     
     agencyEMailView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
-                                                          title: nil,
-                                                          image: "skill")
+                                                          title: AgencyProfileEditConstants.ProfileView.agencyMailContactTitleText,
+                                                          image: "iconMail")
     agencyEMailView.mainTextField.placeholder = "Email de contacto"
     agencyEMailView.backgroundColor = UIColor.clearColor()
     agencyEMailView.mainTextField.delegate = self
@@ -274,13 +285,13 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
   private func createAgencyAddressView() {
     
     let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: agencyEMailView.frame.origin.y + agencyEMailView.frame.size.height,
+                                         y: agencyEMailView.frame.origin.y + agencyEMailView.frame.size.height + (16.0 * UtilityManager.sharedInstance.conversionHeight),
                                          width: self.frame.size.width,
-                                         height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+                                         height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
     
     agencyAddressView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                         title: AgencyProfileEditConstants.ProfileView.agencyAddressTitleText,
-                                                        image: "skill")
+                                                        image: "iconLocation")
     agencyAddressView.mainTextField.placeholder = "Dirección de contacto"
     agencyAddressView.mainTextField.tag = 9
     agencyAddressView.backgroundColor = UIColor.clearColor()
@@ -292,13 +303,13 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
   private func createAgencyWebsiteView() {
     
     let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: agencyAddressView.frame.origin.y + agencyAddressView.frame.size.height,
+                                         y: agencyAddressView.frame.origin.y + agencyAddressView.frame.size.height + (16.0 * UtilityManager.sharedInstance.conversionHeight),
                                          width: self.frame.size.width,
-                                         height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+                                         height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
     
     agencyWebsiteView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                           title: AgencyProfileEditConstants.ProfileView.agencyWebSiteTitleText,
-                                                          image: "skill")
+                                                          image: "iconWebsite")
     agencyWebsiteView.mainTextField.placeholder = "Website de contacto"
     agencyWebsiteView.backgroundColor = UIColor.clearColor()
     agencyWebsiteView.mainTextField.delegate = self
@@ -309,13 +320,13 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
   private func createNumberOfEmployeView() {
     
     let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: agencyWebsiteView.frame.origin.y + agencyWebsiteView.frame.size.height,
+                                         y: agencyWebsiteView.frame.origin.y + agencyWebsiteView.frame.size.height + (16.0 * UtilityManager.sharedInstance.conversionHeight),
                                          width: self.frame.size.width,
-                                         height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+                                         height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
     
     agencyNumberOfEmployees = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                           title: AgencyProfileEditConstants.ProfileView.agencyNumberOfEmployeTitleText,
-                                                          image: "skill")
+                                                          image: "group")
     agencyNumberOfEmployees.mainTextField.placeholder = "888"
     agencyNumberOfEmployees.backgroundColor = UIColor.clearColor()
     agencyNumberOfEmployees.mainTextField.delegate = self
@@ -437,6 +448,10 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     
   }
   
+  @objc func dismissKeyboard(sender:AnyObject) {
+    self.endEditing(true)
+  }
+  
   func didFailAutocompleteWithError(error: NSError) {
     
     resultText?.text = "No hay conexión con el servidor"
@@ -471,47 +486,118 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
   
   func saveChangesOfAgencyProfile() {
     
-    var parameters = [String:AnyObject]()
+    var parameters: [String:AnyObject]
     
     if agencyLongitude != nil && agencyLatitude != nil {
     
-    let parameters = [
-        "id" : 181,
-        "auth_token": "5uKB2vzUY1vApmkQ9Vg_",
-        "agency": [
-          "name" : agencyNameView.mainTextField.text!,
-          "phone": agencyPhoneView.mainTextField.text!,
-          "contact_name": "",
-          "contact_email": agencyEMailView.mainTextField.text!,
-          "address": agencyAddressView.mainTextField.text!,
-          "latitude": agencyLatitude,
-          "longitude": agencyLongitude,
-          "website_url": agencyWebsiteView.mainTextField.text!,
-          "num_employees": agencyNumberOfEmployees.mainTextField.text!,
-          "golden_pitch": "0",
-          "silver_pitch": "0",
-          "high_risk_pitch": "0",
-          "medium_risk_pitch": "0"
+      if profileImageView.image != nil {
+        
+        let profileImage = profileImageView.image!
+        let profileDataImage = UIImagePNGRepresentation(profileImage)
+
+//    DELETE IN FUTURE
+//        print(agencyNameView.mainTextField.text!)
+//        print(agencyPhoneView.mainTextField.text!)
+//        print(agencyAddressView.mainTextField.text!)
+//        print(agencyLatitude!)
+//        print(agencyLongitude!)
+//        print(agencyWebsiteView.mainTextField.text!)
+//        print(agencyNumberOfEmployees.mainTextField.text!)
+        
+        parameters = [
+          "id" : 1,  //change in future
+          "auth_token": "x4jvwTmY4x_KSyzzq_nN",
+          "filename" : "AgencyProfileImage.png", //change in future
+          "agency": [
+            "name": agencyNameView.mainTextField.text!,
+            "case_image": profileDataImage!,
+            "phone": agencyPhoneView.mainTextField.text!,
+            "contact_name": "",
+            "contact_email": agencyEMailView.mainTextField.text!,
+            "address": agencyAddressView.mainTextField.text!,
+            "latitude": agencyLatitude!,
+            "longitude": agencyLongitude!,
+            "website_url": agencyWebsiteView.mainTextField.text!,
+            "num_employees": agencyNumberOfEmployees.mainTextField.text!,
+            "golden_pitch": "0",
+            "silver_pitch": "0",
+            "high_risk_pitch": "0",
+            "medium_risk_pitch": "0"
+          ]
         ]
-      ]
+      } else {
+        
+        parameters = [
+          "id" : 1,
+          "auth_token": "x4jvwTmY4x_KSyzzq_nN",
+          "agency": [
+            "name" : agencyNameView.mainTextField.text!,
+            "phone": agencyPhoneView.mainTextField.text!,
+            "contact_name": "",
+            "contact_email": agencyEMailView.mainTextField.text!,
+            "address": agencyAddressView.mainTextField.text!,
+            "latitude": agencyLatitude!,
+            "longitude": agencyLongitude!,
+            "website_url": agencyWebsiteView.mainTextField.text!,
+            "num_employees": agencyNumberOfEmployees.mainTextField.text!,
+            "golden_pitch": "0",
+            "silver_pitch": "0",
+            "high_risk_pitch": "0",
+            "medium_risk_pitch": "0"
+          ]
+        ]
+      }
+
+      delegate?.saveChangesFromEditProfileView(parameters)
+      
     }else{
-      let parameters = [
-        "id" : 181,
-        "auth_token": "5uKB2vzUY1vApmkQ9Vg_",
-        "agency": [
-          "name" : agencyNameView.mainTextField.text!,
-          "phone": agencyPhoneView.mainTextField.text!,
-          "contact_name": "",
-          "contact_email": agencyEMailView.mainTextField.text!,
-          "address": agencyAddressView.mainTextField.text!,
-          "website_url": agencyWebsiteView.mainTextField.text!,
-          "num_employees": agencyNumberOfEmployees.mainTextField.text!,
-          "golden_pitch": "0",
-          "silver_pitch": "0",
-          "high_risk_pitch": "0",
-          "medium_risk_pitch": "0"
+      
+      if profileImageView.image != nil {
+        
+        let profileImage = profileImageView.image!
+        let profileDataImage = UIImagePNGRepresentation(profileImage)
+        
+        parameters = [
+          "id" : 1,  //change in future
+          "auth_token": "x4jvwTmY4x_KSyzzq_nN",
+          "filename" : "AgencyProfileImage.png", //change in future
+          "agency": [
+            "name": agencyNameView.mainTextField.text!,
+            "case_image": profileDataImage!,
+            "phone": agencyPhoneView.mainTextField.text!,
+            "contact_name": "",
+            "contact_email": agencyEMailView.mainTextField.text!,
+            "address": agencyAddressView.mainTextField.text!,
+            "website_url": agencyWebsiteView.mainTextField.text!,
+            "num_employees": agencyNumberOfEmployees.mainTextField.text!,
+            "golden_pitch": "0",
+            "silver_pitch": "0",
+            "high_risk_pitch": "0",
+            "medium_risk_pitch": "0"
+          ]
         ]
-      ]
+      } else {
+        
+        parameters = [
+          "id" : 1,
+          "auth_token": "x4jvwTmY4x_KSyzzq_nN",
+          "agency": [
+            "name" : agencyNameView.mainTextField.text!,
+            "phone": agencyPhoneView.mainTextField.text!,
+            "contact_name": "",
+            "contact_email": agencyEMailView.mainTextField.text!,
+            "address": agencyAddressView.mainTextField.text!,
+            "website_url": agencyWebsiteView.mainTextField.text!,
+            "num_employees": agencyNumberOfEmployees.mainTextField.text!,
+            "golden_pitch": "0",
+            "silver_pitch": "0",
+            "high_risk_pitch": "0",
+            "medium_risk_pitch": "0"
+          ]
+        ]
+      }
+      
+      delegate?.saveChangesFromEditProfileView(parameters)
       
     }
   }

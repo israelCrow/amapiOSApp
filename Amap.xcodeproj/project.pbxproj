@@ -13,6 +13,7 @@
 		044F89D61D6377E800AA7FF3 /* CustomSkillTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F89D51D6377E800AA7FF3 /* CustomSkillTableViewCell.swift */; };
 		044F89D91D6383D200AA7FF3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F89D81D6383D200AA7FF3 /* ProfileView.swift */; };
 		044F89DB1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044F89DA1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift */; };
+		045267851D6BD5840031B6C7 /* PreviewVimeoYoutubeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045267841D6BD5840031B6C7 /* PreviewVimeoYoutubeView.swift */; };
 		045F5C281D650CE100F0C077 /* CasesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045F5C271D650CE100F0C077 /* CasesView.swift */; };
 		0462295C1D620DC70087E572 /* BasicCustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462295B1D620DC70087E572 /* BasicCustomTextField.swift */; };
 		0462295E1D626F640087E572 /* SkillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462295D1D626F640087E572 /* SkillsView.swift */; };
@@ -151,6 +152,7 @@
 		044F89D51D6377E800AA7FF3 /* CustomSkillTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSkillTableViewCell.swift; sourceTree = "<group>"; };
 		044F89D81D6383D200AA7FF3 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		044F89DA1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextFieldWithTitleView.swift; sourceTree = "<group>"; };
+		045267841D6BD5840031B6C7 /* PreviewVimeoYoutubeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewVimeoYoutubeView.swift; sourceTree = "<group>"; };
 		045F5C271D650CE100F0C077 /* CasesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CasesView.swift; sourceTree = "<group>"; };
 		0462295B1D620DC70087E572 /* BasicCustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCustomTextField.swift; sourceTree = "<group>"; };
 		0462295D1D626F640087E572 /* SkillsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillsView.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				04D458A61D6607440036FFFF /* CreateCaseView.swift */,
 				041DA48B1D6636A400BAE262 /* CaseCardInfo.swift */,
 				041DA48F1D6653E200BAE262 /* VideoPlayerVimeoYoutubeView.swift */,
+				045267841D6BD5840031B6C7 /* PreviewVimeoYoutubeView.swift */,
 			);
 			name = Cases;
 			sourceTree = "<group>";
@@ -815,6 +818,7 @@
 				AA2DB8541D53B6C800E9FB8A /* CreateAccountProcessAlreadyBegunView.swift in Sources */,
 				046229681D6284AF0087E572 /* Skill.swift in Sources */,
 				AA0949631D528A01000E76E1 /* CreateAccountViewController.swift in Sources */,
+				045267851D6BD5840031B6C7 /* PreviewVimeoYoutubeView.swift in Sources */,
 				AAECDF661D51472700CCDA85 /* GoldenPitchLoginView.swift in Sources */,
 				0462295E1D626F640087E572 /* SkillsView.swift in Sources */,
 				AA92D6401D50EF7400CE7D95 /* LoginViewController.swift in Sources */,

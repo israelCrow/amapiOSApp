@@ -111,6 +111,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   override func viewDidLoad() {
     self.createAndAddFlipCard()
+    self.createSaveChangesButton()
   }
   
   private func createAndAddFlipCard() {
@@ -145,7 +146,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     scrollViewFrontFlipCard = UIScrollView.init(frame: frameForCards)
     scrollViewFrontFlipCard.contentSize = contentSizeOfScrollView
-    scrollViewFrontFlipCard.userInteractionEnabled = true
+    scrollViewFrontFlipCard.scrollEnabled = false
 //    scrollViewFrontFlipCard.directionalLockEnabled = true
 //    scrollViewFrontFlipCard.alwaysBounceHorizontal = false
 //    scrollViewFrontFlipCard.alwaysBounceVertical = false
@@ -209,8 +210,8 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
                                           width: sizeForButtons.width,
                                           height: sizeForButtons.height)
     
-    let leftButtonImage = UIImage(named: "next") as UIImage?
-    let rightButtonImage = UIImage(named: "prev") as UIImage?
+    let leftButtonImage = UIImage(named: "navNext") as UIImage?
+    let rightButtonImage = UIImage(named: "navPrev") as UIImage?
     
     leftButton = UIButton.init(frame: frameForLeftButton)
     rightButton = UIButton.init(frame: frameForRightButton)
@@ -221,12 +222,22 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     leftButton.addTarget(self, action: #selector(moveScrollViewToLeft), forControlEvents: .TouchUpInside)
     rightButton.addTarget(self, action: #selector(moveScrollViewToRight), forControlEvents: .TouchUpInside)
     
+    if actualPage == 0 {
+      self.hideLeftButtonOfMainScrollView()
+    }
+    
     flipCard.addSubview(leftButton)
     flipCard.addSubview(rightButton)
     
   }
   
-  private func createSaveCaseButton() {
+  private func createSaveChangesButton() {
+    
+    if saveChangesButton != nil {
+      
+      saveChangesButton = nil
+      
+    }
     
     let font = UIFont(name: "SFUIDisplay-Light",
                       size: 22.0 * UtilityManager.sharedInstance.conversionWidth)
@@ -251,7 +262,10 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       ]
     )
     
-    let frameForButton = CGRect.init(x: 0.0, y: self.flipCard.frame.size.height - (70.0 * UtilityManager.sharedInstance.conversionHeight), width: self.flipCard.frame.size.height, height: (70.0 * UtilityManager.sharedInstance.conversionHeight))
+    let frameForButton = CGRect.init(x: 0.0,
+                                     y: self.flipCard.frame.size.height - (70.0 * UtilityManager.sharedInstance.conversionHeight),
+                                 width: self.flipCard.frame.size.width,
+                                height: (70.0 * UtilityManager.sharedInstance.conversionHeight))
     saveChangesButton = UIButton.init(frame: frameForButton)
     saveChangesButton.addTarget(self,
                              action: #selector(requestToEveryScreenToSave),
@@ -271,6 +285,18 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       
       actualPage = actualPage - 1
       
+      if actualPage == 0 {
+        
+        self.hideLeftButtonOfMainScrollView()
+        
+      }
+      
+      if actualPage < kNumberOfCardsInScrollViewMinusOne && self.rightButton.alpha == 0.0 {
+        
+        self.showRightButtonOfMainScrollView()
+        
+      }
+      
       let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
       
       let pointToMove = CGPoint.init(x: widthOfCard * CGFloat(actualPage), y: 0.0)
@@ -287,6 +313,18 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       
       actualPage = actualPage + 1
       
+      if actualPage == kNumberOfCardsInScrollViewMinusOne {
+        
+        self.hideRightButtonOfMainScrollView()
+        
+      }
+      
+      if actualPage > 0 && self.leftButton.alpha == 0.0 {
+        
+        self.showLeftButtonOfMainScrollView()
+        
+      }
+      
       let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
       
       let pointToMove = CGPoint.init(x: widthOfCard * CGFloat(actualPage), y: 0.0)
@@ -296,6 +334,49 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     }
     
   }
+  
+  private func hideLeftButtonOfMainScrollView() {
+    
+    UIView.animateWithDuration(0.35){
+      
+      self.leftButton.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func hideRightButtonOfMainScrollView() {
+    
+    UIView.animateWithDuration(0.35){
+      
+      self.rightButton.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func showLeftButtonOfMainScrollView() {
+    
+    UIView.animateWithDuration(0.35){
+      
+      self.leftButton.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func showRightButtonOfMainScrollView() {
+    
+    UIView.animateWithDuration(0.35){
+      
+      self.rightButton.alpha = 1.0
+      
+    }
+    
+  }
+  
+  
+  
   
   override func viewWillDisappear(animated: Bool) {
     
@@ -352,9 +433,17 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     }
   }
   
+  @objc private func requestToEveryScreenToSave() {
+    //this for every screen
+    self.profileView.saveChangesOfAgencyProfile()
+    
+  }
+  
   //MARK: - CasesViewDelegate
   
   func flipCardAndShowCreateNewCase() {
+    
+    createCaseView = nil
     
     let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
     let heightOfCard = self.view.frame.size.height - (136.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -366,6 +455,22 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     flipCard.setSecondView(createCaseView!)
     flipCard.flip()
     
+  }
+  
+  func flipCardAndShowPreviewOfCase(caseData: Case) {
+    
+    createCaseView = nil
+    
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (136.0 * UtilityManager.sharedInstance.conversionHeight)
+    let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
+    
+    createCaseView = CreateCaseView.init(frame: frameForViewsOfCard, caseData: caseData)
+    createCaseView!.delegate = self
+    createCaseView!.hidden = true
+    flipCard.setSecondView(createCaseView!)
+    flipCard.flip()
+
   }
   
   //MARK: - CreateCaseViewDelegate
@@ -435,9 +540,6 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       name: "success_case[agency_id]")
       
       }, encodingCompletion:{ encodingResult in
-    
-        self.flipCard.flip()
-        self.createButtonsForFlipCard()
         
         switch encodingResult {
         case .Success(let upload, _, _):
@@ -447,6 +549,34 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
             print(response.response) // URL response
             print(response.data)     // server data
             print(response.result)   // result of response serialization
+            
+            
+            if response.response?.statusCode >= 200 && response.response?.statusCode <= 350 {
+              
+              let rawImage = imageData as? NSData
+              
+              if rawImage != nil {
+                
+                let imageCase = UIImage.init(data: rawImage!)
+                
+                let newCaseData = Case(caseName: caseName as! String, caseDescription: caseDescription as! String, caseWebLink: caseURL as? String, caseImage: imageCase)
+                
+                self.casesView.addCaseToViewsOfCase(newCaseData)
+                
+              } else {
+                
+                let newCaseData = Case(caseName: caseName as! String, caseDescription: caseDescription as! String, caseWebLink: caseURL as? String, caseImage: nil)
+                
+                self.casesView.addCaseToViewsOfCase(newCaseData)
+                
+              }
+          
+              self.flipCard.flip()
+              self.createButtonsForFlipCard()
+              self.createSaveChangesButton()
+              
+            }
+            
             
             if let JSON = response.result.value {
               print("JSON: \(JSON)")
@@ -473,6 +603,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     blankView.hidden = true
     flipCard.setSecondView(blankView)
     self.createButtonsForFlipCard()
+    self.createSaveChangesButton()
   }
   
   func selectImageCaseFromLibrary() {
@@ -524,57 +655,185 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
   }
   
-  @objc private func requestToEveryScreenToSave() {
-    //this for every screen
-    self.profileView.saveChangesOfAgencyProfile()
+  func saveChangesFromEditProfileView(parameters: [String:AnyObject]) {
     
-  }
-  
-  func saveChangesFromEditProfile(parameters: [String:AnyObject]) {
+    var newParameters = parameters
     
-    let urlToRequest = "https://amap-dev.herokuapp.com/api/agencies/update"
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/agencies/update"
     
-    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
-    requestConnection.HTTPMethod = "POST"
-    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    let headers = [
+      "Content-Type" : "application/json",
+      "Authorization": UtilityManager.sharedInstance.apiToken
+    ]
     
-
+    let key_id = "id"
+    let id_int = newParameters[key_id] as? Int
+    let id_string = String(id_int!)
     
-    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(parameters, options: [])
+    let key_auth_token = "auth_token"
+    let auth_token = newParameters[key_auth_token] as? String
     
-    Alamofire.request(requestConnection)
-      .validate(statusCode: 200..<500)
-      //      .response{
-      //        (request, response, data, error) -> Void in
-      //        print(response)
-      ////          let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: [])
-      ////            print (json)
-      ////          }
+    let key_filename = "filename"
+    let filename = newParameters[key_filename] as? String
+    
+    var params = newParameters["agency"] as! [String:AnyObject]
+    
+    let key_name = "name"
+    let name = params[key_name] as? String
+    
+    let imageData = params["case_image"]
+    
+    let key_phone = "phone"
+    let phone = params[key_phone] as? String
+    
+    let key_contact_email = "contact_email"
+    let contact_email = params[key_contact_email] as? String
+    
+    let key_address = "address"
+    let address = params[key_address] as? String
+    
+    let key_latitude = "latitude"
+    let latitude = params[key_latitude] as? String
+    
+    let key_longitude = "longitude"
+    let longitude = params[key_longitude]
+    
+    let key_website_url = "website_url"
+    let website_url = params[key_website_url] as? String
+    
+    let key_num_employees = "num_employees"
+    let num_employees = params[key_num_employees] as? String
+    
+    let key_golden_pitch = "golden_ptich"
+    let golden_pitch = params[key_golden_pitch] as? String
+    
+    let key_silver_pitch = "silver_pitch"
+    let silver_pitch = params[key_silver_pitch] as? String
+    
+    let key_high_risk_pitch = "high_risk_pitch"
+    let high_risk_pitch = params[key_high_risk_pitch] as? String
+    
+    let key_medium_risk_pitch = "medium_risk_pitch"
+    let medium_risk_pitch = params[key_medium_risk_pitch] as? String
+    
+    Alamofire.upload(.POST, urlToRequest, headers: headers, multipartFormData:{
+      multipartFormData in
       
-      .responseJSON{ response in
-        if response.response?.statusCode == 200 {
-          
-//          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
-//          let info = json["user"] as? [String: AnyObject]  //Ejemplo
-
-        } else
-          
-          if response.response?.statusCode == 422 {
-
-          } else
-            if response.response?.statusCode == 500 { //error de servidor
-              
+      if imageData != nil {
+        multipartFormData.appendBodyPart(data: imageData as! NSData,
+          name: "logo",
+          fileName: "AgencyProfileImage.png",
+          mimeType: "image/png")
+      }
+      
+      multipartFormData.appendBodyPart(data: id_string.dataUsingEncoding(NSUTF8StringEncoding)!, name: key_id)
+      
+      if auth_token != nil {
+        print(auth_token!)
+        multipartFormData.appendBodyPart(data: auth_token!.dataUsingEncoding(NSUTF8StringEncoding)!, name: key_auth_token)
+        
+      }
+      
+      if filename != nil {
+        print(filename!)
+        multipartFormData.appendBodyPart(data: filename!.dataUsingEncoding(NSUTF8StringEncoding)!, name: key_filename)
+        
+      }
+      
+      if name != nil {
+        print(name!)
+        multipartFormData.appendBodyPart(data: name!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[name]")
+        
+      }
+      
+      if phone != nil {
+        print(phone!)
+        multipartFormData.appendBodyPart(data: phone!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[phone]")
+        
+      }
+      
+      if contact_email != nil {
+        print(contact_email!)
+        multipartFormData.appendBodyPart(data: contact_email!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[contact_email]")
+        
+      }
+      
+      if address != nil {
+        print(address!)
+        multipartFormData.appendBodyPart(data: address!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[address]")
+        
+      }
+      
+      if latitude != nil {
+        print(latitude!)
+        multipartFormData.appendBodyPart(data: latitude!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[latitude]")
+        
+      }
+      
+      if longitude != nil {
+        print(longitude!)
+        multipartFormData.appendBodyPart(data: longitude!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[longitude]")
+        
+      }
+      
+      if website_url != nil {
+        print(website_url!)
+        multipartFormData.appendBodyPart(data: website_url!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[website_url]")
+        
+      }
+      
+      if num_employees != nil {
+        print(num_employees!)
+        multipartFormData.appendBodyPart(data: num_employees!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[num_employees]")
+        
+      }
+      
+      if golden_pitch != nil {
+        print(golden_pitch!)
+        multipartFormData.appendBodyPart(data: golden_pitch!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[golden_pitch]")
+        
+      }
+      
+      if silver_pitch != nil {
+        print(silver_pitch!)
+        multipartFormData.appendBodyPart(data: silver_pitch!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[silver_pitch]")
+        
+      }
+      
+      if high_risk_pitch != nil {
+        print(high_risk_pitch!)
+        multipartFormData.appendBodyPart(data: high_risk_pitch!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[high_risk_pitch]")
+        
+      }
+      
+      if medium_risk_pitch != nil {
+        print(medium_risk_pitch!)
+        multipartFormData.appendBodyPart(data: medium_risk_pitch!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[medium_risk_pitch]")
+        
+      }
+      
+      }, encodingCompletion:{ encodingResult in
+        
+        switch encodingResult {
+        case .Success(let upload, _, _):
+          print("SUCCESSFUL")
+          upload.responseJSON { response in
+            print(response.request)  // original URL request
+            print(response.response) // URL response
+            print(response.data)     // server data
+            print(response.result)   // result of response serialization
+            
+            if let JSON = response.result.value {
+              print("JSON: \(JSON)")
+            }
           }
-        
-        
-        
-        //        let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
-        //        print (json)
-        //
-        //        print("\(response.response) \n\n\(response.response?.statusCode)")
-    }
+          
+        case .Failure(let error):
+          print(error)
+          
+        }
+      }
+    )
   }
 
-  
 }

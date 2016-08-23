@@ -27,8 +27,18 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
   private func initInterface() {
     
     self.backgroundColor = UIColor.whiteColor()
+    self.addSomeGestures()
     self.createSkillsLabel()
     self.createCollapsibleTableView()
+    
+  }
+  
+  private func addSomeGestures() {
+    
+    let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                              action: #selector(dismissKeyboard))
+    tapToDismissKeyboard.numberOfTapsRequired = 1
+    self.addGestureRecognizer(tapToDismissKeyboard)
     
   }
   
@@ -157,6 +167,8 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
     
     self.changeAttributedTextOfNormalCell(cell, subSkillText: sections[indexPath.section].skills[indexPath.row].nameOfSkill)
     
+    cell.selectionStyle = UITableViewCellSelectionStyle.None
+    
     return cell
   }
   
@@ -177,6 +189,10 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
     )
     cellToChangeText.textLabel?.attributedText = stringWithFormat
     
+  }
+  
+  @objc func dismissKeyboard(sender:AnyObject) {
+    self.endEditing(true)
   }
   
   // MARK: - Event Handlers

@@ -77,11 +77,11 @@ class CustomTextFieldWithTitleView: UIView {
     
     if titleLabel != nil {
       
-      positionY = titleLabel!.frame.origin.y + titleLabel!.frame.size.height + (25.0 * UtilityManager.sharedInstance.conversionHeight)
+      positionY = titleLabel!.frame.origin.y + titleLabel!.frame.size.height + (18.0 * UtilityManager.sharedInstance.conversionHeight) //When has title but not icon
       
     } else {
       
-      positionY = 20.0 * UtilityManager.sharedInstance.conversionHeight
+      positionY = 24.0 * UtilityManager.sharedInstance.conversionHeight //When doesn't have an title but icon
       
     }
     
@@ -89,7 +89,7 @@ class CustomTextFieldWithTitleView: UIView {
     if nameOfImageString != nil {
       
       iconImageView = UIImageView.init(image: UIImage.init(named: nameOfImageString!))
-      let iconImageViewFrame = CGRect.init(x: 0.0,
+      let iconImageViewFrame = CGRect.init(x: 2.0 * UtilityManager.sharedInstance.conversionWidth,
                                            y: positionY,
                                        width: iconImageView!.frame.size.width,
                                       height: iconImageView!.frame.size.height)
@@ -136,11 +136,11 @@ class CustomTextFieldWithTitleView: UIView {
     
     if titleLabel != nil {
       
-      newPositionY = titleLabel!.frame.origin.y + titleLabel!.frame.size.height + (19.0 * UtilityManager.sharedInstance.conversionHeight)
+      newPositionY = titleLabel!.frame.origin.y + titleLabel!.frame.size.height + (13.0 * UtilityManager.sharedInstance.conversionHeight)
       
     } else {
       
-      newPositionY = 20.0 * UtilityManager.sharedInstance.conversionHeight
+      newPositionY = 16.0 * UtilityManager.sharedInstance.conversionHeight
       
     }
     
@@ -156,7 +156,7 @@ class CustomTextFieldWithTitleView: UIView {
     border.borderColor = UIColor.darkGrayColor().CGColor
     border.borderWidth = width
     border.frame = CGRect.init(x: newPositionXForLine,
-                               y: mainTextField.frame.size.height - (2.0 * UtilityManager.sharedInstance.conversionHeight),
+                               y: mainTextField.frame.size.height + (8.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: newWidthForLine,
                                height: 0.5)
     mainTextField.layer.masksToBounds = false

@@ -49,10 +49,10 @@ class CustomSwitchView: UIView {
   
   private func initCircle() {
     
-    let frameForCircle = CGRect.init(x: 2.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 2.0 * UtilityManager.sharedInstance.conversionHeight,
-                                 width: self.frame.size.height - (3.0 * UtilityManager.sharedInstance.conversionHeight),
-                                height: self.frame.size.height - (3.0 * UtilityManager.sharedInstance.conversionHeight))
+    let frameForCircle = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 3.5 * UtilityManager.sharedInstance.conversionHeight,
+                                 width: self.frame.size.height - (6.5 * UtilityManager.sharedInstance.conversionHeight),
+                                height: self.frame.size.height - (6.5 * UtilityManager.sharedInstance.conversionHeight))
     
     circleView = UIView.init(frame: frameForCircle)
     circleView.backgroundColor = UIColor.init(red: 252.0/255.0, green: 23.0/255.0, blue: 69.0/255.0, alpha: 1.0)
@@ -71,7 +71,7 @@ class CustomSwitchView: UIView {
       UIView.animateWithDuration(0.5,
         animations: {
           
-          self.circleView.frame = CGRect.init(x: self.circleView.frame.origin.x + (13.0 * UtilityManager.sharedInstance.conversionWidth),
+          self.circleView.frame = CGRect.init(x: self.circleView.frame.origin.x + (12.0 * UtilityManager.sharedInstance.conversionWidth),
             y: self.circleView.frame.origin.y,
             width: self.circleView.frame.size.width,
             height: self.circleView.frame.size.height)
@@ -92,7 +92,7 @@ class CustomSwitchView: UIView {
       UIView.animateWithDuration(0.5,
                                  animations: {
                                   
-                                  self.circleView.frame = CGRect.init(x: self.circleView.frame.origin.x - (13.0 * UtilityManager.sharedInstance.conversionWidth),
+                                  self.circleView.frame = CGRect.init(x: self.circleView.frame.origin.x - (12.0 * UtilityManager.sharedInstance.conversionWidth),
                                     y: self.circleView.frame.origin.y,
                                     width: self.circleView.frame.size.width,
                                     height: self.circleView.frame.size.height)

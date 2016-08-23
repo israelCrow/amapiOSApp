@@ -41,12 +41,13 @@ class CustomSkillTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerV
   
   private func createScoreTextField() {
     
-    let frameForScoreTextField = CGRect.init(x: 200.0 * UtilityManager.sharedInstance.conversionWidth,
-                                             y: 20.0 * UtilityManager.sharedInstance.conversionHeight,
-                                         width: 15.0 * UtilityManager.sharedInstance.conversionWidth,
+    let frameForScoreTextField = CGRect.init(x: 180.0 * UtilityManager.sharedInstance.conversionWidth,
+                                             y: 15.0 * UtilityManager.sharedInstance.conversionHeight,
+                                         width: 35.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
     
     scoreTextField = UITextField.init(frame: frameForScoreTextField)
+    scoreTextField.clearButtonMode = .WhileEditing
     
     scoreTextField.font = UIFont(name:"SFUIText-Regular",
                                  size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
