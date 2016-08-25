@@ -12,9 +12,8 @@ protocol CreateCaseViewDelegate {
   
   func createCaseRequest(parameters: [String:AnyObject])
   func cancelCreateCase()
-  func selectImageCaseFromLibrary()
-  
-  
+  func selectCaseImageFromLibrary()
+  func askingForDeleteCaseImage()
 }
 
 class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlayerVimeoYoutubeViewDelegate{
@@ -85,6 +84,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     self.createCaseVideoPlayerVimeoYoutubeWithoutURL()
     self.createCaseWebLinkView()
     self.createErrorInFieldsLabel()
+    
   }
   
   private func initInterfaceForPreview() {
@@ -104,12 +104,12 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
   private func createCancelCreateButton() {
     
     let frameForButton = CGRect.init(x:270.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 5.0 * UtilityManager.sharedInstance.conversionHeight,
-                                 width: 20.0 * UtilityManager.sharedInstance.conversionWidth ,
-                                height: 20.0 * UtilityManager.sharedInstance.conversionHeight)
+                                     y: 10.0 * UtilityManager.sharedInstance.conversionHeight,
+                                 width: 15.0 * UtilityManager.sharedInstance.conversionWidth ,
+                                height: 15.0 * UtilityManager.sharedInstance.conversionHeight)
     
     cancelCreateButton = UIButton.init(frame: frameForButton)
-    let image = UIImage(named: "deleteButton") as UIImage?
+    let image = UIImage(named: "iconCloseBlack") as UIImage?
     cancelCreateButton.setImage(image, forState: .Normal)
     cancelCreateButton.alpha = 1.0
     cancelCreateButton.addTarget(self, action: #selector(cancelCreateCase), forControlEvents:.TouchUpInside)
@@ -163,7 +163,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     let frameForMainScrollView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                              y: 40.0 * UtilityManager.sharedInstance.conversionHeight,
                                          width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        height: 421.0 * UtilityManager.sharedInstance.conversionHeight)
+                                        height: 419.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.whiteColor()
@@ -710,12 +710,23 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     self.endEditing(true)
   }
   
-  
+  func deleteImageOfNewCase() {
+    
+    self.caseVideoPlayerVimeoYoutube.deleteImageOfCase()
+    
+  }
+
   //MARK: - VideoPlayerVimeoYoutubeDelegate
   
   func selectImageForCaseFromLibrary() {
       
-    delegate?.selectImageCaseFromLibrary()
+    delegate?.selectCaseImageFromLibrary()
+    
+  }
+  
+  func askForDeleteCaseImage() {
+    
+    self.delegate?.askingForDeleteCaseImage()
     
   }
   

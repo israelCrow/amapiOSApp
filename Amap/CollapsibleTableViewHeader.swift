@@ -49,7 +49,7 @@ class CollapsibleTableViewHeader: UITableViewCell {
     
     
     toggleButton = UIButton.init(frame: newFrameNameOfToggleButton)
-    let imageToggleButton = UIImage.init(named: "toggleButton")
+    let imageToggleButton = UIImage.init(named: "dropdown")
     toggleButton.setImage(imageToggleButton, forState: .Normal)
     toggleButton.frame = newFrameNameOfToggleButton
     

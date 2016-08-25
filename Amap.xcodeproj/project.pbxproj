@@ -21,6 +21,7 @@
 		046229661D6275E50087E572 /* CollapsibleTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046229651D6275E50087E572 /* CollapsibleTableViewHeader.swift */; };
 		046229681D6284AF0087E572 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046229671D6284AF0087E572 /* Skill.swift */; };
 		0462296A1D6285090087E572 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046229691D6285090087E572 /* Section.swift */; };
+		04750BF91D6E000400CC0CD1 /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04750BF81D6E000400CC0CD1 /* UserSession.swift */; };
 		047818A51D5E204F00BB498C /* CriterionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047818A41D5E204F00BB498C /* CriterionView.swift */; };
 		047818A91D5E2E6700BB498C /* CustomSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047818A81D5E2E6700BB498C /* CustomSwitchView.swift */; };
 		047818AB1D5E557300BB498C /* ParticipateInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047818AA1D5E557300BB498C /* ParticipateInView.swift */; };
@@ -160,6 +161,7 @@
 		046229651D6275E50087E572 /* CollapsibleTableViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollapsibleTableViewHeader.swift; sourceTree = "<group>"; };
 		046229671D6284AF0087E572 /* Skill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
 		046229691D6285090087E572 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		04750BF81D6E000400CC0CD1 /* UserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		047818A41D5E204F00BB498C /* CriterionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriterionView.swift; sourceTree = "<group>"; };
 		047818A81D5E2E6700BB498C /* CustomSwitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSwitchView.swift; sourceTree = "<group>"; };
 		047818AA1D5E557300BB498C /* ParticipateInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipateInView.swift; sourceTree = "<group>"; };
@@ -312,6 +314,14 @@
 			name = Cases;
 			sourceTree = "<group>";
 		};
+		04750BF71D6DFFCD00CC0CD1 /* ModelData */ = {
+			isa = PBXGroup;
+			children = (
+				04750BF81D6E000400CC0CD1 /* UserSession.swift */,
+			);
+			name = ModelData;
+			sourceTree = "<group>";
+		};
 		04AB392F1D5D0539009B1D5C /* Login/Account/Password */ = {
 			isa = PBXGroup;
 			children = (
@@ -442,6 +452,7 @@
 				AA92D6391D50EA2B00CE7D95 /* Views */,
 				AA92D63A1D50EA3700CE7D95 /* Managers */,
 				AAECDF671D5149F800CCDA85 /* Nibs */,
+				04750BF71D6DFFCD00CC0CD1 /* ModelData */,
 				AAB61E901D52582200407FFD /* Resources */,
 				AA92D60C1D50E7D300CE7D95 /* ViewController.swift */,
 				AA92D60E1D50E7D300CE7D95 /* Main.storyboard */,
@@ -825,6 +836,7 @@
 				047818A91D5E2E6700BB498C /* CustomSwitchView.swift in Sources */,
 				044F89D91D6383D200AA7FF3 /* ProfileView.swift in Sources */,
 				045F5C281D650CE100F0C077 /* CasesView.swift in Sources */,
+				04750BF91D6E000400CC0CD1 /* UserSession.swift in Sources */,
 				046229661D6275E50087E572 /* CollapsibleTableViewHeader.swift in Sources */,
 				044F89DB1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift in Sources */,
 				AA2DB8581D53B97D00E9FB8A /* ChangePasswordRequestView.swift in Sources */,

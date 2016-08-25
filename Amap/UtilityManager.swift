@@ -12,7 +12,6 @@ class UtilityManager: NSObject {
   
   static let sharedInstance = UtilityManager()
   
-  
   let apiToken = "Token 40e97aa81c2be2de4b99f1c243bec9c4"
   
   static let baseScreen = CGSize.init(width: 375.0, height: 667.0)
@@ -134,6 +133,16 @@ class UtilityManager: NSObject {
       
     }
     
+  }
+  
+  func resizeImage(image: UIImage, newSize: CGSize) -> UIImage {
+    
+    UIGraphicsBeginImageContext(CGSizeMake(newSize.width, newSize.height))
+    image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    return newImage
   }
   
 //  func showIndicatorWithText(text: String) {

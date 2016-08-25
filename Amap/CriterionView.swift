@@ -62,10 +62,10 @@ class CriterionView: UIView {
   }
   
   private func createSelectValueSwitch() {
-    let frameForSwitch = CGRect.init(x: 192.0 * UtilityManager.sharedInstance.conversionWidth,
+    let frameForSwitch = CGRect.init(x: 184.0 * UtilityManager.sharedInstance.conversionWidth,
                                      y: 0.0,
-                                 width: 28.0 * UtilityManager.sharedInstance.conversionWidth,
-                                height: 14.0 * UtilityManager.sharedInstance.conversionHeight)
+                                 width: 36.0 * UtilityManager.sharedInstance.conversionWidth,
+                                height: 22.0 * UtilityManager.sharedInstance.conversionHeight)
     
     let newSwitch = CustomSwitchView.init(frame: frameForSwitch)
     newSwitch.clipsToBounds = false

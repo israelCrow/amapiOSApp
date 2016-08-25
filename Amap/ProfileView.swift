@@ -12,6 +12,7 @@ import GooglePlaces
 protocol ProfileViewDelegate {
   func selectProfileImageFromLibrary()
   func saveChangesFromEditProfileView(parameters: [String:AnyObject])
+  func asKForDeleteProfileImage()
 }
 
 class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
@@ -208,7 +209,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                      height: ((13.0 + 4.0) * UtilityManager.sharedInstance.conversionHeight))
     deleteProfileImageButton = UIButton.init(frame: frameForButton)
     deleteProfileImageButton.addTarget(self,
-                                       action: #selector(deleteProfileImage),
+                                       action: #selector(askForDeleteProfileImage),
                                        forControlEvents: .TouchUpInside)
     deleteProfileImageButton.setAttributedTitle(stringWithFormat, forState: .Normal)
     
@@ -242,6 +243,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                                         title: AgencyProfileEditConstants.ProfileView.agencyPhoneTitleText,
                                                         image: "iconPhone")
     agencyPhoneView.mainTextField.placeholder = "00 00000000"
+    agencyPhoneView.mainTextField.keyboardType = .NumberPad
     agencyPhoneView.backgroundColor = UIColor.clearColor()
     agencyPhoneView.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyPhoneView)
@@ -328,6 +330,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                                           title: AgencyProfileEditConstants.ProfileView.agencyNumberOfEmployeTitleText,
                                                           image: "group")
     agencyNumberOfEmployees.mainTextField.placeholder = "888"
+    agencyNumberOfEmployees.mainTextField.keyboardType = .NumberPad
     agencyNumberOfEmployees.backgroundColor = UIColor.clearColor()
     agencyNumberOfEmployees.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyNumberOfEmployees)
@@ -472,7 +475,13 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     
   }
   
-  @objc private func deleteProfileImage() {
+  @objc private func askForDeleteProfileImage() {
+    
+    self.delegate?.asKForDeleteProfileImage()
+    
+  }
+  
+  func deleteProfileImage() {
     
     profileImageView.image = nil
     

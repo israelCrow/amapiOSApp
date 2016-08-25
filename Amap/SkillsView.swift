@@ -27,13 +27,13 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
   private func initInterface() {
     
     self.backgroundColor = UIColor.whiteColor()
-    self.addSomeGestures()
+    self.addGestureToDismissKeyboard()
     self.createSkillsLabel()
     self.createCollapsibleTableView()
     
   }
   
-  private func addSomeGestures() {
+  private func addGestureToDismissKeyboard() {
     
     let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                               action: #selector(dismissKeyboard))

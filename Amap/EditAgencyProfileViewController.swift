@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class EditAgencyProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CasesViewDelegate, CreateCaseViewDelegate, ProfileViewDelegate {
+class EditAgencyProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CasesViewDelegate, CreateCaseViewDelegate, ProfileViewDelegate, ExclusiveViewDelegate {
     
   private let kEditAgencyProfile = "Editar Perfil Agencia"
   private let kNumberOfCardsInScrollViewMinusOne = 5
@@ -29,7 +29,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
 //  private var criteriaView: CriterionView! = nil
 //  private var participateView: ParticipateInView! = nil
-//  private var exclusiveView: ExclusiveView! = nil
+  private var exclusiveView: ExclusiveView! = nil
   private var createCaseView: CreateCaseView?
   private var casesView: CasesView! = nil
 //  private var skillsView: SkillsView! = nil
@@ -38,7 +38,6 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   override func loadView() {
     
     self.editNavigationBar()
-    self.addObserverToKeyboardNotification()
     self.view = UIView.init(frame: UIScreen.mainScreen().bounds)
     self.view.backgroundColor = UIColor.blackColor()
     self.view.addSubview(self.createGradientView())
@@ -110,8 +109,11 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   }
   
   override func viewDidLoad() {
+    
+    self.addGestureToDismissKeyboard()
     self.createAndAddFlipCard()
     self.createSaveChangesButton()
+    
   }
   
   private func createAndAddFlipCard() {
@@ -161,10 +163,11 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       width: frameForCards.size.width,
       height: frameForCards.size.height))
     
-    let exclusiveView = ExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width * 2.0,
+    exclusiveView = ExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width * 2.0,
       y: 0.0 ,
       width: frameForCards.size.width,
       height: frameForCards.size.height))
+    exclusiveView.delegate = self
     
     casesView = CasesView.init(frame: CGRect.init(x: frameForCards.size.width * 3.0,
       y: 0.0,
@@ -197,16 +200,16 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     rightButton = nil
     
     
-    let sizeForButtons = CGSize.init(width: 7.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     height: 18.0 * UtilityManager.sharedInstance.conversionHeight)
+    let sizeForButtons = CGSize.init(width: 8.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 19.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let frameForLeftButton = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: 38.0 * UtilityManager.sharedInstance.conversionHeight,
+    let frameForLeftButton = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: 39.0 * UtilityManager.sharedInstance.conversionHeight,
                                          width: sizeForButtons.width,
                                          height:sizeForButtons.height)
     
-    let frameForRightButton = CGRect.init(x: 253.0 * UtilityManager.sharedInstance.conversionWidth,
-                                          y: 38.0 * UtilityManager.sharedInstance.conversionHeight,
+    let frameForRightButton = CGRect.init(x: 250.0 * UtilityManager.sharedInstance.conversionWidth,
+                                          y: 39.0 * UtilityManager.sharedInstance.conversionHeight,
                                           width: sizeForButtons.width,
                                           height: sizeForButtons.height)
     
@@ -214,7 +217,9 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     let rightButtonImage = UIImage(named: "navPrev") as UIImage?
     
     leftButton = UIButton.init(frame: frameForLeftButton)
+//    leftButton.backgroundColor = UIColor.redColor()
     rightButton = UIButton.init(frame: frameForRightButton)
+//    rightButton.backgroundColor = UIColor.redColor()
     
     leftButton.setImage(leftButtonImage, forState: .Normal)
     rightButton.setImage(rightButtonImage, forState: .Normal)
@@ -375,13 +380,25 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
   }
   
-  
-  
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    self.addObserverToKeyboardNotification()
+  }
   
   override func viewWillDisappear(animated: Bool) {
     
     super.viewWillDisappear(animated)
     NSNotificationCenter.defaultCenter().removeObserver(self)
+    
+  }
+  
+  private func addGestureToDismissKeyboard() {
+    
+    let tapForHideKeyboard = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
+    tapForHideKeyboard.numberOfTapsRequired = 1
+    
+    self.view.addGestureRecognizer(tapForHideKeyboard)
     
   }
   
@@ -471,6 +488,12 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     flipCard.setSecondView(createCaseView!)
     flipCard.flip()
 
+  }
+  
+  @objc private func dismissKeyboard() {
+    
+    self.view.endEditing(true)
+    
   }
   
   //MARK: - CreateCaseViewDelegate
@@ -591,6 +614,24 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     )
   }
   
+  func askingForDeleteCaseImage() {
+    
+    let alertController = UIAlertController(title: "Borrar imagen de caso", message: "¿Estás seguro que deseas eleminar la imagen para este caso?", preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let cancelAction = UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
+    }
+    
+    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+      self.createCaseView?.deleteImageOfNewCase()
+    }
+    
+    alertController.addAction(cancelAction)
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
+  
   func cancelCreateCase() {
     flipCard.flip()
     let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
@@ -606,13 +647,13 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     self.createSaveChangesButton()
   }
   
-  func selectImageCaseFromLibrary() {
+  func selectCaseImageFromLibrary() {
     
     if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
       let imagePicker = UIImagePickerController()
       imagePicker.delegate = self
       imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-      imagePicker.allowsEditing = true
+      imagePicker.allowsEditing = false
       
       requestImageForCase = true
       
@@ -627,8 +668,8 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
       let imagePicker = UIImagePickerController()
       imagePicker.delegate = self
-      imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-      imagePicker.allowsEditing = true
+      imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+      imagePicker.allowsEditing = false
       
       requestImageForProfile = true
       
@@ -639,6 +680,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
     
     if requestImageForProfile == true {
+      
       
       self.profileView.changeProfileImageView(image)
       requestImageForProfile = false
@@ -652,8 +694,25 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         
     }
 
-    
     self.dismissViewControllerAnimated(true, completion: nil);
+    
+  }
+  
+  func asKForDeleteProfileImage() {
+    
+    let alertController = UIAlertController(title: "Borrar Foto de Perfil", message: "¿Estás seguro que deseas eleminar la imagen de perfil?", preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let cancelAction = UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+
+    }
+    
+    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+      self.profileView.deleteProfileImage()
+    }
+    
+    alertController.addAction(cancelAction)
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
     
   }
   
@@ -846,6 +905,14 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         }
       }
     )
+  }
+  
+  //MARK: - ExlusiveViewDelegate
+  
+  func keyBoardWillAppearFromExclusiveView(distanceToMoveFlipCard: CGFloat) {
+    
+    
+    
   }
 
 }

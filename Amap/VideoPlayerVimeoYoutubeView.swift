@@ -15,6 +15,7 @@ import AVFoundation
 protocol VideoPlayerVimeoYoutubeViewDelegate {
   
   func selectImageForCaseFromLibrary()
+  func askForDeleteCaseImage()
   
 }
 
@@ -87,6 +88,8 @@ class VideoPlayerVimeoYoutubeView:UIView {
     imageForCaseImageView = UIImageView.init(frame: frameForImageView)
     imageForCaseImageView.backgroundColor = UIColor.lightGrayColor()
     imageForCaseImageView.userInteractionEnabled = true
+    imageForCaseImageView.autoresizingMask = .FlexibleWidth
+    imageForCaseImageView.contentMode = .ScaleAspectFit
     self.addSubview(imageForCaseImageView)
     
     self.createChangeImageForCaseButton()
@@ -95,70 +98,48 @@ class VideoPlayerVimeoYoutubeView:UIView {
   }
   
   private func createChangeImageForCaseButton() {
-      
-    let font = UIFont(name: "SFUIText-Regular",
-                        size: 20.0 * UtilityManager.sharedInstance.conversionWidth)
-    let color = UIColor.whiteColor()
-    let style = NSMutableParagraphStyle()
-    style.alignment = NSTextAlignment.Left
     
-    let stringForButton = "+"
-      
-    let stringWithFormat = NSMutableAttributedString(
-      string: stringForButton,
-      attributes:[NSFontAttributeName: font!,
-        NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color,
-      ]
-    )
     
-    changeCaseImageButton = UIButton.init(frame: CGRectZero)
+    
+//    let frameForButton = CGRect.init(x:270.0 * UtilityManager.sharedInstance.conversionWidth,
+//                                     y: 5.0 * UtilityManager.sharedInstance.conversionHeight,
+//                                     width: 28.0 * UtilityManager.sharedInstance.conversionWidth ,
+//                                     height: 28.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let frameForButton = CGRect.init(x: imageForCaseImageView.frame.size.width - (44.0 * UtilityManager.sharedInstance.conversionWidth),
+                                     y: imageForCaseImageView.frame.size.height - (25.0 * UtilityManager.sharedInstance.conversionWidth),
+                                 width: 14.0 * UtilityManager.sharedInstance.conversionWidth,
+                                height: 14.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    
+    changeCaseImageButton = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "iconAdd") as UIImage?
+    changeCaseImageButton.setImage(image, forState: .Normal)
+    
     changeCaseImageButton.addTarget(self,
                                   action: #selector(selectImageFromLibrary),
                         forControlEvents: .TouchUpInside)
-    changeCaseImageButton.setAttributedTitle(stringWithFormat, forState: .Normal)
-    changeCaseImageButton.sizeToFit()
-    
-    let frameForButton = CGRect.init(x: imageForCaseImageView.frame.size.width - ((changeCaseImageButton.frame.size.width) + (34.0 * UtilityManager.sharedInstance.conversionWidth)),
-                                     y: imageForCaseImageView.frame.size.height - ((changeCaseImageButton.frame.size.height / 2.0) + (15.0 * UtilityManager.sharedInstance.conversionWidth)),
-                                     width: changeCaseImageButton.frame.size.width,
-                                     height: changeCaseImageButton.frame.size.height)
 
-    changeCaseImageButton.frame = frameForButton
-    
     imageForCaseImageView.addSubview(changeCaseImageButton)
     
   }
   
   private func createDeleteImageForCaseButton() {
     
-    let font = UIFont(name: "SFUIText-Regular",
-                      size: 17.0 * UtilityManager.sharedInstance.conversionWidth)
-    let color = UIColor.whiteColor()
-    let style = NSMutableParagraphStyle()
-    style.alignment = NSTextAlignment.Left
+    let frameForButton = CGRect.init(x: imageForCaseImageView.frame.size.width - (20.0 * UtilityManager.sharedInstance.conversionWidth),
+                                     y: imageForCaseImageView.frame.size.height - (25.0 * UtilityManager.sharedInstance.conversionWidth),
+                                     width: 14.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 14.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let stringForButton = "x"
     
-    let stringWithFormat = NSMutableAttributedString(
-      string: stringForButton,
-      attributes:[NSFontAttributeName: font!,
-        NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color,
-      ]
-    )
+    deleteCaseImageButton = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "iconClose") as UIImage?
+    deleteCaseImageButton.setImage(image, forState: .Normal)
     
-    deleteCaseImageButton = UIButton.init(frame: CGRectZero)
     deleteCaseImageButton.addTarget(self,
-                                    action: #selector(deleteImageOfCase),
+                                    action: #selector(askDeletingCaseImage),
                                     forControlEvents: .TouchUpInside)
-    deleteCaseImageButton.setAttributedTitle(stringWithFormat, forState: .Normal)
-    deleteCaseImageButton.sizeToFit()
     
-    let frameForButton = CGRect.init(x: imageForCaseImageView.frame.size.width - ((deleteCaseImageButton.frame.size.width) + (9.0 * UtilityManager.sharedInstance.conversionWidth)),
-                                     y: imageForCaseImageView.frame.size.height - ((deleteCaseImageButton.frame.size.height / 2.0) + (14.0 * UtilityManager.sharedInstance.conversionWidth)),
-                                     width: deleteCaseImageButton.frame.size.width,
-                                     height: deleteCaseImageButton.frame.size.height)
     
     deleteCaseImageButton.frame = frameForButton
     
@@ -305,13 +286,21 @@ class VideoPlayerVimeoYoutubeView:UIView {
   }
   
   func changeImageOfCase(newImage: UIImage) {
-    
+
+    imageForCaseImageView.backgroundColor = UIColor.whiteColor()
     imageForCaseImageView.image = newImage
+   
+  }
+  
+  @objc private func askDeletingCaseImage() {
+    
+    self.delegate?.askForDeleteCaseImage()
     
   }
   
-  @objc private func deleteImageOfCase() {
+  func deleteImageOfCase() {
     
+    imageForCaseImageView.backgroundColor = UIColor.lightGrayColor()
     imageForCaseImageView.image = nil
     
   }

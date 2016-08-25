@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol ExclusiveViewDelegate {
+  
+  func keyBoardWillAppearFromExclusiveView(distanceToMoveFlipCard: CGFloat)
+  
+}
+
 class ExclusiveView: UIView, UITextFieldDelegate {
   
   private var mainScrollView: UIScrollView! = nil
@@ -17,11 +23,12 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   private var descriptionLabel: UILabel! = nil
   private var creatorOfBrandTextField: UITextField! = nil
   
+  var delegate: ExclusiveViewDelegate?
 
   override init(frame: CGRect) {
     super.init(frame: frame)
     self.initValues()
-    self.addSomeGestures()
+    self.addGestureToDismissKeyboard()
     self.initInterface()
   }
   
@@ -32,7 +39,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     
   }
   
-  private func addSomeGestures() {
+  private func addGestureToDismissKeyboard() {
     
     let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                               action: #selector(dismissKeyboard))
@@ -80,7 +87,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: AgencyProfileEditConstants.ParticipateInView.participateInLabelText,
+      string: AgencyProfileEditConstants.ExclusiveView.exclusiveLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSKernAttributeName: CGFloat(2.0),
@@ -173,8 +180,10 @@ class ExclusiveView: UIView, UITextFieldDelegate {
                                                  height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
       
       let newTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator)
+      newTextField.delegate = self
       newTextField.alpha = 0.0
       newTextField.text = brandName
+      newTextField.tag = 666
       newTextField.placeholder = "Nombre de marca"
       
       arrayOfExclusivesBrandTextFields.append(newTextField)
@@ -195,6 +204,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       newTextField.alpha = 0.0
       newTextField.text = brandName
       newTextField.placeholder = "Nombre de marca"
+      newTextField.delegate = self
       
       arrayOfExclusivesBrandTextFields.append(newTextField)
       
@@ -237,6 +247,71 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     
   }
   
+  
+  
+  private func accommodateAllElements() {
+    
+    let firstExclusiveBrandTextField = arrayOfExclusivesBrandTextFields?.first
+    if firstExclusiveBrandTextField == nil {
+      
+      let frameForTextFieldCreator = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                 y: 14.0 * UtilityManager.sharedInstance.conversionHeight,
+                                                 width: creatorOfBrandTextField.frame.size.width,
+                                                 height: creatorOfBrandTextField.frame.size.height)
+      
+      let frameForDescriptionLabel = CGRect.init(x: descriptionLabel.frame.origin.x,
+                                                 y: frameForTextFieldCreator.origin.y - (10.0 * UtilityManager.sharedInstance.conversionHeight),
+                                             width: descriptionLabel.frame.size.width,
+                                            height: descriptionLabel.frame.size.height)
+      
+      UIView.animateWithDuration(0.5){
+        self.creatorOfBrandTextField.frame = frameForTextFieldCreator
+        self.descriptionLabel.frame = frameForDescriptionLabel
+      }
+    
+    } else {
+      
+      var frameForTextFields = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                 y: 14.0 * UtilityManager.sharedInstance.conversionHeight,
+                                                 width: firstExclusiveBrandTextField!.frame.size.width,
+                                                 height: firstExclusiveBrandTextField!.frame.size.height)
+      
+      for textField in arrayOfExclusivesBrandTextFields {
+        
+        UIView.animateWithDuration(0.35){
+          
+          textField.frame = frameForTextFields
+          
+        }
+        
+        frameForTextFields = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: frameForTextFields.origin.y + frameForTextFields.size.height + (14.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: frameForTextFields.size.width,
+                                    height: frameForTextFields.size.height)
+      }
+      
+      let frameForCreatorOfBrands = CGRect.init(x: frameForTextFields.origin.x,
+                                                y: frameForTextFields.origin.y + (24.0 * UtilityManager.sharedInstance.conversionHeight),
+                                            width: frameForTextFields.size.width,
+                                           height: frameForTextFields.size.height)
+      
+      let frameForDescriptionLabel = CGRect.init(x: descriptionLabel.frame.origin.x,
+                                                 y: frameForCreatorOfBrands.origin.y - (20.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                 width: descriptionLabel.frame.size.width,
+                                                 height: descriptionLabel.frame.size.height)
+      
+      UIView.animateWithDuration(0.5){
+        self.creatorOfBrandTextField.frame = frameForCreatorOfBrands
+        self.descriptionLabel.frame = frameForDescriptionLabel
+      }
+      
+    }
+    
+  }
+  
+  
+  
+  
   func textFieldShouldReturn(textField: UITextField) -> Bool {
     if textField.tag == 1 {//when texted in the creatorBrandTextField
       
@@ -272,6 +347,38 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  //MARK: - TextFieldDelegate
+  
+  func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    
+    self.delegate?.keyBoardWillAppearFromExclusiveView(textField.frame.origin.y)
+    
+    return true
+    
+  }
+  
+  func textFieldShouldClear(textField: UITextField) -> Bool {
+    
+    UIView.animateWithDuration(0.15,
+      animations: {
+        textField.alpha = 0.0
+      }) { (finished) in
+        if finished {
+          
+          let index = self.arrayOfExclusivesBrandTextFields.indexOf(textField)
+          if index != nil {
+            self.arrayOfExclusivesBrandTextFields.removeAtIndex(index!)
+          }
+          
+          self.accommodateAllElements()
+          
+        }
+    }
+    
+    return true
+    
   }
   
 }

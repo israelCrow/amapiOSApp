@@ -13,7 +13,7 @@ struct Section {
   var skills: [Skill]!
   var collapsed: Bool!
   
-  init(name: String, skills: [Skill], collapsed: Bool = false) {
+  init(name: String, skills: [Skill], collapsed: Bool = true) {
     self.name = name
     self.skills = skills
     self.collapsed = collapsed
