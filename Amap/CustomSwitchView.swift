@@ -50,7 +50,7 @@ class CustomSwitchView: UIView {
   private func initCircle() {
     
     let frameForCircle = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 3.5 * UtilityManager.sharedInstance.conversionHeight,
+                                     y: 3.0 * UtilityManager.sharedInstance.conversionHeight,
                                  width: 8.0 * UtilityManager.sharedInstance.conversionWidth,
                                 height: 8.0 * UtilityManager.sharedInstance.conversionHeight)
     

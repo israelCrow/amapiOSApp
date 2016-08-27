@@ -36,6 +36,8 @@ class VideoPlayerVimeoYoutubeView:UIView {
   private var isPlayingVidePlayerVimeoPlayer: Bool = false
   private var videoPlayerLayerVimeoAVPlayerLayer: AVPlayerLayer! = nil
   
+  var existsImage: Bool = false
+  
   var delegate: VideoPlayerVimeoYoutubeViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
@@ -194,8 +196,10 @@ class VideoPlayerVimeoYoutubeView:UIView {
         self.loadVideoPlayerVimeoAVPlayer()
         
       }else{
+        
         self.createLoadingLabel("Can't load")
         self.createImageForCaseImageView()
+        
     }
     
   }
@@ -214,6 +218,7 @@ class VideoPlayerVimeoYoutubeView:UIView {
   }
   
   private func loadVideoPlayerVimeoAVPlayer() {
+    
     let frameForVideoPlayer = CGRect.init(x: 0.0,
                                           y: 0.0,
                                           width: self.frame.size.width,
@@ -247,7 +252,7 @@ class VideoPlayerVimeoYoutubeView:UIView {
 //          playVideoTap.numberOfTapsRequired = 1
 //          self.thumbNailOfVimeo?.userInteractionEnabled = true
 //          self.thumbNailOfVimeo?.addGestureRecognizer(playVideoTap)
-//          
+//
 //        } else
 //          if imageLink_320 != nil {
 //            
@@ -271,6 +276,13 @@ class VideoPlayerVimeoYoutubeView:UIView {
           self.layer.addSublayer(self.videoPlayerLayerVimeoAVPlayerLayer)
           //                self.videoPlayerVimeoAVPlayer.play()
           
+          let playVideoTap = UITapGestureRecognizer.init(target: self,
+                                                         action: #selector(self.playOrPauseVideoPlayerVimeo))
+          playVideoTap.numberOfTapsRequired = 1
+          self.userInteractionEnabled = true
+          self.addGestureRecognizer(playVideoTap)
+
+          
         }else
           if videoLink_360 != nil {
             
@@ -279,6 +291,13 @@ class VideoPlayerVimeoYoutubeView:UIView {
             self.videoPlayerLayerVimeoAVPlayerLayer.frame = frameForVideoPlayer
             self.layer.addSublayer(self.videoPlayerLayerVimeoAVPlayerLayer)
             //                  self.videoPlayerVimeoAVPlayer.play()
+            
+            let playVideoTap = UITapGestureRecognizer.init(target: self,
+                                                           action: #selector(self.playOrPauseVideoPlayerVimeo))
+            playVideoTap.numberOfTapsRequired = 1
+            self.userInteractionEnabled = true
+            self.addGestureRecognizer(playVideoTap)
+
             
         }
       }
@@ -289,6 +308,8 @@ class VideoPlayerVimeoYoutubeView:UIView {
 
     imageForCaseImageView.backgroundColor = UIColor.whiteColor()
     imageForCaseImageView.image = newImage
+    
+    existsImage = true
    
   }
   
@@ -302,6 +323,8 @@ class VideoPlayerVimeoYoutubeView:UIView {
     
     imageForCaseImageView.backgroundColor = UIColor.lightGrayColor()
     imageForCaseImageView.image = nil
+    
+    existsImage = false
     
   }
   

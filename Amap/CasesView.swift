@@ -15,15 +15,7 @@ import AVFoundation
 protocol CasesViewDelegate {
   func flipCardAndShowCreateNewCase()
   func flipCardAndShowPreviewOfCase(caseData: Case)
-}
-
-struct Case {
-  
-  var caseName: String! = nil
-  var caseDescription: String! = nil
-  var caseWebLink: String?
-  var caseImage: UIImage?
-  
+  func deleteCaseSelectedFromPreviewVimeoYoutubePlayer(caseData: Case)
 }
 
 class CasesView: UIView, CaseCardInfoViewDelegate {
@@ -135,6 +127,26 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
       arrayOfCasesCards.removeAll()
       
     }
+    
+    self.loadCases()
+  
+  }
+  
+  private func loadCases() {
+    
+    RequestToServerManager.sharedInstance.requestForAgencyData {
+      if AgencyModel.Data.success_cases != nil {
+        
+        self.arrayOfCases = AgencyModel.Data.success_cases
+        
+        self.createCaseCardsInfoAfterRequestToServer()
+        
+      }
+    }
+    
+  }
+  
+  private func createCaseCardsInfoAfterRequestToServer() {
     
     var frameForCaseCard = CGRect.init(x: 0.0,
                                        y: 0.0,
@@ -260,6 +272,16 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
   func flipCardAndShowPreviewCase(caseData: Case) {
     
     self.delegate?.flipCardAndShowPreviewOfCase(caseData)
+    
+  }
+  
+  func deleteCaseFromPreviewPlayer(caseData: Case) {
+    self.delegate?.deleteCaseSelectedFromPreviewVimeoYoutubePlayer(caseData)
+  }
+  
+  func createAgainAllCasesCardInfo() {
+    
+    self.createCaseCardsInfo()
     
   }
   

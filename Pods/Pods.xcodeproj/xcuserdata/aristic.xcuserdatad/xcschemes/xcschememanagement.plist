@@ -14,15 +14,35 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>YTVimeoExtractor.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>YouTubePlayer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2A0A10EABECD70464D1D294867F423DA</key>
+		<key>3FD1CAADC0A56FD049A51E8D50AA1742</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>50384DCA1D49E20F3D6630E330771CDE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>825F0AD5C62CE79D1A37818D88E6E0E3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

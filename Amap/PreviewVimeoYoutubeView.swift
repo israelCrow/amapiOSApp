@@ -14,8 +14,8 @@ import AVFoundation
 
 protocol PreviewVimeoYoutubeViewDelegate {
   
-  func showSelectedCase()
-  func deleteSelectedCase()
+  func editSelectedCase(caseData: Case)
+  func deleteSelectedCase(caseData: Case)
   
 }
 
@@ -37,18 +37,22 @@ class PreviewVimeoYoutubeView: UIView {
   private var isPlayingVidePlayerVimeoPlayer: Bool = false
   private var videoPlayerLayerVimeoAVPlayerLayer: AVPlayerLayer! = nil
   
+  private var showButtonsOfEditionAndDelete: Bool! = nil
+  
   var delegate: PreviewVimeoYoutubeViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(frame: CGRect, caseInfo: Case) {
+  init(frame: CGRect, caseInfo: Case, showButtonsOfEdition: Bool) {
 
+    showButtonsOfEditionAndDelete = showButtonsOfEdition
+    
     caseData = caseInfo
-    if caseData.caseWebLink != nil {
+    if caseData.url != nil {
       
-      videoURLString = caseData.caseWebLink
+      videoURLString = caseData.url
       videoURLNSURL = NSURL.init(string: videoURLString!)
       
     } else {
@@ -68,7 +72,7 @@ class PreviewVimeoYoutubeView: UIView {
     
     self.backgroundColor = UIColor.lightGrayColor()
     
-    if caseData.caseImage != nil {
+    if caseData.case_image_url != nil {
       
       self.createImageForCaseImageView()
       
@@ -88,11 +92,16 @@ class PreviewVimeoYoutubeView: UIView {
                                         height: self.frame.size.height)
     
     imageForCaseImageView = UIImageView.init(frame: frameForImageView)
-    imageForCaseImageView.image = caseData.caseImage!
+//    imageForCaseImageView.image = caseData.case_image_url!
+    imageForCaseImageView.autoresizingMask = .FlexibleWidth
+    imageForCaseImageView.contentMode = .ScaleAspectFit
+    imageForCaseImageView.imageFromUrl(caseData.case_image_url!)
     self.addSubview(imageForCaseImageView)
     
-    self.createEditCaseButton()
-    self.createDeleteCaseButton()
+    if showButtonsOfEditionAndDelete == true {
+      self.createEditCaseButton()
+      self.createDeleteCaseButton()
+    }
     
   }
   
@@ -177,8 +186,12 @@ class PreviewVimeoYoutubeView: UIView {
         self.loadVideoPlayerVimeoAVPlayer()
         
       }else{
-        self.createLoadingLabel("Can't load")
-        self.createImageForCaseImageView()
+        self.createLoadingLabel("Sin multimedia")
+        if showButtonsOfEditionAndDelete == true {
+          self.createEditCaseButton()
+          self.createDeleteCaseButton()
+        }
+        //self.createImageForCaseImageView()
     }
     
   }
@@ -271,13 +284,13 @@ class PreviewVimeoYoutubeView: UIView {
   
   func editCase() {
     
-    self.delegate?.showSelectedCase()
+    self.delegate?.editSelectedCase(caseData)
     
   }
   
   @objc private func deleteCase() {
     
-    self.delegate?.deleteSelectedCase()
+    self.delegate?.deleteSelectedCase(caseData)
     
   }
   

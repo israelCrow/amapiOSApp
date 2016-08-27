@@ -25,11 +25,11 @@ class SplashViewController: UIViewController {
   }
   
   private func showLogin() {
-//    let loginViewController = LoginViewController()
-//    self.navigationController?.pushViewController(loginViewController, animated: true)
+    let loginViewController = LoginViewController()
+    self.navigationController?.pushViewController(loginViewController, animated: true)
     
-    let stuffAgency = EditAgencyProfileViewController()
-    self.navigationController?.pushViewController(stuffAgency, animated: true)
+//    let stuffAgency = EditAgencyProfileViewController()
+//    self.navigationController?.pushViewController(stuffAgency, animated: true)
     
   }
   

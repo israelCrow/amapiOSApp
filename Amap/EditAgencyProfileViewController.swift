@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class EditAgencyProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CasesViewDelegate, CreateCaseViewDelegate, ProfileViewDelegate, ExclusiveViewDelegate {
+class EditAgencyProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CasesViewDelegate, CreateCaseViewDelegate, ProfileViewDelegate {
     
   private let kEditAgencyProfile = "Editar Perfil Agencia"
   private let kNumberOfCardsInScrollViewMinusOne = 5
@@ -29,7 +29,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
 //  private var criteriaView: CriterionView! = nil
 //  private var participateView: ParticipateInView! = nil
-  private var exclusiveView: ExclusiveView! = nil
+//  private var exclusiveView: ExclusiveView! = nil
   private var createCaseView: CreateCaseView?
   private var casesView: CasesView! = nil
 //  private var skillsView: SkillsView! = nil
@@ -163,11 +163,10 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       width: frameForCards.size.width,
       height: frameForCards.size.height))
     
-    exclusiveView = ExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width * 2.0,
+    let exclusiveView = ExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width * 2.0,
       y: 0.0 ,
       width: frameForCards.size.width,
       height: frameForCards.size.height))
-    exclusiveView.delegate = self
     
     casesView = CasesView.init(frame: CGRect.init(x: frameForCards.size.width * 3.0,
       y: 0.0,
@@ -200,16 +199,16 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     rightButton = nil
     
     
-    let sizeForButtons = CGSize.init(width: 8.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     height: 19.0 * UtilityManager.sharedInstance.conversionHeight)
+    let sizeForButtons = CGSize.init(width: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 49.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let frameForLeftButton = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: 39.0 * UtilityManager.sharedInstance.conversionHeight,
+    let frameForLeftButton = CGRect.init(x: 23.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: 24.0 * UtilityManager.sharedInstance.conversionHeight,
                                          width: sizeForButtons.width,
                                          height:sizeForButtons.height)
     
-    let frameForRightButton = CGRect.init(x: 250.0 * UtilityManager.sharedInstance.conversionWidth,
-                                          y: 39.0 * UtilityManager.sharedInstance.conversionHeight,
+    let frameForRightButton = CGRect.init(x: 235.0 * UtilityManager.sharedInstance.conversionWidth,
+                                          y: 24.0 * UtilityManager.sharedInstance.conversionHeight,
                                           width: sizeForButtons.width,
                                           height: sizeForButtons.height)
     
@@ -384,6 +383,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     super.viewWillAppear(animated)
     
     self.addObserverToKeyboardNotification()
+    self.requestForAgencyData()
   }
   
   override func viewWillDisappear(animated: Bool) {
@@ -402,6 +402,137 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
   }
   
+  private func requestForAgencyData() {
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/agencies/\(AgencyModel.Data.id!)"
+  
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "GET"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    Alamofire.request(requestConnection)
+    .validate(statusCode: 200..<400)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          //print(json)
+          
+          AgencyModel.Data.address = json["address"] as? String
+          AgencyModel.Data.contact_email = json["contact_email"] as? String
+          AgencyModel.Data.contact_name = json["contact_name"] as? String
+          AgencyModel.Data.latitude = json["latitude"] as? String
+          AgencyModel.Data.logo = json["logo"] as? String
+          AgencyModel.Data.longitude = json["longitude"] as? String
+          AgencyModel.Data.name = json["name"] as? String
+          AgencyModel.Data.num_employees = json["num_employees"] as? String
+          AgencyModel.Data.phone = json["phone"] as? String
+          AgencyModel.Data.website_url = json["website_url"] as? String
+          
+          var golden_pitch_bool: Bool
+          var silver_pitch_bool: Bool
+          var high_risk_pitch_bool: Bool
+          var medium_risk_pitch_bool: Bool
+          
+          let golden_pitch_string = json["golden_pitch"] as? Int
+          if golden_pitch_string != nil && golden_pitch_string! == 1 {
+            golden_pitch_bool = true
+          }else{
+            golden_pitch_bool = false
+          }
+          
+          let silver_pitch_string = json["silver_pitch"] as? Int
+          if silver_pitch_string != nil && silver_pitch_string! == 1 {
+            silver_pitch_bool = true
+          }else{
+            silver_pitch_bool = false
+          }
+          
+          let high_risk_pitch_string = json["high_risk_pitch"] as? Int
+          if high_risk_pitch_string != nil && high_risk_pitch_string! == 1 {
+            high_risk_pitch_bool = true
+          }else{
+            high_risk_pitch_bool = false
+          }
+          
+          let medium_risk_pitch_string = json["medium_risk_pitch"] as? Int
+          if medium_risk_pitch_string != nil && medium_risk_pitch_string! == 1 {
+            medium_risk_pitch_bool = true
+          }else{
+            medium_risk_pitch_bool = false
+          }
+          
+          AgencyModel.Data.golden_pitch = golden_pitch_bool
+          AgencyModel.Data.silver_pitch = silver_pitch_bool
+          AgencyModel.Data.high_risk_pitch = high_risk_pitch_bool
+          AgencyModel.Data.medium_risk_pitch = medium_risk_pitch_bool
+          
+          let arrayOfSuccessCases = json["success_cases"] as? [AnyObject]
+          self.saveAllSuccessfulCases(arrayOfSuccessCases)
+          
+          print(AgencyModel.Data.address!)
+          
+        }
+        
+      }
+    
+  }
+  
+  private func saveAllSuccessfulCases(rawCases: [AnyObject]?) {
+    
+    if rawCases != nil {
+      
+      let allRawCases = rawCases!
+      
+      var allCases = [Case]()
+      
+      for rawCase in allRawCases {
+        
+        var newCaseId: String! = nil
+        var newCaseName: String! = nil
+        var newCaseDescription: String! = nil
+        var newCaseUrl: String! = nil
+        var newCaseImageUrl: String! = nil
+        var newCaseAgencyId: String! = nil
+        
+        if rawCase["id"] as? String != nil {
+          newCaseId = rawCase["id"] as! String
+        }
+        if rawCase["name"] as? String != nil {
+          newCaseName = rawCase["name"] as! String
+        }
+        if rawCase["description"] as? String != nil {
+          newCaseDescription = rawCase["description"] as! String
+        }
+        if rawCase["url"] as? String != nil {
+          newCaseUrl = rawCase["url"] as! String
+        }
+        if rawCase["case_image"] as? String != nil {
+          newCaseImageUrl = rawCase["case_image"] as! String
+        }
+        if rawCase["agency_id"] as? String != nil {
+          newCaseAgencyId = rawCase["agency_id"] as! String
+        }
+        
+        let newCase = Case(id: newCaseId,
+                         name: newCaseName,
+                  description: newCaseDescription,
+                          url: newCaseUrl,
+               case_image_url: newCaseImageUrl,
+                   case_image: nil,
+                    agency_id: newCaseAgencyId)
+        
+        allCases.append(newCase)
+      
+      }
+      
+      AgencyModel.Data.success_cases = allCases
+//      print("CASES IN AGENCY MODEL: \(AgencyModel.Data.success_cases)")
+      
+    }
+    
+  }
+  
   @objc private func keyBoardWillAppear(notification:NSNotification) {
     
     if isKeyboardAlreadyShown == false {
@@ -413,7 +544,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
 
       lastFrameForFlipCard = flipCard.frame
       let newFrameForFlipCard = CGRect.init(x: flipCard.frame.origin.x,
-                                          y: flipCard.frame.origin.y - ((keyboardHeight - 70.0) * UtilityManager.sharedInstance.conversionHeight),
+                                          y: flipCard.frame.origin.y - ((keyboardHeight - 100.0) * UtilityManager.sharedInstance.conversionHeight),
                                       width: flipCard.frame.size.width,
                                      height: flipCard.frame.size.height)
     
@@ -496,6 +627,13 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
   }
   
+  func deleteCaseSelectedFromPreviewVimeoYoutubePlayer(caseData: Case) {
+    
+    RequestToServerManager.sharedInstance.requestForDeleteAgencyCase(caseData) { 
+      self.casesView.createAgainAllCasesCardInfo()
+    }
+  }
+  
   //MARK: - CreateCaseViewDelegate
   
   func createCaseRequest(parameters: [String : AnyObject]) {
@@ -521,8 +659,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     params.removeValueForKey("case_image")
     
     let keyAgency_id = "agency_id"
-    let agency_id = params[keyAgency_id] as! Int
-    let agency_id_string = String(agency_id)
+    let agency_id_string = params[keyAgency_id] as! String
     params.removeValueForKey(keyAgency_id)
     
 //    var caseName = newParamters["name"]
@@ -582,13 +719,30 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
                 
                 let imageCase = UIImage.init(data: rawImage!)
                 
-                let newCaseData = Case(caseName: caseName as! String, caseDescription: caseDescription as! String, caseWebLink: caseURL as? String, caseImage: imageCase)
+                let newCaseData = Case(id: nil,
+                  name: caseName as! String,
+                  description: caseDescription as! String,
+                  url: caseURL as? String,
+                  case_image_url: nil,
+                  case_image: imageCase,
+                  agency_id: AgencyModel.Data.id)
+                
+                
+//                let newCaseData = Case(caseName: caseName as! String, caseDescription: caseDescription as! String, caseWebLink: caseURL as? String, caseImage: imageCase)
                 
                 self.casesView.addCaseToViewsOfCase(newCaseData)
                 
               } else {
                 
-                let newCaseData = Case(caseName: caseName as! String, caseDescription: caseDescription as! String, caseWebLink: caseURL as? String, caseImage: nil)
+                let newCaseData = Case(id: nil,
+                                     name: caseName as! String,
+                              description: caseDescription as! String,
+                                      url: caseURL as? String,
+                           case_image_url: nil,
+                               case_image: nil,
+                                agency_id: AgencyModel.Data.id)
+                
+//                let newCaseData = Case(caseName: caseName as! String, caseDescription: caseDescription as! String, caseWebLink: caseURL as? String, caseImage: nil)
                 
                 self.casesView.addCaseToViewsOfCase(newCaseData)
                 
@@ -906,13 +1060,6 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       }
     )
   }
-  
-  //MARK: - ExlusiveViewDelegate
-  
-  func keyBoardWillAppearFromExclusiveView(distanceToMoveFlipCard: CGFloat) {
-    
-    
-    
-  }
+
 
 }

@@ -204,26 +204,76 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
             .responseJSON{ response in
                 if response.response?.statusCode == 200 {
                     
-                    let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
-                    let info = json["user"] as? [String: AnyObject]
-                    let email = info!["email"] as? String
+                  let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+                  
+                  //print(json)
+                  
+                  let info_user_session = json["user"] as? [String: AnyObject]
+
+                  if info_user_session != nil {
                     
-                    let frameLabel = CGRect.init(x: 0.0,
-                        y: 0.0,
-                        width: self.view.frame.size.width,
-                        height: self.view.frame.size.height / 2.0)
+                    let agency_id = info_user_session!["agency_id"] as? Int
+                    let auth_token = info_user_session!["auth_token"] as? String
+                    let email = info_user_session!["email"] as? String
+                    let first_name = info_user_session!["first_name"] as? String
+                    let id_user_int = info_user_session!["id"] as? Int
+                    let id_user_string = String(id_user_int!)
+                    let is_member_amap = info_user_session!["is_member_amap"] as? String
                     
-                    let infoOfUser = UILabel.init(frame: frameLabel)
-                    infoOfUser.text = "Email: \(email!)"
-                    infoOfUser.numberOfLines = 10
+                    var is_member_amap_bool: Bool
+                    if is_member_amap == "0" {
+                      is_member_amap_bool = false
+                    }else{
+                      is_member_amap_bool = true
+                    }
                     
+                    let last_name = info_user_session!["last_name"] as? String
+                    let role_int = info_user_session!["role"] as? Int
+                    let role_string = String(role_int)
                     
-                    let blankVC = BlankViewController()
-                    blankVC.view.addSubview(infoOfUser)
+                    UserSession.session.agency_id = String(agency_id!)
+                    UserSession.session.auth_token = auth_token!
+                    UserSession.session.email = email!
+                    UserSession.session.first_name = first_name!
+                    UserSession.session.id = id_user_string
+                    UserSession.session.is_member_amap = is_member_amap_bool
+                    UserSession.session.last_name = last_name!
+                    UserSession.session.role = role_string
                     
-                    self.navigationController?.pushViewController(blankVC, animated: true)
-                    self.loginGoldenPitchView.activateInteractionEnabledOfNextButton()
+                    AgencyModel.Data.id = UserSession.session.agency_id!
+                    
+                    let stuffAgency = EditAgencyProfileViewController()
+                    self.navigationController?.pushViewController(stuffAgency, animated: true)
+                  
+                  } else {
+                    
+                    print("ERROR")
+                    
+                  }
+
+                  
+                  
+                    
+//                  let frameLabel = CGRect.init(x: 0.0,
+//                                               y: 0.0,
+//                                           width: self.view.frame.size.width,
+//                                          height: self.view.frame.size.height / 2.0)
+//                    
+//                    let infoOfUser = UILabel.init(frame: frameLabel)
+//                    infoOfUser.text = "Email: \(email!)"
+//                    infoOfUser.numberOfLines = 10
+//                    
+//                    let blankVC = BlankViewController()
+//                    blankVC.view.addSubview(infoOfUser)
+                  
+//                    self.navigationController?.pushViewController(blankVC, animated: true)
+//                    self.loginGoldenPitchView.activateInteractionEnabledOfNextButton()
+                  
+
+
+                  
                 } else {
+                  
                         self.loginGoldenPitchView.activateInteractionEnabledOfNextButton()
                         if response.response?.statusCode == 422 {
                           let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])

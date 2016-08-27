@@ -14,6 +14,7 @@ protocol CreateCaseViewDelegate {
   func cancelCreateCase()
   func selectCaseImageFromLibrary()
   func askingForDeleteCaseImage()
+  
 }
 
 class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlayerVimeoYoutubeViewDelegate{
@@ -21,19 +22,22 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
   private var cancelCreateButton: UIButton! = nil
   private var saveCaseButton: UIButton! = nil
   private var mainScrollView: UIScrollView! = nil
+  private var containerView: UIView! = nil
   private var caseImage: UIImage?
   private var caseNameView: CustomTextFieldWithTitleView! = nil
   private var caseDescriptionTextView: UITextView! = nil
   private var clearButton: UIButton! = nil
   private var addImageLabel: UILabel! = nil
   private var caseImageView: UIImageView! = nil
-  private var changeCaseImageButton: UIButton! = nil
   private var caseVideoPlayerVimeoYoutube: VideoPlayerVimeoYoutubeView! = nil
   private var previewVideoPlayerVimeoYoutube: PreviewVimeoYoutubeView! = nil
   private var caseWebLinkView: CustomTextFieldWithTitleView! = nil
   private var errorInFieldsLabel: UILabel! = nil
+  private var isDownContentView: Bool = false
   
   private var caseDataForPreview: Case! = nil
+  
+  
   
   var delegate: CreateCaseViewDelegate?
   
@@ -78,6 +82,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     self.createCancelCreateButton()
     self.createSaveCaseButton()
     self.createMainScrollView()
+    self.createContainerView()
     self.createCaseNameView()
     self.createCaseDescriptionTextView()
     self.createAddImageLabel()
@@ -93,6 +98,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     
     self.createCancelCreateButton()
     self.createMainScrollView()
+    self.createContainerView()
     self.createCaseNameViewForPreview()
     self.createCaseDescriptionTextViewForPreview()
     self.createAddImageLabelForPreview()
@@ -165,9 +171,29 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
                                          width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 419.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    let newContentSize = CGSize.init(width: frameForMainScrollView.size.width,
+                                    height: frameForMainScrollView.size.height + (65.0 * UtilityManager.sharedInstance.conversionHeight))
+    
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
+    mainScrollView.showsVerticalScrollIndicator = false
+    mainScrollView.contentSize = newContentSize
+    mainScrollView.scrollEnabled = false
     mainScrollView.backgroundColor = UIColor.whiteColor()
     self.addSubview(mainScrollView)
+    
+  }
+  
+  private func createContainerView() {
+    
+    let frameForContainerView = CGRect.init(x: 0.0,
+                                            y: 0.0,
+                                        width: mainScrollView.frame.size.width,
+                                       height: mainScrollView.frame.size.height)
+    
+    containerView = UIView.init(frame: frameForContainerView)
+    containerView.backgroundColor = UIColor.clearColor()
+    mainScrollView.addSubview(containerView)
+    
     
   }
   
@@ -182,7 +208,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     caseNameView.mainTextField.placeholder = "Nombre del caso"
     caseNameView.backgroundColor = UIColor.clearColor()
     caseNameView.mainTextField.delegate = self
-    self.mainScrollView.addSubview(caseNameView)
+    self.containerView.addSubview(caseNameView)
     
   }
   
@@ -194,12 +220,12 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
                                          height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
     caseNameView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: nil, image: nil)
-    caseNameView.mainTextField.text = caseDataForPreview.caseName
+    caseNameView.mainTextField.text = caseDataForPreview.name
     caseNameView.mainTextField.userInteractionEnabled = false
     caseNameView.backgroundColor = UIColor.clearColor()
     caseNameView.mainTextField.delegate = self
-    self.mainScrollView.addSubview(caseNameView)
-    
+    self.containerView.addSubview(caseNameView)
+    print()
   }
   
   private func createCaseDescriptionTextView() {
@@ -218,7 +244,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     caseDescriptionTextView.textColor = UIColor.lightGrayColor()
     caseDescriptionTextView.delegate = self
 
-    self.mainScrollView.addSubview(caseDescriptionTextView)
+    self.containerView.addSubview(caseDescriptionTextView)
     
     self.createCancelButtonForNameTextView()
     
@@ -230,8 +256,8 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
                                y: 139.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: 220 * UtilityManager.sharedInstance.conversionWidth,
                                height: 0.5)
-    mainScrollView.layer.addSublayer(border)
-    mainScrollView.layer.masksToBounds = true
+    containerView.layer.addSublayer(border)
+    containerView.layer.masksToBounds = true
     
    
     
@@ -249,12 +275,12 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     caseDescriptionTextView.backgroundColor = UIColor.whiteColor()
     caseDescriptionTextView.font = UIFont(name:"SFUIText-Regular",
                                           size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
-    caseDescriptionTextView.text = caseDataForPreview.caseDescription
+    caseDescriptionTextView.text = caseDataForPreview.description!
     caseDescriptionTextView.userInteractionEnabled = false
     caseDescriptionTextView.textColor = UIColor.blackColor()
     caseDescriptionTextView.delegate = self
     
-    self.mainScrollView.addSubview(caseDescriptionTextView)
+    self.containerView.addSubview(caseDescriptionTextView)
     
     self.createCancelButtonForNameTextView()
     
@@ -266,8 +292,8 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
                                y: 139.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: 220 * UtilityManager.sharedInstance.conversionWidth,
                                height: 0.5)
-    mainScrollView.layer.addSublayer(border)
-    mainScrollView.layer.masksToBounds = true
+    containerView.layer.addSublayer(border)
+    containerView.layer.masksToBounds = true
 
   }
   
@@ -312,7 +338,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     
     addImageLabel.frame = newFrame
     
-    self.mainScrollView.addSubview(addImageLabel)
+    self.containerView.addSubview(addImageLabel)
     
   }
   
@@ -342,7 +368,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     
     addImageLabel.frame = newFrame
     
-    self.mainScrollView.addSubview(addImageLabel)
+    self.containerView.addSubview(addImageLabel)
     
   }
   
@@ -357,7 +383,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     caseImageView.backgroundColor = UIColor.redColor()
     caseImageView.layer.masksToBounds = false
     
-    mainScrollView.addSubview(caseImageView)
+    containerView.addSubview(caseImageView)
     
   }
 
@@ -375,7 +401,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     caseWebLinkView.backgroundColor = UIColor.clearColor()
     caseWebLinkView.mainTextField.delegate = self
     caseWebLinkView.mainTextField.tag = 8
-    self.mainScrollView.addSubview(caseWebLinkView)
+    self.containerView.addSubview(caseWebLinkView)
     
   }
   
@@ -389,12 +415,12 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     caseWebLinkView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                         title: "Link del caso",
                                                         image: nil)
-    caseWebLinkView.mainTextField.text = caseDataForPreview.caseWebLink
+    caseWebLinkView.mainTextField.text = (caseDataForPreview.url != nil ? caseDataForPreview.url! : nil)
     caseWebLinkView.mainTextField.userInteractionEnabled = false
     caseWebLinkView.backgroundColor = UIColor.clearColor()
     caseWebLinkView.mainTextField.delegate = self
     caseWebLinkView.mainTextField.tag = 8
-    self.mainScrollView.addSubview(caseWebLinkView)
+    self.containerView.addSubview(caseWebLinkView)
     
   }
 
@@ -426,55 +452,97 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     
     errorInFieldsLabel.frame = newFrame
     errorInFieldsLabel.alpha = 0.0
-    self.addSubview(errorInFieldsLabel)
+    self.containerView.addSubview(errorInFieldsLabel)
     
   }
   
   //Called at the beggining or without text
   private func createCaseVideoPlayerVimeoYoutubeWithoutURL() {
     
-    if caseVideoPlayerVimeoYoutube != nil {
+    var lastFrameOfCaseVideoPlayer: CGRect? = nil
+    
+    if caseVideoPlayerVimeoYoutube != nil { //caseVideoPlayer exists
       
-      caseVideoPlayerVimeoYoutube.layer.removeAllAnimations()
-      caseVideoPlayerVimeoYoutube.layer.removeFromSuperlayer()
-      caseVideoPlayerVimeoYoutube = nil
+      if caseVideoPlayerVimeoYoutube.existsImage == false { //and no exists image selected
+        
+        lastFrameOfCaseVideoPlayer = caseVideoPlayerVimeoYoutube.frame
+        
+        caseVideoPlayerVimeoYoutube.layer.removeAllAnimations()
+        caseVideoPlayerVimeoYoutube.layer.removeFromSuperlayer()
+        caseVideoPlayerVimeoYoutube = nil
+        
+        caseVideoPlayerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: lastFrameOfCaseVideoPlayer!, url: nil)
+        caseVideoPlayerVimeoYoutube.delegate = self
+        self.containerView.addSubview(caseVideoPlayerVimeoYoutube)
+        
+      }
+    
+    } else { //when caseVideoPlayer is nil
+      
+      if lastFrameOfCaseVideoPlayer == nil {
+        
+        let frameForVideoPlayer = CGRect.init(x: 0.0,
+                                              y: addImageLabel.frame.origin.y + addImageLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
+                                              width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                              height: 110.0 * UtilityManager.sharedInstance.conversionHeight)
+        
+        caseVideoPlayerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: frameForVideoPlayer, url: nil)
+        caseVideoPlayerVimeoYoutube.delegate = self
+        self.containerView.addSubview(caseVideoPlayerVimeoYoutube)
+        
+      } else { //supposedly never get this else
+        
+        caseVideoPlayerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: lastFrameOfCaseVideoPlayer!, url: nil)
+        caseVideoPlayerVimeoYoutube.delegate = self
+        self.containerView.addSubview(caseVideoPlayerVimeoYoutube)
+        
+      }
       
     }
     
-    let frameForVideoPlayer = CGRect.init(x: 0.0,
-                                          y: addImageLabel.frame.origin.y + addImageLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
-                                          width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                                          height: 110.0 * UtilityManager.sharedInstance.conversionHeight)
-    
-    caseVideoPlayerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: frameForVideoPlayer, url: nil)
-    caseVideoPlayerVimeoYoutube.delegate = self
-    self.mainScrollView.addSubview(caseVideoPlayerVimeoYoutube)
-    
+
     
   }
-  
-  
   
   //Called when user writes down the case web link
   
   private func createCaseVideoPlayerVimeoYoutube(url: String) {
     
-    if caseVideoPlayerVimeoYoutube != nil {
+    var lastFrameOfCaseVideoPlayer: CGRect? = nil
+    
+    let isYoutubeOrVimeoLink = UtilityManager.sharedInstance.validateIfLinkIsVimeo(url) || UtilityManager.sharedInstance.validateIfLinkIsYoutube(url)
+    
+    if isYoutubeOrVimeoLink == true {
       
-      caseVideoPlayerVimeoYoutube.layer.removeAllAnimations()
-      caseVideoPlayerVimeoYoutube.layer.removeFromSuperlayer()
-      caseVideoPlayerVimeoYoutube = nil
+      if caseVideoPlayerVimeoYoutube != nil { //caseVideoPlayer exists
+        
+        
+        lastFrameOfCaseVideoPlayer = caseVideoPlayerVimeoYoutube.frame
+        
+        caseVideoPlayerVimeoYoutube.layer.removeAllAnimations()
+        caseVideoPlayerVimeoYoutube.layer.removeFromSuperlayer()
+        caseVideoPlayerVimeoYoutube = nil
+        
+        caseVideoPlayerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: lastFrameOfCaseVideoPlayer!, url: url)
+        caseVideoPlayerVimeoYoutube.delegate = self
+        self.containerView.addSubview(caseVideoPlayerVimeoYoutube)
+        
+        
+        
+      } else {
+        
+        let frameForVideoPlayer = CGRect.init(x: 0.0,
+                                              y: addImageLabel.frame.origin.y + addImageLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
+                                              width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                              height: 110.0 * UtilityManager.sharedInstance.conversionHeight)
+        
+        caseVideoPlayerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: frameForVideoPlayer, url: url)
+        caseVideoPlayerVimeoYoutube.delegate = self
+        self.containerView.addSubview(caseVideoPlayerVimeoYoutube)
+        
+      }
       
     }
-    
-    let frameForVideoPlayer = CGRect.init(x: 0.0,
-                                          y: addImageLabel.frame.origin.y + addImageLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
-                                      width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     height: 110.0 * UtilityManager.sharedInstance.conversionHeight)
-    
-    caseVideoPlayerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: frameForVideoPlayer, url: url)
-    caseVideoPlayerVimeoYoutube.delegate = self
-    self.mainScrollView.addSubview(caseVideoPlayerVimeoYoutube)
     
   }
   
@@ -494,9 +562,9 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
                                           height: 110.0 * UtilityManager.sharedInstance.conversionHeight)
     
     previewVideoPlayerVimeoYoutube = PreviewVimeoYoutubeView.init(frame: frameForVideoPlayer,
-                                                               caseInfo: caseDataForPreview)
+caseInfo: caseDataForPreview, showButtonsOfEdition: false)
     
-    self.mainScrollView.addSubview(previewVideoPlayerVimeoYoutube)
+    self.containerView.addSubview(previewVideoPlayerVimeoYoutube)
     
   }
   
@@ -579,12 +647,17 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     
   }
   
+  //MARK - UITextDelegate
+  
   func textFieldDidBeginEditing(textField: UITextField) {
+    
+    self.moveDownContainerView()
     self.hideErrorInFieldsLabel()
+    
   }
   
   func textViewDidBeginEditing(textView: UITextView) {
-    
+  
     self.hideErrorInFieldsLabel()
     
     if textView.tag == 1 {
@@ -595,7 +668,16 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     }
   }
   
+  func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+    
+    self.moveDownContainerView()
+    
+    return true
+    
+  }
+  
   func textViewDidEndEditing(textView: UITextView) {
+    
     if textView.tag == 1 {
       
       self.setPlaceHolderOfTextView(textView)
@@ -608,6 +690,8 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
   }
   
   func textViewDidChange(textView: UITextView) {
+    
+    self.moveDownContainerView()
     
     if textView.tag == 1 {
       
@@ -645,6 +729,54 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     
   }
   
+  private func moveDownContainerView() {
+    
+    if isDownContentView == false {
+      
+      let newFrameForContainerView = CGRect.init(x: containerView.frame.origin.x,
+                                                 y: containerView.frame.origin.y + (45.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                 width: containerView.frame.size.width,
+                                                 height: containerView.frame.size.height)
+      
+      UIView.animateWithDuration(0.1,
+                                 animations: {
+                                  self.containerView.frame = newFrameForContainerView
+      }) { (finished) in
+        if finished {
+          
+          self.mainScrollView.scrollEnabled = true
+          self.isDownContentView = true
+          
+        }
+      }
+    }
+
+  }
+  
+  private func moveUpContainerView() {
+    
+    if isDownContentView == true {
+      
+      let newFrameForContainerView = CGRect.init(x: containerView.frame.origin.x,
+                                                 y: 0.0,
+                                                 width: containerView.frame.size.width,
+                                                 height: containerView.frame.size.height)
+      
+      UIView.animateWithDuration(0.1,
+                                 animations: {
+                                  self.containerView.frame = newFrameForContainerView
+      }) { (finished) in
+        if finished {
+          
+          self.mainScrollView.setContentOffset(CGPointZero, animated: true)
+          self.mainScrollView.scrollEnabled = false
+          self.isDownContentView = false
+          
+        }
+      }
+    }
+  }
+  
   @objc private func requestCreateCase() {
     
     let isNameOk = UtilityManager.sharedInstance.isValidText(caseNameView.mainTextField.text!)
@@ -661,6 +793,8 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
                                       ||
       (isNameOk == true && isDescriptionOk == true && doesExistImage == true) {
       
+      self.disableAllElements()
+      
       var params = [String:AnyObject]()
       let caseName: String = caseNameView.mainTextField.text!
       let caseDescription: String = caseDescriptionTextView.text
@@ -669,13 +803,13 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
       if doesExistImage ==  false {
 
         params = [
-          "auth_token" : "pqTrEetLEJT_vT1fsVzU",//request for it
-          "filename" : "AgenciaPrueba1.png", //Change this in future
+          "auth_token" : UserSession.session.auth_token,
+          "filename" : (AgencyModel.Data.name != nil ? "\(AgencyModel.Data.name).png" : "AgenciaID\(UserSession.session.agency_id).png"),
           "success_case" :
                            ["name" : caseName,
                      "description" : caseDescription,
                              "url" : caseWebLink,
-                       "agency_id" : 1  //Change this in future
+                       "agency_id" : UserSession.session.agency_id
                            ]
         ]
       }else{
@@ -683,15 +817,15 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
         let dataImage = UIImagePNGRepresentation(caseImage!)
         
         params = [
-          "auth_token" : "pqTrEetLEJT_vT1fsVzU",//request for it
-          "filename" : "AgenciaPrueba1.png", //Change this in future
+          "auth_token" : UserSession.session.auth_token,
+          "filename" : (AgencyModel.Data.name != nil ? "\(AgencyModel.Data.name).png" : "AgenciaID\(UserSession.session.agency_id).png"),
           "success_case" :
             [
             "case_image" : dataImage!,
                   "name" : caseName,
            "description" : caseDescription,
                    "url" : caseWebLink,
-             "agency_id" : 1  //Change this in future
+             "agency_id" : UserSession.session.agency_id
           ]
         ]
       }
@@ -706,8 +840,33 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     }
   }
   
+  private func disableAllElements() {
+    
+    cancelCreateButton.userInteractionEnabled = false
+    saveCaseButton.userInteractionEnabled = false
+    caseDescriptionTextView.userInteractionEnabled = false
+    clearButton.userInteractionEnabled = false
+    caseVideoPlayerVimeoYoutube.userInteractionEnabled = false
+    caseWebLinkView.userInteractionEnabled = false
+    
+  
+//    private var caseDescriptionTextView: UITextView! = nil
+//    private var clearButton: UIButton! = nil
+//    private var addImageLabel: UILabel! = nil
+//    private var caseImageView: UIImageView! = nil
+//    private var changeCaseImageButton: UIButton! = nil
+//    private var caseVideoPlayerVimeoYoutube: VideoPlayerVimeoYoutubeView! = nil
+//    private var previewVideoPlayerVimeoYoutube: PreviewVimeoYoutubeView! = nil
+//    private var caseWebLinkView: CustomTextFieldWithTitleView! = nil
+//    private var errorInFieldsLabel: UILabel! = nil
+    
+  }
+  
   @objc func dismissKeyboard(sender:AnyObject) {
+    
     self.endEditing(true)
+    self.moveUpContainerView()
+    
   }
   
   func deleteImageOfNewCase() {
@@ -719,6 +878,8 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
   //MARK: - VideoPlayerVimeoYoutubeDelegate
   
   func selectImageForCaseFromLibrary() {
+    
+    self.moveUpContainerView()
       
     delegate?.selectCaseImageFromLibrary()
     

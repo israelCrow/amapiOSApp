@@ -8,12 +8,6 @@
 
 import UIKit
 
-protocol ExclusiveViewDelegate {
-  
-  func keyBoardWillAppearFromExclusiveView(distanceToMoveFlipCard: CGFloat)
-  
-}
-
 class ExclusiveView: UIView, UITextFieldDelegate {
   
   private var mainScrollView: UIScrollView! = nil
@@ -22,8 +16,6 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   private var arrayOfExclusivesBrandTextFields: [UITextField]! = nil
   private var descriptionLabel: UILabel! = nil
   private var creatorOfBrandTextField: UITextField! = nil
-  
-  var delegate: ExclusiveViewDelegate?
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -350,14 +342,6 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   }
   
   //MARK: - TextFieldDelegate
-  
-  func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-    
-    self.delegate?.keyBoardWillAppearFromExclusiveView(textField.frame.origin.y)
-    
-    return true
-    
-  }
   
   func textFieldShouldClear(textField: UITextField) -> Bool {
     

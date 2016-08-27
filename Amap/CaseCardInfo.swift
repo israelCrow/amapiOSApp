@@ -11,11 +11,12 @@ import UIKit
 protocol CaseCardInfoViewDelegate {
   
   func flipCardAndShowPreviewCase(caseData: Case)
+  func deleteCaseFromPreviewPlayer(dataCase: Case)
   
 }
 
-class CaseCardInfoView: UIView {
-  
+class CaseCardInfoView: UIView, PreviewVimeoYoutubeViewDelegate {
+
   private var caseData: Case! = nil
   private var casePreviewVideoPlayerVimeoYoutube: PreviewVimeoYoutubeView! = nil
   private var caseNameLabel: UILabel! = nil
@@ -49,7 +50,8 @@ class CaseCardInfoView: UIView {
                                       width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 110.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    casePreviewVideoPlayerVimeoYoutube = PreviewVimeoYoutubeView.init(frame: frameForPreviewVideoPlayer, caseInfo: caseData)
+    casePreviewVideoPlayerVimeoYoutube = PreviewVimeoYoutubeView.init(frame: frameForPreviewVideoPlayer, caseInfo: caseData, showButtonsOfEdition: true)
+    casePreviewVideoPlayerVimeoYoutube.delegate = self
     
     self.addSubview(casePreviewVideoPlayerVimeoYoutube)
  
@@ -66,7 +68,7 @@ class CaseCardInfoView: UIView {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: caseData.caseName,
+      string: caseData.name,
       attributes:[NSFontAttributeName:font!,
         NSParagraphStyleAttributeName:style,
         NSForegroundColorAttributeName:color
@@ -121,10 +123,21 @@ class CaseCardInfoView: UIView {
   
   @objc private func delegateFlipCardAndShowPreviewCase() {
     
+    print(self.caseData)
+    
     self.delegate?.flipCardAndShowPreviewCase(self.caseData)
     
   }
   
+  //MARK: - PreviewVimeoYoutubeDelegate
+  
+  func deleteSelectedCase(caseData: Case) {
+    self.delegate?.deleteCaseFromPreviewPlayer(caseData)
+  }
+  
+  func editSelectedCase(caseData: Case) {
+    ///EDIT CASE
+  }
   
   
 }

@@ -41,6 +41,9 @@
 		AA2DB85C1D53C17400E9FB8A /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB85B1D53C17400E9FB8A /* ChangePasswordViewController.swift */; };
 		AA40C9D91D51051F00FF2B4D /* FlipCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */; };
 		AA681E381D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA681E371D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift */; };
+		AA756D7B1D709F8C0070F153 /* AgencyModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA756D7A1D709F8C0070F153 /* AgencyModelData.swift */; };
+		AA756D7D1D70A03C0070F153 /* CaseModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA756D7C1D70A03C0070F153 /* CaseModelData.swift */; };
+		AA756D7F1D70F7FB0070F153 /* RequestToServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA756D7E1D70F7FB0070F153 /* RequestToServerManager.swift */; };
 		AA7AC7801D52654D007522FB /* SF-UI-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA7AC7691D52654D007522FB /* SF-UI-Display-Black.otf */; };
 		AA7AC7811D52654D007522FB /* SF-UI-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA7AC7691D52654D007522FB /* SF-UI-Display-Black.otf */; };
 		AA7AC7821D52654D007522FB /* SF-UI-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA7AC7691D52654D007522FB /* SF-UI-Display-Black.otf */; };
@@ -184,6 +187,9 @@
 		AA2DB85B1D53C17400E9FB8A /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipCardView.swift; sourceTree = "<group>"; };
 		AA681E371D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessfullyAskForChangePasswordView.swift; sourceTree = "<group>"; };
+		AA756D7A1D709F8C0070F153 /* AgencyModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyModelData.swift; sourceTree = "<group>"; };
+		AA756D7C1D70A03C0070F153 /* CaseModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaseModelData.swift; sourceTree = "<group>"; };
+		AA756D7E1D70F7FB0070F153 /* RequestToServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestToServerManager.swift; sourceTree = "<group>"; };
 		AA7AC7691D52654D007522FB /* SF-UI-Display-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Black.otf"; path = "Resources/fonts/SF-UI-Display-Black.otf"; sourceTree = "<group>"; };
 		AA7AC76A1D52654D007522FB /* SF-UI-Display-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Bold.otf"; path = "Resources/fonts/SF-UI-Display-Bold.otf"; sourceTree = "<group>"; };
 		AA7AC76B1D52654D007522FB /* SF-UI-Display-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Heavy.otf"; path = "Resources/fonts/SF-UI-Display-Heavy.otf"; sourceTree = "<group>"; };
@@ -318,6 +324,8 @@
 			isa = PBXGroup;
 			children = (
 				04750BF81D6E000400CC0CD1 /* UserSession.swift */,
+				AA756D7A1D709F8C0070F153 /* AgencyModelData.swift */,
+				AA756D7C1D70A03C0070F153 /* CaseModelData.swift */,
 			);
 			name = ModelData;
 			sourceTree = "<group>";
@@ -510,6 +518,7 @@
 			isa = PBXGroup;
 			children = (
 				AA7AC7C51D526C23007522FB /* UtilityManager.swift */,
+				AA756D7E1D70F7FB0070F153 /* RequestToServerManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -823,6 +832,7 @@
 			files = (
 				044F89D61D6377E800AA7FF3 /* CustomSkillTableViewCell.swift in Sources */,
 				AA0949681D52955E000E76E1 /* CreateAccountView.swift in Sources */,
+				AA756D7B1D709F8C0070F153 /* AgencyModelData.swift in Sources */,
 				AA2DB84E1D53B0D900E9FB8A /* ExistingAccountView.swift in Sources */,
 				AA09496A1D529A59000E76E1 /* CreateAccountConstants.swift in Sources */,
 				AA2DB85C1D53C17400E9FB8A /* ChangePasswordViewController.swift in Sources */,
@@ -838,6 +848,7 @@
 				045F5C281D650CE100F0C077 /* CasesView.swift in Sources */,
 				04750BF91D6E000400CC0CD1 /* UserSession.swift in Sources */,
 				046229661D6275E50087E572 /* CollapsibleTableViewHeader.swift in Sources */,
+				AA756D7D1D70A03C0070F153 /* CaseModelData.swift in Sources */,
 				044F89DB1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift in Sources */,
 				AA2DB8581D53B97D00E9FB8A /* ChangePasswordRequestView.swift in Sources */,
 				041DA48A1D66213400BAE262 /* ExtensionUIIMageView.swift in Sources */,
@@ -858,6 +869,7 @@
 				AA92D60B1D50E7D300CE7D95 /* AppDelegate.swift in Sources */,
 				AA2DB84C1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift in Sources */,
 				AA7AC7C61D526C23007522FB /* UtilityManager.swift in Sources */,
+				AA756D7F1D70F7FB0070F153 /* RequestToServerManager.swift in Sources */,
 				0462295C1D620DC70087E572 /* BasicCustomTextField.swift in Sources */,
 				AA40C9D91D51051F00FF2B4D /* FlipCardView.swift in Sources */,
 				04AB393A1D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift in Sources */,
