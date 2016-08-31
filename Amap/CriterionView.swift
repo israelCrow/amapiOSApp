@@ -12,11 +12,13 @@ class CriterionView: UIView {
   
   private var descriptionLabel: UILabel! = nil
   private var descriptionText: String! = nil
-  private var selectValueSwitch: UISwitch! = nil
+  private var selectValueSwitch: CustomSwitchView! = nil
+  private var initialValueFromSwitch: Bool = false
   
-  init(frame: CGRect, textLabel: String){
-    
+  init(frame: CGRect, textLabel: String, valueOfSwitch: Bool){
+    initialValueFromSwitch = valueOfSwitch
     descriptionText = textLabel
+    
     super.init(frame: frame)
     self.initInterface()
     
@@ -67,9 +69,9 @@ class CriterionView: UIView {
                                  width: 36.0 * UtilityManager.sharedInstance.conversionWidth,
                                 height: 22.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let newSwitch = CustomSwitchView.init(frame: frameForSwitch)
-    newSwitch.clipsToBounds = false
-    self.addSubview(newSwitch)
+    selectValueSwitch = CustomSwitchView.init(frame: frameForSwitch, valueOfSwitch: initialValueFromSwitch)
+    selectValueSwitch.clipsToBounds = false
+    self.addSubview(selectValueSwitch)
     
   }
   
@@ -92,6 +94,12 @@ class CriterionView: UIView {
     self.layer.addSublayer(border)
     self.layer.masksToBounds = true
 
+  }
+  
+  func getValueOfSwitch() -> Bool {
+  
+    return selectValueSwitch.isOn
+  
   }
   
   required init?(coder aDecoder: NSCoder) {

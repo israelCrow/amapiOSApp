@@ -146,6 +146,18 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     profileImageView.layer.borderColor = UIColor.blackColor().CGColor
     profileImageView.layer.cornerRadius = profileImageView.frame.size.height / 2.0
     profileImageView.clipsToBounds = true
+    profileImageView.userInteractionEnabled = true
+    
+    let tapToChangeProfileImage = UITapGestureRecognizer.init(target: self, action: #selector(selectImageFromLibrary))
+    tapToChangeProfileImage.numberOfTapsRequired = 1
+    
+    profileImageView.addGestureRecognizer(tapToChangeProfileImage)
+    
+    if AgencyModel.Data.logo != nil {
+      
+      profileImageView.imageFromUrl(AgencyModel.Data.logo!)
+      
+    }
     
     mainScrollView.addSubview(profileImageView)
     
@@ -226,8 +238,16 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     
     agencyNameView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: nil, image: nil)
     agencyNameView.mainTextField.placeholder = "Nombre de la agencia"
+    
+    if AgencyModel.Data.name != nil {
+      
+      agencyNameView.mainTextField.text = AgencyModel.Data.name
+      
+    }
+    
     agencyNameView.backgroundColor = UIColor.clearColor()
     agencyNameView.mainTextField.delegate = self
+    
     self.mainScrollView.addSubview(agencyNameView)
     
   }
@@ -243,6 +263,13 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                                         title: AgencyProfileEditConstants.ProfileView.agencyPhoneTitleText,
                                                         image: "iconPhone")
     agencyPhoneView.mainTextField.placeholder = "00 00000000"
+    
+    if AgencyModel.Data.phone != nil {
+      
+      agencyPhoneView.mainTextField.text = AgencyModel.Data.phone
+      
+    }
+    
     agencyPhoneView.mainTextField.keyboardType = .NumberPad
     agencyPhoneView.backgroundColor = UIColor.clearColor()
     agencyPhoneView.mainTextField.delegate = self
@@ -261,6 +288,13 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                                         title: AgencyProfileEditConstants.ProfileView.agencyContactTitleText,
                                                         image: nil)
     agencyContactView.mainTextField.placeholder = "Nombre de contacto"
+    
+    if AgencyModel.Data.contact_name != nil {
+      
+      agencyContactView.mainTextField.text = AgencyModel.Data.contact_name!
+      
+    }
+    
     agencyContactView.backgroundColor = UIColor.clearColor()
     agencyContactView.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyContactView)
@@ -278,6 +312,13 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                                           title: AgencyProfileEditConstants.ProfileView.agencyMailContactTitleText,
                                                           image: "iconMail")
     agencyEMailView.mainTextField.placeholder = "Email de contacto"
+    
+    if AgencyModel.Data.contact_email != nil {
+      
+      agencyEMailView.mainTextField.text = AgencyModel.Data.contact_email!
+      
+    }
+    
     agencyEMailView.backgroundColor = UIColor.clearColor()
     agencyEMailView.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyEMailView)
@@ -295,6 +336,13 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                                         title: AgencyProfileEditConstants.ProfileView.agencyAddressTitleText,
                                                         image: "iconLocation")
     agencyAddressView.mainTextField.placeholder = "Dirección de contacto"
+    
+    if AgencyModel.Data.address != nil {
+      
+      agencyAddressView.mainTextField.text = AgencyModel.Data.address!
+      
+    }
+    
     agencyAddressView.mainTextField.tag = 9
     agencyAddressView.backgroundColor = UIColor.clearColor()
     agencyAddressView.mainTextField.delegate = self
@@ -313,6 +361,13 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                                           title: AgencyProfileEditConstants.ProfileView.agencyWebSiteTitleText,
                                                           image: "iconWebsite")
     agencyWebsiteView.mainTextField.placeholder = "Website de contacto"
+    
+    if AgencyModel.Data.website_url != nil {
+      
+      agencyWebsiteView.mainTextField.text = AgencyModel.Data.website_url!
+      
+    }
+    
     agencyWebsiteView.backgroundColor = UIColor.clearColor()
     agencyWebsiteView.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyWebsiteView)
@@ -330,6 +385,13 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                                           title: AgencyProfileEditConstants.ProfileView.agencyNumberOfEmployeTitleText,
                                                           image: "group")
     agencyNumberOfEmployees.mainTextField.placeholder = "888"
+    
+    if AgencyModel.Data.num_employees != nil {
+      
+      agencyNumberOfEmployees.mainTextField.text = AgencyModel.Data.num_employees!
+      
+    }
+    
     agencyNumberOfEmployees.mainTextField.keyboardType = .NumberPad
     agencyNumberOfEmployees.backgroundColor = UIColor.clearColor()
     agencyNumberOfEmployees.mainTextField.delegate = self
@@ -438,8 +500,8 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
         }
       
         if let place = place {
-          print("Place latitude: \(place.coordinate.latitude)")
-          print("Place longitude: \(place.coordinate.longitude)")
+//          print("Place latitude: \(place.coordinate.latitude)")
+//          print("Place longitude: \(place.coordinate.longitude)")
           
           self.agencyLatitude = String(place.coordinate.latitude)
           self.agencyLongitude = String(place.coordinate.longitude)
@@ -493,7 +555,14 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     
   }
   
-  func saveChangesOfAgencyProfile() {
+  func saveChangesOfAgencyProfile(valuesSelectedFromParticipateInView: [String:Bool]) {
+    
+    let golden_pitch: String = (valuesSelectedFromParticipateInView["golden_pitch"] == true ? "1" : "0")
+    let silver_pitch: String = (valuesSelectedFromParticipateInView["silver_pitch"] == true ? "1" : "0")
+    let high_risk_pitch: String = (valuesSelectedFromParticipateInView["high_risk_pitch"] == true ? "1" : "0")
+    let medium_risk_pitch: String = (valuesSelectedFromParticipateInView["medium_risk_pitch"] == true ? "1" : "0")
+    
+    
     
     var parameters: [String:AnyObject]
     
@@ -513,10 +582,22 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
 //        print(agencyWebsiteView.mainTextField.text!)
 //        print(agencyNumberOfEmployees.mainTextField.text!)
         
+        var imageName: String
+        
+        if AgencyModel.Data.name != nil && AgencyModel.Data.name != "" {
+          
+          imageName = "\(AgencyModel.Data.name)Image.png"
+          
+        } else {
+         
+          imageName = "AgencyImage.png"
+          
+        }
+        
         parameters = [
-          "id" : 1,  //change in future
-          "auth_token": "x4jvwTmY4x_KSyzzq_nN",
-          "filename" : "AgencyProfileImage.png", //change in future
+          "id" : UserSession.session.agency_id,
+          "auth_token": UserSession.session.auth_token,
+          "filename" : imageName,
           "agency": [
             "name": agencyNameView.mainTextField.text!,
             "case_image": profileDataImage!,
@@ -528,17 +609,17 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
             "longitude": agencyLongitude!,
             "website_url": agencyWebsiteView.mainTextField.text!,
             "num_employees": agencyNumberOfEmployees.mainTextField.text!,
-            "golden_pitch": "0",
-            "silver_pitch": "0",
-            "high_risk_pitch": "0",
-            "medium_risk_pitch": "0"
+            "golden_pitch": golden_pitch,
+            "silver_pitch": silver_pitch,
+            "high_risk_pitch": high_risk_pitch,
+            "medium_risk_pitch": medium_risk_pitch
           ]
         ]
       } else {
         
         parameters = [
-          "id" : 1,
-          "auth_token": "x4jvwTmY4x_KSyzzq_nN",
+          "id" : UserSession.session.agency_id,
+          "auth_token": UserSession.session.auth_token,
           "agency": [
             "name" : agencyNameView.mainTextField.text!,
             "phone": agencyPhoneView.mainTextField.text!,
@@ -549,10 +630,10 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
             "longitude": agencyLongitude!,
             "website_url": agencyWebsiteView.mainTextField.text!,
             "num_employees": agencyNumberOfEmployees.mainTextField.text!,
-            "golden_pitch": "0",
-            "silver_pitch": "0",
-            "high_risk_pitch": "0",
-            "medium_risk_pitch": "0"
+            "golden_pitch": golden_pitch,
+            "silver_pitch": silver_pitch,
+            "high_risk_pitch": high_risk_pitch,
+            "medium_risk_pitch": medium_risk_pitch
           ]
         ]
       }
@@ -566,10 +647,22 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
         let profileImage = profileImageView.image!
         let profileDataImage = UIImagePNGRepresentation(profileImage)
         
+        var imageName: String
+        
+        if AgencyModel.Data.name != nil && AgencyModel.Data.name != "" {
+          
+          imageName = "\(AgencyModel.Data.name)Image.png"
+          
+        } else {
+          
+          imageName = "AgencyImage.png"
+          
+        }
+        
         parameters = [
-          "id" : 1,  //change in future
-          "auth_token": "x4jvwTmY4x_KSyzzq_nN",
-          "filename" : "AgencyProfileImage.png", //change in future
+          "id" : UserSession.session.agency_id,
+          "auth_token": UserSession.session.auth_token,
+          "filename" : imageName,
           "agency": [
             "name": agencyNameView.mainTextField.text!,
             "case_image": profileDataImage!,
@@ -579,17 +672,17 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
             "address": agencyAddressView.mainTextField.text!,
             "website_url": agencyWebsiteView.mainTextField.text!,
             "num_employees": agencyNumberOfEmployees.mainTextField.text!,
-            "golden_pitch": "0",
-            "silver_pitch": "0",
-            "high_risk_pitch": "0",
-            "medium_risk_pitch": "0"
+            "golden_pitch": golden_pitch,
+            "silver_pitch": silver_pitch,
+            "high_risk_pitch": high_risk_pitch,
+            "medium_risk_pitch": medium_risk_pitch
           ]
         ]
       } else {
         
         parameters = [
-          "id" : 1,
-          "auth_token": "x4jvwTmY4x_KSyzzq_nN",
+          "id" : UserSession.session.agency_id,
+          "auth_token": UserSession.session.auth_token,
           "agency": [
             "name" : agencyNameView.mainTextField.text!,
             "phone": agencyPhoneView.mainTextField.text!,
@@ -598,15 +691,15 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
             "address": agencyAddressView.mainTextField.text!,
             "website_url": agencyWebsiteView.mainTextField.text!,
             "num_employees": agencyNumberOfEmployees.mainTextField.text!,
-            "golden_pitch": "0",
-            "silver_pitch": "0",
-            "high_risk_pitch": "0",
-            "medium_risk_pitch": "0"
+            "golden_pitch": golden_pitch,
+            "silver_pitch": silver_pitch,
+            "high_risk_pitch": high_risk_pitch,
+            "medium_risk_pitch": medium_risk_pitch
           ]
         ]
       }
       
-      delegate?.saveChangesFromEditProfileView(parameters)
+      self.delegate?.saveChangesFromEditProfileView(parameters)
       
     }
   }

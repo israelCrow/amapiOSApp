@@ -106,7 +106,7 @@ class CriteriaAgencyProfileEditView: UIView {
                                       height: 56 * UtilityManager.sharedInstance.conversionHeight)
 
     presentationTimeCriterion = CriterionView.init(frame: frameForNewCriterion,
-                                      textLabel: AgencyProfileEditConstants.CriteriaView.presentationTimeLabelText)
+                                      textLabel: AgencyProfileEditConstants.CriteriaView.presentationTimeLabelText, valueOfSwitch: false) //change this in future
     presentationTimeCriterion.adaptSize()
     
     arrayOfLabels.append(presentationTimeCriterion)
@@ -121,7 +121,7 @@ class CriteriaAgencyProfileEditView: UIView {
                                       height: 56 * UtilityManager.sharedInstance.conversionHeight)
     
     minimumBudgetCriterion = CriterionView.init(frame: frameForNewCriterion,
-                                          textLabel: AgencyProfileEditConstants.CriteriaView.minimumBudgetLabelText)
+                                          textLabel: AgencyProfileEditConstants.CriteriaView.minimumBudgetLabelText, valueOfSwitch: false) //change this in future
     minimumBudgetCriterion.adaptSize()
     
     arrayOfLabels.append(minimumBudgetCriterion)
@@ -136,7 +136,8 @@ class CriteriaAgencyProfileEditView: UIView {
                                            height: 56 * UtilityManager.sharedInstance.conversionHeight)
     
     deliverIntelectualPropertyCriterion = CriterionView.init(frame: frameForNewCriterion,
-                                          textLabel: AgencyProfileEditConstants.CriteriaView.deliverIntelectualPropertyLabelText)
+                                                             textLabel: AgencyProfileEditConstants.CriteriaView.deliverIntelectualPropertyLabelText,  valueOfSwitch: false) //change this in future
+
     deliverIntelectualPropertyCriterion.adaptSize()
     
     arrayOfLabels.append(deliverIntelectualPropertyCriterion)
@@ -151,7 +152,8 @@ class CriteriaAgencyProfileEditView: UIView {
                                            height: 56 * UtilityManager.sharedInstance.conversionHeight)
     
     onlyPitchesPaymentsCriterion = CriterionView.init(frame: frameForNewCriterion,
-                                          textLabel: AgencyProfileEditConstants.CriteriaView.onlyPitchesPaymentsLabelText)
+                                                      textLabel: AgencyProfileEditConstants.CriteriaView.onlyPitchesPaymentsLabelText, valueOfSwitch: false) //change this in future
+
     onlyPitchesPaymentsCriterion.adaptSize()
     
     arrayOfLabels.append(onlyPitchesPaymentsCriterion)
@@ -166,7 +168,8 @@ class CriteriaAgencyProfileEditView: UIView {
                                            height: 56 * UtilityManager.sharedInstance.conversionHeight)
     
     haveToKnowTheProjectBudgetCriterion = CriterionView.init(frame: frameForNewCriterion,
-                                          textLabel: AgencyProfileEditConstants.CriteriaView.haveToKnowTheProjectBudgetLabelText)
+                                                             textLabel: AgencyProfileEditConstants.CriteriaView.haveToKnowTheProjectBudgetLabelText,  valueOfSwitch: false) //change this in future
+
     haveToKnowTheProjectBudgetCriterion.adaptSize()
     
     arrayOfLabels.append(haveToKnowTheProjectBudgetCriterion)

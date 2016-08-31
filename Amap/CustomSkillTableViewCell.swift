@@ -10,9 +10,10 @@ import UIKit
 
 class CustomSkillTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
   
-  private var scoreTextField: UITextField! = nil
+  var scoreTextField: UITextField! = nil
   private var optionsOfScorePickerView: UIPickerView! = nil
   private var arrayOfOptions: [Int]! = nil
+  var skillData: Skill! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -73,6 +74,12 @@ class CustomSkillTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerV
     optionsOfScorePickerView.delegate = self
     scoreTextField.inputView = optionsOfScorePickerView
   
+  }
+  
+  func setSkillData(newSkillData: Skill) {
+    
+    self.skillData = newSkillData
+    
   }
   
   func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {

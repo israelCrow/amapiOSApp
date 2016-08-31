@@ -11,27 +11,28 @@ import Alamofire
 
 class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
-    let kCreateAccountText = "No estás registrado? Crea Cuenta"
+  let kCreateAccountText = "No estás registrado? Crea Cuenta"
     
-    private var flipCard:FlipCardView! = nil
-    private var createAccountLabel: UILabel! = nil
-    private var lastFramePosition: CGRect! = nil
-    private var alreadyAppearedKeyboard: Bool = false
-    private var loginGoldenPitchView: GoldenPitchLoginView! = nil
+  private var flipCard:FlipCardView! = nil
+  private var createAccountLabel: UILabel! = nil
+  private var lastFramePosition: CGRect! = nil
+  private var alreadyAppearedKeyboard: Bool = false
+  private var loginGoldenPitchView: GoldenPitchLoginView! = nil
+  private var isSecondOrMoreTimeToAppear: Bool = false
+  
+  override func loadView() {
+    self.view = self.createGradientView()
+    self.view.userInteractionEnabled = true
+  }
     
-    override func loadView() {
-        self.view = self.createGradientView()
-        self.view.userInteractionEnabled = true
-    }
-    
-    override func viewDidLoad() {
-        
-        self.createTapGestureForDismissKeyboard()
-        self.addObserverToKeyboardNotification()
-        self.createFlipCardView()
-        self.addCreateAccountLabel()
-        
-    }
+  override func viewDidLoad() {
+      
+    self.createTapGestureForDismissKeyboard()
+    self.addObserverToKeyboardNotification()
+    self.createFlipCardView()
+    self.addCreateAccountLabel()
+      
+  }
     
     private func createTapGestureForDismissKeyboard() {
         
@@ -132,7 +133,17 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+      self.navigationController?.setNavigationBarHidden(true, animated: true)
+      
+      if isSecondOrMoreTimeToAppear == false {
+        
+        isSecondOrMoreTimeToAppear = true
+        
+      } else {
+        
+        loginGoldenPitchView.resetActionsAndAppearance()
+        
+      }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -241,10 +252,16 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                     UserSession.session.role = role_string
                     
                     AgencyModel.Data.id = UserSession.session.agency_id!
+                    RequestToServerManager.sharedInstance.requestForAgencyData(){
+
+                      let visualizeAgencyProfile = VisualizeAgencyProfileViewController()
+                      self.navigationController?.pushViewController(visualizeAgencyProfile, animated: true)
+                      
+//                      let editStuffAgency = EditAgencyProfileViewController()
+//                      self.navigationController?.pushViewController(editStuffAgency, animated: true)
                     
-                    let stuffAgency = EditAgencyProfileViewController()
-                    self.navigationController?.pushViewController(stuffAgency, animated: true)
-                  
+                    }
+
                   } else {
                     
                     print("ERROR")

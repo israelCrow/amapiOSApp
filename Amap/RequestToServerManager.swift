@@ -13,7 +13,7 @@ class RequestToServerManager: NSObject {
 
   static let sharedInstance = RequestToServerManager()
   
-  func requestForAgencyData(functionToMakeWhenBrinInfo: ()-> Void) {
+  func requestForAgencyData(functionToMakeWhenBringInfo: ()-> Void) {
     let urlToRequest = "http://amap-dev.herokuapp.com/api/agencies/\(AgencyModel.Data.id!)"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
@@ -27,7 +27,7 @@ class RequestToServerManager: NSObject {
         if response.response?.statusCode == 200 {
           let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
           
-          print(json)
+          //print(json)
           
           AgencyModel.Data.address = json["address"] as? String
           AgencyModel.Data.contact_email = json["contact_email"] as? String
@@ -36,7 +36,10 @@ class RequestToServerManager: NSObject {
           AgencyModel.Data.logo = json["logo"] as? String
           AgencyModel.Data.longitude = json["longitude"] as? String
           AgencyModel.Data.name = json["name"] as? String
-          AgencyModel.Data.num_employees = json["num_employees"] as? String
+          let numberOfEmployees = json["num_employees"] as? Int
+          if numberOfEmployees != nil {
+            AgencyModel.Data.num_employees = String(numberOfEmployees!)
+          }
           AgencyModel.Data.phone = json["phone"] as? String
           AgencyModel.Data.website_url = json["website_url"] as? String
           
@@ -81,9 +84,24 @@ class RequestToServerManager: NSObject {
           let arrayOfSuccessCases = json["success_cases"] as? [AnyObject]
           self.saveAllSuccessfulCases(arrayOfSuccessCases)
           
-//          print(AgencyModel.Data.address!)
+          let arrayOfSkills = json["skills"] as? [AnyObject]
+        
+          //print(arrayOfSkills)
           
-          functionToMakeWhenBrinInfo()
+          if arrayOfSkills != nil {
+          
+            for skill in arrayOfSkills! {
+            
+              let value1 = skill["id"]
+              let value2 = skill["level"]
+              
+              print(value1)
+              print(value2)
+            
+            }
+          }
+          
+          functionToMakeWhenBringInfo()
           
         }
         
@@ -106,9 +124,10 @@ class RequestToServerManager: NSObject {
         var newCaseDescription: String! = nil
         var newCaseUrl: String! = nil
         var newCaseImageUrl: String! = nil
+        var newCaseImageUrlThumb: String! = nil
         var newCaseAgencyId: String! = nil
         
-        print("BOLA!!! \(rawCase)")
+//        print("Case: \(rawCase)")
         
         if rawCase["id"] as? Int != nil {
           let id_string = String(rawCase["id"] as! Int)
@@ -126,6 +145,9 @@ class RequestToServerManager: NSObject {
         if rawCase["case_image"] as? String != nil {
           newCaseImageUrl = rawCase["case_image"] as! String
         }
+        if rawCase["case_image_thumb"] as? String != nil {
+          newCaseImageUrlThumb = rawCase["case_image_thumb"] as! String
+        }
         if rawCase["agency_id"] as? String != nil {
           newCaseAgencyId = rawCase["agency_id"] as! String
         }
@@ -135,6 +157,7 @@ class RequestToServerManager: NSObject {
                            description: newCaseDescription,
                            url: newCaseUrl,
                            case_image_url: newCaseImageUrl,
+                           case_image_thumb: newCaseImageUrlThumb,
                            case_image: nil,
                            agency_id: newCaseAgencyId)
         
@@ -151,36 +174,163 @@ class RequestToServerManager: NSObject {
 
   func requestForDeleteAgencyCase(caseData: Case, actionToMakeAfterDelete: () -> Void) {
     
-//    let urlToRequest = "http://amap-dev.herokuapp.com/api/success_casers/destroy"
-//    
-//    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
-//    requestConnection.HTTPMethod = "POST"
-//    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
-//    
-//    print(caseData)
-//    
-//    let params = ["id" : caseData.id,
-//                  "auth_token" : UserSession.session.auth_token
-//                  ]
-//    
-//    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
-//    
-//    Alamofire.request(requestConnection)
-//      .validate(statusCode: 200..<400)
-//      .responseJSON{ response in
-//        if response.response?.statusCode == 204 {
-//          
-//          actionToMakeAfterDelete()
-//          
-//        }else{
-//          print("ERROR DELETING CASE")
-//        }
-//        
-//    }
-//    
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/success_cases/destroy"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    //print(caseData)
+    
+    let params = ["id" : caseData.id,
+                  "auth_token" : UserSession.session.auth_token
+                  ]
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<400)
+      .responseJSON{ response in
+        
+        //print(response)
+        
+        if response.response?.statusCode == 204 {
+          
+          actionToMakeAfterDelete()
+          
+        }else{
+          print("ERROR DELETING CASE")
+        }
+        
+    }
+    
   }
 
+  func requestToGetAllSkillsCategories(functionToMakeWhenFinished: (jsonOfSkills: AnyObject?) -> Void) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/skill_categories"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "GET"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          functionToMakeWhenFinished(jsonOfSkills: json)
+          
+        }
+    }
+  }
+  
+  func requestToSaveDataFromSkills(params: [String:AnyObject]) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/agencies/add_skills"
+    
+//    print(params)
+//    
+//    let auth_token = params["auth_token"]
+//    let agency_id = params["id"]
+//    let skills: Array<[String:String]> = params["skills"] as! Array<[String:String]>
+//    
+//    let data = [
+//      params
+//    ]
+//    var jsonData: NSData?
+//    do {
+//      jsonData = try NSJSONSerialization.dataWithJSONObject(params, options: [])
+//      print(jsonData)
+//      // here "jsonData" is the dictionary encoded in JSON data
+//    } catch let error as NSError {
+//      print(error)
+//    }
+//    
+//    print(data)
+    
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+//    if jsonData != nil {
+//      
+//      requestConnection.HTTPBody = jsonData!
+//      
+//    }
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      //      .response{
+      //        (request, response, data, error) -> Void in
+      //        print(response)
+      ////          let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: [])
+      ////            print (json)
+      ////          }
+      
+      .responseJSON{ response in
+        print("RESPONSE JSON SKILLS")
+        print(response)
+        
+        if response.response?.statusCode == 201 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          print(json)
+
+          } else {
+            
+            print("ERROR")
+            
+          }
+      }
+  }
+  
+  func logOut(actionsToMakeAfterSuccesfullLogOut: ()-> Void) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/sessions/destroy"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    var values: [String:String]
+    
+    if UserSession.session.auth_token != nil {
+    
+    values = [
+      "id": UserSession.session.auth_token
+    ]
+    
+    } else {
+    
+      values = ["id": "bla"]//Supposedly never happend
+    
+    }
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(values, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 204 {
+          
+          actionsToMakeAfterSuccesfullLogOut()
+   
+        }else {
+            
+            print("ERROR")
+            
+        }
+    }
+  }
 
 }
 

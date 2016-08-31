@@ -28,6 +28,7 @@ class AgencyModel: NSObject {
   var medium_risk_pitch: Bool?
   var logo: String?
   var success_cases: [Case]?
+  var skill_categories: [SkillCategory]?
   
   private override init(){}
   

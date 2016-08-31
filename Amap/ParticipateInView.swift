@@ -17,7 +17,7 @@ class ParticipateInView: UIView {
   private var participateInLabel: UILabel! = nil
   private var goldenPitchCriterion: CriterionView! = nil
   private var silverPitchCriterion: CriterionView! = nil
-  private var mRiskPitchCriterion: CriterionView! = nil
+  private var mediumRiskPitchCriterion: CriterionView! = nil
   private var highRiskPitchCriterion: CriterionView! = nil
   
   override init(frame: CGRect) {
@@ -43,7 +43,7 @@ class ParticipateInView: UIView {
     self.createMainScrollView()
     self.createGoldenPitchCriterion()
     self.createSilverPitchCriterion()
-    self.createMRiskPitchCriterion()
+    self.createmediumRiskPitchCriterion()
     self.createHighRiskPitchCriterion()
     
     self.addAllLabels()
@@ -105,7 +105,7 @@ class ParticipateInView: UIView {
                                            height: 56 * UtilityManager.sharedInstance.conversionHeight)
     
     goldenPitchCriterion = CriterionView.init(frame: frameForNewCriterion,
-                                                   textLabel: AgencyProfileEditConstants.ParticipateInView.goldenPitchLabelText)
+                                                   textLabel: AgencyProfileEditConstants.ParticipateInView.goldenPitchLabelText, valueOfSwitch: AgencyModel.Data.golden_pitch!)
     goldenPitchCriterion.adaptSize()
     
     arrayOfLabels.append(goldenPitchCriterion)
@@ -120,25 +120,25 @@ class ParticipateInView: UIView {
                                            height: 56 * UtilityManager.sharedInstance.conversionHeight)
     
     silverPitchCriterion = CriterionView.init(frame: frameForNewCriterion,
-                                                textLabel: AgencyProfileEditConstants.ParticipateInView.silverPitchLabelText)
+                                                textLabel: AgencyProfileEditConstants.ParticipateInView.silverPitchLabelText, valueOfSwitch: AgencyModel.Data.silver_pitch!)
     silverPitchCriterion.adaptSize()
     
     arrayOfLabels.append(silverPitchCriterion)
     
   }
   
-  private func createMRiskPitchCriterion() {
+  private func createmediumRiskPitchCriterion() {
     
     let frameForNewCriterion = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
                                            y: 14.0 * UtilityManager.sharedInstance.conversionHeight,
                                            width: 220 * UtilityManager.sharedInstance.conversionWidth,
                                            height: 56 * UtilityManager.sharedInstance.conversionHeight)
     
-    mRiskPitchCriterion = CriterionView.init(frame: frameForNewCriterion,
-                                                             textLabel: AgencyProfileEditConstants.ParticipateInView.mRiskPitchLabelText)
-    mRiskPitchCriterion.adaptSize()
+    mediumRiskPitchCriterion = CriterionView.init(frame: frameForNewCriterion,
+                                                             textLabel: AgencyProfileEditConstants.ParticipateInView.mRiskPitchLabelText, valueOfSwitch: AgencyModel.Data.medium_risk_pitch!)
+    mediumRiskPitchCriterion.adaptSize()
     
-    arrayOfLabels.append(mRiskPitchCriterion)
+    arrayOfLabels.append(mediumRiskPitchCriterion)
     
   }
   
@@ -150,7 +150,7 @@ class ParticipateInView: UIView {
                                            height: 56 * UtilityManager.sharedInstance.conversionHeight)
     
     highRiskPitchCriterion = CriterionView.init(frame: frameForNewCriterion,
-                                                      textLabel: AgencyProfileEditConstants.ParticipateInView.highRiskPitchLabelText)
+                                                      textLabel: AgencyProfileEditConstants.ParticipateInView.highRiskPitchLabelText, valueOfSwitch: AgencyModel.Data.high_risk_pitch!)
     highRiskPitchCriterion.adaptSize()
     
     arrayOfLabels.append(highRiskPitchCriterion)
@@ -172,8 +172,19 @@ class ParticipateInView: UIView {
       nextCriterion.frame = newFrame
       mainScrollView.addSubview(nextCriterion)
     }
+  }
+  
+  func getTheValuesSelected() -> [String:Bool] {
     
-    
+    return
+      
+      [
+      "golden_pitch" : goldenPitchCriterion.getValueOfSwitch(),
+      "silver_pitch" : silverPitchCriterion.getValueOfSwitch(),
+      "high_risk_pitch" : highRiskPitchCriterion.getValueOfSwitch(),
+      "medium_risk_pitch" : mediumRiskPitchCriterion.getValueOfSwitch()
+      ]
+
   }
   
 }

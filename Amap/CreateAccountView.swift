@@ -106,24 +106,24 @@ class CreateAccountView: UIView, UITextFieldDelegate {
     }
     
     private func createAgencyButton() {
-        let frameForButton = CGRect.init(x: 37.5 * UtilityManager.sharedInstance.conversionWidth,
+        let frameForButton = CGRect.init(x: 45.0 * UtilityManager.sharedInstance.conversionWidth,
                                          y: createAccountLabel.frame.origin.y + createAccountLabel.frame.size.height + (1.0 * UtilityManager.sharedInstance.conversionHeight),
                                          width: 100.0,
                                          height: 100.0)
         agencyButton = UIButton.init(frame: frameForButton)
-        let image = UIImage(named: "agency_black") as UIImage?
+        let image = UIImage(named: "iconAgencyBlack") as UIImage?
         agencyButton.setImage(image, forState: .Normal)
         self.addSubview(agencyButton)
         
     }
     
     private func createBrandButton() {
-        let frameForButton = CGRect.init(x: 140.0 * UtilityManager.sharedInstance.conversionWidth,
+        let frameForButton = CGRect.init(x: 135.0 * UtilityManager.sharedInstance.conversionWidth,
                                          y: createAccountLabel.frame.origin.y + createAccountLabel.frame.size.height + (1.0 * UtilityManager.sharedInstance.conversionHeight),
                                          width: 100.0,
                                          height: 100.0)
         agencyButton = UIButton.init(frame: frameForButton)
-        let image = UIImage(named: "brand_black") as UIImage?
+        let image = UIImage(named: "iconBrandBlack") as UIImage?
         agencyButton.setImage(image, forState: .Normal)
         self.addSubview(agencyButton)
         
@@ -147,7 +147,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         )
         writeNameDescriptionLabel.attributedText = stringWithFormat
         writeNameDescriptionLabel.sizeToFit()
-        let newFrame = CGRect.init(x: 48.0 * UtilityManager.sharedInstance.conversionWidth,
+        let newFrame = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                    y: 184.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: writeNameDescriptionLabel.frame.size.width,
                                    height: writeNameDescriptionLabel.frame.size.height)
@@ -254,7 +254,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         )
         writeEMailDescriptionLabel.attributedText = stringWithFormat
         writeEMailDescriptionLabel.sizeToFit()
-        let newFrame = CGRect.init(x: 48.0 * UtilityManager.sharedInstance.conversionWidth,
+        let newFrame = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                    y: nameTextField.frame.origin.y + nameTextField.frame.size.height + (35.0 * UtilityManager.sharedInstance.conversionHeight),
                                    width: writeEMailDescriptionLabel.frame.size.width,
                                    height: writeEMailDescriptionLabel.frame.size.height)

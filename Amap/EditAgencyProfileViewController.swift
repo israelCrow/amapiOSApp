@@ -28,11 +28,11 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   private var requestImageForProfile: Bool = false
   
 //  private var criteriaView: CriterionView! = nil
-//  private var participateView: ParticipateInView! = nil
+  private var participateView: ParticipateInView! = nil
 //  private var exclusiveView: ExclusiveView! = nil
   private var createCaseView: CreateCaseView?
   private var casesView: CasesView! = nil
-//  private var skillsView: SkillsView! = nil
+  private var skillsView: SkillsView! = nil
   private var profileView: ProfileView! = nil
 
   override func loadView() {
@@ -50,7 +50,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     self.changeBackButtonItem()
     self.changeNavigationBarTitle()
-//        self.changeRigthButtonItem()
+    self.changeRigthButtonItem()
         
   }
   
@@ -82,6 +82,26 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       titleLabel.sizeToFit()
       self.navigationItem.titleView = titleLabel
 
+  }
+  
+  private func changeRigthButtonItem() {
+    
+    let rightButton = UIBarButtonItem(title: AgencyProfileEditConstants.EditAgencyProfileViewController.naviogationRightButtonText,
+                                      style: UIBarButtonItemStyle.Plain,
+                                      target: self,
+                                      action: #selector(popThisViewController))
+    
+    let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
+                                    size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    
+    let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
+                                              NSForegroundColorAttributeName: UIColor.whiteColor()
+    ]
+    
+    rightButton.setTitleTextAttributes(attributesDict, forState: .Normal)
+    
+    self.navigationItem.rightBarButtonItem = rightButton
+    
   }
   
   private func addObserverToKeyboardNotification() {
@@ -158,7 +178,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     let editCriteria = CriteriaAgencyProfileEditView.init(frame: frameForCards)
     
-    let participateView = ParticipateInView.init(frame: CGRect.init(x: frameForCards.size.width,
+    participateView = ParticipateInView.init(frame: CGRect.init(x: frameForCards.size.width,
       y: 0.0 ,
       width: frameForCards.size.width,
       height: frameForCards.size.height))
@@ -174,10 +194,11 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       height:frameForCards.size.height))
     casesView.delegate = self
     
-    let skillsView = SkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 4.0,
+    skillsView = SkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 4.0,
       y: 0.0,
       width: frameForCards.size.width,
       height: frameForCards.size.height))
+    skillsView.getAllSkillsFromServer()
     
     profileView = ProfileView.init(frame: CGRect.init(x: frameForCards.size.width * 5.0,
       y: 0.0,
@@ -383,7 +404,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     super.viewWillAppear(animated)
     
     self.addObserverToKeyboardNotification()
-    self.requestForAgencyData()
+  
   }
   
   override func viewWillDisappear(animated: Bool) {
@@ -402,81 +423,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
   }
   
-  private func requestForAgencyData() {
-    let urlToRequest = "http://amap-dev.herokuapp.com/api/agencies/\(AgencyModel.Data.id!)"
-  
-    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
-    requestConnection.HTTPMethod = "GET"
-    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
-    
-    Alamofire.request(requestConnection)
-    .validate(statusCode: 200..<400)
-      .responseJSON{ response in
-        if response.response?.statusCode == 200 {
-          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
-          
-          //print(json)
-          
-          AgencyModel.Data.address = json["address"] as? String
-          AgencyModel.Data.contact_email = json["contact_email"] as? String
-          AgencyModel.Data.contact_name = json["contact_name"] as? String
-          AgencyModel.Data.latitude = json["latitude"] as? String
-          AgencyModel.Data.logo = json["logo"] as? String
-          AgencyModel.Data.longitude = json["longitude"] as? String
-          AgencyModel.Data.name = json["name"] as? String
-          AgencyModel.Data.num_employees = json["num_employees"] as? String
-          AgencyModel.Data.phone = json["phone"] as? String
-          AgencyModel.Data.website_url = json["website_url"] as? String
-          
-          var golden_pitch_bool: Bool
-          var silver_pitch_bool: Bool
-          var high_risk_pitch_bool: Bool
-          var medium_risk_pitch_bool: Bool
-          
-          let golden_pitch_string = json["golden_pitch"] as? Int
-          if golden_pitch_string != nil && golden_pitch_string! == 1 {
-            golden_pitch_bool = true
-          }else{
-            golden_pitch_bool = false
-          }
-          
-          let silver_pitch_string = json["silver_pitch"] as? Int
-          if silver_pitch_string != nil && silver_pitch_string! == 1 {
-            silver_pitch_bool = true
-          }else{
-            silver_pitch_bool = false
-          }
-          
-          let high_risk_pitch_string = json["high_risk_pitch"] as? Int
-          if high_risk_pitch_string != nil && high_risk_pitch_string! == 1 {
-            high_risk_pitch_bool = true
-          }else{
-            high_risk_pitch_bool = false
-          }
-          
-          let medium_risk_pitch_string = json["medium_risk_pitch"] as? Int
-          if medium_risk_pitch_string != nil && medium_risk_pitch_string! == 1 {
-            medium_risk_pitch_bool = true
-          }else{
-            medium_risk_pitch_bool = false
-          }
-          
-          AgencyModel.Data.golden_pitch = golden_pitch_bool
-          AgencyModel.Data.silver_pitch = silver_pitch_bool
-          AgencyModel.Data.high_risk_pitch = high_risk_pitch_bool
-          AgencyModel.Data.medium_risk_pitch = medium_risk_pitch_bool
-          
-          let arrayOfSuccessCases = json["success_cases"] as? [AnyObject]
-          self.saveAllSuccessfulCases(arrayOfSuccessCases)
-          
-          print(AgencyModel.Data.address!)
-          
-        }
-        
-      }
-    
-  }
+
   
   private func saveAllSuccessfulCases(rawCases: [AnyObject]?) {
     
@@ -493,6 +440,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         var newCaseDescription: String! = nil
         var newCaseUrl: String! = nil
         var newCaseImageUrl: String! = nil
+        var newCaseImageUrlThumb: String! = nil
         var newCaseAgencyId: String! = nil
         
         if rawCase["id"] as? String != nil {
@@ -510,6 +458,9 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         if rawCase["case_image"] as? String != nil {
           newCaseImageUrl = rawCase["case_image"] as! String
         }
+        if rawCase["case_image_thumb"] as? String != nil{
+          newCaseImageUrlThumb = rawCase["case_image_thumb"] as! String
+        }
         if rawCase["agency_id"] as? String != nil {
           newCaseAgencyId = rawCase["agency_id"] as! String
         }
@@ -519,6 +470,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
                   description: newCaseDescription,
                           url: newCaseUrl,
                case_image_url: newCaseImageUrl,
+             case_image_thumb: newCaseImageUrlThumb,
                    case_image: nil,
                     agency_id: newCaseAgencyId)
         
@@ -527,7 +479,6 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       }
       
       AgencyModel.Data.success_cases = allCases
-//      print("CASES IN AGENCY MODEL: \(AgencyModel.Data.success_cases)")
       
     }
     
@@ -583,7 +534,14 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   @objc private func requestToEveryScreenToSave() {
     //this for every screen
-    self.profileView.saveChangesOfAgencyProfile()
+    //Profile Data and Participe In
+    let valuesFromParticipateView = self.participateView.getTheValuesSelected()
+    self.profileView.saveChangesOfAgencyProfile(valuesFromParticipateView)
+    
+    //Skills Data
+    let paramsFromSkills = self.skillsView.getParamsToSaveDataOfSkills()
+    RequestToServerManager.sharedInstance.requestToSaveDataFromSkills(paramsFromSkills)
+    
     
   }
   
@@ -624,6 +582,12 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   @objc private func dismissKeyboard() {
     
     self.view.endEditing(true)
+    
+  }
+  
+  @objc private func popThisViewController() {
+    
+    self.navigationController?.popViewControllerAnimated(true)
     
   }
   
@@ -705,10 +669,10 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         case .Success(let upload, _, _):
           print("SUCCESSFUL")
           upload.responseJSON { response in
-            print(response.request)  // original URL request
-            print(response.response) // URL response
-            print(response.data)     // server data
-            print(response.result)   // result of response serialization
+//            print(response.request)  // original URL request
+//            print(response.response) // URL response
+//            print(response.data)     // server data
+//            print(response.result)   // result of response serialization
             
             
             if response.response?.statusCode >= 200 && response.response?.statusCode <= 350 {
@@ -724,6 +688,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
                   description: caseDescription as! String,
                   url: caseURL as? String,
                   case_image_url: nil,
+                  case_image_thumb: nil,
                   case_image: imageCase,
                   agency_id: AgencyModel.Data.id)
                 
@@ -739,6 +704,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
                               description: caseDescription as! String,
                                       url: caseURL as? String,
                            case_image_url: nil,
+                         case_image_thumb: nil,
                                case_image: nil,
                                 agency_id: AgencyModel.Data.id)
                 
@@ -807,7 +773,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       let imagePicker = UIImagePickerController()
       imagePicker.delegate = self
       imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-      imagePicker.allowsEditing = false
+      imagePicker.allowsEditing = true
       
       requestImageForCase = true
       
@@ -823,7 +789,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       let imagePicker = UIImagePickerController()
       imagePicker.delegate = self
       imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-      imagePicker.allowsEditing = false
+      imagePicker.allowsEditing = true
       
       requestImageForProfile = true
       
@@ -892,8 +858,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     ]
     
     let key_id = "id"
-    let id_int = newParameters[key_id] as? Int
-    let id_string = String(id_int!)
+    let id_string = newParameters[key_id] as? String
     
     let key_auth_token = "auth_token"
     let auth_token = newParameters[key_auth_token] as? String
@@ -929,7 +894,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     let key_num_employees = "num_employees"
     let num_employees = params[key_num_employees] as? String
     
-    let key_golden_pitch = "golden_ptich"
+    let key_golden_pitch = "golden_pitch"
     let golden_pitch = params[key_golden_pitch] as? String
     
     let key_silver_pitch = "silver_pitch"
@@ -951,88 +916,74 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
           mimeType: "image/png")
       }
       
-      multipartFormData.appendBodyPart(data: id_string.dataUsingEncoding(NSUTF8StringEncoding)!, name: key_id)
+      multipartFormData.appendBodyPart(data: id_string!.dataUsingEncoding(NSUTF8StringEncoding)!, name: key_id)
       
       if auth_token != nil {
-        print(auth_token!)
         multipartFormData.appendBodyPart(data: auth_token!.dataUsingEncoding(NSUTF8StringEncoding)!, name: key_auth_token)
         
       }
       
       if filename != nil {
-        print(filename!)
         multipartFormData.appendBodyPart(data: filename!.dataUsingEncoding(NSUTF8StringEncoding)!, name: key_filename)
         
       }
       
       if name != nil {
-        print(name!)
         multipartFormData.appendBodyPart(data: name!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[name]")
         
       }
       
       if phone != nil {
-        print(phone!)
         multipartFormData.appendBodyPart(data: phone!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[phone]")
         
       }
       
       if contact_email != nil {
-        print(contact_email!)
         multipartFormData.appendBodyPart(data: contact_email!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[contact_email]")
         
       }
       
       if address != nil {
-        print(address!)
         multipartFormData.appendBodyPart(data: address!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[address]")
         
       }
       
       if latitude != nil {
-        print(latitude!)
         multipartFormData.appendBodyPart(data: latitude!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[latitude]")
         
       }
       
       if longitude != nil {
-        print(longitude!)
         multipartFormData.appendBodyPart(data: longitude!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[longitude]")
         
       }
       
       if website_url != nil {
-        print(website_url!)
         multipartFormData.appendBodyPart(data: website_url!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[website_url]")
         
       }
       
       if num_employees != nil {
-        print(num_employees!)
         multipartFormData.appendBodyPart(data: num_employees!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[num_employees]")
         
       }
       
       if golden_pitch != nil {
-        print(golden_pitch!)
         multipartFormData.appendBodyPart(data: golden_pitch!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[golden_pitch]")
         
       }
       
       if silver_pitch != nil {
-        print(silver_pitch!)
         multipartFormData.appendBodyPart(data: silver_pitch!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[silver_pitch]")
         
       }
       
       if high_risk_pitch != nil {
-        print(high_risk_pitch!)
         multipartFormData.appendBodyPart(data: high_risk_pitch!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[high_risk_pitch]")
         
       }
       
       if medium_risk_pitch != nil {
-        print(medium_risk_pitch!)
         multipartFormData.appendBodyPart(data: medium_risk_pitch!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "agency[medium_risk_pitch]")
         
       }
@@ -1043,10 +994,10 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         case .Success(let upload, _, _):
           print("SUCCESSFUL")
           upload.responseJSON { response in
-            print(response.request)  // original URL request
-            print(response.response) // URL response
-            print(response.data)     // server data
-            print(response.result)   // result of response serialization
+//            print(response.request)  // original URL request
+//            print(response.response) // URL response
+//            print(response.data)     // server data
+//            print(response.result)   // result of response serialization
             
             if let JSON = response.result.value {
               print("JSON: \(JSON)")
@@ -1060,6 +1011,5 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       }
     )
   }
-
 
 }

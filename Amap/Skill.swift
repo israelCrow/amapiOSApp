@@ -2,22 +2,23 @@
 //  Skill.swift
 //  Amap
 //
-//  Created by Mac on 8/15/16.
+//  Created by Alejandro Aristi C on 8/29/16.
 //  Copyright © 2016 Alejandro Aristi C. All rights reserved.
 //
 
 import Foundation
 
-
 struct Skill {
   
-  var nameOfSkill: String! = nil
-  var scoreOfSkill: Int! = nil
+  var id: String! = nil
+  var name: String! = nil
+  var level: Int?
   
-  init(nameSkill: String, scoreSkill: Int) {
+  init(id: String, nameSkill: String, levelSkill: Int?) {
     
-    self.nameOfSkill = nameSkill
-    self.scoreOfSkill = scoreSkill
+    self.id = id
+    self.name = nameSkill
+    self.level = levelSkill
     
   }
   

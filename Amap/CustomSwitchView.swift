@@ -14,7 +14,9 @@ class CustomSwitchView: UIView {
   private var circleView: UIView! = nil
   var isOn: Bool = false
 
-  override init(frame: CGRect) {
+  init(frame: CGRect, valueOfSwitch: Bool) {
+    isOn = valueOfSwitch
+    
     super.init(frame: frame)
     
     self.initShape()
@@ -49,13 +51,33 @@ class CustomSwitchView: UIView {
   
   private func initCircle() {
     
-    let frameForCircle = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 3.0 * UtilityManager.sharedInstance.conversionHeight,
-                                 width: 8.0 * UtilityManager.sharedInstance.conversionWidth,
-                                height: 8.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    var frameForCircle: CGRect
+    var colorForCircle: UIColor
+    
+    if isOn == false {
+      
+      frameForCircle = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   y: 3.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   width: 8.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 8.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+      colorForCircle = UIColor.init(red: 252.0/255.0, green: 23.0/255.0, blue: 69.0/255.0, alpha: 1.0)
+      
+    } else {
+      
+      frameForCircle = CGRect.init(x: 16.0 * UtilityManager.sharedInstance.conversionWidth,
+                                  y: 3.0 * UtilityManager.sharedInstance.conversionHeight,
+                                  width: 8.0 * UtilityManager.sharedInstance.conversionWidth,
+                                  height: 8.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+      colorForCircle = UIColor.init(red: 129.0/255.0, green: 209.0/255.0, blue: 48.0/255.0, alpha: 1.0)
+      
+    }
+    
     
     circleView = UIView.init(frame: frameForCircle)
-    circleView.backgroundColor = UIColor.init(red: 252.0/255.0, green: 23.0/255.0, blue: 69.0/255.0, alpha: 1.0)
+    circleView.backgroundColor = colorForCircle
     circleView.layer.cornerRadius = circleView.frame.size.width / 2.0
     
     containerView.addSubview(circleView)

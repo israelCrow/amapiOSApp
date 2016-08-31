@@ -12,7 +12,7 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
   
   private var skillsLabel: UILabel! = nil
   private var collapsibleTableView: UITableView! = nil
-  private var sections: [Section]! = nil
+  private var skillCategories: [SkillCategory]! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -90,57 +90,23 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
   }
   
   private func initValues() {
+
+    skillCategories = []
     
-    let subSkillsForSkillOne = [
-      Skill.init(nameSkill: "Sub-skill 1", scoreSkill: 0),
-      Skill.init(nameSkill: "Sub-skill 1", scoreSkill: 0),
-      Skill.init(nameSkill: "Sub-skill 1", scoreSkill: 0),
-      Skill.init(nameSkill: "Sub-skill 1", scoreSkill: 0)
-    ]
-    
-    let subSkillsForSkillTwo = [
-      Skill.init(nameSkill: "Sub-skill 2", scoreSkill: 1),
-      Skill.init(nameSkill: "Sub-skill 2", scoreSkill: 1),
-      Skill.init(nameSkill: "Sub-skill 2", scoreSkill: 1)
-    ]
-    
-    let subSkillsForSkillThree = [
-      Skill.init(nameSkill: "Sub-skill 3", scoreSkill: 2),
-      Skill.init(nameSkill: "Sub-skill 3", scoreSkill: 2),
-      Skill.init(nameSkill: "Sub-skill 3", scoreSkill: 2)
-    ]
-    
-    let subSkillsForSkillFour = [
-      Skill.init(nameSkill: "Sub-skill 4", scoreSkill: 0),
-      Skill.init(nameSkill: "Sub-skill 4", scoreSkill: 1),
-      Skill.init(nameSkill: "Sub-skill 4", scoreSkill: 2),
-      Skill.init(nameSkill: "Sub-skill 4", scoreSkill: 3),
-      Skill.init(nameSkill: "Sub-skill 4", scoreSkill: 2),
-      Skill.init(nameSkill: "Sub-skill 4", scoreSkill: 1)
-    ]
-    
-    let subSkillsForSkillFive = [
-      Skill.init(nameSkill: "Sub-skill 5", scoreSkill: 1),
-      Skill.init(nameSkill: "Sub-skill 5", scoreSkill: 0)
-    ]
-    
-    let subSkillsForSkillSix = [
-      Skill.init(nameSkill: "Sub-skill 6", scoreSkill: 0)
-    ]
-    
-    sections = [
-      Section(name: "Skill 1", skills: subSkillsForSkillOne),
-      Section(name: "Skill 2", skills: subSkillsForSkillTwo),
-      Section(name: "Skill 3", skills: subSkillsForSkillThree),
-      Section(name: "Skill 4", skills: subSkillsForSkillFour),
-      Section(name: "Skill 5", skills: subSkillsForSkillFive),
-      Section(name: "Skill 6", skills: subSkillsForSkillSix)
-    ]
+    for section in 0..<collapsibleTableView.numberOfSections {
+      let rowCount = collapsibleTableView.numberOfRowsInSection(section)
+      var list = [CustomSkillTableViewCell]()
+      
+      for row in 0 ..< rowCount {
+        let cell = collapsibleTableView.cellForRowAtIndexPath(NSIndexPath(forRow: row, inSection: section)) as! CustomSkillTableViewCell
+        list.append(cell)
+      }
+    }
     
   }
   
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return sections.count
+    return skillCategories.count
   }
   
   func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -148,15 +114,15 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
   }
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return (sections[section].collapsed!) ? 0 : sections[section].skills.count
+    return (skillCategories[section].collapsed!) ? 0 : skillCategories[section].arrayOfSkills.count
   }
 
   func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let header = tableView.dequeueReusableCellWithIdentifier("header") as! CollapsibleTableViewHeader
     
     header.toggleButton.tag = section
-    header.setMutableAttributedStringOfNameOfSkillLabel(sections[section].name)
-    header.toggleButton.rotate(sections[section].collapsed! ? 0.0 : CGFloat(M_PI_2))
+    header.setMutableAttributedStringOfNameOfSkillLabel(skillCategories[section].name)
+    header.toggleButton.rotate(skillCategories[section].collapsed! ? 0.0 : CGFloat(M_PI_2))
     header.toggleButton.addTarget(self, action: #selector(toggleCollapse), forControlEvents: .TouchUpInside)
     
     return header.contentView
@@ -165,7 +131,8 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! CustomSkillTableViewCell!
     
-    self.changeAttributedTextOfNormalCell(cell, subSkillText: sections[indexPath.section].skills[indexPath.row].nameOfSkill)
+    self.changeAttributedTextOfNormalCell(cell, subSkillText: skillCategories[indexPath.section].arrayOfSkills[indexPath.row].name)
+    cell.setSkillData(skillCategories[indexPath.section].arrayOfSkills[indexPath.row])
     
     cell.selectionStyle = UITableViewCellSelectionStyle.None
     
@@ -198,12 +165,110 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
   // MARK: - Event Handlers
   func toggleCollapse(sender: UIButton) {
     let section = sender.tag
-    let collapsed = sections[section].collapsed
+    let collapsed = skillCategories[section].collapsed
     
     // Toggle collapse
-    sections[section].collapsed = !collapsed
+    skillCategories[section].collapsed = !collapsed
     
     // Reload section
     collapsibleTableView.reloadSections(NSIndexSet(index: section), withRowAnimation: .Automatic)
   }
+  
+  func getAllSkillsFromServer() {
+    
+    RequestToServerManager.sharedInstance.requestToGetAllSkillsCategories {
+      jsonOfSkills in
+      
+      let json = jsonOfSkills as? [String:AnyObject]
+      
+      if json != nil {
+        
+        let categories = json!["skill_categories"] as? Array<[String:AnyObject]>
+        
+        if categories != nil {
+          
+          for category in categories! {
+            
+            var categoryId:String!
+            if category["id"] as? Int != nil {
+              categoryId = String(category["id"] as? Int)
+            }
+            let categoryName = category["name"] as! String
+            
+            let skillsOfCategorie = category["skills"] as? Array<[String:AnyObject]>
+            
+            var newArrayOfSkills = [Skill]()
+            
+            for skillOfCategories in skillsOfCategorie! {
+              
+              let skillName = skillOfCategories["name"] as? String
+              var skillId: String!
+              if skillOfCategories["id"] as? Int != nil {
+                skillId = String(skillOfCategories["id"] as! Int)
+              }
+              let skillLevel = skillOfCategories["level"] as? Int
+              
+              let newSkill = Skill.init(id: skillId, nameSkill: skillName!, levelSkill: skillLevel)
+              newArrayOfSkills.append(newSkill)
+              
+            }
+            
+            let newCategory = SkillCategory.init(id: categoryId,
+              name: categoryName,
+              arrayOfSkills: newArrayOfSkills,
+              isCollapsed: true)
+            
+            self.skillCategories.append(newCategory)
+            
+          }
+          
+          self.collapsibleTableView.reloadData()
+          
+        }
+        
+      }
+      
+    }
+    
+  }
+  
+  private func getAllTheCells() -> [CustomSkillTableViewCell] {
+    
+    var list = [CustomSkillTableViewCell]()
+    
+    for section in 0..<collapsibleTableView.numberOfSections {
+      let rowCount = collapsibleTableView.numberOfRowsInSection(section)
+      
+      for row in 0 ..< rowCount {
+        let cell = collapsibleTableView.cellForRowAtIndexPath(NSIndexPath(forRow: row, inSection: section)) as! CustomSkillTableViewCell
+        list.append(cell)
+      }
+    }
+    
+    return list
+    
+  }
+  
+  func getParamsToSaveDataOfSkills() -> [String:AnyObject]{
+    
+    let listOfCells = self.getAllTheCells()
+    
+    var arrayOfEditedSkills = Array<[String:String]>()
+    
+    for cell in listOfCells {
+      
+      arrayOfEditedSkills.append(["id":cell.skillData.id , "level":cell.scoreTextField.text!])
+      
+    }
+    
+    let params: [String:AnyObject] = [
+      "auth_token" : UserSession.session.auth_token,
+      "id" : UserSession.session.agency_id,
+      "skills" : arrayOfEditedSkills
+    ]
+
+   return params
+  }
+  
+  
 }

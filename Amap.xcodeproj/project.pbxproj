@@ -19,8 +19,6 @@
 		0462295E1D626F640087E572 /* SkillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462295D1D626F640087E572 /* SkillsView.swift */; };
 		046229641D62746D0087E572 /* ExtensionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046229631D62746D0087E572 /* ExtensionView.swift */; };
 		046229661D6275E50087E572 /* CollapsibleTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046229651D6275E50087E572 /* CollapsibleTableViewHeader.swift */; };
-		046229681D6284AF0087E572 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046229671D6284AF0087E572 /* Skill.swift */; };
-		0462296A1D6285090087E572 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046229691D6285090087E572 /* Section.swift */; };
 		04750BF91D6E000400CC0CD1 /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04750BF81D6E000400CC0CD1 /* UserSession.swift */; };
 		047818A51D5E204F00BB498C /* CriterionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047818A41D5E204F00BB498C /* CriterionView.swift */; };
 		047818A91D5E2E6700BB498C /* CustomSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047818A81D5E2E6700BB498C /* CustomSwitchView.swift */; };
@@ -33,14 +31,20 @@
 		AA0949631D528A01000E76E1 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0949621D528A01000E76E1 /* CreateAccountViewController.swift */; };
 		AA0949681D52955E000E76E1 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0949671D52955E000E76E1 /* CreateAccountView.swift */; };
 		AA09496A1D529A59000E76E1 /* CreateAccountConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0949691D529A59000E76E1 /* CreateAccountConstants.swift */; };
+		AA0FE9BE1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0FE9BD1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift */; };
+		AA0FE9C31D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0FE9C21D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift */; };
 		AA2DB84C1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB84B1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift */; };
 		AA2DB84E1D53B0D900E9FB8A /* ExistingAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB84D1D53B0D900E9FB8A /* ExistingAccountView.swift */; };
 		AA2DB8541D53B6C800E9FB8A /* CreateAccountProcessAlreadyBegunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB8531D53B6C800E9FB8A /* CreateAccountProcessAlreadyBegunView.swift */; };
 		AA2DB8581D53B97D00E9FB8A /* ChangePasswordRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB8571D53B97D00E9FB8A /* ChangePasswordRequestView.swift */; };
 		AA2DB85A1D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB8591D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift */; };
 		AA2DB85C1D53C17400E9FB8A /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB85B1D53C17400E9FB8A /* ChangePasswordViewController.swift */; };
+		AA3E6EB11D74EFCD007D5736 /* SkillCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E6EB01D74EFCD007D5736 /* SkillCategory.swift */; };
+		AA3E6EB31D7507C1007D5736 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E6EB21D7507C1007D5736 /* Skill.swift */; };
 		AA40C9D91D51051F00FF2B4D /* FlipCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */; };
 		AA681E381D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA681E371D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift */; };
+		AA74956F1D7739ED0082B6DF /* DashBoardPitchesAndAgencyProfileTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74956E1D7739ED0082B6DF /* DashBoardPitchesAndAgencyProfileTabBarView.swift */; };
+		AA7495731D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7495721D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift */; };
 		AA756D7B1D709F8C0070F153 /* AgencyModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA756D7A1D709F8C0070F153 /* AgencyModelData.swift */; };
 		AA756D7D1D70A03C0070F153 /* CaseModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA756D7C1D70A03C0070F153 /* CaseModelData.swift */; };
 		AA756D7F1D70F7FB0070F153 /* RequestToServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA756D7E1D70F7FB0070F153 /* RequestToServerManager.swift */; };
@@ -162,8 +166,6 @@
 		0462295D1D626F640087E572 /* SkillsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillsView.swift; sourceTree = "<group>"; };
 		046229631D62746D0087E572 /* ExtensionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionView.swift; sourceTree = "<group>"; };
 		046229651D6275E50087E572 /* CollapsibleTableViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollapsibleTableViewHeader.swift; sourceTree = "<group>"; };
-		046229671D6284AF0087E572 /* Skill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
-		046229691D6285090087E572 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		04750BF81D6E000400CC0CD1 /* UserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		047818A41D5E204F00BB498C /* CriterionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriterionView.swift; sourceTree = "<group>"; };
 		047818A81D5E2E6700BB498C /* CustomSwitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSwitchView.swift; sourceTree = "<group>"; };
@@ -179,14 +181,20 @@
 		AA0949621D528A01000E76E1 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		AA0949671D52955E000E76E1 /* CreateAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 		AA0949691D529A59000E76E1 /* CreateAccountConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountConstants.swift; sourceTree = "<group>"; };
+		AA0FE9BD1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeAgencyProfileViewController.swift; sourceTree = "<group>"; };
+		AA0FE9C21D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyProfileVisualizeConstants.swift; sourceTree = "<group>"; };
 		AA2DB84B1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessfullyAskForAccountView.swift; sourceTree = "<group>"; };
 		AA2DB84D1D53B0D900E9FB8A /* ExistingAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExistingAccountView.swift; sourceTree = "<group>"; };
 		AA2DB8531D53B6C800E9FB8A /* CreateAccountProcessAlreadyBegunView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountProcessAlreadyBegunView.swift; sourceTree = "<group>"; };
 		AA2DB8571D53B97D00E9FB8A /* ChangePasswordRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordRequestView.swift; sourceTree = "<group>"; };
 		AA2DB8591D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordRequestConstants.swift; sourceTree = "<group>"; };
 		AA2DB85B1D53C17400E9FB8A /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		AA3E6EB01D74EFCD007D5736 /* SkillCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillCategory.swift; sourceTree = "<group>"; };
+		AA3E6EB21D7507C1007D5736 /* Skill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
 		AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipCardView.swift; sourceTree = "<group>"; };
 		AA681E371D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessfullyAskForChangePasswordView.swift; sourceTree = "<group>"; };
+		AA74956E1D7739ED0082B6DF /* DashBoardPitchesAndAgencyProfileTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardPitchesAndAgencyProfileTabBarView.swift; sourceTree = "<group>"; };
+		AA7495721D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyProfilePicNameButtonsView.swift; sourceTree = "<group>"; };
 		AA756D7A1D709F8C0070F153 /* AgencyModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyModelData.swift; sourceTree = "<group>"; };
 		AA756D7C1D70A03C0070F153 /* CaseModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaseModelData.swift; sourceTree = "<group>"; };
 		AA756D7E1D70F7FB0070F153 /* RequestToServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestToServerManager.swift; sourceTree = "<group>"; };
@@ -282,9 +290,9 @@
 			isa = PBXGroup;
 			children = (
 				0462295D1D626F640087E572 /* SkillsView.swift */,
+				AA3E6EB01D74EFCD007D5736 /* SkillCategory.swift */,
+				AA3E6EB21D7507C1007D5736 /* Skill.swift */,
 				046229651D6275E50087E572 /* CollapsibleTableViewHeader.swift */,
-				046229691D6285090087E572 /* Section.swift */,
-				046229671D6284AF0087E572 /* Skill.swift */,
 				044F89D51D6377E800AA7FF3 /* CustomSkillTableViewCell.swift */,
 			);
 			name = Skills;
@@ -343,6 +351,7 @@
 		04AB39301D5D0567009B1D5C /* Create/Edit/Visualize_Agency */ = {
 			isa = PBXGroup;
 			children = (
+				AA0FE9BC1D76099B00ADCB63 /* Visualize */,
 				04AB39381D5D0F68009B1D5C /* Edit */,
 			);
 			name = Create/Edit/Visualize_Agency;
@@ -361,6 +370,7 @@
 		04AB39341D5D0EB0009B1D5C /* Create/Edit/Visualize_Agency */ = {
 			isa = PBXGroup;
 			children = (
+				AA0FE9BF1D76493300ADCB63 /* Visualize */,
 				04AB39371D5D0F41009B1D5C /* Edit */,
 			);
 			name = Create/Edit/Visualize_Agency;
@@ -416,6 +426,24 @@
 				AA0949691D529A59000E76E1 /* CreateAccountConstants.swift */,
 			);
 			name = CreateAccount;
+			sourceTree = "<group>";
+		};
+		AA0FE9BC1D76099B00ADCB63 /* Visualize */ = {
+			isa = PBXGroup;
+			children = (
+				AA0FE9BD1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift */,
+			);
+			name = Visualize;
+			sourceTree = "<group>";
+		};
+		AA0FE9BF1D76493300ADCB63 /* Visualize */ = {
+			isa = PBXGroup;
+			children = (
+				AA74956E1D7739ED0082B6DF /* DashBoardPitchesAndAgencyProfileTabBarView.swift */,
+				AA7495721D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift */,
+				AA0FE9C21D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift */,
+			);
+			name = Visualize;
 			sourceTree = "<group>";
 		};
 		AA2DB8561D53B93600E9FB8A /* ChangePassword */ = {
@@ -833,11 +861,13 @@
 				044F89D61D6377E800AA7FF3 /* CustomSkillTableViewCell.swift in Sources */,
 				AA0949681D52955E000E76E1 /* CreateAccountView.swift in Sources */,
 				AA756D7B1D709F8C0070F153 /* AgencyModelData.swift in Sources */,
+				AA0FE9BE1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift in Sources */,
+				AA3E6EB11D74EFCD007D5736 /* SkillCategory.swift in Sources */,
+				AA74956F1D7739ED0082B6DF /* DashBoardPitchesAndAgencyProfileTabBarView.swift in Sources */,
 				AA2DB84E1D53B0D900E9FB8A /* ExistingAccountView.swift in Sources */,
 				AA09496A1D529A59000E76E1 /* CreateAccountConstants.swift in Sources */,
 				AA2DB85C1D53C17400E9FB8A /* ChangePasswordViewController.swift in Sources */,
 				AA2DB8541D53B6C800E9FB8A /* CreateAccountProcessAlreadyBegunView.swift in Sources */,
-				046229681D6284AF0087E572 /* Skill.swift in Sources */,
 				AA0949631D528A01000E76E1 /* CreateAccountViewController.swift in Sources */,
 				045267851D6BD5840031B6C7 /* PreviewVimeoYoutubeView.swift in Sources */,
 				AAECDF661D51472700CCDA85 /* GoldenPitchLoginView.swift in Sources */,
@@ -845,21 +875,23 @@
 				AA92D6401D50EF7400CE7D95 /* LoginViewController.swift in Sources */,
 				047818A91D5E2E6700BB498C /* CustomSwitchView.swift in Sources */,
 				044F89D91D6383D200AA7FF3 /* ProfileView.swift in Sources */,
+				AA7495731D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift in Sources */,
 				045F5C281D650CE100F0C077 /* CasesView.swift in Sources */,
 				04750BF91D6E000400CC0CD1 /* UserSession.swift in Sources */,
 				046229661D6275E50087E572 /* CollapsibleTableViewHeader.swift in Sources */,
 				AA756D7D1D70A03C0070F153 /* CaseModelData.swift in Sources */,
 				044F89DB1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift in Sources */,
+				AA3E6EB31D7507C1007D5736 /* Skill.swift in Sources */,
 				AA2DB8581D53B97D00E9FB8A /* ChangePasswordRequestView.swift in Sources */,
 				041DA48A1D66213400BAE262 /* ExtensionUIIMageView.swift in Sources */,
 				04AB39321D5D06EC009B1D5C /* EditAgencyProfileViewController.swift in Sources */,
 				04D458A71D6607440036FFFF /* CreateCaseView.swift in Sources */,
 				AA92D63C1D50EE0F00CE7D95 /* SplashViewController.swift in Sources */,
-				0462296A1D6285090087E572 /* Section.swift in Sources */,
 				04AB393E1D5D1808009B1D5C /* AgencyProfileEditConstants.swift in Sources */,
 				041DA48C1D6636A400BAE262 /* CaseCardInfo.swift in Sources */,
 				AA681E381D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift in Sources */,
 				AA2DB85A1D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift in Sources */,
+				AA0FE9C31D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift in Sources */,
 				046229641D62746D0087E572 /* ExtensionView.swift in Sources */,
 				AAB61E8E1D52335D00407FFD /* GoldenPitchConstants.swift in Sources */,
 				AA92D6421D50F05300CE7D95 /* GradientView.swift in Sources */,

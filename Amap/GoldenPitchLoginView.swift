@@ -176,7 +176,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         )
         writeNameDescriptionLabel.attributedText = stringWithFormat
         writeNameDescriptionLabel.sizeToFit()
-        let newFrame = CGRect.init(x: 48.0 * UtilityManager.sharedInstance.conversionWidth,
+        let newFrame = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                    y: (210 * UtilityManager.sharedInstance.conversionHeight),
                                    width: writeNameDescriptionLabel.frame.size.width,
                                    height: writeNameDescriptionLabel.frame.size.height)
@@ -282,7 +282,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         )
         writeEMailDescriptionLabel.attributedText = stringWithFormat
         writeEMailDescriptionLabel.sizeToFit()
-        let newFrame = CGRect.init(x: 48.0 * UtilityManager.sharedInstance.conversionWidth,
+        let newFrame = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                    y: nameTextField.frame.origin.y + nameTextField.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
                                    width: writeEMailDescriptionLabel.frame.size.width,
                                    height: writeEMailDescriptionLabel.frame.size.height)
@@ -633,6 +633,16 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         self.nextButton.userInteractionEnabled = true
         
     }
+  
+  func resetActionsAndAppearance() {
+    
+    self.deleteNameTextField()
+    self.deleteEMailTextField()
+    self.activateInteractionEnabledOfNextButton()
+    self.dismissKeyboard(self)
+    
+    
+  }
     
     private func showValidMailError() {
         

@@ -42,13 +42,14 @@ class CollapsibleTableViewHeader: UITableViewCell {
   
   private func createToggleButton() {
     
-    let newFrameNameOfToggleButton = CGRect.init(x: 206.0 * UtilityManager.sharedInstance.conversionWidth,
-                                                 y: 21.0 * UtilityManager.sharedInstance.conversionHeight,
-                                                 width: 14.0 * UtilityManager.sharedInstance.conversionWidth,
-                                                 height: 14.0 * UtilityManager.sharedInstance.conversionHeight)
+    let newFrameNameOfToggleButton = CGRect.init(x: 201.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                 y: 17.0 * UtilityManager.sharedInstance.conversionHeight,
+                                                 width: 22.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                 height: 22.0 * UtilityManager.sharedInstance.conversionHeight)
     
     
     toggleButton = UIButton.init(frame: newFrameNameOfToggleButton)
+//    toggleButton.backgroundColor = UIColor.redColor()
     let imageToggleButton = UIImage.init(named: "dropdown")
     toggleButton.setImage(imageToggleButton, forState: .Normal)
     toggleButton.frame = newFrameNameOfToggleButton

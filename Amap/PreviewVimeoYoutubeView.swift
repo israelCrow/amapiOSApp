@@ -72,7 +72,7 @@ class PreviewVimeoYoutubeView: UIView {
     
     self.backgroundColor = UIColor.lightGrayColor()
     
-    if caseData.case_image_url != nil {
+    if caseData.case_image_thumb != nil {
       
       self.createImageForCaseImageView()
       
@@ -95,7 +95,9 @@ class PreviewVimeoYoutubeView: UIView {
 //    imageForCaseImageView.image = caseData.case_image_url!
     imageForCaseImageView.autoresizingMask = .FlexibleWidth
     imageForCaseImageView.contentMode = .ScaleAspectFit
-    imageForCaseImageView.imageFromUrl(caseData.case_image_url!)
+    if caseData.case_image_thumb != nil {
+      imageForCaseImageView.imageFromUrl(caseData.case_image_thumb!)
+    }
     self.addSubview(imageForCaseImageView)
     
     if showButtonsOfEditionAndDelete == true {
