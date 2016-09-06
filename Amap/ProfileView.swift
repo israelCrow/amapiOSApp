@@ -383,7 +383,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     
     agencyNumberOfEmployees = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                           title: AgencyProfileEditConstants.ProfileView.agencyNumberOfEmployeTitleText,
-                                                          image: "group")
+                                                          image: "smallGroup")
     agencyNumberOfEmployees.mainTextField.placeholder = "888"
     
     if AgencyModel.Data.num_employees != nil {

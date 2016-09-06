@@ -21,6 +21,7 @@ class CaseCardInfoView: UIView, PreviewVimeoYoutubeViewDelegate {
   private var casePreviewVideoPlayerVimeoYoutube: PreviewVimeoYoutubeView! = nil
   private var caseNameLabel: UILabel! = nil
   private var twoPointsButton: UIButton! = nil
+  private var showButtonsOfEdition: Bool = true
   
   var delegate: CaseCardInfoViewDelegate?
   
@@ -29,6 +30,13 @@ class CaseCardInfoView: UIView, PreviewVimeoYoutubeViewDelegate {
   }
   
   init(frame: CGRect, dataFromCase: Case) {
+    caseData = dataFromCase
+    super.init(frame: frame)
+    self.initInterface()
+  }
+  
+  init(frame: CGRect, dataFromCase: Case, showButtonsOfEdition: Bool) {
+    self.showButtonsOfEdition = showButtonsOfEdition
     caseData = dataFromCase
     super.init(frame: frame)
     self.initInterface()
@@ -50,7 +58,7 @@ class CaseCardInfoView: UIView, PreviewVimeoYoutubeViewDelegate {
                                       width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 110.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    casePreviewVideoPlayerVimeoYoutube = PreviewVimeoYoutubeView.init(frame: frameForPreviewVideoPlayer, caseInfo: caseData, showButtonsOfEdition: true)
+    casePreviewVideoPlayerVimeoYoutube = PreviewVimeoYoutubeView.init(frame: frameForPreviewVideoPlayer, caseInfo: caseData, showButtonsOfEdition: showButtonsOfEdition)
     casePreviewVideoPlayerVimeoYoutube.delegate = self
     
     self.addSubview(casePreviewVideoPlayerVimeoYoutube)

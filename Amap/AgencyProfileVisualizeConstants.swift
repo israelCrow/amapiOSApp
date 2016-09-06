@@ -16,6 +16,42 @@ class AgencyProfileVisualizeConstants {
     
   }
   
+  enum VisualizeCriteriaView {
+    
+    static let criteriaLabelText = "Criterios"
+    
+  }
+  
+  enum VisualizeExclusiveView {
+    
+    static let exclusiveLabelText = "Exclusividad"
+    
+  }
+  
+  enum VisualizeParticipateInView {
+    
+    static let participateInLabelText = "Participa en"
+    
+  }
+  
+  enum VisualizeNumberOfEmployessView {
+    
+    static let numberOfEmployeesLabelText = "Empleados"
+    
+  }
+  
+  enum VisualizeCasesView {
+    
+    static let casesLabelText = "Casos"
+    
+  }
+  
+  enum VisualizeSkillsView {
+    
+    static let skillsLabelText = "Skills"
+    
+  }
+  
   enum TabBarView {
     
     static let dashBoardButtonText = "Dashboard"

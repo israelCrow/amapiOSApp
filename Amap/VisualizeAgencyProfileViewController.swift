@@ -8,13 +8,21 @@
 
 import UIKit
 
-class VisualizeAgencyProfileViewController: UIViewController {
+class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDelegate {
+  
+  let kNumberOfCardsInScrollViewMinusOne = 5
   
   private var mainTabBar: DashBoardPitchesAndAgencyProfileTabBarView! = nil
   private var flipCard: FlipCardView! = nil
   private var frontViewOfClipCard: UIView! = nil
   private var profilePicNameButtonsView: AgencyProfilePicNameButtonsView! = nil
-  private var mainScrollView: UIScrollView! = nil
+  private var scrollViewFrontFlipCard: UIScrollView! = nil
+  
+  
+  private var leftButton: UIButton! = nil
+  private var rightButton: UIButton! = nil
+  
+  private var actualPage: Int! = 0
   
   override func loadView() {
     
@@ -150,6 +158,7 @@ class VisualizeAgencyProfileViewController: UIViewController {
 //
     flipCard = FlipCardView.init(frame: frameForFlipCard, viewOne: frontViewOfClipCard, viewTwo: blankView)
     self.view.addSubview(flipCard)
+    self.createButtonsForFlipCard()
     
   }
   
@@ -159,7 +168,7 @@ class VisualizeAgencyProfileViewController: UIViewController {
     frontViewOfClipCard.backgroundColor = UIColor.whiteColor()
     
     self.createProfilePicNameButtonsView()
-    self.createMainScrollView()
+    self.createMainScrollView(frameForCards)
     
   }
   
@@ -176,12 +185,130 @@ class VisualizeAgencyProfileViewController: UIViewController {
     
   }
   
-  private func createMainScrollView() {
+  private func createMainScrollView(frameForCards: CGRect) {
     
-    
-    //    self.createButtonsForFlipCard()
+    self.createScrollViewFrontFlipCard(frameForCards)
 
   }
+  
+  private func createScrollViewFrontFlipCard(frameForCards: CGRect) {
+    
+    let realFrameForScrollView = CGRect.init(x: frameForCards.origin.x,
+                                             y: 183.0 * UtilityManager.sharedInstance.conversionHeight,
+                                         width: frameForCards.size.width,
+                                        height: 315.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let contentSizeOfScrollView = CGSize.init(width: frameForCards.size.width * CGFloat(kNumberOfCardsInScrollViewMinusOne),
+                                             height: frameForCards.size.height)
+    
+    scrollViewFrontFlipCard = UIScrollView.init(frame: realFrameForScrollView)
+    scrollViewFrontFlipCard.backgroundColor = UIColor.whiteColor()
+    scrollViewFrontFlipCard.contentSize = contentSizeOfScrollView
+    scrollViewFrontFlipCard.scrollEnabled = false
+    
+    //------------------------------------------SCREENS
+    
+    let frameForScreensOfScrollView = CGRect.init(x: 0.0,
+                                                  y: 0.0,
+                                              width: frameForCards.size.width,
+                                             height: 316.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let criteriaVisualize = VisualizeCriteriaView.init(frame: frameForScreensOfScrollView)
+    criteriaVisualize.backgroundColor = UIColor.clearColor()
+    scrollViewFrontFlipCard.addSubview(criteriaVisualize)
+    
+    let exclusiveVisualize = VisualizeExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width * 1,
+      y: frameForScreensOfScrollView.origin.y,
+      width: frameForScreensOfScrollView.size.width,
+      height: frameForScreensOfScrollView.size.height))
+    exclusiveVisualize.backgroundColor = UIColor.clearColor()
+    scrollViewFrontFlipCard.addSubview(exclusiveVisualize)
+    
+    let participateInVisualize = VisualizeParticipateInView.init(frame: CGRect.init(x: frameForCards.size.width * 2,
+      y: frameForScreensOfScrollView.origin.y,
+      width: frameForScreensOfScrollView.size.width,
+      height: frameForScreensOfScrollView.size.height))
+    participateInVisualize.backgroundColor = UIColor.clearColor()
+    scrollViewFrontFlipCard.addSubview(participateInVisualize)
+    
+    let numberEmployees = VisualizeNumberOfEmployeesView.init(frame: CGRect.init(x: frameForCards.size.width * 3,
+      y: frameForScreensOfScrollView.origin.y,
+      width: frameForScreensOfScrollView.size.width,
+      height: frameForScreensOfScrollView.size.height))
+    scrollViewFrontFlipCard.addSubview(numberEmployees)
+    
+    let cases = VisualizeCasesView.init(frame: CGRect.init(x: frameForCards.size.width * 4,
+      y: frameForScreensOfScrollView.origin.y,
+      width: frameForScreensOfScrollView.size.width,
+      height: frameForScreensOfScrollView.size.height))
+    cases.justVisualizeDelegate = self
+    scrollViewFrontFlipCard.addSubview(cases)
+    
+    let skills = VisualizeSkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 5,
+      y: frameForScreensOfScrollView.origin.y,
+      width: frameForScreensOfScrollView.size.width,
+      height: frameForScreensOfScrollView.size.height))
+    scrollViewFrontFlipCard.addSubview(skills)
+    skills.getAllSkillsFromServer()
+
+    
+      
+      
+      
+      
+    
+    
+    
+    
+    
+    
+ 
+    frontViewOfClipCard.addSubview(scrollViewFrontFlipCard)
+    
+  }
+
+  private func createButtonsForFlipCard() {
+    leftButton = nil
+    rightButton = nil
+    
+    
+    let sizeForButtons = CGSize.init(width: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 49.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let frameForLeftButton = CGRect.init(x: 23.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: 177.0 * UtilityManager.sharedInstance.conversionHeight,
+                                         width: sizeForButtons.width,
+                                         height:sizeForButtons.height)
+    
+    let frameForRightButton = CGRect.init(x: 235.0 * UtilityManager.sharedInstance.conversionWidth,
+                                          y: 177.0 * UtilityManager.sharedInstance.conversionHeight,
+                                          width: sizeForButtons.width,
+                                          height: sizeForButtons.height)
+    
+    let leftButtonImage = UIImage(named: "navNext") as UIImage?
+    let rightButtonImage = UIImage(named: "navPrev") as UIImage?
+    
+    leftButton = UIButton.init(frame: frameForLeftButton)
+    //    leftButton.backgroundColor = UIColor.redColor()
+    rightButton = UIButton.init(frame: frameForRightButton)
+    //    rightButton.backgroundColor = UIColor.redColor()
+    
+    leftButton.setImage(leftButtonImage, forState: .Normal)
+    rightButton.setImage(rightButtonImage, forState: .Normal)
+    
+    leftButton.addTarget(self, action: #selector(moveScrollViewToLeft), forControlEvents: .TouchUpInside)
+    rightButton.addTarget(self, action: #selector(moveScrollViewToRight), forControlEvents: .TouchUpInside)
+    
+    if actualPage == 0 {
+      self.hideLeftButtonOfMainScrollView()
+    }
+    
+    flipCard.addSubview(leftButton)
+    flipCard.addSubview(rightButton)
+    
+  }
+  
+  
   
   @objc private func pushEditAgencyProfile() {
   
@@ -198,6 +325,107 @@ class VisualizeAgencyProfileViewController: UIViewController {
     
   }
   
+  @objc private func moveScrollViewToLeft() {
+    
+    if actualPage > 0 {
+      
+      actualPage = actualPage - 1
+      
+      if actualPage == 0 {
+        
+        self.hideLeftButtonOfMainScrollView()
+        
+      }
+      
+      if actualPage < kNumberOfCardsInScrollViewMinusOne && self.rightButton.alpha == 0.0 {
+        
+        self.showRightButtonOfMainScrollView()
+        
+      }
+      
+      let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+      
+      let pointToMove = CGPoint.init(x: widthOfCard * CGFloat(actualPage), y: 0.0)
+      
+      scrollViewFrontFlipCard.setContentOffset(pointToMove, animated: true)
+      
+    }
+    
+  }
+  
+  @objc private func moveScrollViewToRight() {
+    
+    if actualPage < kNumberOfCardsInScrollViewMinusOne {
+      
+      actualPage = actualPage + 1
+      
+      if actualPage == kNumberOfCardsInScrollViewMinusOne {
+        
+        self.hideRightButtonOfMainScrollView()
+        
+      }
+      
+      if actualPage > 0 && self.leftButton.alpha == 0.0 {
+        
+        self.showLeftButtonOfMainScrollView()
+        
+      }
+      
+      let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+      
+      let pointToMove = CGPoint.init(x: widthOfCard * CGFloat(actualPage), y: 0.0)
+      
+      scrollViewFrontFlipCard.setContentOffset(pointToMove, animated: true)
+      
+    }
+    
+  }
+  
+  private func hideLeftButtonOfMainScrollView() {
+    
+    UIView.animateWithDuration(0.35){
+      
+      self.leftButton.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func hideRightButtonOfMainScrollView() {
+    
+    UIView.animateWithDuration(0.35){
+      
+      self.rightButton.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func showLeftButtonOfMainScrollView() {
+    
+    UIView.animateWithDuration(0.35){
+      
+      self.leftButton.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func showRightButtonOfMainScrollView() {
+    
+    UIView.animateWithDuration(0.35){
+      
+      self.rightButton.alpha = 1.0
+      
+    }
+    
+  }
+  
+  //MARK: - VisualizeCasesDelegate
+  
+  func showDetailOfCases(caseData: Case) {
+    
+  }
   
   
 }

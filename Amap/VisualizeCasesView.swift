@@ -1,8 +1,8 @@
 //
-//  CasesView.swift
+//  VisualizeCasesView.swift
 //  Amap
 //
-//  Created by Mac on 8/17/16.
+//  Created by Alejandro Aristi C on 9/5/16.
 //  Copyright © 2016 Alejandro Aristi C. All rights reserved.
 //
 
@@ -12,13 +12,11 @@ import YTVimeoExtractor
 import AVKit
 import AVFoundation
 
-protocol CasesViewDelegate {
-  func flipCardAndShowCreateNewCase()
-  func flipCardAndShowPreviewOfCase(caseData: Case)
-  func deleteCaseSelectedFromPreviewVimeoYoutubePlayer(caseData: Case)
+protocol VisualizeCasesDelegate {
+  func showDetailOfCases(caseData: Case)
 }
 
-class CasesView: UIView, CaseCardInfoViewDelegate {
+class VisualizeCasesView: UIView {
   
   let kLimitOfCases = 4
   
@@ -28,8 +26,6 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
   private var arrayOfCases: [Case]! = nil
   private var arrayOfCasesCards: [CaseCardInfoView]! = nil
   
-  
-  var delegate: CasesViewDelegate?
   var justVisualizeDelegate: VisualizeCasesDelegate?
   
   
@@ -62,8 +58,8 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
     //
     self.createCaseCardsInfo()
     //
-//    
-//    self.createCreatorOfCasesView()
+    //
+    //    self.createCreatorOfCasesView()
     
   }
   
@@ -88,7 +84,7 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
     casesLabel.attributedText = stringWithFormat
     casesLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (casesLabel.frame.size.width / 2.0),
-                               y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 0.0,
                                width: casesLabel.frame.size.width,
                                height: casesLabel.frame.size.height)
     
@@ -130,7 +126,7 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
     }
     
     self.loadCases()
-  
+    
   }
   
   private func loadCases() {
@@ -158,13 +154,13 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
       
       for caseInArray in arrayOfCases {
         
-        let caseCardInfo = CaseCardInfoView.init(frame: frameForCaseCard, dataFromCase: caseInArray)
-        caseCardInfo.delegate = self
+        let caseCardInfo = CaseCardInfoView.init(frame: frameForCaseCard, dataFromCase: caseInArray, showButtonsOfEdition: false)
+//        caseCardInfo.delegate = self
         
         frameForCaseCard = CGRect.init(x: 0.0,
                                        y: frameForCaseCard.origin.y + (160.0 * UtilityManager.sharedInstance.conversionHeight),
-                                   width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                                  height: 140.0 * UtilityManager.sharedInstance.conversionHeight)
+                                       width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                       height: 140.0 * UtilityManager.sharedInstance.conversionHeight)
         self.mainScrollView.addSubview(caseCardInfo)
         
         self.arrayOfCasesCards.append(caseCardInfo)
@@ -173,81 +169,12 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
       
     }
     
-  let frameForCreatorOfCases = frameForCaseCard
+    let frameForCreatorOfCases = frameForCaseCard
     
     let newContentSize = CGSize.init(width: mainScrollView.contentSize.width,
-                                    height: frameForCreatorOfCases.origin.y + frameForCreatorOfCases.size.height + (35.0 * UtilityManager.sharedInstance.conversionHeight))
+                                     height: frameForCreatorOfCases.origin.y + frameForCreatorOfCases.size.height + (35.0 * UtilityManager.sharedInstance.conversionHeight))
     
     mainScrollView.contentSize = newContentSize
-    self.createCreatorOfCasesView(frameForCreatorOfCases)
-    
-  }
-  
-  private func createCreatorOfCasesView(frameForCreatorOfCases: CGRect) {
-    
-    if creatorOfCasesView == nil {
-      
-      let finalFrame = CGRect.init(x: frameForCreatorOfCases.origin.x,
-                                   y: frameForCreatorOfCases.origin.y,
-                               width: frameForCreatorOfCases.size.width,
-                              height: 50.0 * UtilityManager.sharedInstance.conversionHeight)
-      
-      
-      creatorOfCasesView = UIView.init(frame: finalFrame)
-      creatorOfCasesView.backgroundColor = UIColor.clearColor()
-      self.mainScrollView.addSubview(creatorOfCasesView)
-      
-      self.cretaeAndAddButtonForCreateNewCase()
-      
-    }else{
-      
-      UIView.animateWithDuration(0.35){
-        
-        self.creatorOfCasesView.frame = frameForCreatorOfCases
-        
-      }
-      
-    }
-    
-  }
-  
-  private func cretaeAndAddButtonForCreateNewCase() {
-    
-    let frameForButton = CGRect.init(x: (creatorOfCasesView.frame.size.width / 2.0) - ((110.0 / 2.0) * UtilityManager.sharedInstance.conversionWidth),
-                                     y: ((creatorOfCasesView.frame.size.height / 2.0) - (70.0 / 2.0) * UtilityManager.sharedInstance.conversionHeight),
-                                     width: 110.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     height: 50.0 * UtilityManager.sharedInstance.conversionHeight)
-    
-    let font = UIFont(name: "SFUIText-Regular",
-                      size: 11.0 * UtilityManager.sharedInstance.conversionWidth)
-    let color = UIColor.blackColor()
-    let style = NSMutableParagraphStyle()
-    style.alignment = NSTextAlignment.Center
-    
-    let stringWithFormat = NSMutableAttributedString(
-      string: AgencyProfileEditConstants.CasesView.createNewCaseButtonText,
-      attributes:[NSFontAttributeName: font!,
-        NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color
-      ]
-    )
-    
-    stringWithFormat.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSMakeRange(0, AgencyProfileEditConstants.CasesView.createNewCaseButtonText.characters.count))
-    
-    let createAnotherCaseButton = UIButton.init(frame: frameForButton)
-    createAnotherCaseButton.addTarget(self,
-                                      action: #selector(createAndAddAnotherCase),
-                                      forControlEvents: .TouchUpInside)
-    
-    createAnotherCaseButton.backgroundColor = UIColor.clearColor()
-    createAnotherCaseButton.setAttributedTitle(stringWithFormat, forState: .Normal)
-    self.creatorOfCasesView.addSubview(createAnotherCaseButton)
-    
-  }
-  
-  @objc private func createAndAddAnotherCase() {
-    
-    self.delegate?.flipCardAndShowCreateNewCase()
     
   }
   
@@ -269,16 +196,6 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
   }
   
   //MARK: - CaseCardInfoDelegate
-  
-  func flipCardAndShowPreviewCase(caseData: Case) {
-    
-    self.delegate?.flipCardAndShowPreviewOfCase(caseData)
-    
-  }
-  
-  func deleteCaseFromPreviewPlayer(caseData: Case) {
-    self.delegate?.deleteCaseSelectedFromPreviewVimeoYoutubePlayer(caseData)
-  }
   
   func createAgainAllCasesCardInfo() {
     
