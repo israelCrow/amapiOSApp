@@ -13,12 +13,22 @@ struct Skill {
   var id: String! = nil
   var name: String! = nil
   var level: Int?
+  var skillCategoryId: Int?
   
   init(id: String, nameSkill: String, levelSkill: Int?) {
     
     self.id = id
     self.name = nameSkill
     self.level = levelSkill
+    
+  }
+  
+  init(id: String, nameSkill: String, levelSkill: Int?, skill_category_id: Int?) {
+    
+    self.id = id
+    self.name = nameSkill
+    self.level = levelSkill
+    self.skillCategoryId = skill_category_id
     
   }
   

@@ -8,7 +8,14 @@
 
 import UIKit
 
-class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDelegate {
+protocol VisualizeAgencyProfileViewControllerDelegate {
+  
+  func requestToHideTabBarFromVisualizeAgencyProfileViewControllerDelegate()
+  func requestToShowTabBarFromVisualizeAgencyProfileViewControllerDelegate()
+  
+}
+
+class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDelegate, VisualizeSkillsViewDelegate, VisualizeSkillsLevelViewDelegate, EditAgencyProfileViewControllerDelegate {
   
   let kNumberOfCardsInScrollViewMinusOne = 5
   
@@ -18,11 +25,15 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   private var profilePicNameButtonsView: AgencyProfilePicNameButtonsView! = nil
   private var scrollViewFrontFlipCard: UIScrollView! = nil
   
+  private var skillsView: VisualizeSkillsView! = nil
+  private var visualizeCases: VisualizeCasesView! = nil
   
   private var leftButton: UIButton! = nil
   private var rightButton: UIButton! = nil
   
   private var actualPage: Int! = 0
+  
+  var delegate: VisualizeAgencyProfileViewControllerDelegate?
   
   override func loadView() {
     
@@ -30,7 +41,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     self.view.backgroundColor = UIColor.blackColor()
     self.view.addSubview(self.createGradientView())
     self.editNavigationBar()
-    self.createBottomTabBar()
+//    self.createBottomTabBar()
     self.initInterface()
     
   }
@@ -237,19 +248,20 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
       height: frameForScreensOfScrollView.size.height))
     scrollViewFrontFlipCard.addSubview(numberEmployees)
     
-    let cases = VisualizeCasesView.init(frame: CGRect.init(x: frameForCards.size.width * 4,
+    visualizeCases = VisualizeCasesView.init(frame: CGRect.init(x: frameForCards.size.width * 4,
       y: frameForScreensOfScrollView.origin.y,
       width: frameForScreensOfScrollView.size.width,
       height: frameForScreensOfScrollView.size.height))
-    cases.justVisualizeDelegate = self
-    scrollViewFrontFlipCard.addSubview(cases)
+    visualizeCases.justVisualizeDelegate = self
+    scrollViewFrontFlipCard.addSubview(visualizeCases)
     
-    let skills = VisualizeSkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 5,
+    skillsView = VisualizeSkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 5,
       y: frameForScreensOfScrollView.origin.y,
       width: frameForScreensOfScrollView.size.width,
       height: frameForScreensOfScrollView.size.height))
-    scrollViewFrontFlipCard.addSubview(skills)
-    skills.getAllSkillsFromServer()
+    scrollViewFrontFlipCard.addSubview(skillsView)
+    skillsView.getAllSkillsFromServer()
+    skillsView.delegate = self
 
     
       
@@ -311,9 +323,18 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   
   
   @objc private func pushEditAgencyProfile() {
+    
+    self.requestToHideTapBar()
   
     let editStuffAgency = EditAgencyProfileViewController()
+    editStuffAgency.delegate = self
     self.navigationController?.pushViewController(editStuffAgency, animated: true)
+    
+  }
+  
+  private func requestToHideTapBar() {
+    
+    self.delegate?.requestToHideTabBarFromVisualizeAgencyProfileViewControllerDelegate()
     
   }
   
@@ -423,7 +444,52 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   
   //MARK: - VisualizeCasesDelegate
   
-  func showDetailOfCases(caseData: Case) {
+  func showDetailOfCase(caseData: Case) {
+    
+    let previewVisualizerCase = VisualizeCaseDetailViewController.init(dataOfCase: caseData)
+    
+    self.navigationController?.pushViewController(previewVisualizerCase, animated: true)
+    
+  }
+  
+  //MARK: - VisualizeSkillsViewDelegate
+  
+  func flipCardToShowSkillsOfCategory(skills: [Skill], skillCategoryName: String) {
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (168.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
+    
+    let skillsLevels = VisualizeSkillsLevelView.init(frame: frameForViewsOfCard, skillCategory: skillCategoryName, arrayOfSkills: skills)
+    skillsLevels.delegate = self
+    skillsLevels.hidden = true
+    flipCard.setSecondView(skillsLevels)
+    flipCard.flip()
+  }
+  
+  //MARK: - VisualizeSkillsLevelViewDelegate
+  
+  func cancelShowSkillsLevelView() {
+    
+    flipCard.flip()
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (136.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
+    
+    //createTheBackCard
+    let blankView = UIView.init(frame:frameForViewsOfCard)
+    blankView.hidden = true
+    flipCard.setSecondView(blankView)
+    self.createButtonsForFlipCard()
+    
+  }
+  
+  //MARK: - EditAgencyProfileViewControllerDelegate
+  
+  func requestToShowTabBarFromEditAgencyProfileViewControllerDelegate() {
+    
+    self.delegate?.requestToShowTabBarFromVisualizeAgencyProfileViewControllerDelegate()
     
   }
   

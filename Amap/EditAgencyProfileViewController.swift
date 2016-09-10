@@ -9,6 +9,12 @@
 import UIKit
 import Alamofire
 
+protocol EditAgencyProfileViewControllerDelegate {
+  
+  func requestToShowTabBarFromEditAgencyProfileViewControllerDelegate()
+  
+}
+
 class EditAgencyProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CasesViewDelegate, CreateCaseViewDelegate, ProfileViewDelegate {
     
   private let kEditAgencyProfile = "Editar Perfil Agencia"
@@ -34,6 +40,8 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   private var casesView: CasesView! = nil
   private var skillsView: SkillsView! = nil
   private var profileView: ProfileView! = nil
+  
+  var delegate: EditAgencyProfileViewControllerDelegate?
 
   override func loadView() {
     
@@ -86,7 +94,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   private func changeRigthButtonItem() {
     
-    let rightButton = UIBarButtonItem(title: AgencyProfileEditConstants.EditAgencyProfileViewController.naviogationRightButtonText,
+    let rightButton = UIBarButtonItem(title: AgencyProfileEditConstants.EditAgencyProfileViewController.navigationRightButtonText,
                                       style: UIBarButtonItemStyle.Plain,
                                       target: self,
                                       action: #selector(popThisViewController))
@@ -587,7 +595,15 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   @objc private func popThisViewController() {
     
+    self.requestToShowTabBar()
+    
     self.navigationController?.popViewControllerAnimated(true)
+    
+  }
+  
+  private func requestToShowTabBar() {
+    
+    self.delegate?.requestToShowTabBarFromEditAgencyProfileViewControllerDelegate()
     
   }
   

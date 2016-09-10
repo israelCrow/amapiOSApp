@@ -24,8 +24,8 @@ class VideoPlayerVimeoYoutubeView:UIView {
   private var videoURLString: String?
   private var videoURLNSURL: NSURL! = nil
   private var imageForCaseImageView: UIImageView! = nil
-  private var changeCaseImageButton: UIButton! = nil
-  private var deleteCaseImageButton: UIButton! = nil
+  var changeCaseImageButton: UIButton! = nil
+  var deleteCaseImageButton: UIButton! = nil
   private var itsPossibleToChangeImage: Bool = false
   private var isYoutubeVideo: Bool = false
   private var isVimeoVideo: Bool = false
@@ -36,12 +36,40 @@ class VideoPlayerVimeoYoutubeView:UIView {
   private var isPlayingVidePlayerVimeoPlayer: Bool = false
   private var videoPlayerLayerVimeoAVPlayerLayer: AVPlayerLayer! = nil
   
+  private var imageURL: String! = nil
+  
   var existsImage: Bool = false
   
   var delegate: VideoPlayerVimeoYoutubeViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  init(frame: CGRect, url: String?, urlImage: String?) {
+    
+    if urlImage != nil {
+      
+      imageURL = urlImage!
+    
+    }
+    
+    if url != nil {
+      
+      videoURLString = url!
+      videoURLNSURL = NSURL.init(string: url!)
+      
+    } else {
+      
+      videoURLString = nil
+      videoURLNSURL = nil
+      
+    }
+    
+    super.init(frame: frame)
+    
+    self.initInterface()
+    
   }
   
   init(frame: CGRect, url: String?) {
@@ -92,6 +120,9 @@ class VideoPlayerVimeoYoutubeView:UIView {
     imageForCaseImageView.userInteractionEnabled = true
     imageForCaseImageView.autoresizingMask = .FlexibleWidth
     imageForCaseImageView.contentMode = .ScaleAspectFit
+    if imageURL != nil {
+      imageForCaseImageView.imageFromUrl(imageURL)
+    }
     self.addSubview(imageForCaseImageView)
     
     self.createChangeImageForCaseButton()

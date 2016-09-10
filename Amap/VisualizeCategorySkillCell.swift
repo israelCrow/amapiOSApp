@@ -8,12 +8,20 @@
 
 import UIKit
 
+protocol VisualizeCategorySkillCellDelegate {
+  
+  func showSkillsOfThisCategory(arrayOfSkills: [Skill], nameSkillCategory: String)
+  
+}
+
 class VisualizeCategorySkillCell: UICollectionViewCell {
   
   private var iconOfCell: UIImageView! = nil
   private var titleLabel: UILabel! = nil
   
-  var skills = [Skill]()
+  private var skillCategory: SkillCategory! = nil
+  
+  var delegate: VisualizeCategorySkillCellDelegate?
   
   
   required init?(coder aDecoder: NSCoder) {
@@ -26,6 +34,13 @@ class VisualizeCategorySkillCell: UICollectionViewCell {
 
   func setImage(imageName: String) {
     
+    if iconOfCell != nil {
+      
+      iconOfCell.removeFromSuperview()
+      iconOfCell = nil
+      
+    }
+    
     iconOfCell = UIImageView.init(image: UIImage.init(named: imageName))
     
     let frameForIcon = CGRect.init(x: (self.frame.size.width / 2.0) - (iconOfCell.frame.size.width / 2.0),
@@ -37,9 +52,36 @@ class VisualizeCategorySkillCell: UICollectionViewCell {
     
     self.addSubview(iconOfCell)
     
+    self.createGesture()
+    
   }
   
-  func setLabel(titleString: String) {
+  private func createGesture() {
+    
+    let gesture = UITapGestureRecognizer.init(target: self, action: #selector(showSkills))
+    gesture.numberOfTapsRequired = 1
+    
+    self.userInteractionEnabled = true
+    self.addGestureRecognizer(gesture)
+    
+  }
+  
+  func setCategorySkill(newCategorySkill: SkillCategory) {
+    
+    self.skillCategory = newCategorySkill
+    
+    self.reloadLabel(skillCategory.name)
+    
+  }
+  
+  private func reloadLabel(titleString: String) {
+    
+    if titleLabel != nil {
+      
+      titleLabel.removeFromSuperview()
+      titleLabel = nil
+      
+    }
     
     titleLabel = UILabel.init(frame: CGRectZero)
     
@@ -67,11 +109,34 @@ class VisualizeCategorySkillCell: UICollectionViewCell {
     titleLabel.frame = newFrame
     self.addSubview(titleLabel)
     
-    
   }
   
+  @objc private func showSkills() {
+    
+    var arrayOfSkillsQualifiedByUser = [Skill]()
+    
+    if AgencyModel.Data.skillsLevel != nil {
+      
+      for skillLevel in AgencyModel.Data.skillsLevel! {
+        
+        if skillLevel.skillCategoryId != nil && skillLevel.skillCategoryId == Int(skillCategory.id) {
+          
+          arrayOfSkillsQualifiedByUser.append(skillLevel)
+          
+        }
+        
+      }
+      
+    } else {  //This will happen when an agency doesn't have any skill evaluated
+      
+      arrayOfSkillsQualifiedByUser = skillCategory.arrayOfSkills
+      
+    }
+    
 
   
+    self.delegate?.showSkillsOfThisCategory(arrayOfSkillsQualifiedByUser, nameSkillCategory: skillCategory.name)
   
+  }
   
 }

@@ -74,6 +74,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    }
     return false
   }
+  
+  func switchRootViewController(rootViewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    if animated {
+      UIView.transitionWithView(window!, duration: 0.5, options: .TransitionCrossDissolve, animations: {
+        let oldState: Bool = UIView.areAnimationsEnabled()
+        UIView.setAnimationsEnabled(false)
+        self.window!.rootViewController = rootViewController
+        UIView.setAnimationsEnabled(oldState)
+        }, completion: { (finished: Bool) -> () in
+          if completion != nil && finished == true {
+            completion!()
+          }
+      })
+    } else {
+      window!.rootViewController = rootViewController
+    }
+  }
 
 
 }

@@ -13,10 +13,10 @@ import AVKit
 import AVFoundation
 
 protocol VisualizeCasesDelegate {
-  func showDetailOfCases(caseData: Case)
+  func showDetailOfCase(caseData: Case)
 }
 
-class VisualizeCasesView: UIView {
+class VisualizeCasesView: UIView, CaseCardInfoViewDelegate {
   
   let kLimitOfCases = 4
   
@@ -155,7 +155,7 @@ class VisualizeCasesView: UIView {
       for caseInArray in arrayOfCases {
         
         let caseCardInfo = CaseCardInfoView.init(frame: frameForCaseCard, dataFromCase: caseInArray, showButtonsOfEdition: false)
-//        caseCardInfo.delegate = self
+        caseCardInfo.delegate = self
         
         frameForCaseCard = CGRect.init(x: 0.0,
                                        y: frameForCaseCard.origin.y + (160.0 * UtilityManager.sharedInstance.conversionHeight),
@@ -202,5 +202,13 @@ class VisualizeCasesView: UIView {
     self.createCaseCardsInfo()
     
   }
+  
+  //MARK: - CaseCardInfoViewDelegate
+  
+  func flipCardAndShowPreviewCase(caseData: Case) {
+    self.justVisualizeDelegate?.showDetailOfCase(caseData)
+  }
+  
+  func deleteCaseFromPreviewPlayer(dataCase: Case){}
   
 }

@@ -19,6 +19,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
   private var alreadyAppearedKeyboard: Bool = false
   private var loginGoldenPitchView: GoldenPitchLoginView! = nil
   private var isSecondOrMoreTimeToAppear: Bool = false
+  private var mainTabBarController: MainTabBarController! = nil
   
   override func loadView() {
     self.view = self.createGradientView()
@@ -253,9 +254,19 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                     
                     AgencyModel.Data.id = UserSession.session.agency_id!
                     RequestToServerManager.sharedInstance.requestForAgencyData(){
+                      
+                      self.initAndChangeRootToMainTabBarController()
+                      
+//                      let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+//                      let rootMainTabScreen = MainTabBarController()
+//                      
+//                      appDelegate.window?.rootViewController = rootMainTabScreen
+//                      appDelegate.window?.makeKeyAndVisible()
+                      
+//                      self.navigationController?.pushViewController(mainTabScreen, animated: true)
 
-                      let visualizeAgencyProfile = VisualizeAgencyProfileViewController()
-                      self.navigationController?.pushViewController(visualizeAgencyProfile, animated: true)
+//                      let visualizeAgencyProfile = VisualizeAgencyProfileViewController()
+//                      self.navigationController?.pushViewController(visualizeAgencyProfile, animated: true)
                       
 //                      let editStuffAgency = EditAgencyProfileViewController()
 //                      self.navigationController?.pushViewController(editStuffAgency, animated: true)
@@ -315,9 +326,39 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                 //        print("\(response.response) \n\n\(response.response?.statusCode)")
         }
     }
+  
+  private func initAndChangeRootToMainTabBarController() {
     
+    mainTabBarController = MainTabBarController()
+    mainTabBarController.tabBar.barTintColor = UIColor.blackColor()
+    mainTabBarController.tabBar.tintColor = UIColor.whiteColor()
+    
+    var arrayOfViewControllers = [UINavigationController]()
+    
+//    mainTabBarController.viewControllers = [UIViewController]()
+    
+    arrayOfViewControllers.append(self.createFirstBarItem())
+    arrayOfViewControllers.append(self.createSecondBarItem())
+    arrayOfViewControllers.append(self.createThirdBarItem())
+    
+    mainTabBarController.viewControllers = arrayOfViewControllers
+    
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    UIView.transitionWithView(appDelegate.window!,
+                              duration: 0.25,
+                              options: UIViewAnimationOptions.TransitionCrossDissolve,
+                              animations: {
+                                self.view.alpha = 0.0
+                                appDelegate.window?.rootViewController = self.mainTabBarController
+                                appDelegate.window?.makeKeyAndVisible()
+                                
+      },
+                              completion: nil)
+    
+  }
+  
     @objc private func dismissKeyboard() {
-        
+      
         self.loginGoldenPitchView.dismissKeyboard(self)
         
     }
@@ -334,5 +375,68 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
         let changePasswordVC = ChangePasswordViewController()
         self.navigationController?.pushViewController(changePasswordVC, animated: true)
     }
+  
+  private func createFirstBarItem() -> UINavigationController {
     
+    let imageDashboardNonSelected = UIImage.init(named: "iconDashboardMedium")
+    let imageDashboardSelected = UIImage.init(named: "iconDashboardWhite")
+    
+    let blankController1 = BlankViewController()
+    
+    let tabOneBarItem = UITabBarItem.init(title: AgencyProfileVisualizeConstants.TabBarView.dashBoardButtonText,
+                                          image: imageDashboardNonSelected,
+                                          selectedImage: imageDashboardSelected)
+    
+    let newNavController = UINavigationController.init(rootViewController: blankController1)
+    
+    tabOneBarItem.tag = 1
+    newNavController.tabBarItem = tabOneBarItem
+    newNavController.navigationBar.barStyle = .Black
+    
+    return newNavController
+    
+  }
+  
+  private func createSecondBarItem() -> UINavigationController {
+    
+    let imagePitchesNonSelected = UIImage.init(named: "iconPitchesMedium")
+    let imagePitchesSelected = UIImage.init(named: "iconPitchesWhite")
+    
+    let visualizeAllPitches = VisualizeAllPitchesViewController()
+    visualizeAllPitches.delegateForShowAndHideTabBar = mainTabBarController
+    let tabTwoBarItem = UITabBarItem.init(title: AgencyProfileVisualizeConstants.TabBarView.pitchesButtonText,
+                                          image: imagePitchesNonSelected,
+                                          selectedImage: imagePitchesSelected)
+    
+    let newNavController = UINavigationController.init(rootViewController: visualizeAllPitches)
+    
+    tabTwoBarItem.tag = 2
+    newNavController.tabBarItem = tabTwoBarItem
+    newNavController.navigationBar.barStyle = .Black
+    
+    return newNavController
+    
+  }
+  
+  private func createThirdBarItem() -> UINavigationController  {
+    
+    let imageAgencyProfileNonSelected = UIImage.init(named: "iconAgencyMedium")
+    let imageAgencyProfileSelected = UIImage.init(named: "iconAgencyWhite")
+    
+    let visualizeAgencyProfileController = VisualizeAgencyProfileViewController()
+    visualizeAgencyProfileController.delegate = mainTabBarController
+    let tabThreeBarItem = UITabBarItem.init(title: AgencyProfileVisualizeConstants.TabBarView.agencyProfileButtonText,
+                                            image: imageAgencyProfileNonSelected,
+                                            selectedImage: imageAgencyProfileSelected)
+    
+    let newNavController = UINavigationController.init(rootViewController: visualizeAgencyProfileController)
+    
+    tabThreeBarItem.tag = 3
+    newNavController.tabBarItem = tabThreeBarItem
+    newNavController.navigationBar.barStyle = .Black
+    
+    return newNavController
+    
+  }
+  
 }

@@ -8,12 +8,20 @@
 
 import UIKit
 
-class VisualizeSkillsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+protocol VisualizeSkillsViewDelegate {
+  
+  func flipCardToShowSkillsOfCategory(skills: [Skill], skillCategoryName: String)
+  
+}
+
+class VisualizeSkillsView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, VisualizeCategorySkillCellDelegate {
   
   private var mainCollectionView: UICollectionView! = nil
   private var skillsLabel: UILabel! = nil
   private var skillCategories = [SkillCategory]()
 //  private var categorySkillButtons
+  
+  var delegate: VisualizeSkillsViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -97,8 +105,8 @@ class VisualizeSkillsView: UIView, UICollectionViewDelegateFlowLayout, UICollect
     let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! VisualizeCategorySkillCell
     
     cell.setImage("mediumFace")
-    cell.setLabel(skillCategories[indexPath.row].name)
-    cell.skills = skillCategories[indexPath.row].arrayOfSkills
+    cell.setCategorySkill(skillCategories[indexPath.row])
+    cell.delegate = self
 
     return cell
   }
@@ -159,6 +167,15 @@ class VisualizeSkillsView: UIView, UICollectionViewDelegateFlowLayout, UICollect
       
     }
     
+  }
+  
+  //MARK: - VisualizeCategorySkillCellDelegate
+  
+  func showSkillsOfThisCategory(arrayOfSkills: [Skill], nameSkillCategory: String) {
+    
+    
+    
+    self.delegate?.flipCardToShowSkillsOfCategory(arrayOfSkills, skillCategoryName: nameSkillCategory)
   }
 
 }

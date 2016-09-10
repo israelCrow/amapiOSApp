@@ -16,6 +16,13 @@ class AgencyProfileVisualizeConstants {
     
   }
   
+  enum VisualizeCaseViewController {
+    
+    static let navigationBarText = "Perfil Agencia"
+    static let rightButtonText = "Cerrar"
+    
+  }
+  
   enum VisualizeCriteriaView {
     
     static let criteriaLabelText = "Criterios"

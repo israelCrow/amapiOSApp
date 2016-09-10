@@ -84,19 +84,28 @@ class RequestToServerManager: NSObject {
           let arrayOfSuccessCases = json["success_cases"] as? [AnyObject]
           self.saveAllSuccessfulCases(arrayOfSuccessCases)
           
-          let arrayOfSkills = json["skills"] as? [AnyObject]
-        
-          //print(arrayOfSkills)
+          var arrayOfRawSkills: [AnyObject]! = nil
           
-          if arrayOfSkills != nil {
-          
-            for skill in arrayOfSkills! {
+          if json["skills"] as? [AnyObject] != nil {
             
-              let value1 = skill["id"]
-              let value2 = skill["level"]
+            arrayOfRawSkills = json["skills"] as! [AnyObject]
+          
+          }
+        
+//          print(arrayOfRawSkills)
+          
+          if arrayOfRawSkills != nil {
+            
+            AgencyModel.Data.skillsLevel = [Skill]()
+          
+            for skill in arrayOfRawSkills! {
               
-              print(value1)
-              print(value2)
+              let newSkill = Skill.init(id: String(skill["id"] as! Int),
+                nameSkill: skill["name"] as! String,
+                levelSkill: (skill["level"] as? Int != nil ? skill["level"] as! Int : 0),
+                skill_category_id: (skill["skill_category_id"] as? Int != nil ? (skill["skill_category_id"] as! Int) : nil))
+              
+              AgencyModel.Data.skillsLevel?.append(newSkill)
             
             }
           }

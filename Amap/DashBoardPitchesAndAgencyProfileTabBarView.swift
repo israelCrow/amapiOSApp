@@ -67,7 +67,8 @@ class DashBoardPitchesAndAgencyProfileTabBarView: UIView{
     
     
     dashBoardButton = UIButton.init(frame: frameForButton)
-    dashBoardButton.setImage(UIImage(named:"iconDashboardWhite"), forState: UIControlState.Normal)
+    dashBoardButton.setImage(UIImage(named:"iconDashboardMedium"), forState: UIControlState.Normal)
+    dashBoardButton.setImage(UIImage(named:"iconDashboardWhite"), forState: UIControlState.Selected)
     
     dashBoardButton.imageEdgeInsets = UIEdgeInsets(top: 10.0 * UtilityManager.sharedInstance.conversionHeight,
                                                    left: 50.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -96,7 +97,7 @@ class DashBoardPitchesAndAgencyProfileTabBarView: UIView{
     dashBoardButton.setTitleColor(colorForTextWhenNotPressed,
                                   forState: .Normal)
     dashBoardButton.setTitleColor(colorForTextWhenPressed,
-                                  forState: .Highlighted)
+                                  forState: .Selected)
     dashBoardButton.backgroundColor = UIColor.blackColor()
     dashBoardButton.addTarget(self, action: #selector(dashBoardButtonPressed),
                               forControlEvents: UIControlEvents.TouchUpInside)
@@ -113,7 +114,8 @@ class DashBoardPitchesAndAgencyProfileTabBarView: UIView{
     
     
     pitchesButton = UIButton.init(frame: frameForButton)
-    pitchesButton.setImage(UIImage(named:"iconPitchesWhite"), forState: UIControlState.Normal)
+    pitchesButton.setImage(UIImage(named:"iconPitchesMedium"), forState: UIControlState.Normal)
+    pitchesButton.setImage(UIImage(named:"iconPitchesWhite"), forState: UIControlState.Selected)
     
     pitchesButton.imageEdgeInsets = UIEdgeInsets(top: 10.0 * UtilityManager.sharedInstance.conversionHeight,
                                                  left: 50.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -142,7 +144,7 @@ class DashBoardPitchesAndAgencyProfileTabBarView: UIView{
     pitchesButton.setTitleColor(colorForTextWhenNotPressed,
                                 forState: .Normal)
     pitchesButton.setTitleColor(colorForTextWhenPressed,
-                                forState: .Highlighted)
+                                forState: .Selected)
     pitchesButton.backgroundColor = UIColor.blackColor()
     pitchesButton.addTarget(self, action: #selector(pitchesButtonPressed),
                             forControlEvents: UIControlEvents.TouchUpInside)
@@ -159,7 +161,8 @@ class DashBoardPitchesAndAgencyProfileTabBarView: UIView{
     
     
     agencyProfileButton = UIButton.init(frame: frameForButton)
-    agencyProfileButton.setImage(UIImage(named:"iconAgencyWhite"), forState: UIControlState.Normal)
+    agencyProfileButton.setImage(UIImage(named:"iconAgencyMedium"), forState: UIControlState.Normal)
+    agencyProfileButton.setImage(UIImage(named:"iconAgencyWhite"), forState: UIControlState.Selected)
     
     agencyProfileButton.imageEdgeInsets = UIEdgeInsets(top: 10.0 * UtilityManager.sharedInstance.conversionHeight,
                                                        left: 50.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -188,7 +191,7 @@ class DashBoardPitchesAndAgencyProfileTabBarView: UIView{
     agencyProfileButton.setTitleColor(colorForTextWhenNotPressed,
                                       forState: .Normal)
     agencyProfileButton.setTitleColor(colorForTextWhenPressed,
-                                      forState: .Highlighted)
+                                      forState: .Selected)
     agencyProfileButton.backgroundColor = UIColor.blackColor()
     agencyProfileButton.addTarget(self, action: #selector(agencyProfileButtonPressed),
                                   forControlEvents: UIControlEvents.TouchUpInside)
@@ -199,17 +202,29 @@ class DashBoardPitchesAndAgencyProfileTabBarView: UIView{
   
   @objc private func dashBoardButtonPressed(sender: AnyObject) {
     
+    dashBoardButton.selected = true
+    pitchesButton.selected = false
+    agencyProfileButton.selected = false
+    
     self.delegate?.dashBoardButtonFromTabBarPressed()
     
   }
   
   @objc private func pitchesButtonPressed(sender: AnyObject) {
     
+    dashBoardButton.selected = false
+    pitchesButton.selected = true
+    agencyProfileButton.selected = false
+    
     self.delegate?.pitchesButtonFromTabBarPressed()
     
   }
   
   @objc private func agencyProfileButtonPressed(sender: AnyObject) {
+    
+    dashBoardButton.selected = false
+    pitchesButton.selected = false
+    agencyProfileButton.selected = true
     
     self.delegate?.agencyProfileButtonFromTabBarPressed()
     
