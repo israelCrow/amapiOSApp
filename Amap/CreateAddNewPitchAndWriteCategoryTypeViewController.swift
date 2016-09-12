@@ -1,25 +1,24 @@
 //
-//  CreateAddNewPitchAndWriteBrandNameViewController.swift
+//  CreateAddNewPitchAndWriteCategoryTypeViewController.swift
 //  Amap
 //
-//  Created by Alejandro Aristi C on 9/9/16.
+//  Created by Alejandro Aristi C on 9/12/16.
 //  Copyright © 2016 Alejandro Aristi C. All rights reserved.
 //
 
 import UIKit
 
-protocol CreateAddNewPitchAndWriteBrandNameViewControllerDelegate {
+protocol CreateAddNewPitchAndWriteCategoryTypeViewControllerDelegate {
   
-  func requestToShowTabBarFromCreateAddNewPitchAndWriteBrandNameViewControllerDelegate()
+  func requestToShowTabBarFromCreateAddNewPitchAndWriteProjectNameViewControllerDelegate()
   
 }
 
-class CreateAddNewPitchAndWriteBrandNameViewController: UIViewController, AddPitchAndWriteBrandNameViewDelegate {
+class CreateAddNewPitchAndWriteCategoryTypeViewController: UIViewController, AddPitchAndWriteWhichCategoryIsViewDelegate {
   
-  private var addPitchWriteBrandName: AddPitchAndWriteBrandNameView! = nil
+  private var addPitchWriteWhichCategoryIsView: AddPitchAndWriteWhichCategoryIsView! = nil
   
-  
-  var delegateForShowTabBar: CreateAddNewPitchAndWriteBrandNameViewControllerDelegate?
+  var delegateForShowTabBar: CreateAddNewPitchAndWriteCategoryTypeViewControllerDelegate?
   
   override func loadView() {
     
@@ -45,7 +44,7 @@ class CreateAddNewPitchAndWriteBrandNameViewController: UIViewController, AddPit
     self.view.addSubview(self.createGradientView())
     
     self.editNavigationController()
-    self.createAddPitchWriteBrandName()
+    self.createAddPitchWriteWhichCategoryIsView()
     
   }
   
@@ -83,7 +82,7 @@ class CreateAddNewPitchAndWriteBrandNameViewController: UIViewController, AddPit
     
   }
   
-  private func createAddPitchWriteBrandName() {
+  private func createAddPitchWriteWhichCategoryIsView() {
     
     let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
     let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -92,11 +91,12 @@ class CreateAddNewPitchAndWriteBrandNameViewController: UIViewController, AddPit
                                    width: widthOfCard,
                                    height: heightOfCard)
     
-    addPitchWriteBrandName = AddPitchAndWriteBrandNameView.init(frame: frameForCard)
-    addPitchWriteBrandName.delegate = self
     
     
-    self.view.addSubview(addPitchWriteBrandName)
+    addPitchWriteWhichCategoryIsView = AddPitchAndWriteWhichCategoryIsView.init(frame: frameForCard)
+    addPitchWriteWhichCategoryIsView.delegate = self
+    
+    self.view.addSubview(addPitchWriteWhichCategoryIsView)
     
   }
   
@@ -125,17 +125,18 @@ class CreateAddNewPitchAndWriteBrandNameViewController: UIViewController, AddPit
   
   private func popMyself() {
     
-    self.delegateForShowTabBar?.requestToShowTabBarFromCreateAddNewPitchAndWriteBrandNameViewControllerDelegate()
+    self.delegateForShowTabBar?.requestToShowTabBarFromCreateAddNewPitchAndWriteProjectNameViewControllerDelegate()
     self.navigationController?.popViewControllerAnimated(true)
     
   }
   
-  //MARK: - AddPitchAndWriteBrandNameViewDelegate
+  //MARK: - AddPitchAndWriteWhichCategoryIsViewDelegate
   
-  func pushAddPitchAndWriteProjectNameViewController() {
+  func createAndAddPitch() {
     
-    let addPitchAndWriteProjectViewController = CreateAddNewPitchAndWriteProjectNameViewController()
-    self.navigationController?.pushViewController(addPitchAndWriteProjectViewController, animated: true)
+    //after pitch is created
+    
+    self.navigationController?.popToRootViewControllerAnimated(true)
     
   }
   
@@ -144,6 +145,7 @@ class CreateAddNewPitchAndWriteBrandNameViewController: UIViewController, AddPit
     self.view.endEditing(true)
     
   }
+  
   
 }
 

@@ -8,14 +8,23 @@
 
 import UIKit
 
-class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDataSource {
+protocol AddPitchAndWriteBrandNameViewDelegate {
+  
+  func pushAddPitchAndWriteProjectNameViewController()
+  
+}
+
+
+class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
   
   private var writeBrandName: UILabel! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
   private var mainTableView: UITableView! = nil
-  private var arrayOfBrandNames = ["Compañía 1","Compañía 2", "Compañía 3"]
+  private var arrayOfBrandNames = ["Marca 1","Marca 2", "Marca 3"]
   private var askPermissionLabel: UILabel! = nil
   private var addButton: UIButton! = nil
+  
+  var delegate: AddPitchAndWriteBrandNameViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -44,6 +53,16 @@ class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDat
     self.layer.shadowOpacity = 0.25
     self.layer.shadowOffset = CGSizeZero
     self.layer.shadowRadius = 5
+    self.addGestures()
+  }
+  
+  private func addGestures() {
+    
+    let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                              action: #selector(dismissKeyboard))
+    tapToDismissKeyboard.numberOfTapsRequired = 1
+    self.addGestureRecognizer(tapToDismissKeyboard)
+    
   }
   
   private func createWriteBrandNameLabel() {
@@ -94,6 +113,7 @@ class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDat
     searchView = CustomTextFieldWithTitleView.init(frame: frameForSearchView,
                                                    title: nil,
                                                    image: "smallSearchIcon")
+    searchView.mainTextField.delegate = self
     
     self.addSubview(searchView)
     
@@ -172,9 +192,9 @@ class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDat
     )
     
     addButton.setAttributedTitle(stringWithFormat, forState: .Normal)
-    addButton.backgroundColor = UIColor.greenColor()
+    addButton.backgroundColor = UIColor.blackColor()
     addButton.addTarget(self,
-                        action: #selector(addBrandName),
+                        action: #selector(addButtonPressed),
                         forControlEvents: .TouchUpInside)
     addButton.sizeToFit()
     
@@ -228,9 +248,50 @@ class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDat
     
   }
   
-  @objc private func addBrandName() {
+  @objc private func addButtonPressed() {
     
+    self.delegate?.pushAddPitchAndWriteProjectNameViewController()
+    
+  }
   
+  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    if arrayOfBrandNames.count >= 1 {
+      
+      arrayOfBrandNames.removeLast()
+      mainTableView.reloadData()
+      
+    } else {
+      
+      UIView.animateWithDuration(0.25,
+                                 animations: {
+                                  
+                                  self.mainTableView.alpha = 0.0
+                                  self.askPermissionLabel.alpha = 1.0
+                                  self.addButton.alpha = 1.0
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            //DO SOMETHING
+            
+          }
+      })
+      
+    }
+    
+    return true
+  }
+  
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    
+    self.dismissKeyboard(textField)
+    
+    return true
+  }
+  
+  @objc private func dismissKeyboard(sender:AnyObject) {
+    
+    self.endEditing(true)
     
   }
   

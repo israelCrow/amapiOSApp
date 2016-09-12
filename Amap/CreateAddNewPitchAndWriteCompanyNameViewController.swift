@@ -14,7 +14,7 @@ protocol CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate {
   
 }
 
-class CreateAddNewPitchAndWriteCompanyNameViewController: UIViewController {
+class CreateAddNewPitchAndWriteCompanyNameViewController: UIViewController, AddPitchAndWriteCompanyNameViewDelegate {
   
   private var addPitchWriteCompanyName: AddPitchAndWriteCompanyNameView! = nil
   
@@ -27,9 +27,18 @@ class CreateAddNewPitchAndWriteCompanyNameViewController: UIViewController {
     self.view.backgroundColor = UIColor.blackColor()
     
     self.initInterface()
+    self.addGestures()
     
   }
   
+  private func addGestures() {
+    
+    let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                              action: #selector(dismissKeyboard))
+    tapToDismissKeyboard.numberOfTapsRequired = 1
+    self.view.addGestureRecognizer(tapToDismissKeyboard)
+    
+  }
   private func initInterface() {
     
     self.view.addSubview(self.createGradientView())
@@ -83,6 +92,7 @@ class CreateAddNewPitchAndWriteCompanyNameViewController: UIViewController {
                                    height: heightOfCard)
     
     addPitchWriteCompanyName = AddPitchAndWriteCompanyNameView.init(frame: frameForCard)
+    addPitchWriteCompanyName.delegate = self
     
     self.view.addSubview(addPitchWriteCompanyName)
     
@@ -118,6 +128,20 @@ class CreateAddNewPitchAndWriteCompanyNameViewController: UIViewController {
     
   }
   
+  //MARK: - AddPitchAndWriteCompanyNameViewDelegate
+  
+  func pushCreateAddNewPitchAndWriteBrandNameViewController() {
+    
+    let createAndWriteBrand = CreateAddNewPitchAndWriteBrandNameViewController()
+    self.navigationController?.pushViewController(createAndWriteBrand, animated: true)
+    
+  }
+  
+  @objc private func dismissKeyboard(sender:AnyObject) {
+    
+    self.view.endEditing(true)
+    
+  }
   
 }
 

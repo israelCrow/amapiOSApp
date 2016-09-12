@@ -1,29 +1,29 @@
 //
-//  AddPitchAndWriteCompanyNameView.swift
+//  AddPitchAndWriteWhichCategoryIsView.swift
 //  Amap
 //
-//  Created by Alejandro Aristi C on 9/9/16.
+//  Created by Alejandro Aristi C on 9/12/16.
 //  Copyright © 2016 Alejandro Aristi C. All rights reserved.
 //
 
 import UIKit
 
-protocol AddPitchAndWriteCompanyNameViewDelegate {
+protocol AddPitchAndWriteWhichCategoryIsViewDelegate {
   
-  func pushCreateAddNewPitchAndWriteBrandNameViewController()
+  func createAndAddPitch()
   
 }
 
-class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
   
-  private var writeCompanyName: UILabel! = nil
+  private var writeWhichCategoryIsName: UILabel! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
   private var mainTableView: UITableView! = nil
-  private var arrayOfCompanyNames = ["Compañía 1","Compañía 2", "Compañía 3"]
-  private var askPermissionLabel: UILabel! = nil
+  private var arrayOfCategories = [PitchCategory]()
+//  private var askPermissionLabel: UILabel! = nil
   private var addButton: UIButton! = nil
   
-  var delegate: AddPitchAndWriteCompanyNameViewDelegate?
+  var delegate: AddPitchAndWriteWhichCategoryIsViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -38,10 +38,11 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
   private func initInterface() {
     
     self.adaptMyself()
-    self.createwriteCompanyNameLabel()
+    self.createSomeData()     //DELETE IN THE FUTURE
+    self.createWriteProjectNameLabel()
     self.createSearchView()
     self.createMainTableView()
-    self.createAskPermissionLabel()
+//    self.createAskPermissionLabel()
     self.createAddButton()
     
   }
@@ -52,6 +53,7 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     self.layer.shadowOpacity = 0.25
     self.layer.shadowOffset = CGSizeZero
     self.layer.shadowRadius = 5
+    
     self.addGestures()
   }
   
@@ -64,16 +66,28 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     
   }
   
-  private func createwriteCompanyNameLabel() {
+  
+  
+  private func createSomeData() {
+    
+    let firstCategory = PitchCategory(pitchCategoryName: "Categoría 1", isThisCategory: false)
+    let secondCategory = PitchCategory(pitchCategoryName: "Categoría 2", isThisCategory: false)
+    
+    arrayOfCategories.append(firstCategory)
+    arrayOfCategories.append(secondCategory)
+    
+  }
+  
+  private func createWriteProjectNameLabel() {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
                                     width: 255.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
-    writeCompanyName = UILabel.init(frame: frameForLabel)
-    writeCompanyName.numberOfLines = 0
-    writeCompanyName.lineBreakMode = .ByWordWrapping
+    writeWhichCategoryIsName = UILabel.init(frame: frameForLabel)
+    writeWhichCategoryIsName.numberOfLines = 0
+    writeWhichCategoryIsName.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIDisplay-Ultralight",
                       size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
@@ -82,23 +96,23 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: VisualizePitchesConstants.AddPitchAndWriteCompanyNameView.writeCompanyNameLabelText,
+      string: VisualizePitchesConstants.AddPitchAndWriteWhichCategoryIsView.writeWhichCategoryIsLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSKernAttributeName: CGFloat(2.0),
         NSForegroundColorAttributeName: color
       ]
     )
-    writeCompanyName.attributedText = stringWithFormat
-    writeCompanyName.sizeToFit()
-    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (writeCompanyName.frame.size.width / 2.0),
+    writeWhichCategoryIsName.attributedText = stringWithFormat
+    writeWhichCategoryIsName.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (writeWhichCategoryIsName.frame.size.width / 2.0),
                                y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
-                               width: writeCompanyName.frame.size.width,
-                               height: writeCompanyName.frame.size.height)
+                               width: writeWhichCategoryIsName.frame.size.width,
+                               height: writeWhichCategoryIsName.frame.size.height)
     
-    writeCompanyName.frame = newFrame
+    writeWhichCategoryIsName.frame = newFrame
     
-    self.addSubview(writeCompanyName)
+    self.addSubview(writeWhichCategoryIsName)
     
   }
   
@@ -127,49 +141,49 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     mainTableView = UITableView.init(frame: frameForTableView)
     mainTableView.delegate = self
     mainTableView.dataSource = self
-    mainTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    mainTableView.registerClass(PitchCategoryTableViewCell.self, forCellReuseIdentifier: "cell")
     
     self.addSubview(mainTableView)
     
   }
   
-  private func createAskPermissionLabel() {
-    
-    let frameForLabel = CGRect.init(x: 0.0,
-                                    y: 0.0,
-                                    width: 201.0 * UtilityManager.sharedInstance.conversionWidth,
-                                    height: CGFloat.max)
-    
-    askPermissionLabel = UILabel.init(frame: frameForLabel)
-    askPermissionLabel.numberOfLines = 0
-    askPermissionLabel.lineBreakMode = .ByWordWrapping
-    
-    let font = UIFont(name: "SFUIText-Light",
-                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
-    let color = UIColor.blackColor()
-    let style = NSMutableParagraphStyle()
-    style.alignment = NSTextAlignment.Center
-    
-    let stringWithFormat = NSMutableAttributedString(
-      string: VisualizePitchesConstants.AddPitchAndWriteCompanyNameView.askPermissionLabelText,
-      attributes:[NSFontAttributeName: font!,
-        NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color
-      ]
-    )
-    askPermissionLabel.attributedText = stringWithFormat
-    askPermissionLabel.sizeToFit()
-    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (askPermissionLabel.frame.size.width / 2.0),
-                               y: 261.0 * UtilityManager.sharedInstance.conversionHeight,
-                               width: askPermissionLabel.frame.size.width,
-                               height: askPermissionLabel.frame.size.height)
-    
-    askPermissionLabel.frame = newFrame
-    askPermissionLabel.alpha = 0.0
-    
-    self.addSubview(askPermissionLabel)
-    
-  }
+//  private func createAskPermissionLabel() {
+//    
+//    let frameForLabel = CGRect.init(x: 0.0,
+//                                    y: 0.0,
+//                                    width: 201.0 * UtilityManager.sharedInstance.conversionWidth,
+//                                    height: CGFloat.max)
+//    
+//    askPermissionLabel = UILabel.init(frame: frameForLabel)
+//    askPermissionLabel.numberOfLines = 0
+//    askPermissionLabel.lineBreakMode = .ByWordWrapping
+//    
+//    let font = UIFont(name: "SFUIText-Light",
+//                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+//    let color = UIColor.blackColor()
+//    let style = NSMutableParagraphStyle()
+//    style.alignment = NSTextAlignment.Center
+//    
+//    let stringWithFormat = NSMutableAttributedString(
+//      string: VisualizePitchesConstants.AddPitchAndWriteProjectNameView.askPermissionLabelText,
+//      attributes:[NSFontAttributeName: font!,
+//        NSParagraphStyleAttributeName: style,
+//        NSForegroundColorAttributeName: color
+//      ]
+//    )
+//    askPermissionLabel.attributedText = stringWithFormat
+//    askPermissionLabel.sizeToFit()
+//    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (askPermissionLabel.frame.size.width / 2.0),
+//                               y: 261.0 * UtilityManager.sharedInstance.conversionHeight,
+//                               width: askPermissionLabel.frame.size.width,
+//                               height: askPermissionLabel.frame.size.height)
+//    
+//    askPermissionLabel.frame = newFrame
+//    askPermissionLabel.alpha = 0.0
+//    
+//    self.addSubview(askPermissionLabel)
+//    
+//  }
   
   private func createAddButton() {
     
@@ -182,7 +196,7 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: VisualizePitchesConstants.AddPitchAndWriteCompanyNameView.addButtonText,
+      string: VisualizePitchesConstants.AddPitchAndWriteWhichCategoryIsView.addButtonText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color
@@ -211,7 +225,7 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
   //MARK: - ViewTableDelegate
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return arrayOfCompanyNames.count
+    return arrayOfCategories.count
   }
   
   func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -219,54 +233,35 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
   }
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell!
+    let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! PitchCategoryTableViewCell
     
-    self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfCompanyNames[indexPath.row])
+    cell.changePitchCategoryData(arrayOfCategories[indexPath.row])
     cell.selectionStyle = UITableViewCellSelectionStyle.None
     
     return cell
   }
   
-  private func changeAttributedTextOfNormalCell(cellToChangeText: UITableViewCell, subSkillText: String) {
-    
-    let font = UIFont(name: "SFUIText-Light",
-                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
-    let color = UIColor.blackColor()
-    let style = NSMutableParagraphStyle()
-    style.alignment = NSTextAlignment.Left
-    
-    let stringWithFormat = NSMutableAttributedString(
-      string: subSkillText,
-      attributes:[NSFontAttributeName:font!,
-        NSParagraphStyleAttributeName:style,
-        NSForegroundColorAttributeName:color
-      ]
-    )
-    cellToChangeText.textLabel?.attributedText = stringWithFormat
-    
-  }
-  
   @objc private func addButtonPressed() {
     
-    self.delegate?.pushCreateAddNewPitchAndWriteBrandNameViewController()
+    self.delegate?.createAndAddPitch()
     
   }
   
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-    if arrayOfCompanyNames.count >= 1 {
+    if arrayOfCategories.count >= 1 {
       
-      arrayOfCompanyNames.removeLast()
+      arrayOfCategories.removeLast()
       mainTableView.reloadData()
       
     } else {
       
       UIView.animateWithDuration(0.25,
-        animations: {
-  
-          self.mainTableView.alpha = 0.0
-          self.askPermissionLabel.alpha = 1.0
-          self.addButton.alpha = 1.0
-          
+                                 animations: {
+                                  
+                                  self.mainTableView.alpha = 0.0
+//                                  self.askPermissionLabel.alpha = 1.0
+                                  self.addButton.alpha = 1.0
+                                  
         }, completion: { (finished) in
           if finished == true {
             

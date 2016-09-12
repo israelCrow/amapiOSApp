@@ -39,8 +39,24 @@ class VisualizePitchesConstants {
   enum AddPitchAndWriteBrandNameView {
     
     static let writeBrandNameLabelText = "Escribe el nombre de la marca"
-    static let askPermissionLabelText = "No hay ningúna marca registrada con ese nombre\n\n¿Desea agregarla?"
+    static let askPermissionLabelText = "No hay ninguna marca registrada con ese nombre\n\n¿Desea agregarla?"
     static let addButtonText = "agregar"
+    
+  }
+  
+  enum AddPitchAndWriteProjectNameView {
+    
+    static let writeProjectNameLabelText = "Escribe el nombre del proyecto"
+    static let askPermissionLabelText = "No hay ningún proyecto registrado con ese nombre\n\n¿Desea agregarla?"
+    static let addButtonText = "agregar"
+    
+  }
+  
+  enum AddPitchAndWriteWhichCategoryIsView {
+    
+    static let writeWhichCategoryIsLabelText = "Escribe qué tipo\nde categoría es:"
+//    static let askPermissionLabelText = "No hay ningún proyecto registrado con ese nombre\n\n¿Desea agregarla?"
+    static let addButtonText = "agregar pitch"
     
   }
   

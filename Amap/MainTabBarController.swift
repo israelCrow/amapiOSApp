@@ -23,6 +23,8 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate, Visu
     
     if isShownTabBar ==  true {
       
+      isShownTabBar = false
+      
       let newFrameForTabBar = CGRect.init(x: tabBar.frame.origin.x,
                                           y: tabBar.frame.origin.y + tabBar.frame.size.height,
                                           width: tabBar.frame.size.width,
@@ -45,6 +47,8 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate, Visu
   private func showTabBar() {
     
     if isShownTabBar ==  false {
+      
+      self.isShownTabBar = true
       
       let newFrameForTabBar = CGRect.init(x: tabBar.frame.origin.x,
                                           y: tabBar.frame.origin.y - tabBar.frame.size.height,

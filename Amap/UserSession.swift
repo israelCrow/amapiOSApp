@@ -20,6 +20,7 @@ class UserSession: NSObject {
   var email: String! = nil
   var is_member_amap: Bool! = nil
   var agency_id: String! = nil
+  var brand_id: String! = nil
   
   private override init(){}
 

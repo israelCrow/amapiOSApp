@@ -15,7 +15,7 @@ protocol VisualizeAllPitchesViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeAllPitchesViewController: UIViewController, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteBrandNameViewControllerDelegate {
+class VisualizeAllPitchesViewController: UIViewController, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate {
   
   private var searchButton: UIButton! = nil
   private var filterButton: UIButton! = nil
@@ -132,6 +132,12 @@ class VisualizeAllPitchesViewController: UIViewController, NoPitchAssignedViewDe
     
   }
   
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(true)
+    
+    self.delegateForShowAndHideTabBar?.requestToShowTabBarFromVisualizeAllPitchesViewControllerDelegate()
+  }
+  
   
   @objc private func searchButtonPressed() {
   
@@ -153,15 +159,15 @@ class VisualizeAllPitchesViewController: UIViewController, NoPitchAssignedViewDe
     
     self.delegateForShowAndHideTabBar?.requestToHideTabBarFromVisualizeAllPitchesViewControllerDelegate()
     
-    let createAddNewPitch = CreateAddNewPitchAndWriteBrandNameViewController()
+    let createAddNewPitch = CreateAddNewPitchAndWriteCompanyNameViewController()
     createAddNewPitch.delegateForShowTabBar = self
     self.navigationController?.pushViewController(createAddNewPitch, animated: true)
     
   }
   
-  //MARK: - CreateAddNewPitchAndWriteBrandNameViewControllerDelegate
+  //MARK: - CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate
   
-  func requestToShowTabBarFromCreateAddNewPitchAndWriteBrandNameViewControllerDelegate() {
+  func requestToShowTabBarFromCreateAddNewPitchAndWriteCompanyNameViewControllerDelegate() {
     
     self.delegateForShowAndHideTabBar?.requestToShowTabBarFromVisualizeAllPitchesViewControllerDelegate()
     

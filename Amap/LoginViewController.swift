@@ -206,13 +206,13 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
         
         Alamofire.request(requestConnection)
             .validate(statusCode: 200..<500)
-            //      .response{
-            //        (request, response, data, error) -> Void in
-            //        print(response)
-            ////          let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: [])
-            ////            print (json)
-            ////          }
-            
+//                  .response{
+//                    (request, response, data, error) -> Void in
+//                    print(response)
+//            //          let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: [])
+//            //            print (json)
+//            //          }
+          
             .responseJSON{ response in
                 if response.response?.statusCode == 200 {
                     
@@ -220,42 +220,50 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                   
                   //print(json)
                   
-                  let info_user_session = json["user"] as? [String: AnyObject]
-
-                  if info_user_session != nil {
                     
-                    let agency_id = info_user_session!["agency_id"] as? Int
-                    let auth_token = info_user_session!["auth_token"] as? String
-                    let email = info_user_session!["email"] as? String
-                    let first_name = info_user_session!["first_name"] as? String
-                    let id_user_int = info_user_session!["id"] as? Int
-                    let id_user_string = String(id_user_int!)
-                    let is_member_amap = info_user_session!["is_member_amap"] as? String
+                  let agency_id = json["agency_id"] as? Int
+                  let brand_id = json["brand_id"] as? Int
+                  let auth_token = json["auth_token"] as? String
+                  let email = json["email"] as? String
+                  let first_name = json["first_name"] as? String
+                  let id_user_int = json["id"] as? Int
+                  let id_user_string = String(id_user_int!)
+                  let is_member_amap = json["is_member_amap"] as? String
+                  
+                  var is_member_amap_bool: Bool
+                  if is_member_amap == "0" {
+                    is_member_amap_bool = false
+                  }else{
+                    is_member_amap_bool = true
+                  }
                     
-                    var is_member_amap_bool: Bool
-                    if is_member_amap == "0" {
-                      is_member_amap_bool = false
-                    }else{
-                      is_member_amap_bool = true
-                    }
-                    
-                    let last_name = info_user_session!["last_name"] as? String
-                    let role_int = info_user_session!["role"] as? Int
-                    let role_string = String(role_int)
-                    
-                    UserSession.session.agency_id = String(agency_id!)
-                    UserSession.session.auth_token = auth_token!
-                    UserSession.session.email = email!
-                    UserSession.session.first_name = first_name!
-                    UserSession.session.id = id_user_string
-                    UserSession.session.is_member_amap = is_member_amap_bool
-                    UserSession.session.last_name = last_name!
-                    UserSession.session.role = role_string
-                    
-                    AgencyModel.Data.id = UserSession.session.agency_id!
-                    RequestToServerManager.sharedInstance.requestForAgencyData(){
+                  let last_name = json["last_name"] as? String
+                  let role_int = json["role"] as? Int
+                  let role_string = String(role_int)
+                  
+                  if agency_id != nil && agency_id != -1 {
                       
-                      self.initAndChangeRootToMainTabBarController()
+                    UserSession.session.agency_id = String(agency_id!)
+                    AgencyModel.Data.id = UserSession.session.agency_id!
+                      
+                  } else
+                    if brand_id != nil && brand_id != -1 {
+                        
+                      UserSession.session.brand_id = String(brand_id!)
+                        
+                  }
+
+                  UserSession.session.auth_token = auth_token!
+                  UserSession.session.email = email!
+                  UserSession.session.first_name = first_name!
+                  UserSession.session.id = id_user_string
+                  UserSession.session.is_member_amap = is_member_amap_bool
+                  UserSession.session.last_name = last_name!
+                  UserSession.session.role = role_string
+                  
+                  RequestToServerManager.sharedInstance.requestForAgencyData(){
+                      
+                    self.initAndChangeRootToMainTabBarController()
                       
 //                      let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 //                      let rootMainTabScreen = MainTabBarController()
@@ -271,34 +279,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
 //                      let editStuffAgency = EditAgencyProfileViewController()
 //                      self.navigationController?.pushViewController(editStuffAgency, animated: true)
                     
-                    }
-
-                  } else {
-                    
-                    print("ERROR")
-                    
                   }
-
-                  
-                  
-                    
-//                  let frameLabel = CGRect.init(x: 0.0,
-//                                               y: 0.0,
-//                                           width: self.view.frame.size.width,
-//                                          height: self.view.frame.size.height / 2.0)
-//                    
-//                    let infoOfUser = UILabel.init(frame: frameLabel)
-//                    infoOfUser.text = "Email: \(email!)"
-//                    infoOfUser.numberOfLines = 10
-//                    
-//                    let blankVC = BlankViewController()
-//                    blankVC.view.addSubview(infoOfUser)
-                  
-//                    self.navigationController?.pushViewController(blankVC, animated: true)
-//                    self.loginGoldenPitchView.activateInteractionEnabledOfNextButton()
-                  
-
-
                   
                 } else {
                   

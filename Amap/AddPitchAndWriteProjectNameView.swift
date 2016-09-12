@@ -1,29 +1,29 @@
 //
-//  AddPitchAndWriteCompanyNameView.swift
+//  AddPitchAndWriteProjectNameView.swift
 //  Amap
 //
-//  Created by Alejandro Aristi C on 9/9/16.
+//  Created by Alejandro Aristi C on 9/12/16.
 //  Copyright © 2016 Alejandro Aristi C. All rights reserved.
 //
 
 import UIKit
 
-protocol AddPitchAndWriteCompanyNameViewDelegate {
+protocol AddPitchAndWriteProjectNameViewDelegate {
   
-  func pushCreateAddNewPitchAndWriteBrandNameViewController()
+  func pushCreateAddNewPitchAndWhichCategoryIsViewController()
   
 }
 
-class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
   
-  private var writeCompanyName: UILabel! = nil
+  private var writeProjectName: UILabel! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
   private var mainTableView: UITableView! = nil
-  private var arrayOfCompanyNames = ["Compañía 1","Compañía 2", "Compañía 3"]
+  private var arrayOfProjectNames = ["Proyecto 1","Proyecto 2", "Proyecto 3"]
   private var askPermissionLabel: UILabel! = nil
   private var addButton: UIButton! = nil
   
-  var delegate: AddPitchAndWriteCompanyNameViewDelegate?
+  var delegate: AddPitchAndWriteProjectNameViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -38,7 +38,7 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
   private func initInterface() {
     
     self.adaptMyself()
-    self.createwriteCompanyNameLabel()
+    self.createWriteProjectNameLabel()
     self.createSearchView()
     self.createMainTableView()
     self.createAskPermissionLabel()
@@ -64,16 +64,16 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     
   }
   
-  private func createwriteCompanyNameLabel() {
+  private func createWriteProjectNameLabel() {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
                                     width: 255.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
-    writeCompanyName = UILabel.init(frame: frameForLabel)
-    writeCompanyName.numberOfLines = 0
-    writeCompanyName.lineBreakMode = .ByWordWrapping
+    writeProjectName = UILabel.init(frame: frameForLabel)
+    writeProjectName.numberOfLines = 0
+    writeProjectName.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIDisplay-Ultralight",
                       size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
@@ -82,23 +82,23 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: VisualizePitchesConstants.AddPitchAndWriteCompanyNameView.writeCompanyNameLabelText,
+      string: VisualizePitchesConstants.AddPitchAndWriteProjectNameView.writeProjectNameLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSKernAttributeName: CGFloat(2.0),
         NSForegroundColorAttributeName: color
       ]
     )
-    writeCompanyName.attributedText = stringWithFormat
-    writeCompanyName.sizeToFit()
-    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (writeCompanyName.frame.size.width / 2.0),
+    writeProjectName.attributedText = stringWithFormat
+    writeProjectName.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (writeProjectName.frame.size.width / 2.0),
                                y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
-                               width: writeCompanyName.frame.size.width,
-                               height: writeCompanyName.frame.size.height)
+                               width: writeProjectName.frame.size.width,
+                               height: writeProjectName.frame.size.height)
     
-    writeCompanyName.frame = newFrame
+    writeProjectName.frame = newFrame
     
-    self.addSubview(writeCompanyName)
+    self.addSubview(writeProjectName)
     
   }
   
@@ -151,7 +151,7 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: VisualizePitchesConstants.AddPitchAndWriteCompanyNameView.askPermissionLabelText,
+      string: VisualizePitchesConstants.AddPitchAndWriteProjectNameView.askPermissionLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color
@@ -211,7 +211,7 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
   //MARK: - ViewTableDelegate
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return arrayOfCompanyNames.count
+    return arrayOfProjectNames.count
   }
   
   func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -221,7 +221,7 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell!
     
-    self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfCompanyNames[indexPath.row])
+    self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfProjectNames[indexPath.row])
     cell.selectionStyle = UITableViewCellSelectionStyle.None
     
     return cell
@@ -248,25 +248,25 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
   
   @objc private func addButtonPressed() {
     
-    self.delegate?.pushCreateAddNewPitchAndWriteBrandNameViewController()
+    self.delegate?.pushCreateAddNewPitchAndWhichCategoryIsViewController()
     
   }
   
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-    if arrayOfCompanyNames.count >= 1 {
+    if arrayOfProjectNames.count >= 1 {
       
-      arrayOfCompanyNames.removeLast()
+      arrayOfProjectNames.removeLast()
       mainTableView.reloadData()
       
     } else {
       
       UIView.animateWithDuration(0.25,
-        animations: {
-  
-          self.mainTableView.alpha = 0.0
-          self.askPermissionLabel.alpha = 1.0
-          self.addButton.alpha = 1.0
-          
+                                 animations: {
+                                  
+                                  self.mainTableView.alpha = 0.0
+                                  self.askPermissionLabel.alpha = 1.0
+                                  self.addButton.alpha = 1.0
+                                  
         }, completion: { (finished) in
           if finished == true {
             
