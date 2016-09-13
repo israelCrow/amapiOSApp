@@ -118,8 +118,8 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
   
   private func addDetailNavigationController() {
     
-    let frameForDetailedNav = CGRect.init(x: 0.0,
-                                          y: 75.0 * UtilityManager.sharedInstance.conversionHeight,
+    let frameForDetailedNav = CGRect.init(x: self.view.frame.size.width,
+                                          y: 51.0 * UtilityManager.sharedInstance.conversionHeight,
                                       width: self.view.frame.size.width,
                                      height: 108.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -128,7 +128,11 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
         newBrandName: "Nombre de marca",
       newCompanyName: "Nombre compañía")
     
-    self.view.addSubview(detailedNavigation)
+    detailedNavigation.alpha = 0.0
+    self.navigationController?.navigationBar.addSubview(detailedNavigation)
+    
+    
+//    self.view.addSubview(detailedNavigation)
     
     
   }
@@ -180,15 +184,45 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    self.animateDetailedNavigationView()
+    
+  }
+  
+  private func animateDetailedNavigationView() {
+    
+    let newFrameForDetailNavigation = CGRect.init(x: 0.0,
+                                                  y: detailedNavigation.frame.origin.y,
+                                                  width: detailedNavigation.frame.size.width,
+                                                  height: detailedNavigation.frame.size.height)
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.detailedNavigation.alpha = 1.0
+      self.detailedNavigation.frame = newFrameForDetailNavigation
+      
+    }
+    
   }
   
   @objc private func navigationRightButtonPressed() {
+    
+    let newFrameForDetailedNavigation = CGRect.init(x: detailedNavigation.frame.size.width,
+                                                    y: detailedNavigation.frame.origin.y,
+                                                    width: detailedNavigation.frame.size.width,
+                                                    height: detailedNavigation.frame.size.height)
+    
+    UIView.animateWithDuration(0.20){
+      
+      self.detailedNavigation.frame = newFrameForDetailedNavigation
+      
+    }
     
     self.navigationController?.popToRootViewControllerAnimated(true)
     
   }
   
   private func popMyself() {
+    
     self.navigationController?.popViewControllerAnimated(true)
     
   }

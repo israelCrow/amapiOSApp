@@ -41,12 +41,7 @@ class DetailedNavigationEvaluatPitchView: UIView {
     self.backgroundColor = UIColor.init(red: 23.0/255.0,
                                       green: 21.0/255.0,
                                        blue: 23.0/255.0,
-                                      alpha: 1.0)
-    
-    self.layer.borderColor = UIColor.init(red: 23.0/255.0,
-                                          green: 21.0/255.0,
-                                          blue: 23.0/255.0,
-                                          alpha: 1.0).CGColor
+                                      alpha: 0.99)
     
     self.layer.borderWidth = 0.0
     
@@ -191,7 +186,7 @@ class DetailedNavigationEvaluatPitchView: UIView {
     
     let font = UIFont(name: "SFUIText-Regular",
                       size: 9.0 * UtilityManager.sharedInstance.conversionWidth)
-    let color = UIColor.blackColor()
+    let color = UIColor.whiteColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Left
     

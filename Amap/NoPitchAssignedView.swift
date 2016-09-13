@@ -16,6 +16,7 @@ protocol NoPitchAssignedViewDelegate {
 
 class NoPitchAssignedView: UIView {
   
+  private var gradienteView: UIView! = nil
   private var addPitchButton: UIButton! = nil
   private var warningImageView: UIImageView! = nil
   private var noPitchAssignedLabel: UILabel! = nil
@@ -29,9 +30,9 @@ class NoPitchAssignedView: UIView {
   init(position: CGPoint){
     
     let frameForThisView = CGRect.init(x: position.x,
-                                       y: position.y,
+                                       y: position.y - (20.0 * UtilityManager.sharedInstance.conversionHeight),
                                    width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
-                                  height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
+                                  height: 474.0 * UtilityManager.sharedInstance.conversionHeight)
     super.init(frame: frameForThisView)
       
     self.initInterface()
@@ -40,6 +41,7 @@ class NoPitchAssignedView: UIView {
   
   private func initInterface() {
     
+    self.backgroundColor = UIColor.clearColor()
     self.adaptMyself()
     self.createGradient()
     self.createAddPitchButton()
@@ -60,7 +62,7 @@ class NoPitchAssignedView: UIView {
   private func createGradient() {
     
     let frameForGradient = CGRect.init(x: 0.0,
-                                       y: 0.0,
+                                       y: 20.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: self.frame.size.width,
                                   height: self.frame.size.height)
     
@@ -68,7 +70,7 @@ class NoPitchAssignedView: UIView {
     let colorTwo = UIColor.init(red: 101.0/255.0, green: 121.0/255.0, blue: 133.0/255.0, alpha: 1.0)
     let arrayColors = [colorOne, colorTwo]
     
-    let gradienteView = GradientView.init(frame: frameForGradient,
+    gradienteView = GradientView.init(frame: frameForGradient,
                                   arrayOfcolors: arrayColors,
                               typeOfInclination: GradientView.TypeOfInclination.leftToRightInclination)
     
@@ -79,7 +81,7 @@ class NoPitchAssignedView: UIView {
   private func createAddPitchButton() {
     
     let frameForButton = CGRect.init(x: 243.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: -20.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     y: 0.0 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 40.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 40.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -104,7 +106,7 @@ class NoPitchAssignedView: UIView {
     
     warningImageView.frame = frameForWarningImage
     
-    self.addSubview(warningImageView)
+    gradienteView.addSubview(warningImageView)
     
   }
   
@@ -135,7 +137,7 @@ class NoPitchAssignedView: UIView {
     
     noPitchAssignedLabel.frame = newFrame
     
-    self.addSubview(noPitchAssignedLabel)
+    gradienteView.addSubview(noPitchAssignedLabel)
     
   }
   
