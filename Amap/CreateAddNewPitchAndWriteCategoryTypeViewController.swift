@@ -132,11 +132,18 @@ class CreateAddNewPitchAndWriteCategoryTypeViewController: UIViewController, Add
   
   //MARK: - AddPitchAndWriteWhichCategoryIsViewDelegate
   
-  func createAndAddPitch() {
+  func createAddPitchAndShowPreEvaluatePitch() {
     
     //after pitch is created
     
-    self.navigationController?.popToRootViewControllerAnimated(true)
+//    self.navigationController?.popToRootViewControllerAnimated(true)
+    
+    //CHECK HERE!!!!!
+    
+    let voidPitchData = PitchModelData()
+    
+    let preEvaluatePitch = PreEvaluatePitchViewController(newPitchData: voidPitchData)
+    self.navigationController?.pushViewController(preEvaluatePitch, animated: true)
     
   }
   

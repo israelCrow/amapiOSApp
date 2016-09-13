@@ -60,4 +60,26 @@ class VisualizePitchesConstants {
     
   }
   
+  enum PreEvaluatePitchViewController {
+    
+    static let navigationBarTitleText = "Evaluar Pitch "
+    
+  }
+  
+  enum PreEvaluatePitchView {
+    
+    static let descriptionWriteNameLabel =  "Escribe el nombre de la agencia o marca"
+    static let descriptionWriteDateLabel = "Escribe la fecha en que se dio de alta el pitch"
+    static let nextButtonText = "listo"
+    
+  }
+  
+  enum SuccessfullyCreationOfPitchView {
+    
+    static let readyLabelText = "¡Listo!"
+    static let descriptionLabelText = "Pitch dado de alta"
+    static let nextButtonText = "ok"
+    
+  }
+  
 }

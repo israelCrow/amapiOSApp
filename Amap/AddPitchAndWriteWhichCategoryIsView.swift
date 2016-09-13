@@ -10,7 +10,7 @@ import UIKit
 
 protocol AddPitchAndWriteWhichCategoryIsViewDelegate {
   
-  func createAndAddPitch()
+  func createAddPitchAndShowPreEvaluatePitch()
   
 }
 
@@ -243,7 +243,7 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
   
   @objc private func addButtonPressed() {
     
-    self.delegate?.createAndAddPitch()
+    self.delegate?.createAddPitchAndShowPreEvaluatePitch()
     
   }
   

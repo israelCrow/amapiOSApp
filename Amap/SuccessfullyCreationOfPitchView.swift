@@ -1,26 +1,28 @@
 //
-//  SuccessfullyAskForAccountView.swift
+//  SuccessfullyCreationOfPitchView.swift
 //  Amap
 //
-//  Created by Alejandro Aristi C on 8/4/16.
+//  Created by Alejandro Aristi C on 9/13/16.
 //  Copyright © 2016 Alejandro Aristi C. All rights reserved.
 //
 
 import UIKit
 
-protocol SuccessfullyAskForAccountViewDelegate {
-  func nextButtonPressedSuccessfullyAskForAccountView()
+protocol SuccessfullyCreationOfPitchViewDelegate {
+  
+  func nextButtonPressedFromSuccessfullyCreationOfPitch()
+  
 }
 
 
-class SuccessfullyAskForAccountView: UIView {
+class SuccessfullyCreationOfPitchView: UIView {
   
   private var likeImageView: UIImageView! = nil
   private var readyLabel: UILabel! = nil
   private var messageLabel: UILabel! = nil
   private var nextButton: UIButton! = nil
   
-  var delegate: SuccessfullyAskForAccountViewDelegate?
+  var delegate: SuccessfullyCreationOfPitchViewDelegate?
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -30,20 +32,19 @@ class SuccessfullyAskForAccountView: UIView {
   private func initInterface() {
     self.backgroundColor = UIColor.whiteColor()
     
-//    self.addActions()
     self.createLikeImageView()
     self.createReadyLabel()
     self.createMessageLabel()
     self.createNextButton()
-
+    
   }
   
   private func createLikeImageView() {
     likeImageView = UIImageView.init(image: UIImage.init(named: "iconOkey"))
-    let frameForImageView = CGRect.init(x: (self.frame.size.width / 2.0) - (likeImageView.frame.size.width / 2.0),
-                                        y: (40.0 * UtilityManager.sharedInstance.conversionHeight),
-                                    width: likeImageView.frame.size.width,
-                                   height: likeImageView.frame.size.height)
+    let frameForImageView = CGRect.init(x: (self.frame.size.width / 2.0) - ((125.0 * UtilityManager.sharedInstance.conversionHeight) / 2.0),
+                                        y: (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                        width: 125.0 * UtilityManager.sharedInstance.conversionHeight,
+                                        height: 125.0 * UtilityManager.sharedInstance.conversionHeight)
     likeImageView.frame = frameForImageView
     
     self.addSubview(likeImageView)
@@ -60,7 +61,7 @@ class SuccessfullyAskForAccountView: UIView {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: CreateAccountConstants.SuccessfullyAskForAccountView.readyText,
+      string: VisualizePitchesConstants.SuccessfullyCreationOfPitchView.readyLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color
@@ -76,17 +77,17 @@ class SuccessfullyAskForAccountView: UIView {
     readyLabel.frame = newFrame
     
     self.addSubview(readyLabel)
-
+    
   }
   
   private func createMessageLabel() {
-  
+    
     messageLabel = UILabel.init(frame: CGRect.init(x: 0.0,
-                                                   y: 0.0,
-                                               width: self.frame.size.width - (104.0 * UtilityManager.sharedInstance.conversionWidth),
-                                              height: 0.0))
-    messageLabel.adjustsFontSizeToFitWidth = true
-    messageLabel.numberOfLines = 5
+      y: 0.0,
+      width: self.frame.size.width - (150.0 * UtilityManager.sharedInstance.conversionWidth),
+      height: 0.0))
+    messageLabel.numberOfLines = 1
+    
     let font = UIFont(name: "SFUIText-Light",
                       size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
@@ -94,16 +95,17 @@ class SuccessfullyAskForAccountView: UIView {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: CreateAccountConstants.SuccessfullyAskForAccountView.successfullyMessageText,
+      string: VisualizePitchesConstants.SuccessfullyCreationOfPitchView.descriptionLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color
       ]
     )
+    
     messageLabel.attributedText = stringWithFormat
     messageLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (messageLabel.frame.size.width / 2.0),
-                               y: readyLabel.frame.origin.y + readyLabel.frame.size.height + (40.0 * UtilityManager.sharedInstance.conversionHeight),
+                               y: readyLabel.frame.origin.y + readyLabel.frame.size.height + (25.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: messageLabel.frame.size.width,
                                height: messageLabel.frame.size.height)
     
@@ -131,7 +133,7 @@ class SuccessfullyAskForAccountView: UIView {
     )
     
     let stringWithFormatWithPressed = NSMutableAttributedString(
-      string: CreateAccountConstants.SuccessfullyAskForAccountView.nextButtonText ,
+      string: VisualizePitchesConstants.SuccessfullyCreationOfPitchView.nextButtonText ,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: colorWhenPressed
@@ -140,8 +142,8 @@ class SuccessfullyAskForAccountView: UIView {
     
     let frameForButton = CGRect.init(x: 0.0,
                                      y: self.frame.size.height - (70.0 * UtilityManager.sharedInstance.conversionHeight),
-                                 width: self.frame.size.width,
-                                height: (70.0 * UtilityManager.sharedInstance.conversionHeight))
+                                     width: self.frame.size.width,
+                                     height: (70.0 * UtilityManager.sharedInstance.conversionHeight))
     nextButton = UIButton.init(frame: frameForButton)
     nextButton.addTarget(self,
                          action: #selector(nextButtonPressed),
@@ -154,7 +156,9 @@ class SuccessfullyAskForAccountView: UIView {
   }
   
   @objc private func nextButtonPressed() {
-    self.delegate?.nextButtonPressedSuccessfullyAskForAccountView()
+    
+    self.delegate?.nextButtonPressedFromSuccessfullyCreationOfPitch()
+    
   }
   
   
@@ -164,3 +168,4 @@ class SuccessfullyAskForAccountView: UIView {
   
   
 }
+

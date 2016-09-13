@@ -39,7 +39,7 @@ class SuccessfullyAskForChangePasswordView: UIView {
   }
   
   private func createLikeImageView() {
-    likeImageView = UIImageView.init(image: UIImage.init(named: "okey"))
+    likeImageView = UIImageView.init(image: UIImage.init(named: "iconOkey"))
     let frameForImageView = CGRect.init(x: (self.frame.size.width / 2.0) - (likeImageView.frame.size.width / 2.0),
                                         y: (40.0 * UtilityManager.sharedInstance.conversionHeight),
                                         width: likeImageView.frame.size.width,
