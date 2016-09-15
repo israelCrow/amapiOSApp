@@ -132,6 +132,9 @@
 		AA87B7641D8857C000BCA3E6 /* PreEvaluatePitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA87B7631D8857C000BCA3E6 /* PreEvaluatePitchView.swift */; };
 		AA87B7691D8865E200BCA3E6 /* SuccessfullyCreationOfPitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA87B7681D8865E200BCA3E6 /* SuccessfullyCreationOfPitchView.swift */; };
 		AA87B76D1D88723E00BCA3E6 /* DetailedNavigationEvaluatPitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA87B76C1D88723E00BCA3E6 /* DetailedNavigationEvaluatPitchView.swift */; };
+		AA8997951D89B9D5009513E3 /* EvaluatePitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8997941D89B9D5009513E3 /* EvaluatePitchView.swift */; };
+		AA8997971D89CA5A009513E3 /* CompanyModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8997961D89CA5A009513E3 /* CompanyModelData.swift */; };
+		AA8997991D89CB09009513E3 /* BrandModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8997981D89CB09009513E3 /* BrandModelData.swift */; };
 		AA8F6C091D78F08E0021683C /* VisualizeCriteriaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F6C081D78F08E0021683C /* VisualizeCriteriaView.swift */; };
 		AA8F6C0C1D7908AE0021683C /* VisualizeExclusiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F6C0B1D7908AE0021683C /* VisualizeExclusiveView.swift */; };
 		AA8F6C0F1D790D620021683C /* VisualizeParticipateInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F6C0E1D790D620021683C /* VisualizeParticipateInView.swift */; };
@@ -266,6 +269,9 @@
 		AA87B7631D8857C000BCA3E6 /* PreEvaluatePitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreEvaluatePitchView.swift; sourceTree = "<group>"; };
 		AA87B7681D8865E200BCA3E6 /* SuccessfullyCreationOfPitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessfullyCreationOfPitchView.swift; sourceTree = "<group>"; };
 		AA87B76C1D88723E00BCA3E6 /* DetailedNavigationEvaluatPitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedNavigationEvaluatPitchView.swift; sourceTree = "<group>"; };
+		AA8997941D89B9D5009513E3 /* EvaluatePitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluatePitchView.swift; sourceTree = "<group>"; };
+		AA8997961D89CA5A009513E3 /* CompanyModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyModelData.swift; sourceTree = "<group>"; };
+		AA8997981D89CB09009513E3 /* BrandModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandModelData.swift; sourceTree = "<group>"; };
 		AA8F6C081D78F08E0021683C /* VisualizeCriteriaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCriteriaView.swift; sourceTree = "<group>"; };
 		AA8F6C0B1D7908AE0021683C /* VisualizeExclusiveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeExclusiveView.swift; sourceTree = "<group>"; };
 		AA8F6C0E1D790D620021683C /* VisualizeParticipateInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeParticipateInView.swift; sourceTree = "<group>"; usesTabs = 0; };
@@ -400,6 +406,8 @@
 				AA756D7C1D70A03C0070F153 /* CaseModelData.swift */,
 				AA9A6CF61D874BBF00B85C17 /* PitchCategory.swift */,
 				AA9A6CFC1D87699000B85C17 /* PitchModelData.swift */,
+				AA8997961D89CA5A009513E3 /* CompanyModelData.swift */,
+				AA8997981D89CB09009513E3 /* BrandModelData.swift */,
 			);
 			name = ModelData;
 			sourceTree = "<group>";
@@ -578,8 +586,8 @@
 		AA68D8DE1D8339C700DD1411 /* Create */ = {
 			isa = PBXGroup;
 			children = (
-				AA68D8E51D833D3900DD1411 /* CreateAddNewPitchAndWriteBrandNameViewController.swift */,
 				AA68D8EB1D837D3800DD1411 /* CreateAddNewPitchAndWriteCompanyNameViewController.swift */,
+				AA68D8E51D833D3900DD1411 /* CreateAddNewPitchAndWriteBrandNameViewController.swift */,
 				AA9A6CEC1D871B2A00B85C17 /* CreateAddNewPitchAndWriteProjectNameViewController.swift */,
 				AA9A6CEE1D87385B00B85C17 /* CreateAddNewPitchAndWriteCategoryTypeViewController.swift */,
 			);
@@ -614,6 +622,7 @@
 			children = (
 				AA87B7631D8857C000BCA3E6 /* PreEvaluatePitchView.swift */,
 				AA87B76C1D88723E00BCA3E6 /* DetailedNavigationEvaluatPitchView.swift */,
+				AA8997941D89B9D5009513E3 /* EvaluatePitchView.swift */,
 			);
 			name = Edit;
 			sourceTree = "<group>";
@@ -1082,6 +1091,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA8997991D89CB09009513E3 /* BrandModelData.swift in Sources */,
 				044F89D61D6377E800AA7FF3 /* CustomSkillTableViewCell.swift in Sources */,
 				AA0949681D52955E000E76E1 /* CreateAccountView.swift in Sources */,
 				AA756D7B1D709F8C0070F153 /* AgencyModelData.swift in Sources */,
@@ -1105,6 +1115,7 @@
 				0462295E1D626F640087E572 /* SkillsView.swift in Sources */,
 				AA92D6401D50EF7400CE7D95 /* LoginViewController.swift in Sources */,
 				047818A91D5E2E6700BB498C /* CustomSwitchView.swift in Sources */,
+				AA8997971D89CA5A009513E3 /* CompanyModelData.swift in Sources */,
 				AA9A6CF71D874BBF00B85C17 /* PitchCategory.swift in Sources */,
 				044F89D91D6383D200AA7FF3 /* ProfileView.swift in Sources */,
 				AA7495731D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift in Sources */,
@@ -1123,6 +1134,7 @@
 				04AB39321D5D06EC009B1D5C /* EditAgencyProfileViewController.swift in Sources */,
 				AA87B7641D8857C000BCA3E6 /* PreEvaluatePitchView.swift in Sources */,
 				04D458A71D6607440036FFFF /* CreateCaseView.swift in Sources */,
+				AA8997951D89B9D5009513E3 /* EvaluatePitchView.swift in Sources */,
 				AA92D63C1D50EE0F00CE7D95 /* SplashViewController.swift in Sources */,
 				AAE7F2D61D7E27CB0045AE8E /* VisualizeSkillsView.swift in Sources */,
 				AA87B7691D8865E200BCA3E6 /* SuccessfullyCreationOfPitchView.swift in Sources */,

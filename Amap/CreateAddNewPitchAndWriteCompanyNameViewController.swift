@@ -96,6 +96,8 @@ class CreateAddNewPitchAndWriteCompanyNameViewController: UIViewController, AddP
     
     self.view.addSubview(addPitchWriteCompanyName)
     
+    self.requestForAllCompanies()
+    
   }
   
   private func createGradientView() -> GradientView{
@@ -125,6 +127,18 @@ class CreateAddNewPitchAndWriteCompanyNameViewController: UIViewController, AddP
     
     self.delegateForShowTabBar?.requestToShowTabBarFromCreateAddNewPitchAndWriteCompanyNameViewControllerDelegate()
     self.navigationController?.popViewControllerAnimated(true)
+    
+  }
+  
+  private func requestForAllCompanies() {
+    
+    RequestToServerManager.sharedInstance.requestToGetAllCompanies {
+      
+      allCompanies in
+      
+      self.addPitchWriteCompanyName.setArrayOfCompanies(allCompanies)
+      
+    }
     
   }
   

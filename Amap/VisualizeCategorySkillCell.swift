@@ -119,7 +119,7 @@ class VisualizeCategorySkillCell: UICollectionViewCell {
       
       for skillLevel in AgencyModel.Data.skillsLevel! {
         
-        if skillLevel.skillCategoryId != nil && skillLevel.skillCategoryId == Int(skillCategory.id) {
+        if skillLevel.skillCategoryId != nil && skillLevel.skillCategoryId == skillCategory.id {
           
           arrayOfSkillsQualifiedByUser.append(skillLevel)
           
@@ -133,8 +133,6 @@ class VisualizeCategorySkillCell: UICollectionViewCell {
       
     }
     
-
-  
     self.delegate?.showSkillsOfThisCategory(arrayOfSkillsQualifiedByUser, nameSkillCategory: skillCategory.name)
   
   }

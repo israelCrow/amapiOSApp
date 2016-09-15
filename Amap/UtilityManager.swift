@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class UtilityManager: NSObject {
   
@@ -23,10 +24,25 @@ class UtilityManager: NSObject {
   var loadingView: UIView!
   
 //  func currentViewController() -> UIViewController {
+//    
 //    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 //    let currentViewController: UIViewController = appDelegate.window!.rootViewController!
 //    return currentViewController
+//    
 //  }
+  
+  func showLoader() {
+    
+    if let rootViewController = UIApplication.topViewController() {
+      
+      
+      rootViewController.view.addSubview()
+      
+//      rootViewController.view.addSubview
+      
+    }
+    
+  }
   
   func getRatioOfScreen() -> Double {
     

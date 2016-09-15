@@ -128,7 +128,7 @@ class VisualizeSkillsView: UIView, UICollectionViewDelegateFlowLayout, UICollect
             
             var categoryId:String!
             if category["id"] as? Int != nil {
-              categoryId = String(category["id"] as? Int)
+              categoryId = String(category["id"] as! Int)
             }
             let categoryName = category["name"] as! String
             
@@ -145,7 +145,7 @@ class VisualizeSkillsView: UIView, UICollectionViewDelegateFlowLayout, UICollect
               }
               let skillLevel = skillOfCategories["level"] as? Int
               
-              let newSkill = Skill.init(id: skillId, nameSkill: skillName!, levelSkill: skillLevel)
+              let newSkill = Skill.init(id: skillId, nameSkill: skillName!, levelSkill: skillLevel, skill_category_id: categoryId)
               newArrayOfSkills.append(newSkill)
               
             }
@@ -172,8 +172,6 @@ class VisualizeSkillsView: UIView, UICollectionViewDelegateFlowLayout, UICollect
   //MARK: - VisualizeCategorySkillCellDelegate
   
   func showSkillsOfThisCategory(arrayOfSkills: [Skill], nameSkillCategory: String) {
-    
-    
     
     self.delegate?.flipCardToShowSkillsOfCategory(arrayOfSkills, skillCategoryName: nameSkillCategory)
   }

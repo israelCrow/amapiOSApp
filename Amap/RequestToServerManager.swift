@@ -103,7 +103,7 @@ class RequestToServerManager: NSObject {
               let newSkill = Skill.init(id: String(skill["id"] as! Int),
                 nameSkill: skill["name"] as! String,
                 levelSkill: (skill["level"] as? Int != nil ? skill["level"] as! Int : 0),
-                skill_category_id: (skill["skill_category_id"] as? Int != nil ? (skill["skill_category_id"] as! Int) : nil))
+                skill_category_id: (skill["skill_category_id"] as? Int != nil ? (String(skill["skill_category_id"] as! Int)) : nil))
               
               AgencyModel.Data.skillsLevel?.append(newSkill)
             
@@ -301,6 +301,118 @@ class RequestToServerManager: NSObject {
       }
   }
   
+  func requestToGetAllCompanies(functionToMakeWhenFinished: (allCompanies:[CompanyModelData]) -> Void) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/companies"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "GET"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          print(json)
+          
+          let companies = json["companies"] as? Array<[String: AnyObject]>
+            
+          if companies != nil {
+            
+            var arrayOfCompanies = [CompanyModelData]()
+              
+            for company in companies! {
+            
+              let companyName = (company["name"] as? String != nil ? company["name"] as! String : "No Name")
+              let idCompany = (company["id"] as? Int != nil ? String(company["id"] as! Int) : "-1")
+              let brands = (company["brands"] as? Array<[String: AnyObject]> != nil ? company["brands"] as? Array<[String: AnyObject]> : nil)
+              
+              let arrayOfBrands = self.getAllBrandsFromRaw(brands, proprietaryCompanyID: idCompany)
+              
+              let newCompany = CompanyModelData.init(newId: idCompany,
+                newName: companyName,
+                newBrands: arrayOfBrands)
+              
+              arrayOfCompanies.append(newCompany)
+                
+            }
+              
+            functionToMakeWhenFinished(allCompanies: arrayOfCompanies)
+
+          }
+          
+//          functionToMakeWhenFinished(allCompanies: [CompanyModelData]())
+          
+        }
+    }
+    
+  }
+  
+  private func getAllBrandsFromRaw(data: Array<[String: AnyObject]>?, proprietaryCompanyID: String!) -> [BrandModelData] {
+  
+    var arrayOfBrands = [BrandModelData]()
+    if data != nil {
+      
+      for brand in data! {
+        
+        let brandId = (brand["id"] as? Int != nil ? String(brand["id"] as! Int) : "-1")
+        let brandName = (brand["name"] as? String != nil ? brand["name"] as! String : "No name")
+//        let contactName = (brand["contact_name"] as? String != nil ? brand["contact_name"] as! String : "No_contact_name")
+//        let contactEMail = (brand["contact_email"] as? String != nil ? brand["contact_email"] as! String : "No_contact_email")
+//        let contactPosition = (brand["contact_position"] as? String != nil ? brand["contact_position"] as! String : "No_contact_position")
+//        
+//        let proprietaryCompanyData = (brand["company"] as? [String: AnyObject] != nil ? brand["company"] as! [String: AnyObject] : [String: AnyObject]())
+//        
+//        var proprietaryCompanyID: String! = nil
+//        
+//        if proprietaryCompanyData["id"] as? Int != nil {
+//            
+//          proprietaryCompanyID = String(proprietaryCompanyData["id"] as! Int)
+//            
+//        } else {
+//          //supossedly never happen
+//          proprietaryCompanyID = "-1"
+//          
+//        }
+        
+        let newBrand = BrandModelData.init(newId: brandId,
+                                         newName: brandName,
+                                  newContactName: nil,
+                                 newContactEMail: nil,
+                              newContactPosition: nil,
+                           newProprietaryCompany: nil)
+        
+        arrayOfBrands.append(newBrand)
+        
+        }
+    }
+    return arrayOfBrands
+      
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   func logOut(actionsToMakeAfterSuccesfullLogOut: ()-> Void) {
     
     let urlToRequest = "https://amap-dev.herokuapp.com/api/sessions/destroy"
@@ -340,7 +452,7 @@ class RequestToServerManager: NSObject {
         }
     }
   }
-
+  
 }
 
 

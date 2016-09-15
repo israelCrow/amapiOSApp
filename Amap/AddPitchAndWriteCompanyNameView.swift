@@ -19,7 +19,8 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
   private var writeCompanyName: UILabel! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
   private var mainTableView: UITableView! = nil
-  private var arrayOfCompanyNames = ["Compañía 1","Compañía 2", "Compañía 3"]
+  private var arrayOfCompanies = [CompanyModelData]()
+  private var arrayOfFilteredCompanies = [CompanyModelData]()
   private var askPermissionLabel: UILabel! = nil
   private var addButton: UIButton! = nil
   
@@ -113,6 +114,9 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
                                                    title: nil,
                                                    image: "smallSearchIcon")
     searchView.mainTextField.delegate = self
+    searchView.mainTextField.addTarget(self,
+                                       action: #selector(textDidChange),
+                             forControlEvents: UIControlEvents.EditingChanged)
     self.addSubview(searchView)
     
   }
@@ -208,10 +212,51 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     
   }
   
+  func setArrayOfCompanies(newArrayOfAllCompanies: [CompanyModelData]) {
+    
+    arrayOfCompanies = newArrayOfAllCompanies
+    
+  }
+  
+  @objc private func addButtonPressed() {
+    
+    self.delegate?.pushCreateAddNewPitchAndWriteBrandNameViewController()
+    
+  }
+  
+  private func filterCompaniesWithText(filterText: String) {
+    
+//    let animalArray = ["Dog","Cat","Otter","Deer","Rabbit"]
+//    let filteredAnimals = animalArray.filter { $0.rangeOfString("er") != nil }
+//    print("filteredAnimals:", filteredAnimals)
+    
+    arrayOfFilteredCompanies = arrayOfCompanies.filter({ (companyData) -> Bool in
+      return companyData.name.rangeOfString(filterText) != nil
+    })
+    
+    mainTableView.reloadData()
+    
+  }
+  
+  @objc private func textDidChange(textField: UITextField) {
+    
+    if textField.text! == "" {
+      
+      arrayOfFilteredCompanies.removeAll()
+      mainTableView.reloadData()
+      
+    } else {
+      
+      self.filterCompaniesWithText(textField.text!)
+      
+    }
+    
+  }
+  
   //MARK: - ViewTableDelegate
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return arrayOfCompanyNames.count
+    return arrayOfFilteredCompanies.count
   }
   
   func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -221,7 +266,7 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell!
     
-    self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfCompanyNames[indexPath.row])
+    self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfFilteredCompanies[indexPath.row].name)
     cell.selectionStyle = UITableViewCellSelectionStyle.None
     
     return cell
@@ -244,40 +289,6 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     )
     cellToChangeText.textLabel?.attributedText = stringWithFormat
     
-  }
-  
-  @objc private func addButtonPressed() {
-    
-    self.delegate?.pushCreateAddNewPitchAndWriteBrandNameViewController()
-    
-  }
-  
-  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-    if arrayOfCompanyNames.count >= 1 {
-      
-      arrayOfCompanyNames.removeLast()
-      mainTableView.reloadData()
-      
-    } else {
-      
-      UIView.animateWithDuration(0.25,
-        animations: {
-  
-          self.mainTableView.alpha = 0.0
-          self.askPermissionLabel.alpha = 1.0
-          self.addButton.alpha = 1.0
-          
-        }, completion: { (finished) in
-          if finished == true {
-            
-            //DO SOMETHING
-            
-          }
-      })
-      
-    }
-    
-    return true
   }
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {

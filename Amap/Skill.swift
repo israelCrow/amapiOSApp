@@ -13,7 +13,7 @@ struct Skill {
   var id: String! = nil
   var name: String! = nil
   var level: Int?
-  var skillCategoryId: Int?
+  var skillCategoryId: String?
   
   init(id: String, nameSkill: String, levelSkill: Int?) {
     
@@ -23,7 +23,7 @@ struct Skill {
     
   }
   
-  init(id: String, nameSkill: String, levelSkill: Int?, skill_category_id: Int?) {
+  init(id: String, nameSkill: String, levelSkill: Int?, skill_category_id: String?) {
     
     self.id = id
     self.name = nameSkill
