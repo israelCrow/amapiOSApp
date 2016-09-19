@@ -190,8 +190,12 @@ class VisualizeCaseDetailViewController: UIViewController {
     playerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: frameForPlayer,
                                                           url: caseData.url, urlImage: caseData.case_image_url)
     
+    playerVimeoYoutube.changeCaseImageButton.removeFromSuperview()
+    playerVimeoYoutube.deleteCaseImageButton.removeFromSuperview()
+    
     playerVimeoYoutube.changeCaseImageButton = nil
     playerVimeoYoutube.deleteCaseImageButton = nil
+    
     contentView.addSubview(playerVimeoYoutube)
     
   }

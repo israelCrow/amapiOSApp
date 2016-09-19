@@ -149,7 +149,7 @@ class AgencyProfilePicNameButtonsView: UIView {
   private func createTelephoneIconButton() {
     
     let frameForButton = CGRect.init(x: 71.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 82.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     y: 78.0 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 24.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -166,7 +166,7 @@ class AgencyProfilePicNameButtonsView: UIView {
   private func createWebsiteIconButton() {
     
     let frameForButton = CGRect.init(x: 135.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 82.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     y: 79.0 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 19.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -183,7 +183,7 @@ class AgencyProfilePicNameButtonsView: UIView {
   private func createLocationIconButton() {
     
     let frameForButton = CGRect.init(x: 199.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 82.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     y: 78.0 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 15.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 24.0 * UtilityManager.sharedInstance.conversionHeight)
     

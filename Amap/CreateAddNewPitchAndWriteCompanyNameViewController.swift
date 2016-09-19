@@ -36,6 +36,7 @@ class CreateAddNewPitchAndWriteCompanyNameViewController: UIViewController, AddP
     let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                               action: #selector(dismissKeyboard))
     tapToDismissKeyboard.numberOfTapsRequired = 1
+    tapToDismissKeyboard.cancelsTouchesInView = false
     self.view.addGestureRecognizer(tapToDismissKeyboard)
     
   }
@@ -144,10 +145,26 @@ class CreateAddNewPitchAndWriteCompanyNameViewController: UIViewController, AddP
   
   //MARK: - AddPitchAndWriteCompanyNameViewDelegate
   
-  func pushCreateAddNewPitchAndWriteBrandNameViewController() {
+  func pushCreateAddNewPitchAndWriteBrandNameViewController(newCompanyNameToCreate: String?, companySelected: CompanyModelData?) {
+
+    if newCompanyNameToCreate != nil && companySelected == nil {
+      
+      RequestToServerManager.sharedInstance.requestToCreateCompany(newCompanyNameToCreate, actionsToMakeAfterSuccesfullCreateNewCompany: { newCompanyCreated in
+        
+        print(newCompanyCreated)
+        
+        let createAndWriteBrand = CreateAddNewPitchAndWriteBrandNameViewController(newCompanyData: newCompanyCreated)
+        self.navigationController?.pushViewController(createAndWriteBrand, animated: true)
+        
+      })
     
-    let createAndWriteBrand = CreateAddNewPitchAndWriteBrandNameViewController()
-    self.navigationController?.pushViewController(createAndWriteBrand, animated: true)
+    }else
+      if newCompanyNameToCreate == nil && companySelected != nil {
+        
+        let createAndWriteBrand = CreateAddNewPitchAndWriteBrandNameViewController(newCompanyData: companySelected!)
+        self.navigationController?.pushViewController(createAndWriteBrand, animated: true)
+        
+      }
     
   }
   

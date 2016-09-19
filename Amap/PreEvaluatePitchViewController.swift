@@ -253,6 +253,22 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
   
   func nextButtonPressedFromSuccessfullyCreationOfPitch() {
     
+    let newFrameForDetailedNavigation = CGRect.init(x: detailedNavigation.frame.size.width,
+                                                    y: detailedNavigation.frame.origin.y,
+                                                    width: detailedNavigation.frame.size.width,
+                                                    height: detailedNavigation.frame.size.height)
+    
+    UIView.animateWithDuration(0.20){
+      
+      self.detailedNavigation.frame = newFrameForDetailedNavigation
+      
+    }
+    
+    let newPitchData = PitchModelData(projectName: "Nombre de proyecto",
+                                        brandName: "Nombre de marca",
+                                      companyName: "Nombre de compañía")
+    let evaluatePitch = EvaluatePitchViewController(newPitchData: newPitchData)
+    self.navigationController?.pushViewController(evaluatePitch, animated: true)
     
     
   }

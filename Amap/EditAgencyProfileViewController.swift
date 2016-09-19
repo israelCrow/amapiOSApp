@@ -542,13 +542,16 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   @objc private func requestToEveryScreenToSave() {
     //this for every screen
+    
+    UtilityManager.sharedInstance.showLoader()
+    
     //Profile Data and Participe In
     let valuesFromParticipateView = self.participateView.getTheValuesSelected()
     self.profileView.saveChangesOfAgencyProfile(valuesFromParticipateView)
     
-    //Skills Data
-    let paramsFromSkills = self.skillsView.getParamsToSaveDataOfSkills()
-    RequestToServerManager.sharedInstance.requestToSaveDataFromSkills(paramsFromSkills)
+//    //Skills Data
+//    let paramsFromSkills = self.skillsView.getParamsToSaveDataOfSkills()
+//    RequestToServerManager.sharedInstance.requestToSaveDataFromSkills(paramsFromSkills)
     
     
   }
@@ -1010,6 +1013,19 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         case .Success(let upload, _, _):
           print("SUCCESSFUL")
           upload.responseJSON { response in
+            
+            //Skills Data
+            let paramsFromSkills = self.skillsView.getParamsToSaveDataOfSkills()
+            RequestToServerManager.sharedInstance.requestToSaveDataFromSkills(paramsFromSkills) {
+              
+              RequestToServerManager.sharedInstance.requestForAgencyData {
+                
+                UtilityManager.sharedInstance.hideLoader()
+                
+              }
+              
+            }
+            
 //            print(response.request)  // original URL request
 //            print(response.response) // URL response
 //            print(response.data)     // server data

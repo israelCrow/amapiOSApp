@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PitchModelData {
+struct PitchModelData {
   
   var projectName: String! = nil
   var brandName: String! = nil

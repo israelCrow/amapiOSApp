@@ -19,9 +19,13 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
   private var writeWhichCategoryIsName: UILabel! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
   private var mainTableView: UITableView! = nil
-  private var arrayOfCategories = [PitchCategory]()
+  private var arrayOfFilteredCategories = [PitchCategory]()
 //  private var askPermissionLabel: UILabel! = nil
   private var addButton: UIButton! = nil
+  
+  //IMPROVISE THE MAIN ARRAY
+  private var arrayOfAllCategories = [PitchCategory]()
+  //DELETE IN FUTURE
   
   var delegate: AddPitchAndWriteWhichCategoryIsViewDelegate?
   
@@ -62,19 +66,20 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
     let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                               action: #selector(dismissKeyboard))
     tapToDismissKeyboard.numberOfTapsRequired = 1
+    tapToDismissKeyboard.cancelsTouchesInView = false
     self.addGestureRecognizer(tapToDismissKeyboard)
     
   }
-  
-  
   
   private func createSomeData() {
     
     let firstCategory = PitchCategory(pitchCategoryName: "Categoría 1", isThisCategory: false)
     let secondCategory = PitchCategory(pitchCategoryName: "Categoría 2", isThisCategory: false)
     
-    arrayOfCategories.append(firstCategory)
-    arrayOfCategories.append(secondCategory)
+    arrayOfAllCategories.append(firstCategory)
+    arrayOfAllCategories.append(secondCategory)
+    
+    arrayOfFilteredCategories = arrayOfAllCategories
     
   }
   
@@ -126,6 +131,9 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
     searchView = CustomTextFieldWithTitleView.init(frame: frameForSearchView,
                                                    title: nil,
                                                    image: "smallSearchIcon")
+    searchView.mainTextField.addTarget(self,
+                                       action: #selector(textDidChange),
+                                       forControlEvents: UIControlEvents.EditingChanged)
     searchView.mainTextField.delegate = self
     self.addSubview(searchView)
     
@@ -225,7 +233,7 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
   //MARK: - ViewTableDelegate
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return arrayOfCategories.count
+    return arrayOfFilteredCategories.count
   }
   
   func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -235,10 +243,95 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! PitchCategoryTableViewCell
     
-    cell.changePitchCategoryData(arrayOfCategories[indexPath.row])
+    cell.changePitchCategoryData(arrayOfFilteredCategories[indexPath.row])
     cell.selectionStyle = UITableViewCellSelectionStyle.None
     
     return cell
+  }
+  
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    
+    self.cellPressed(arrayOfFilteredCategories[indexPath.row])
+    
+  }
+  
+  @objc private func textDidChange(textField: UITextField) {
+    
+    if textField.text! == "" || textField.text == nil {
+      
+      //CHANGE ARRAY OF ALL PROJECTS
+      arrayOfFilteredCategories = arrayOfAllCategories
+      mainTableView.reloadData()
+      //      self.hideMainTableView()
+      
+    } else {
+      
+      self.filterCompaniesWithText(textField.text!)
+      
+    }
+    
+  }
+  
+  private func filterCompaniesWithText(filterText: String) {
+    
+    arrayOfFilteredCategories = arrayOfAllCategories.filter({ (categoryData) -> Bool in
+      return categoryData.pitchCategoryName.rangeOfString(filterText) != nil
+    })
+    
+    mainTableView.reloadData()
+    
+    if arrayOfFilteredCategories.count == 0 {
+      
+      self.hideMainTableView()
+      //self.showAddButton()
+      
+    } else {
+      
+      self.showMainTableView()
+      //self.hideAddButton()
+      
+    }
+    
+  }
+  
+  private func showMainTableView() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.mainTableView.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideMainTableView() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.mainTableView.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func showAddButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.addButton.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideAddButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.addButton.alpha = 0.0
+      
+    }
+    
   }
   
   @objc private func addButtonPressed() {
@@ -247,33 +340,39 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
     
   }
   
-  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-    if arrayOfCategories.count >= 1 {
-      
-      arrayOfCategories.removeLast()
-      mainTableView.reloadData()
-      
-    } else {
-      
-      UIView.animateWithDuration(0.25,
-                                 animations: {
-                                  
-                                  self.mainTableView.alpha = 0.0
-//                                  self.askPermissionLabel.alpha = 1.0
-                                  self.addButton.alpha = 1.0
-                                  
-        }, completion: { (finished) in
-          if finished == true {
-            
-            //DO SOMETHING
-            
-          }
-      })
-      
-    }
+  private func cellPressed(categorySelected: PitchCategory) {  //IN FUTURE CHANGE TO CATEGORY MODEL DATA
     
-    return true
+    self.delegate?.createAddPitchAndShowPreEvaluatePitch()
+    
   }
+  
+//  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+//    if arrayOfCategories.count >= 1 {
+//      
+//      arrayOfCategories.removeLast()
+//      mainTableView.reloadData()
+//      
+//    } else {
+//      
+//      UIView.animateWithDuration(0.25,
+//                                 animations: {
+//                                  
+//                                  self.mainTableView.alpha = 0.0
+////                                  self.askPermissionLabel.alpha = 1.0
+//                                  self.addButton.alpha = 1.0
+//                                  
+//        }, completion: { (finished) in
+//          if finished == true {
+//            
+//            //DO SOMETHING
+//            
+//          }
+//      })
+//      
+//    }
+//    
+//    return true
+//  }
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
     

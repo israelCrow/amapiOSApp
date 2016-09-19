@@ -160,6 +160,8 @@
 		AA9A6CFF1D87757800B85C17 /* GraphPartPitchCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9A6CFE1D87757800B85C17 /* GraphPartPitchCardView.swift */; };
 		AAA837DB1D590DBD00A47376 /* BlankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA837DA1D590DBD00A47376 /* BlankViewController.swift */; };
 		AAB61E8E1D52335D00407FFD /* GoldenPitchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB61E8D1D52335D00407FFD /* GoldenPitchConstants.swift */; };
+		AABD5A9E1D8F8C95006A3B5E /* EvaluatePitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABD5A9D1D8F8C95006A3B5E /* EvaluatePitchViewController.swift */; };
+		AABD5AA21D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABD5AA11D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift */; };
 		AACBDE941D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE931D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift */; };
 		AACBDE961D7FD74700F8F9EF /* SkillLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE951D7FD74700F8F9EF /* SkillLevelView.swift */; };
 		AACBDE9A1D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE991D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift */; };
@@ -303,6 +305,8 @@
 		AA9A6CFE1D87757800B85C17 /* GraphPartPitchCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphPartPitchCardView.swift; sourceTree = "<group>"; };
 		AAA837DA1D590DBD00A47376 /* BlankViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlankViewController.swift; sourceTree = "<group>"; };
 		AAB61E8D1D52335D00407FFD /* GoldenPitchConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoldenPitchConstants.swift; sourceTree = "<group>"; };
+		AABD5A9D1D8F8C95006A3B5E /* EvaluatePitchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluatePitchViewController.swift; sourceTree = "<group>"; };
+		AABD5AA11D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControlWithTitleView.swift; sourceTree = "<group>"; };
 		AACBDE931D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeSkillsLevelView.swift; sourceTree = "<group>"; };
 		AACBDE951D7FD74700F8F9EF /* SkillLevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillLevelView.swift; sourceTree = "<group>"; };
 		AACBDE991D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCaseDetailViewController.swift; sourceTree = "<group>"; };
@@ -494,6 +498,7 @@
 			isa = PBXGroup;
 			children = (
 				AA87B7601D88540300BCA3E6 /* PreEvaluatePitchViewController.swift */,
+				AABD5A9D1D8F8C95006A3B5E /* EvaluatePitchViewController.swift */,
 			);
 			name = Edit;
 			sourceTree = "<group>";
@@ -623,6 +628,7 @@
 				AA87B7631D8857C000BCA3E6 /* PreEvaluatePitchView.swift */,
 				AA87B76C1D88723E00BCA3E6 /* DetailedNavigationEvaluatPitchView.swift */,
 				AA8997941D89B9D5009513E3 /* EvaluatePitchView.swift */,
+				AABD5AA11D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift */,
 			);
 			name = Edit;
 			sourceTree = "<group>";
@@ -1127,6 +1133,7 @@
 				044F89DB1D6385D900AA7FF3 /* CustomTextFieldWithTitleView.swift in Sources */,
 				AA87B7611D88540300BCA3E6 /* PreEvaluatePitchViewController.swift in Sources */,
 				AA3E6EB31D7507C1007D5736 /* Skill.swift in Sources */,
+				AABD5AA21D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift in Sources */,
 				AA68D8EE1D837E7700DD1411 /* AddPitchAndWriteCompanyNameView.swift in Sources */,
 				AA2DB8581D53B97D00E9FB8A /* ChangePasswordRequestView.swift in Sources */,
 				AA9A6CF51D8745BF00B85C17 /* PitchCategoryTableViewCell.swift in Sources */,
@@ -1153,6 +1160,7 @@
 				AA9A6CFD1D87699000B85C17 /* PitchModelData.swift in Sources */,
 				AAB61E8E1D52335D00407FFD /* GoldenPitchConstants.swift in Sources */,
 				AA8F6C091D78F08E0021683C /* VisualizeCriteriaView.swift in Sources */,
+				AABD5A9E1D8F8C95006A3B5E /* EvaluatePitchViewController.swift in Sources */,
 				AA92D6421D50F05300CE7D95 /* GradientView.swift in Sources */,
 				047818A51D5E204F00BB498C /* CriterionView.swift in Sources */,
 				AA68D8EC1D837D3800DD1411 /* CreateAddNewPitchAndWriteCompanyNameViewController.swift in Sources */,

@@ -54,16 +54,17 @@ class VisualizeSkillsLevelView: UIView {
   
   private func createCancelShowSkillsLevelButton() {
     
-    let frameForButton = CGRect.init(x:270.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 10.0 * UtilityManager.sharedInstance.conversionHeight,
-                                     width: 15.0 * UtilityManager.sharedInstance.conversionWidth ,
-                                     height: 15.0 * UtilityManager.sharedInstance.conversionHeight)
+    let frameForButton = CGRect.init(x:255.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 0.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: 40.0 * UtilityManager.sharedInstance.conversionWidth ,
+                                     height: 40.0 * UtilityManager.sharedInstance.conversionHeight)
     
     cancelShowSkillsLevelButton = UIButton.init(frame: frameForButton)
     let image = UIImage(named: "iconCloseBlack") as UIImage?
     cancelShowSkillsLevelButton.setImage(image, forState: .Normal)
     cancelShowSkillsLevelButton.alpha = 1.0
     cancelShowSkillsLevelButton.addTarget(self, action: #selector(cancelShowSkillsLevel), forControlEvents:.TouchUpInside)
+//    cancelShowSkillsLevelButton.contentEdgeInsets = UIEdgeInsets.init(top: -30, left: -30, bottom: -30, right: -30)
     
     self.addSubview(cancelShowSkillsLevelButton)
     

@@ -19,9 +19,17 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
   private var writeProjectName: UILabel! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
   private var mainTableView: UITableView! = nil
-  private var arrayOfProjectNames = ["Proyecto 1","Proyecto 2", "Proyecto 3"]
+  private var arrayOfFilteredProjects = ["Proyecto 1","Proyecto 2", "Proyecto 3"]
   private var askPermissionLabel: UILabel! = nil
   private var addButton: UIButton! = nil
+  
+  //IMPROVISE THE MAIN ARRAY
+  private var arrayOfAllProjects = ["Proyecto 1","Proyecto 2", "Proyecto 3"]
+  //DELETE IN FUTURE
+  
+  
+  private var companyData: CompanyModelData! = nil
+  private var brandData: BrandModelData! = nil
   
   var delegate: AddPitchAndWriteProjectNameViewDelegate?
   
@@ -29,7 +37,10 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
     fatalError("init(coder:) has not been implemented")
   }
   
-  override init(frame: CGRect) {
+  init(frame: CGRect, newCompanyData: CompanyModelData, newBrandData: BrandModelData) {
+    
+    companyData = newCompanyData
+    brandData = newBrandData
     super.init(frame: frame)
     
     self.initInterface()
@@ -60,6 +71,7 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
     let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                               action: #selector(dismissKeyboard))
     tapToDismissKeyboard.numberOfTapsRequired = 1
+    tapToDismissKeyboard.cancelsTouchesInView = false
     self.addGestureRecognizer(tapToDismissKeyboard)
     
   }
@@ -112,7 +124,11 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
     searchView = CustomTextFieldWithTitleView.init(frame: frameForSearchView,
                                                    title: nil,
                                                    image: "smallSearchIcon")
+    searchView.mainTextField.addTarget(self,
+                                       action: #selector(textDidChange),
+                                       forControlEvents: UIControlEvents.EditingChanged)
     searchView.mainTextField.delegate = self
+    
     self.addSubview(searchView)
     
   }
@@ -211,17 +227,23 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
   //MARK: - ViewTableDelegate
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return arrayOfProjectNames.count
+    return arrayOfFilteredProjects.count
   }
   
   func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     return 56.0 * UtilityManager.sharedInstance.conversionHeight
   }
   
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    
+    self.cellPressed(arrayOfFilteredProjects[indexPath.row])
+    
+  }
+  
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell!
     
-    self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfProjectNames[indexPath.row])
+    self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfFilteredProjects[indexPath.row])
     cell.selectionStyle = UITableViewCellSelectionStyle.None
     
     return cell
@@ -246,39 +268,145 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
     
   }
   
+  @objc private func textDidChange(textField: UITextField) {
+    
+    if textField.text! == "" || textField.text == nil {
+      
+      //CHANGE ARRAY OF ALL PROJECTS
+      arrayOfFilteredProjects = arrayOfAllProjects
+      mainTableView.reloadData()
+      //      self.hideMainTableView()
+      
+    } else {
+      
+      self.filterCompaniesWithText(textField.text!)
+      
+    }
+    
+  }
+  
+  private func filterCompaniesWithText(filterText: String) {
+    
+    arrayOfFilteredProjects = arrayOfAllProjects.filter{ $0.rangeOfString(filterText) != nil }
+    
+    mainTableView.reloadData()
+    
+    if arrayOfFilteredProjects.count == 0 {
+      
+      self.hideMainTableView()
+      self.showAskPermissionLabel()
+      self.showAddButton()
+      
+    } else {
+      
+      self.showMainTableView()
+      self.hideAskPermissionLabel()
+      self.hideAddButton()
+      
+    }
+    
+  }
+  
+  private func showMainTableView() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.mainTableView.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideMainTableView() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.mainTableView.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func showAskPermissionLabel() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.askPermissionLabel.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideAskPermissionLabel() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.askPermissionLabel.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func showAddButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.addButton.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideAddButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.addButton.alpha = 0.0
+      
+    }
+    
+  }
+
+  
   @objc private func addButtonPressed() {
     
     self.delegate?.pushCreateAddNewPitchAndWhichCategoryIsViewController()
     
   }
   
-  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-    if arrayOfProjectNames.count >= 1 {
-      
-      arrayOfProjectNames.removeLast()
-      mainTableView.reloadData()
-      
-    } else {
-      
-      UIView.animateWithDuration(0.25,
-                                 animations: {
-                                  
-                                  self.mainTableView.alpha = 0.0
-                                  self.askPermissionLabel.alpha = 1.0
-                                  self.addButton.alpha = 1.0
-                                  
-        }, completion: { (finished) in
-          if finished == true {
-            
-            //DO SOMETHING
-            
-          }
-      })
-      
-    }
+  private func cellPressed(selectedProjectData: String) {  //IN FUTURE CHANGE TO PROJECT MODEL DATA
     
-    return true
+    self.delegate?.pushCreateAddNewPitchAndWhichCategoryIsViewController()
+    
   }
+  
+//  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+//    if arrayOfProjectNames.count >= 1 {
+//      
+//      arrayOfProjectNames.removeLast()
+//      mainTableView.reloadData()
+//      
+//    } else {
+//      
+//      UIView.animateWithDuration(0.25,
+//                                 animations: {
+//                                  
+//                                  self.mainTableView.alpha = 0.0
+//                                  self.askPermissionLabel.alpha = 1.0
+//                                  self.addButton.alpha = 1.0
+//                                  
+//        }, completion: { (finished) in
+//          if finished == true {
+//            
+//            //DO SOMETHING
+//            
+//          }
+//      })
+//      
+//    }
+//    
+//    return true
+//  }
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
     

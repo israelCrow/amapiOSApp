@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MessageUI
+import MapKit
 
 protocol VisualizeAgencyProfileViewControllerDelegate {
   
@@ -15,7 +17,7 @@ protocol VisualizeAgencyProfileViewControllerDelegate {
   
 }
 
-class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDelegate, VisualizeSkillsViewDelegate, VisualizeSkillsLevelViewDelegate, EditAgencyProfileViewControllerDelegate {
+class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDelegate, VisualizeSkillsViewDelegate, VisualizeSkillsLevelViewDelegate, EditAgencyProfileViewControllerDelegate, AgencyProfilePicNameButtonsViewDelegate, MFMailComposeViewControllerDelegate {
   
   let kNumberOfCardsInScrollViewMinusOne = 5
   
@@ -191,6 +193,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
                                          height: 123.0 * UtilityManager.sharedInstance.conversionHeight)
     
     profilePicNameButtonsView = AgencyProfilePicNameButtonsView.init(frame: frameForProfilePicStuff)
+    profilePicNameButtonsView.delegate = self
 
     frontViewOfClipCard.addSubview(profilePicNameButtonsView)
     
@@ -340,9 +343,32 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   
   @objc private func logOutAndPopThis() {
     
+    UtilityManager.sharedInstance.showLoader()
+    
     RequestToServerManager.sharedInstance.logOut(){
-      self.navigationController?.popViewControllerAnimated(true)
+      self.initAndChangeRootToLoginViewController()
     }
+    
+  }
+  
+  private func initAndChangeRootToLoginViewController() {
+    
+    UtilityManager.sharedInstance.hideLoader()
+    
+    let loginViewController = LoginViewController()
+    let newNavController = UINavigationController.init(rootViewController: loginViewController)
+    
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    UIView.transitionWithView(appDelegate.window!,
+                              duration: 0.25,
+                              options: UIViewAnimationOptions.TransitionCrossDissolve,
+                              animations: {
+                                self.view.alpha = 0.0
+                                appDelegate.window?.rootViewController = newNavController
+                                appDelegate.window?.makeKeyAndVisible()
+                                
+      },
+                              completion: nil)
     
   }
   
@@ -442,6 +468,31 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
   }
   
+  private func goToLastPage() {
+    
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    
+    let pointToMove = CGPoint.init(x: widthOfCard * CGFloat(kNumberOfCardsInScrollViewMinusOne), y: 0.0)
+    
+    scrollViewFrontFlipCard.setContentOffset(pointToMove, animated: false)
+    
+  }
+  
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(true)
+    
+    if flipCard != nil {
+      
+      flipCard.removeFromSuperview()
+      flipCard = nil
+      actualPage = 0
+      self.createAndAddFlipCard()
+//      self.hideLeftButtonOfMainScrollView()
+      
+    }
+    
+  }
+  
   //MARK: - VisualizeCasesDelegate
   
   func showDetailOfCase(caseData: Case) {
@@ -465,6 +516,8 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     skillsLevels.hidden = true
     flipCard.setSecondView(skillsLevels)
     flipCard.flip()
+    
+    self.goToLastPage()
   }
   
   //MARK: - VisualizeSkillsLevelViewDelegate
@@ -482,6 +535,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     blankView.hidden = true
     flipCard.setSecondView(blankView)
     self.createButtonsForFlipCard()
+    self.hideRightButtonOfMainScrollView()
     
   }
   
@@ -493,5 +547,146 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
   }
   
+  //MARK: - AgencyProfilePicNameButtonsViewDelegate
+  
+  func mailIconButtonPressed() {
+    
+    if AgencyModel.Data.contact_email != nil {
+      
+      let mailComposeViewController = configuredMailComposeViewController()
+      if MFMailComposeViewController.canSendMail() {
+        self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+      } else {
+        self.showSendMailErrorAlert()
+      }
+      
+    } else {
+      
+      let alertController = UIAlertController(title: "Error al mandar email", message: "La agencia no cuenta aún con una cuenta de email", preferredStyle: UIAlertControllerStyle.Alert)
+      
+      let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+        
+      }
+      
+      alertController.addAction(okAction)
+      self.presentViewController(alertController, animated: true, completion: nil)
+      
+    }
+
+  }
+  
+  func configuredMailComposeViewController() -> MFMailComposeViewController {
+    let mailComposerVC = MFMailComposeViewController()
+    mailComposerVC.mailComposeDelegate = self
+    
+    mailComposerVC.setToRecipients([AgencyModel.Data.contact_email!])
+    mailComposerVC.setSubject("Contactado desde Happitch :)")
+    mailComposerVC.setMessageBody("", isHTML: false)
+    
+    return mailComposerVC
+  }
+  
+  
+  func showSendMailErrorAlert() {
+    
+    let alertController = UIAlertController(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: UIAlertControllerStyle.Alert)
+
+    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
+    }
+    
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
+  
+  func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    controller.dismissViewControllerAnimated(true, completion: nil)
+  }
+  
+  
+  func telephoneIconButtonPressed() {
+    
+    if AgencyModel.Data.phone != nil {
+      
+      if let url = NSURL(string: "tel://\(AgencyModel.Data.phone!)") {
+        UIApplication.sharedApplication().openURL(url)
+      }
+      
+    } else {
+      
+      let alertController = UIAlertController(title: "Error al marcar por teléfono", message: "La agencia no cuenta aún con un número telefónico", preferredStyle: UIAlertControllerStyle.Alert)
+      
+      let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+        
+      }
+      
+      alertController.addAction(okAction)
+      self.presentViewController(alertController, animated: true, completion: nil)
+      
+    }
+    
+  }
+  
+  func weblinkIconButtonPressed() {
+    
+    if AgencyModel.Data.website_url != nil && UIApplication.sharedApplication().canOpenURL(NSURL.init(string: AgencyModel.Data.website_url!)!) {
+
+      UIApplication.sharedApplication().openURL(NSURL.init(string: AgencyModel.Data.website_url!)!)
+      
+    } else {
+      
+      let alertController = UIAlertController(title: "No se puede abrir página web", message: "La agencia no cuenta aún con una página web válida", preferredStyle: UIAlertControllerStyle.Alert)
+      
+      let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+        
+      }
+      
+      alertController.addAction(okAction)
+      self.presentViewController(alertController, animated: true, completion: nil)
+      
+    }
+    
+  }
+  
+  func locationIconButtonPressed() {
+    
+    if AgencyModel.Data.longitude != nil && AgencyModel.Data.latitude != nil {
+      
+      
+      let isGoogleMapsInstalled = UIApplication.sharedApplication().canOpenURL(NSURL.init(string:"comgooglemaps://")!)
+      
+      if isGoogleMapsInstalled == true {
+        
+        UIApplication.sharedApplication().openURL(NSURL(string:
+          "comgooglemaps://?center=\(AgencyModel.Data.latitude!),\(AgencyModel.Data.latitude!)&zoom=18")!)
+        
+      } else {
+        
+        let lat1 : NSString = AgencyModel.Data.latitude!
+        let lng1 : NSString = AgencyModel.Data.longitude!
+        
+        let latitude:CLLocationDegrees =  lat1.doubleValue
+        let longitude:CLLocationDegrees =  lng1.doubleValue
+        
+        let regionDistance:CLLocationDistance = 10000
+        let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
+        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
+        let options = [
+          MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
+          MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
+        ]
+        let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: placemark)
+        if AgencyModel.Data.address != nil {
+          mapItem.name = "\(AgencyModel.Data.address!)"
+        }
+        mapItem.openInMapsWithLaunchOptions(options)
+        
+      }
+
+    }
+    
+  }
   
 }

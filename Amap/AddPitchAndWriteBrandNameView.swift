@@ -10,7 +10,7 @@ import UIKit
 
 protocol AddPitchAndWriteBrandNameViewDelegate {
   
-  func pushAddPitchAndWriteProjectNameViewController()
+  func pushAddPitchAndWriteProjectNameViewController(companyData: CompanyModelData, brandDataSelected: BrandModelData?, nameOfNewBrand: String?)
   
 }
 
@@ -20,14 +20,26 @@ class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDat
   private var writeBrandName: UILabel! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
   private var mainTableView: UITableView! = nil
-  private var arrayOfBrandNames = ["Marca 1","Marca 2", "Marca 3"]
+  private var arrayOfFilteredBrands = [BrandModelData]()
   private var askPermissionLabel: UILabel! = nil
   private var addButton: UIButton! = nil
+  
+  private var companyData: CompanyModelData! = nil
   
   var delegate: AddPitchAndWriteBrandNameViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  init(frame: CGRect, newCompanyData: CompanyModelData) {
+    
+    companyData = newCompanyData
+    arrayOfFilteredBrands = companyData.brands
+    super.init(frame: frame)
+    
+    self.initInterface()
+    
   }
   
   override init(frame: CGRect) {
@@ -61,6 +73,7 @@ class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDat
     let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                               action: #selector(dismissKeyboard))
     tapToDismissKeyboard.numberOfTapsRequired = 1
+    tapToDismissKeyboard.cancelsTouchesInView = false
     self.addGestureRecognizer(tapToDismissKeyboard)
     
   }
@@ -114,6 +127,9 @@ class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDat
                                                    title: nil,
                                                    image: "smallSearchIcon")
     searchView.mainTextField.delegate = self
+    searchView.mainTextField.addTarget(self,
+                                       action: #selector(textDidChange),
+                                       forControlEvents: UIControlEvents.EditingChanged)
     
     self.addSubview(searchView)
     
@@ -213,17 +229,23 @@ class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDat
   //MARK: - ViewTableDelegate
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return arrayOfBrandNames.count
+    return arrayOfFilteredBrands.count
   }
   
   func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
     return 56.0 * UtilityManager.sharedInstance.conversionHeight
   }
   
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    
+    self.cellPressed(arrayOfFilteredBrands[indexPath.row])
+    
+  }
+  
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell!
     
-    self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfBrandNames[indexPath.row])
+    self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfFilteredBrands[indexPath.row].name)
     cell.selectionStyle = UITableViewCellSelectionStyle.None
     
     return cell
@@ -250,36 +272,116 @@ class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDat
   
   @objc private func addButtonPressed() {
     
-    self.delegate?.pushAddPitchAndWriteProjectNameViewController()
+    self.delegate?.pushAddPitchAndWriteProjectNameViewController(companyData, brandDataSelected: nil, nameOfNewBrand: searchView.mainTextField.text!)
     
   }
   
-  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-    if arrayOfBrandNames.count >= 1 {
+  private func cellPressed(selectedBrandData: BrandModelData) {
+    
+    
+    self.delegate?.pushAddPitchAndWriteProjectNameViewController(companyData, brandDataSelected: selectedBrandData, nameOfNewBrand: nil)
+
+    
+  }
+  
+  private func filterCompaniesWithText(filterText: String) {
+    
+    arrayOfFilteredBrands = companyData.brands.filter({ (brandData) -> Bool in
+      return brandData.name.rangeOfString(filterText) != nil
+    })
+    
+    mainTableView.reloadData()
+    
+    if arrayOfFilteredBrands.count == 0 {
       
-      arrayOfBrandNames.removeLast()
-      mainTableView.reloadData()
+      self.hideMainTableView()
+      self.showAskPermissionLabel()
+      self.showAddButton()
       
     } else {
       
-      UIView.animateWithDuration(0.25,
-                                 animations: {
-                                  
-                                  self.mainTableView.alpha = 0.0
-                                  self.askPermissionLabel.alpha = 1.0
-                                  self.addButton.alpha = 1.0
-                                  
-        }, completion: { (finished) in
-          if finished == true {
-            
-            //DO SOMETHING
-            
-          }
-      })
+      self.showMainTableView()
+      self.hideAskPermissionLabel()
+      self.hideAddButton()
       
     }
     
-    return true
+  }
+  
+  @objc private func textDidChange(textField: UITextField) {
+    
+    if textField.text! == "" || textField.text == nil {
+      
+      arrayOfFilteredBrands = companyData.brands
+      mainTableView.reloadData()
+//      self.hideMainTableView()
+      
+    } else {
+      
+      self.filterCompaniesWithText(textField.text!)
+      
+    }
+    
+  }
+  
+  private func showMainTableView() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.mainTableView.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideMainTableView() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.mainTableView.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func showAskPermissionLabel() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.askPermissionLabel.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideAskPermissionLabel() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.askPermissionLabel.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func showAddButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.addButton.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideAddButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.addButton.alpha = 0.0
+      
+    }
+    
   }
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {

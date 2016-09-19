@@ -120,10 +120,23 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
   func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     let header = tableView.dequeueReusableCellWithIdentifier("header") as! CollapsibleTableViewHeader
     
+    let frameForButtonHeader = CGRect.init(x: 0.0,
+                                           y: 0.0,
+                                       width: header.frame.size.width - (40.0 * UtilityManager.sharedInstance.conversionWidth),
+                                      height: header.frame.size.height)
+    
+    let buttonForHeader = UIButton.init(frame: frameForButtonHeader)
+    buttonForHeader.backgroundColor = UIColor.clearColor()
+    buttonForHeader.tag = section
+    buttonForHeader.addTarget(self, action: #selector(toggleCollapse), forControlEvents: .TouchUpInside)
+    
+    
     header.toggleButton.tag = section
     header.setMutableAttributedStringOfNameOfSkillLabel(skillCategories[section].name)
     header.toggleButton.rotate(skillCategories[section].collapsed! ? 0.0 : CGFloat(M_PI_2))
     header.toggleButton.addTarget(self, action: #selector(toggleCollapse), forControlEvents: .TouchUpInside)
+    
+    header.contentView.addSubview(buttonForHeader)
     
     return header.contentView
   }

@@ -10,7 +10,7 @@ import UIKit
 
 protocol AddPitchAndWriteCompanyNameViewDelegate {
   
-  func pushCreateAddNewPitchAndWriteBrandNameViewController()
+  func pushCreateAddNewPitchAndWriteBrandNameViewController(newCompanyNameToCreate: String?, companySelected: CompanyModelData?)
   
 }
 
@@ -61,6 +61,7 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                               action: #selector(dismissKeyboard))
     tapToDismissKeyboard.numberOfTapsRequired = 1
+    tapToDismissKeyboard.cancelsTouchesInView = false
     self.addGestureRecognizer(tapToDismissKeyboard)
     
   }
@@ -131,7 +132,9 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     mainTableView = UITableView.init(frame: frameForTableView)
     mainTableView.delegate = self
     mainTableView.dataSource = self
+    mainTableView.alpha = 0.0
     mainTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    mainTableView.allowsSelection = true
     
     self.addSubview(mainTableView)
     
@@ -218,10 +221,15 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     
   }
   
+  private func cellPressed(selectedCompanyData: CompanyModelData) {
+    
+    self.delegate?.pushCreateAddNewPitchAndWriteBrandNameViewController(nil, companySelected: selectedCompanyData)
+    
+  }
+  
   @objc private func addButtonPressed() {
-    
-    self.delegate?.pushCreateAddNewPitchAndWriteBrandNameViewController()
-    
+  
+  self.delegate?.pushCreateAddNewPitchAndWriteBrandNameViewController(searchView.mainTextField.text!, companySelected: nil)
   }
   
   private func filterCompaniesWithText(filterText: String) {
@@ -233,8 +241,62 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     arrayOfFilteredCompanies = arrayOfCompanies.filter({ (companyData) -> Bool in
       return companyData.name.rangeOfString(filterText) != nil
     })
-    
+  
     mainTableView.reloadData()
+    
+    if arrayOfFilteredCompanies.count == 0 {
+      
+      self.hideMainTableView()
+      self.showAskPermissionLabel()
+      self.showAddButton()
+      
+    } else {
+    
+      self.showMainTableView()
+      self.hideAskPermissionLabel()
+      self.hideAddButton()
+      
+    }
+    
+  }
+  
+  private func showAskPermissionLabel() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.askPermissionLabel.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideAskPermissionLabel() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.askPermissionLabel.alpha = 0.0
+      
+    }
+  
+  }
+  
+  private func showAddButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.addButton.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideAddButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.addButton.alpha = 0.0
+      
+    }
     
   }
   
@@ -244,10 +306,31 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
       
       arrayOfFilteredCompanies.removeAll()
       mainTableView.reloadData()
+      self.hideMainTableView()
       
     } else {
       
       self.filterCompaniesWithText(textField.text!)
+      
+    }
+    
+  }
+  
+  private func showMainTableView() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.mainTableView.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideMainTableView() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.mainTableView.alpha = 0.0
       
     }
     
@@ -271,7 +354,7 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     
     return cell
   }
-  
+
   private func changeAttributedTextOfNormalCell(cellToChangeText: UITableViewCell, subSkillText: String) {
     
     let font = UIFont(name: "SFUIText-Light",
@@ -290,6 +373,14 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     cellToChangeText.textLabel?.attributedText = stringWithFormat
     
   }
+  
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    
+    self.cellPressed(arrayOfFilteredCompanies[indexPath.row])
+    
+  }
+  
+  //MARK: - TextFieldDelegate
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
     

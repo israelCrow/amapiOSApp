@@ -32,7 +32,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     self.addObserverToKeyboardNotification()
     self.createFlipCardView()
     self.addCreateAccountLabel()
-      
+    
   }
     
     private func createTapGestureForDismissKeyboard() {
@@ -187,6 +187,8 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
     //MARK - GoldenPitchLoginViewDelegate
     func nextButtonPressedGoldenPitchLoginView(name: String, email: String) {
+      
+      UtilityManager.sharedInstance.showLoader()
         
         let urlToRequest = "https://amap-dev.herokuapp.com/api/sessions"
         
@@ -262,6 +264,8 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                   UserSession.session.role = role_string
                   
                   RequestToServerManager.sharedInstance.requestForAgencyData(){
+                    
+                    UtilityManager.sharedInstance.hideLoader()
                       
                     self.initAndChangeRootToMainTabBarController()
                       
@@ -283,6 +287,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                   
                 } else {
                   
+                        UtilityManager.sharedInstance.hideLoader()
                         self.loginGoldenPitchView.activateInteractionEnabledOfNextButton()
                         if response.response?.statusCode == 422 {
                           let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
@@ -291,11 +296,13 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                             let errorinString = stringError![0] as? String
                           if errorinString == "Email o password incorrecto" {
                             self.loginGoldenPitchView.showErrorFromLoginControllerLabel()
+                          } else {
+                            print("SERVER ERROR -- \(json)")
                           }
-                          //print(json)
                         } else
                         if response.response?.statusCode == 500 { //error de servidor
                             self.loginGoldenPitchView.showErrorFromLoginControllerLabel()
+                          print("SERVER ERROR: 500 -- \(response)")
                         }
                 }
                 

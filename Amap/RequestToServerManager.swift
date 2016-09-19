@@ -238,7 +238,7 @@ class RequestToServerManager: NSObject {
     }
   }
   
-  func requestToSaveDataFromSkills(params: [String:AnyObject]) {
+  func requestToSaveDataFromSkills(params: [String:AnyObject], actionsToMakeAfterFinished: () -> Void) {
     
     let urlToRequest = "https://amap-dev.herokuapp.com/api/agencies/add_skills"
     
@@ -292,9 +292,12 @@ class RequestToServerManager: NSObject {
           let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
           
           print(json)
+          
+          actionsToMakeAfterFinished()
 
           } else {
-            
+          
+          UtilityManager.sharedInstance.hideLoader()
             print("ERROR")
             
           }
@@ -394,7 +397,129 @@ class RequestToServerManager: NSObject {
   }
   
   
+  func requestToCreateCompany(nameOfTheNewCompany: String!, actionsToMakeAfterSuccesfullCreateNewCompany: (newCompanyCreated: CompanyModelData)-> Void) {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/companies"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    var values: [String:AnyObject]
+    
+    let companyDictionary = ["name" : nameOfTheNewCompany]
+    
+    if UserSession.session.auth_token != nil {
+      
+      values = [
+        "auth_token": UserSession.session.auth_token,
+        "company": companyDictionary
+      ]
+      
+    } else {
+      
+      values = ["id": "bla"]//Supposedly never happend
+      
+    }
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(values, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 201 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          let newCompanyName = (json["name"] as? String != nil ? json["name"] as! String : "New Company")
+          let newCompanyId = (json["id"] as? Int != nil ? String(json["id"] as! Int) : "-1")
+          let brands = [BrandModelData]()
+          
+          let newCompany = CompanyModelData(newId: newCompanyId,
+                                          newName: newCompanyName,
+                                        newBrands: brands)
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          actionsToMakeAfterSuccesfullCreateNewCompany(newCompanyCreated: newCompany)
+          
+        }else {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          print("ERROR")
+          
+        }
+    }
+  }
   
+  
+  func requestToCreateBrand(companyData: CompanyModelData, nameOfTheNewBrand: String!, actionsToMakeAfterSuccesfullCreateNewBrand: (newBrandCreated: BrandModelData)-> Void) {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/brands"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    var values: [String:AnyObject]
+    
+    let brandDictionary = ["name" : nameOfTheNewBrand,
+                           "company_id" : companyData.id
+                           ]
+    
+    if UserSession.session.auth_token != nil {
+      
+      values = [
+        "auth_token": UserSession.session.auth_token,
+        "brand": brandDictionary
+      ]
+      
+    } else {
+      
+      values = ["id": "bla"]//Supposedly never happend
+      
+    }
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(values, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 201 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          let newBrandId = (json["id"] as? Int != nil ? String(json["id"] as! Int) : "-1")
+          let newBrandName = (json["name"] as? String != nil ? String(json["name"] as! String) : "New Brand")
+          
+          let newBrand = BrandModelData.init(newId: newBrandId,
+                                           newName: newBrandName,
+                                    newContactName: nil,
+                                   newContactEMail: nil,
+                                newContactPosition: nil,
+                             newProprietaryCompany: nil)
+          
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          actionsToMakeAfterSuccesfullCreateNewBrand(newBrandCreated: newBrand)
+          
+        }else {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          print("ERROR")
+          
+        }
+    }
+  }
   
   
   
@@ -446,7 +571,9 @@ class RequestToServerManager: NSObject {
           actionsToMakeAfterSuccesfullLogOut()
    
         }else {
-            
+          
+            UtilityManager.sharedInstance.hideLoader()
+          
             print("ERROR")
             
         }

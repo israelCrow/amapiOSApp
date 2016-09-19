@@ -35,6 +35,7 @@ class CreateAddNewPitchAndWriteCategoryTypeViewController: UIViewController, Add
     let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                               action: #selector(dismissKeyboard))
     tapToDismissKeyboard.numberOfTapsRequired = 1
+    tapToDismissKeyboard.cancelsTouchesInView = false
     self.view.addGestureRecognizer(tapToDismissKeyboard)
     
   }

@@ -360,7 +360,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     agencyWebsiteView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                           title: AgencyProfileEditConstants.ProfileView.agencyWebSiteTitleText,
                                                           image: "iconWebsite")
-    agencyWebsiteView.mainTextField.placeholder = "Website de contacto"
+    agencyWebsiteView.mainTextField.placeholder = "http://www.ejemplo.com"
     
     if AgencyModel.Data.website_url != nil {
       

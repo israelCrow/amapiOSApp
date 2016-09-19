@@ -727,7 +727,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
     }
     
     func showErrorFromLoginControllerLabel() {
-        
+      
         self.removeAllErrorLabels()
         self.nextButton.userInteractionEnabled = false
         UIView.animateWithDuration(1.0,

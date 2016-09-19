@@ -17,9 +17,23 @@ protocol CreateAddNewPitchAndWriteProjectNameViewControllerDelegate {
 class CreateAddNewPitchAndWriteProjectNameViewController: UIViewController, AddPitchAndWriteProjectNameViewDelegate {
   
   private var addPitchWriteProjectName: AddPitchAndWriteProjectNameView! = nil
-  
+  private var companyData: CompanyModelData! = nil
+  private var brandData: BrandModelData! = nil
   
   var delegateForShowTabBar: CreateAddNewPitchAndWriteProjectNameViewControllerDelegate?
+  
+  init(newCompanyData: CompanyModelData, newBrandData: BrandModelData) {
+    
+    companyData = newCompanyData
+    brandData = newBrandData
+    
+    super.init(nibName: nil, bundle: nil)
+    
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   override func loadView() {
     
@@ -36,6 +50,7 @@ class CreateAddNewPitchAndWriteProjectNameViewController: UIViewController, AddP
     let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                               action: #selector(dismissKeyboard))
     tapToDismissKeyboard.numberOfTapsRequired = 1
+    tapToDismissKeyboard.cancelsTouchesInView = false
     self.view.addGestureRecognizer(tapToDismissKeyboard)
     
   }
@@ -91,7 +106,7 @@ class CreateAddNewPitchAndWriteProjectNameViewController: UIViewController, AddP
                                    width: widthOfCard,
                                    height: heightOfCard)
     
-    addPitchWriteProjectName = AddPitchAndWriteProjectNameView.init(frame: frameForCard)
+    addPitchWriteProjectName = AddPitchAndWriteProjectNameView.init(frame: frameForCard, newCompanyData: companyData, newBrandData: brandData)
     addPitchWriteProjectName.delegate = self
     
     self.view.addSubview(addPitchWriteProjectName)

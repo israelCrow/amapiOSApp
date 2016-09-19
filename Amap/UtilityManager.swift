@@ -21,7 +21,47 @@ class UtilityManager: NSObject {
   
   let conversionWidth = frameOfConversion.width
   let conversionHeight = frameOfConversion.height
-  var loadingView: UIView!
+  
+  let arrayOfImagesForLoader: [UIImage] = [UIImage.init(named: "loader_1")!,
+                                            UIImage.init(named: "loader_2")!,
+                                            UIImage.init(named: "loader_3")!,
+                                            UIImage.init(named: "loader_4")!,
+                                            UIImage.init(named: "loader_5")!,
+                                            UIImage.init(named: "loader_6")!,
+                                            UIImage.init(named: "loader_7")!,
+                                            UIImage.init(named: "loader_8")!,
+                                            UIImage.init(named: "loader_9")!,
+                                            UIImage.init(named: "loader_10")!,
+                                            UIImage.init(named: "loader_11")!,
+                                            UIImage.init(named: "loader_12")!,
+                                            UIImage.init(named: "loader_13")!,
+                                            UIImage.init(named: "loader_14")!,
+                                            UIImage.init(named: "loader_15")!,
+                                            UIImage.init(named: "loader_16")!,
+                                            UIImage.init(named: "loader_17")!,
+                                            UIImage.init(named: "loader_18")!,
+                                            UIImage.init(named: "loader_19")!,
+                                            UIImage.init(named: "loader_20")!,
+                                            UIImage.init(named: "loader_21")!,
+                                            UIImage.init(named: "loader_22")!,
+                                            UIImage.init(named: "loader_23")!,
+                                            UIImage.init(named: "loader_24")!,
+                                            UIImage.init(named: "loader_25")!,
+                                            UIImage.init(named: "loader_26")!,
+                                            UIImage.init(named: "loader_27")!,
+                                            UIImage.init(named: "loader_28")!,
+                                            UIImage.init(named: "loader_29")!,
+                                            UIImage.init(named: "loader_30")!,
+                                            UIImage.init(named: "loader_31")!,
+                                            UIImage.init(named: "loader_32")!,
+                                            UIImage.init(named: "loader_33")!,
+                                            UIImage.init(named: "loader_34")!,
+                                            UIImage.init(named: "loader_35")!,
+                                            UIImage.init(named: "loader_36")!,
+                                            UIImage.init(named: "loader_37")!]
+  var loaderImageView: UIImageView! = nil
+  var loadingView: UIView! = nil
+  
   
 //  func currentViewController() -> UIViewController {
 //    
@@ -31,16 +71,79 @@ class UtilityManager: NSObject {
 //    
 //  }
   
+  func getFrontViewController() -> UIViewController? {
+    
+    if var topController = UIApplication.sharedApplication().keyWindow?.rootViewController {
+    
+      while let presentedViewController = topController.presentedViewController {
+        topController = presentedViewController
+      }
+      
+      return topController
+    }
+    
+    return nil
+    
+  }
+  
+  func currentViewController () -> UIViewController {
+    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let currentViewController: UIViewController = appDelegate.window!.rootViewController!
+    return currentViewController
+  }
+  
   func showLoader() {
     
-    if let rootViewController = UIApplication.topViewController() {
+    if loadingView == nil {
+      loadingView = UIView.init(frame: UIScreen.mainScreen().bounds)
+      loadingView.backgroundColor = UIColor.init(white: 1, alpha: 0.8)
       
+      let frameForImageView = CGRect.init(x: (loadingView.frame.size.width / 2.0) - (75.0 * conversionWidth) ,
+                                          y: (loadingView.frame.size.height / 2.0) - (75.0 * conversionHeight),
+                                      width: 150.0 * conversionWidth,
+                                     height: 150.0 * conversionHeight)
       
-      rootViewController.view.addSubview()
-      
-//      rootViewController.view.addSubview
+      loaderImageView = UIImageView.init(frame: frameForImageView)
+      loaderImageView.backgroundColor = UIColor.clearColor()
+      loaderImageView.animationImages = arrayOfImagesForLoader
+      loadingView.alpha = 0.0
+      loadingView.addSubview(loaderImageView)
       
     }
+    
+    let rootViewController = self.currentViewController()
+    rootViewController.view.addSubview(loadingView)
+    loaderImageView.animationDuration = 1.2
+    loaderImageView.animationRepeatCount = 0
+    loaderImageView.startAnimating()
+    
+    UIView.animateWithDuration(0.35){
+      
+      self.loadingView.alpha = 1.0
+      
+    }
+    
+  }
+  
+  func hideLoader() {
+    
+    if loadingView != nil {
+      
+      UIView.animateWithDuration(0.35, animations: { 
+        
+        self.loadingView.alpha = 0.0
+        
+      }, completion: { (finished) in
+          if finished == true {
+            
+            self.loaderImageView.stopAnimating()
+            
+          }
+      })
+      
+      
+    }
+    
     
   }
   

@@ -17,9 +17,22 @@ protocol CreateAddNewPitchAndWriteBrandNameViewControllerDelegate {
 class CreateAddNewPitchAndWriteBrandNameViewController: UIViewController, AddPitchAndWriteBrandNameViewDelegate {
   
   private var addPitchWriteBrandName: AddPitchAndWriteBrandNameView! = nil
+  private var companyData: CompanyModelData! = nil
   
   
   var delegateForShowTabBar: CreateAddNewPitchAndWriteBrandNameViewControllerDelegate?
+  
+  init(newCompanyData: CompanyModelData) {
+    
+    companyData = newCompanyData
+    
+    super.init(nibName: nil, bundle: nil)
+    
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   override func loadView() {
     
@@ -36,6 +49,7 @@ class CreateAddNewPitchAndWriteBrandNameViewController: UIViewController, AddPit
     let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                               action: #selector(dismissKeyboard))
     tapToDismissKeyboard.numberOfTapsRequired = 1
+    tapToDismissKeyboard.cancelsTouchesInView = false
     self.view.addGestureRecognizer(tapToDismissKeyboard)
     
   }
@@ -92,7 +106,7 @@ class CreateAddNewPitchAndWriteBrandNameViewController: UIViewController, AddPit
                                    width: widthOfCard,
                                    height: heightOfCard)
     
-    addPitchWriteBrandName = AddPitchAndWriteBrandNameView.init(frame: frameForCard)
+    addPitchWriteBrandName = AddPitchAndWriteBrandNameView.init(frame: frameForCard, newCompanyData: companyData)
     addPitchWriteBrandName.delegate = self
     
     
@@ -132,10 +146,30 @@ class CreateAddNewPitchAndWriteBrandNameViewController: UIViewController, AddPit
   
   //MARK: - AddPitchAndWriteBrandNameViewDelegate
   
-  func pushAddPitchAndWriteProjectNameViewController() {
+  func pushAddPitchAndWriteProjectNameViewController(companyData: CompanyModelData, brandDataSelected: BrandModelData?, nameOfNewBrand: String?) {
     
-    let addPitchAndWriteProjectViewController = CreateAddNewPitchAndWriteProjectNameViewController()
-    self.navigationController?.pushViewController(addPitchAndWriteProjectViewController, animated: true)
+    if nameOfNewBrand != nil && brandDataSelected == nil {
+      
+          RequestToServerManager.sharedInstance.requestToCreateBrand(companyData, nameOfTheNewBrand: nameOfNewBrand!, actionsToMakeAfterSuccesfullCreateNewBrand: { newBrandCreated in
+            
+                let addPitchAndWriteProjectViewController = CreateAddNewPitchAndWriteProjectNameViewController.init(newCompanyData: companyData, newBrandData: newBrandCreated)
+                self.navigationController?.pushViewController(addPitchAndWriteProjectViewController, animated: true)
+            
+          })
+      
+    }else
+      if nameOfNewBrand == nil  && brandDataSelected != nil {
+      
+        let addPitchAndWriteProjectViewController = CreateAddNewPitchAndWriteProjectNameViewController.init(newCompanyData: companyData, newBrandData: brandDataSelected!)
+        self.navigationController?.pushViewController(addPitchAndWriteProjectViewController, animated: true)
+      
+      }
+    
+    
+
+    
+
+
     
   }
   
