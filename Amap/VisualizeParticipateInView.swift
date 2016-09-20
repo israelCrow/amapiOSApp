@@ -21,6 +21,8 @@ class VisualizeParticipateInView: UIView {
   private var exclusiveLabel: UILabel! = nil
   private var mainScrollView: UIScrollView! = nil
   private var arrayOfImageViews = Array<UIImageView>()
+  private var arrayOfFrames = Array<CGRect>()
+  private var actualFrame: Int = 0
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -36,10 +38,52 @@ class VisualizeParticipateInView: UIView {
   
   private func createInterface() {
     
+    self.createAllPossibleFrames()
     self.createParticipateInLabel()
     self.createMainScrollView()
     self.createAllImageViews()
     self.createHappitchLabel()
+    
+  }
+  
+  private func createAllPossibleFrames() {
+    
+    
+    //first quadrant
+    var frameForImageView = CGRect.init(x: 28.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        y: 56.0 * UtilityManager.sharedInstance.conversionHeight,
+                                    width: 60.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    arrayOfFrames.append(frameForImageView)
+    
+    //second quadrant
+    
+    frameForImageView = CGRect.init(x: 139.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    y: 56.0 * UtilityManager.sharedInstance.conversionHeight,
+                                width: 60.0 * UtilityManager.sharedInstance.conversionWidth,
+                               height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    arrayOfFrames.append(frameForImageView)
+    
+    
+    //third quadrant
+    
+    frameForImageView = CGRect.init(x: 28.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    y: 167.0 * UtilityManager.sharedInstance.conversionHeight,
+                                    width: 60.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    arrayOfFrames.append(frameForImageView)
+    
+    //fourth quadrant
+    
+    frameForImageView = CGRect.init(x: 139.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    y: 167.0 * UtilityManager.sharedInstance.conversionHeight,
+                                width: 60.0 * UtilityManager.sharedInstance.conversionWidth,
+                               height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    arrayOfFrames.append(frameForImageView)
     
   }
   
@@ -77,16 +121,16 @@ class VisualizeParticipateInView: UIView {
   private func createMainScrollView() {
     
     let frameForMainScrollView = CGRect.init(x: 34.0 * UtilityManager.sharedInstance.conversionWidth,
-                                             y: 26.0 * UtilityManager.sharedInstance.conversionHeight,
+                                             y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
                                              width: 235.0 * UtilityManager.sharedInstance.conversionWidth,
                                              height: 270.0 * UtilityManager.sharedInstance.conversionHeight)
     
     //Change the value of the next 'size' to make scrollViewAnimate
-    let sizeOfScrollViewContent = CGSize.init(width: frameForMainScrollView.size.width, height: frameForMainScrollView.size.height + (50.0 * UtilityManager.sharedInstance.conversionHeight))
+//    let sizeOfScrollViewContent = CGSize.init(width: frameForMainScrollView.size.width, height: frameForMainScrollView.size.height + (50.0 * UtilityManager.sharedInstance.conversionHeight))
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.clearColor()
-    mainScrollView.contentSize = sizeOfScrollViewContent
+//    mainScrollView.contentSize = sizeOfScrollViewContent
     mainScrollView.showsVerticalScrollIndicator = true
     
     self.addSubview(mainScrollView)
@@ -95,22 +139,40 @@ class VisualizeParticipateInView: UIView {
   
   private func createAllImageViews() {
     
-    self.createGoldImageView()
-    self.createSilverImageView()
-    self.createMediumRiskView()
-    self.createHighRiskView()
+    if AgencyModel.Data.golden_pitch != nil && AgencyModel.Data.golden_pitch ==  true {
+      
+      self.createGoldImageView()
+      actualFrame = actualFrame + 1
+      
+    }
+    
+    if AgencyModel.Data.silver_pitch != nil && AgencyModel.Data.silver_pitch ==  true {
+      
+      self.createSilverImageView()
+      actualFrame = actualFrame + 1
+      
+    }
+    
+    if AgencyModel.Data.medium_risk_pitch != nil && AgencyModel.Data.medium_risk_pitch ==  true {
+      
+      self.createMediumRiskView()
+      actualFrame = actualFrame + 1
+      
+    }
+    
+    if AgencyModel.Data.high_risk_pitch != nil && AgencyModel.Data.high_risk_pitch ==  true {
+      
+      self.createHighRiskView()
+      actualFrame = actualFrame + 1
+      
+    }
     
   }
     
   private func createGoldImageView() {
     
-    let frameForImageView = CGRect.init(x: 28.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        y: 56.0 * UtilityManager.sharedInstance.conversionHeight,
-                                    width: 60.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
-    
     let imageView = UIImageView.init(image: UIImage.init(named: "goldFace"))
-    imageView.frame = frameForImageView
+    imageView.frame = arrayOfFrames[actualFrame]
     
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)
@@ -120,13 +182,8 @@ class VisualizeParticipateInView: UIView {
   
   private func createSilverImageView() {
     
-    let frameForImageView = CGRect.init(x: 139.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        y: 56.0 * UtilityManager.sharedInstance.conversionHeight,
-                                        width: 60.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
-    
     let imageView = UIImageView.init(image: UIImage.init(named: "silverFace"))
-    imageView.frame = frameForImageView
+    imageView.frame = arrayOfFrames[actualFrame]
     
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)
@@ -136,13 +193,8 @@ class VisualizeParticipateInView: UIView {
   
   private func createMediumRiskView() {
     
-    let frameForImageView = CGRect.init(x: 28.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        y: 167.0 * UtilityManager.sharedInstance.conversionHeight,
-                                        width: 60.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
-    
     let imageView = UIImageView.init(image: UIImage.init(named: "mediumFace"))
-    imageView.frame = frameForImageView
+    imageView.frame = arrayOfFrames[actualFrame]
     
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)
@@ -152,13 +204,8 @@ class VisualizeParticipateInView: UIView {
   
   private func createHighRiskView() {
     
-    let frameForImageView = CGRect.init(x: 139.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        y: 167.0 * UtilityManager.sharedInstance.conversionHeight,
-                                        width: 60.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
-    
     let imageView = UIImageView.init(image: UIImage.init(named: "highFace"))
-    imageView.frame = frameForImageView
+    imageView.frame = arrayOfFrames[actualFrame]
     
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)

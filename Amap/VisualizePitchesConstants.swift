@@ -19,12 +19,15 @@ class VisualizePitchesConstants {
   enum VisualizeAllPitchesViewController {
     
     static let navigationRightButtonText = "Info"
+    static let navigationBarTitleText = "Pitches"
     
   }
   
   enum CreateAddNewPitchAndWriteBrandNameViewController {
     
     static let navigationRightButtonText = "Cerrar"
+    static let navigationLeftButtonText = "Atrás"
+    static let navigationBarTitleText = "Agregar Pitch"
     
   }
   
@@ -68,8 +71,8 @@ class VisualizePitchesConstants {
   
   enum PreEvaluatePitchView {
     
-    static let descriptionWriteNameLabel =  "Escribe el nombre de la agencia o marca"
-    static let descriptionWriteDateLabel = "Escribe la fecha en que se dio de alta el pitch"
+    static let descriptionWriteNameLabel =  "Escribe el mail del contacto que te brifeó"
+    static let descriptionWriteDateLabel = "¿Qué día te dieron el brief?"
     static let nextButtonText = "listo"
     
   }

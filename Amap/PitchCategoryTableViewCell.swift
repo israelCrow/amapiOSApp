@@ -8,13 +8,20 @@
 
 import UIKit
 
-class PitchCategoryTableViewCell: UITableViewCell {
+protocol PitchCategoryTableViewCellWhenSelectionChangeDelegate {
+ 
+  func valueOfPitchSkillCategoryChanged(cellWhoMadeChanges: PitchCategoryTableViewCell, newValueOfSelection: Bool)
   
-  private var pitchCategoryData: PitchCategory! = nil
+}
+
+class PitchCategoryTableViewCell: UITableViewCell, CustomSwitchViewActionsDelegate {
+  
+  var pitchCategoryData: PitchSkillCategory! = nil
   var customSwitch: CustomSwitchView! = nil
   
+  var delegateWhenSelectionChange: PitchCategoryTableViewCellWhenSelectionChangeDelegate?
 
-  func changePitchCategoryData(newPitchCategoryData: PitchCategory){
+  func changePitchCategoryData(newPitchCategoryData: PitchSkillCategory){
     
     pitchCategoryData = newPitchCategoryData
     self.changeNameLabel()
@@ -38,7 +45,7 @@ class PitchCategoryTableViewCell: UITableViewCell {
     style.alignment = NSTextAlignment.Left
     
     let stringWithFormat = NSMutableAttributedString(
-      string: pitchCategoryData.pitchCategoryName,
+      string: pitchCategoryData.pitchSkillCategoryName,
       attributes:[NSFontAttributeName:font!,
         NSParagraphStyleAttributeName:style,
         NSForegroundColorAttributeName:color
@@ -64,8 +71,17 @@ class PitchCategoryTableViewCell: UITableViewCell {
                                 height: 22.0 * UtilityManager.sharedInstance.conversionHeight)
     
     customSwitch = CustomSwitchView.init(frame: frameForSwitch, valueOfSwitch:pitchCategoryData.isThisCategory)
+    customSwitch.delegateForActions = self
     
     self.addSubview(customSwitch)
+    
+  }
+  
+  //MARK: - CustomSwitchViewActionsDelegate
+  
+  func customSwitchChangedItsValue(valueSelected: Bool) {
+    
+    self.delegateWhenSelectionChange?.valueOfPitchSkillCategoryChanged(self, newValueOfSelection: valueSelected)
     
   }
   

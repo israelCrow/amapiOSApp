@@ -14,13 +14,13 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
   private var preEvaluatePitch: PreEvaluatePitchView! = nil
   private var detailedNavigation: DetailedNavigationEvaluatPitchView! = nil
   
-  private var pitchData: PitchModelData! = nil
+  private var pitchData: ProjectPitchModelData! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(newPitchData: PitchModelData) {
+  init(newPitchData: ProjectPitchModelData) {
     
     pitchData = newPitchData
     
@@ -229,23 +229,31 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
   
   //MARK: - PreEvaluatePitchViewDelegate
   
-  func savePitchAndFlipCard() {
-   
+  func savePitchAndFlipCard(briefEmailContact: String!, briefDate: String!) {
     //Send Info to server, if is correct flipCard
     
-    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
-    let heightOfCard = self.view.frame.size.height - (292.0 * UtilityManager.sharedInstance.conversionHeight)
-    let frameForBackAndFrontOfCard = CGRect.init(x: 0.0,
-                                                 y: 0.0,
-                                                 width: widthOfCard,
-                                                 height: heightOfCard)
+    pitchData.briefDate = briefDate
+    pitchData.briefEMailContact = briefEmailContact
     
-    let backOfTheCard = SuccessfullyCreationOfPitchView.init(frame: frameForBackAndFrontOfCard)
-    backOfTheCard.hidden = true
-    backOfTheCard.delegate = self
-    flipCard.setSecondView(backOfTheCard)
-    
-    flipCard.flip()
+    RequestToServerManager.sharedInstance.requestToCreateProjectPitch(pitchData) { (newPitchCreated) in
+      
+      let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+      let heightOfCard = self.view.frame.size.height - (292.0 * UtilityManager.sharedInstance.conversionHeight)
+      let frameForBackAndFrontOfCard = CGRect.init(x: 0.0,
+                                                   y: 0.0,
+                                                   width: widthOfCard,
+                                                   height: heightOfCard)
+      
+      let backOfTheCard = SuccessfullyCreationOfPitchView.init(frame: frameForBackAndFrontOfCard)
+      backOfTheCard.hidden = true
+      backOfTheCard.delegate = self
+      self.flipCard.setSecondView(backOfTheCard)
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+      self.flipCard.flip()
+      
+    }
     
   }
   

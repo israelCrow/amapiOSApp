@@ -218,6 +218,7 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
   func setArrayOfCompanies(newArrayOfAllCompanies: [CompanyModelData]) {
     
     arrayOfCompanies = newArrayOfAllCompanies
+    mainTableView.reloadData()
     
   }
   

@@ -10,7 +10,7 @@ import UIKit
 
 protocol AddPitchAndWriteProjectNameViewDelegate {
   
-  func pushCreateAddNewPitchAndWhichCategoryIsViewController()
+  func pushCreateAddNewPitchAndWhichCategoryIsViewController(newProjectPitchData: ProjectPitchModelData?, selectedProjectPitchData: ProjectPitchModelData?)
   
 }
 
@@ -19,12 +19,12 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
   private var writeProjectName: UILabel! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
   private var mainTableView: UITableView! = nil
-  private var arrayOfFilteredProjects = ["Proyecto 1","Proyecto 2", "Proyecto 3"]
+  private var arrayOfFilteredProjects = Array<ProjectPitchModelData>()
   private var askPermissionLabel: UILabel! = nil
   private var addButton: UIButton! = nil
   
   //IMPROVISE THE MAIN ARRAY
-  private var arrayOfAllProjects = ["Proyecto 1","Proyecto 2", "Proyecto 3"]
+  private var arrayOfAllProjects = Array<ProjectPitchModelData>()
   //DELETE IN FUTURE
   
   
@@ -224,6 +224,23 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
     
   }
   
+  func setArrayOfAllProjectsPitches(newArrayOfAllProjectsPitches: [ProjectPitchModelData]) {
+    
+    if newArrayOfAllProjectsPitches.count == 0 {
+      
+      self.hideMainTableView()
+      self.showAskPermissionLabel()
+      self.showAddButton()
+      
+    }
+    
+    arrayOfAllProjects = newArrayOfAllProjectsPitches
+    arrayOfFilteredProjects = arrayOfAllProjects
+    mainTableView.reloadData()
+    
+    
+  }
+  
   //MARK: - ViewTableDelegate
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -243,7 +260,7 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell!
     
-    self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfFilteredProjects[indexPath.row])
+    self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfFilteredProjects[indexPath.row].name)
     cell.selectionStyle = UITableViewCellSelectionStyle.None
     
     return cell
@@ -287,7 +304,10 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
   
   private func filterCompaniesWithText(filterText: String) {
     
-    arrayOfFilteredProjects = arrayOfAllProjects.filter{ $0.rangeOfString(filterText) != nil }
+    arrayOfFilteredProjects = arrayOfAllProjects.filter({ (projectData) -> Bool in
+      return projectData.name.rangeOfString(filterText) != nil
+    })
+
     
     mainTableView.reloadData()
     
@@ -370,13 +390,22 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
   
   @objc private func addButtonPressed() {
     
-    self.delegate?.pushCreateAddNewPitchAndWhichCategoryIsViewController()
+    let newProjectPitchData = ProjectPitchModelData(newName: searchView.mainTextField.text!,
+                                                 newBrandId: brandData.id,
+                                               newBriefDate: "",
+                                        newBrieEMailContact: "",
+                                  newArrayOfPitchCategories: [PitchSkillCategory]())
+    
+    
+    self.delegate?.pushCreateAddNewPitchAndWhichCategoryIsViewController(newProjectPitchData,
+      selectedProjectPitchData: nil)
     
   }
   
-  private func cellPressed(selectedProjectData: String) {  //IN FUTURE CHANGE TO PROJECT MODEL DATA
+  private func cellPressed(selectedProjectData: ProjectPitchModelData) {  //IN FUTURE CHANGE TO PROJECT MODEL DATA
     
-    self.delegate?.pushCreateAddNewPitchAndWhichCategoryIsViewController()
+    self.delegate?.pushCreateAddNewPitchAndWhichCategoryIsViewController(nil,
+      selectedProjectPitchData: selectedProjectData)
     
   }
   

@@ -8,11 +8,19 @@
 
 import UIKit
 
+protocol CustomSwitchViewActionsDelegate {
+  
+  func customSwitchChangedItsValue(valueSelected: Bool)
+  
+}
+
 class CustomSwitchView: UIView {
   
   private var containerView: UIView! = nil
   private var circleView: UIView! = nil
   var isOn: Bool = false
+  
+  var delegateForActions: CustomSwitchViewActionsDelegate?
 
   init(frame: CGRect, valueOfSwitch: Bool) {
     isOn = valueOfSwitch
@@ -104,6 +112,7 @@ class CustomSwitchView: UIView {
             
             self.userInteractionEnabled = true
             self.isOn = true
+            self.delegateForActions?.customSwitchChangedItsValue(self.isOn)
             
           }
       })
@@ -125,6 +134,7 @@ class CustomSwitchView: UIView {
             
             self.userInteractionEnabled = true
             self.isOn = false
+            self.delegateForActions?.customSwitchChangedItsValue(self.isOn)
             
           }
       })

@@ -37,6 +37,7 @@ class VisualizeAllPitchesViewController: UIViewController, NoPitchAssignedViewDe
   private func initInterface() {
     
     self.view.addSubview(self.createGradientView())
+    self.changeNavigationBarTitle()
     self.changeNavigationRigthButtonItem()
     self.createSearchButton()
     self.createFilterButton()
@@ -46,6 +47,29 @@ class VisualizeAllPitchesViewController: UIViewController, NoPitchAssignedViewDe
       self.createAndAddNoPitchesAssignedView()
       
     }
+    
+  }
+  
+  private func changeNavigationBarTitle() {
+    
+    let titleLabel = UILabel.init(frame: CGRectZero)
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 17.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.whiteColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: VisualizePitchesConstants.VisualizeAllPitchesViewController.navigationBarTitleText,
+      attributes:[NSFontAttributeName:font!,
+        NSParagraphStyleAttributeName:style,
+        NSForegroundColorAttributeName:color
+      ]
+    )
+    titleLabel.attributedText = stringWithFormat
+    titleLabel.sizeToFit()
+    self.navigationItem.titleView = titleLabel
     
   }
   

@@ -218,6 +218,8 @@ class RequestToServerManager: NSObject {
 
   func requestToGetAllSkillsCategories(functionToMakeWhenFinished: (jsonOfSkills: AnyObject?) -> Void) {
     
+    UtilityManager.sharedInstance.showLoader()
+    
     let urlToRequest = "https://amap-dev.herokuapp.com/api/skill_categories"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
@@ -233,6 +235,7 @@ class RequestToServerManager: NSObject {
           let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
           
           functionToMakeWhenFinished(jsonOfSkills: json)
+          UtilityManager.sharedInstance.hideLoader()
           
         }
     }
@@ -306,6 +309,8 @@ class RequestToServerManager: NSObject {
   
   func requestToGetAllCompanies(functionToMakeWhenFinished: (allCompanies:[CompanyModelData]) -> Void) {
     
+    UtilityManager.sharedInstance.showLoader()
+    
     let urlToRequest = "https://amap-dev.herokuapp.com/api/companies"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
@@ -342,7 +347,8 @@ class RequestToServerManager: NSObject {
               arrayOfCompanies.append(newCompany)
                 
             }
-              
+            
+            
             functionToMakeWhenFinished(allCompanies: arrayOfCompanies)
 
           }
@@ -394,6 +400,72 @@ class RequestToServerManager: NSObject {
     }
     return arrayOfBrands
       
+  }
+  
+  func requestToGetAllProjectsPitches(byBrandId: String!, functionToMakeWhenFinished: (allProjects:[ProjectPitchModelData]) -> Void) {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/pitches/by_brand/\(byBrandId)"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "GET"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        print()
+        if response.response?.statusCode == 422 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          let error = (json["errors"] as? String != nil ? json["errors"] as! String : "")
+          if error == "No se encontraron proyecto para la marca con id: \(byBrandId)" {
+    
+            functionToMakeWhenFinished(allProjects: [ProjectPitchModelData]())
+            
+          }
+    
+        } else
+        
+        if response.response?.statusCode == 200 {
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          print(json)
+          
+//          let companies = json["companies"] as? Array<[String: AnyObject]>
+//          
+//          if companies != nil {
+//            
+//            var arrayOfCompanies = [CompanyModelData]()
+//            
+//            for company in companies! {
+//              
+//              let companyName = (company["name"] as? String != nil ? company["name"] as! String : "No Name")
+//              let idCompany = (company["id"] as? Int != nil ? String(company["id"] as! Int) : "-1")
+//              let brands = (company["brands"] as? Array<[String: AnyObject]> != nil ? company["brands"] as? Array<[String: AnyObject]> : nil)
+//              
+//              let arrayOfBrands = self.getAllBrandsFromRaw(brands, proprietaryCompanyID: idCompany)
+//              
+//              let newCompany = CompanyModelData.init(newId: idCompany,
+//                newName: companyName,
+//                newBrands: arrayOfBrands)
+//              
+//              arrayOfCompanies.append(newCompany)
+//              
+//            }
+          
+            let arrayOfProjects = [ProjectPitchModelData]()
+            
+            functionToMakeWhenFinished(allProjects: arrayOfProjects)
+            
+          }
+          
+          //          functionToMakeWhenFinished(allCompanies: [CompanyModelData]())
+          
+        //}
+    }
+    
   }
   
   
@@ -520,6 +592,87 @@ class RequestToServerManager: NSObject {
         }
     }
   }
+  
+  func requestToCreateProjectPitch(pitchData: ProjectPitchModelData!, actionsToMakeAfterSuccesfullCreateNewCompany: (newPitchCreated: ProjectPitchModelData)-> Void) {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/pitches"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    var skill_categories = [String!]()
+    
+    for category in pitchData.arrayOfPitchCategories {
+      
+      skill_categories.append(category.pitchSkillCategoryId!)
+      
+    }
+    
+    
+    
+    var values: [String:AnyObject]
+    
+    let pitchDictionary = ["name" : pitchData.name,
+                           "brand_id" : pitchData.brandId,
+                           "brief_email_contact" : pitchData.briefEMailContact,
+                           "brief_date" : pitchData.briefDate
+                           ]
+    
+    if UserSession.session.auth_token != nil {
+      
+      values = [
+        "auth_token": UserSession.session.auth_token,
+        "skill_categories": skill_categories,
+        "pitch" : pitchDictionary
+      ]
+      
+    } else {
+      
+      values = ["id": "bla"]//Supposedly never happend
+      
+    }
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(values, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        print()
+        if response.response?.statusCode == 201 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          print(json)
+//          let newCompanyName = (json["name"] as? String != nil ? json["name"] as! String : "New Company")
+//          let newCompanyId = (json["id"] as? Int != nil ? String(json["id"] as! Int) : "-1")
+//          let brands = [BrandModelData]()
+          
+//          let newCompany = CompanyModelData(newId: newCompanyId,
+//            newName: newCompanyName,
+//            newBrands: brands)
+          
+          
+          
+//          actionsToMakeAfterSuccesfullCreateNewCompany(newPitchCreated: newCompany)
+          
+        }else {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          print("ERROR")
+          
+        }
+    }
+  }
+  
+  
+  
+  
+  
   
   
   

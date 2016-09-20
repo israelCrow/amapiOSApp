@@ -10,15 +10,19 @@ import UIKit
 
 protocol PreEvaluatePitchViewDelegate {
   
-  func savePitchAndFlipCard()
+  func savePitchAndFlipCard(briefEmailContact: String!, briefDate: String!)
   
 }
 
-class PreEvaluatePitchView: UIView {
+class PreEvaluatePitchView: UIView, UITextFieldDelegate {
   
   private var writeNameAgencyOrBrandView: CustomTextFieldWithTitleView! = nil
   private var writeDateOfCreationOfPitchView: CustomTextFieldWithTitleView! = nil
   private var nextButton: UIButton! = nil
+  private var containerViewForPicker: UIView! = nil
+  private var mainDatePicker: UIDatePicker! = nil
+  
+  private var errorEMailLabel: UILabel! = nil
   
   var delegate: PreEvaluatePitchViewDelegate?
   
@@ -38,9 +42,79 @@ class PreEvaluatePitchView: UIView {
     
     self.backgroundColor = UIColor.whiteColor()
     
+    self.createContainerViewForPicker()
+    self.createMainDatePicker()
     self.createWriteNameAgencyBrandView()
     self.createWriteDateOfCreationOfPitchView()
     self.createNextButton()
+    
+    self.createErrorEMailLabel()
+    
+  }
+  
+  private func createContainerViewForPicker() {
+    
+    let frameForContainerView = CGRect.init(x: 0.0,
+                                            y: 0.0,
+                                            width: UIScreen.mainScreen().bounds.width,
+                                            height: 250.0)
+    
+    containerViewForPicker = UIView.init(frame: frameForContainerView)
+    containerViewForPicker.backgroundColor = UIColor.clearColor()
+    
+  }
+  
+  private func createMainDatePicker() {
+    
+    let button = self.createGenericButton()
+    containerViewForPicker.addSubview(button)
+    
+    let frameForPicker = CGRect.init(x: 0.0,
+                                     y: button.frame.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight),
+                                 width: UIScreen.mainScreen().bounds.width,
+                                height: 250.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    mainDatePicker = UIDatePicker.init(frame: frameForPicker)
+    mainDatePicker.datePickerMode = .Date
+    mainDatePicker.addTarget(self, action: #selector(datePickerViewChanged), forControlEvents: UIControlEvents.ValueChanged)
+    containerViewForPicker.addSubview(mainDatePicker)
+    
+  }
+  
+  private func createGenericButton() -> UIButton {
+    
+    let okButton = UIButton.init(frame: CGRectZero)
+    
+    let font = UIFont(name: "SFUIDisplay-Light",
+                      size: 15.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.whiteColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Ok",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    
+    okButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+    okButton.backgroundColor = UIColor.grayColor()
+    okButton.addTarget(self,
+                        action: #selector(okButtonPressed),
+                        forControlEvents: .TouchUpInside)
+    okButton.sizeToFit()
+    
+    let frameForButton = CGRect.init(x: (UIScreen.mainScreen().bounds.width / 2.0) - (okButton.frame.size.width / 2.0),
+                                     y: 8.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: okButton.frame.size.width,
+                                     height: okButton.frame.size.height)
+    
+    okButton.frame = frameForButton
+    okButton.layer.cornerRadius = 3.0
+    
+    return okButton
     
   }
   
@@ -54,6 +128,9 @@ class PreEvaluatePitchView: UIView {
     writeNameAgencyOrBrandView = CustomTextFieldWithTitleView.init(frame: frameForView,
                                                                    title: VisualizePitchesConstants.PreEvaluatePitchView.descriptionWriteNameLabel,
                                                                    image: nil)
+    
+    writeNameAgencyOrBrandView.mainTextField.placeholder = "Correo"
+    writeNameAgencyOrBrandView.mainTextField.delegate = self
     
     self.addSubview(writeNameAgencyOrBrandView)
     
@@ -69,6 +146,10 @@ class PreEvaluatePitchView: UIView {
     writeDateOfCreationOfPitchView = CustomTextFieldWithTitleView.init(frame: frameForView,
                                                                    title: VisualizePitchesConstants.PreEvaluatePitchView.descriptionWriteNameLabel,
                                                                    image: "iconImputCalendar")
+    
+    writeDateOfCreationOfPitchView.mainTextField.placeholder = "dd/mm/aa"
+    writeDateOfCreationOfPitchView.mainTextField.inputView = containerViewForPicker
+    writeDateOfCreationOfPitchView.mainTextField.delegate = self
     
     self.addSubview(writeDateOfCreationOfPitchView)
     
@@ -111,10 +192,131 @@ class PreEvaluatePitchView: UIView {
     
   }
   
+  private func createErrorEMailLabel() {
+    
+    errorEMailLabel = UILabel.init(frame: CGRectZero)
+    errorEMailLabel.numberOfLines = 2
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 13.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.redColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Mail o fecha incorrecta",
+      attributes:[NSFontAttributeName:font!,
+        NSParagraphStyleAttributeName:style,
+        NSForegroundColorAttributeName:color
+      ]
+    )
+    
+    errorEMailLabel.attributedText = stringWithFormat
+    errorEMailLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (errorEMailLabel.frame.size.width / 2.0),
+                               y: writeDateOfCreationOfPitchView.frame.origin.y + writeDateOfCreationOfPitchView.frame.size.height + (10.0 * UtilityManager.sharedInstance.conversionHeight),
+                               width: errorEMailLabel.frame.size.width,
+                               height: errorEMailLabel.frame.size.height)
+    
+    errorEMailLabel.frame = newFrame
+    errorEMailLabel.alpha = 0.0
+    self.addSubview(errorEMailLabel)
+    
+  }
+  
+  @objc private func datePickerViewChanged(sender: UIDatePicker) {
+    
+    let dateFormatter = NSDateFormatter()
+    dateFormatter.locale = NSLocale(localeIdentifier: "es_MX")
+    dateFormatter.dateFormat = "dd/MMM/yyyy"
+    writeDateOfCreationOfPitchView.mainTextField.text = dateFormatter.stringFromDate(mainDatePicker.date)
+    
+  }
+  
   @objc private func nextButtonPressed() {
     
-    self.delegate?.savePitchAndFlipCard()
+    let isValidEmail = UtilityManager.sharedInstance.isValidEmail(writeNameAgencyOrBrandView.mainTextField.text!)
+    let isValidDate = UtilityManager.sharedInstance.isValidText(writeDateOfCreationOfPitchView.mainTextField.text!)
     
+    if isValidEmail == true && isValidDate == true{
+      
+      self.delegate?.savePitchAndFlipCard(writeNameAgencyOrBrandView.mainTextField.text!,
+                                          briefDate: writeDateOfCreationOfPitchView.mainTextField.text!)
+      
+    }else{
+      
+      self.showValidMailError()
+      
+    }
+    
+  }
+  
+  @objc private func okButtonPressed(sender: UIButton) {
+    
+    let dateFormatter = NSDateFormatter()
+    dateFormatter.locale = NSLocale(localeIdentifier: "es_MX")
+    dateFormatter.dateFormat = "dd/MMM/yyyy"
+    writeDateOfCreationOfPitchView.mainTextField.text = dateFormatter.stringFromDate(mainDatePicker.date)
+    
+    self.dismissKeyboard()
+    
+  }
+  
+  private func showValidMailError() {
+    
+//    self.removeAllErrorLabels()
+    nextButton.userInteractionEnabled = false
+    UIView.animateWithDuration(1.0,
+                               animations: {
+                                self.errorEMailLabel.alpha = 1.0
+    }) { (finished) in
+      if finished {
+        //                self.hideErrorMailLabel()
+        self.nextButton.userInteractionEnabled = true
+      }
+    }
+  }
+  
+  @objc private func hideErrorMailLabel() {
+    
+    UIView.animateWithDuration(0.3, animations: {
+      self.errorEMailLabel.alpha = 0.0
+    }) { (finished) in
+      if finished {
+        //                self.nextButton.userInteractionEnabled = true
+      }
+    }
+    
+  }
+  
+  private func dismissKeyboard() {
+    
+    self.endEditing(true)
+    
+  }
+  
+  //MARK: - UITextFieldDelegate 
+  
+  func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    
+    self.hideErrorMailLabel()
+    
+    return true
+  }
+  
+  
+  func textFieldShouldClear(textField: UITextField) -> Bool {
+    
+    self.hideErrorMailLabel()
+    
+    return true
+  }
+  
+  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    
+    hideErrorMailLabel()
+    
+    return true
   }
 
   

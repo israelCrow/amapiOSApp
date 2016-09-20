@@ -17,8 +17,20 @@ protocol CreateAddNewPitchAndWriteCategoryTypeViewControllerDelegate {
 class CreateAddNewPitchAndWriteCategoryTypeViewController: UIViewController, AddPitchAndWriteWhichCategoryIsViewDelegate {
   
   private var addPitchWriteWhichCategoryIsView: AddPitchAndWriteWhichCategoryIsView! = nil
+  private var projectPitchData: ProjectPitchModelData! = nil
   
   var delegateForShowTabBar: CreateAddNewPitchAndWriteCategoryTypeViewControllerDelegate?
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  init(newProjectPitchData: ProjectPitchModelData) {
+    
+    projectPitchData = newProjectPitchData
+    super.init(nibName: nil, bundle: nil)
+    
+  }
   
   override func loadView() {
     
@@ -52,14 +64,51 @@ class CreateAddNewPitchAndWriteCategoryTypeViewController: UIViewController, Add
   private func editNavigationController() {
     
     self.changeBackButtonItem()
+    self.changeNavigationBarTitle()
     self.changeNavigationRigthButtonItem()
     
   }
   
   private func changeBackButtonItem() {
     
-    let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
-    navigationItem.leftBarButtonItem = backButton
+    let backButton = UIBarButtonItem(title: VisualizePitchesConstants.CreateAddNewPitchAndWriteBrandNameViewController.navigationLeftButtonText,
+                                     style: UIBarButtonItemStyle.Plain,
+                                     target: self,
+                                     action: #selector(navigationLeftButtonPressed))
+    
+    let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
+                                    size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    
+    let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
+                                              NSForegroundColorAttributeName: UIColor.whiteColor()
+    ]
+    
+    backButton.setTitleTextAttributes(attributesDict, forState: .Normal)
+    
+    self.navigationItem.leftBarButtonItem = backButton
+    
+  }
+  
+  private func changeNavigationBarTitle() {
+    
+    let titleLabel = UILabel.init(frame: CGRectZero)
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 17.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.whiteColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: VisualizePitchesConstants.CreateAddNewPitchAndWriteBrandNameViewController.navigationBarTitleText,
+      attributes:[NSFontAttributeName:font!,
+        NSParagraphStyleAttributeName:style,
+        NSForegroundColorAttributeName:color
+      ]
+    )
+    titleLabel.attributedText = stringWithFormat
+    titleLabel.sizeToFit()
+    self.navigationItem.titleView = titleLabel
     
   }
   
@@ -97,6 +146,8 @@ class CreateAddNewPitchAndWriteCategoryTypeViewController: UIViewController, Add
     addPitchWriteWhichCategoryIsView = AddPitchAndWriteWhichCategoryIsView.init(frame: frameForCard)
     addPitchWriteWhichCategoryIsView.delegate = self
     
+    addPitchWriteWhichCategoryIsView.getAllSkillsFromServer()
+    
     self.view.addSubview(addPitchWriteWhichCategoryIsView)
     
   }
@@ -118,9 +169,15 @@ class CreateAddNewPitchAndWriteCategoryTypeViewController: UIViewController, Add
     
   }
   
-  @objc private func navigationRightButtonPressed() {
+  @objc private func navigationLeftButtonPressed() {
     
     self.popMyself()
+    
+  }
+  
+  @objc private func navigationRightButtonPressed() {
+    
+    self.navigationController?.popToRootViewControllerAnimated(true)
     
   }
   
@@ -133,17 +190,11 @@ class CreateAddNewPitchAndWriteCategoryTypeViewController: UIViewController, Add
   
   //MARK: - AddPitchAndWriteWhichCategoryIsViewDelegate
   
-  func createAddPitchAndShowPreEvaluatePitch() {
+  func createAddPitchAndShowPreEvaluatePitch(arrayOfCategoriesSelected: Array<PitchSkillCategory>) {
+  
+    projectPitchData.arrayOfPitchCategories = arrayOfCategoriesSelected
     
-    //after pitch is created
-    
-//    self.navigationController?.popToRootViewControllerAnimated(true)
-    
-    //CHECK HERE!!!!!
-    
-    let voidPitchData = PitchModelData()
-    
-    let preEvaluatePitch = PreEvaluatePitchViewController(newPitchData: voidPitchData)
+    let preEvaluatePitch = PreEvaluatePitchViewController(newPitchData: projectPitchData)
     self.navigationController?.pushViewController(preEvaluatePitch, animated: true)
     
   }

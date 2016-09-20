@@ -10,22 +10,21 @@ import UIKit
 
 protocol AddPitchAndWriteWhichCategoryIsViewDelegate {
   
-  func createAddPitchAndShowPreEvaluatePitch()
+  func createAddPitchAndShowPreEvaluatePitch(arrayOfCategoriesSelected: Array<PitchSkillCategory>)
   
 }
 
-class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, PitchCategoryTableViewCellWhenSelectionChangeDelegate {
   
   private var writeWhichCategoryIsName: UILabel! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
   private var mainTableView: UITableView! = nil
-  private var arrayOfFilteredCategories = [PitchCategory]()
-//  private var askPermissionLabel: UILabel! = nil
   private var addButton: UIButton! = nil
   
-  //IMPROVISE THE MAIN ARRAY
-  private var arrayOfAllCategories = [PitchCategory]()
-  //DELETE IN FUTURE
+  private var arrayOfAllCategories = [PitchSkillCategory]()
+  private var arrayOfFilteredCategories = [PitchSkillCategory]()
+  private var arrayOfSelectedCategories = [PitchSkillCategory]()
+  
   
   var delegate: AddPitchAndWriteWhichCategoryIsViewDelegate?
   
@@ -73,11 +72,11 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
   
   private func createSomeData() {
     
-    let firstCategory = PitchCategory(pitchCategoryName: "Categoría 1", isThisCategory: false)
-    let secondCategory = PitchCategory(pitchCategoryName: "Categoría 2", isThisCategory: false)
-    
-    arrayOfAllCategories.append(firstCategory)
-    arrayOfAllCategories.append(secondCategory)
+//    let firstCategory = PitchCategory(pitchCategoryName: "Categoría 1", isThisCategory: false)
+//    let secondCategory = PitchCategory(pitchCategoryName: "Categoría 2", isThisCategory: false)
+//    
+//    arrayOfAllCategories.append(firstCategory)
+//    arrayOfAllCategories.append(secondCategory)
     
     arrayOfFilteredCategories = arrayOfAllCategories
     
@@ -144,9 +143,10 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
     let frameForTableView = CGRect.init(x: 20.0 * UtilityManager.sharedInstance.conversionWidth,
                                         y: 217.0 * UtilityManager.sharedInstance.conversionHeight,
                                         width: 240.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        height: 222.0 * UtilityManager.sharedInstance.conversionHeight)
+                                        height: 195.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainTableView = UITableView.init(frame: frameForTableView)
+    mainTableView.backgroundColor = UIColor.clearColor()
     mainTableView.delegate = self
     mainTableView.dataSource = self
     mainTableView.registerClass(PitchCategoryTableViewCell.self, forCellReuseIdentifier: "cell")
@@ -211,8 +211,21 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
       ]
     )
     
+    let colorWhenDisabled = UIColor.whiteColor()
+    let styleWhenDisabled = NSMutableParagraphStyle()
+    styleWhenDisabled.alignment = NSTextAlignment.Center
+    
+    let stringWithFormatWhenDisabled = NSMutableAttributedString(
+      string: VisualizePitchesConstants.AddPitchAndWriteWhichCategoryIsView.addButtonText,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: styleWhenDisabled,
+        NSForegroundColorAttributeName: colorWhenDisabled
+      ]
+    )
+    
     addButton.setAttributedTitle(stringWithFormat, forState: .Normal)
-    addButton.backgroundColor = UIColor.blackColor()
+    addButton.setAttributedTitle(stringWithFormatWhenDisabled, forState: .Disabled)
+    addButton.backgroundColor = UIColor.grayColor()
     addButton.addTarget(self,
                         action: #selector(addButtonPressed),
                         forControlEvents: .TouchUpInside)
@@ -224,7 +237,7 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
                                      height: 70.0 * UtilityManager.sharedInstance.conversionHeight)
     
     addButton.frame = frameForButton
-    addButton.alpha = 0.0
+    addButton.enabled = false
     
     self.addSubview(addButton)
     
@@ -244,6 +257,7 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
     let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! PitchCategoryTableViewCell
     
     cell.changePitchCategoryData(arrayOfFilteredCategories[indexPath.row])
+    cell.delegateWhenSelectionChange = self
     cell.selectionStyle = UITableViewCellSelectionStyle.None
     
     return cell
@@ -274,8 +288,8 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
   
   private func filterCompaniesWithText(filterText: String) {
     
-    arrayOfFilteredCategories = arrayOfAllCategories.filter({ (categoryData) -> Bool in
-      return categoryData.pitchCategoryName.rangeOfString(filterText) != nil
+    arrayOfFilteredCategories = arrayOfAllCategories.filter({ (pitchSkillCategoryData) -> Bool in
+      return pitchSkillCategoryData.pitchSkillCategoryName.rangeOfString(filterText) != nil
     })
     
     mainTableView.reloadData()
@@ -336,13 +350,31 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
   
   @objc private func addButtonPressed() {
     
-    self.delegate?.createAddPitchAndShowPreEvaluatePitch()
+    self.getAllCategoriesSelected()
+    
+    self.delegate?.createAddPitchAndShowPreEvaluatePitch(arrayOfSelectedCategories)
     
   }
   
-  private func cellPressed(categorySelected: PitchCategory) {  //IN FUTURE CHANGE TO CATEGORY MODEL DATA
+  private func getAllCategoriesSelected() {
     
-    self.delegate?.createAddPitchAndShowPreEvaluatePitch()
+    arrayOfSelectedCategories.removeAll()
+    
+    for category in arrayOfAllCategories {
+      
+      if category.isThisCategory == true {
+        
+        arrayOfSelectedCategories.append(category)
+        
+      }
+      
+    }
+    
+  }
+  
+  private func cellPressed(categorySelected: PitchSkillCategory) {  //IN FUTURE CHANGE TO CATEGORY MODEL DATA
+    
+    //self.delegate?.createAddPitchAndShowPreEvaluatePitch()
     
   }
   
@@ -385,6 +417,126 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
     
     self.endEditing(true)
     
+  }
+  
+  func getAllSkillsFromServer() {
+    
+    RequestToServerManager.sharedInstance.requestToGetAllSkillsCategories {
+      jsonOfSkills in
+      
+      let json = jsonOfSkills as? [String:AnyObject]
+      
+      if json != nil {
+        
+        let categories = json!["skill_categories"] as? Array<[String:AnyObject]>
+        
+        if categories != nil {
+          
+          var positionInOriginalArray = 0
+          
+          for category in categories! {
+            
+            var categoryId:String!
+            if category["id"] as? Int != nil {
+              categoryId = String(category["id"] as? Int)
+            }
+            let categoryName = category["name"] as! String
+            
+            let skillsOfCategorie = category["skills"] as? Array<[String:AnyObject]>
+            
+            var newArrayOfSkills = [Skill]()
+            
+            for skillOfCategories in skillsOfCategorie! {
+              
+              let skillName = skillOfCategories["name"] as? String
+              var skillId: String!
+              if skillOfCategories["id"] as? Int != nil {
+                skillId = String(skillOfCategories["id"] as! Int)
+              }
+              let skillLevel = skillOfCategories["level"] as? Int
+              
+              let newSkill = Skill.init(id: skillId, nameSkill: skillName!, levelSkill: skillLevel)
+              newArrayOfSkills.append(newSkill)
+              
+            }
+            
+            var newPitchSkillCategory = PitchSkillCategory.init(newPitchSkillCategoryId: categoryId,
+              newSkillCategoryName: categoryName,
+              newIsThisCategory: false,
+              newSkills: newArrayOfSkills)
+            
+            newPitchSkillCategory.positionInOriginalArray = positionInOriginalArray
+            self.arrayOfAllCategories.append(newPitchSkillCategory)
+            
+            positionInOriginalArray = positionInOriginalArray + 1
+            
+          }
+          
+          self.arrayOfFilteredCategories = self.arrayOfAllCategories
+          self.mainTableView.reloadData()
+          
+        }
+        
+      }
+      
+    }
+    
+  }
+  
+  private func checkIfThereAreSelectedCatefories() {
+    
+    for category in arrayOfAllCategories {
+      
+      if category.isThisCategory == true {
+      
+        self.setButtonToEnabled()
+        return
+        
+      }
+      
+    }
+    
+    self.setButtonToDisabled()
+
+  }
+  
+  private func setButtonToEnabled() {
+    
+    UIView.animateWithDuration(0.25,
+      animations: {
+      
+        self.addButton.backgroundColor = UIColor.blackColor()
+      
+      }) { (finished) in
+        if finished == true {
+          
+          self.addButton.enabled = true
+          
+        }
+    }
+    
+  }
+  
+  private func setButtonToDisabled() {
+    
+    addButton.enabled = false
+    
+    UIView.animateWithDuration(0.25) {
+      
+      self.addButton.backgroundColor = UIColor.grayColor()
+      
+    }
+    
+  }
+  
+  //MARK: - PitchCategoryTableViewCellWhenSelectionChangeDelegate
+  
+  func valueOfPitchSkillCategoryChanged(cellWhoMadeChanges: PitchCategoryTableViewCell, newValueOfSelection: Bool) {
+    
+    arrayOfAllCategories[cellWhoMadeChanges.pitchCategoryData.positionInOriginalArray!].isThisCategory = newValueOfSelection
+    
+    self.checkIfThereAreSelectedCatefories()
+  
   }
   
 }
