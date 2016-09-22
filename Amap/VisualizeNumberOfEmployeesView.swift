@@ -75,11 +75,11 @@ class VisualizeNumberOfEmployeesView: UIView {
                                              height: 270.0 * UtilityManager.sharedInstance.conversionHeight)
     
     //Change the value of the next 'size' to make scrollViewAnimate
-    let sizeOfScrollViewContent = CGSize.init(width: frameForMainScrollView.size.width, height: frameForMainScrollView.size.height + (50.0 * UtilityManager.sharedInstance.conversionHeight))
+    //let sizeOfScrollViewContent = CGSize.init(width: frameForMainScrollView.size.width, height: frameForMainScrollView.size.height + (50.0 * UtilityManager.sharedInstance.conversionHeight))
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.clearColor()
-    mainScrollView.contentSize = sizeOfScrollViewContent
+    //mainScrollView.contentSize = sizeOfScrollViewContent
     mainScrollView.showsVerticalScrollIndicator = true
     
     self.addSubview(mainScrollView)

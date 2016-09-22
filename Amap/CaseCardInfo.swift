@@ -45,10 +45,21 @@ class CaseCardInfoView: UIView, PreviewVimeoYoutubeViewDelegate {
   private func initInterface() {
     self.backgroundColor = UIColor.whiteColor()
     
+    self.createTapForShowDetail()
     self.createCaseVideoPlayer()
     self.createCaseNameLabel()
     self.createTwoPointsButton()
   
+  }
+  
+  private func createTapForShowDetail() {
+    
+    let tapToShowDetail = UITapGestureRecognizer.init(target: self, action: #selector(delegateFlipCardAndShowPreviewCase))
+    tapToShowDetail.numberOfTapsRequired = 1
+    
+    self.userInteractionEnabled = true
+    self.addGestureRecognizer(tapToShowDetail)
+    
   }
   
   private func createCaseVideoPlayer() {

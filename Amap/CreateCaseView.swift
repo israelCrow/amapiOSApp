@@ -175,7 +175,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
                                     height: frameForMainScrollView.size.height + (65.0 * UtilityManager.sharedInstance.conversionHeight))
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
-    mainScrollView.showsVerticalScrollIndicator = false
+    mainScrollView.showsVerticalScrollIndicator = true
     mainScrollView.contentSize = newContentSize
     mainScrollView.scrollEnabled = false
     mainScrollView.backgroundColor = UIColor.whiteColor()

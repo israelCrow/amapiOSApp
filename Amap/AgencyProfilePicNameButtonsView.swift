@@ -27,6 +27,8 @@ class AgencyProfilePicNameButtonsView: UIView {
   private var websiteIconButton: UIButton! = nil
   private var locationIconButton: UIButton! = nil
   
+  private var arrayOfExistingButtons = [UIButton]()
+  
   var delegate: AgencyProfilePicNameButtonsViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
@@ -44,10 +46,33 @@ class AgencyProfilePicNameButtonsView: UIView {
     self.createContainerView()
     self.createAgencyProfilePicImageView()
     self.createAgencyNameLabel()
-    self.createMailIconButton()
-    self.createTelephoneIconButton()
-    self.createWebsiteIconButton()
-    self.createLocationIconButton()
+    
+    if AgencyModel.Data.contact_email != nil && UtilityManager.sharedInstance.isValidEmail(AgencyModel.Data.contact_email!){
+    
+      self.createMailIconButton()
+      
+    }
+    
+    if AgencyModel.Data.phone != nil && UtilityManager.sharedInstance.isValidText(AgencyModel.Data.phone){
+      
+      self.createTelephoneIconButton()
+      
+    }
+    
+    if AgencyModel.Data.website_url != nil && UIApplication.sharedApplication().canOpenURL(NSURL.init(string: AgencyModel.Data.website_url!)!) {
+     
+      self.createWebsiteIconButton()
+      
+    }
+    
+    if AgencyModel.Data.longitude != nil && AgencyModel.Data.latitude != nil {
+      
+      self.createLocationIconButton()
+      
+    }
+    
+    self.addAllExistingButtons()
+    
     self.createLineOfBottom()
     
   }
@@ -93,7 +118,14 @@ class AgencyProfilePicNameButtonsView: UIView {
   
   private func createAgencyNameLabel() {
     
-    agencyNameLabel = UILabel.init(frame: CGRectZero)
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 156.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    agencyNameLabel = UILabel.init(frame: frameForLabel)
+    agencyNameLabel.numberOfLines = 2
+    agencyNameLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIDisplay-Light",
                       size: 22.0 * UtilityManager.sharedInstance.conversionWidth)
@@ -112,7 +144,6 @@ class AgencyProfilePicNameButtonsView: UIView {
       string: agencyName,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
-        NSKernAttributeName: CGFloat(2.0),
         NSForegroundColorAttributeName: color
       ]
     )
@@ -142,7 +173,8 @@ class AgencyProfilePicNameButtonsView: UIView {
     mailIconButton.tag = 1
     mailIconButton.addTarget(self, action: #selector(mailIconPressed), forControlEvents:.TouchUpInside)
     
-    containerView.addSubview(mailIconButton)
+    //containerView.addSubview(mailIconButton)
+    arrayOfExistingButtons.append(mailIconButton)
     
   }
   
@@ -159,7 +191,8 @@ class AgencyProfilePicNameButtonsView: UIView {
     telephoneIconButton.tag = 2
     telephoneIconButton.addTarget(self, action: #selector(telephoneIconPressed), forControlEvents:.TouchUpInside)
     
-    containerView.addSubview(telephoneIconButton)
+//    containerView.addSubview(telephoneIconButton)
+    arrayOfExistingButtons.append(telephoneIconButton)
     
   }
   
@@ -176,7 +209,8 @@ class AgencyProfilePicNameButtonsView: UIView {
     websiteIconButton.tag = 3
     websiteIconButton.addTarget(self, action: #selector(websiteIconPressed), forControlEvents:.TouchUpInside)
     
-    containerView.addSubview(websiteIconButton)
+//    containerView.addSubview(websiteIconButton)
+    arrayOfExistingButtons.append(websiteIconButton)
     
   }
   
@@ -193,7 +227,51 @@ class AgencyProfilePicNameButtonsView: UIView {
     locationIconButton.tag = 4
     locationIconButton.addTarget(self, action: #selector(locationIconPressed), forControlEvents:.TouchUpInside)
     
-    containerView.addSubview(locationIconButton)
+//    containerView.addSubview(locationIconButton)
+    arrayOfExistingButtons.append(locationIconButton)
+    
+  }
+  
+  private func addAllExistingButtons() {
+    
+    var frameForButton = CGRect.init(x: 7.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 0.0,
+                                     width: 0.0,
+                                     height: 0.0)
+    
+    for index in 0..<(arrayOfExistingButtons.count - 1) {
+      
+      
+      let actualButton = arrayOfExistingButtons[index]
+      
+      frameForButton = CGRect.init(x: frameForButton.origin.x,
+                                   y: actualButton.frame.origin.y,
+                                   width: actualButton.frame.size.width,
+                                   height: actualButton.frame.size.height)
+      
+      actualButton.frame = frameForButton
+      containerView.addSubview(actualButton)
+  
+      frameForButton = CGRect.init(x: frameForButton.origin.x + (64.0 * UtilityManager.sharedInstance.conversionWidth),
+                                   y: 0.0,
+                               width: 0.0,
+                              height: 0.0)
+      
+    }
+    
+    if arrayOfExistingButtons.last != nil {
+      
+      let actualButton = arrayOfExistingButtons.last!
+      
+      frameForButton = CGRect.init(x: frameForButton.origin.x,
+                                   y: actualButton.frame.origin.y,
+                                   width: actualButton.frame.size.width,
+                                   height: actualButton.frame.size.height)
+      
+      actualButton.frame = frameForButton
+      containerView.addSubview(actualButton)
+      
+    }
     
   }
   

@@ -232,12 +232,17 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
       self.showAskPermissionLabel()
       self.showAddButton()
       
+    } else {
+      
+      self.showMainTableView()
+      self.hideAskPermissionLabel()
+      self.hideAddButton()
+    
+      arrayOfAllProjects = newArrayOfAllProjectsPitches
+      arrayOfFilteredProjects = arrayOfAllProjects
+      mainTableView.reloadData()
+    
     }
-    
-    arrayOfAllProjects = newArrayOfAllProjectsPitches
-    arrayOfFilteredProjects = arrayOfAllProjects
-    mainTableView.reloadData()
-    
     
   }
   
@@ -287,10 +292,15 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
   
   @objc private func textDidChange(textField: UITextField) {
     
-    if textField.text! == "" || textField.text == nil {
+    if textField.text! == "" || textField.text == nil || textField.text! == " " {
       
       //CHANGE ARRAY OF ALL PROJECTS
       arrayOfFilteredProjects = arrayOfAllProjects
+
+      self.showMainTableView()
+      self.hideAskPermissionLabel()
+      self.hideAddButton()
+      
       mainTableView.reloadData()
       //      self.hideMainTableView()
       
@@ -402,7 +412,7 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
     
   }
   
-  private func cellPressed(selectedProjectData: ProjectPitchModelData) {  //IN FUTURE CHANGE TO PROJECT MODEL DATA
+  private func cellPressed(selectedProjectData: ProjectPitchModelData) { 
     
     self.delegate?.pushCreateAddNewPitchAndWhichCategoryIsViewController(nil,
       selectedProjectPitchData: selectedProjectData)

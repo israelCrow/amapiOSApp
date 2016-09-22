@@ -57,7 +57,7 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     let frameForContainerView = CGRect.init(x: 0.0,
                                             y: 0.0,
                                             width: UIScreen.mainScreen().bounds.width,
-                                            height: 250.0)
+                                            height: 175.0)
     
     containerViewForPicker = UIView.init(frame: frameForContainerView)
     containerViewForPicker.backgroundColor = UIColor.clearColor()
@@ -72,7 +72,7 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     let frameForPicker = CGRect.init(x: 0.0,
                                      y: button.frame.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight),
                                  width: UIScreen.mainScreen().bounds.width,
-                                height: 250.0 * UtilityManager.sharedInstance.conversionHeight)
+                                height: 150.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainDatePicker = UIDatePicker.init(frame: frameForPicker)
     mainDatePicker.datePickerMode = .Date
@@ -226,10 +226,12 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
   
   @objc private func datePickerViewChanged(sender: UIDatePicker) {
     
-    let dateFormatter = NSDateFormatter()
-    dateFormatter.locale = NSLocale(localeIdentifier: "es_MX")
-    dateFormatter.dateFormat = "dd/MMM/yyyy"
-    writeDateOfCreationOfPitchView.mainTextField.text = dateFormatter.stringFromDate(mainDatePicker.date)
+    let dateFromPicker = mainDatePicker.date
+    let calendar = NSCalendar.currentCalendar()
+    let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
+    
+    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
+    writeDateOfCreationOfPitchView.mainTextField.text = stringDate
     
   }
   
@@ -253,10 +255,12 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
   
   @objc private func okButtonPressed(sender: UIButton) {
     
-    let dateFormatter = NSDateFormatter()
-    dateFormatter.locale = NSLocale(localeIdentifier: "es_MX")
-    dateFormatter.dateFormat = "dd/MMM/yyyy"
-    writeDateOfCreationOfPitchView.mainTextField.text = dateFormatter.stringFromDate(mainDatePicker.date)
+    let dateFromPicker = mainDatePicker.date
+    let calendar = NSCalendar.currentCalendar()
+    let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
+    
+    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
+    writeDateOfCreationOfPitchView.mainTextField.text = stringDate
     
     self.dismissKeyboard()
     

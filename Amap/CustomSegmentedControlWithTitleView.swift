@@ -45,13 +45,20 @@ class CustomSegmentedControlWithTitleView: UIView {
     
     if textOfTitleString != nil {
       
-      titleLabel = UILabel.init(frame: CGRectZero)
+      let frameForLabel = CGRect.init(x: 0.0,
+                                      y: 0.0,
+                                      width: 210.0 * UtilityManager.sharedInstance.conversionWidth,
+                                      height: CGFloat.max)
+      
+      titleLabel = UILabel.init(frame: frameForLabel)
+      titleLabel!.numberOfLines = 0
+      titleLabel!.lineBreakMode = .ByWordWrapping
       
       let font = UIFont(name: "SFUIText-Medium",
                         size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
       let color = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.25)
       let style = NSMutableParagraphStyle()
-      style.alignment = NSTextAlignment.Center
+      style.alignment = NSTextAlignment.Left
       
       let stringWithFormat = NSMutableAttributedString(
         string: textOfTitleString!,
@@ -157,8 +164,6 @@ class CustomSegmentedControlWithTitleView: UIView {
     mainSegmentedControl.layer.borderColor = UIColor.clearColor().CGColor
     mainSegmentedControl.layer.borderWidth = 0.0
     
-    
-    
     mainSegmentedControl.setDividerImage(self.imageWithColor(UIColor.clearColor()), forLeftSegmentState: UIControlState.Normal, rightSegmentState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
     
     mainSegmentedControl.setBackgroundImage(self.imageWithColor(UIColor.clearColor()), forState:UIControlState.Normal, barMetrics:UIBarMetrics.Default)
@@ -213,6 +218,12 @@ class CustomSegmentedControlWithTitleView: UIView {
     let image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image
+    
+  }
+  
+  func returnValueSelectedFromSegmentControl() -> String {
+    
+    return arrayOfSegments[mainSegmentedControl.selectedSegmentIndex]
     
   }
   

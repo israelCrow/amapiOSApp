@@ -96,7 +96,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     mainScrollView.contentSize = sizeForContentScrollView
     mainScrollView.directionalLockEnabled = true
     mainScrollView.alwaysBounceVertical = true
-    mainScrollView.showsVerticalScrollIndicator = false
+    mainScrollView.showsVerticalScrollIndicator = true
     self.addSubview(mainScrollView)
     
   }
@@ -238,6 +238,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     
     agencyNameView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: nil, image: nil)
     agencyNameView.mainTextField.placeholder = "Nombre de la agencia"
+    agencyNameView.mainTextField.tag = 1
     
     if AgencyModel.Data.name != nil {
       
@@ -263,6 +264,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                                         title: AgencyProfileEditConstants.ProfileView.agencyPhoneTitleText,
                                                         image: "iconPhone")
     agencyPhoneView.mainTextField.placeholder = "00 00000000"
+    agencyPhoneView.mainTextField.tag = 2
     
     if AgencyModel.Data.phone != nil {
       
@@ -270,36 +272,36 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
       
     }
     
-    agencyPhoneView.mainTextField.keyboardType = .NumberPad
+    agencyPhoneView.mainTextField.keyboardType = .PhonePad
     agencyPhoneView.backgroundColor = UIColor.clearColor()
     agencyPhoneView.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyPhoneView)
     
   }
   
-  private func createAgencyContactView() {
-    
-    let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: agencyPhoneView.frame.origin.y + agencyPhoneView.frame.size.height + (16.0 * UtilityManager.sharedInstance.conversionHeight),
-                                         width: self.frame.size.width,
-                                         height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
-    
-    agencyContactView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
-                                                        title: AgencyProfileEditConstants.ProfileView.agencyContactTitleText,
-                                                        image: nil)
-    agencyContactView.mainTextField.placeholder = "Nombre de contacto"
-    
-    if AgencyModel.Data.contact_name != nil {
-      
-      agencyContactView.mainTextField.text = AgencyModel.Data.contact_name!
-      
-    }
-    
-    agencyContactView.backgroundColor = UIColor.clearColor()
-    agencyContactView.mainTextField.delegate = self
-    self.mainScrollView.addSubview(agencyContactView)
-    
-  }
+//  private func createAgencyContactView() {
+//    
+//    let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+//                                         y: agencyPhoneView.frame.origin.y + agencyPhoneView.frame.size.height + (16.0 * UtilityManager.sharedInstance.conversionHeight),
+//                                         width: self.frame.size.width,
+//                                         height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
+//    
+//    agencyContactView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
+//                                                        title: AgencyProfileEditConstants.ProfileView.agencyContactTitleText,
+//                                                        image: nil)
+//    agencyContactView.mainTextField.placeholder = "Nombre de contacto"
+//    
+//    if AgencyModel.Data.contact_name != nil {
+//      
+//      agencyContactView.mainTextField.text = AgencyModel.Data.contact_name!
+//      
+//    }
+//    
+//    agencyContactView.backgroundColor = UIColor.clearColor()
+//    agencyContactView.mainTextField.delegate = self
+//    self.mainScrollView.addSubview(agencyContactView)
+//    
+//  }
   
   private func createAgencyEMailView() {
   
@@ -312,6 +314,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                                           title: AgencyProfileEditConstants.ProfileView.agencyMailContactTitleText,
                                                           image: "iconMail")
     agencyEMailView.mainTextField.placeholder = "Email de contacto"
+    agencyEMailView.mainTextField.tag = 3
     
     if AgencyModel.Data.contact_email != nil {
       
@@ -336,6 +339,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                                         title: AgencyProfileEditConstants.ProfileView.agencyAddressTitleText,
                                                         image: "iconLocation")
     agencyAddressView.mainTextField.placeholder = "Dirección de contacto"
+    agencyAddressView.mainTextField.tag = 4
     
     if AgencyModel.Data.address != nil {
       
@@ -343,7 +347,6 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
       
     }
     
-    agencyAddressView.mainTextField.tag = 9
     agencyAddressView.backgroundColor = UIColor.clearColor()
     agencyAddressView.mainTextField.delegate = self
     self.mainScrollView.addSubview(agencyAddressView)
@@ -361,6 +364,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                                           title: AgencyProfileEditConstants.ProfileView.agencyWebSiteTitleText,
                                                           image: "iconWebsite")
     agencyWebsiteView.mainTextField.placeholder = "http://www.ejemplo.com"
+    agencyWebsiteView.mainTextField.tag = 5
     
     if AgencyModel.Data.website_url != nil {
       
@@ -385,6 +389,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                                           title: AgencyProfileEditConstants.ProfileView.agencyNumberOfEmployeTitleText,
                                                           image: "smallGroup")
     agencyNumberOfEmployees.mainTextField.placeholder = "888"
+    agencyNumberOfEmployees.mainTextField.tag = 6
     
     if AgencyModel.Data.num_employees != nil {
       
@@ -395,6 +400,27 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     agencyNumberOfEmployees.mainTextField.keyboardType = .NumberPad
     agencyNumberOfEmployees.backgroundColor = UIColor.clearColor()
     agencyNumberOfEmployees.mainTextField.delegate = self
+    
+    let keyboardDoneButtonView = UIToolbar.init()
+    keyboardDoneButtonView.sizeToFit()
+    
+    let doneButton = UIBarButtonItem(title: "Ok", style: UIBarButtonItemStyle.Done, target: self, action: #selector(dismissKeyboard))
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 20.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    doneButton.setTitleTextAttributes([NSFontAttributeName: font!,
+                                      NSParagraphStyleAttributeName: style,
+                                      NSForegroundColorAttributeName: color],
+                                      forState: .Normal)
+    
+    keyboardDoneButtonView.items = [doneButton]
+    agencyNumberOfEmployees.mainTextField.inputAccessoryView = keyboardDoneButtonView
+    
+    
     self.mainScrollView.addSubview(agencyNumberOfEmployees)
     
   }
@@ -523,8 +549,24 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     
   }
   
+  func textFieldShouldReturn(textField: UITextField) -> Bool {
+    
+    let nextTag: NSInteger = textField.tag + 1;
+    // Try to find next responder
+    if let nextResponder: UIResponder! = textField.superview?.superview?.viewWithTag(nextTag){
+      
+      nextResponder.becomeFirstResponder()
+      
+    } else {
+      // Not found, so remove keyboard.
+      self.dismissKeyboard(textField)
+    }
+    return false
+    
+  }
+  
   func textFieldDidBeginEditing(textField: UITextField) {
-    if textField.tag != 9 {
+    if textField.tag != 4 {
       
       self.hideResultText()
       

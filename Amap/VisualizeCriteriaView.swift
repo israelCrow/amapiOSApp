@@ -32,12 +32,18 @@ class VisualizeCriteriaView: UIView {
   
   private func initSomeValues() {
     
-    arrayOfCriteriaString.append(AgencyProfileEditConstants.CriteriaView.presentationTimeLabelText)
-    arrayOfCriteriaString.append(AgencyProfileEditConstants.CriteriaView.minimumBudgetLabelText)
-    arrayOfCriteriaString.append(AgencyProfileEditConstants.CriteriaView.deliverIntelectualPropertyLabelText)
-    arrayOfCriteriaString.append(AgencyProfileEditConstants.CriteriaView.onlyPitchesPaymentsLabelText)
-    arrayOfCriteriaString.append(AgencyProfileEditConstants.CriteriaView.haveToKnowTheProjectBudgetLabelText)
+    for criterion in AgencyModel.Data.criteria! {
+      
+      arrayOfCriteriaString.append(criterion.name)
+      
+    }
     
+//    arrayOfCriteriaString.append(AgencyProfileEditConstants.CriteriaView.presentationTimeLabelText)
+//    arrayOfCriteriaString.append(AgencyProfileEditConstants.CriteriaView.minimumBudgetLabelText)
+//    arrayOfCriteriaString.append(AgencyProfileEditConstants.CriteriaView.deliverIntelectualPropertyLabelText)
+//    arrayOfCriteriaString.append(AgencyProfileEditConstants.CriteriaView.onlyPitchesPaymentsLabelText)
+//    arrayOfCriteriaString.append(AgencyProfileEditConstants.CriteriaView.haveToKnowTheProjectBudgetLabelText)
+//    
   }
   
   private func createInterface() {

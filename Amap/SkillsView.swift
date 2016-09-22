@@ -84,6 +84,7 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
     collapsibleTableView.backgroundColor = UIColor.whiteColor()
     collapsibleTableView.delegate = self
     collapsibleTableView.dataSource = self
+    collapsibleTableView.showsVerticalScrollIndicator = true
     collapsibleTableView.registerClass(CollapsibleTableViewHeader.self, forCellReuseIdentifier: "header")
     collapsibleTableView.registerClass(CustomSkillTableViewCell.self, forCellReuseIdentifier: "cell")
     self.addSubview(collapsibleTableView)
@@ -189,6 +190,8 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
   
   func getAllSkillsFromServer() {
     
+    UtilityManager.sharedInstance.showLoader()
+    
     RequestToServerManager.sharedInstance.requestToGetAllSkillsCategories {
       jsonOfSkills in
       
@@ -240,6 +243,8 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
         }
         
       }
+      
+      UtilityManager.sharedInstance.hideLoader()
       
     }
     

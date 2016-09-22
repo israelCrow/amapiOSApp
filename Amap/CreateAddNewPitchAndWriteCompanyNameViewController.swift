@@ -182,6 +182,8 @@ class CreateAddNewPitchAndWriteCompanyNameViewController: UIViewController, AddP
   
   private func requestForAllCompanies() {
     
+    UtilityManager.sharedInstance.showLoader()
+    
     RequestToServerManager.sharedInstance.requestToGetAllCompanies {
       
       allCompanies in
@@ -199,12 +201,18 @@ class CreateAddNewPitchAndWriteCompanyNameViewController: UIViewController, AddP
 
     if newCompanyNameToCreate != nil && companySelected == nil {
       
+      UtilityManager.sharedInstance.showLoader()
+      
       RequestToServerManager.sharedInstance.requestToCreateCompany(newCompanyNameToCreate, actionsToMakeAfterSuccesfullCreateNewCompany: { newCompanyCreated in
         
         print(newCompanyCreated)
         
+        UtilityManager.sharedInstance.hideLoader()
+        
         let createAndWriteBrand = CreateAddNewPitchAndWriteBrandNameViewController(newCompanyData: newCompanyCreated)
         self.navigationController?.pushViewController(createAndWriteBrand, animated: true)
+        
+        
         
       })
     

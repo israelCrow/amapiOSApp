@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CreateAccountViewDelegate{
-    func requestCreateAccount(email:String, agency:String)
+  func requestCreateAccount(email:String, agency:String, actionToMakeWhenFinished: ()->Void)
 }
 
 class CreateAccountView: UIView, UITextFieldDelegate {
@@ -475,7 +475,13 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         let nameValid = UtilityManager.sharedInstance.isValidText(nameTextField.text!)
         
         if mailValid == true && nameValid == true {
-            self.delegate?.requestCreateAccount(eMailTextField.text!, agency: nameTextField.text!)
+          
+          
+          self.delegate?.requestCreateAccount(eMailTextField.text!.lowercaseString, agency: nameTextField.text!){
+            
+            UtilityManager.sharedInstance.hideLoader()
+            
+          }
         } else
             if mailValid == false && nameValid == true {
                 self.showValidMailError()
@@ -497,7 +503,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
                                    animations: {
                                     self.errorEMailLabel.alpha = 1.0
         }) { (finished) in
-            if finished {
+            if finished == true{
                 self.askPasswordButton.userInteractionEnabled = true
 //                self.hideErrorMailLabel()
             }

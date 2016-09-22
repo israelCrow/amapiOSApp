@@ -131,6 +131,7 @@
 		AA7F58E01D90485D0057F67B /* CustomTextFieldWithTitleAndPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F58DF1D90485D0057F67B /* CustomTextFieldWithTitleAndPickerView.swift */; };
 		AA7F58E21D9066C40057F67B /* ProjectPitchModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F58E11D9066C40057F67B /* ProjectPitchModelData.swift */; };
 		AA7F58E61D90852C0057F67B /* PitchSkillCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F58E51D90852C0057F67B /* PitchSkillCategory.swift */; };
+		AA80C2731D917B3D00087DC0 /* CriteriaModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA80C2721D917B3D00087DC0 /* CriteriaModelData.swift */; };
 		AA87B7611D88540300BCA3E6 /* PreEvaluatePitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA87B7601D88540300BCA3E6 /* PreEvaluatePitchViewController.swift */; };
 		AA87B7641D8857C000BCA3E6 /* PreEvaluatePitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA87B7631D8857C000BCA3E6 /* PreEvaluatePitchView.swift */; };
 		AA87B7691D8865E200BCA3E6 /* SuccessfullyCreationOfPitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA87B7681D8865E200BCA3E6 /* SuccessfullyCreationOfPitchView.swift */; };
@@ -272,6 +273,7 @@
 		AA7F58DF1D90485D0057F67B /* CustomTextFieldWithTitleAndPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextFieldWithTitleAndPickerView.swift; sourceTree = "<group>"; };
 		AA7F58E11D9066C40057F67B /* ProjectPitchModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectPitchModelData.swift; sourceTree = "<group>"; };
 		AA7F58E51D90852C0057F67B /* PitchSkillCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchSkillCategory.swift; sourceTree = "<group>"; };
+		AA80C2721D917B3D00087DC0 /* CriteriaModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriteriaModelData.swift; sourceTree = "<group>"; };
 		AA87B7601D88540300BCA3E6 /* PreEvaluatePitchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreEvaluatePitchViewController.swift; sourceTree = "<group>"; };
 		AA87B7631D8857C000BCA3E6 /* PreEvaluatePitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreEvaluatePitchView.swift; sourceTree = "<group>"; };
 		AA87B7681D8865E200BCA3E6 /* SuccessfullyCreationOfPitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessfullyCreationOfPitchView.swift; sourceTree = "<group>"; };
@@ -417,6 +419,7 @@
 				AA8997961D89CA5A009513E3 /* CompanyModelData.swift */,
 				AA8997981D89CB09009513E3 /* BrandModelData.swift */,
 				AA7F58E11D9066C40057F67B /* ProjectPitchModelData.swift */,
+				AA80C2721D917B3D00087DC0 /* CriteriaModelData.swift */,
 			);
 			name = ModelData;
 			sourceTree = "<group>";
@@ -1129,6 +1132,7 @@
 				AA92D6401D50EF7400CE7D95 /* LoginViewController.swift in Sources */,
 				047818A91D5E2E6700BB498C /* CustomSwitchView.swift in Sources */,
 				AA8997971D89CA5A009513E3 /* CompanyModelData.swift in Sources */,
+				AA80C2731D917B3D00087DC0 /* CriteriaModelData.swift in Sources */,
 				044F89D91D6383D200AA7FF3 /* ProfileView.swift in Sources */,
 				AA7495731D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift in Sources */,
 				045F5C281D650CE100F0C077 /* CasesView.swift in Sources */,

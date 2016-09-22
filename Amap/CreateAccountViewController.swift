@@ -53,15 +53,32 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
     }
     
     private func changeBackButtonItem() {
-        let imageBackButton = UIImage.init(named: "backButton")?.imageWithRenderingMode(.AlwaysOriginal)
-        
-        let backButton = UIBarButtonItem.init(image: imageBackButton,
-                                              style: .Plain,
-                                              target: self,
-                                              action: #selector(backButtonPressed)
-        )
-        
-        self.navigationItem.setLeftBarButtonItem(backButton, animated: false)
+//        let imageBackButton = UIImage.init(named: "backButton")?.imageWithRenderingMode(.AlwaysOriginal)
+//        
+//        let backButton = UIBarButtonItem.init(image: imageBackButton,
+//                                              style: .Plain,
+//                                              target: self,
+//                                              action: #selector(backButtonPressed)
+//        )
+//        
+//        self.navigationItem.setLeftBarButtonItem(backButton, animated: false)
+      
+      let backButton = UIBarButtonItem(title: VisualizePitchesConstants.CreateAddNewPitchAndWriteBrandNameViewController.navigationLeftButtonText,
+                                       style: UIBarButtonItemStyle.Plain,
+                                       target: self,
+                                       action: #selector(backButtonPressed))
+      
+      let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
+                                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+      
+      let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
+                                                NSForegroundColorAttributeName: UIColor.whiteColor()
+      ]
+      
+      backButton.setTitleTextAttributes(attributesDict, forState: .Normal)
+      
+      self.navigationItem.leftBarButtonItem = backButton
+      
     }
     
     private func changeNavigationBarTitle() {
@@ -224,7 +241,7 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
     }
     
     //MARK: - CreateAccountViewDelegate
-    func requestCreateAccount(email: String, agency: String) {
+  func requestCreateAccount(email: String, agency: String, actionToMakeWhenFinished: () -> Void) {
         let urlToRequest2 = "https://amap-dev.herokuapp.com/api/new_user_requests"
         
         let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest2)!)
@@ -239,34 +256,52 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
             "new_user_request" :
               [ "user_type" : 2, //Change with buttons
                 "email" : email,
-                "agency" : agency
+                "agency_brand" : agency
                 ]
         ]
         
         requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(values, options: [])
-        
+      
+        UtilityManager.sharedInstance.showLoader()
+      
         Alamofire.request(requestConnection)
             .responseJSON{ response in
                 if response.response?.statusCode >= 200 && response.response?.statusCode <= 300 {
-                    
+            
+                    actionToMakeWhenFinished()
                     self.flipCardToSuccess()
+                  
                     
                 }else
                   if response.response?.statusCode == 422 {
                     
+                    actionToMakeWhenFinished()
+                    
                     let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
                     let error = json["errors"] as? [String:AnyObject]
-                    let stringError = error!["email"] as? [AnyObject]
-                    let errorinString = stringError![0] as? String
                     
-                    if errorinString == "Ya existe una cuenta con ese email" {
-                                self.flipCardToFailedExistingAccount()
-                    }else
-                       if errorinString == "Ya existe una solicitud con ese email" {
-                         self.flipCardFailedCreateAccountProcessAlreadyBegun()
-                        }
+                    if error != nil {
+                    
+                      let stringError = error!["email"] as? [AnyObject]
+                      
+                      if stringError != nil {
+                      
+                        let errorinString = stringError![0] as? String
 
-                  }
+                        if errorinString == "Ya existe una cuenta con ese email" || errorinString == "Ya existe un usuario de tu agencia registrado" {
+                          self.flipCardToFailedExistingAccount()
+                        }else
+                          if errorinString == "Ya existe una solicitud con ese email" {
+                            self.flipCardFailedCreateAccountProcessAlreadyBegun()
+                          }else { actionToMakeWhenFinished() }
+
+                      }
+                        
+                    }
+                    
+                  } else { //if not status code 200 or 422, so is a error not controled
+                    actionToMakeWhenFinished()
+              }
            }
     }
     

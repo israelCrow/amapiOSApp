@@ -34,6 +34,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   private var rightButton: UIButton! = nil
   
   private var actualPage: Int! = 0
+  private var numberOfPageToMove: Int! = nil
   
   var delegate: VisualizeAgencyProfileViewControllerDelegate?
   
@@ -265,20 +266,14 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     scrollViewFrontFlipCard.addSubview(skillsView)
     skillsView.getAllSkillsFromServer()
     skillsView.delegate = self
-
-    
-      
-      
-      
-      
-    
-    
-    
-    
-    
-    
  
     frontViewOfClipCard.addSubview(scrollViewFrontFlipCard)
+    
+    if numberOfPageToMove != nil {
+      
+      self.moveScrollViewToPageToShow()
+      
+    }
     
   }
 
@@ -316,7 +311,12 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     if actualPage == 0 {
       self.hideLeftButtonOfMainScrollView()
-    }
+    }else
+      if actualPage == kNumberOfCardsInScrollViewMinusOne {
+      
+          self.hideRightButtonOfMainScrollView()
+        
+      }
     
     flipCard.addSubview(leftButton)
     flipCard.addSubview(rightButton)
@@ -328,8 +328,39 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   @objc private func pushEditAgencyProfile() {
     
     self.requestToHideTapBar()
+    
+    var pageToShow = 0
+    
+    switch actualPage {
+    case 0:
+      pageToShow = 0
+      break
+    
+    case 1:
+      pageToShow = 1
+      break
+      
+    case 2:
+      pageToShow = 2
+      break
+      
+    case 3:
+      pageToShow = 5
+      break
+      
+    case 4:
+      pageToShow = 3
+      break
+      
+    case 5:
+      pageToShow = 4
+      break
+
+    default:
+      pageToShow = 0
+    }
   
-    let editStuffAgency = EditAgencyProfileViewController()
+    let editStuffAgency = EditAgencyProfileViewController(pageOfCardToShow: pageToShow)
     editStuffAgency.delegate = self
     self.navigationController?.pushViewController(editStuffAgency, animated: true)
     
@@ -338,6 +369,12 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   private func requestToHideTapBar() {
     
     self.delegate?.requestToHideTabBarFromVisualizeAgencyProfileViewControllerDelegate()
+    
+  }
+  
+  func pageOfCardToShow(numberOfPageToMove: Int) {
+    
+    self.numberOfPageToMove = numberOfPageToMove
     
   }
   
@@ -428,6 +465,30 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
   }
   
+  private func moveScrollViewToPageToShow() {
+    
+    actualPage = numberOfPageToMove
+    
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    
+    let pointToMove = CGPoint.init(x: widthOfCard * CGFloat(numberOfPageToMove), y: 0.0)
+    
+    scrollViewFrontFlipCard.setContentOffset(pointToMove, animated: false)
+    
+    if numberOfPageToMove == kNumberOfCardsInScrollViewMinusOne {
+      
+      self.hideRightButtonOfMainScrollView()
+      
+    } else
+    
+      if numberOfPageToMove == 0 {
+       
+        self.hideLeftButtonOfMainScrollView()
+        
+      }
+    
+  }
+  
   private func hideLeftButtonOfMainScrollView() {
     
     UIView.animateWithDuration(0.35){
@@ -481,7 +542,11 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(true)
     
+    UIView.setAnimationsEnabled(true)
+    
     if flipCard != nil {
+      
+//      UtilityManager.sharedInstance.hideLoader()
       
       flipCard.removeFromSuperview()
       flipCard = nil

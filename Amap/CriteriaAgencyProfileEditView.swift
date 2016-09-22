@@ -41,13 +41,13 @@ class CriteriaAgencyProfileEditView: UIView {
     
     self.createCriteriaLabel()
     self.createMainScrollView()
-    self.createPresentationTimeCriterion()
-    self.createMinimumBudgetCriterion()
-    self.createDeliverIntelectualPropertyCriterion()
-    self.createOnlyPitchesPaymentsCriterion()
-    self.createHaveToKnowTheProjectBudgetCriterion()
+//    self.createPresentationTimeCriterion()
+//    self.createMinimumBudgetCriterion()
+//    self.createDeliverIntelectualPropertyCriterion()
+//    self.createOnlyPitchesPaymentsCriterion()
+//    self.createHaveToKnowTheProjectBudgetCriterion()
     
-    self.addAllLabels()
+//    self.addAllLabels()
     
   }
   
@@ -63,7 +63,7 @@ class CriteriaAgencyProfileEditView: UIView {
    
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.contentSize = sizeOfScrollViewContent
-    mainScrollView.showsVerticalScrollIndicator = false
+    mainScrollView.showsVerticalScrollIndicator = true
     
     self.addSubview(mainScrollView)
   
@@ -192,6 +192,67 @@ class CriteriaAgencyProfileEditView: UIView {
       mainScrollView.addSubview(nextCriterion)
     }
     
+    
+  }
+  
+  func getAllCriterionsFromServer() {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToGetAllCriterions { (criteria) in
+      
+      for criterion in criteria {
+        
+        let frameForNewCriterion = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
+          y: 14.0 * UtilityManager.sharedInstance.conversionHeight,
+          width: 220 * UtilityManager.sharedInstance.conversionWidth,
+          height: 56 * UtilityManager.sharedInstance.conversionHeight)
+        
+        let criterionView = CriterionView.init(frame: frameForNewCriterion,
+          textLabel: criterion.name,
+          valueOfSwitch: false) //change this in future
+        
+        criterionView.adaptSize()
+        criterionView.criterionId = criterion.id
+        
+        self.arrayOfLabels.append(criterionView)
+        
+        UtilityManager.sharedInstance.hideLoader()
+        
+      }
+      
+      self.addAllLabels()
+      
+    }
+    
+  }
+  
+  func saveCriterionsSelected() {
+    
+    var arrayCriteria = [String]()
+    
+    for criterionView in arrayOfLabels {
+      
+      if criterionView.getValueOfSwitch() == true {
+        
+        arrayCriteria.append(criterionView.criterionId)
+        
+      }
+      
+    }
+    
+    let params = ["auth_token" : UserSession.session.auth_token,
+                  "id" : AgencyModel.Data.id,
+                  "criteria" : arrayCriteria
+                 ]
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToSaveDataFromCriterions(params as! [String : AnyObject]) {
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+    }
     
   }
   

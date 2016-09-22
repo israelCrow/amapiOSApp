@@ -148,6 +148,8 @@ class CreateAddNewPitchAndWriteProjectNameViewController: UIViewController, AddP
     
     self.view.addSubview(addPitchWriteProjectName)
     
+    UtilityManager.sharedInstance.showLoader()
+    
     RequestToServerManager.sharedInstance.requestToGetAllProjectsPitches(brandData.id) { allProjects in
       
       self.addPitchWriteProjectName.setArrayOfAllProjectsPitches(allProjects)
@@ -199,11 +201,17 @@ class CreateAddNewPitchAndWriteProjectNameViewController: UIViewController, AddP
   
     if newProjectPitchData != nil && selectedProjectPitchData == nil {
       
+      newProjectPitchData!.brandData = brandData
+      newProjectPitchData!.companyData = companyData
+      
       let createAndWriteWhichCategoryIs = CreateAddNewPitchAndWriteCategoryTypeViewController(newProjectPitchData: newProjectPitchData!)
       self.navigationController?.pushViewController(createAndWriteWhichCategoryIs, animated: true)
       
     }else
       if newProjectPitchData == nil && selectedProjectPitchData != nil {
+        
+        selectedProjectPitchData!.brandData = brandData
+        selectedProjectPitchData!.companyData = companyData
       
         let createAndWriteWhichCategoryIs = CreateAddNewPitchAndWriteCategoryTypeViewController(newProjectPitchData: selectedProjectPitchData!)
         self.navigationController?.pushViewController(createAndWriteWhichCategoryIs, animated: true)

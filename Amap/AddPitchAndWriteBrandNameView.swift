@@ -310,9 +310,14 @@ class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDat
   
   @objc private func textDidChange(textField: UITextField) {
     
-    if textField.text! == "" || textField.text == nil {
+    if textField.text! == "" || textField.text == nil || textField.text! == " "{
       
       arrayOfFilteredBrands = companyData.brands
+      
+      self.showMainTableView()
+      self.hideAskPermissionLabel()
+      self.hideAddButton()
+      
       mainTableView.reloadData()
 //      self.hideMainTableView()
       

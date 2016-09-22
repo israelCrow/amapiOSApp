@@ -12,6 +12,7 @@ import Alamofire
 protocol EditAgencyProfileViewControllerDelegate {
   
   func requestToShowTabBarFromEditAgencyProfileViewControllerDelegate()
+  func pageOfCardToShow(numberOfPageToMove: Int)
   
 }
 
@@ -33,7 +34,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   private var requestImageForCase: Bool = false
   private var requestImageForProfile: Bool = false
   
-//  private var criteriaView: CriterionView! = nil
+  private var criteriaView: CriteriaAgencyProfileEditView! = nil
   private var participateView: ParticipateInView! = nil
 //  private var exclusiveView: ExclusiveView! = nil
   private var createCaseView: CreateCaseView?
@@ -41,8 +42,22 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   private var skillsView: SkillsView! = nil
   private var profileView: ProfileView! = nil
   
+  private var pageToShow: Int! = nil
+  
   var delegate: EditAgencyProfileViewControllerDelegate?
-
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  init(pageOfCardToShow: Int) {
+    
+    pageToShow = pageOfCardToShow
+    
+    super.init(nibName: nil, bundle: nil)
+    
+  }
+  
   override func loadView() {
     
     self.editNavigationBar()
@@ -184,14 +199,15 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     //------------------------------------------SCREENS
     
-    let editCriteria = CriteriaAgencyProfileEditView.init(frame: frameForCards)
+    criteriaView = CriteriaAgencyProfileEditView.init(frame: frameForCards)
+    criteriaView.getAllCriterionsFromServer()
     
-    participateView = ParticipateInView.init(frame: CGRect.init(x: frameForCards.size.width,
+    let exclusiveView = ExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width,
       y: 0.0 ,
       width: frameForCards.size.width,
       height: frameForCards.size.height))
     
-    let exclusiveView = ExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width * 2.0,
+    participateView = ParticipateInView.init(frame: CGRect.init(x: frameForCards.size.width * 2.0,
       y: 0.0 ,
       width: frameForCards.size.width,
       height: frameForCards.size.height))
@@ -214,12 +230,14 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       height: frameForCards.size.height))
     profileView.delegate = self
     
-    scrollViewFrontFlipCard.addSubview(editCriteria)
+    scrollViewFrontFlipCard.addSubview(criteriaView)
     scrollViewFrontFlipCard.addSubview(participateView)
     scrollViewFrontFlipCard.addSubview(exclusiveView)
     scrollViewFrontFlipCard.addSubview(casesView)
     scrollViewFrontFlipCard.addSubview(skillsView)
     scrollViewFrontFlipCard.addSubview(profileView)
+    
+    self.moveScrollViewToPageToShow()
 
   }
   
@@ -368,6 +386,18 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
   }
   
+  private func moveScrollViewToPageToShow() {
+    
+    actualPage = pageToShow
+    
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    
+    let pointToMove = CGPoint.init(x: widthOfCard * CGFloat(pageToShow), y: 0.0)
+    
+    scrollViewFrontFlipCard.setContentOffset(pointToMove, animated: false)
+    
+  }
+  
   private func hideLeftButtonOfMainScrollView() {
     
     UIView.animateWithDuration(0.35){
@@ -411,6 +441,8 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
     
+    UIView.setAnimationsEnabled(true)
+    
     self.addObserverToKeyboardNotification()
   
   }
@@ -419,6 +451,46 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     super.viewWillDisappear(animated)
     NSNotificationCenter.defaultCenter().removeObserver(self)
+    
+    var pageToShow = 0
+    
+    switch actualPage {
+    case 0:
+      pageToShow = 0
+      break
+      
+    case 1:
+      pageToShow = 1
+      break
+      
+    case 2:
+      pageToShow = 2
+      break
+      
+    case 3:
+      pageToShow = 4
+      break
+      
+    case 4:
+      pageToShow = 5
+      break
+      
+    case 5:
+      pageToShow = 0 //while i know the correct page
+      break
+      
+    default:
+      pageToShow = 0
+    }
+    
+    self.delegate?.pageOfCardToShow(pageToShow)
+    
+  }
+  
+  override func viewDidDisappear(animated: Bool) {
+    super.viewDidDisappear(animated)
+    
+
     
   }
   
@@ -543,7 +615,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   @objc private func requestToEveryScreenToSave() {
     //this for every screen
     
-    UtilityManager.sharedInstance.showLoader()
+    self.criteriaView.saveCriterionsSelected()
     
     //Profile Data and Participe In
     let valuesFromParticipateView = self.participateView.getTheValuesSelected()
@@ -866,6 +938,8 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   }
   
   func saveChangesFromEditProfileView(parameters: [String:AnyObject]) {
+    
+    UtilityManager.sharedInstance.showLoader()
     
     var newParameters = parameters
     

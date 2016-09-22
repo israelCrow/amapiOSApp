@@ -62,7 +62,7 @@ class ParticipateInView: UIView {
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.contentSize = sizeOfScrollViewContent
-    mainScrollView.showsVerticalScrollIndicator = false
+    mainScrollView.showsVerticalScrollIndicator = true
     
     self.addSubview(mainScrollView)
     

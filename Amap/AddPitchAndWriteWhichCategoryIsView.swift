@@ -132,7 +132,7 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
                                                    image: "smallSearchIcon")
     searchView.mainTextField.addTarget(self,
                                        action: #selector(textDidChange),
-                                       forControlEvents: UIControlEvents.EditingChanged)
+                                       forControlEvents: UIControlEvents.AllEditingEvents)
     searchView.mainTextField.delegate = self
     self.addSubview(searchView)
     
@@ -271,10 +271,13 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
   
   @objc private func textDidChange(textField: UITextField) {
     
-    if textField.text! == "" || textField.text == nil {
+    if textField.text! == "" || textField.text == nil || textField.text! == " " {
       
       //CHANGE ARRAY OF ALL PROJECTS
       arrayOfFilteredCategories = arrayOfAllCategories
+
+      self.showMainTableView()
+      
       mainTableView.reloadData()
       //      self.hideMainTableView()
       
@@ -413,6 +416,15 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
     return true
   }
   
+  func textFieldShouldClear(textField: UITextField) -> Bool {
+    
+    arrayOfFilteredCategories = arrayOfAllCategories
+    mainTableView.reloadData()
+    
+    return true
+    
+  }
+  
   @objc private func dismissKeyboard(sender:AnyObject) {
     
     self.endEditing(true)
@@ -420,6 +432,8 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
   }
   
   func getAllSkillsFromServer() {
+    
+    UtilityManager.sharedInstance.showLoader()
     
     RequestToServerManager.sharedInstance.requestToGetAllSkillsCategories {
       jsonOfSkills in
@@ -438,7 +452,7 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
             
             var categoryId:String!
             if category["id"] as? Int != nil {
-              categoryId = String(category["id"] as? Int)
+              categoryId = String(category["id"] as! Int)
             }
             let categoryName = category["name"] as! String
             
@@ -478,6 +492,8 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
         }
         
       }
+      
+      UtilityManager.sharedInstance.hideLoader()
       
     }
     

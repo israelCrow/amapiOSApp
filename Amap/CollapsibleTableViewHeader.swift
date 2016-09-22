@@ -30,9 +30,9 @@ class CollapsibleTableViewHeader: UITableViewCell {
   
   private func createSkillImageView() {
     
-    skillImageView = UIImageView.init(image: UIImage.init(named: "skill"))
+    skillImageView = UIImageView.init(image: UIImage.init(named: "starCopy"))
     let newFrameOfSkillImageView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
-                                               y: 21.5 * UtilityManager.sharedInstance.conversionHeight,
+                                               y: 17.0 * UtilityManager.sharedInstance.conversionHeight,
                                                width: skillImageView.frame.size.width,
                                                height: skillImageView.frame.size.height)
     skillImageView.frame = newFrameOfSkillImageView

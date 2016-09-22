@@ -193,8 +193,12 @@ class CreateAddNewPitchAndWriteBrandNameViewController: UIViewController, AddPit
     
     if nameOfNewBrand != nil && brandDataSelected == nil {
       
-          RequestToServerManager.sharedInstance.requestToCreateBrand(companyData, nameOfTheNewBrand: nameOfNewBrand!, actionsToMakeAfterSuccesfullCreateNewBrand: { newBrandCreated in
-            
+      UtilityManager.sharedInstance.showLoader()
+      
+      RequestToServerManager.sharedInstance.requestToCreateBrand(companyData, nameOfTheNewBrand: nameOfNewBrand!, actionsToMakeAfterSuccesfullCreateNewBrand: { newBrandCreated in
+        
+        UtilityManager.sharedInstance.hideLoader()
+        
                 let addPitchAndWriteProjectViewController = CreateAddNewPitchAndWriteProjectNameViewController.init(newCompanyData: companyData, newBrandData: newBrandCreated)
                 self.navigationController?.pushViewController(addPitchAndWriteProjectViewController, animated: true)
             

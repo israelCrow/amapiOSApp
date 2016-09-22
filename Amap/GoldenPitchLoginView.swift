@@ -611,6 +611,8 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         
         if mailValid == true {
             //      do request login
+          
+            self.dismissKeyboard(self)
             self.delegate?.nextButtonPressedGoldenPitchLoginView(nameTextField.text!.lowercaseString, email: eMailTextField.text!)
             
         } else

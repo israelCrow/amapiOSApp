@@ -13,7 +13,7 @@ class DetailedNavigationEvaluatPitchView: UIView {
   private var projectNameString: String! = nil
   private var brandNameString: String! = nil
   private var companyNameString: String! = nil
-  private var dateString: String! = nil
+  private var dateString: String?
   
   private var projectNameLabel: UILabel! = nil
   private var brandNameLabel: UILabel! = nil
@@ -24,11 +24,12 @@ class DetailedNavigationEvaluatPitchView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(frame: CGRect, newProjectName: String!, newBrandName: String!, newCompanyName: String!){
+  init(frame: CGRect, newProjectName: String!, newBrandName: String!, newCompanyName: String!, newDateString: String?){
     
     projectNameString = newProjectName
     brandNameString = newBrandName
     companyNameString = newCompanyName
+    dateString = newDateString
     
     super.init(frame: frame)
     
@@ -49,7 +50,10 @@ class DetailedNavigationEvaluatPitchView: UIView {
     self.createProjectNameLabel()
     self.createBrandNameLabel()
     self.createCompanyNameLabel()
-    self.createDateCreationLabel()
+    
+    if dateString != nil {
+      self.createDateCreationLabel()
+    }
     
   }
   
@@ -168,13 +172,6 @@ class DetailedNavigationEvaluatPitchView: UIView {
   }
   
   private func createDateCreationLabel() {
-    
-    let date = NSDate()
-    let formatter = NSDateFormatter()
-    formatter.locale = NSLocale(localeIdentifier: "es_MX")
-    formatter.dateFormat = "dd/MM/yyyy"
-    dateString = formatter.stringFromDate(date)
-    
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
                                     width: self.frame.size.width,
@@ -191,7 +188,7 @@ class DetailedNavigationEvaluatPitchView: UIView {
     style.alignment = NSTextAlignment.Left
     
     let stringWithFormat = NSMutableAttributedString(
-      string: dateString,
+      string: dateString!,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color

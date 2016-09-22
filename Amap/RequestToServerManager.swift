@@ -14,6 +14,7 @@ class RequestToServerManager: NSObject {
   static let sharedInstance = RequestToServerManager()
   
   func requestForAgencyData(functionToMakeWhenBringInfo: ()-> Void) {
+    
     let urlToRequest = "http://amap-dev.herokuapp.com/api/agencies/\(AgencyModel.Data.id!)"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
@@ -110,8 +111,31 @@ class RequestToServerManager: NSObject {
             }
           }
           
-          functionToMakeWhenBringInfo()
+          let criteria = json["criteria"] as? Array<[String: AnyObject]>
           
+          if criteria != nil {
+            
+            var arrayOfCriterion = [CriteriaModelData]()
+            
+            for criterion in criteria! {
+              
+              let criterionId = (criterion["id"] as? Int != nil ? String(criterion["id"] as! Int) : "-1")
+              let criterionName = (criterion["name"] as? String != nil ? criterion["name"] as! String : "Nombre de criterio")
+              
+              let newCriterion = CriteriaModelData()
+              newCriterion.id = criterionId
+              newCriterion.name = criterionName
+                
+              arrayOfCriterion.append(newCriterion)
+              
+            }
+            
+            AgencyModel.Data.criteria = arrayOfCriterion
+            
+          }
+          
+          functionToMakeWhenBringInfo()
+//          UtilityManager.sharedInstance.hideLoader()
         }
         
     }
@@ -215,12 +239,81 @@ class RequestToServerManager: NSObject {
     }
     
   }
-
+  
+  
   func requestToGetAllSkillsCategories(functionToMakeWhenFinished: (jsonOfSkills: AnyObject?) -> Void) {
     
-    UtilityManager.sharedInstance.showLoader()
+//    UtilityManager.sharedInstance.showLoader()
     
     let urlToRequest = "https://amap-dev.herokuapp.com/api/skill_categories"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "GET"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          functionToMakeWhenFinished(jsonOfSkills: json)
+          
+        } else {
+          
+          print("ERROR WHEN GET SKILL CATEGORIES: \(response)")
+          UtilityManager.sharedInstance.hideLoader()
+          
+        }
+    }
+  }
+  
+  
+  func requestToSaveDataFromCriterions(params: [String:AnyObject], actionsToMakeAfterFinished: () -> Void) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/agencies/add_criteria"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+
+      
+      .responseJSON{ response in
+        print("RESPONSE JSON CRITERIONS")
+        print(response)
+        
+        if response.response?.statusCode == 201 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          print(json)
+          
+          actionsToMakeAfterFinished()
+          
+        } else {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          print("ERROR")
+          
+        }
+    }
+  }
+  
+  
+
+  func requestToGetAllCriterions(functionToMakeWhenFinished: (criteria: [CriteriaModelData]) -> Void) {
+    
+//    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/criteria"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "GET"
@@ -234,7 +327,28 @@ class RequestToServerManager: NSObject {
 
           let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
           
-          functionToMakeWhenFinished(jsonOfSkills: json)
+          let criteria = json["criteria"] as? Array<[String: AnyObject]>
+          
+          var arrayOfCriterion = [CriteriaModelData]()
+          
+          for criterion in criteria! {
+            
+            let criterionId = (criterion["id"] as? Int != nil ? String(criterion["id"] as! Int) : "-1")
+            let criterionName = (criterion["name"] as? String != nil ? criterion["name"] as! String : "Nombre de criterio")
+            
+            let newCriterion = CriteriaModelData()
+            newCriterion.id = criterionId
+            newCriterion.name = criterionName
+            
+            arrayOfCriterion.append(newCriterion)
+            
+          }
+          
+          functionToMakeWhenFinished(criteria: arrayOfCriterion)
+          
+        } else {
+          
+          print("ERROR WHEN GET ALL CRITERIA: \(response)")
           UtilityManager.sharedInstance.hideLoader()
           
         }
@@ -302,14 +416,14 @@ class RequestToServerManager: NSObject {
           
           UtilityManager.sharedInstance.hideLoader()
             print("ERROR")
-            
+            actionsToMakeAfterFinished()
           }
       }
   }
   
   func requestToGetAllCompanies(functionToMakeWhenFinished: (allCompanies:[CompanyModelData]) -> Void) {
     
-    UtilityManager.sharedInstance.showLoader()
+//    UtilityManager.sharedInstance.showLoader()
     
     let urlToRequest = "https://amap-dev.herokuapp.com/api/companies"
     
@@ -348,12 +462,16 @@ class RequestToServerManager: NSObject {
                 
             }
             
-            
             functionToMakeWhenFinished(allCompanies: arrayOfCompanies)
 
           }
           
 //          functionToMakeWhenFinished(allCompanies: [CompanyModelData]())
+          
+        } else {
+          
+          print("ERROR")
+          UtilityManager.sharedInstance.hideLoader()
           
         }
     }
@@ -404,7 +522,7 @@ class RequestToServerManager: NSObject {
   
   func requestToGetAllProjectsPitches(byBrandId: String!, functionToMakeWhenFinished: (allProjects:[ProjectPitchModelData]) -> Void) {
     
-    UtilityManager.sharedInstance.showLoader()
+//    UtilityManager.sharedInstance.showLoader()
     
     let urlToRequest = "https://amap-dev.herokuapp.com/api/pitches/by_brand/\(byBrandId)"
     
@@ -426,6 +544,8 @@ class RequestToServerManager: NSObject {
             functionToMakeWhenFinished(allProjects: [ProjectPitchModelData]())
             
           }
+          
+          UtilityManager.sharedInstance.hideLoader()
     
         } else
         
@@ -433,37 +553,72 @@ class RequestToServerManager: NSObject {
           let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
           print(json)
           
-//          let companies = json["companies"] as? Array<[String: AnyObject]>
-//          
-//          if companies != nil {
-//            
-//            var arrayOfCompanies = [CompanyModelData]()
-//            
-//            for company in companies! {
-//              
-//              let companyName = (company["name"] as? String != nil ? company["name"] as! String : "No Name")
-//              let idCompany = (company["id"] as? Int != nil ? String(company["id"] as! Int) : "-1")
-//              let brands = (company["brands"] as? Array<[String: AnyObject]> != nil ? company["brands"] as? Array<[String: AnyObject]> : nil)
-//              
-//              let arrayOfBrands = self.getAllBrandsFromRaw(brands, proprietaryCompanyID: idCompany)
-//              
-//              let newCompany = CompanyModelData.init(newId: idCompany,
-//                newName: companyName,
-//                newBrands: arrayOfBrands)
-//              
-//              arrayOfCompanies.append(newCompany)
-//              
-//            }
+          print()
           
-            let arrayOfProjects = [ProjectPitchModelData]()
+          let projectsPitches = json as? Array<[String: AnyObject]>
+          
+          if projectsPitches != nil {
             
-            functionToMakeWhenFinished(allProjects: arrayOfProjects)
+            var arrayOfProjectPitches = [ProjectPitchModelData]()
+            
+            for projectPitch in projectsPitches! {
+              
+              let projectPitchName = (projectPitch["name"] as? String != nil ? projectPitch["name"] as! String : "Nombre Pitch")
+              let projectPitchId = (projectPitch["id"] as? Int != nil ? String(projectPitch["id"] as! Int) : "-1")
+              let projectBriefDate = (projectPitch["brief_date"] as? String != nil ? projectPitch["brief_date"] as! String : "01/01/1900")
+              let projectPitchBriefEMailContact = (projectPitch["brief_email_contact"] as? String != nil ? projectPitch["brief_email_contact"] as! String : "briefContact@contact.com")
+              
+              var arrayOfCategories = [PitchSkillCategory]()
+              
+              let categories = projectPitch["skill_categories"] as? Array<[String:AnyObject]>
+              
+              if categories != nil {
+                
+                for category in categories! {
+                  
+                  var categoryId:String!
+                  if category["id"] as? Int != nil {
+                    categoryId = String(category["id"] as! Int)
+                  }
+                  let categoryName = category["name"] as! String
+                  
+                  let newProjectPitchSkillCategory = PitchSkillCategory(newPitchSkillCategoryId: categoryId,
+                    newSkillCategoryName: categoryName,
+                    newIsThisCategory: true,
+                    newSkills: [Skill]())
+                  
+                  arrayOfCategories.append(newProjectPitchSkillCategory)
+                  
+                }
+                
+              }
+              
+              let brandInfo = projectPitch["brand"] as? [String: AnyObject]
+              
+              var projectPitchBrandId = "-1"
+              
+              if brandInfo != nil {
+                
+                projectPitchBrandId = (brandInfo!["id"] as? Int != nil ? String(brandInfo!["id"] as! Int) : "-1")
+                
+              }
+              
+              let newProjectPitch = ProjectPitchModelData(newId: projectPitchId,
+                newName: projectPitchName,
+                newBrandId: projectPitchBrandId,
+                newBriefDate: projectBriefDate,
+                newBrieEMailContact: projectPitchBriefEMailContact,
+                newArrayOfPitchCategories: arrayOfCategories)
+              
+              arrayOfProjectPitches.append(newProjectPitch)
+              
+            }
+            
+            functionToMakeWhenFinished(allProjects: arrayOfProjectPitches)
             
           }
           
-          //          functionToMakeWhenFinished(allCompanies: [CompanyModelData]())
-          
-        //}
+        }
     }
     
   }
@@ -471,7 +626,7 @@ class RequestToServerManager: NSObject {
   
   func requestToCreateCompany(nameOfTheNewCompany: String!, actionsToMakeAfterSuccesfullCreateNewCompany: (newCompanyCreated: CompanyModelData)-> Void) {
     
-    UtilityManager.sharedInstance.showLoader()
+//    UtilityManager.sharedInstance.showLoader()
     
     let urlToRequest = "https://amap-dev.herokuapp.com/api/companies"
     
@@ -514,8 +669,6 @@ class RequestToServerManager: NSObject {
                                           newName: newCompanyName,
                                         newBrands: brands)
           
-          UtilityManager.sharedInstance.hideLoader()
-          
           actionsToMakeAfterSuccesfullCreateNewCompany(newCompanyCreated: newCompany)
           
         }else {
@@ -531,7 +684,7 @@ class RequestToServerManager: NSObject {
   
   func requestToCreateBrand(companyData: CompanyModelData, nameOfTheNewBrand: String!, actionsToMakeAfterSuccesfullCreateNewBrand: (newBrandCreated: BrandModelData)-> Void) {
     
-    UtilityManager.sharedInstance.showLoader()
+//    UtilityManager.sharedInstance.showLoader()
     
     let urlToRequest = "https://amap-dev.herokuapp.com/api/brands"
     
@@ -579,8 +732,7 @@ class RequestToServerManager: NSObject {
                              newProprietaryCompany: nil)
           
           
-          UtilityManager.sharedInstance.hideLoader()
-          
+
           actionsToMakeAfterSuccesfullCreateNewBrand(newBrandCreated: newBrand)
           
         }else {
@@ -593,9 +745,9 @@ class RequestToServerManager: NSObject {
     }
   }
   
-  func requestToCreateProjectPitch(pitchData: ProjectPitchModelData!, actionsToMakeAfterSuccesfullCreateNewCompany: (newPitchCreated: ProjectPitchModelData)-> Void) {
+  func requestToCreateProjectPitch(pitchData: ProjectPitchModelData!, actionsToMakeAfterSuccesfullCreateNewPitch: (newPitchCreated: ProjectPitchModelData)-> Void) {
     
-    UtilityManager.sharedInstance.showLoader()
+//    UtilityManager.sharedInstance.showLoader()
     
     let urlToRequest = "https://amap-dev.herokuapp.com/api/pitches"
     
@@ -655,9 +807,54 @@ class RequestToServerManager: NSObject {
 //            newName: newCompanyName,
 //            newBrands: brands)
           
+          let projectPitchId = (json["id"] as? Int != nil ? String(json["id"] as! Int) : "-1")
+          let projectPitchName = (json["name"] as? String != nil ? json["name"] as! String : "New Pitch")
+          let projectBriefDate = (json["brief_date"] as? String != nil ? json["brief_date"] as! String : "01/01/1900")
+          let projectPitchBriefEMailContact = (json["brief_email_contact"] as? String != nil ? json["brief_email_contact"] as! String : "briefContact@contact.com")
+          
+          var arrayOfCategories = [PitchSkillCategory]()
+          
+          let categories = json["skill_categories"] as? Array<[String:AnyObject]>
+          
+          if categories != nil {
+            
+            for category in categories! {
+              
+              var categoryId:String!
+              if category["id"] as? Int != nil {
+                categoryId = String(category["id"] as! Int)
+              }
+              let categoryName = category["name"] as! String
+              
+              let newProjectPitchSkillCategory = PitchSkillCategory(newPitchSkillCategoryId: categoryId,
+                newSkillCategoryName: categoryName,
+                newIsThisCategory: true,
+                newSkills: [Skill]())
+              
+              arrayOfCategories.append(newProjectPitchSkillCategory)
+              
+            }
+            
+          }
+          
+          let brandInfo = json["brand"] as? [String: AnyObject]
+          
+          var projectPitchBrandId = "-1"
+          
+          if brandInfo != nil {
+          
+            projectPitchBrandId = (brandInfo!["id"] as? Int != nil ? String(brandInfo!["id"] as! Int) : "-1")
+          
+          }
+          
+          let newProjectPitchCreated = ProjectPitchModelData(newId: projectPitchId, newName: projectPitchName,
+            newBrandId: projectPitchBrandId,
+            newBriefDate: projectBriefDate,
+            newBrieEMailContact: projectPitchBriefEMailContact,
+            newArrayOfPitchCategories: arrayOfCategories)
           
           
-//          actionsToMakeAfterSuccesfullCreateNewCompany(newPitchCreated: newCompany)
+          actionsToMakeAfterSuccesfullCreateNewPitch(newPitchCreated: newProjectPitchCreated)
           
         }else {
           

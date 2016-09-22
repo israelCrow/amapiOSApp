@@ -169,7 +169,7 @@ class VisualizeSkillsLevelView: UIView {
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.clearColor()
     mainScrollView.contentSize = sizeForContentScrollView
-    mainScrollView.showsVerticalScrollIndicator = false
+    mainScrollView.showsVerticalScrollIndicator = true
     self.addSubview(mainScrollView)
     
   }

@@ -15,6 +15,7 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
   private var detailedNavigation: DetailedNavigationEvaluatPitchView! = nil
   
   private var pitchData: ProjectPitchModelData! = nil
+  private var pitchDataCreated: ProjectPitchModelData! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -124,9 +125,10 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
                                      height: 108.0 * UtilityManager.sharedInstance.conversionHeight)
     
     detailedNavigation = DetailedNavigationEvaluatPitchView.init(frame: frameForDetailedNav,
-      newProjectName: "Nombre de Proyecto",
-        newBrandName: "Nombre de marca",
-      newCompanyName: "Nombre compañía")
+      newProjectName: pitchData.name,
+      newBrandName: (pitchData.brandData != nil ? pitchData.brandData!.name : "Marca"),
+      newCompanyName: (pitchData.companyData != nil ? pitchData.companyData!.name : "Compañía"),
+      newDateString: nil)
     
     detailedNavigation.alpha = 0.0
     self.navigationController?.navigationBar.addSubview(detailedNavigation)
@@ -235,7 +237,13 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
     pitchData.briefDate = briefDate
     pitchData.briefEMailContact = briefEmailContact
     
+    UtilityManager.sharedInstance.showLoader()
+    
     RequestToServerManager.sharedInstance.requestToCreateProjectPitch(pitchData) { (newPitchCreated) in
+      
+      self.pitchDataCreated = newPitchCreated
+      self.pitchDataCreated.brandData = self.pitchData.brandData
+      self.pitchDataCreated.companyData = self.pitchData.companyData
       
       let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
       let heightOfCard = self.view.frame.size.height - (292.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -271,11 +279,8 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
       self.detailedNavigation.frame = newFrameForDetailedNavigation
       
     }
-    
-    let newPitchData = PitchModelData(projectName: "Nombre de proyecto",
-                                        brandName: "Nombre de marca",
-                                      companyName: "Nombre de compañía")
-    let evaluatePitch = EvaluatePitchViewController(newPitchData: newPitchData)
+  
+    let evaluatePitch = EvaluatePitchViewController(newPitchData: pitchDataCreated)
     self.navigationController?.pushViewController(evaluatePitch, animated: true)
     
     

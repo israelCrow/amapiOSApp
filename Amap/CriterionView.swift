@@ -14,6 +14,7 @@ class CriterionView: UIView {
   private var descriptionText: String! = nil
   private var selectValueSwitch: CustomSwitchView! = nil
   private var initialValueFromSwitch: Bool = false
+  var criterionId: String! = nil
   
   init(frame: CGRect, textLabel: String, valueOfSwitch: Bool){
     initialValueFromSwitch = valueOfSwitch

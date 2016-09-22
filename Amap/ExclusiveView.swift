@@ -62,9 +62,9 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.clearColor()
     mainScrollView.contentSize = sizeForContentScrollView
-    mainScrollView.directionalLockEnabled = true
+//    mainScrollView.directionalLockEnabled = true
     mainScrollView.alwaysBounceVertical = true
-    mainScrollView.showsVerticalScrollIndicator = false
+    mainScrollView.showsVerticalScrollIndicator = true
     self.addSubview(mainScrollView)
     
   }
@@ -140,6 +140,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       descriptionLabel.frame = newFrame
       
       self.mainScrollView.addSubview(descriptionLabel)
+      mainScrollView.showsVerticalScrollIndicator = true
       
       let frameForTextFieldCreator = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
                                                y: descriptionLabel.frame.origin.y + descriptionLabel.frame.size.height + 10.0 * UtilityManager.sharedInstance.conversionHeight,
@@ -152,6 +153,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField.delegate = self
       
       self.mainScrollView.addSubview(creatorOfBrandTextField)
+      mainScrollView.showsVerticalScrollIndicator = true
       
     } else {
       
@@ -181,6 +183,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       arrayOfExclusivesBrandTextFields.append(newTextField)
       
       self.mainScrollView.addSubview(newTextField)
+      mainScrollView.showsVerticalScrollIndicator = true
       
       self.animateNewTextFieldDescriptionLabelAndCreatorOfBrandsTextField(newTextField)
       self.editValueOfMainScrollView()
@@ -201,6 +204,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       arrayOfExclusivesBrandTextFields.append(newTextField)
       
       self.mainScrollView.addSubview(newTextField)
+      mainScrollView.showsVerticalScrollIndicator = true
       
       self.animateNewTextFieldDescriptionLabelAndCreatorOfBrandsTextField(newTextField)
       self.editValueOfMainScrollView()

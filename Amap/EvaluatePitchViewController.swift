@@ -8,19 +8,19 @@
 
 import UIKit
 
-class EvaluatePitchViewController: UIViewController {
+class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
   
   private var flipCard: FlipCardView! = nil
   private var evaluatePitch: EvaluatePitchView! = nil
   private var detailedNavigation: DetailedNavigationEvaluatPitchView! = nil
   
-  private var pitchData: PitchModelData! = nil
+  private var pitchData: ProjectPitchModelData! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(newPitchData: PitchModelData) {
+  init(newPitchData: ProjectPitchModelData) {
     
     pitchData = newPitchData
     
@@ -124,9 +124,10 @@ class EvaluatePitchViewController: UIViewController {
                                           height: 108.0 * UtilityManager.sharedInstance.conversionHeight)
     
     detailedNavigation = DetailedNavigationEvaluatPitchView.init(frame: frameForDetailedNav,
-                                                                 newProjectName: "Nombre de Proyecto",
-                                                                 newBrandName: "Nombre de marca",
-                                                                 newCompanyName: "Nombre compañía")
+      newProjectName: pitchData.name,
+      newBrandName: (pitchData.brandData != nil ? pitchData.brandData!.name : "Marca"),
+      newCompanyName: (pitchData.companyData != nil ? pitchData.companyData!.name : "Compañía"),
+      newDateString: pitchData.briefDate)
     
     detailedNavigation.alpha = 0.0
     self.navigationController?.navigationBar.addSubview(detailedNavigation)
@@ -165,7 +166,7 @@ class EvaluatePitchViewController: UIViewController {
   private func createEvaluatePitch(frameForPreEvaluatePitchView: CGRect) {
     
     evaluatePitch = EvaluatePitchView.init(frame: frameForPreEvaluatePitchView)
-//    evaluatePitch.delegate = self
+    evaluatePitch.delegate = self
     
   }
   
@@ -246,6 +247,14 @@ class EvaluatePitchViewController: UIViewController {
 //    flipCard.setSecondView(backOfTheCard)
     
     flipCard.flip()
+    
+  }
+  
+  //MARK: - EvaluatePitchVideDelegate
+  
+  func createEvaluatePitch() {
+    
+    self.navigationRightButtonPressed()
     
   }
   

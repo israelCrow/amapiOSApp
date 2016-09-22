@@ -113,6 +113,8 @@ class VisualizeSkillsView: UIView, UICollectionViewDelegateFlowLayout, UICollect
   
   func getAllSkillsFromServer() {
     
+    UtilityManager.sharedInstance.showLoader()
+    
     RequestToServerManager.sharedInstance.requestToGetAllSkillsCategories {
       jsonOfSkills in
       
@@ -164,6 +166,8 @@ class VisualizeSkillsView: UIView, UICollectionViewDelegateFlowLayout, UICollect
         }
         
       }
+      
+      UtilityManager.sharedInstance.hideLoader()
       
     }
     

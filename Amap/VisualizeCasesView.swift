@@ -97,16 +97,16 @@ class VisualizeCasesView: UIView, CaseCardInfoViewDelegate {
   private func createMainScrollView() {
     
     let frameForMainScrollView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                             y: 86.0 * UtilityManager.sharedInstance.conversionHeight,
+                                             y: 63.0 * UtilityManager.sharedInstance.conversionHeight,
                                              width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                                             height: 374.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
+                                             height: 397.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
     let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
                                                height: frameForMainScrollView.size.height + (150.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.clearColor()
     mainScrollView.contentSize = sizeForContentScrollView
-    mainScrollView.showsVerticalScrollIndicator = false
+    mainScrollView.showsVerticalScrollIndicator = true
     self.addSubview(mainScrollView)
     
   }
@@ -131,15 +131,17 @@ class VisualizeCasesView: UIView, CaseCardInfoViewDelegate {
   
   private func loadCases() {
     
-    RequestToServerManager.sharedInstance.requestForAgencyData {
-      if AgencyModel.Data.success_cases != nil {
-        
+//    RequestToServerManager.sharedInstance.requestForAgencyData {
+//      if AgencyModel.Data.success_cases != nil {
+    
         self.arrayOfCases = AgencyModel.Data.success_cases
         
         self.createCaseCardsInfoAfterRequestToServer()
         
-      }
-    }
+//        UtilityManager.sharedInstance.hideLoader()
+//        
+//      }
+//    }
     
   }
   

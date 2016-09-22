@@ -56,15 +56,32 @@ class ChangePasswordViewController: UIViewController, ChangePasswordRequestViewD
     
     private func changeBackButtonItem() {
         
-        let imageBackButton = UIImage.init(named: "backButton")?.imageWithRenderingMode(.AlwaysOriginal)
-        
-        let backButton = UIBarButtonItem.init(image: imageBackButton,
-                                              style: .Plain,
-                                              target: self,
-                                              action: #selector(backButtonPressed)
-        )
-        
-        self.navigationItem.setLeftBarButtonItem(backButton, animated: false)
+//        let imageBackButton = UIImage.init(named: "backButton")?.imageWithRenderingMode(.AlwaysOriginal)
+//        
+//        let backButton = UIBarButtonItem.init(image: imageBackButton,
+//                                              style: .Plain,
+//                                              target: self,
+//                                              action: #selector(backButtonPressed)
+//        )
+//        
+//        self.navigationItem.setLeftBarButtonItem(backButton, animated: false)
+      
+      let backButton = UIBarButtonItem(title: VisualizePitchesConstants.CreateAddNewPitchAndWriteBrandNameViewController.navigationLeftButtonText,
+                                       style: UIBarButtonItemStyle.Plain,
+                                       target: self,
+                                       action: #selector(backButtonPressed))
+      
+      let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
+                                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+      
+      let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
+                                                NSForegroundColorAttributeName: UIColor.whiteColor()
+      ]
+      
+      backButton.setTitleTextAttributes(attributesDict, forState: .Normal)
+      
+      self.navigationItem.leftBarButtonItem = backButton
+      
     }
     
     private func changeNavigationBarTitle() {

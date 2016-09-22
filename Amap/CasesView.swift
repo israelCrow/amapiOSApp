@@ -110,7 +110,7 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.clearColor()
     mainScrollView.contentSize = sizeForContentScrollView
-    mainScrollView.showsVerticalScrollIndicator = false
+    mainScrollView.showsVerticalScrollIndicator = true
     self.addSubview(mainScrollView)
     
   }
@@ -135,15 +135,17 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
   
   private func loadCases() {
     
-    RequestToServerManager.sharedInstance.requestForAgencyData {
-      if AgencyModel.Data.success_cases != nil {
-        
+//    RequestToServerManager.sharedInstance.requestForAgencyData {
+//      if AgencyModel.Data.success_cases != nil {
+    
         self.arrayOfCases = AgencyModel.Data.success_cases
         
         self.createCaseCardsInfoAfterRequestToServer()
-        
-      }
-    }
+//
+//        UtilityManager.sharedInstance.hideLoader()
+//        
+//      }
+//    }
     
   }
   

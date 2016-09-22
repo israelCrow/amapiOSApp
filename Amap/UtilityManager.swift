@@ -60,6 +60,7 @@ class UtilityManager: NSObject {
                                             UIImage.init(named: "loader_36")!,
                                             UIImage.init(named: "loader_37")!]
   var loaderImageView: UIImageView! = nil
+  private var requestToLoader = 0
   var loadingView: UIView! = nil
   
   
@@ -111,40 +112,60 @@ class UtilityManager: NSObject {
       
     }
     
-    let rootViewController = self.currentViewController()
-    rootViewController.view.addSubview(loadingView)
-    loaderImageView.animationDuration = 1.2
-    loaderImageView.animationRepeatCount = 0
-    loaderImageView.startAnimating()
+    if requestToLoader == 0 {
     
-    UIView.animateWithDuration(0.35){
+      let rootViewController = self.currentViewController()
+      rootViewController.view.addSubview(loadingView)
+      loaderImageView.animationDuration = 1.2
+      loaderImageView.animationRepeatCount = 0
+      loaderImageView.startAnimating()
+    
+      UIView.animateWithDuration(0.35){
       
       self.loadingView.alpha = 1.0
       
+      }
+      
     }
+    
+    requestToLoader += 1
+    
+    print("Show loader \(requestToLoader)")
     
   }
   
   func hideLoader() {
     
-    if loadingView != nil {
+    requestToLoader -= 1
+    
+    print("Hide loader \(requestToLoader)")
+    
+    if requestToLoader == 0 {
+    
+      if loadingView != nil {
       
-      UIView.animateWithDuration(0.35, animations: { 
+        UIView.animateWithDuration(0.35, animations: {
         
-        self.loadingView.alpha = 0.0
+          self.loadingView.alpha = 0.0
         
-      }, completion: { (finished) in
-          if finished == true {
+        }, completion: { (finished) in
+            if finished == true {
             
-            self.loaderImageView.stopAnimating()
+              self.loaderImageView.stopAnimating()
             
-          }
-      })
+            }
+        })
       
-      
+      }
+    
     }
     
-    
+    if requestToLoader < 0 {
+      
+      requestToLoader = 0
+      
+    }
+  
   }
   
   func getRatioOfScreen() -> Double {
@@ -262,32 +283,7 @@ class UtilityManager: NSObject {
     UIGraphicsEndImageContext()
     
     return newImage
+    
   }
   
-//  func showIndicatorWithText(text: String) {
-//    if self.loadingView == nil {
-//      self.loadingView = UIView(frame: self.currentViewController().view.frame)
-//      self.loadingView.backgroundColor = UIColor.clearColor()
-//    }
-//    
-//    loadingView.addSubview(SwiftSpinner.show(text))
-//    self.loadingView.alpha = 1.0
-//    
-//    self.currentViewController().view.addSubview (loadingView)
-//    self.currentViewController().view.bringSubviewToFront(loadingView)
-//  }
-//  
-//  func hideIndicator() {
-//    if self.loadingView != nil {
-//      UIView.animateWithDuration(0.25,
-//                                 animations: {
-//                                  self.loadingView.alpha = 0.0
-//        },
-//                                 completion: { finished in
-//                                  self.loadingView.removeFromSuperview()
-//                                  SwiftSpinner.hide()
-//        }
-//      )
-//    }
-//  }
 }
