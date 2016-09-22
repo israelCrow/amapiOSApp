@@ -8,13 +8,21 @@
 
 import UIKit
 
-class CriterionView: UIView {
+protocol CriterionViewDelegate {
+  
+  func theValueHasChanged(isValueChanged: Bool)
+  
+}
+
+class CriterionView: UIView, CustomSwitchViewActionsDelegate {
   
   private var descriptionLabel: UILabel! = nil
   private var descriptionText: String! = nil
   private var selectValueSwitch: CustomSwitchView! = nil
   private var initialValueFromSwitch: Bool = false
   var criterionId: String! = nil
+  
+  var delegate: CriterionViewDelegate?
   
   init(frame: CGRect, textLabel: String, valueOfSwitch: Bool){
     initialValueFromSwitch = valueOfSwitch
@@ -72,6 +80,7 @@ class CriterionView: UIView {
     
     selectValueSwitch = CustomSwitchView.init(frame: frameForSwitch, valueOfSwitch: initialValueFromSwitch)
     selectValueSwitch.clipsToBounds = false
+    selectValueSwitch.delegateForActions = self
     self.addSubview(selectValueSwitch)
     
   }
@@ -107,6 +116,12 @@ class CriterionView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  //MARK: - CustomSwitchViewActionsDelegate
   
+  func customSwitchChangedItsValue(valueSelected: Bool) {
+    
+    self.delegate?.theValueHasChanged(true)
+    
+  }
   
 }

@@ -152,6 +152,8 @@ class CreateAccountProcessAlreadyBegunView: UIView {
   
   @objc private func doSomething() {
     
+    self.delegate?.nextButtonPressedCreateAccountProcessAlreadyBegun()
+    
   }
   
   

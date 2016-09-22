@@ -8,7 +8,13 @@
 
 import UIKit
 
-class CustomSkillTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource {
+protocol CustomSkillTableViewCellDelegate {
+  
+  func changeValueOfCell(sender: CustomSkillTableViewCell)
+  
+}
+
+class CustomSkillTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
   
   var scoreTextField: UITextField! = nil
 //  private var optionsOfScorePickerView: UIPickerView! = nil
@@ -16,8 +22,9 @@ class CustomSkillTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerV
   
   private var containerViewForPicker: UIView! = nil
   private var mainPickerView: UIPickerView! = nil
-  
+
   var skillData: Skill! = nil
+  var delegate: CustomSkillTableViewCellDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -122,7 +129,7 @@ class CustomSkillTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerV
     
     scoreTextField = UITextField.init(frame: frameForScoreTextField)
     scoreTextField.clearButtonMode = .WhileEditing
-    
+    scoreTextField.delegate = self
     scoreTextField.font = UIFont(name:"SFUIText-Regular",
                                  size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
     
@@ -145,6 +152,12 @@ class CustomSkillTableViewCell: UITableViewCell, UIPickerViewDelegate, UIPickerV
   private func createOptionsOfScorePickerView() {
 
   
+  }
+  
+  func textFieldDidBeginEditing(textField: UITextField) {
+    
+    self.delegate?.changeValueOfCell(self)
+    
   }
   
   func setSkillData(newSkillData: Skill) {

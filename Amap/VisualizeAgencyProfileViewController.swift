@@ -44,7 +44,6 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     self.view.backgroundColor = UIColor.blackColor()
     self.view.addSubview(self.createGradientView())
     self.editNavigationBar()
-//    self.createBottomTabBar()
     self.initInterface()
     
   }

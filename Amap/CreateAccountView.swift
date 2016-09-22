@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CreateAccountViewDelegate{
-  func requestCreateAccount(email:String, agency:String, actionToMakeWhenFinished: ()->Void)
+  func requestCreateAccount(email:String, agency:String, typeOfUser: Int, actionToMakeWhenFinished: ()->Void)
 }
 
 class CreateAccountView: UIView, UITextFieldDelegate {
@@ -17,12 +17,17 @@ class CreateAccountView: UIView, UITextFieldDelegate {
     private var createAccountLabel: UILabel! = nil
     private var agencyButton: UIButton! = nil
     private var brandButton: UIButton! = nil
+  
+    private var agencyLabel: UILabel! = nil
+    private var brandLabel: UILabel! = nil
+  
     private var writeNameDescriptionLabel: UILabel! = nil
     private var nameLabel: UILabel! = nil
     private var writeEMailDescriptionLabel: UILabel! = nil
     private var eMailLabel: UILabel! = nil
     private var errorEMailLabel: UILabel! = nil
     private var errorNameLabel: UILabel! = nil
+    private var errorUserType: UILabel! = nil
     private var errorBothTextFieldLabel: UILabel! = nil
     
     private var nameTextField: UITextField! = nil
@@ -30,10 +35,14 @@ class CreateAccountView: UIView, UITextFieldDelegate {
     
     private var cancelButtonForNameTextField: UIButton! = nil
     private var cancelButtonForEMailTextField: UIButton! = nil
-    
+  
+    private var valueOfUserTypeSelected: Int! = nil
+  
     private var askPasswordButton: UIButton! = nil
     var delegate: CreateAccountViewDelegate?
-    
+  
+    let kValueOfAgency = 2
+    let kValueOfBrand = 4
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,6 +56,8 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         self.createCreateAccountLabel()
         self.createAgencyButton()
         self.createBrandButton()
+        self.createAgencyLabel()
+        self.createBrandLabel()
         self.createWriteNameDescriptionLabel()
         //    self.createNameLabel()
         self.createNameTextField()
@@ -60,6 +71,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         self.createErrorEMailLabel()
         self.createErrorNameLabel()
         self.createErrorBothTextFieldLabel()
+        self.createErrorUserType()
         
         //DELETE
         //    self.testConnection()
@@ -106,28 +118,97 @@ class CreateAccountView: UIView, UITextFieldDelegate {
     }
     
     private func createAgencyButton() {
-        let frameForButton = CGRect.init(x: 45.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: createAccountLabel.frame.origin.y + createAccountLabel.frame.size.height + (1.0 * UtilityManager.sharedInstance.conversionHeight),
-                                         width: 100.0,
-                                         height: 100.0)
+        let frameForButton = CGRect.init(x: 75.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: 76.0 * UtilityManager.sharedInstance.conversionHeight,
+                                         width: 40 * UtilityManager.sharedInstance.conversionWidth,
+                                         height: 72 * UtilityManager.sharedInstance.conversionHeight)
         agencyButton = UIButton.init(frame: frameForButton)
         let image = UIImage(named: "iconAgencyBlack") as UIImage?
         agencyButton.setImage(image, forState: .Normal)
+        agencyButton.addTarget(self, action: #selector(agencyButtonPressed), forControlEvents: .TouchUpInside)
+        agencyButton.alpha = 0.4
         self.addSubview(agencyButton)
         
     }
     
     private func createBrandButton() {
-        let frameForButton = CGRect.init(x: 135.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: createAccountLabel.frame.origin.y + createAccountLabel.frame.size.height + (1.0 * UtilityManager.sharedInstance.conversionHeight),
-                                         width: 100.0,
-                                         height: 100.0)
-        agencyButton = UIButton.init(frame: frameForButton)
+        let frameForButton = CGRect.init(x: 182.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: 76.0 * UtilityManager.sharedInstance.conversionHeight,
+                                         width: 48 * UtilityManager.sharedInstance.conversionWidth,
+                                         height: 72 * UtilityManager.sharedInstance.conversionHeight)
+        brandButton = UIButton.init(frame: frameForButton)
         let image = UIImage(named: "iconBrandBlack") as UIImage?
-        agencyButton.setImage(image, forState: .Normal)
-        self.addSubview(agencyButton)
+        brandButton.setImage(image, forState: .Normal)
+        brandButton.addTarget(self, action: #selector(brandButtonPressed), forControlEvents: .TouchUpInside)
+        brandButton.alpha = 0.4
+        self.addSubview(brandButton)
         
     }
+  
+  
+    private func createAgencyLabel() {
+    
+      agencyLabel = UILabel.init(frame: CGRectZero)
+      
+      let font = UIFont(name: "SFUIText-Regular",
+                        size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+      let color = UIColor.blackColor()
+      let style = NSMutableParagraphStyle()
+      style.alignment = NSTextAlignment.Center
+      
+      let stringWithFormat = NSMutableAttributedString(
+        string: "Agencia",
+        attributes:[NSFontAttributeName:font!,
+          NSParagraphStyleAttributeName:style,
+          NSForegroundColorAttributeName:color
+        ]
+      )
+      agencyLabel.attributedText = stringWithFormat
+      agencyLabel.sizeToFit()
+      let newFrame = CGRect.init(x: 69.0 * UtilityManager.sharedInstance.conversionWidth,
+                                 y: 136.0 * UtilityManager.sharedInstance.conversionHeight,
+                                 width: agencyLabel.frame.size.width,
+                                 height: agencyLabel.frame.size.height)
+      
+      agencyLabel.alpha = 0.4
+      agencyLabel.frame = newFrame
+      
+      self.addSubview(agencyLabel)
+      
+    }
+  
+    private func createBrandLabel() {
+    
+      brandLabel = UILabel.init(frame: CGRectZero)
+      
+      let font = UIFont(name: "SFUIText-Regular",
+                        size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+      let color = UIColor.blackColor()
+      let style = NSMutableParagraphStyle()
+      style.alignment = NSTextAlignment.Center
+      
+      let stringWithFormat = NSMutableAttributedString(
+        string: "Marca",
+        attributes:[NSFontAttributeName:font!,
+          NSParagraphStyleAttributeName:style,
+          NSForegroundColorAttributeName:color
+        ]
+      )
+      brandLabel.attributedText = stringWithFormat
+      brandLabel.sizeToFit()
+      let newFrame = CGRect.init(x: 186.0 * UtilityManager.sharedInstance.conversionWidth,
+                                 y: 136.0 * UtilityManager.sharedInstance.conversionHeight,
+                                 width: brandLabel.frame.size.width,
+                                 height: brandLabel.frame.size.height)
+      
+      brandLabel.alpha = 0.4
+      brandLabel.frame = newFrame
+      
+      self.addSubview(brandLabel)
+    
+    }
+  
+  
     
     private func createWriteNameDescriptionLabel() {
         writeNameDescriptionLabel = UILabel.init(frame: CGRectZero)
@@ -466,30 +547,70 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         self.addSubview(errorBothTextFieldLabel)
         
     }
+  
+  private func createErrorUserType() {
     
+    errorUserType = UILabel.init(frame: CGRectZero)
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.redColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Elige un tipo de usuario",
+      attributes:[NSFontAttributeName:font!,
+        NSParagraphStyleAttributeName:style,
+        NSForegroundColorAttributeName:color
+      ]
+    )
+    
+    errorUserType.attributedText = stringWithFormat
+    errorUserType.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (errorUserType.frame.size.width / 2.0),
+                               y: eMailTextField.frame.origin.y + eMailTextField.frame.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight),
+                               width: errorUserType.frame.size.width,
+                               height: errorUserType.frame.size.height)
+    
+    errorUserType.frame = newFrame
+    errorUserType.alpha = 0.0
+    self.addSubview(errorUserType)
+    
+  }
+  
     @objc private func createAccount() {
-        
+      
         askPasswordButton.userInteractionEnabled = false
         
         let mailValid = UtilityManager.sharedInstance.isValidEmail(eMailTextField.text!)
         let nameValid = UtilityManager.sharedInstance.isValidText(nameTextField.text!)
         
-        if mailValid == true && nameValid == true {
+        if mailValid == true && nameValid == true && valueOfUserTypeSelected != nil {
           
           
-          self.delegate?.requestCreateAccount(eMailTextField.text!.lowercaseString, agency: nameTextField.text!){
+          self.delegate?.requestCreateAccount(eMailTextField.text!.lowercaseString, agency: nameTextField.text!, typeOfUser: valueOfUserTypeSelected){
             
             UtilityManager.sharedInstance.hideLoader()
             
+            
           }
         } else
+            if valueOfUserTypeSelected == nil {
+            
+              self.showErrorUserType()
+              
+            }else
+      
             if mailValid == false && nameValid == true {
                 self.showValidMailError()
             } else
                 if nameValid == false && mailValid == true {
                     self.showValidNameError()
                 }else
-                    if nameValid == false && mailValid == false {
+                    if nameValid == false && mailValid == false && valueOfUserTypeSelected == nil ||
+                       nameValid == false && mailValid == false && valueOfUserTypeSelected != nil
+                      {
                         self.showBothTextErrorLabel()
         }
         
@@ -575,6 +696,39 @@ class CreateAccountView: UIView, UITextFieldDelegate {
             }
         }
     }
+  
+  private func showErrorUserType() {
+    
+    self.removeAllErrorLabels()
+    self.askPasswordButton.userInteractionEnabled = false
+    UIView.animateWithDuration(1.0,
+                               animations: {
+                                self.errorUserType.alpha = 1.0
+    }) { (finished) in
+      if finished {
+        self.askPasswordButton.userInteractionEnabled = true
+      }
+    }
+    
+  }
+  
+  private func hideErroUserType() {
+    
+    UIView.animateWithDuration(0.3,
+                               animations: {
+                                self.errorUserType.alpha = 0.0
+    }) { (finished) in
+      if finished {
+        self.askPasswordButton.userInteractionEnabled = true
+      }
+    }
+
+    
+  }
+  
+  
+  
+  
     
     @objc private func deleteNameTextField(){
         self.nameTextField.text = ""
@@ -649,6 +803,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         self.hideErrorNameLabel()
         self.hideErrorMailLabel()
         self.hideErrorBothTextFieldLabel()
+        self.hideErroUserType()
         
     }
     
@@ -656,6 +811,57 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         self.removeAllErrorLabels()
         return true
     }
+  
+  @objc private func agencyButtonPressed() {
+    
+    self.removeAllErrorLabels()
+    
+    valueOfUserTypeSelected = kValueOfAgency
+    
+    UIView.animateWithDuration(0.25,
+      animations: {
+        
+        self.agencyLabel.alpha = 1.0
+        self.agencyButton.alpha = 1.0
+        
+        self.brandButton.alpha = 0.4
+        self.brandLabel.alpha = 0.4
+        
+      }) { (finished) in
+        if finished == true {
+          
+          
+          
+        }
+    }
+    
+  }
+  
+  @objc private func brandButtonPressed() {
+    
+    self.removeAllErrorLabels()
+    
+    valueOfUserTypeSelected = kValueOfBrand
+    
+    UIView.animateWithDuration(0.25,
+                               animations: {
+                                
+                                self.agencyLabel.alpha = 0.4
+                                self.agencyButton.alpha = 0.4
+                                
+                                self.brandButton.alpha = 1.0
+                                self.brandLabel.alpha = 1.0
+                                
+    }) { (finished) in
+      if finished == true {
+        
+        
+        
+      }
+    }
+    
+  }
+  
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

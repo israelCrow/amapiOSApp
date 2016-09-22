@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CriteriaAgencyProfileEditView: UIView {
+class CriteriaAgencyProfileEditView: UIView, CriterionViewDelegate {
   
   private var mainScrollView: UIScrollView! = nil
   private var arrayOfLabels: [CriterionView]! = nil
@@ -19,6 +19,8 @@ class CriteriaAgencyProfileEditView: UIView {
   private var deliverIntelectualPropertyCriterion: CriterionView! = nil
   private var onlyPitchesPaymentsCriterion: CriterionView! = nil
   private var haveToKnowTheProjectBudgetCriterion: CriterionView! = nil
+  
+  var thereAreChanges: Bool = false
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -108,6 +110,7 @@ class CriteriaAgencyProfileEditView: UIView {
     presentationTimeCriterion = CriterionView.init(frame: frameForNewCriterion,
                                       textLabel: AgencyProfileEditConstants.CriteriaView.presentationTimeLabelText, valueOfSwitch: false) //change this in future
     presentationTimeCriterion.adaptSize()
+    presentationTimeCriterion.delegate = self
     
     arrayOfLabels.append(presentationTimeCriterion)
     
@@ -123,6 +126,7 @@ class CriteriaAgencyProfileEditView: UIView {
     minimumBudgetCriterion = CriterionView.init(frame: frameForNewCriterion,
                                           textLabel: AgencyProfileEditConstants.CriteriaView.minimumBudgetLabelText, valueOfSwitch: false) //change this in future
     minimumBudgetCriterion.adaptSize()
+    minimumBudgetCriterion.delegate = self
     
     arrayOfLabels.append(minimumBudgetCriterion)
     
@@ -139,6 +143,7 @@ class CriteriaAgencyProfileEditView: UIView {
                                                              textLabel: AgencyProfileEditConstants.CriteriaView.deliverIntelectualPropertyLabelText,  valueOfSwitch: false) //change this in future
 
     deliverIntelectualPropertyCriterion.adaptSize()
+    deliverIntelectualPropertyCriterion.delegate = self
     
     arrayOfLabels.append(deliverIntelectualPropertyCriterion)
     
@@ -155,6 +160,7 @@ class CriteriaAgencyProfileEditView: UIView {
                                                       textLabel: AgencyProfileEditConstants.CriteriaView.onlyPitchesPaymentsLabelText, valueOfSwitch: false) //change this in future
 
     onlyPitchesPaymentsCriterion.adaptSize()
+    onlyPitchesPaymentsCriterion.delegate = self
     
     arrayOfLabels.append(onlyPitchesPaymentsCriterion)
     
@@ -171,6 +177,7 @@ class CriteriaAgencyProfileEditView: UIView {
                                                              textLabel: AgencyProfileEditConstants.CriteriaView.haveToKnowTheProjectBudgetLabelText,  valueOfSwitch: false) //change this in future
 
     haveToKnowTheProjectBudgetCriterion.adaptSize()
+    haveToKnowTheProjectBudgetCriterion.delegate = self
     
     arrayOfLabels.append(haveToKnowTheProjectBudgetCriterion)
     
@@ -191,7 +198,6 @@ class CriteriaAgencyProfileEditView: UIView {
       nextCriterion.frame = newFrame
       mainScrollView.addSubview(nextCriterion)
     }
-    
     
   }
   
@@ -214,6 +220,7 @@ class CriteriaAgencyProfileEditView: UIView {
         
         criterionView.adaptSize()
         criterionView.criterionId = criterion.id
+        criterionView.delegate = self
         
         self.arrayOfLabels.append(criterionView)
         
@@ -253,6 +260,14 @@ class CriteriaAgencyProfileEditView: UIView {
       UtilityManager.sharedInstance.hideLoader()
       
     }
+    
+  }
+  
+  //MARK: - CriterionViewDelegate
+  
+  func theValueHasChanged(isValueChanged: Bool) {
+  
+    thereAreChanges = true
     
   }
   

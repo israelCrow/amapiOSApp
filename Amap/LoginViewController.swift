@@ -134,6 +134,9 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
+      
+      UIView.setAnimationsEnabled(true)
+      
       self.navigationController?.setNavigationBarHidden(true, animated: true)
       
       if isSecondOrMoreTimeToAppear == false {

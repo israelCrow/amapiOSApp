@@ -241,7 +241,7 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
     }
     
     //MARK: - CreateAccountViewDelegate
-  func requestCreateAccount(email: String, agency: String, actionToMakeWhenFinished: () -> Void) {
+  func requestCreateAccount(email: String, agency: String, typeOfUser: Int, actionToMakeWhenFinished: () -> Void) {
         let urlToRequest2 = "https://amap-dev.herokuapp.com/api/new_user_requests"
         
         let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest2)!)
@@ -254,7 +254,7 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
       //if brand = 4
         let values = [
             "new_user_request" :
-              [ "user_type" : 2, //Change with buttons
+              [ "user_type" : String(typeOfUser), //Change with buttons
                 "email" : email,
                 "agency_brand" : agency
                 ]

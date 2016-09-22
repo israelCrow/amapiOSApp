@@ -16,6 +16,8 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   private var arrayOfExclusivesBrandTextFields: [UITextField]! = nil
   private var descriptionLabel: UILabel! = nil
   private var creatorOfBrandTextField: UITextField! = nil
+  
+  var isEdited: Bool = false
 
   override init(frame: CGRect) {
     super.init(frame: frame)

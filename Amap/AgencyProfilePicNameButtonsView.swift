@@ -65,7 +65,7 @@ class AgencyProfilePicNameButtonsView: UIView {
       
     }
     
-    if AgencyModel.Data.longitude != nil && AgencyModel.Data.latitude != nil {
+    if AgencyModel.Data.longitude != nil && AgencyModel.Data.latitude != nil && AgencyModel.Data.address != nil && UtilityManager.sharedInstance.isValidText(AgencyModel.Data.address!) && AgencyModel.Data.address != "" {
       
       self.createLocationIconButton()
       

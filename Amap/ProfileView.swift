@@ -11,7 +11,7 @@ import GooglePlaces
 
 protocol ProfileViewDelegate {
   func selectProfileImageFromLibrary()
-  func saveChangesFromEditProfileView(parameters: [String:AnyObject])
+  func saveChangesFromEditProfileView(parameters: [String:AnyObject], actionsToMakeAfterExecution: () -> Void)
   func asKForDeleteProfileImage()
 }
 
@@ -33,6 +33,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
   private var agencyLatitude: String?
   private var agencyLongitude: String?
   
+  var thereAreChanges: Bool = false
   var delegate: ProfileViewDelegate?
   
   //Google places
@@ -440,13 +441,13 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
                                     forControlEvents: .EditingChanged)
     
     let frameForResultText = CGRect(x: agencyAddressView.frame.origin.x,
-                                    y: agencyAddressView.frame.origin.y + agencyAddressView.frame.size.height + (2.5 * UtilityManager.sharedInstance.conversionHeight),
+                                    y: agencyAddressView.frame.origin.y + agencyAddressView.frame.size.height - (19.0 * UtilityManager.sharedInstance.conversionHeight),
                                     width: agencyAddressView.frame.size.width,
-                                    height: 40.0 * UtilityManager.sharedInstance.conversionHeight)
+                                    height: 45.0 * UtilityManager.sharedInstance.conversionHeight)
     
     resultText = UITextView(frame: frameForResultText)
     resultText?.attributedText
-    resultText?.backgroundColor = UIColor.lightGrayColor()
+    resultText?.backgroundColor = UIColor.whiteColor()
     resultText?.alpha = 0.0
     resultText?.editable = false
     
@@ -566,6 +567,9 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
   }
   
   func textFieldDidBeginEditing(textField: UITextField) {
+    
+    thereAreChanges = true
+    
     if textField.tag != 4 {
       
       self.hideResultText()
@@ -597,7 +601,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     
   }
   
-  func saveChangesOfAgencyProfile(valuesSelectedFromParticipateInView: [String:Bool]) {
+  func saveChangesOfAgencyProfile(valuesSelectedFromParticipateInView: [String:Bool], actionsToMakeAfterExecution: () -> Void) {
     
     let golden_pitch: String = (valuesSelectedFromParticipateInView["golden_pitch"] == true ? "1" : "0")
     let silver_pitch: String = (valuesSelectedFromParticipateInView["silver_pitch"] == true ? "1" : "0")
@@ -680,7 +684,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
         ]
       }
 
-      delegate?.saveChangesFromEditProfileView(parameters)
+      delegate?.saveChangesFromEditProfileView(parameters, actionsToMakeAfterExecution: actionsToMakeAfterExecution)
       
     }else{
       
@@ -741,7 +745,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
         ]
       }
       
-      self.delegate?.saveChangesFromEditProfileView(parameters)
+      self.delegate?.saveChangesFromEditProfileView(parameters, actionsToMakeAfterExecution: actionsToMakeAfterExecution)
       
     }
   }

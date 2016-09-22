@@ -8,11 +8,13 @@
 
 import UIKit
 
-class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
+class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource, CustomSkillTableViewCellDelegate {
   
   private var skillsLabel: UILabel! = nil
   private var collapsibleTableView: UITableView! = nil
   private var skillCategories: [SkillCategory]! = nil
+  
+  var thereAreChanges: Bool = false
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -147,6 +149,7 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
     
     self.changeAttributedTextOfNormalCell(cell, subSkillText: skillCategories[indexPath.section].arrayOfSkills[indexPath.row].name)
     cell.setSkillData(skillCategories[indexPath.section].arrayOfSkills[indexPath.row])
+    cell.delegate = self
     
     cell.selectionStyle = UITableViewCellSelectionStyle.None
     
@@ -286,6 +289,14 @@ class SkillsView: UIView, UITableViewDelegate, UITableViewDataSource{
     ]
 
    return params
+  }
+  
+  //MARK: - CustomSkillTableViewCellDelegate
+  
+  func changeValueOfCell(sender: CustomSkillTableViewCell) {
+    
+    thereAreChanges = true
+    
   }
   
   

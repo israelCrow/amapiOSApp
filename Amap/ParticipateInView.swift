@@ -9,7 +9,7 @@
 import UIKit
 
 
-class ParticipateInView: UIView {
+class ParticipateInView: UIView, CriterionViewDelegate {
   
   private var mainScrollView: UIScrollView! = nil
   private var arrayOfLabels: [CriterionView]! = nil
@@ -19,6 +19,8 @@ class ParticipateInView: UIView {
   private var silverPitchCriterion: CriterionView! = nil
   private var mediumRiskPitchCriterion: CriterionView! = nil
   private var highRiskPitchCriterion: CriterionView! = nil
+  
+  var thereAreChanges: Bool = false
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -107,6 +109,7 @@ class ParticipateInView: UIView {
     goldenPitchCriterion = CriterionView.init(frame: frameForNewCriterion,
                                                    textLabel: AgencyProfileEditConstants.ParticipateInView.goldenPitchLabelText, valueOfSwitch: AgencyModel.Data.golden_pitch!)
     goldenPitchCriterion.adaptSize()
+    goldenPitchCriterion.delegate = self
     
     arrayOfLabels.append(goldenPitchCriterion)
     
@@ -122,6 +125,7 @@ class ParticipateInView: UIView {
     silverPitchCriterion = CriterionView.init(frame: frameForNewCriterion,
                                                 textLabel: AgencyProfileEditConstants.ParticipateInView.silverPitchLabelText, valueOfSwitch: AgencyModel.Data.silver_pitch!)
     silverPitchCriterion.adaptSize()
+    silverPitchCriterion.delegate = self
     
     arrayOfLabels.append(silverPitchCriterion)
     
@@ -137,6 +141,7 @@ class ParticipateInView: UIView {
     mediumRiskPitchCriterion = CriterionView.init(frame: frameForNewCriterion,
                                                              textLabel: AgencyProfileEditConstants.ParticipateInView.mRiskPitchLabelText, valueOfSwitch: AgencyModel.Data.medium_risk_pitch!)
     mediumRiskPitchCriterion.adaptSize()
+    mediumRiskPitchCriterion.delegate = self
     
     arrayOfLabels.append(mediumRiskPitchCriterion)
     
@@ -152,6 +157,7 @@ class ParticipateInView: UIView {
     highRiskPitchCriterion = CriterionView.init(frame: frameForNewCriterion,
                                                       textLabel: AgencyProfileEditConstants.ParticipateInView.highRiskPitchLabelText, valueOfSwitch: AgencyModel.Data.high_risk_pitch!)
     highRiskPitchCriterion.adaptSize()
+    highRiskPitchCriterion.delegate = self
     
     arrayOfLabels.append(highRiskPitchCriterion)
     
@@ -185,6 +191,14 @@ class ParticipateInView: UIView {
       "medium_risk_pitch" : mediumRiskPitchCriterion.getValueOfSwitch()
       ]
 
+  }
+  
+  //MARK: - CriterionViewDelegate
+  
+  func theValueHasChanged(isValueChanged: Bool) {
+    
+    thereAreChanges = true
+    
   }
   
 }

@@ -319,7 +319,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
                                 height: (70.0 * UtilityManager.sharedInstance.conversionHeight))
     saveChangesButton = UIButton.init(frame: frameForButton)
     saveChangesButton.addTarget(self,
-                             action: #selector(requestToEveryScreenToSave),
+                                action: #selector(saveChangesButtonPressed),
                              forControlEvents: .TouchUpInside)
     saveChangesButton.backgroundColor = UIColor.blackColor()
     saveChangesButton.setAttributedTitle(stringWithFormat, forState: .Normal)
@@ -612,14 +612,27 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     }
   }
   
-  @objc private func requestToEveryScreenToSave() {
+  @objc private func saveChangesButtonPressed() {
+    
+    self.requestToEveryScreenToSave(){
+    
+      self.criteriaView.thereAreChanges = false
+      self.participateView.thereAreChanges = false
+      self.skillsView.thereAreChanges = false
+      self.profileView.thereAreChanges = false
+
+    }
+    
+  }
+  
+  @objc private func requestToEveryScreenToSave(actionsToMakeAfterExecuting: () -> Void) {
     //this for every screen
     
     self.criteriaView.saveCriterionsSelected()
     
     //Profile Data and Participe In
     let valuesFromParticipateView = self.participateView.getTheValuesSelected()
-    self.profileView.saveChangesOfAgencyProfile(valuesFromParticipateView)
+    self.profileView.saveChangesOfAgencyProfile(valuesFromParticipateView, actionsToMakeAfterExecution: actionsToMakeAfterExecuting)
     
 //    //Skills Data
 //    let paramsFromSkills = self.skillsView.getParamsToSaveDataOfSkills()
@@ -670,9 +683,38 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   @objc private func popThisViewController() {
     
-    self.requestToShowTabBar()
+    if criteriaView.thereAreChanges == true || participateView.thereAreChanges == true || skillsView.thereAreChanges == true || profileView.thereAreChanges == true {
+      
+        let alertController = UIAlertController(title: "Cambios detectados", message: "¿Deseas guardar los cambios realizados?", preferredStyle: UIAlertControllerStyle.Alert)
     
-    self.navigationController?.popViewControllerAnimated(true)
+        let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
+          self.requestToShowTabBar()
+          self.navigationController?.popViewControllerAnimated(true)
+          
+        }
+    
+        let okAction = UIAlertAction(title: "Sí", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+          
+          self.requestToEveryScreenToSave(){
+            
+            self.requestToShowTabBar()
+            self.navigationController?.popViewControllerAnimated(true)
+            
+          }
+      
+        }
+      
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+      
+    }else{
+      
+      self.requestToShowTabBar()
+      self.navigationController?.popViewControllerAnimated(true)
+      
+    }
     
   }
   
@@ -892,9 +934,9 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     if requestImageForProfile == true {
       
-      
       self.profileView.changeProfileImageView(image)
       requestImageForProfile = false
+      self.profileView.thereAreChanges = true
       self.goToLastPage()
 
     }else
@@ -937,7 +979,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
   }
   
-  func saveChangesFromEditProfileView(parameters: [String:AnyObject]) {
+  func saveChangesFromEditProfileView(parameters: [String:AnyObject], actionsToMakeAfterExecution: () -> Void) {
     
     UtilityManager.sharedInstance.showLoader()
     
@@ -1095,6 +1137,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
               RequestToServerManager.sharedInstance.requestForAgencyData {
                 
                 UtilityManager.sharedInstance.hideLoader()
+                actionsToMakeAfterExecution()
                 
               }
               
