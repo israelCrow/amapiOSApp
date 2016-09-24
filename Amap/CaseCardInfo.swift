@@ -78,13 +78,21 @@ class CaseCardInfoView: UIView, PreviewVimeoYoutubeViewDelegate {
   
   private func createCaseNameLabel() {
     
-    caseNameLabel = UILabel.init(frame: CGRectZero)
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                width: 208.0 * UtilityManager.sharedInstance.conversionWidth,
+                               height: 20.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    caseNameLabel = UILabel.init(frame: frameForLabel)
+    caseNameLabel.numberOfLines = 1
+    caseNameLabel.backgroundColor = UIColor.clearColor()
     
     let font = UIFont(name: "SFUIText-Light",
                       size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
-    style.alignment = NSTextAlignment.Center
+    style.alignment = NSTextAlignment.Left
+    style.lineBreakMode = .ByTruncatingTail
     
     let stringWithFormat = NSMutableAttributedString(
       string: caseData.name,
@@ -94,9 +102,8 @@ class CaseCardInfoView: UIView, PreviewVimeoYoutubeViewDelegate {
       ]
     )
     caseNameLabel.attributedText = stringWithFormat
-    caseNameLabel.sizeToFit()
     let newFrame = CGRect.init(x: 2.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 140.0 * UtilityManager.sharedInstance.conversionHeight - (caseNameLabel.frame.size.height),
+                               y: 134.0 * UtilityManager.sharedInstance.conversionHeight - (caseNameLabel.frame.size.height),
                                width: caseNameLabel.frame.size.width,
                                height: caseNameLabel.frame.size.height)
     

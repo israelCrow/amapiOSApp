@@ -125,7 +125,7 @@ class SuccessfullyCreationOfPitchView: UIView {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: CreateAccountConstants.SuccessfullyAskForAccountView.nextButtonText ,
+      string: VisualizePitchesConstants.SuccessfullyCreationOfPitchView.nextButtonText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color
@@ -133,7 +133,7 @@ class SuccessfullyCreationOfPitchView: UIView {
     )
     
     let stringWithFormatWithPressed = NSMutableAttributedString(
-      string: VisualizePitchesConstants.SuccessfullyCreationOfPitchView.nextButtonText ,
+      string: VisualizePitchesConstants.SuccessfullyCreationOfPitchView.nextButtonText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: colorWhenPressed

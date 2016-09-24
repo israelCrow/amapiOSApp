@@ -11,7 +11,8 @@ import UIKit
 class VisualizeCaseDetailViewController: UIViewController {
   
   private var caseData: Case! = nil
-  private var contentView: UIView! = nil
+  private var backgroundView: UIView! = nil
+  private var mainScrollView: UIScrollView! = nil
   private var caseNameLabel: UILabel! = nil
   private var caseDescriptionLabel: UILabel! = nil
   private var playerVimeoYoutube: VideoPlayerVimeoYoutubeView! = nil
@@ -44,7 +45,8 @@ class VisualizeCaseDetailViewController: UIViewController {
     self.changeBackButtonItem()
     self.changeNavigationBarTitle()
     self.changeRigthButtonItem()
-    self.createContentView()
+    self.createBackgroundView()
+    self.createMainScrollView()
     self.createCaseNameLabel()
     self.createCaseDescriptionLabel()
     self.createPlayerVimeoYoutube()
@@ -105,22 +107,45 @@ class VisualizeCaseDetailViewController: UIViewController {
     
   }
   
-  private func createContentView() {
+  private func createBackgroundView() {
     
     let frameForView = CGRect.init(x: 0.0,
                                    y: 60.0,
                                    width: UIScreen.mainScreen().bounds.size.width,
                                    height: UIScreen.mainScreen().bounds.size.height - 60.0)
     
-    contentView = UIView.init(frame: frameForView)
-    contentView.backgroundColor = UIColor.whiteColor()
-    self.view.addSubview(contentView)
+    backgroundView = UIView.init(frame: frameForView)
+    backgroundView.backgroundColor = UIColor.whiteColor()
+    self.view.addSubview(backgroundView)
+    
+  }
+  
+  private func createMainScrollView() {
+    
+    let frameForMainScrollView = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
+                                             y: 100.0 * UtilityManager.sharedInstance.conversionHeight,
+                                         width: 310.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        height: 510.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
+    mainScrollView.contentSize = CGSize.init(width: mainScrollView.frame.size.width,
+                                             height: mainScrollView.frame.size.height + 50.0)
+    mainScrollView.backgroundColor = UIColor.clearColor()
+    
+    self.view.addSubview(mainScrollView)
     
   }
   
   private func createCaseNameLabel() {
     
-    caseNameLabel = UILabel.init(frame: CGRectZero)
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    caseNameLabel = UILabel.init(frame: frameForLabel)
+    caseNameLabel.numberOfLines = 0
+    caseNameLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIDisplay-Ultralight",
                       size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
@@ -138,21 +163,28 @@ class VisualizeCaseDetailViewController: UIViewController {
     )
     caseNameLabel.attributedText = stringWithFormat
     caseNameLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 40.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: 0.0,
+                               y: 0.0,
                                width: caseNameLabel.frame.size.width,
                                height: caseNameLabel.frame.size.height)
     
     caseNameLabel.frame = newFrame
     
-    contentView.addSubview(caseNameLabel)
+    mainScrollView.addSubview(caseNameLabel)
     
   }
   
   private func createCaseDescriptionLabel() {
     
-    caseDescriptionLabel = UILabel.init(frame: CGRectZero)
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: caseNameLabel.frame.origin.y + caseNameLabel.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                    width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    caseDescriptionLabel = UILabel.init(frame: frameForLabel)
     caseDescriptionLabel.numberOfLines = 0
+    caseDescriptionLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIText-Light",
                       size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
@@ -169,21 +201,21 @@ class VisualizeCaseDetailViewController: UIViewController {
     )
     caseDescriptionLabel.attributedText = stringWithFormat
     caseDescriptionLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 106.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: 0.0,
+                               y: caseNameLabel.frame.origin.y + caseNameLabel.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: caseDescriptionLabel.frame.size.width,
                                height: caseDescriptionLabel.frame.size.height)
     
     caseDescriptionLabel.frame = newFrame
     
-    contentView.addSubview(caseDescriptionLabel)
+    mainScrollView.addSubview(caseDescriptionLabel)
     
   }
   
   private func createPlayerVimeoYoutube() {
     
-    let frameForPlayer = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 164.0 * UtilityManager.sharedInstance.conversionHeight,
+    let frameForPlayer = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: caseDescriptionLabel.frame.origin.y + caseDescriptionLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
                                      width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 148.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -196,7 +228,14 @@ class VisualizeCaseDetailViewController: UIViewController {
     playerVimeoYoutube.changeCaseImageButton = nil
     playerVimeoYoutube.deleteCaseImageButton = nil
     
-    contentView.addSubview(playerVimeoYoutube)
+    mainScrollView.addSubview(playerVimeoYoutube)
+    
+    if playerVimeoYoutube.frame.origin.y + playerVimeoYoutube.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight) >= mainScrollView.frame.size.height {
+      
+      mainScrollView.contentSize = CGSize.init(width: mainScrollView.frame.size.width,
+                                              height: mainScrollView.frame.size.height + (mainScrollView.frame.size.height - (playerVimeoYoutube.frame.origin.y + playerVimeoYoutube.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight))))
+      
+    }
     
   }
   
@@ -204,6 +243,10 @@ class VisualizeCaseDetailViewController: UIViewController {
     
     self.navigationController?.popViewControllerAnimated(true)
     
+  }
+  
+  override func viewWillAppear(animated: Bool) {
+    UIView.setAnimationsEnabled(true)
   }
   
 }

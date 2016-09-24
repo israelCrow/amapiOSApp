@@ -116,10 +116,10 @@ class CustomSegmentedControlWithTitleView: UIView {
   private func createMainTextField() {
     
     var newPositionX: CGFloat
-    var newPositionXForLine: CGFloat
+//    var newPositionXForLine: CGFloat
     var newPositionY: CGFloat
     var newWidth: CGFloat
-    var newWidthForLine: CGFloat
+//    var newWidthForLine: CGFloat
     
     if iconImageView != nil {
       
@@ -127,9 +127,9 @@ class CustomSegmentedControlWithTitleView: UIView {
       
       newWidth = (210.0 * UtilityManager.sharedInstance.conversionWidth) - (iconImageView!.frame.origin.x + iconImageView!.frame.size.width + (20.0 * UtilityManager.sharedInstance.conversionWidth))
       
-      newWidthForLine = newPositionX + newWidth
+//      newWidthForLine = newPositionX + newWidth
       
-      newPositionXForLine = -newPositionX
+//      newPositionXForLine = -newPositionX
       
       
     } else {
@@ -138,9 +138,9 @@ class CustomSegmentedControlWithTitleView: UIView {
       
       newWidth = 210.0 * UtilityManager.sharedInstance.conversionWidth
       
-      newPositionXForLine = -4.0 * UtilityManager.sharedInstance.conversionWidth
-      
-      newWidthForLine = 220.0 * UtilityManager.sharedInstance.conversionWidth
+//      newPositionXForLine = -4.0 * UtilityManager.sharedInstance.conversionWidth
+//      
+//      newWidthForLine = 220.0 * UtilityManager.sharedInstance.conversionWidth
       
     }
     
@@ -157,7 +157,7 @@ class CustomSegmentedControlWithTitleView: UIView {
     let frameForSegmentedControl = CGRect.init(x: newPositionX,
                                         y: newPositionY,
                                         width: newWidth,
-                                        height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+                                        height: 30.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainSegmentedControl = UISegmentedControl.init(items: arrayOfSegments)
     mainSegmentedControl.frame = frameForSegmentedControl
@@ -179,7 +179,12 @@ class CustomSegmentedControlWithTitleView: UIView {
       
     }
     
-    
+    for index in 0..<arrayOfSegments.count {
+      
+      mainSegmentedControl.setWidth(72.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    forSegmentAtIndex: index)
+      
+    }
     
     for segment in mainSegmentedControl.subviews {
       
@@ -193,12 +198,12 @@ class CustomSegmentedControlWithTitleView: UIView {
     let width = CGFloat(0.5)
     border.borderColor = UIColor.darkGrayColor().CGColor
     border.borderWidth = width
-    border.frame = CGRect.init(x: newPositionXForLine,
-                               y: mainSegmentedControl.frame.size.height + (8.0 * UtilityManager.sharedInstance.conversionHeight),
-                               width: newWidthForLine,
-                               height: 0.5)
-    mainSegmentedControl.layer.masksToBounds = false
-    mainSegmentedControl.layer.addSublayer(border)
+    border.frame = CGRect.init(x: 0.0,
+                               y: self.frame.size.height - (0.5 * UtilityManager.sharedInstance.conversionHeight),
+                               width: self.frame.size.width,
+                               height: 0.5 * UtilityManager.sharedInstance.conversionHeight)
+    self.layer.masksToBounds = false
+    self.layer.addSublayer(border)
     mainSegmentedControl.backgroundColor = UIColor.whiteColor()
     
     self.addSubview(mainSegmentedControl)

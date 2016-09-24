@@ -81,7 +81,7 @@ class VisualizePitchesConstants {
     
     static let readyLabelText = "¡Listo!"
     static let descriptionLabelText = "Pitch dado de alta"
-    static let nextButtonText = "ok"
+    static let nextButtonText = "evaluar pitch"
     
   }
   

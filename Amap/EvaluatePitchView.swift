@@ -37,6 +37,8 @@ class EvaluatePitchView: UIView {
   private var alreadyMoveDownTheContainer: Bool = false
   
   var delegate: EvaluatePitchViewDelegate?
+  
+  let kSpaceInSegments = 36.0 * UtilityManager.sharedInstance.conversionWidth
 
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -147,12 +149,20 @@ class EvaluatePitchView: UIView {
                                width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                               height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["Sí", "No"]
+    let segmentsArray = ["Sí", "", "No"]
     
     clearObjectivesView = CustomSegmentedControlWithTitleView.init(frame: frameForView,
                                                                    title: "¿Tienes los objetivos claros?",
                                                                    image: nil,
                                                                    segmentsText: segmentsArray)
+    let originalSegmentControlFrame = clearObjectivesView.mainSegmentedControl.frame
+    let newFrame = CGRect.init(x: originalSegmentControlFrame.origin.x + (20.0 * UtilityManager.sharedInstance.conversionWidth),
+                               y: originalSegmentControlFrame.origin.y,
+                           width: originalSegmentControlFrame.size.width,
+                          height: originalSegmentControlFrame.size.height)
+    clearObjectivesView.mainSegmentedControl.frame = newFrame
+    clearObjectivesView.mainSegmentedControl.setWidth(kSpaceInSegments, forSegmentAtIndex: 1)
+    clearObjectivesView.mainSegmentedControl.setEnabled(false, forSegmentAtIndex: 1)
     
     mainScrollView.addSubview(clearObjectivesView)
     
@@ -162,16 +172,24 @@ class EvaluatePitchView: UIView {
   private func createYouKnowTheProjectBudget() {
     
     let frameForView = CGRect.init(x: 0.0,
-                                   y: 87.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 89.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["Sí", "No"]
+    let segmentsArray = ["Sí", "", "No"]
     
     youKnowTheProjectBudget = CustomSegmentedControlWithTitleView.init(frame: frameForView,
                                                                    title: "¿Saben el budget del proyecto?",
                                                                    image: nil,
                                                                    segmentsText: segmentsArray)
+    let originalSegmentControlFrame = youKnowTheProjectBudget.mainSegmentedControl.frame
+    let newFrame = CGRect.init(x: originalSegmentControlFrame.origin.x + (20.0 * UtilityManager.sharedInstance.conversionWidth),
+                               y: originalSegmentControlFrame.origin.y,
+                               width: originalSegmentControlFrame.size.width,
+                               height: originalSegmentControlFrame.size.height)
+    youKnowTheProjectBudget.mainSegmentedControl.frame = newFrame
+    youKnowTheProjectBudget.mainSegmentedControl.setWidth(kSpaceInSegments, forSegmentAtIndex: 1)
+    youKnowTheProjectBudget.mainSegmentedControl.setEnabled(false, forSegmentAtIndex: 1)
     
     mainScrollView.addSubview(youKnowTheProjectBudget)
     
@@ -180,16 +198,26 @@ class EvaluatePitchView: UIView {
   private func createYouKnowTheSelectionCriteria() {
     
     let frameForView = CGRect.init(x: 0.0,
-                                   y: 177.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 181.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["Sí", "No"]
+    
+    let segmentsArray = ["Sí", "", "No"]
     
     youKnowTheSelectionCriteria = CustomSegmentedControlWithTitleView.init(frame: frameForView,
                                                                    title: "¿Saben el criterio de selección?",
                                                                    image: nil,
                                                                    segmentsText: segmentsArray)
+    
+    let originalSegmentControlFrame = youKnowTheSelectionCriteria.mainSegmentedControl.frame
+    let newFrame = CGRect.init(x: originalSegmentControlFrame.origin.x + (20.0 * UtilityManager.sharedInstance.conversionWidth),
+                               y: originalSegmentControlFrame.origin.y,
+                               width: originalSegmentControlFrame.size.width,
+                               height: originalSegmentControlFrame.size.height)
+    youKnowTheSelectionCriteria.mainSegmentedControl.frame = newFrame
+    youKnowTheSelectionCriteria.mainSegmentedControl.setWidth(kSpaceInSegments, forSegmentAtIndex: 1)
+    youKnowTheSelectionCriteria.mainSegmentedControl.setEnabled(false, forSegmentAtIndex: 1)
     
     mainScrollView.addSubview(youKnowTheSelectionCriteria)
     
@@ -198,7 +226,7 @@ class EvaluatePitchView: UIView {
   private func createInvolvementOfMarketing() {
     
     let frameForView = CGRect.init(x: 0.0,
-                                   y: 267.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 269.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -216,7 +244,7 @@ class EvaluatePitchView: UIView {
   private func createHowManyAgenciesParticipate() {
     
     let frameForView = CGRect.init(x: 0.0,
-                                   y: 362.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 364.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -234,7 +262,7 @@ class EvaluatePitchView: UIView {
   private func createHowManyDaysToShow() {
     
     let frameForView = CGRect.init(x: 0.0,
-                                   y: 450.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 452.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -258,7 +286,7 @@ class EvaluatePitchView: UIView {
   private func createYouKnoHowManyPresentationRounds() {
     
     let frameForView = CGRect.init(x: 0.0,
-                                   y: 537.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 539.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -277,7 +305,7 @@ class EvaluatePitchView: UIView {
   private func createHowMany() {
     
     let frameForView = CGRect.init(x: 0.0,
-                                   y: 627.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 629.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 300.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -302,7 +330,7 @@ class EvaluatePitchView: UIView {
   private func createContainerOfLastQuestions() {
     
     let frameForView = CGRect.init(x: 0.0,
-                                   y: 627.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 629.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 300.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -316,7 +344,7 @@ class EvaluatePitchView: UIView {
   private func createHowManyDaysTheyGiveTheRuling() {
     
     let frameForView = CGRect.init(x: 0.0,
-                                   y: 0.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 2.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -341,7 +369,7 @@ class EvaluatePitchView: UIView {
   private func createDeliverIntelectualPropertyJustToPitch() {
     
     let frameForView = CGRect.init(x: 0.0,
-                                   y: 87.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 89.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -359,16 +387,25 @@ class EvaluatePitchView: UIView {
   private func createClearDeliverable() {
     
     let frameForView = CGRect.init(x: 0.0,
-                                   y: 190.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 192.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["Sí", "No"]
+    let segmentsArray = ["Sí", "", "No"]
     
     clearDeliverable = CustomSegmentedControlWithTitleView.init(frame: frameForView,
                                                                            title: "¿Tienes los entregables claros?",
                                                                            image: nil,
                                                                            segmentsText: segmentsArray)
+    
+    let originalSegmentControlFrame = clearDeliverable.mainSegmentedControl.frame
+    let newFrame = CGRect.init(x: originalSegmentControlFrame.origin.x + (20.0 * UtilityManager.sharedInstance.conversionWidth),
+                               y: originalSegmentControlFrame.origin.y,
+                               width: originalSegmentControlFrame.size.width,
+                               height: originalSegmentControlFrame.size.height)
+    clearDeliverable.mainSegmentedControl.frame = newFrame
+    clearDeliverable.mainSegmentedControl.setWidth(kSpaceInSegments, forSegmentAtIndex: 1)
+    clearDeliverable.mainSegmentedControl.setEnabled(false, forSegmentAtIndex: 1)
     
     containerOfLastQuestions.addSubview(clearDeliverable)
     
