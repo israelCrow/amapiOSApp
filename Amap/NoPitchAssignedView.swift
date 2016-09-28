@@ -32,7 +32,7 @@ class NoPitchAssignedView: UIView {
     let frameForThisView = CGRect.init(x: position.x,
                                        y: position.y - (20.0 * UtilityManager.sharedInstance.conversionHeight),
                                    width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
-                                  height: 474.0 * UtilityManager.sharedInstance.conversionHeight)
+                                  height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
     super.init(frame: frameForThisView)
       
     self.initInterface()
@@ -80,10 +80,10 @@ class NoPitchAssignedView: UIView {
   
   private func createAddPitchButton() {
     
-    let frameForButton = CGRect.init(x: 243.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 0.0 * UtilityManager.sharedInstance.conversionHeight,
-                                     width: 40.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     height: 40.0 * UtilityManager.sharedInstance.conversionHeight)
+    let frameForButton = CGRect.init(x: 235.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: -5.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: 56.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
     addPitchButton = UIButton.init(frame: frameForButton)
     let image = UIImage(named: "buttonAddPitch") as UIImage?

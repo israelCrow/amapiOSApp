@@ -8,7 +8,13 @@
 
 import UIKit
 
-class CustomTextFieldWithTitleAndPickerView: UIView, UIPickerViewDelegate, UIPickerViewDataSource {
+protocol CustomTextFieldWithTitleAndPickerViewDelegate {
+  
+  func customTextFieldWithTitleAndPickerViewDidBeginEditing(sender: AnyObject)
+  
+}
+
+class CustomTextFieldWithTitleAndPickerView: UIView, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
   
   private var titleLabel: UILabel! = nil
   private var imageOfArrow: UIImageView! = nil
@@ -20,6 +26,8 @@ class CustomTextFieldWithTitleAndPickerView: UIView, UIPickerViewDelegate, UIPic
   private var textOfTitleString: String! = nil
   private var nameOfImageString: String?
   private var optionsOfPicker = [String]()
+  
+  var delegate: CustomTextFieldWithTitleAndPickerViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -239,6 +247,7 @@ class CustomTextFieldWithTitleAndPickerView: UIView, UIPickerViewDelegate, UIPic
     mainTextField.inputView = containerViewForPicker
     mainTextField.font = UIFont(name:"SFUIText-Regular",
                                 size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+    mainTextField.delegate = self
     self.addSubview(mainTextField)
     
   }
@@ -274,6 +283,14 @@ class CustomTextFieldWithTitleAndPickerView: UIView, UIPickerViewDelegate, UIPic
   func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
     
     mainTextField.text = optionsOfPicker[row]
+    
+  }
+  
+  //MARK: - TextFieldDelegate
+  
+  func textFieldDidBeginEditing(textField: UITextField) {
+    
+    self.delegate?.customTextFieldWithTitleAndPickerViewDidBeginEditing(self)
     
   }
   

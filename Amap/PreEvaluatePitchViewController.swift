@@ -268,7 +268,7 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
   //MARK: - SuccessfullyCreationOfPitchViewDelegate
   
   func nextButtonPressedFromSuccessfullyCreationOfPitch() {
-    
+  
     let newFrameForDetailedNavigation = CGRect.init(x: detailedNavigation.frame.size.width,
                                                     y: detailedNavigation.frame.origin.y,
                                                     width: detailedNavigation.frame.size.width,

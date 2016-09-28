@@ -116,7 +116,7 @@ class UtilityManager: NSObject {
     
       let rootViewController = self.currentViewController()
       rootViewController.view.addSubview(loadingView)
-      loaderImageView.animationDuration = 1.2
+      loaderImageView.animationDuration = 1.0
       loaderImageView.animationRepeatCount = 0
       loaderImageView.startAnimating()
     

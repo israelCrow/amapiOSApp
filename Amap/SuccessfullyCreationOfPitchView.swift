@@ -25,8 +25,12 @@ class SuccessfullyCreationOfPitchView: UIView {
   var delegate: SuccessfullyCreationOfPitchViewDelegate?
   
   override init(frame: CGRect) {
+
+
     super.init(frame: frame)
+
     self.initInterface()
+
   }
   
   private func initInterface() {

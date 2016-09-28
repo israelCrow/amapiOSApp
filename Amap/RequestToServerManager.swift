@@ -764,8 +764,6 @@ class RequestToServerManager: NSObject {
       
     }
     
-    
-    
     var values: [String:AnyObject]
     
     let pitchDictionary = ["name" : pitchData.name,
@@ -865,6 +863,147 @@ class RequestToServerManager: NSObject {
         }
     }
   }
+  
+  func requestToCreateEvaluationOfProjectPitch(params: [String: AnyObject], actionsToMakeAfterSuccesfullCreateNewEvaluationPitch: (newEvaluationPitchCreated: PitchEvaluationModelData)-> Void) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_evaluations"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        print()
+        if response.response?.statusCode == 201 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          let newActivityStatus = (json["activity_status"] as? Int != nil ? String(json["activity_status"] as! Int) : "")
+          
+          var newAreDeliverablesClearBool: Bool
+          let newAreDeliverablesClear = (json["are_deliverables_clear"] as? Int != nil ? json["are_deliverables_clear"] as! Int : -1)
+          if newAreDeliverablesClear == 1 {
+            newAreDeliverablesClearBool = true
+          }else{
+            newAreDeliverablesClearBool = false
+          }
+          
+          var newAreObjectivesClearBool: Bool
+          let newAreObjectivesClear = (json["are_objectives_clear"] as? Int != nil ? json["are_objectives_clear"] as! Int : -1)
+          if newAreObjectivesClear == 1 {
+            newAreObjectivesClearBool = true
+          }else{
+            newAreObjectivesClearBool = false
+          }
+          
+          var newEvaluationStatusBool: Bool
+          let newEvaluationStatus = (json["evaluation_status"] as? Int != nil ? json["evaluation_status"] as! Int : -1)
+          if newEvaluationStatus == 1 {
+            newEvaluationStatusBool = true
+          }else{
+            newEvaluationStatusBool = false
+          }
+          
+          var newHasSelectionCriteriaBool: Bool
+          let newHasSelectionCriteriaInt = (json["has_selection_criteria"] as? Int != nil ? json["has_selection_criteria"] as! Int : -1)
+          if newHasSelectionCriteriaInt == 1 {
+            newHasSelectionCriteriaBool = true
+          }else{
+            newHasSelectionCriteriaBool = false
+          }
+          
+          let newId = (json["id"] as? Int != nil ? String(json["id"] as! Int) : "")
+          
+          var newIsBudgetKnownBool: Bool
+          let newIsBudgetKnown = (json["is_budget_known"] as? Int != nil ? json["is_budget_known"] as! Int : -1)
+          if newIsBudgetKnown == 1 {
+            newIsBudgetKnownBool = true
+          }else{
+            newIsBudgetKnownBool = false
+          }
+          
+          let newNumberOfAgencies = (json["number_of_agencies"] as? String != nil ? json["number_of_agencies"] as! String : "")
+          let newNumberOfRounds = (json["number_of_rounds"] as? String != nil ? json["number_of_rounds"] as! String : "")
+          let newPitchId = (json["pitch_id"] as? Int != nil ? String(json["pitch_id"] as! Int) : "")
+          let newPitchStatus = (json["pitch_status"] as? Int != nil ? String(json["pitch_status"] as! Int) : "")
+          let newScore = (json["score"] as? Int != nil ? String(json["score"] as! Int) : "")
+          let newTimeToKnowDecision = (json["time_to_know_decision"] as? String != nil ? json["time_to_know_decision"] as! String : "")
+          let newTimeToPresent = (json["time_to_present"] as? String != nil ? json["time_to_present"] as! String: "")
+          let newUserId = (json["user_id"] as? Int != nil ? String(json["user_id"] as! Int) : "")
+                    
+          var newWasWonBool: Bool
+          let newWasWonInt = (json["was_won"] as? Int != nil ? json["was_won"] as! Int : -1)
+          if newWasWonInt == 1 {
+            newWasWonBool = true
+          }else{
+            newWasWonBool = false
+          }
+          
+          //Do sé
+          var newDeliverCopyrightForPitching: String = ""
+          if json["deliver_copyright_for_pitching"] as? Int != nil {
+            
+            newDeliverCopyrightForPitching = String(json["deliver_copyright_for_pitching"] as! Int)
+            
+          }else
+            if json["deliver_copyright_for_pitching"] as? String != nil {
+        
+              newDeliverCopyrightForPitching = json["deliver_copyright_for_pitching"] as! String
+              
+            }
+          
+          var newIsMarketingInvolved: String = ""
+          if json["is_marketing_involved"] as? Int != nil {
+            
+            newIsMarketingInvolved = String(json["is_marketing_involved"] as! Int)
+            
+          }else
+            if json["is_marketing_involved"] as? String != nil {
+            
+              newIsMarketingInvolved = json["is_marketing_involved"] as! String
+              
+            }
+          
+          let newEvaluationOfPitchCreated = PitchEvaluationModelData.init(
+            newId: newId,
+            newPitchId: newPitchId,
+            newUserId: newUserId,
+            newEvaluationStatus: newEvaluationStatusBool,
+            newPitchStatus: newPitchStatus,
+            newAreObjectivesClear: newAreObjectivesClearBool,
+            newTimeToPresent: newTimeToPresent,
+            newIsBudgetKnown: newIsBudgetKnownBool,
+            newNumberOfAgencies: newNumberOfAgencies,
+            newAreDeliverablesClear: newAreDeliverablesClearBool,
+            newIsMarketingInvolved: newIsMarketingInvolved,
+            newTimeToKnowDecision: newTimeToKnowDecision,
+            newScore: newScore,
+            newActivityStatus: newActivityStatus,
+            newWasWon: newWasWonBool,
+            newNumberOfRounds: newNumberOfRounds,
+            newDeliverCopyrightForPitching: newDeliverCopyrightForPitching,
+            newHasSelectionCriteria: newHasSelectionCriteriaBool)
+          
+          actionsToMakeAfterSuccesfullCreateNewEvaluationPitch(newEvaluationPitchCreated: newEvaluationOfPitchCreated)
+
+      
+          //actionsToMakeAfterSuccesfullCreateNewEvaluationPitch(newPitchCreated: newProjectPitchCreated)
+          
+        }else {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          print("ERROR")
+          
+        }
+    }
+  }
+
   
   
   

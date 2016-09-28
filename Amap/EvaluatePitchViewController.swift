@@ -12,6 +12,7 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
   
   private var flipCard: FlipCardView! = nil
   private var evaluatePitch: EvaluatePitchView! = nil
+  private var backViewForEvaluatePitchView: UIView! = nil
   private var detailedNavigation: DetailedNavigationEvaluatPitchView! = nil
   
   private var pitchData: ProjectPitchModelData! = nil
@@ -153,10 +154,14 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
                                                  height: heightOfCard)
     
     let blankAndBackView = UIView.init(frame: frameForBackAndFrontOfCard)
+    backViewForEvaluatePitchView = UIView.init(frame: frameForBackAndFrontOfCard)
+    backViewForEvaluatePitchView.backgroundColor = UIColor.whiteColor()
+    
     self.createEvaluatePitch(frameForBackAndFrontOfCard)
+    backViewForEvaluatePitchView.addSubview(self.evaluatePitch)
     
     flipCard = FlipCardView.init(frame: frameForCard,
-                                 viewOne: evaluatePitch,
+                                 viewOne: backViewForEvaluatePitchView,
                                  viewTwo: blankAndBackView)
     
     self.view.addSubview(flipCard)
@@ -170,7 +175,7 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
     
   }
   
-  private func createGradientView() -> GradientView{
+  private func createGradientView() -> GradientView {
     
     let frameForView = CGRect.init(x: 0.0, y: 60.0, width: UIScreen.mainScreen().bounds.size.width, height: UIScreen.mainScreen().bounds.size.height - 60.0)
     
@@ -252,9 +257,168 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
   
   //MARK: - EvaluatePitchVideDelegate
   
-  func createEvaluatePitch() {
+  func createEvaluatePitch(params: [String : AnyObject]) {
     
-    self.navigationRightButtonPressed()
+    UtilityManager.sharedInstance.showLoader()
+    
+    var paramsWithPitchID = params
+    paramsWithPitchID["pitch_id"] = pitchData.id
+    let finalParams: [String: AnyObject] = [
+                                              "auth_token": UserSession.session.auth_token,
+                                              "pitch_evaluation" : paramsWithPitchID
+                                           ]
+    
+    RequestToServerManager.sharedInstance.requestToCreateEvaluationOfProjectPitch(finalParams) { (newEvaluationPitchCreated) in
+      print(newEvaluationPitchCreated)
+      UtilityManager.sharedInstance.hideLoader()
+      self.navigationController?.popToRootViewControllerAnimated(true)
+      
+    }
+    
+  }
+  
+  private func makeAnimationOfCreationOfEvaluationOfPitch() {
+    
+    self.view.endEditing(true)
+    self.dismissDetailedNavigation()
+    self.dismissFrontOfCard()
+    self.animateCardSize()
+    
+  }
+  
+  private func dismissDetailedNavigation() {
+    
+    let newFrameForDetailedNavigation = CGRect.init(x: detailedNavigation.frame.size.width,
+                                                    y: detailedNavigation.frame.origin.y,
+                                                    width: detailedNavigation.frame.size.width,
+                                                    height: detailedNavigation.frame.size.height)
+    
+    UIView.animateWithDuration(0.20){
+      
+      self.detailedNavigation.frame = newFrameForDetailedNavigation
+      
+    }
+    
+  }
+  
+  private func dismissFrontOfCard() {
+    
+    UIView.animateWithDuration(0.25) {
+      
+      self.evaluatePitch.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func animateCardSize() {
+    
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
+    let newFrameForCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth),
+                                   y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
+                                   width: widthOfCard,
+                                   height: heightOfCard)
+    
+    let frameForBackAndFrontOfCard = CGRect.init(x: 0.0,
+                                                 y: 0.0,
+                                                 width: widthOfCard,
+                                                 height: heightOfCard)
+    
+    let blankAndBackView = UIView.init(frame: frameForBackAndFrontOfCard)
+    blankAndBackView.backgroundColor = UIColor.whiteColor()
+    blankAndBackView.hidden = true
+    self.createEvaluatePitch(frameForBackAndFrontOfCard)
+    
+    UIView.animateWithDuration(0.25,
+      animations: { 
+        
+        self.flipCard.frame = newFrameForCard
+        
+      }) { (finished) in
+        if finished == true {
+          
+         self.animateFlipCard(blankAndBackView)
+          
+        }
+    }
+    
+  }
+  
+  private func animateFlipCard(backViewOfClipCard: UIView) {
+    
+//    if UtilityManager.sharedInstance.loaderImageView != nil {
+//    
+//      let frameOfCard = backViewOfClipCard.frame
+//      let newLoaderImageView = UtilityManager.sharedInstance.loaderImageView
+//      let newFrameForLoaderImagerView = CGRect.init(x: (frameOfCard.size.width / 2.0) - (newLoaderImageView.frame.size.width / 2.0),
+//                                                    y: (frameOfCard.size.height / 2.0) - (newLoaderImageView.frame.size.height / 2.0),
+//                                                width: newLoaderImageView.frame.size.width,
+//                                               height: newLoaderImageView.frame.size.height)
+//      newLoaderImageView.frame = newFrameForLoaderImagerView
+//      
+//      backViewOfClipCard.addSubview(newLoaderImageView)
+//    
+//    }
+    
+    let loadingView = UIView.init(frame: backViewOfClipCard.frame)
+    loadingView.backgroundColor = UIColor.init(white: 1, alpha: 0.8)
+    
+    let frameForImageView = CGRect.init(x: (loadingView.frame.size.width / 2.0) - (75.0 * UtilityManager.sharedInstance.conversionWidth) ,
+                                        y: (loadingView.frame.size.height / 2.0) - (75.0 * UtilityManager.sharedInstance.conversionHeight),
+                                        width: 245.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        height: 245.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let loaderImageView = UIImageView.init(frame: frameForImageView)
+    loaderImageView.backgroundColor = UIColor.clearColor()
+    loaderImageView.animationImages = UtilityManager.sharedInstance.arrayOfImagesForLoader
+    loaderImageView.startAnimating()
+    loadingView.addSubview(loaderImageView)
+    
+    let genericLabel = self.createGenericLabel(backViewOfClipCard.frame, stringOfLabel: "Estamos calculando tus resultados")
+    backViewOfClipCard.addSubview(genericLabel)
+    backViewOfClipCard.addSubview(loadingView)
+    
+    self.flipCard.setSecondView(backViewOfClipCard)
+    
+    self.flipCard.flip()
+    
+  }
+  
+  private func createGenericLabel(frameOfCard: CGRect, stringOfLabel: String) -> UILabel{
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 149.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    let newLabel = UILabel.init(frame: frameForLabel)
+    newLabel.numberOfLines = 0
+    newLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: stringOfLabel,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    newLabel.attributedText = stringWithFormat
+    newLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (frameOfCard.size.width / 2.0) - (newLabel.frame.size.width / 2.0),
+                               y: 365.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: newLabel.frame.size.width,
+                               height: newLabel.frame.size.height)
+    
+    newLabel.frame = newFrame
+    
+    return newLabel
     
   }
   

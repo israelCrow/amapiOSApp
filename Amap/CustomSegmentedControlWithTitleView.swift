@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol CustomSegmentedControlWithTitleViewDelegate {
+  
+  func customSegmentedControlWithTitleViewDidBeginEditing(sender: AnyObject)
+  
+}
+
 class CustomSegmentedControlWithTitleView: UIView {
   
   private var textOfTitleString: String?
@@ -17,6 +23,7 @@ class CustomSegmentedControlWithTitleView: UIView {
   private var arrayOfSegments: [String]! = nil
   var mainSegmentedControl: UISegmentedControl! = nil
   
+  var delegate : CustomSegmentedControlWithTitleViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -160,6 +167,22 @@ class CustomSegmentedControlWithTitleView: UIView {
                                         height: 30.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainSegmentedControl = UISegmentedControl.init(items: arrayOfSegments)
+    mainSegmentedControl.addTarget(self,
+                                   action: #selector(mainSegmentedControlEditingDidBegin),
+                         forControlEvents: UIControlEvents.ValueChanged)
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let attributes = [NSFontAttributeName:font!,
+            NSParagraphStyleAttributeName:style,
+           NSForegroundColorAttributeName:color]
+    
+    mainSegmentedControl.setTitleTextAttributes(attributes, forState: .Normal)
+    
     mainSegmentedControl.frame = frameForSegmentedControl
     mainSegmentedControl.layer.borderColor = UIColor.clearColor().CGColor
     mainSegmentedControl.layer.borderWidth = 0.0
@@ -207,9 +230,6 @@ class CustomSegmentedControlWithTitleView: UIView {
     mainSegmentedControl.backgroundColor = UIColor.whiteColor()
     
     self.addSubview(mainSegmentedControl)
-//    font = UIFont(name:"SFUIText-Regular",
-//                                size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
-//    self.addSubview(mainTextField)
     
   }
   
@@ -230,6 +250,12 @@ class CustomSegmentedControlWithTitleView: UIView {
     
     return arrayOfSegments[mainSegmentedControl.selectedSegmentIndex]
     
+  }
+  
+  @objc private func mainSegmentedControlEditingDidBegin() {
+  
+    self.delegate?.customSegmentedControlWithTitleViewDidBeginEditing(self)
+  
   }
   
 }

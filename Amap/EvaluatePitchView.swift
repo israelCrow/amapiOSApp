@@ -10,31 +10,51 @@ import UIKit
 
 protocol EvaluatePitchViewDelegate {
   
-  func createEvaluatePitch()
+  func createEvaluatePitch(params: [String: AnyObject])
   
 }
 
 
-class EvaluatePitchView: UIView {
+class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, CustomTextFieldWithTitleAndPickerViewDelegate {
   
   private var mainScrollView: UIScrollView! = nil
   private var evaluatePitchButton: UIButton! = nil
+  
   private var clearObjectivesView: CustomSegmentedControlWithTitleView! = nil
+  private var isClearObjectivesViewEdited: Bool = false
+  
   private var youKnowTheProjectBudget: CustomSegmentedControlWithTitleView! = nil
+  private var isYouKnowTheProjectBudgetEdited: Bool = false
+  
   private var youKnowTheSelectionCriteria: CustomSegmentedControlWithTitleView! = nil
+  private var isYouKnowTheSelectionCriteriaEdited: Bool = false
+  
   private var involvementOfMarketing: CustomSegmentedControlWithTitleView! = nil
+  private var isInvolvementOfMarketingEdited: Bool = false
+  
   private var howManyAgenciesParticipate: CustomSegmentedControlWithTitleView! = nil
-  private var howManyDaysToShow: CustomTextFieldWithTitleAndPickerView! = nil
-  private var youKnoHowManyPresentationRounds: CustomSegmentedControlWithTitleView! = nil
-  private var howMany: CustomTextFieldWithTitleAndPickerView! = nil
+  private var isHowManyAgenciesParticipateEdited: Bool = false
+  
+  private var howManyDaysToShow: CustomTextFieldWithTitleAndPickerView! = nil //6
+  private var isHowManyDaysToShowEdited: Bool = false
+  
+  private var youKnowHowManyPresentationRounds: CustomSegmentedControlWithTitleView! = nil
+  private var isYouKnowHowManyPresentationRounds: Bool = false
+  
+  private var howMany: CustomTextFieldWithTitleAndPickerView! = nil //8
+  private var isHowManyEdited: Bool = false
   
   private var containerOfLastQuestions: UIView! = nil
-  
-  private var howManyDaysTheyGiveTheRuling: CustomTextFieldWithTitleAndPickerView! = nil
-  private var deliverIntelectualPropertyJustToPitch: CustomSegmentedControlWithTitleView! = nil
-  private var clearDeliverable: CustomSegmentedControlWithTitleView! = nil
-
   private var alreadyMoveDownTheContainer: Bool = false
+  
+  private var howManyDaysTheyGiveTheRuling: CustomTextFieldWithTitleAndPickerView! = nil //9
+  private var isHowManyDaysTheyGiveTheRulingEdited: Bool = false
+  
+  private var deliverIntelectualPropertyJustToPitch: CustomSegmentedControlWithTitleView! = nil
+  private var isDeliverIntelectualPropertyJustToPitchEdited: Bool = false
+  
+  private var clearDeliverable: CustomSegmentedControlWithTitleView! = nil
+  private var isClearDeliverableEdited: Bool = false
   
   var delegate: EvaluatePitchViewDelegate?
   
@@ -63,7 +83,7 @@ class EvaluatePitchView: UIView {
     self.createInvolvementOfMarketing()
     self.createHowManyAgenciesParticipate()
     self.createHowManyDaysToShow()
-    self.createYouKnoHowManyPresentationRounds()
+    self.createYouKnowHowManyPresentationRounds()
     self.createHowMany()
     
     self.createContainerOfLastQuestions()
@@ -123,7 +143,7 @@ class EvaluatePitchView: UIView {
     
     evaluatePitchButton.setAttributedTitle(stringWithFormat, forState: .Normal)
     evaluatePitchButton.setAttributedTitle(stringWithFormatWhenDisabled, forState: .Disabled)
-    evaluatePitchButton.backgroundColor = UIColor.grayColor()
+    evaluatePitchButton.backgroundColor = UIColor.lightGrayColor()
     evaluatePitchButton.addTarget(self,
                         action: #selector(evaluatePitchButtonPressed),
                         forControlEvents: .TouchUpInside)
@@ -134,8 +154,9 @@ class EvaluatePitchView: UIView {
                                      width: self.frame.size.width,
                                      height: 70.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    evaluatePitchButton.alpha = 1.0
     evaluatePitchButton.frame = frameForButton
-    evaluatePitchButton.enabled = true
+    evaluatePitchButton.enabled = false
     
     self.addSubview(evaluatePitchButton)
     
@@ -161,6 +182,8 @@ class EvaluatePitchView: UIView {
                            width: originalSegmentControlFrame.size.width,
                           height: originalSegmentControlFrame.size.height)
     clearObjectivesView.mainSegmentedControl.frame = newFrame
+    clearObjectivesView.tag = 1
+    clearObjectivesView.delegate = self
     clearObjectivesView.mainSegmentedControl.setWidth(kSpaceInSegments, forSegmentAtIndex: 1)
     clearObjectivesView.mainSegmentedControl.setEnabled(false, forSegmentAtIndex: 1)
     
@@ -188,8 +211,11 @@ class EvaluatePitchView: UIView {
                                width: originalSegmentControlFrame.size.width,
                                height: originalSegmentControlFrame.size.height)
     youKnowTheProjectBudget.mainSegmentedControl.frame = newFrame
+    youKnowTheProjectBudget.tag = 2
+    youKnowTheProjectBudget.delegate = self
     youKnowTheProjectBudget.mainSegmentedControl.setWidth(kSpaceInSegments, forSegmentAtIndex: 1)
     youKnowTheProjectBudget.mainSegmentedControl.setEnabled(false, forSegmentAtIndex: 1)
+    
     
     mainScrollView.addSubview(youKnowTheProjectBudget)
     
@@ -216,6 +242,8 @@ class EvaluatePitchView: UIView {
                                width: originalSegmentControlFrame.size.width,
                                height: originalSegmentControlFrame.size.height)
     youKnowTheSelectionCriteria.mainSegmentedControl.frame = newFrame
+    youKnowTheSelectionCriteria.tag = 3
+    youKnowTheSelectionCriteria.delegate = self
     youKnowTheSelectionCriteria.mainSegmentedControl.setWidth(kSpaceInSegments, forSegmentAtIndex: 1)
     youKnowTheSelectionCriteria.mainSegmentedControl.setEnabled(false, forSegmentAtIndex: 1)
     
@@ -236,7 +264,8 @@ class EvaluatePitchView: UIView {
                                                                            title: "¿Hay involucramiento de alguien de marketing?",
                                                                            image: nil,
                                                                            segmentsText: segmentsArray)
-    
+    involvementOfMarketing.tag = 4
+    involvementOfMarketing.delegate = self
     mainScrollView.addSubview(involvementOfMarketing)
     
   }
@@ -248,13 +277,14 @@ class EvaluatePitchView: UIView {
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["- de 4", "4 - 7", "+ de 7"]
+    let segmentsArray = ["2 - 4", ">4", "NA"]
     
     howManyAgenciesParticipate = CustomSegmentedControlWithTitleView.init(frame: frameForView,
                                                                       title: "¿Cuántas agencias participan en el pitch?",
                                                                       image: nil,
                                                                       segmentsText: segmentsArray)
-    
+    howManyAgenciesParticipate.delegate = self
+    howManyAgenciesParticipate.tag = 5
     mainScrollView.addSubview(howManyAgenciesParticipate)
     
   }
@@ -266,39 +296,39 @@ class EvaluatePitchView: UIView {
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    var segmentsArray = [String]()
-    
-    for i in 1...15 {
-      
-      segmentsArray.append(String(i))
-      
-    }
+    let segmentsArray = ["1 semana", "2 semanas", "3 semanas", "4 semanas"]
     
     howManyDaysToShow = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
-      textLabel: "¿Cuántos días les dieron para presentar?",
+      textLabel: "¿Cuántas semanas les dieron para presentar?",
       nameOfImage: "dropdown",
       newOptionsOfPicker: segmentsArray)
     
+    howManyDaysToShow.tag = 6
+    howManyDaysToShow.delegate = self
     mainScrollView.addSubview(howManyDaysToShow)
     
   }
   
-  private func createYouKnoHowManyPresentationRounds() {
+  private func createYouKnowHowManyPresentationRounds() {
     
     let frameForView = CGRect.init(x: 0.0,
                                    y: 539.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+                                   height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["Sí", "No sé", "No"]
+    let segmentsArray = ["Sí", "", "No"]
     
-    youKnoHowManyPresentationRounds = CustomSegmentedControlWithTitleView.init(frame: frameForView,
+    youKnowHowManyPresentationRounds = CustomSegmentedControlWithTitleView.init(frame: frameForView,
                                                                           title: "¿Sabes cuántas rondas de presentación hay?",
                                                                           image: nil,
                                                                           segmentsText: segmentsArray)
+    youKnowHowManyPresentationRounds.tag = 7
+    youKnowHowManyPresentationRounds.delegate = self
+    youKnowHowManyPresentationRounds.mainSegmentedControl.addTarget(self, action: #selector(youKnoHowManyPresentationRoundsChangeValue), forControlEvents: .ValueChanged)
+    youKnowHowManyPresentationRounds.mainSegmentedControl.setWidth(kSpaceInSegments, forSegmentAtIndex: 1)
+    youKnowHowManyPresentationRounds.mainSegmentedControl.setEnabled(false, forSegmentAtIndex: 1)
     
-    youKnoHowManyPresentationRounds.mainSegmentedControl.addTarget(self, action: #selector(youKnoHowManyPresentationRoundsChangeValue), forControlEvents: .ValueChanged)
-    mainScrollView.addSubview(youKnoHowManyPresentationRounds)
+    mainScrollView.addSubview(youKnowHowManyPresentationRounds)
     
   }
   
@@ -309,20 +339,15 @@ class EvaluatePitchView: UIView {
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 300.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    var segmentsArray = [String]()
-    
-    for i in 1...15 {
-      
-      segmentsArray.append(String(i))
-      
-    }
+    let segmentsArray = ["1 round", "2 rounds", "3 rounds", "4 rounds"]
     
     howMany = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
                                                                    textLabel: "¿Cuántas?",
                                                                    nameOfImage: "dropdown",
                                                                    newOptionsOfPicker: segmentsArray)
     howMany.alpha = 0.0
-    
+    howMany.tag = 8
+    howMany.delegate = self
     mainScrollView.addSubview(howMany)
     
   }
@@ -348,20 +373,14 @@ class EvaluatePitchView: UIView {
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    var segmentsArray = [String]()
-    segmentsArray.append("No sé")
-    
-    for i in 1...15 {
-      
-      segmentsArray.append(String(i))
-      
-    }
+    let segmentsArray = ["2 semanas", "3 semanas", "4 semanas", "5 semanas", ">6", "NA"]
     
     howManyDaysTheyGiveTheRuling = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
-                                                                   textLabel: "¿En cuántos días les dan el fallo?",
+                                                                   textLabel: "¿En cuántas semanas les dan el fallo?",
                                                                    nameOfImage: "dropdown",
                                                                    newOptionsOfPicker: segmentsArray)
-    
+    howManyDaysTheyGiveTheRuling.tag = 9
+    howManyDaysTheyGiveTheRuling.delegate = self
     containerOfLastQuestions.addSubview(howManyDaysTheyGiveTheRuling)
     
   }
@@ -371,7 +390,7 @@ class EvaluatePitchView: UIView {
     let frameForView = CGRect.init(x: 0.0,
                                    y: 89.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+                                   height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
     
     let segmentsArray = ["Sí", "No sé", "No"]
     
@@ -379,7 +398,8 @@ class EvaluatePitchView: UIView {
                                                                                title: "¿Entregarás la propiedad intelectual de tu trabajo solo por pitchear?",
                                                                                image: nil,
                                                                                segmentsText: segmentsArray)
-    
+    deliverIntelectualPropertyJustToPitch.delegate = self
+    deliverIntelectualPropertyJustToPitch.tag = 10
     containerOfLastQuestions.addSubview(deliverIntelectualPropertyJustToPitch)
     
   }
@@ -404,6 +424,8 @@ class EvaluatePitchView: UIView {
                                width: originalSegmentControlFrame.size.width,
                                height: originalSegmentControlFrame.size.height)
     clearDeliverable.mainSegmentedControl.frame = newFrame
+    clearDeliverable.tag = 11
+    clearDeliverable.delegate = self
     clearDeliverable.mainSegmentedControl.setWidth(kSpaceInSegments, forSegmentAtIndex: 1)
     clearDeliverable.mainSegmentedControl.setEnabled(false, forSegmentAtIndex: 1)
     
@@ -414,11 +436,11 @@ class EvaluatePitchView: UIView {
   
   @objc private func youKnoHowManyPresentationRoundsChangeValue(sender: UISegmentedControl) {
     
-    if youKnoHowManyPresentationRounds.returnValueSelectedFromSegmentControl() == "Sí" {
+    if youKnowHowManyPresentationRounds.returnValueSelectedFromSegmentControl() == "Sí" {
       
       if alreadyMoveDownTheContainer == false {
       
-        youKnoHowManyPresentationRounds.mainSegmentedControl.userInteractionEnabled = false
+        youKnowHowManyPresentationRounds.mainSegmentedControl.userInteractionEnabled = false
         self.moveDownContainer()
         self.showHowMany()
         
@@ -428,7 +450,7 @@ class EvaluatePitchView: UIView {
       
       if alreadyMoveDownTheContainer == true {
       
-      youKnoHowManyPresentationRounds.mainSegmentedControl.userInteractionEnabled = false
+      youKnowHowManyPresentationRounds.mainSegmentedControl.userInteractionEnabled = false
       self.moveUpContainer()
       self.hideHowMany()
       
@@ -473,7 +495,7 @@ class EvaluatePitchView: UIView {
     }) { (finished) in
       if finished == true {
         
-        self.youKnoHowManyPresentationRounds.mainSegmentedControl.userInteractionEnabled = true
+        self.youKnowHowManyPresentationRounds.mainSegmentedControl.userInteractionEnabled = true
         self.alreadyMoveDownTheContainer = false
         
       }
@@ -496,7 +518,7 @@ class EvaluatePitchView: UIView {
       }) { (finished) in
         if finished == true {
           
-          self.youKnoHowManyPresentationRounds.mainSegmentedControl.userInteractionEnabled = true
+          self.youKnowHowManyPresentationRounds.mainSegmentedControl.userInteractionEnabled = true
           self.alreadyMoveDownTheContainer = true
           
         }
@@ -506,9 +528,240 @@ class EvaluatePitchView: UIView {
   
   @objc private func evaluatePitchButtonPressed() {
     
-    self.delegate?.createEvaluatePitch()
+    let clearObjectiveResult = (clearObjectivesView.returnValueSelectedFromSegmentControl() == "Sí" ? 1 : 0)
+    
+    let knowTheProjectBudgetResult = (youKnowTheProjectBudget.returnValueSelectedFromSegmentControl() == "Sí" ? 1 : 0)
+    
+    let knowTheSelectionCriteriaResult = (youKnowTheSelectionCriteria.returnValueSelectedFromSegmentControl() == "Sí" ? 1 : 0)
+    
+    var involvementMKResultString = ""
+    if involvementOfMarketing.returnValueSelectedFromSegmentControl() == "Sí" {
+      
+      involvementMKResultString = "si"
+      
+    }else
+      if involvementOfMarketing.returnValueSelectedFromSegmentControl() == "No" {
+        
+        involvementMKResultString = "no"
+        
+    }else
+      if involvementOfMarketing.returnValueSelectedFromSegmentControl() == "No sé" {
+          
+        involvementMKResultString = "no se"
+          
+    }
+    
+    let howManyAgenciesResult = howManyAgenciesParticipate.returnValueSelectedFromSegmentControl()
+//    if howManyAgenciesParticipate.returnValueSelectedFromSegmentControl() == "- de 4" {
+//      
+//      howManyAgenciesResult = "- de 4"
+//      
+//    }else
+//      if howManyAgenciesParticipate.returnValueSelectedFromSegmentControl() == "4 - 7" {
+//        
+//        howManyAgenciesResult = "4 - 7"
+//        
+//    }else
+//      if howManyAgenciesParticipate.returnValueSelectedFromSegmentControl() == "+ de 7" {
+//          
+//        howManyAgenciesResult = "+ de 7"
+//          
+//    }
+    
+    let howManyWeeks = (UtilityManager.sharedInstance.isValidText(howManyDaysToShow.mainTextField.text!) == true ? howManyDaysToShow.mainTextField.text! : "1s")
+    let howManyWeeksWithoutSpaces = howManyWeeks.stringByReplacingOccurrencesOfString(" ", withString: "")
+    let howManyWeeksResult = howManyWeeksWithoutSpaces.substringWithRange(howManyWeeksWithoutSpaces.startIndex..<howManyWeeksWithoutSpaces.startIndex.advancedBy(2))
+    
+//    var howManyPresentationRoundsResult = ""
+//    if youKnowHowManyPresentationRounds.returnValueSelectedFromSegmentControl() == "Sí" {
+//      
+//      howManyPresentationRoundsResult = "true"
+//      
+//    }else
+//    if youKnowHowManyPresentationRounds.returnValueSelectedFromSegmentControl() == "No" {
+//        
+//      howManyPresentationRoundsResult = "false"
+//        
+//    }else
+//    if youKnowHowManyPresentationRounds.returnValueSelectedFromSegmentControl() == "No sé" {
+//          
+//      howManyPresentationRoundsResult = "true"
+//          
+//    }
+    
+//    let howManyRoundsResult = (UtilityManager.sharedInstance.isValidText(howMany.mainTextField.text!) == true ? howMany.mainTextField.text! : "")
+    
+    let howManyRounds = (UtilityManager.sharedInstance.isValidText(howMany.mainTextField.text!) == true ? howMany.mainTextField.text! : "1r")
+    let howManyRoundsWithoutSpaces = howManyRounds.stringByReplacingOccurrencesOfString(" ", withString: "")
+    let howManyRoundsResult = howManyRoundsWithoutSpaces.substringWithRange(howManyRoundsWithoutSpaces.startIndex..<howManyRoundsWithoutSpaces.startIndex.advancedBy(2))
+    
+    let howManyWeeksRuling = (UtilityManager.sharedInstance.isValidText(howManyDaysTheyGiveTheRuling.mainTextField.text!) == true ? howManyDaysTheyGiveTheRuling.mainTextField.text! : "2s")
+    let howManyRulingWeeksWithoutSpaces = howManyWeeksRuling.stringByReplacingOccurrencesOfString(" ", withString: "")
+    let howManyWeeksTheRulingResult = howManyRulingWeeksWithoutSpaces.substringWithRange(howManyRulingWeeksWithoutSpaces.startIndex..<howManyRulingWeeksWithoutSpaces.startIndex.advancedBy(2))
+    
+//    let howManyDaysTheyRulingResult = (UtilityManager.sharedInstance.isValidText(howManyDaysTheyGiveTheRuling.mainTextField.text!) == true ? howManyDaysTheyGiveTheRuling.mainTextField.text! : "1")
+    
+    var deliverIntelectualPropertyResultString = ""
+    if deliverIntelectualPropertyJustToPitch.returnValueSelectedFromSegmentControl() == "Sí" {
+      
+      deliverIntelectualPropertyResultString = "si"
+      
+    }else
+      if deliverIntelectualPropertyJustToPitch.returnValueSelectedFromSegmentControl() == "No" {
+        
+        deliverIntelectualPropertyResultString = "no"
+        
+      }else
+      if deliverIntelectualPropertyJustToPitch.returnValueSelectedFromSegmentControl() == "No sé" {
+          
+        deliverIntelectualPropertyResultString = "no se"
+          
+      }
+    
+    let clearDeliverableResult = (clearDeliverable.returnValueSelectedFromSegmentControl() == "Sí" ? 1 : 0)
+    
+    
+    let params:  [String: AnyObject] = [
+      "has_selection_criteria": knowTheSelectionCriteriaResult,
+      "are_objectives_clear": clearObjectiveResult,
+      "time_to_present": howManyWeeksResult,
+      "is_budget_known": knowTheProjectBudgetResult,
+      "number_of_agencies": howManyAgenciesResult,
+      "are_deliverables_clear": clearDeliverableResult,
+      "is_marketing_involved": involvementMKResultString,
+      "time_to_know_decision": howManyWeeksTheRulingResult,
+      "deliver_copyright_for_pitching": deliverIntelectualPropertyResultString,
+      "number_of_rounds": howManyRoundsResult
+      ]
+    
+    
+    self.delegate?.createEvaluatePitch(params)
     
   }
+  
+  private func activateEvaluatePitchButton() {
+    
+    if evaluatePitchButton.enabled == false {
+    
+      UIView.animateWithDuration(0.25,
+        animations: {
+        
+          self.evaluatePitchButton.backgroundColor = UIColor.blackColor()
+        
+        }) { (finished) in
+          if finished == true {
+          
+            self.evaluatePitchButton.enabled = true
+          
+          }
+      }
+    }
+    
+  }
+  
+  private func checkIfAllElementsSelected() {
+    
+    
+    if isClearObjectivesViewEdited == true && isYouKnowTheProjectBudgetEdited == true && isYouKnowTheSelectionCriteriaEdited == true  && isInvolvementOfMarketingEdited == true && isHowManyAgenciesParticipateEdited == true && isHowManyDaysToShowEdited == true && isYouKnowHowManyPresentationRounds == true && isHowManyDaysTheyGiveTheRulingEdited == true && isDeliverIntelectualPropertyJustToPitchEdited == true && isClearDeliverableEdited == true {
+    
+      if youKnowHowManyPresentationRounds.returnValueSelectedFromSegmentControl() == "Sí" {
+      
+        if isHowManyEdited == true && UtilityManager.sharedInstance.isValidText(howMany.mainTextField.text!) {
+          
+          self.activateEvaluatePitchButton()
+          
+        }
+        
+      }else{
+        
+        self.activateEvaluatePitchButton()
+        
+      }
+      
+    }
+  
+  }
+  
+  //MARK: - CustomSegmentedControlWithTitleViewDelegate
+  
+  func customSegmentedControlWithTitleViewDidBeginEditing(sender: AnyObject) {
+    
+    if let customView = sender as? CustomSegmentedControlWithTitleView {
+      
+      if customView.tag == 1 {
+        
+        isClearObjectivesViewEdited = true
+        
+      } else
+        if customView.tag == 2 {
+          
+          isYouKnowTheProjectBudgetEdited = true
+          
+      } else
+        if customView.tag == 3 {
+            
+          isYouKnowTheSelectionCriteriaEdited = true
+            
+      } else
+        if customView.tag == 4 {
+              
+          isInvolvementOfMarketingEdited = true
+              
+      } else
+        if customView.tag == 5 {
+                
+          isHowManyAgenciesParticipateEdited = true
+                
+      } else
+        if customView.tag == 7 {
+                  
+          isYouKnowHowManyPresentationRounds = true
+                  
+      } else
+        if customView.tag == 10 {
+                    
+          isDeliverIntelectualPropertyJustToPitchEdited = true
+                    
+      } else
+        if customView.tag == 11 {
+                      
+          isClearDeliverableEdited = true
+                      
+      }
+      
+    }
+    
+    self.checkIfAllElementsSelected()
+    
+  }
+  
+  //MARK: - CustomTextFieldWithTitleAndPickerViewDelegate
+  func customTextFieldWithTitleAndPickerViewDidBeginEditing(sender: AnyObject) {
+    
+    if let customView = sender as? CustomTextFieldWithTitleAndPickerView {
+      
+      if customView.tag == 6 {
+        
+        isHowManyDaysToShowEdited = true
+        
+      } else
+        if customView.tag == 8 {
+     
+          isHowManyEdited = true
+          
+        }else
+        if customView.tag == 9 {
+            
+            isHowManyDaysTheyGiveTheRulingEdited = true
+            
+        }
+      
+    }
+    
+    self.checkIfAllElementsSelected()
+    
+  }
+  
 
 }
 
