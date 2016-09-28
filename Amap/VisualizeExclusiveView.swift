@@ -32,11 +32,23 @@ class VisualizeExclusiveView: UIView {
   
   private func initSomeValues() {
     
-    arrayOfCriteriaString.append("Marca 1")
-    arrayOfCriteriaString.append("Marca 2")
-    arrayOfCriteriaString.append("Marca 3")
-    arrayOfCriteriaString.append("Marca 4")
-    arrayOfCriteriaString.append("Marca 5")
+    if AgencyModel.Data.exclusivityBrands != nil {
+      
+      for exclusivityBrand in AgencyModel.Data.exclusivityBrands! {
+        
+        arrayOfCriteriaString.append(exclusivityBrand.name)
+        
+      }
+      
+    }else{
+      
+      arrayOfCriteriaString.append("Marca 1")
+      arrayOfCriteriaString.append("Marca 2")
+      arrayOfCriteriaString.append("Marca 3")
+      arrayOfCriteriaString.append("Marca 4")
+      arrayOfCriteriaString.append("Marca 5")
+    
+    }
     
   }
   

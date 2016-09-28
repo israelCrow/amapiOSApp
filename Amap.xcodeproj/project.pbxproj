@@ -169,6 +169,9 @@
 		AACBDE941D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE931D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift */; };
 		AACBDE961D7FD74700F8F9EF /* SkillLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE951D7FD74700F8F9EF /* SkillLevelView.swift */; };
 		AACBDE9A1D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE991D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift */; };
+		AADC08BD1D9C083000C5CBCD /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = AADC08BC1D9C083000C5CBCD /* iCarousel.m */; };
+		AADC08C01D9C23D700C5CBCD /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADC08BF1D9C23D700C5CBCD /* GraphView.swift */; };
+		AADC08C21D9C6E0300C5CBCD /* ExclusivityBrandModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADC08C11D9C6E0300C5CBCD /* ExclusivityBrandModelData.swift */; };
 		AAE7F2D11D7E1CD80045AE8E /* VisualizeCasesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7F2D01D7E1CD80045AE8E /* VisualizeCasesView.swift */; };
 		AAE7F2D61D7E27CB0045AE8E /* VisualizeSkillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7F2D51D7E27CB0045AE8E /* VisualizeSkillsView.swift */; };
 		AAE7F2DA1D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7F2D91D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift */; };
@@ -318,6 +321,10 @@
 		AACBDE931D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeSkillsLevelView.swift; sourceTree = "<group>"; };
 		AACBDE951D7FD74700F8F9EF /* SkillLevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillLevelView.swift; sourceTree = "<group>"; };
 		AACBDE991D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCaseDetailViewController.swift; sourceTree = "<group>"; };
+		AADC08BB1D9C083000C5CBCD /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iCarousel.h; path = iCarousel/iCarousel.h; sourceTree = "<group>"; };
+		AADC08BC1D9C083000C5CBCD /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iCarousel.m; path = iCarousel/iCarousel.m; sourceTree = "<group>"; };
+		AADC08BF1D9C23D700C5CBCD /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
+		AADC08C11D9C6E0300C5CBCD /* ExclusivityBrandModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExclusivityBrandModelData.swift; sourceTree = "<group>"; };
 		AAE7F2D01D7E1CD80045AE8E /* VisualizeCasesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCasesView.swift; sourceTree = "<group>"; };
 		AAE7F2D51D7E27CB0045AE8E /* VisualizeSkillsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeSkillsView.swift; sourceTree = "<group>"; };
 		AAE7F2D91D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCategorySkillCell.swift; sourceTree = "<group>"; };
@@ -417,6 +424,7 @@
 				AA756D7A1D709F8C0070F153 /* AgencyModelData.swift */,
 				AA756D7C1D70A03C0070F153 /* CaseModelData.swift */,
 				AA896A481D9ADC940046CC26 /* PitchModelData.swift */,
+				AADC08C11D9C6E0300C5CBCD /* ExclusivityBrandModelData.swift */,
 				AA7F58E51D90852C0057F67B /* PitchSkillCategory.swift */,
 				AA896A461D9ADC3C0046CC26 /* PitchEvaluationModelData.swift */,
 				AA8997961D89CA5A009513E3 /* CompanyModelData.swift */,
@@ -613,10 +621,8 @@
 		AA68D8E71D834C6E00DD1411 /* Visualize */ = {
 			isa = PBXGroup;
 			children = (
+				AADC08BE1D9C224300C5CBCD /* PitchCard */,
 				AA02375B1D81FF100014915C /* NoPitchAssignedView.swift */,
-				AA9A6CF81D87680A00B85C17 /* PitchCardView.swift */,
-				AA9A6CFE1D87757800B85C17 /* GraphPartPitchCardView.swift */,
-				AA9A6CFA1D87691000B85C17 /* DetailedPartPitchCardView.swift */,
 			);
 			name = Visualize;
 			sourceTree = "<group>";
@@ -779,6 +785,7 @@
 			isa = PBXGroup;
 			children = (
 				04D458AB1D66106F0036FFFF /* Amap-Bridging-Header.h */,
+				AADC08BA1D9C082300C5CBCD /* iCarousel */,
 				AAB61E951D52589600407FFD /* Fonts */,
 			);
 			name = Resources;
@@ -812,6 +819,26 @@
 				AA7AC77F1D52654D007522FB /* SF-UI-Text-UltrathinItalic.otf */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		AADC08BA1D9C082300C5CBCD /* iCarousel */ = {
+			isa = PBXGroup;
+			children = (
+				AADC08BB1D9C083000C5CBCD /* iCarousel.h */,
+				AADC08BC1D9C083000C5CBCD /* iCarousel.m */,
+			);
+			name = iCarousel;
+			sourceTree = "<group>";
+		};
+		AADC08BE1D9C224300C5CBCD /* PitchCard */ = {
+			isa = PBXGroup;
+			children = (
+				AA9A6CF81D87680A00B85C17 /* PitchCardView.swift */,
+				AA9A6CFE1D87757800B85C17 /* GraphPartPitchCardView.swift */,
+				AA9A6CFA1D87691000B85C17 /* DetailedPartPitchCardView.swift */,
+				AADC08BF1D9C23D700C5CBCD /* GraphView.swift */,
+			);
+			name = PitchCard;
 			sourceTree = "<group>";
 		};
 		AAE7F2CF1D7E16C00045AE8E /* Cases */ = {
@@ -1122,6 +1149,7 @@
 				AA7F58E61D90852C0057F67B /* PitchSkillCategory.swift in Sources */,
 				AA02375C1D81FF100014915C /* NoPitchAssignedView.swift in Sources */,
 				AA9A6CEF1D87385B00B85C17 /* CreateAddNewPitchAndWriteCategoryTypeViewController.swift in Sources */,
+				AADC08C21D9C6E0300C5CBCD /* ExclusivityBrandModelData.swift in Sources */,
 				AA2DB84E1D53B0D900E9FB8A /* ExistingAccountView.swift in Sources */,
 				AA09496A1D529A59000E76E1 /* CreateAccountConstants.swift in Sources */,
 				AA87B76D1D88723E00BCA3E6 /* DetailedNavigationEvaluatPitchView.swift in Sources */,
@@ -1177,11 +1205,13 @@
 				AABD5A9E1D8F8C95006A3B5E /* EvaluatePitchViewController.swift in Sources */,
 				AA7F58E21D9066C40057F67B /* ProjectPitchModelData.swift in Sources */,
 				AA92D6421D50F05300CE7D95 /* GradientView.swift in Sources */,
+				AADC08C01D9C23D700C5CBCD /* GraphView.swift in Sources */,
 				047818A51D5E204F00BB498C /* CriterionView.swift in Sources */,
 				AA68D8EC1D837D3800DD1411 /* CreateAddNewPitchAndWriteCompanyNameViewController.swift in Sources */,
 				AACBDE961D7FD74700F8F9EF /* SkillLevelView.swift in Sources */,
 				AA9A6CF91D87680A00B85C17 /* PitchCardView.swift in Sources */,
 				047818AB1D5E557300BB498C /* ParticipateInView.swift in Sources */,
+				AADC08BD1D9C083000C5CBCD /* iCarousel.m in Sources */,
 				AAE7F2D11D7E1CD80045AE8E /* VisualizeCasesView.swift in Sources */,
 				AA92D60D1D50E7D300CE7D95 /* ViewController.swift in Sources */,
 				AA92D60B1D50E7D300CE7D95 /* AppDelegate.swift in Sources */,

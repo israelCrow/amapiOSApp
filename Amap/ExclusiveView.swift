@@ -17,7 +17,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   private var descriptionLabel: UILabel! = nil
   private var creatorOfBrandTextField: UITextField! = nil
   
-  var isEdited: Bool = false
+  var thereAreChanges: Bool = false
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -311,6 +311,9 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
+    
+    thereAreChanges = true
+    
     if textField.tag == 1 {//when texted in the creatorBrandTextField
       
       if UtilityManager.sharedInstance.isValidText(textField.text!){
@@ -368,6 +371,39 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     }
     
     return true
+    
+  }
+  
+  func requestToSaveNewBrands() {
+    
+    for textField in arrayOfExclusivesBrandTextFields {
+      
+      if UtilityManager.sharedInstance.isValidText(textField.text!) == true {
+        
+        arrayOfExclusivesBrandNames.append(textField.text!)
+      
+      }
+      
+    }
+
+    let params: [String: AnyObject] = [
+    
+      "auth_token": UserSession.session.auth_token,
+      "id": AgencyModel.Data.id,
+      "brands": arrayOfExclusivesBrandNames
+    
+    ]
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToSaveExclusiveBrands(params) { (jsonSentFromServerWhenSaveExclusiveData) in
+      
+      print(jsonSentFromServerWhenSaveExclusiveData)
+      print()
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+    }
     
   }
   

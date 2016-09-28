@@ -15,11 +15,13 @@ protocol VisualizeAllPitchesViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeAllPitchesViewController: UIViewController, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate {
+class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate {
+  
+  private var mainCarousel: iCarousel! = nil
   
   private var searchButton: UIButton! = nil
   private var filterButton: UIButton! = nil
-  private var arrayOfPitches = [AnyObject]()
+  private var arrayOfPitches = [ProjectPitchModelData]()
   
   
   
@@ -42,9 +44,16 @@ class VisualizeAllPitchesViewController: UIViewController, NoPitchAssignedViewDe
     self.createSearchButton()
     self.createFilterButton()
     
+    self.requestForAllPitchesAndTheirEvaluations()
+    
     if arrayOfPitches.count == 0 {
       
       self.createAndAddNoPitchesAssignedView()
+      
+    }else{
+      
+      self.createCarousel()
+      self.createAllPitchCards()
       
     }
     
@@ -128,6 +137,33 @@ class VisualizeAllPitchesViewController: UIViewController, NoPitchAssignedViewDe
     
   }
   
+  private func createCarousel() {
+    
+    let frameForCarousel = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                       y: 133.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   width: UIScreen.mainScreen().bounds.width * 2.0,
+                                  height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    mainCarousel = iCarousel.init(frame: frameForCarousel)
+    self.view.addSubview(mainCarousel)
+    
+  }
+  
+  private func requestForAllPitchesAndTheirEvaluations() {
+    
+    //Call to server
+    //change array
+    
+  }
+  
+  private func createAllPitchCards() {
+    
+    //For the moment just one
+    
+    
+    
+  }
+  
   private func createGradientView() -> GradientView{
     
     let frameForView = CGRect.init(x: 0.0, y: 60.0, width: UIScreen.mainScreen().bounds.size.width, height: UIScreen.mainScreen().bounds.size.height - 60.0)
@@ -197,5 +233,45 @@ class VisualizeAllPitchesViewController: UIViewController, NoPitchAssignedViewDe
     
   }
   
+  //MARK: - iCarouselDelegates
+  
+  func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
+    
+    return arrayOfPitches.count
+    
+  }
+  
+  func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView {
+    
+    var genericCard: PitchCardView
+    
+    if view == nil {
+      
+      let frameForNewView = CGRect.init(x: 0.0,
+                                        y: 0.0,
+                                    width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+      genericCard = PitchCardView.init(frame: frameForNewView)
+      
+    }else{
+      
+      genericCard = view as! PitchCardView
+      
+    }
+    
+    genericCard.changePitchData(arrayOfPitches[index])
+    return genericCard
+    
+  }
+  
+  func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat
+  {
+    if (option == .Spacing)
+    {
+      return value * 1.1
+    }
+    return value
+  }
   
 }

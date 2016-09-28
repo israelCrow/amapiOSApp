@@ -13,7 +13,7 @@ class PitchCardView: UIView {
   
   private var graphPart: GraphPartPitchCardView! = nil
   private var detailedPart: DetailedPartPitchCardView! = nil
-  private var pitchData: PitchModelData! = nil
+  private var pitchData: ProjectPitchModelData! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -34,6 +34,13 @@ class PitchCardView: UIView {
   
   private func createGraphPart() {
     
+    if graphPart != nil {
+      
+      graphPart.removeFromSuperview()
+      graphPart = nil
+      
+    }
+    
     let frameForGraphPart = CGRect.init(x: 0.0,
                                         y: 0.0,
                                     width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -48,19 +55,33 @@ class PitchCardView: UIView {
   
   private func createDetailedPart() {
     
+    if detailedPart != nil {
+      
+      detailedPart.removeFromSuperview()
+      detailedPart = nil
+      
+    }
+    
     let frameForDetailedPart = CGRect.init(x: 0.0,
                                            y: 347.0 * UtilityManager.sharedInstance.conversionHeight,
                                        width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                                       height: 107.0 * UtilityManager.sharedInstance.conversionHeight)
     
     detailedPart = DetailedPartPitchCardView.init(frame: frameForDetailedPart,
-                                         newProjectName: "Nombre de Proyecto",
-                                           newBrandName: "Nombre de Marca",
-                                         newCompanyName: "Nombre compañía")
+                                         newProjectName: pitchData.name,
+                                           newBrandName: pitchData.brandData!.name,
+                                         newCompanyName: pitchData.companyData!.name)
     
     self.addSubview(detailedPart)
     
   }
   
+  func changePitchData(newPitchData: ProjectPitchModelData) {
+    
+    pitchData = newPitchData
+    self.createGraphPart()
+    self.createDetailedPart()
+    
+  }
 
 }

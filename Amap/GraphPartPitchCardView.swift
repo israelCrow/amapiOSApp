@@ -42,8 +42,44 @@ class GraphPartPitchCardView: UIView {
                                        y: 0.0,
                                    width: self.frame.size.width,
                                   height: self.frame.size.height)
+    
+    var firstColor = UIColor.whiteColor()
+    var secondColor = UIColor.whiteColor()
+    
+    if arrayOfQualifications.count > 0 {
+    
+      let myQualification = arrayOfQualifications[0]
+      
+      if myQualification > 70 {
+        
+        firstColor = UIColor.init(red: 237.0/255.0, green: 237.0/255.0, blue: 24.0/255.0, alpha: 1.0)
+        secondColor = UIColor.init(red: 255.0/255.0, green: 85.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+        
+      }else
+        if myQualification >= 59 && myQualification <= 69 {
+          
+          firstColor = UIColor.init(red: 45.0/255.0, green: 252.0/255.0, blue: 197.0/255.0, alpha: 1.0)
+          secondColor = UIColor.init(red: 21.0/255.0, green: 91.0/255.0, blue: 138.0/255.0, alpha: 1.0)
+          
+        }else
+        if myQualification >= 45 && myQualification <= 58 {
+            
+            firstColor = UIColor.init(red: 48.0/255.0, green: 196.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+            secondColor = UIColor.init(red: 242.0/255.0, green: 10.0/255.0, blue: 172.0/255.0, alpha: 1.0)
+            
+        }else
+        if myQualification <= 44 {
+            
+            firstColor = UIColor.init(red: 190.0/255.0, green: 81.0/255.0, blue: 237.0/255.0, alpha: 1.0)
+            secondColor = UIColor.init(red: 255.0/255.0, green: 25.0/255.0, blue: 33.0/255.0, alpha: 1.0)
+            
+        }
+  
+    }
+    
+    let colorsForBackground = [firstColor, secondColor]
 
-    containerAndGradientView = self.createGradientView(frameForGradient)
+    containerAndGradientView = GradientView.init(frame: frameForGradient, arrayOfcolors: colorsForBackground, typeOfInclination: GradientView.TypeOfInclination.leftToRightInclination)
     self.addSubview(containerAndGradientView)
     
   }
@@ -112,16 +148,6 @@ class GraphPartPitchCardView: UIView {
     containerAndGradientView.layer.addSublayer(border)
 
     containerAndGradientView.layer.masksToBounds = true
-    
-  }
-  
-  
-  private func createGradientView(frameForGradientView: CGRect) -> GradientView{
-    
-    let firstColorGradient = UIColor.init(red: 45.0/255.0, green: 252.0/255.0, blue: 197.0/255.0, alpha: 1.0)
-    let secondColorGradient = UIColor.init(red: 21.0/255.0, green: 91.0/255.0, blue: 138.0/255.0, alpha: 1.0)
-    let colorsForBackground = [firstColorGradient,secondColorGradient]
-    return GradientView.init(frame: frameForGradientView, arrayOfcolors: colorsForBackground, typeOfInclination: GradientView.TypeOfInclination.leftToRightInclination)
     
   }
   

@@ -271,6 +271,7 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
     RequestToServerManager.sharedInstance.requestToCreateEvaluationOfProjectPitch(finalParams) { (newEvaluationPitchCreated) in
       print(newEvaluationPitchCreated)
       UtilityManager.sharedInstance.hideLoader()
+      self.dismissDetailedNavigation()
       self.navigationController?.popToRootViewControllerAnimated(true)
       
     }

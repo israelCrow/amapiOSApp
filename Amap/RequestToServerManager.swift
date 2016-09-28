@@ -134,6 +134,28 @@ class RequestToServerManager: NSObject {
             
           }
           
+          let exclusivityBrands = json["exclusivity_brands"] as? Array<[String: AnyObject]>
+          
+          if exclusivityBrands != nil {
+            
+            var arrayOfExclusivityBrands = [ExclusivityBrandModelData]()
+            
+            for brand in exclusivityBrands! {
+              
+              let newBrandName = (brand["brand"] as? String != nil ? brand["brand"] as! String : "New Brand no name")
+              let newBrandId = (brand["id"] as? Int != nil ? String(brand["id"] as! Int) : "-1")
+              
+              let newExclusivityBrand = ExclusivityBrandModelData.init(newId: newBrandId,
+                newName: newBrandName)
+              
+              arrayOfExclusivityBrands.append(newExclusivityBrand)
+              
+            }
+            
+            AgencyModel.Data.exclusivityBrands = arrayOfExclusivityBrands
+            
+          }
+          
           functionToMakeWhenBringInfo()
 //          UtilityManager.sharedInstance.hideLoader()
         }
@@ -622,6 +644,48 @@ class RequestToServerManager: NSObject {
     }
     
   }
+  
+  func requestToSaveExclusiveBrands(params: [String: AnyObject], actionsToMakeAfterSuccesfullCreateNewBrand: (jsonSentFromServerWhenSaveExclusiveData: AnyObject)-> Void) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/agencies/add_exclusivity_brands"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 201 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          actionsToMakeAfterSuccesfullCreateNewBrand(jsonSentFromServerWhenSaveExclusiveData: json)
+          
+        }else {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          print("ERROR")
+          
+        }
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   func requestToCreateCompany(nameOfTheNewCompany: String!, actionsToMakeAfterSuccesfullCreateNewCompany: (newCompanyCreated: CompanyModelData)-> Void) {

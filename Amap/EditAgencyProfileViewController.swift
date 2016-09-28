@@ -36,7 +36,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   private var criteriaView: CriteriaAgencyProfileEditView! = nil
   private var participateView: ParticipateInView! = nil
-//  private var exclusiveView: ExclusiveView! = nil
+  private var exclusiveView: ExclusiveView! = nil
   private var createCaseView: CreateCaseView?
   private var casesView: CasesView! = nil
   private var skillsView: SkillsView! = nil
@@ -202,7 +202,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     criteriaView = CriteriaAgencyProfileEditView.init(frame: frameForCards)
     criteriaView.getAllCriterionsFromServer()
     
-    let exclusiveView = ExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width,
+    exclusiveView = ExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width,
       y: 0.0 ,
       width: frameForCards.size.width,
       height: frameForCards.size.height))
@@ -618,6 +618,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
       self.criteriaView.thereAreChanges = false
       self.participateView.thereAreChanges = false
+      self.exclusiveView.thereAreChanges = false
       self.skillsView.thereAreChanges = false
       self.profileView.thereAreChanges = false
 
@@ -629,6 +630,8 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     //this for every screen
     
     self.criteriaView.saveCriterionsSelected()
+    
+    self.exclusiveView.requestToSaveNewBrands()
     
     //Profile Data and Participe In
     let valuesFromParticipateView = self.participateView.getTheValuesSelected()
@@ -683,7 +686,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   @objc private func popThisViewController() {
     
-    if criteriaView.thereAreChanges == true || participateView.thereAreChanges == true || skillsView.thereAreChanges == true || profileView.thereAreChanges == true {
+    if criteriaView.thereAreChanges == true || participateView.thereAreChanges == true || skillsView.thereAreChanges == true || profileView.thereAreChanges == true || exclusiveView.thereAreChanges == true {
       
         let alertController = UIAlertController(title: "Cambios detectados", message: "¿Deseas guardar los cambios realizados?", preferredStyle: UIAlertControllerStyle.Alert)
     

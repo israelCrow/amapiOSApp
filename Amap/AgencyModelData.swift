@@ -30,6 +30,7 @@ class AgencyModel: NSObject {
   var success_cases: [Case]?
   var skillsLevel: [Skill]?
   var criteria: [CriteriaModelData]?
+  var exclusivityBrands: [ExclusivityBrandModelData]?
   
   private override init(){}
   
