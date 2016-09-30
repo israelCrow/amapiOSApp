@@ -21,7 +21,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   private var searchButton: UIButton! = nil
   private var filterButton: UIButton! = nil
-  private var arrayOfPitches = [ProjectPitchModelData]()
+  private var arrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
+  private var frontCard: PitchCardView! = nil
   
   
   
@@ -45,17 +46,6 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     self.createFilterButton()
     
     self.requestForAllPitchesAndTheirEvaluations()
-    
-    if arrayOfPitches.count == 0 {
-      
-      self.createAndAddNoPitchesAssignedView()
-      
-    }else{
-      
-      self.createCarousel()
-      self.createAllPitchCards()
-      
-    }
     
   }
   
@@ -141,10 +131,14 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     let frameForCarousel = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
                                        y: 133.0 * UtilityManager.sharedInstance.conversionHeight,
-                                   width: UIScreen.mainScreen().bounds.width * 2.0,
+                                   width: UIScreen.mainScreen().bounds.width,
                                   height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainCarousel = iCarousel.init(frame: frameForCarousel)
+    mainCarousel.type = .Rotary
+    mainCarousel.backgroundColor = UIColor.clearColor()
+    mainCarousel.delegate = self
+    mainCarousel.dataSource = self
     self.view.addSubview(mainCarousel)
     
   }
@@ -154,11 +148,27 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     //Call to server
     //change array
     
-  }
-  
-  private func createAllPitchCards() {
+    UtilityManager.sharedInstance.showLoader()
     
-    //For the moment just one
+    RequestToServerManager.sharedInstance.requestToGetAllPitchEvaluationByUser { (pitchEvaluationsByUser) in
+      
+      self.arrayOfPitchesByUser = pitchEvaluationsByUser
+      
+      if self.arrayOfPitchesByUser.count == 0 {
+        
+        self.createAndAddNoPitchesAssignedView()
+        
+      }else{
+        
+        self.createCarousel()
+        self.mainCarousel.reloadData()
+        
+      }
+      
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+    }
     
     
     
@@ -237,7 +247,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
     
-    return arrayOfPitches.count
+    return arrayOfPitchesByUser.count
     
   }
   
@@ -260,18 +270,75 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
     }
     
-    genericCard.changePitchData(arrayOfPitches[index])
+    genericCard.changePitchData(arrayOfPitchesByUser[index])
     return genericCard
     
   }
   
   func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat
   {
-    if (option == .Spacing)
-    {
-      return value * 1.1
+    
+    if option == .Spacing {
+      
+      return 1.05 * value
+      
     }
+    
+    if option == .Radius {
+      
+      return 1.1 * value
+      
+    }
+    
+    if option == .Arc {
+      
+      return 0.65 * value
+      
+    }
+    
     return value
+    
   }
+  
+  func carouselDidEndScrollingAnimation(carousel: iCarousel) {
+    
+    let possibleFrontCard = carousel.itemViewAtIndex(carousel.currentItemIndex)
+    
+    if possibleFrontCard != nil {
+      
+      frontCard = possibleFrontCard! as! PitchCardView
+      frontCard.animateGraph()
+      
+      UIView.animateWithDuration(0.35){
+        
+        self.frontCard.layer.shadowColor = UIColor.blackColor().CGColor
+        self.frontCard!.layer.shadowOpacity = 0.25
+        self.frontCard!.layer.shadowOffset = CGSizeZero
+        self.frontCard!.layer.shadowRadius = 5
+        
+      }
+      
+    }
+
+  }
+  
+  func carouselWillBeginDragging(carousel: iCarousel) {
+    
+    if frontCard != nil {
+      
+      UIView.animateWithDuration(0.35){
+        
+        self.frontCard.layer.shadowColor = UIColor.clearColor().CGColor
+        self.frontCard!.layer.shadowOpacity = 0.0
+        self.frontCard!.layer.shadowOffset = CGSizeZero
+        self.frontCard!.layer.shadowRadius = 0
+        
+      }
+      
+    }
+    
+  }
+  
+
   
 }

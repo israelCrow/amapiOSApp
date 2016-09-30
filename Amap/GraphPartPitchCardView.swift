@@ -13,6 +13,7 @@ class GraphPartPitchCardView: UIView {
   private var containerAndGradientView: UIView! = nil
   private var arrayOfQualifications = [Int]()
   private var arrayOfAgencyNames = [String]()
+  private var arrayOfBarGraphic = [GraphView]()
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -33,6 +34,7 @@ class GraphPartPitchCardView: UIView {
     
     self.createContainerAndGradientView()
     self.createLinesOfGraph()
+    self.createGraphs()
     
   }
   
@@ -148,6 +150,44 @@ class GraphPartPitchCardView: UIView {
     containerAndGradientView.layer.addSublayer(border)
 
     containerAndGradientView.layer.masksToBounds = true
+    
+  }
+  
+  private func createGraphs() {
+    
+    for index in 0..<arrayOfQualifications.count {
+      
+      let qualification = arrayOfQualifications[index]
+      let agencyName = arrayOfAgencyNames[index]
+      
+      let frameForGraph = CGRect.init(x: 32.0 * UtilityManager.sharedInstance.conversionWidth,
+                                      y: 45.0 * UtilityManager.sharedInstance.conversionHeight,
+                                  width: 50.0 * UtilityManager.sharedInstance.conversionWidth,
+                                 height: 287.5 * UtilityManager.sharedInstance.conversionHeight)
+      
+      let newGraph = GraphView.init(frame: frameForGraph, newAgencyName: agencyName, newAgencyQualification: qualification)
+      newGraph.alpha = 0.0
+      self.addSubview(newGraph)
+      
+      arrayOfBarGraphic.append(newGraph)
+      
+    }
+    
+  }
+  
+  func animateGraph() {
+    
+    for graphView in arrayOfBarGraphic {
+      
+      UIView.animateWithDuration(0.15) {
+        
+        graphView.alpha = 1.0
+        
+      }
+      
+      graphView.animateBar()
+      
+    }
     
   }
   

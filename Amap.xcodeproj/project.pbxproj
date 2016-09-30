@@ -166,6 +166,7 @@
 		AAB61E8E1D52335D00407FFD /* GoldenPitchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB61E8D1D52335D00407FFD /* GoldenPitchConstants.swift */; };
 		AABD5A9E1D8F8C95006A3B5E /* EvaluatePitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABD5A9D1D8F8C95006A3B5E /* EvaluatePitchViewController.swift */; };
 		AABD5AA21D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABD5AA11D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift */; };
+		AACB8CBD1D9D8EE60099D4ED /* PitchEvaluationByUserModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB8CBC1D9D8EE60099D4ED /* PitchEvaluationByUserModelData.swift */; };
 		AACBDE941D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE931D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift */; };
 		AACBDE961D7FD74700F8F9EF /* SkillLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE951D7FD74700F8F9EF /* SkillLevelView.swift */; };
 		AACBDE9A1D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE991D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift */; };
@@ -318,6 +319,7 @@
 		AAB61E8D1D52335D00407FFD /* GoldenPitchConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoldenPitchConstants.swift; sourceTree = "<group>"; };
 		AABD5A9D1D8F8C95006A3B5E /* EvaluatePitchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluatePitchViewController.swift; sourceTree = "<group>"; };
 		AABD5AA11D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControlWithTitleView.swift; sourceTree = "<group>"; };
+		AACB8CBC1D9D8EE60099D4ED /* PitchEvaluationByUserModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchEvaluationByUserModelData.swift; sourceTree = "<group>"; };
 		AACBDE931D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeSkillsLevelView.swift; sourceTree = "<group>"; };
 		AACBDE951D7FD74700F8F9EF /* SkillLevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillLevelView.swift; sourceTree = "<group>"; };
 		AACBDE991D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCaseDetailViewController.swift; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 				AADC08C11D9C6E0300C5CBCD /* ExclusivityBrandModelData.swift */,
 				AA7F58E51D90852C0057F67B /* PitchSkillCategory.swift */,
 				AA896A461D9ADC3C0046CC26 /* PitchEvaluationModelData.swift */,
+				AACB8CBC1D9D8EE60099D4ED /* PitchEvaluationByUserModelData.swift */,
 				AA8997961D89CA5A009513E3 /* CompanyModelData.swift */,
 				AA8997981D89CB09009513E3 /* BrandModelData.swift */,
 				AA7F58E11D9066C40057F67B /* ProjectPitchModelData.swift */,
@@ -1168,6 +1171,7 @@
 				AA7495731D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift in Sources */,
 				045F5C281D650CE100F0C077 /* CasesView.swift in Sources */,
 				04750BF91D6E000400CC0CD1 /* UserSession.swift in Sources */,
+				AACB8CBD1D9D8EE60099D4ED /* PitchEvaluationByUserModelData.swift in Sources */,
 				AA7F58E01D90485D0057F67B /* CustomTextFieldWithTitleAndPickerView.swift in Sources */,
 				046229661D6275E50087E572 /* CollapsibleTableViewHeader.swift in Sources */,
 				AA756D7D1D70A03C0070F153 /* CaseModelData.swift in Sources */,

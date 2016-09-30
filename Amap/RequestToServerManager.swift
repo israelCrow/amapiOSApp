@@ -676,7 +676,85 @@ class RequestToServerManager: NSObject {
   }
   
   
-  
+  func requestToGetAllPitchEvaluationByUser(actionsToMakeAfterFinished: (pitchEvaluationsByUser: [PitchEvaluationByUserModelData]) -> Void) {
+    
+    //    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_evaluations/by_user"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+ 
+    let params = [
+                  "auth_token": UserSession.session.auth_token
+                 ]
+    
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      //      .response{
+      //        (request, response, data, error) -> Void in
+      //        print(response)
+      ////          let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: [])
+      ////            print (json)
+      ////          }
+      
+      .responseJSON{ response in
+        print(response)
+        
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          print(json)
+          
+          let arrayOfPitchEvaluationByUserModelData = json as? Array<[String: AnyObject]>
+          
+          if arrayOfPitchEvaluationByUserModelData != nil {
+            
+            var newArrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
+            
+            for pitchEvaluationByUser in arrayOfPitchEvaluationByUserModelData! {
+              
+              let newPitchEvaluationId = (pitchEvaluationByUser["pitch_evaluation_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_evaluation_id"] as! Int) : "-1")
+              let newPitchId = (pitchEvaluationByUser["pitch_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_id"] as! Int) : "-1")
+              let newPitchName = (pitchEvaluationByUser["pitch_name"] as? String != nil ? pitchEvaluationByUser["pitch_name"] as! String : "No Pitch Name")
+              let newBriefDate = (pitchEvaluationByUser["brief_date"] as? String != nil ? pitchEvaluationByUser["brief_date"] as! String : "01/01/1900")
+              let newScore = (pitchEvaluationByUser["score"] as? Int != nil ? pitchEvaluationByUser["score"] as! Int : -1)
+              let newBrandName = (pitchEvaluationByUser["brand"] as? String != nil ? pitchEvaluationByUser["brand"] as! String : "No Brand Name")
+              let newCompanyName = (pitchEvaluationByUser["company"] as? String != nil ? pitchEvaluationByUser["company"] as! String : "No Company Name")
+              let newOtherScores = (pitchEvaluationByUser["other_scores"] as? [Int] != nil ? pitchEvaluationByUser["other_scores"] as! [Int] : [Int]())
+              
+              let newPitchEvaluationByUser = PitchEvaluationByUserModelData.init(
+                newPitchEvaluationId: newPitchEvaluationId,
+                newPitchId: newPitchId,
+                newPitchName: newPitchName,
+                newBriefDate: newBriefDate,
+                newScore: newScore,
+                newBrandName: newBrandName,
+                newCompanyName: newCompanyName,
+                newOtherScores: newOtherScores)
+              
+              newArrayOfPitchesByUser.append(newPitchEvaluationByUser)
+            
+            }
+          
+            actionsToMakeAfterFinished(pitchEvaluationsByUser: newArrayOfPitchesByUser)
+          
+          }
+          
+        } else {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          print("ERROR")
+//          actionsToMakeAfterFinished()
+        }
+    }
+  }
   
   
   

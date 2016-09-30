@@ -159,7 +159,7 @@ class GraphView: UIView {
     let frameForBarView = CGRect.init(x: barOfGraphView.frame.origin.x,
                                       y: barOfGraphView.frame.origin.y,
                                       width: barOfGraphView.frame.size.width,
-                                      height: (CGFloat(agencyQualificationInt) / 100.0) * (246.0 * UtilityManager.sharedInstance.conversionHeight))
+                                      height: -(CGFloat(agencyQualificationInt) / 100.0) * (246.0 * UtilityManager.sharedInstance.conversionHeight))
     
     UIView.animateWithDuration(0.25){
      

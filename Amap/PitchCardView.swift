@@ -13,7 +13,7 @@ class PitchCardView: UIView {
   
   private var graphPart: GraphPartPitchCardView! = nil
   private var detailedPart: DetailedPartPitchCardView! = nil
-  private var pitchData: ProjectPitchModelData! = nil
+  private var pitchEvaluationByUserData: PitchEvaluationByUserModelData! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -21,14 +21,6 @@ class PitchCardView: UIView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    
-    self.initInterface()
-  }
-  
-  private func initInterface() {
-    
-    self.createGraphPart()
-    self.createDetailedPart()
     
   }
   
@@ -46,9 +38,12 @@ class PitchCardView: UIView {
                                     width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 347.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    let arrayOfQualifications: [Int] = [pitchEvaluationByUserData.score]
+    let arrayOfAgencyNames: [String] = [AgencyModel.Data.name]
+    
     graphPart = GraphPartPitchCardView.init(frame: frameForGraphPart,
-                         newArrayOfQualifications: [0],
-                            newArrayOfAgencyNames: ["test"])
+                         newArrayOfQualifications: arrayOfQualifications,
+                            newArrayOfAgencyNames: arrayOfAgencyNames)
     self.addSubview(graphPart)
     
   }
@@ -68,19 +63,25 @@ class PitchCardView: UIView {
                                       height: 107.0 * UtilityManager.sharedInstance.conversionHeight)
     
     detailedPart = DetailedPartPitchCardView.init(frame: frameForDetailedPart,
-                                         newProjectName: pitchData.name,
-                                           newBrandName: pitchData.brandData!.name,
-                                         newCompanyName: pitchData.companyData!.name)
+                                         newProjectName: pitchEvaluationByUserData.pitchName,
+                                           newBrandName: pitchEvaluationByUserData.brandName,
+                                         newCompanyName: pitchEvaluationByUserData.companyName!)
     
     self.addSubview(detailedPart)
     
   }
   
-  func changePitchData(newPitchData: ProjectPitchModelData) {
+  func changePitchData(newPitchByUserData: PitchEvaluationByUserModelData) {
     
-    pitchData = newPitchData
+    pitchEvaluationByUserData = newPitchByUserData
     self.createGraphPart()
     self.createDetailedPart()
+    
+  }
+  
+  func animateGraph() {
+    
+    graphPart.animateGraph()
     
   }
 

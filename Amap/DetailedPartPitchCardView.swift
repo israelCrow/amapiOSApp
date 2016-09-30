@@ -65,7 +65,7 @@ class DetailedPartPitchCardView: UIView {
     
     let font = UIFont(name: "SFUIText-Regular",
                       size: 9.0 * UtilityManager.sharedInstance.conversionWidth)
-    let color = UIColor.blackColor()
+    let color = UIColor.init(white: 0.0, alpha: 0.5)
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Left
     
@@ -153,7 +153,7 @@ class DetailedPartPitchCardView: UIView {
     brandNameLabel.attributedText = stringWithFormat
     brandNameLabel.sizeToFit()
     let newFrame = CGRect.init(x: 12.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 54.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 57.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: brandNameLabel.frame.size.width,
                                height: brandNameLabel.frame.size.height)
     
@@ -190,7 +190,7 @@ class DetailedPartPitchCardView: UIView {
     companyNameLabel.attributedText = stringWithFormat
     companyNameLabel.sizeToFit()
     let newFrame = CGRect.init(x: 12.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 54.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 81.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: companyNameLabel.frame.size.width,
                                height: companyNameLabel.frame.size.height)
     
