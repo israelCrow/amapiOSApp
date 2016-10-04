@@ -35,7 +35,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
   private var howManyAgenciesParticipate: CustomSegmentedControlWithTitleView! = nil
   private var isHowManyAgenciesParticipateEdited: Bool = false
   
-  private var howManyDaysToShow: CustomTextFieldWithTitleAndPickerView! = nil //6
+  private var howManyDaysToShow: CustomTextFieldWithTitleView! = nil //6
   private var isHowManyDaysToShowEdited: Bool = false
   
   private var youKnowHowManyPresentationRounds: CustomSegmentedControlWithTitleView! = nil
@@ -296,15 +296,20 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["1 semana", "2 semanas", "3 semanas", "4 semanas"]
+//    let segmentsArray = ["1 semana", "2 semanas", "3 semanas", "4 semanas"]
     
-    howManyDaysToShow = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
-      textLabel: "¿Cuántas semanas les dieron para presentar?",
-      nameOfImage: "dropdown",
-      newOptionsOfPicker: segmentsArray)
+    howManyDaysToShow = CustomTextFieldWithTitleView.init(frame: frameForView,
+                                                          title: "¿Cuántas semanas les dieron para presentar?",
+                                                          image: nil)
+//      = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
+//      textLabel: "¿Cuántas semanas les dieron para presentar?",
+//      nameOfImage: "dropdown",
+//      newOptionsOfPicker: segmentsArray)
     
     howManyDaysToShow.tag = 6
-    howManyDaysToShow.delegate = self
+    howManyDaysToShow.mainTextField.addTarget(self,
+                                              action: #selector(howManyDaysToShowEdited),
+                                              forControlEvents: .AllEditingEvents)
     mainScrollView.addSubview(howManyDaysToShow)
     
   }
@@ -567,10 +572,12 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
 //        howManyAgenciesResult = "+ de 7"
 //          
 //    }
+
+    let howManyDaysToPresent = howManyDaysToShow.mainTextField.text!
     
-    let howManyWeeks = (UtilityManager.sharedInstance.isValidText(howManyDaysToShow.mainTextField.text!) == true ? howManyDaysToShow.mainTextField.text! : "1s")
-    let howManyWeeksWithoutSpaces = howManyWeeks.stringByReplacingOccurrencesOfString(" ", withString: "")
-    let howManyWeeksResult = howManyWeeksWithoutSpaces.substringWithRange(howManyWeeksWithoutSpaces.startIndex..<howManyWeeksWithoutSpaces.startIndex.advancedBy(2))
+//    let howManyWeeks = (UtilityManager.sharedInstance.isValidText(howManyDaysToShow.mainTextField.text!) == true ? howManyDaysToShow.mainTextField.text! : "1s")
+//    let howManyWeeksWithoutSpaces = howManyWeeks.stringByReplacingOccurrencesOfString(" ", withString: "")
+//    let howManyWeeksResult = howManyWeeksWithoutSpaces.substringWithRange(howManyWeeksWithoutSpaces.startIndex..<howManyWeeksWithoutSpaces.startIndex.advancedBy(2))
     
 //    var howManyPresentationRoundsResult = ""
 //    if youKnowHowManyPresentationRounds.returnValueSelectedFromSegmentControl() == "Sí" {
@@ -624,7 +631,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     let params:  [String: AnyObject] = [
       "has_selection_criteria": knowTheSelectionCriteriaResult,
       "are_objectives_clear": clearObjectiveResult,
-      "time_to_present": howManyWeeksResult,
+      "time_to_present": howManyDaysToPresent,
       "is_budget_known": knowTheProjectBudgetResult,
       "number_of_agencies": howManyAgenciesResult,
       "are_deliverables_clear": clearDeliverableResult,
@@ -636,6 +643,12 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     
     
     self.delegate?.createEvaluatePitch(params)
+    
+  }
+  
+  @objc private func howManyDaysToShowEdited() {
+    
+    isHowManyDaysToShowEdited = true
     
   }
   
@@ -661,8 +674,10 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
   
   private func checkIfAllElementsSelected() {
     
+    let notDesirableCharacters = NSCharacterSet.decimalDigitCharacterSet().invertedSet
+    let lettersInHowManyDaysToShow = howManyDaysToShow.mainTextField.text!.rangeOfCharacterFromSet(notDesirableCharacters)
     
-    if isClearObjectivesViewEdited == true && isYouKnowTheProjectBudgetEdited == true && isYouKnowTheSelectionCriteriaEdited == true  && isInvolvementOfMarketingEdited == true && isHowManyAgenciesParticipateEdited == true && isHowManyDaysToShowEdited == true && isYouKnowHowManyPresentationRounds == true && isHowManyDaysTheyGiveTheRulingEdited == true && isDeliverIntelectualPropertyJustToPitchEdited == true && isClearDeliverableEdited == true {
+    if isClearObjectivesViewEdited == true && isYouKnowTheProjectBudgetEdited == true && isYouKnowTheSelectionCriteriaEdited == true  && isInvolvementOfMarketingEdited == true && isHowManyAgenciesParticipateEdited == true && isHowManyDaysToShowEdited == true && UtilityManager.sharedInstance.isValidText(howManyDaysToShow.mainTextField.text!) && lettersInHowManyDaysToShow == nil && isYouKnowHowManyPresentationRounds == true && isHowManyDaysTheyGiveTheRulingEdited == true && isDeliverIntelectualPropertyJustToPitchEdited == true && isClearDeliverableEdited == true {
     
       if youKnowHowManyPresentationRounds.returnValueSelectedFromSegmentControl() == "Sí" {
       
@@ -740,11 +755,11 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     
     if let customView = sender as? CustomTextFieldWithTitleAndPickerView {
       
-      if customView.tag == 6 {
-        
-        isHowManyDaysToShowEdited = true
-        
-      } else
+//      if customView.tag == 6 {
+//        
+//        isHowManyDaysToShowEdited = true
+//        
+//      } else
         if customView.tag == 8 {
      
           isHowManyEdited = true

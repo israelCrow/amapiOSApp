@@ -8,19 +8,68 @@
 
 import UIKit
 
+protocol PitchCardViewDelegate {
+  
+  func pushCreateAddNewPitchAndWriteBrandNameViewControllerFromPitchCard()
+  
+}
 
 class PitchCardView: UIView {
   
+  private var contentView: UIView! = nil
+  private var addPitchButton: UIButton! = nil
   private var graphPart: GraphPartPitchCardView! = nil
   private var detailedPart: DetailedPartPitchCardView! = nil
   private var pitchEvaluationByUserData: PitchEvaluationByUserModelData! = nil
+  
+  var delegate: PitchCardViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
   override init(frame: CGRect) {
-    super.init(frame: frame)
+    
+    let frameForView = CGRect.init(x: 0.0,
+                                          y: frame.origin.y - (20.0 * UtilityManager.sharedInstance.conversionHeight),
+                                          width: frame.size.width,
+                                          height: frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight))
+    
+    super.init(frame: frameForView)
+    self.backgroundColor = UIColor.clearColor()
+    
+    self.createContentView()
+    self.createAddPitchButton()
+    
+  }
+  
+  private func createContentView() {
+    
+    let frameForContentView = CGRect.init(x: 0.0,
+                                          y: self.frame.origin.y + (40.0 * UtilityManager.sharedInstance.conversionHeight),
+                                      width: self.frame.size.width,
+                                     height: self.frame.size.height)
+    
+    contentView = UIView.init(frame: frameForContentView)
+    contentView.backgroundColor = UIColor.clearColor()
+    self.addSubview(contentView)
+    
+  }
+  
+  private func createAddPitchButton() {
+    
+    let frameForButton = CGRect.init(x: 235.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: -4.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: 56.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    addPitchButton = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "buttonAddPitch") as UIImage?
+    addPitchButton.setImage(image, forState: .Normal)
+    addPitchButton.tag = 1
+    addPitchButton.addTarget(self, action: #selector(addPitchButtonPushed), forControlEvents:.TouchUpInside)
+    
+    self.addSubview(addPitchButton)
     
   }
   
@@ -44,8 +93,8 @@ class PitchCardView: UIView {
     graphPart = GraphPartPitchCardView.init(frame: frameForGraphPart,
                          newArrayOfQualifications: arrayOfQualifications,
                             newArrayOfAgencyNames: arrayOfAgencyNames)
-    self.addSubview(graphPart)
-    
+    contentView.addSubview(graphPart)
+    contentView.bringSubviewToFront(addPitchButton)
   }
   
   private func createDetailedPart() {
@@ -67,7 +116,7 @@ class PitchCardView: UIView {
                                            newBrandName: pitchEvaluationByUserData.brandName,
                                          newCompanyName: pitchEvaluationByUserData.companyName!)
     
-    self.addSubview(detailedPart)
+    contentView.addSubview(detailedPart)
     
   }
   
@@ -82,6 +131,12 @@ class PitchCardView: UIView {
   func animateGraph() {
     
     graphPart.animateGraph()
+    
+  }
+  
+  @objc private func addPitchButtonPushed() {
+    
+    self.delegate?.pushCreateAddNewPitchAndWriteBrandNameViewControllerFromPitchCard()
     
   }
 

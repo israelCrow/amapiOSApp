@@ -21,6 +21,10 @@ class GradientView: UIView {
   private let gradientLayer = CAGradientLayer()
   private var typeOfInclination: TypeOfInclination
   
+  override class func layerClass() -> AnyClass {
+    return CAGradientLayer.self
+  }
+  
   init(frame: CGRect, arrayOfcolors:[UIColor], typeOfInclination:TypeOfInclination){
     self.colors = arrayOfcolors
     self.typeOfInclination = typeOfInclination

@@ -10,7 +10,7 @@ import UIKit
 
 protocol NoPitchAssignedViewDelegate {
   
-  func pushCreateAddNewPitchAndWriteBranNameViewController()
+  func pushCreateAddNewPitchAndWriteBrandNameViewController()
   
 }
 
@@ -143,7 +143,7 @@ class NoPitchAssignedView: UIView {
   
   @objc private func addPitchButtonPushed() {
     
-    self.delegate?.pushCreateAddNewPitchAndWriteBranNameViewController()
+    self.delegate?.pushCreateAddNewPitchAndWriteBrandNameViewController()
     
   }
   

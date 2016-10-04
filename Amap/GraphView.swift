@@ -83,7 +83,7 @@ class GraphView: UIView {
   
   private func createCircleView() {
     
-    let frameForCircleView = CGRect.init(x: 8.0 * UtilityManager.sharedInstance.conversionWidth,
+    let frameForCircleView = CGRect.init(x: (self.frame.size.width / 2.0) - (13.0 * UtilityManager.sharedInstance.conversionWidth),
                                          y: 233.5 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 26.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -122,7 +122,7 @@ class GraphView: UIView {
     )
     agencyQualificationLabel.attributedText = stringWithFormat
     agencyQualificationLabel.sizeToFit()
-    let newFrame = CGRect.init(x: frameForLabel.origin.x,
+    let newFrame = CGRect.init(x: (circleView.frame.size.width / 2.0) - (agencyQualificationLabel.frame.size.width / 2.0),
                                y: frameForLabel.origin.y,
                                width: agencyQualificationLabel.frame.size.width,
                                height: agencyQualificationLabel.frame.size.height)
@@ -149,20 +149,23 @@ class GraphView: UIView {
                                arrayOfcolors: [firstColor, secondColor],
                            typeOfInclination: GradientView.TypeOfInclination.vertical)
     barOfGraphView.backgroundColor = UIColor.whiteColor()
+    barOfGraphView.layer.cornerRadius = barOfGraphView.frame.size.width / 2.0
     self.addSubview(barOfGraphView)
+    self.bringSubviewToFront(circleView)
+    self.bringSubviewToFront(agencyQualificationLabel)
     
     
   }
   
   func animateBar() {
     
-    let frameForBarView = CGRect.init(x: barOfGraphView.frame.origin.x,
-                                      y: barOfGraphView.frame.origin.y,
+    let frameForBarView = CGRect.init(x: circleView.center.x - (4.0 * UtilityManager.sharedInstance.conversionWidth),
+                                      y: circleView.center.y,
                                       width: barOfGraphView.frame.size.width,
                                       height: -(CGFloat(agencyQualificationInt) / 100.0) * (246.0 * UtilityManager.sharedInstance.conversionHeight))
     
-    UIView.animateWithDuration(0.25){
-     
+    UIView.animateWithDuration(0.20){
+      
       self.barOfGraphView.frame = frameForBarView
       
     }

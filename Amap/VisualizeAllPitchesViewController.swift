@@ -15,7 +15,7 @@ protocol VisualizeAllPitchesViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate {
+class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate {
   
   private var mainCarousel: iCarousel! = nil
   
@@ -225,7 +225,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   //MARK: - NoPitchAssignedViewDelegate
   
-  func pushCreateAddNewPitchAndWriteBranNameViewController() {
+  func pushCreateAddNewPitchAndWriteBrandNameViewController() {
     
     self.delegateForShowAndHideTabBar?.requestToHideTabBarFromVisualizeAllPitchesViewControllerDelegate()
     
@@ -240,6 +240,18 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   func requestToShowTabBarFromCreateAddNewPitchAndWriteCompanyNameViewControllerDelegate() {
     
     self.delegateForShowAndHideTabBar?.requestToShowTabBarFromVisualizeAllPitchesViewControllerDelegate()
+    
+  }
+  
+  //MARK: - PitchCardViewDelegate
+  
+  func pushCreateAddNewPitchAndWriteBrandNameViewControllerFromPitchCard() {
+    
+    self.delegateForShowAndHideTabBar?.requestToHideTabBarFromVisualizeAllPitchesViewControllerDelegate()
+    
+    let createAddNewPitch = CreateAddNewPitchAndWriteCompanyNameViewController()
+    createAddNewPitch.delegateForShowTabBar = self
+    self.navigationController?.pushViewController(createAddNewPitch, animated: true)
     
   }
   
@@ -263,6 +275,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
                                    height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
       
       genericCard = PitchCardView.init(frame: frameForNewView)
+      genericCard.delegate = self
       
     }else{
       
