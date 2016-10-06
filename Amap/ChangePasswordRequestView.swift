@@ -9,7 +9,7 @@
 import UIKit
 
 protocol  ChangePasswordRequestViewDelegate {
-    func requestChangePassword(email: String)
+  func requestChangePassword(email: String, actionToMakeWhenFailed:() -> Void)
     func changePasswordRequestViewWhenKeyboardDesappear(sender: AnyObject)
 }
 
@@ -229,16 +229,17 @@ class ChangePasswordRequestView: UIView, UITextFieldDelegate {
     
     private func createEMailTextField() {
         let frameForTextField = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                            y: writeEMailDescriptionLabel.frame.origin.y + writeEMailDescriptionLabel.frame.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight),
-                                            width: 200.0 * UtilityManager.sharedInstance.conversionWidth,
-                                            height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+                                            y: writeEMailDescriptionLabel.frame.origin.y + writeEMailDescriptionLabel.frame.size.height + (0.0 * UtilityManager.sharedInstance.conversionHeight),
+                                            width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                            height: 45.0 * UtilityManager.sharedInstance.conversionHeight)
         
         eMailTextField = UITextField.init(frame: frameForTextField)
         eMailTextField.placeholder = "jen@ejemplo.com"
         eMailTextField.tag = 1
         eMailTextField.delegate = self
-        eMailTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
-        
+        eMailTextField.clearButtonMode = .WhileEditing
+//        eMailTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
+      
         let border = CALayer()
         let width = CGFloat(0.5)
         border.borderColor = UIColor.darkGrayColor().CGColor
@@ -387,12 +388,18 @@ class ChangePasswordRequestView: UIView, UITextFieldDelegate {
     }
     
     @objc private func requestChangePasswordButtonPressed() {
+      
+        self.nextButton.userInteractionEnabled = false
         
         let validEMail = UtilityManager.sharedInstance.isValidEmail(eMailTextField.text!)
         let validText = UtilityManager.sharedInstance.isValidText(eMailTextField.text!)
         
         if validEMail == true && validText == true {
-            self.delegate?.requestChangePassword(eMailTextField.text!)
+          self.delegate?.requestChangePassword(eMailTextField.text!.lowercaseString) {
+            
+            self.nextButton.userInteractionEnabled = true
+            
+          }
             self.dismissKeyboard(eMailTextField)
             self.delegate?.changePasswordRequestViewWhenKeyboardDesappear(self)
         }else{

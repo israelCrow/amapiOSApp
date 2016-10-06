@@ -270,16 +270,17 @@ class CreateAccountView: UIView, UITextFieldDelegate {
     
     private func createNameTextField() {
         let frameForTextField = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                            y: writeNameDescriptionLabel.frame.origin.y + writeNameDescriptionLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
-                                            width: 200.0 * UtilityManager.sharedInstance.conversionWidth,
-                                            height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+                                            y: writeNameDescriptionLabel.frame.origin.y + writeNameDescriptionLabel.frame.size.height + (10.0 * UtilityManager.sharedInstance.conversionHeight),
+                                            width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                            height: 45.0 * UtilityManager.sharedInstance.conversionHeight)
         
         nameTextField = UITextField.init(frame: frameForTextField)
         nameTextField.tag = 1
         nameTextField.delegate = self
         nameTextField.placeholder = "Agencia/Marca"
-        nameTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
-        
+        nameTextField.clearButtonMode = .WhileEditing
+//        nameTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
+      
         let border = CALayer()
         let width = CGFloat(0.5)
         border.borderColor = UIColor.darkGrayColor().CGColor
@@ -378,16 +379,17 @@ class CreateAccountView: UIView, UITextFieldDelegate {
     
     private func createEMailTextField() {
         let frameForTextField = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                            y: writeEMailDescriptionLabel.frame.origin.y + writeEMailDescriptionLabel.frame.size.height + 5.0,
-                                            width: 200.0 * UtilityManager.sharedInstance.conversionWidth,
-                                            height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+                                            y: writeEMailDescriptionLabel.frame.origin.y + writeEMailDescriptionLabel.frame.size.height + 0.0,
+                                            width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                            height: 45.0 * UtilityManager.sharedInstance.conversionHeight)
         
         eMailTextField = UITextField.init(frame: frameForTextField)
         eMailTextField.tag = 2
         eMailTextField.placeholder = "jen@ejemplo.com"
         eMailTextField.delegate = self
-        eMailTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
-        
+        eMailTextField.clearButtonMode = .WhileEditing
+//        eMailTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
+      
         let border = CALayer()
         let width = CGFloat(0.5)
         border.borderColor = UIColor.darkGrayColor().CGColor

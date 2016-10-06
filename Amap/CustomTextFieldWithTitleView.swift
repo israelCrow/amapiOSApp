@@ -77,11 +77,11 @@ class CustomTextFieldWithTitleView: UIView {
     
     if titleLabel != nil {
       
-      positionY = titleLabel!.frame.origin.y + titleLabel!.frame.size.height + (18.0 * UtilityManager.sharedInstance.conversionHeight) //When has title but not icon
+      positionY = titleLabel!.frame.origin.y + titleLabel!.frame.size.height + (29.0 * UtilityManager.sharedInstance.conversionHeight) //When has title but not icon
       
     } else {
       
-      positionY = 24.0 * UtilityManager.sharedInstance.conversionHeight //When doesn't have an title but icon
+      positionY = 29.0 * UtilityManager.sharedInstance.conversionHeight //When doesn't have an title but icon
       
     }
     
@@ -147,16 +147,18 @@ class CustomTextFieldWithTitleView: UIView {
     let frameForTextField = CGRect.init(x: newPositionX,
                                     y: newPositionY,
                                     width: newWidth,
-                                    height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+                                    height: 44.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainTextField = UITextField.init(frame: frameForTextField)
+    
+    mainTextField.backgroundColor = UIColor.clearColor()
     
     let border = CALayer()
     let width = CGFloat(0.5)
     border.borderColor = UIColor.darkGrayColor().CGColor
     border.borderWidth = width
     border.frame = CGRect.init(x: newPositionXForLine,
-                               y: mainTextField.frame.size.height + (8.0 * UtilityManager.sharedInstance.conversionHeight),
+                               y: mainTextField.frame.size.height + (1.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: newWidthForLine,
                                height: 0.5)
     mainTextField.layer.masksToBounds = false

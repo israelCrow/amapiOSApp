@@ -23,7 +23,7 @@ class VideoPlayerVimeoYoutubeView:UIView {
   
   private var videoURLString: String?
   private var videoURLNSURL: NSURL! = nil
-  private var imageForCaseImageView: UIImageView! = nil
+  var imageForCaseImageView: UIImageView! = nil
   var changeCaseImageButton: UIButton! = nil
   var deleteCaseImageButton: UIButton! = nil
   private var itsPossibleToChangeImage: Bool = false
@@ -116,7 +116,7 @@ class VideoPlayerVimeoYoutubeView:UIView {
                                      height: self.frame.size.height)
     
     imageForCaseImageView = UIImageView.init(frame: frameForImageView)
-    imageForCaseImageView.backgroundColor = UIColor.lightGrayColor()
+    imageForCaseImageView.backgroundColor = UIColor.clearColor()
     imageForCaseImageView.userInteractionEnabled = true
     imageForCaseImageView.autoresizingMask = .FlexibleWidth
     imageForCaseImageView.contentMode = .ScaleAspectFit
@@ -352,7 +352,7 @@ class VideoPlayerVimeoYoutubeView:UIView {
   
   func deleteImageOfCase() {
     
-    imageForCaseImageView.backgroundColor = UIColor.lightGrayColor()
+    imageForCaseImageView.backgroundColor = UIColor.clearColor()
     imageForCaseImageView.image = nil
     
     existsImage = false

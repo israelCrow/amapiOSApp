@@ -208,8 +208,10 @@ class ChangePasswordViewController: UIViewController, ChangePasswordRequestViewD
         self.moveFlipCardWhenKeyboardDesappear()
     }
     
-    func requestChangePassword(email: String) {
-        
+  func requestChangePassword(email: String, actionToMakeWhenFailed: () -> Void) {
+    
+        UtilityManager.sharedInstance.showLoader()
+    
         let urlToRequest = "https://amap-dev.herokuapp.com/api/users/send_password_reset"
         
         let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
@@ -235,20 +237,28 @@ class ChangePasswordViewController: UIViewController, ChangePasswordRequestViewD
                 let answer = json["success"] as? String
                 //        let error = json["errors"] as? String
                 if answer == "Se ha enviado un correo con instrucciones para restablecer contraseña" {
-                //    print(answer)
+                
+                    UtilityManager.sharedInstance.hideLoader()
                     self.flipCardToSuccess()
+                  
                 } else {
+                  
                     let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
                     let error = json["errors"] as? [String:AnyObject]
                     let stringError = error!["email"] as? [AnyObject]
                     let errorinString = stringError![0] as? String
+                  
                     if errorinString == "No existe ningún usuario con ese email" {
                         self.changePasswordView.showErrorFromServerNotExistingUserLabel()
                     }
+                  
+                    actionToMakeWhenFailed()
+                    UtilityManager.sharedInstance.hideLoader()
+                  
                 }
                 
         }
-    }
+     }
     
     private func flipCardToSuccess() {
         let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)

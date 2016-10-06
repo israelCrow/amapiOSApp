@@ -171,7 +171,7 @@ class CustomTextFieldWithTitleAndPickerView: UIView, UIPickerViewDelegate, UIPic
     
     if titleLabel != nil {
       
-      positionY = titleLabel!.frame.origin.y + titleLabel!.frame.size.height + (18.0 * UtilityManager.sharedInstance.conversionHeight) //When has title but not icon
+      positionY = titleLabel!.frame.origin.y + titleLabel!.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight) //When has title but not icon
       
     } else {
       
@@ -229,7 +229,7 @@ class CustomTextFieldWithTitleAndPickerView: UIView, UIPickerViewDelegate, UIPic
     let frameForTextField = CGRect.init(x: newPositionX,
                                         y: newPositionY,
                                         width: newWidth,
-                                        height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+                                        height: 44.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainTextField = UITextField.init(frame: frameForTextField)
     
@@ -238,10 +238,11 @@ class CustomTextFieldWithTitleAndPickerView: UIView, UIPickerViewDelegate, UIPic
     border.borderColor = UIColor.darkGrayColor().CGColor
     border.borderWidth = width
     border.frame = CGRect.init(x: -10.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: mainTextField.frame.size.height + (8.0 * UtilityManager.sharedInstance.conversionHeight),
+                               y: mainTextField.frame.size.height + (1.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                height: 0.5)
     mainTextField.layer.masksToBounds = false
+    mainTextField.backgroundColor = UIColor.clearColor()
     mainTextField.layer.addSublayer(border)
     mainTextField.clearButtonMode = UITextFieldViewMode.WhileEditing
     mainTextField.inputView = containerViewForPicker

@@ -9,6 +9,7 @@
 import UIKit
 import MessageUI
 import MapKit
+import SafariServices
 
 protocol VisualizeAgencyProfileViewControllerDelegate {
   
@@ -17,7 +18,7 @@ protocol VisualizeAgencyProfileViewControllerDelegate {
   
 }
 
-class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDelegate, VisualizeSkillsViewDelegate, VisualizeSkillsLevelViewDelegate, EditAgencyProfileViewControllerDelegate, AgencyProfilePicNameButtonsViewDelegate, MFMailComposeViewControllerDelegate {
+class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDelegate, VisualizeSkillsViewDelegate, VisualizeSkillsLevelViewDelegate, EditAgencyProfileViewControllerDelegate, AgencyProfilePicNameButtonsViewDelegate, MFMailComposeViewControllerDelegate, SFSafariViewControllerDelegate {
   
   let kNumberOfCardsInScrollViewMinusOne = 5
   
@@ -696,7 +697,14 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     if AgencyModel.Data.website_url != nil && UIApplication.sharedApplication().canOpenURL(NSURL.init(string: AgencyModel.Data.website_url!)!) {
 
-      UIApplication.sharedApplication().openURL(NSURL.init(string: AgencyModel.Data.website_url!)!)
+      let url = NSURL.init(string: AgencyModel.Data.website_url!)
+      
+      let safariExplorer = SFSafariViewController.init(URL: url!)
+      safariExplorer.delegate = self
+      
+      self.navigationController?.presentViewController(safariExplorer, animated: true, completion: nil)
+      
+//      UIApplication.sharedApplication().openURL(NSURL.init(string: AgencyModel.Data.website_url!)!)
       
     } else {
       
@@ -750,6 +758,14 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
       }
 
     }
+    
+  }
+  
+  //MARK: - SFSafariViewControllerDelegate
+  
+  func safariViewControllerDidFinish(controller: SFSafariViewController) {
+    
+    
     
   }
   

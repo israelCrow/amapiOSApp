@@ -130,9 +130,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   private func createCarousel() {
     
     let frameForCarousel = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
-                                       y: 133.0 * UtilityManager.sharedInstance.conversionHeight,
+                                       y: 120.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: UIScreen.mainScreen().bounds.width,
-                                  height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
+                                  height: 464.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainCarousel = iCarousel.init(frame: frameForCarousel)
     mainCarousel.type = .Rotary

@@ -170,6 +170,8 @@ class AgencyProfilePicNameButtonsView: UIView {
     mailIconButton = UIButton.init(frame: frameForButton)
     let image = UIImage(named: "iconMailBlack") as UIImage?
     mailIconButton.setImage(image, forState: .Normal)
+    
+    mailIconButton.backgroundColor = UIColor.clearColor()
     mailIconButton.tag = 1
     mailIconButton.addTarget(self, action: #selector(mailIconPressed), forControlEvents:.TouchUpInside)
     

@@ -70,7 +70,7 @@ class PreviewVimeoYoutubeView: UIView {
   
   private func initInterface() {
     
-    self.backgroundColor = UIColor.lightGrayColor()
+    self.backgroundColor = UIColor.clearColor()
     
     if caseData.case_image_thumb != nil {
       

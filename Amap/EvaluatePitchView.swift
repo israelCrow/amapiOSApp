@@ -307,6 +307,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
 //      newOptionsOfPicker: segmentsArray)
     
     howManyDaysToShow.tag = 6
+    howManyDaysToShow.mainTextField.keyboardType = .NumberPad
     howManyDaysToShow.mainTextField.addTarget(self,
                                               action: #selector(howManyDaysToShowEdited),
                                               forControlEvents: .AllEditingEvents)

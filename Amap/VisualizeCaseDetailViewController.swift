@@ -220,10 +220,33 @@ class VisualizeCaseDetailViewController: UIViewController {
                                      height: 148.0 * UtilityManager.sharedInstance.conversionHeight)
     
     playerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: frameForPlayer,
-                                                          url: caseData.url, urlImage: caseData.case_image_url)
+                                                            url: caseData.url,
+                                                       urlImage: nil)
+    if playerVimeoYoutube.changeCaseImageButton != nil && playerVimeoYoutube.deleteCaseImageButton != nil {
     
-    playerVimeoYoutube.changeCaseImageButton.removeFromSuperview()
-    playerVimeoYoutube.deleteCaseImageButton.removeFromSuperview()
+      playerVimeoYoutube.changeCaseImageButton.removeFromSuperview()
+      playerVimeoYoutube.deleteCaseImageButton.removeFromSuperview()
+    
+    }
+    
+    
+    if caseData.case_image_url != nil && UIApplication.sharedApplication().canOpenURL(NSURL.init(string: caseData.case_image_url!)!) == true{
+      let frameForImageView = CGRect.init(x: 0.0,
+                                          y: 0.0,
+                                      width: playerVimeoYoutube.frame.size.width,
+                                     height: playerVimeoYoutube.frame.size.height)
+      playerVimeoYoutube.imageForCaseImageView = nil
+      playerVimeoYoutube.imageForCaseImageView = UIImageView.init(frame: frameForImageView)
+      playerVimeoYoutube.imageForCaseImageView.backgroundColor = UIColor.lightGrayColor()
+      playerVimeoYoutube.imageForCaseImageView.userInteractionEnabled = true
+      playerVimeoYoutube.imageForCaseImageView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+      playerVimeoYoutube.imageForCaseImageView.contentMode = .ScaleAspectFit
+      playerVimeoYoutube.imageForCaseImageView.center = playerVimeoYoutube.center
+    
+      playerVimeoYoutube.imageForCaseImageView.imageFromUrlAndAdaptToSize(caseData.case_image_url!)
+      playerVimeoYoutube.addSubview(playerVimeoYoutube.imageForCaseImageView)
+    }
+    
     
     playerVimeoYoutube.changeCaseImageButton = nil
     playerVimeoYoutube.deleteCaseImageButton = nil
