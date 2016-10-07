@@ -24,7 +24,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   private var arrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
   private var frontCard: PitchCardView! = nil
   
-  
+  private var isSecondTimeAppearing: Bool = false
   
   var delegateForShowAndHideTabBar: VisualizeAllPitchesViewControllerShowAndHideDelegate?
   
@@ -145,9 +145,6 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   private func requestForAllPitchesAndTheirEvaluations() {
     
-    //Call to server
-    //change array
-    
     UtilityManager.sharedInstance.showLoader()
     
     RequestToServerManager.sharedInstance.requestToGetAllPitchEvaluationByUser { (pitchEvaluationsByUser) in
@@ -160,7 +157,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         
       }else{
         
-        self.createCarousel()
+        if self.mainCarousel == nil {
+          self.createCarousel()
+        }
         self.mainCarousel.reloadData()
         
       }
@@ -206,6 +205,17 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     super.viewWillAppear(true)
     
     self.delegateForShowAndHideTabBar?.requestToShowTabBarFromVisualizeAllPitchesViewControllerDelegate()
+    
+    if isSecondTimeAppearing == false {
+      
+      isSecondTimeAppearing = true
+      
+    } else {
+      
+      requestForAllPitchesAndTheirEvaluations()
+      
+    }
+    
   }
   
   

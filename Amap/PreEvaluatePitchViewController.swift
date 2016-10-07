@@ -280,7 +280,9 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
       
     }
   
-    let evaluatePitch = EvaluatePitchViewController(newPitchData: pitchDataCreated)
+    let evaluatePitch = EvaluatePitchViewController(newPitchData: pitchDataCreated,
+                                     creatingANewPitchEvaluation: false,
+                                updatingAPreviousPitchEvaluation: true)
     self.navigationController?.pushViewController(evaluatePitch, animated: true)
     
     

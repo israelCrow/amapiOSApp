@@ -15,13 +15,19 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
   private var backViewForEvaluatePitchView: UIView! = nil
   private var detailedNavigation: DetailedNavigationEvaluatPitchView! = nil
   
+  private var createANewPitchEvaluation: Bool! = nil
+  private var updateAPreviousPitchEvaluation: Bool! = nil
+  
   private var pitchData: ProjectPitchModelData! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(newPitchData: ProjectPitchModelData) {
+  init(newPitchData: ProjectPitchModelData, creatingANewPitchEvaluation: Bool, updatingAPreviousPitchEvaluation: Bool) {
+    
+    createANewPitchEvaluation = creatingANewPitchEvaluation
+    updateAPreviousPitchEvaluation = updatingAPreviousPitchEvaluation
     
     pitchData = newPitchData
     
@@ -233,46 +239,80 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
     
   }
   
-  //MARK: - PreEvaluatePitchViewDelegate
-  
-  func savePitchAndFlipCard() {
-    
-    //Send Info to server, if is correct flipCard
-    
-//    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
-//    let heightOfCard = self.view.frame.size.height - (292.0 * UtilityManager.sharedInstance.conversionHeight)
-//    let frameForBackAndFrontOfCard = CGRect.init(x: 0.0,
-//                                                 y: 0.0,
-//                                                 width: widthOfCard,
-//                                                 height: heightOfCard)
-    
-//    let backOfTheCard = SuccessfullyCreationOfPitchView.init(frame: frameForBackAndFrontOfCard)
-//    backOfTheCard.hidden = true
-//    backOfTheCard.delegate = self
-//    flipCard.setSecondView(backOfTheCard)
-    
-    flipCard.flip()
-    
-  }
+//  //MARK: - PreEvaluatePitchViewDelegate
+//  
+//  func savePitchAndFlipCard() {
+//    
+//    //Send Info to server, if is correct flipCard
+//    
+////    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+////    let heightOfCard = self.view.frame.size.height - (292.0 * UtilityManager.sharedInstance.conversionHeight)
+////    let frameForBackAndFrontOfCard = CGRect.init(x: 0.0,
+////                                                 y: 0.0,
+////                                                 width: widthOfCard,
+////                                                 height: heightOfCard)
+//    
+////    let backOfTheCard = SuccessfullyCreationOfPitchView.init(frame: frameForBackAndFrontOfCard)
+////    backOfTheCard.hidden = true
+////    backOfTheCard.delegate = self
+////    flipCard.setSecondView(backOfTheCard)
+//    
+//    flipCard.flip()
+//    
+//  }
   
   //MARK: - EvaluatePitchVideDelegate
   
   func createEvaluatePitch(params: [String : AnyObject]) {
     
-    UtilityManager.sharedInstance.showLoader()
-    
     var paramsWithPitchID = params
     paramsWithPitchID["pitch_id"] = pitchData.id
-    let finalParams: [String: AnyObject] = [
-                                              "auth_token": UserSession.session.auth_token,
-                                              "pitch_evaluation" : paramsWithPitchID
-                                           ]
+
+    if updateAPreviousPitchEvaluation == true {
     
-    RequestToServerManager.sharedInstance.requestToCreateEvaluationOfProjectPitch(finalParams) { (newEvaluationPitchCreated) in
-      print(newEvaluationPitchCreated)
-      UtilityManager.sharedInstance.hideLoader()
-      self.dismissDetailedNavigation()
-      self.navigationController?.popToRootViewControllerAnimated(true)
+      if pitchData.voidPitchEvaluationId != nil {
+        
+        let finalParams: [String: AnyObject] = [
+          "auth_token": UserSession.session.auth_token,
+          "id": pitchData.voidPitchEvaluationId!,
+          "pitch_evaluation" : paramsWithPitchID
+        ]
+        
+        UtilityManager.sharedInstance.showLoader()
+        
+        RequestToServerManager.sharedInstance.requestToUpdateEvaluationOfProjectPitch(finalParams) {
+         
+          newEvaluationPitchCreated in
+          UtilityManager.sharedInstance.hideLoader()
+          self.dismissDetailedNavigation()
+          self.navigationController?.popToRootViewControllerAnimated(true)
+          
+        }
+      
+      }
+    
+    }else{
+      
+      if createANewPitchEvaluation == true {
+        
+        let finalParams: [String: AnyObject] = [
+          "auth_token": UserSession.session.auth_token,
+          "pitch_evaluation" : paramsWithPitchID
+        ]
+        
+        UtilityManager.sharedInstance.showLoader()
+        
+        RequestToServerManager.sharedInstance.requestToCreateEvaluationOfProjectPitch(finalParams) {
+          (newEvaluationPitchCreated) in
+        
+            print(newEvaluationPitchCreated)
+            UtilityManager.sharedInstance.hideLoader()
+            self.dismissDetailedNavigation()
+            self.navigationController?.popToRootViewControllerAnimated(true)
+          
+        }
+    
+      }
       
     }
     
@@ -348,20 +388,6 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
   
   private func animateFlipCard(backViewOfClipCard: UIView) {
     
-//    if UtilityManager.sharedInstance.loaderImageView != nil {
-//    
-//      let frameOfCard = backViewOfClipCard.frame
-//      let newLoaderImageView = UtilityManager.sharedInstance.loaderImageView
-//      let newFrameForLoaderImagerView = CGRect.init(x: (frameOfCard.size.width / 2.0) - (newLoaderImageView.frame.size.width / 2.0),
-//                                                    y: (frameOfCard.size.height / 2.0) - (newLoaderImageView.frame.size.height / 2.0),
-//                                                width: newLoaderImageView.frame.size.width,
-//                                               height: newLoaderImageView.frame.size.height)
-//      newLoaderImageView.frame = newFrameForLoaderImagerView
-//      
-//      backViewOfClipCard.addSubview(newLoaderImageView)
-//    
-//    }
-    
     let loadingView = UIView.init(frame: backViewOfClipCard.frame)
     loadingView.backgroundColor = UIColor.init(white: 1, alpha: 0.8)
     
@@ -424,12 +450,12 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
   }
   
   //MARK: - SuccessfullyCreationOfPitchViewDelegate
-  
-  func nextButtonPressedFromSuccessfullyCreationOfPitch() {
-    
-    
-    
-  }
+//  
+//  func nextButtonPressedFromSuccessfullyCreationOfPitch() {
+//    
+//    
+//    
+//  }
   
   @objc private func dismissKeyboard(sender:AnyObject) {
     

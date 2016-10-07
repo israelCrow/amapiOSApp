@@ -16,6 +16,7 @@ class ProjectPitchModelData {
   var briefDate: String! = nil
   var briefEMailContact: String! = nil
   var arrayOfPitchCategories: Array<PitchSkillCategory>! = nil
+  var voidPitchEvaluationId: String! = nil
   
   var brandData: BrandModelData?
   var companyData: CompanyModelData?
