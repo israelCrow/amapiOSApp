@@ -112,6 +112,7 @@ class PitchCardView: UIView {
                                       height: 107.0 * UtilityManager.sharedInstance.conversionHeight)
     
     detailedPart = DetailedPartPitchCardView.init(frame: frameForDetailedPart,
+                                          newDateString: pitchEvaluationByUserData.briefDate,
                                          newProjectName: pitchEvaluationByUserData.pitchName,
                                            newBrandName: pitchEvaluationByUserData.brandName,
                                          newCompanyName: pitchEvaluationByUserData.companyName!)

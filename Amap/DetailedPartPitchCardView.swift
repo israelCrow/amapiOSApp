@@ -24,7 +24,8 @@ class DetailedPartPitchCardView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(frame: CGRect, newProjectName: String!, newBrandName: String!, newCompanyName: String!) {
+  init(frame: CGRect, newDateString: String!, newProjectName: String!, newBrandName: String!, newCompanyName: String!) {
+    dateString = newDateString
     projectNameString = newProjectName
     brandNameString = newBrandName
     companyNameString = newCompanyName
