@@ -27,6 +27,9 @@ class AgencyProfilePicNameButtonsView: UIView {
   private var websiteIconButton: UIButton! = nil
   private var locationIconButton: UIButton! = nil
   
+  private var originalFrameOfAgencyProfilePicImageView: CGRect! = nil
+  private var originalFrameOfAgencyNameLabel: CGRect! = nil
+  
   private var arrayOfExistingButtons = [UIButton]()
   
   var delegate: AgencyProfilePicNameButtonsViewDelegate?
@@ -45,7 +48,7 @@ class AgencyProfilePicNameButtonsView: UIView {
     
     self.createContainerView()
     self.createAgencyProfilePicImageView()
-    self.createAgencyNameLabel()
+    self.createAgencyNameLabelWhenInfoIsHidding()
     
     if AgencyModel.Data.contact_email != nil && UtilityManager.sharedInstance.isValidEmail(AgencyModel.Data.contact_email!){
     
@@ -97,6 +100,8 @@ class AgencyProfilePicNameButtonsView: UIView {
                                                width: 48.0 * UtilityManager.sharedInstance.conversionWidth,
                                                height: 48.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    originalFrameOfAgencyProfilePicImageView = frameForProfileImageView
+    
     agencyProfilePicImageView = UIImageView.init(frame: frameForProfileImageView)
     agencyProfilePicImageView.backgroundColor = UIColor.lightGrayColor()
     agencyProfilePicImageView.layer.borderWidth = 0.35
@@ -116,7 +121,51 @@ class AgencyProfilePicNameButtonsView: UIView {
     
   }
   
-  private func createAgencyNameLabel() {
+  private func createAgencyNameLabelWhenInfoIsShowing() {
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                          y: 80.0 * UtilityManager.sharedInstance.conversionHeight,
+                                          width: self.frame.size.width,
+                                          height: 36.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    agencyNameLabel = UILabel.init(frame: frameForLabel)
+    agencyNameLabel.adjustsFontSizeToFitWidth = true
+    
+    let font = UIFont(name: "SFUIDisplay-Light",
+                      size: 22.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    var agencyName: String
+    if AgencyModel.Data.name != nil {
+      agencyName = AgencyModel.Data.name!
+    }else{
+      agencyName = "Nombre de Agencia"
+    }
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: agencyName,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    agencyNameLabel.attributedText = stringWithFormat
+
+//    let newFrame = CGRect.init(x: 63.0 * UtilityManager.sharedInstance.conversionWidth,
+//                               y: 9.0 * UtilityManager.sharedInstance.conversionHeight,
+//                               width: agencyNameLabel.frame.size.width,
+//                               height: agencyNameLabel.frame.size.height)
+//    
+//    agencyNameLabel.frame = newFrame
+    
+    agencyNameLabel.alpha = 0.0
+    containerView.addSubview(agencyNameLabel)
+    
+  }
+  
+  private func createAgencyNameLabelWhenInfoIsHidding() {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
@@ -154,9 +203,18 @@ class AgencyProfilePicNameButtonsView: UIView {
                                width: agencyNameLabel.frame.size.width,
                                height: agencyNameLabel.frame.size.height)
     
+    originalFrameOfAgencyNameLabel = newFrame
     agencyNameLabel.frame = newFrame
     
+    agencyNameLabel.alpha = 0.0
+    
     containerView.addSubview(agencyNameLabel)
+    
+    UIView.animateWithDuration(0.15){
+      
+      self.agencyNameLabel.alpha = 1.0
+      
+    }
     
   }
   
@@ -292,6 +350,240 @@ class AgencyProfilePicNameButtonsView: UIView {
     
   }
   
+  func animateWhenInfoIsShowing() {
+    
+    self.hideAllButtons()
+    self.animateAgencyProfileImageWhenInfoIsShowing()
+    self.animateAgencyNameLabelWhenInfoIsShowing()
+    
+  }
+  
+  func animateWhenInfoIsHidding() {
+    
+    self.animateAgencyProfileImageWhenInfoIsHidding()
+    self.animateAgencyNameLabelWhenInfoIsHidding()
+    self.showAllButtons()
+    
+  }
+  
+  private func animateAgencyProfileImageWhenInfoIsShowing() {
+    
+    let newFrameForProfileImageView = CGRect.init(x: 76.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                  y: 0.0,
+                                              width: 70.0 * UtilityManager.sharedInstance.conversionWidth,
+                                             height: 70.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    UIView.animateWithDuration(0.35) {
+      
+      self.agencyProfilePicImageView.frame = newFrameForProfileImageView
+      
+    }
+    
+  }
+  
+  private func animateAgencyProfileImageWhenInfoIsHidding() {
+    
+    UIView.animateWithDuration(0.35) {
+      
+      self.agencyProfilePicImageView.frame = self.originalFrameOfAgencyProfilePicImageView
+      
+    }
+    
+  }
+  
+  private func animateAgencyNameLabelWhenInfoIsShowing() {
+    
+    UIView.animateWithDuration(0.15,
+      animations: {
+        
+        self.agencyNameLabel.alpha = 0.0
+      
+      }) { (finished) in
+        if finished == true {
+          
+          self.agencyNameLabel.removeFromSuperview()
+          self.agencyNameLabel = nil
+          self.createAgencyNameLabelWhenInfoIsShowing()
+          
+          UIView.animateWithDuration(0.15,
+            animations: { 
+              
+              self.agencyNameLabel.alpha = 1.0
+              
+            }, completion: { (finished) in
+              if finished == true {
+                
+                
+              }
+          })
+          
+          
+        }
+    }
+
+//    let frameForAgencyLabel = CGRect.init(x: 0.0,
+//                                          y: 80.0 * UtilityManager.sharedInstance.conversionHeight,
+//                                      width: self.frame.size.width,
+//                                     height: 36.0 * UtilityManager.sharedInstance.conversionHeight)
+//
+//    UIView.animateWithDuration(0.35) {
+//      
+//      self.agencyNameLabel.frame = frameForAgencyLabel
+//      //    agencyNameLabel.numberOfLines = 0
+//      //    agencyNameLabel.lineBreakMode = .ByWordWrapping
+//      self.agencyNameLabel.adjustsFontSizeToFitWidth = true
+//      
+//    }
+    
+  }
+  
+  private func animateAgencyNameLabelWhenInfoIsHidding() {
+    
+    UIView.animateWithDuration(0.15,
+      animations: { 
+    
+        self.agencyNameLabel.alpha = 0.0
+    
+      }) { (finished) in
+        if finished == true {
+          
+          self.agencyNameLabel.removeFromSuperview()
+          self.agencyNameLabel = nil
+          self.createAgencyNameLabelWhenInfoIsHidding()
+
+        }
+    }
+    
+    
+//    UIView.animateWithDuration(0.35) {
+//      
+//      self.agencyNameLabel.alpha = 0.0
+//      
+//      self.agencyNameLabel.frame = self.originalFrameOfAgencyNameLabel
+//      self.agencyNameLabel.numberOfLines = 0
+//      self.agencyNameLabel.lineBreakMode = .ByWordWrapping
+//      self.agencyNameLabel.adjustsFontSizeToFitWidth = false
+//      self.agencyNameLabel.sizeToFit()
+//      
+//    }
+    
+  }
+  
+  private func hideAllButtons() {
+    
+    if mailIconButton != nil {
+      self.hideMailIconButton()
+    }
+    if websiteIconButton != nil {
+      self.hideWebsiteIconButton()
+    }
+    if locationIconButton != nil {
+      self.hideLocationIconButton()
+    }
+    
+    if telephoneIconButton != nil {
+      self.hideTelephoneIconButton()
+    }
+    
+  }
+  
+  private func showAllButtons() {
+    
+    if mailIconButton != nil {
+      self.showMailIconButton()
+    }
+    if websiteIconButton != nil {
+      self.showWebsiteIconButton()
+    }
+    if locationIconButton != nil {
+      self.showLocationIconButton()
+    }
+    if telephoneIconButton != nil {
+     self.showTelephoneIconButton()
+    }
+    
+  }
+  
+  private func hideMailIconButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.mailIconButton.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func showMailIconButton () {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.mailIconButton.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideTelephoneIconButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.telephoneIconButton.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func showTelephoneIconButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.telephoneIconButton.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideWebsiteIconButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.websiteIconButton.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func showWebsiteIconButton() {
+   
+    UIView.animateWithDuration(0.25){
+      
+      self.websiteIconButton.alpha = 1.0
+      
+    }
+    
+  }
+  
+  private func hideLocationIconButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.locationIconButton.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func showLocationIconButton() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.locationIconButton.alpha = 1.0
+      
+    }
+    
+  }
+  
   @objc private func mailIconPressed() {
     
     self.delegate?.mailIconButtonPressed()
@@ -315,6 +607,5 @@ class AgencyProfilePicNameButtonsView: UIView {
     self.delegate?.locationIconButtonPressed()
     
   }
-  
   
 }

@@ -22,7 +22,7 @@ extension UIImageView {
     activity.startAnimating()
     
     let url = NSURL(string: urlString)
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+    dispatch_async(dispatch_get_main_queue()) {
       let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap
       activity.stopAnimating()
       activity.removeFromSuperview()
@@ -69,7 +69,7 @@ extension UIImageView {
     
     let url = NSURL(string: urlString)
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+    dispatch_async(dispatch_get_main_queue()) {
       let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check
       activity.stopAnimating()
       activity.removeFromSuperview()

@@ -33,6 +33,7 @@ class GraphPartPitchCardView: UIView {
   private func initInterface() {
     
     self.createContainerAndGradientView()
+    self.createFaces()
     self.createLinesOfGraph()
     self.createGraphs()
     
@@ -85,6 +86,69 @@ class GraphPartPitchCardView: UIView {
     self.addSubview(containerAndGradientView)
     
   }
+  
+  private func createFaces() {
+    
+    self.createFirstFace()
+    self.createSecondFace()
+    self.createThirdFace()
+    self.createFourthFace()
+
+  }
+  
+  private func createFirstFace() {
+    
+    let firstFace = UIImageView.init(image: UIImage.init(named: "fill1"))
+    let faceFrame = CGRect.init(x: 14.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 59.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: 26.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
+    firstFace.frame = faceFrame
+    
+    containerAndGradientView.addSubview(firstFace)
+    
+  }
+  
+  private func createSecondFace() {
+    
+    let secondFace = UIImageView.init(image: UIImage.init(named: "fill3"))
+    let faceFrame = CGRect.init(x: 14.0 * UtilityManager.sharedInstance.conversionWidth,
+                                y: 108.0 * UtilityManager.sharedInstance.conversionHeight,
+                                width: 26.0 * UtilityManager.sharedInstance.conversionWidth,
+                                height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
+    secondFace.frame = faceFrame
+    
+    containerAndGradientView.addSubview(secondFace)
+    
+  }
+  
+  private func createThirdFace() {
+    
+    let thirdFace = UIImageView.init(image: UIImage.init(named: "fill5"))
+    let faceFrame = CGRect.init(x: 14.0 * UtilityManager.sharedInstance.conversionWidth,
+                                y: 149.0 * UtilityManager.sharedInstance.conversionHeight,
+                                width: 26.0 * UtilityManager.sharedInstance.conversionWidth,
+                                height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
+    thirdFace.frame = faceFrame
+    
+    containerAndGradientView.addSubview(thirdFace)
+    
+  }
+  
+  private func createFourthFace() {
+    
+    let fourthFace = UIImageView.init(image: UIImage.init(named: "fill7"))
+    let faceFrame = CGRect.init(x: 14.0 * UtilityManager.sharedInstance.conversionWidth,
+                                y: 224.0 * UtilityManager.sharedInstance.conversionHeight,
+                                width: 26.0 * UtilityManager.sharedInstance.conversionWidth,
+                                height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
+    fourthFace.frame = faceFrame
+    
+    containerAndGradientView.addSubview(fourthFace)
+    
+  }
+  
+  
   
   private func createLinesOfGraph() {
     

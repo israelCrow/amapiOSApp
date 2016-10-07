@@ -13,6 +13,7 @@ protocol CaseCardInfoViewDelegate {
   func flipCardAndShowPreviewCase(caseData: Case)
   func deleteCaseFromPreviewPlayer(dataCase: Case)
   
+  
 }
 
 class CaseCardInfoView: UIView, PreviewVimeoYoutubeViewDelegate {
@@ -149,7 +150,7 @@ class CaseCardInfoView: UIView, PreviewVimeoYoutubeViewDelegate {
   
   @objc private func delegateFlipCardAndShowPreviewCase() {
     
-    print(self.caseData)
+//    print(self.caseData)
     
     self.delegate?.flipCardAndShowPreviewCase(self.caseData)
     

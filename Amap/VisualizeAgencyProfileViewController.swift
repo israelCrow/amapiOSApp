@@ -20,7 +20,7 @@ protocol VisualizeAgencyProfileViewControllerDelegate {
 
 class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDelegate, VisualizeSkillsViewDelegate, VisualizeSkillsLevelViewDelegate, EditAgencyProfileViewControllerDelegate, AgencyProfilePicNameButtonsViewDelegate, MFMailComposeViewControllerDelegate, SFSafariViewControllerDelegate {
   
-  let kNumberOfCardsInScrollViewMinusOne = 5
+  let kNumberOfCardsInScrollViewMinusOne = 6
   
   private var mainTabBar: DashBoardPitchesAndAgencyProfileTabBarView! = nil
   private var flipCard: FlipCardView! = nil
@@ -228,38 +228,47 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
                                               width: frameForCards.size.width,
                                              height: 316.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let criteriaVisualize = VisualizeCriteriaView.init(frame: frameForScreensOfScrollView)
+    let infoVisualize = VisualizeAgencyInfoView.init(frame: frameForScreensOfScrollView)
+    infoVisualize.delegate = self
+    infoVisualize.backgroundColor = UIColor.clearColor()
+    scrollViewFrontFlipCard.addSubview(infoVisualize)
+    profilePicNameButtonsView.animateWhenInfoIsShowing()
+    
+    let criteriaVisualize = VisualizeCriteriaView.init(frame: CGRect.init(x: frameForCards.size.width * 1,
+      y: frameForScreensOfScrollView.origin.y,
+      width: frameForScreensOfScrollView.size.width,
+      height: frameForScreensOfScrollView.size.height))
     criteriaVisualize.backgroundColor = UIColor.clearColor()
     scrollViewFrontFlipCard.addSubview(criteriaVisualize)
     
-    let exclusiveVisualize = VisualizeExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width * 1,
+    let exclusiveVisualize = VisualizeExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width * 2,
       y: frameForScreensOfScrollView.origin.y,
       width: frameForScreensOfScrollView.size.width,
       height: frameForScreensOfScrollView.size.height))
     exclusiveVisualize.backgroundColor = UIColor.clearColor()
     scrollViewFrontFlipCard.addSubview(exclusiveVisualize)
     
-    let participateInVisualize = VisualizeParticipateInView.init(frame: CGRect.init(x: frameForCards.size.width * 2,
+    let participateInVisualize = VisualizeParticipateInView.init(frame: CGRect.init(x: frameForCards.size.width * 3,
       y: frameForScreensOfScrollView.origin.y,
       width: frameForScreensOfScrollView.size.width,
       height: frameForScreensOfScrollView.size.height))
     participateInVisualize.backgroundColor = UIColor.clearColor()
     scrollViewFrontFlipCard.addSubview(participateInVisualize)
     
-    let numberEmployees = VisualizeNumberOfEmployeesView.init(frame: CGRect.init(x: frameForCards.size.width * 3,
+    let numberEmployees = VisualizeNumberOfEmployeesView.init(frame: CGRect.init(x: frameForCards.size.width * 4,
       y: frameForScreensOfScrollView.origin.y,
       width: frameForScreensOfScrollView.size.width,
       height: frameForScreensOfScrollView.size.height))
     scrollViewFrontFlipCard.addSubview(numberEmployees)
     
-    visualizeCases = VisualizeCasesView.init(frame: CGRect.init(x: frameForCards.size.width * 4,
+    visualizeCases = VisualizeCasesView.init(frame: CGRect.init(x: frameForCards.size.width * 5,
       y: frameForScreensOfScrollView.origin.y,
       width: frameForScreensOfScrollView.size.width,
       height: frameForScreensOfScrollView.size.height))
     visualizeCases.justVisualizeDelegate = self
     scrollViewFrontFlipCard.addSubview(visualizeCases)
     
-    skillsView = VisualizeSkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 5,
+    skillsView = VisualizeSkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 6,
       y: frameForScreensOfScrollView.origin.y,
       width: frameForScreensOfScrollView.size.width,
       height: frameForScreensOfScrollView.size.height))
@@ -333,29 +342,32 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     switch actualPage {
     case 0:
-      pageToShow = 0
+      pageToShow = 5
       break
     
     case 1:
-      pageToShow = 1
+      pageToShow = 0
       break
       
     case 2:
-      pageToShow = 2
+      pageToShow = 1
       break
       
     case 3:
-      pageToShow = 5
+      pageToShow = 2
       break
       
     case 4:
-      pageToShow = 3
+      pageToShow = 5
       break
       
     case 5:
-      pageToShow = 4
+      pageToShow = 3
       break
 
+    case 6:
+      pageToShow = 4
+      
     default:
       pageToShow = 0
     }
@@ -418,6 +430,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
       if actualPage == 0 {
         
         self.hideLeftButtonOfMainScrollView()
+        profilePicNameButtonsView.animateWhenInfoIsShowing()
         
       }
       
@@ -449,9 +462,20 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
         
       }
       
-      if actualPage > 0 && self.leftButton.alpha == 0.0 {
+      if actualPage > 0 {
         
-        self.showLeftButtonOfMainScrollView()
+        if actualPage == 1 {
+          
+          profilePicNameButtonsView.animateWhenInfoIsHidding()
+          
+        }
+        
+        if self.leftButton.alpha == 0.0 {
+          
+          self.showLeftButtonOfMainScrollView()
+          
+        }
+        
         
       }
       
@@ -477,15 +501,23 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     if numberOfPageToMove == kNumberOfCardsInScrollViewMinusOne {
       
+      profilePicNameButtonsView.animateWhenInfoIsHidding()
       self.hideRightButtonOfMainScrollView()
       
-    } else
+    } else {
     
       if numberOfPageToMove == 0 {
        
+        profilePicNameButtonsView.animateWhenInfoIsShowing()
         self.hideLeftButtonOfMainScrollView()
         
+      }else{
+        
+        profilePicNameButtonsView.animateWhenInfoIsHidding()
+        
       }
+      
+    }
     
   }
   
@@ -540,7 +572,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   }
   
   override func viewWillAppear(animated: Bool) {
-    super.viewWillAppear(true)
+    super.viewWillAppear(animated)
     
     UIView.setAnimationsEnabled(true)
     

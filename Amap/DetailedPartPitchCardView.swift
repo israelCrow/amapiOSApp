@@ -48,11 +48,11 @@ class DetailedPartPitchCardView: UIView {
   
   private func createDateLabel() {
     
-    let date = NSDate()
-    let formatter = NSDateFormatter()
-    formatter.locale = NSLocale(localeIdentifier: "es_MX")
-    formatter.dateFormat = "dd/MM/yyyy"
-    dateString = formatter.stringFromDate(date)
+//    let date = NSDate()
+//    let formatter = NSDateFormatter()
+//    formatter.locale = NSLocale(localeIdentifier: "es_MX")
+//    formatter.dateFormat = "dd/MM/yyyy"
+//    dateString = formatter.stringFromDate(date)
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,

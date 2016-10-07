@@ -436,7 +436,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "Nombre, descripción, imagen o link obligatorios",
+      string: "Nombre, descripción y link obligatorios",
       attributes:[NSFontAttributeName:font!,
         NSParagraphStyleAttributeName:style,
         NSForegroundColorAttributeName:color
@@ -445,8 +445,8 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     
     errorInFieldsLabel.attributedText = stringWithFormat
     errorInFieldsLabel.sizeToFit()
-    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (errorInFieldsLabel.frame.size.width / 2.0),
-                               y: 435.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: (containerView.frame.size.width / 2.0) - (errorInFieldsLabel.frame.size.width / 2.0),
+                               y: 400.0 * UtilityManager.sharedInstance.conversionHeight,
                            width: errorInFieldsLabel.frame.size.width,
                           height: errorInFieldsLabel.frame.size.height)
     
@@ -781,7 +781,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: false)
     
     let isNameOk = UtilityManager.sharedInstance.isValidText(caseNameView.mainTextField.text!)
     let isDescriptionOk = UtilityManager.sharedInstance.isValidText(caseDescriptionTextView.description)
-    let isURLOk = UtilityManager.sharedInstance.isValidText(caseWebLinkView.mainTextField.text!)
+    let isURLOk = UIApplication.sharedApplication().canOpenURL(NSURL.init(string: caseWebLinkView.mainTextField.text!)!)
     let doesExistImage: Bool
     if caseImage != nil {
       doesExistImage = true
@@ -789,9 +789,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: false)
       doesExistImage = false
     }
     
-    if (isNameOk == true && isDescriptionOk == true && isURLOk == true)
-                                      ||
-      (isNameOk == true && isDescriptionOk == true && doesExistImage == true) {
+    if (isNameOk == true && isDescriptionOk == true && isURLOk == true) {
       
       self.disableAllElements()
       

@@ -46,6 +46,7 @@
 		AA3E6EB11D74EFCD007D5736 /* SkillCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E6EB01D74EFCD007D5736 /* SkillCategory.swift */; };
 		AA3E6EB31D7507C1007D5736 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E6EB21D7507C1007D5736 /* Skill.swift */; };
 		AA40C9D91D51051F00FF2B4D /* FlipCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */; };
+		AA4ADD5C1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4ADD5B1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift */; };
 		AA681E381D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA681E371D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift */; };
 		AA68D8E61D833D3900DD1411 /* CreateAddNewPitchAndWriteBrandNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA68D8E51D833D3900DD1411 /* CreateAddNewPitchAndWriteBrandNameViewController.swift */; };
 		AA68D8EA1D834CB500DD1411 /* AddPitchAndWriteBrandNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA68D8E91D834CB500DD1411 /* AddPitchAndWriteBrandNameView.swift */; };
@@ -241,6 +242,7 @@
 		AA3E6EB01D74EFCD007D5736 /* SkillCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillCategory.swift; sourceTree = "<group>"; };
 		AA3E6EB21D7507C1007D5736 /* Skill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
 		AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipCardView.swift; sourceTree = "<group>"; };
+		AA4ADD5B1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeAgencyInfoView.swift; sourceTree = "<group>"; };
 		AA681E371D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessfullyAskForChangePasswordView.swift; sourceTree = "<group>"; };
 		AA68D8E51D833D3900DD1411 /* CreateAddNewPitchAndWriteBrandNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAddNewPitchAndWriteBrandNameViewController.swift; sourceTree = "<group>"; };
 		AA68D8E91D834CB500DD1411 /* AddPitchAndWriteBrandNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPitchAndWriteBrandNameView.swift; sourceTree = "<group>"; };
@@ -569,6 +571,7 @@
 		AA0FE9BF1D76493300ADCB63 /* Visualize */ = {
 			isa = PBXGroup;
 			children = (
+				AA4ADD5A1DA6CF9E00A06642 /* Info */,
 				AAE7F2D21D7E27490045AE8E /* Skills */,
 				AA8F6C071D78F03A0021683C /* Criteria */,
 				AA8F6C0A1D79043C0021683C /* Exclusive */,
@@ -608,6 +611,14 @@
 				AA2DB8591D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift */,
 			);
 			name = ChangePassword;
+			sourceTree = "<group>";
+		};
+		AA4ADD5A1DA6CF9E00A06642 /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				AA4ADD5B1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift */,
+			);
+			name = Info;
 			sourceTree = "<group>";
 		};
 		AA68D8DE1D8339C700DD1411 /* Create */ = {
@@ -1221,6 +1232,7 @@
 				AA92D60B1D50E7D300CE7D95 /* AppDelegate.swift in Sources */,
 				AAE7F2DA1D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift in Sources */,
 				AA896A471D9ADC3C0046CC26 /* PitchEvaluationModelData.swift in Sources */,
+				AA4ADD5C1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift in Sources */,
 				AA2DB84C1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift in Sources */,
 				AA68D8EA1D834CB500DD1411 /* AddPitchAndWriteBrandNameView.swift in Sources */,
 				AA7AC7C61D526C23007522FB /* UtilityManager.swift in Sources */,

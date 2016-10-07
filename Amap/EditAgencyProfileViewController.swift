@@ -456,27 +456,27 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     switch actualPage {
     case 0:
-      pageToShow = 0
-      break
-      
-    case 1:
       pageToShow = 1
       break
       
-    case 2:
+    case 1:
       pageToShow = 2
       break
       
-    case 3:
-      pageToShow = 4
+    case 2:
+      pageToShow = 3
       break
       
-    case 4:
+    case 3:
       pageToShow = 5
       break
       
+    case 4:
+      pageToShow = 6
+      break
+      
     case 5:
-      pageToShow = 0 //while i know the correct page
+      pageToShow = 0
       break
       
     default:
