@@ -265,6 +265,12 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
   }
   
+  func pushPitchCardDetail() {
+    
+    
+    
+  }
+  
   //MARK: - iCarouselDelegates
   
   func numberOfItemsInCarousel(carousel: iCarousel) -> Int {

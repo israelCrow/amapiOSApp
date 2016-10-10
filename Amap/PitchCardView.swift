@@ -11,6 +11,7 @@ import UIKit
 protocol PitchCardViewDelegate {
   
   func pushCreateAddNewPitchAndWriteBrandNameViewControllerFromPitchCard()
+  func pushPitchCardDetail()
   
 }
 
@@ -53,8 +54,30 @@ class PitchCardView: UIView {
     contentView = UIView.init(frame: frameForContentView)
     contentView.backgroundColor = UIColor.clearColor()
     self.addSubview(contentView)
+    self.createGestureTap()
     
   }
+  
+  
+  private func createGestureTap() {
+
+    contentView.userInteractionEnabled = true
+    
+    let tapGestureWhenTap = UITapGestureRecognizer.init(target: self,
+                                                        action: #selector(cardPressed))
+    tapGestureWhenTap.numberOfTapsRequired = 1
+    
+    contentView.addGestureRecognizer(tapGestureWhenTap)
+    
+  }
+  
+  @objc private func cardPressed() {
+    
+    self.delegate?.pushPitchCardDetail()
+    
+  }
+  
+  
   
   private func createAddPitchButton() {
     
@@ -95,6 +118,13 @@ class PitchCardView: UIView {
                             newArrayOfAgencyNames: arrayOfAgencyNames)
     contentView.addSubview(graphPart)
     contentView.bringSubviewToFront(addPitchButton)
+    
+  }
+  
+  func animateGraph() {
+    
+    graphPart.animateGraph()
+    
   }
   
   private func createDetailedPart() {
@@ -126,12 +156,7 @@ class PitchCardView: UIView {
     pitchEvaluationByUserData = newPitchByUserData
     self.createGraphPart()
     self.createDetailedPart()
-    
-  }
-  
-  func animateGraph() {
-    
-    graphPart.animateGraph()
+    self.createGestureTap()
     
   }
   
