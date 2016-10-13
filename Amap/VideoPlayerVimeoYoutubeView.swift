@@ -228,7 +228,7 @@ class VideoPlayerVimeoYoutubeView:UIView {
         
       }else{
         
-        self.createLoadingLabel("Can't load")
+        self.createLoadingLabel("   ")
         self.createImageForCaseImageView()
         
     }

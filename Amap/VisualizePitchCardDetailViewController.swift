@@ -16,6 +16,10 @@ class VisualizePitchCardDetailViewController: UIViewController {
   private var graphPartPitch: GraphPartPitchCardView! = nil
   
   private var pitchEvaluationByUserData: PitchEvaluationByUserModelData! = nil
+ 
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   init(newPitchEvaluationByUserData: PitchEvaluationByUserModelData) {
     
@@ -36,10 +40,10 @@ class VisualizePitchCardDetailViewController: UIViewController {
   
   private func initInterface() {
     
-    self.createTabBarAtBottom()
-    self.createMainScrollView()
-    self.createDetailedNavigation()
-    self.createGraphPartPitch()
+//    self.createTabBarAtBottom()
+//    self.createMainScrollView()
+//    self.createDetailedNavigation()
+//    self.createGraphPartPitch()
     
   }
   

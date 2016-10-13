@@ -729,6 +729,26 @@ class RequestToServerManager: NSObject {
               let newCompanyName = (pitchEvaluationByUser["company"] as? String != nil ? pitchEvaluationByUser["company"] as! String : "No Company Name")
               let newOtherScores = (pitchEvaluationByUser["other_scores"] as? [Int] != nil ? pitchEvaluationByUser["other_scores"] as! [Int] : [Int]())
               
+              let arrayOfEvaluationPitchSkillCategories = (pitchEvaluationByUser["skill_categories"] as? Array<[String: AnyObject]> != nil ? pitchEvaluationByUser["skill_categories"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
+              
+              var newArrayOfEvaluationSkillCategoryModelData = [EvaluationPitchSkillCategoryModelData]()
+              
+              if arrayOfEvaluationPitchSkillCategories.count > 0 {
+                
+                for evaluationSkillCategory in arrayOfEvaluationPitchSkillCategories {
+                
+                  let newEvaluationPitchSkillCategoryID = (evaluationSkillCategory["id"] as? Int != nil ? String(evaluationSkillCategory["id"] as! Int) : "-1")
+                  let newEvaluationPitchSkillCategoryName = (evaluationSkillCategory["name"] as? String != nil ? evaluationSkillCategory["name"] as! String : "Skill Category NO NAME")
+                  
+                  let newEvaluationPitchSkillCategory = EvaluationPitchSkillCategoryModelData.init(newEvaluationSkillCategoryId: newEvaluationPitchSkillCategoryID,
+                    newEvaluationSkillCategoryName: newEvaluationPitchSkillCategoryName)
+                  
+                  newArrayOfEvaluationSkillCategoryModelData.append(newEvaluationPitchSkillCategory)
+                
+                }
+            
+              }
+              
               let newPitchEvaluationByUser = PitchEvaluationByUserModelData.init(
                 newPitchEvaluationId: newPitchEvaluationId,
                 newPitchId: newPitchId,
@@ -737,7 +757,8 @@ class RequestToServerManager: NSObject {
                 newScore: newScore,
                 newBrandName: newBrandName,
                 newCompanyName: newCompanyName,
-                newOtherScores: newOtherScores)
+                newOtherScores: newOtherScores,
+                newArrayOfEvaluationPitchSkillCategory: newArrayOfEvaluationSkillCategoryModelData)
               
               newArrayOfPitchesByUser.append(newPitchEvaluationByUser)
             

@@ -18,8 +18,9 @@ class PitchEvaluationByUserModelData {
   var brandName: String! = nil
   var companyName: String! = nil
   var otherScores: [Int]! = nil
+  var arrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData]! = nil
   
-  init( newPitchEvaluationId: String, newPitchId: String, newPitchName: String, newBriefDate: String, newScore: Int, newBrandName: String, newCompanyName: String, newOtherScores: [Int]) {
+  init( newPitchEvaluationId: String, newPitchId: String, newPitchName: String, newBriefDate: String, newScore: Int, newBrandName: String, newCompanyName: String, newOtherScores: [Int], newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData]) {
     
     pitchEvaluationId = newPitchEvaluationId
     pitchId = newPitchId
@@ -29,6 +30,7 @@ class PitchEvaluationByUserModelData {
     brandName = newBrandName
     companyName = newCompanyName
     otherScores = newOtherScores
+    arrayOfEvaluationPitchSkillCategory = newArrayOfEvaluationPitchSkillCategory
     
   }
   

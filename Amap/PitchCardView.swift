@@ -11,7 +11,7 @@ import UIKit
 protocol PitchCardViewDelegate {
   
   func pushCreateAddNewPitchAndWriteBrandNameViewControllerFromPitchCard()
-  func pushPitchCardDetail()
+  func createAndShowDetailedPitchView()
   
 }
 
@@ -73,7 +73,7 @@ class PitchCardView: UIView {
   
   @objc private func cardPressed() {
     
-    self.delegate?.pushPitchCardDetail()
+    self.delegate?.createAndShowDetailedPitchView()
     
   }
   
@@ -124,6 +124,12 @@ class PitchCardView: UIView {
   func animateGraph() {
     
     graphPart.animateGraph()
+    
+  }
+  
+  func getPitchEvaluationByUserData() -> PitchEvaluationByUserModelData {
+    
+    return pitchEvaluationByUserData
     
   }
   

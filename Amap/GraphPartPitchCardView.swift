@@ -255,4 +255,23 @@ class GraphPartPitchCardView: UIView {
     
   }
   
+  func animateChangeOfFrameOfGradientView() {
+    
+    let newFrame = CGRect.init(x: containerAndGradientView.frame.origin.x,
+                               y: containerAndGradientView.frame.origin.y - (50.0 * UtilityManager.sharedInstance.conversionHeight),
+                           width: containerAndGradientView.frame.size.width,
+                          height: containerAndGradientView.frame.size.height + (100.0 * UtilityManager.sharedInstance.conversionHeight))
+    
+    UIView.animateWithDuration(0.35,
+      animations: {
+        self.containerAndGradientView.frame = newFrame
+      }) { (finished) in
+        if finished == true {
+          
+          
+        }
+    }
+    
+  }
+  
 }

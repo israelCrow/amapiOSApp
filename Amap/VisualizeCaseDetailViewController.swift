@@ -51,6 +51,8 @@ class VisualizeCaseDetailViewController: UIViewController {
     self.createCaseDescriptionLabel()
     self.createPlayerVimeoYoutube()
     
+    self.createShareThisInfo()
+    
   }
   
   private func changeBackButtonItem() {
@@ -262,9 +264,112 @@ class VisualizeCaseDetailViewController: UIViewController {
     
   }
   
+  private func createShareThisInfo() {
+    
+    let frameForShareView = CGRect.init(x: 0.0,
+                                        y: 360.0 * UtilityManager.sharedInstance.conversionHeight,
+                                    width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    shareThisInfo = UIView.init(frame: frameForShareView)
+    shareThisInfo.backgroundColor = UIColor.clearColor()
+    mainScrollView.addSubview(shareThisInfo)
+    
+    self.createLabel()
+    self.createMailButton()
+    self.createWhatsappButton()
+    
+  }
+  
+  private func createLabel() {
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    let shareLabel = UILabel.init(frame: frameForLabel)
+    shareLabel.numberOfLines = 0
+    shareLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Medium",
+                      size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.init(white: 0.0, alpha: 0.25)
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Comparte este contenido",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    shareLabel.attributedText = stringWithFormat
+    shareLabel.sizeToFit()
+    let newFrame = CGRect.init(x: 0.0,
+                               y: 0.0,
+                               width: shareLabel.frame.size.width,
+                               height: shareLabel.frame.size.height)
+    
+    shareLabel.frame = newFrame
+    
+    shareThisInfo.addSubview(shareLabel)
+    
+  }
+  
+  private func createMailButton() {
+    
+    let frameForButton = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 38.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 16.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let mailIconButton = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "iconMailBlack") as UIImage?
+    mailIconButton.setImage(image, forState: .Normal)
+    
+    mailIconButton.backgroundColor = UIColor.clearColor()
+    mailIconButton.tag = 1
+    mailIconButton.addTarget(self, action: #selector(mailIconPressed), forControlEvents:.TouchUpInside)
+    shareThisInfo.addSubview(mailIconButton)
+    
+  }
+  
+  private func createWhatsappButton() {
+    
+    let frameForButton = CGRect.init(x: 56.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 38.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: 19.6 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 19.6 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let whatsAppButton = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "page1") as UIImage?
+    whatsAppButton.setImage(image, forState: .Normal)
+    
+    whatsAppButton.backgroundColor = UIColor.clearColor()
+    whatsAppButton.tag = 2
+    whatsAppButton.addTarget(self, action: #selector(whatsAppButtonPressed), forControlEvents:.TouchUpInside)
+    shareThisInfo.addSubview(whatsAppButton)
+    
+    
+  }
+  
   @objc private func popThis() {
     
     self.navigationController?.popViewControllerAnimated(true)
+    
+  }
+  
+  @objc private func mailIconPressed() {
+    
+    
+    
+  }
+  
+  @objc private func whatsAppButtonPressed() {
+    
+    
     
   }
   

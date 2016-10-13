@@ -265,8 +265,10 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
   }
   
-  func pushPitchCardDetail() {
+  func createAndShowDetailedPitchView() {
     
+    mainCarousel.userInteractionEnabled = false
+    let pitchEvaluationData = frontCard.getPitchEvaluationByUserData()
     
     
   }
@@ -299,6 +301,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
     }
     
+    genericCard.userInteractionEnabled = false
     genericCard.changePitchData(arrayOfPitchesByUser[index])
     return genericCard
     
@@ -338,14 +341,21 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       frontCard = possibleFrontCard! as! PitchCardView
       frontCard.animateGraph()
       
-      UIView.animateWithDuration(0.35){
-        
-        self.frontCard.layer.shadowColor = UIColor.blackColor().CGColor
-        self.frontCard!.layer.shadowOpacity = 0.25
-        self.frontCard!.layer.shadowOffset = CGSizeZero
-        self.frontCard!.layer.shadowRadius = 5
-        
-      }
+      UIView.animateWithDuration(0.35,
+        animations: {
+          
+          self.frontCard.layer.shadowColor = UIColor.blackColor().CGColor
+          self.frontCard!.layer.shadowOpacity = 0.25
+          self.frontCard!.layer.shadowOffset = CGSizeZero
+          self.frontCard!.layer.shadowRadius = 5
+          
+        }, completion: { (finished) in
+          if finished == true {
+            
+            self.frontCard.userInteractionEnabled = true
+            
+          }
+      })
       
     }
 
@@ -354,6 +364,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   func carouselWillBeginDragging(carousel: iCarousel) {
     
     if frontCard != nil {
+      
+      frontCard.userInteractionEnabled = false
       
       UIView.animateWithDuration(0.35){
         
