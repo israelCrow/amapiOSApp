@@ -18,7 +18,7 @@ class GradientView: UIView {
   }
   
   private var colors: [UIColor]
-  private let gradientLayer = CAGradientLayer()
+  private var gradientLayer = CAGradientLayer()
   private var typeOfInclination: TypeOfInclination
   
   override class func layerClass() -> AnyClass {
@@ -48,7 +48,7 @@ class GradientView: UIView {
     
     self.setDirection()
     
-    self.layer.addSublayer(gradientLayer)
+    self.layer.insertSublayer(gradientLayer, atIndex: 0)
   }
   
   private func setDirection() {

@@ -22,22 +22,23 @@ class SkillEvaluationCell: UICollectionViewCell {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    
-    self.createIconCell()
   }
   
   func createIconCell() {
+    
+    self.backgroundColor = UIColor.clearColor()
     
     if iconOfCell == nil {
     
       iconOfCell = UIImageView.init(image: UIImage.init(named: "goldenPitch_star"))
     
-      let frameForIcon = CGRect.init(x: (self.frame.size.width / 2.0) - (34.0 * UtilityManager.sharedInstance.conversionWidth),
-                                     y: (self.frame.size.height / 2.0) - (33.0 * UtilityManager.sharedInstance.conversionHeight),
+      let frameForIcon = CGRect.init(x: (self.frame.size.width / 2.0) - ((iconOfCell.frame.size.width / 4.0) + (3.0 * UtilityManager.sharedInstance.conversionWidth)),
+                                     y: 15.0 * UtilityManager.sharedInstance.conversionHeight,
                                  width: 34.0 * UtilityManager.sharedInstance.conversionWidth,
-                                height: 33.0 * UtilityManager.sharedInstance.conversionWidth)
+                                height: 33.0 * UtilityManager.sharedInstance.conversionHeight)
     
       iconOfCell.frame = frameForIcon
+      
     
       self.addSubview(iconOfCell)
     

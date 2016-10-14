@@ -97,6 +97,57 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate, Visu
     
   }
   
+  func requestToDisolveTabBarFromVisualizeAllPitchesViewControllerDelegate() {
+    
+    self.disolveTabBar()
+    
+  }
+  
+  func requestToConcentrateTabBarFromVisualizeAllPitchesViewControllerDelegate() {
+    
+    self.concentrateTabBar()
+    
+  }
+  
+  private func concentrateTabBar() {
+      
+    if isShownTabBar ==  false {
+        
+      self.isShownTabBar = true
+        
+      UIView.animateWithDuration(0.35,
+        animations: {
+          self.tabBar.alpha = 1.0
+                                    
+        }, completion: { (finished) in
+          if finished ==  true {
+            self.isShownTabBar = true
+          }
+      })
+        
+    }
+      
+  }
+  
+  private func disolveTabBar() {
+      
+    if isShownTabBar ==  true {
+        
+      isShownTabBar = false
+      
+      UIView.animateWithDuration(0.35,
+        animations: {
+          self.tabBar.alpha = 0.0
+                                    
+        }, completion: { (finished) in
+          if finished ==  true {
+            self.isShownTabBar = false
+          }
+      })
+        
+    }
+      
+  }
   
   
   

@@ -30,6 +30,7 @@ class DetailPitchSkillsEvaluationView: UIView, UICollectionViewDelegate, UIColle
   
   private func initInterface() {
     
+    self.backgroundColor = UIColor.clearColor()
     self.createPitchSkillsLabel()
     self.createMainCollectionView()
     
@@ -49,13 +50,14 @@ class DetailPitchSkillsEvaluationView: UIView, UICollectionViewDelegate, UIColle
       string: EditPitchesConstants.DetailPitchSkillsEvaluationView.skillsEvaluationLabel,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color
+        NSForegroundColorAttributeName: color,
+        NSKernAttributeName: CGFloat(2.0)
       ]
     )
     pitchSkillsLabel.attributedText = stringWithFormat
     pitchSkillsLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 101.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 64.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (pitchSkillsLabel.frame.size.width / 2.0),
+                               y: 0.0,
                                width: pitchSkillsLabel.frame.size.width,
                                height: pitchSkillsLabel.frame.size.height)
     
@@ -67,13 +69,13 @@ class DetailPitchSkillsEvaluationView: UIView, UICollectionViewDelegate, UIColle
   
   private func createMainCollectionView() {
     
-    let sizeOfItems = CGSize(width: 65.0 * UtilityManager.sharedInstance.conversionWidth,
-                             height: 65.0 * UtilityManager.sharedInstance.conversionHeight)
+    let sizeOfItems = CGSize(width: 75.0 * UtilityManager.sharedInstance.conversionWidth,
+                             height: 75.0 * UtilityManager.sharedInstance.conversionHeight)
     
     let frameForMainCollectionView = CGRect.init(x: 0.0,
-                                                 y: 56.0 * UtilityManager.sharedInstance.conversionHeight,
+                                                 y: 50.0 * UtilityManager.sharedInstance.conversionHeight,
                                              width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
-                                            height: 70.0 * UtilityManager.sharedInstance.conversionHeight)
+                                            height: 85.0 * UtilityManager.sharedInstance.conversionHeight)
     
     let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     let constantOfInset = 5.0 * UtilityManager.sharedInstance.conversionWidth
@@ -88,7 +90,7 @@ class DetailPitchSkillsEvaluationView: UIView, UICollectionViewDelegate, UIColle
     mainCollectionView.dataSource = self
     mainCollectionView.delegate = self
     mainCollectionView.registerClass(SkillEvaluationCell.self ,forCellWithReuseIdentifier: "Cell")
-    mainCollectionView.backgroundColor = UIColor.whiteColor()
+    mainCollectionView.backgroundColor = UIColor.clearColor()
     self.addSubview(mainCollectionView)
     
     
@@ -111,12 +113,21 @@ class DetailPitchSkillsEvaluationView: UIView, UICollectionViewDelegate, UIColle
   }
   
   func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    
     let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! SkillEvaluationCell
     
     cell.createIconCell()
     cell.setEvaluationPitchSkillCategoryData(arrayOfEvaluationPitchSkillCategories[indexPath.row])
     
     return cell
+    
+  }
+  
+  func setArrayOfEvaluationPitchSkillCategories(newArray: [EvaluationPitchSkillCategoryModelData]) {
+  
+    arrayOfEvaluationPitchSkillCategories = newArray
+    mainCollectionView.reloadData()
+  
   }
   
   

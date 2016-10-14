@@ -46,6 +46,8 @@
 		AA3E6EB11D74EFCD007D5736 /* SkillCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E6EB01D74EFCD007D5736 /* SkillCategory.swift */; };
 		AA3E6EB31D7507C1007D5736 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E6EB21D7507C1007D5736 /* Skill.swift */; };
 		AA40C9D91D51051F00FF2B4D /* FlipCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */; };
+		AA4400EC1DB009D70012633E /* DetailPitchCanceledDeclinedButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4400EB1DB009D70012633E /* DetailPitchCanceledDeclinedButtons.swift */; };
+		AA4400EE1DB026A40012633E /* TabBarArchiveEditDeletePitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4400ED1DB026A40012633E /* TabBarArchiveEditDeletePitchView.swift */; };
 		AA4ADD5C1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4ADD5B1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift */; };
 		AA681E381D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA681E371D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift */; };
 		AA68D8E61D833D3900DD1411 /* CreateAddNewPitchAndWriteBrandNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA68D8E51D833D3900DD1411 /* CreateAddNewPitchAndWriteBrandNameViewController.swift */; };
@@ -249,6 +251,8 @@
 		AA3E6EB01D74EFCD007D5736 /* SkillCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillCategory.swift; sourceTree = "<group>"; };
 		AA3E6EB21D7507C1007D5736 /* Skill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
 		AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipCardView.swift; sourceTree = "<group>"; };
+		AA4400EB1DB009D70012633E /* DetailPitchCanceledDeclinedButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPitchCanceledDeclinedButtons.swift; sourceTree = "<group>"; };
+		AA4400ED1DB026A40012633E /* TabBarArchiveEditDeletePitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarArchiveEditDeletePitchView.swift; sourceTree = "<group>"; };
 		AA4ADD5B1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeAgencyInfoView.swift; sourceTree = "<group>"; };
 		AA681E371D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessfullyAskForChangePasswordView.swift; sourceTree = "<group>"; };
 		AA68D8E51D833D3900DD1411 /* CreateAddNewPitchAndWriteBrandNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAddNewPitchAndWriteBrandNameViewController.swift; sourceTree = "<group>"; };
@@ -820,6 +824,8 @@
 				AAB3768F1DAF3D3500830523 /* DetailPitchSkillsEvaluationView.swift */,
 				AAB376911DAF3E0B00830523 /* SkillEvaluationCell.swift */,
 				AAB376951DAF51CA00830523 /* DetailPitchAddResultsView.swift */,
+				AA4400EB1DB009D70012633E /* DetailPitchCanceledDeclinedButtons.swift */,
+				AA4400ED1DB026A40012633E /* TabBarArchiveEditDeletePitchView.swift */,
 			);
 			name = DetailPitch;
 			sourceTree = "<group>";
@@ -1208,6 +1214,7 @@
 				0462295E1D626F640087E572 /* SkillsView.swift in Sources */,
 				AA92D6401D50EF7400CE7D95 /* LoginViewController.swift in Sources */,
 				047818A91D5E2E6700BB498C /* CustomSwitchView.swift in Sources */,
+				AA4400EE1DB026A40012633E /* TabBarArchiveEditDeletePitchView.swift in Sources */,
 				AA8997971D89CA5A009513E3 /* CompanyModelData.swift in Sources */,
 				AA80C2731D917B3D00087DC0 /* CriteriaModelData.swift in Sources */,
 				044F89D91D6383D200AA7FF3 /* ProfileView.swift in Sources */,
@@ -1279,6 +1286,7 @@
 				AA40C9D91D51051F00FF2B4D /* FlipCardView.swift in Sources */,
 				AA02375E1D8210D90014915C /* VisualizeAllPitchesViewController.swift in Sources */,
 				04AB393A1D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift in Sources */,
+				AA4400EC1DB009D70012633E /* DetailPitchCanceledDeclinedButtons.swift in Sources */,
 				AAA837DB1D590DBD00A47376 /* BlankViewController.swift in Sources */,
 				041DA4901D6653E200BAE262 /* VideoPlayerVimeoYoutubeView.swift in Sources */,
 				047818AE1D5E883100BB498C /* ExclusiveView.swift in Sources */,

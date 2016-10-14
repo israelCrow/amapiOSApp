@@ -166,6 +166,12 @@ class PitchCardView: UIView {
     
   }
   
+  func getGraphPart() -> GraphPartPitchCardView {
+    
+    return self.graphPart
+    
+  }
+  
   @objc private func addPitchButtonPushed() {
     
     self.delegate?.pushCreateAddNewPitchAndWriteBrandNameViewControllerFromPitchCard()

@@ -10,7 +10,7 @@ import UIKit
 
 class GraphPartPitchCardView: UIView {
   
-  private var containerAndGradientView: UIView! = nil
+  var containerAndGradientView: GradientView! = nil
   private var arrayOfQualifications = [Int]()
   private var arrayOfAgencyNames = [String]()
   private var arrayOfBarGraphic = [GraphView]()
@@ -105,7 +105,7 @@ class GraphPartPitchCardView: UIView {
                                      height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
     firstFace.frame = faceFrame
     
-    containerAndGradientView.addSubview(firstFace)
+    self.addSubview(firstFace)
     
   }
   
@@ -118,7 +118,7 @@ class GraphPartPitchCardView: UIView {
                                 height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
     secondFace.frame = faceFrame
     
-    containerAndGradientView.addSubview(secondFace)
+    self.addSubview(secondFace)
     
   }
   
@@ -131,7 +131,7 @@ class GraphPartPitchCardView: UIView {
                                 height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
     thirdFace.frame = faceFrame
     
-    containerAndGradientView.addSubview(thirdFace)
+    self.addSubview(thirdFace)
     
   }
   
@@ -144,7 +144,7 @@ class GraphPartPitchCardView: UIView {
                                 height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
     fourthFace.frame = faceFrame
     
-    containerAndGradientView.addSubview(fourthFace)
+    self.addSubview(fourthFace)
     
   }
   
@@ -163,7 +163,7 @@ class GraphPartPitchCardView: UIView {
                                y: 45.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: 271 * UtilityManager.sharedInstance.conversionWidth,
                                height: 1.0 * UtilityManager.sharedInstance.conversionHeight)
-    containerAndGradientView.layer.addSublayer(border)
+    self.layer.addSublayer(border)
 
     border = CALayer()
     border.borderColor = UIColor.init(red: 0/255.0,
@@ -175,7 +175,7 @@ class GraphPartPitchCardView: UIView {
                                y: 93.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: 271 * UtilityManager.sharedInstance.conversionWidth,
                                height: 1.0 * UtilityManager.sharedInstance.conversionHeight)
-    containerAndGradientView.layer.addSublayer(border)
+    self.layer.addSublayer(border)
 
     border = CALayer()
     border.borderColor = UIColor.init(red: 0/255.0,
@@ -187,7 +187,7 @@ class GraphPartPitchCardView: UIView {
                                y: 141.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: 271 * UtilityManager.sharedInstance.conversionWidth,
                                height: 1.0 * UtilityManager.sharedInstance.conversionHeight)
-    containerAndGradientView.layer.addSublayer(border)
+    self.layer.addSublayer(border)
 
     border = CALayer()
     border.borderColor = UIColor.init(red: 0/255.0,
@@ -199,7 +199,7 @@ class GraphPartPitchCardView: UIView {
                                y: 179.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: 271 * UtilityManager.sharedInstance.conversionWidth,
                                height: 1.0 * UtilityManager.sharedInstance.conversionHeight)
-    containerAndGradientView.layer.addSublayer(border)
+    self.layer.addSublayer(border)
 
     border = CALayer()
     border.borderColor = UIColor.init(red: 0/255.0,
@@ -211,7 +211,7 @@ class GraphPartPitchCardView: UIView {
                                y: 292.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: 271 * UtilityManager.sharedInstance.conversionWidth,
                                height: 1.0 * UtilityManager.sharedInstance.conversionHeight)
-    containerAndGradientView.layer.addSublayer(border)
+    self.layer.addSublayer(border)
 
     containerAndGradientView.layer.masksToBounds = true
     

@@ -44,7 +44,7 @@ class DetailPitchAddResultsView: UIView {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: 244.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    width: 260.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
     fillTheSurveyLabel = UILabel.init(frame: frameForLabel)
@@ -61,7 +61,8 @@ class DetailPitchAddResultsView: UIView {
       string: EditPitchesConstants.DetailPitchAddResultsView.fillTheSurveyLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color
+        NSForegroundColorAttributeName: color,
+        NSKernAttributeName: CGFloat(2.0)
       ]
     )
     fillTheSurveyLabel.attributedText = stringWithFormat
@@ -109,6 +110,7 @@ class DetailPitchAddResultsView: UIView {
                                 height: 70.0 * UtilityManager.sharedInstance.conversionHeight)
     
     addResultsButton.frame = frameForButton
+    addResultsButton.layer.cornerRadius = 5.0
     
     self.addSubview(addResultsButton)
     

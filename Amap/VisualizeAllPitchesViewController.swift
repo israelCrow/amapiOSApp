@@ -10,6 +10,9 @@ import UIKit
 
 protocol VisualizeAllPitchesViewControllerShowAndHideDelegate {
   
+  func requestToDisolveTabBarFromVisualizeAllPitchesViewControllerDelegate()
+  func requestToConcentrateTabBarFromVisualizeAllPitchesViewControllerDelegate()
+  
   func requestToHideTabBarFromVisualizeAllPitchesViewControllerDelegate()
   func requestToShowTabBarFromVisualizeAllPitchesViewControllerDelegate()
   
@@ -23,6 +26,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   private var filterButton: UIButton! = nil
   private var arrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
   private var frontCard: PitchCardView! = nil
+  private var mainDetailPitchView: DetailPitchView! = nil
   
   private var isSecondTimeAppearing: Bool = false
   
@@ -269,7 +273,48 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     mainCarousel.userInteractionEnabled = false
     let pitchEvaluationData = frontCard.getPitchEvaluationByUserData()
+    let copyGraphInUse = self.makeACopyOfActualGraph()
+    copyGraphInUse.animateGraph()
+    copyGraphInUse.alpha = 0.0
+
     
+    if mainDetailPitchView == nil {
+      
+      let frameForMainDetailPitchView = UIScreen.mainScreen().bounds
+      mainDetailPitchView = DetailPitchView.init(frame: frameForMainDetailPitchView,
+                                          newPitchData: pitchEvaluationData,
+                                          newGraphPart: copyGraphInUse)
+      
+      mainDetailPitchView.backgroundColor = UIColor.clearColor()
+      mainDetailPitchView.userInteractionEnabled = true
+      self.view.addSubview(mainDetailPitchView)
+      
+    } else {
+  
+      mainDetailPitchView.realoadDataAndInterface(pitchEvaluationData,
+                                                  newGraphPart: copyGraphInUse)
+      
+    }
+    self.delegateForShowAndHideTabBar?.requestToDisolveTabBarFromVisualizeAllPitchesViewControllerDelegate()
+    mainDetailPitchView.animateShowPitchEvaluationDetail()
+    
+  }
+  
+  private func makeACopyOfActualGraph() -> GraphPartPitchCardView {
+  
+    let globalPoint = frontCard.getGraphPart().convertPoint(frontCard.getGraphPart().frame.origin, toView: UIApplication.sharedApplication().delegate!.window!)
+    
+    let frameForGraphPart = CGRect.init(x: globalPoint.x,
+                                        y: 0.0,
+                                    width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 347.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let arrayOfQualifications: [Int] = [arrayOfPitchesByUser[0].score]
+    let arrayOfAgencyNames: [String] = [AgencyModel.Data.name]
+    
+    return GraphPartPitchCardView.init(frame: frameForGraphPart,
+                                            newArrayOfQualifications: arrayOfQualifications,
+                                            newArrayOfAgencyNames: arrayOfAgencyNames)
     
   }
   

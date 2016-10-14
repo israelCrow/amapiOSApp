@@ -18,6 +18,22 @@ class EditPitchesConstants {
     
     static let fillTheSurveyLabelText = "Llena la encuesta de resultados"
     static let addResultsButtonText = "agregar resultado"
+    
+  }
+  
+  enum DetailPitchCanceledDeclinedButtones {
+    
+    static let pitchCanceledButtonText = "pitch\ncancelado"
+    static let pitchDeclinedButtonText = "pitch declinado"
+    
+  }
+  
+  enum TabBarArchiveEditDeletePitchView {
+    
+    static let archivePitchButtonText = "Archivar Pitch"
+    static let editPitchButtonText = "Editar Pitch"
+    static let deletePitchButtonText = "Eliminar Pitch"
+    
   }
 
   
