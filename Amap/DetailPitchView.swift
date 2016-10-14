@@ -168,12 +168,6 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
       graphPitchView.alpha = 1.0
       mainScrollView.addSubview(graphPitchView)
       
-      let newFrameForGraph = CGRect.init(x: graphPitchView.frame.origin.x,
-                                         y: graphPitchView.frame.origin.y,
-                                     width: UIScreen.mainScreen().bounds.size.width,
-                                    height: graphPitchView.frame.size.height)
-      
-      
       UIView.animateWithDuration(
         0.55,
         delay: 0.0,
