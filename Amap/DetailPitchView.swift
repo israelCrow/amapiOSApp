@@ -8,6 +8,13 @@
 
 import UIKit
 
+protocol DetailPitchViewDelegate {
+  
+  func declineEvaluationPitch(params: [String: AnyObject])
+  func cancelEvaluationPitch(params: [String: AnyObject])
+  
+}
+
 class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, DetailPitchAddResultsViewDelegate, TabBarArchiveEditDeletePitchViewDelegate {
   
   private var pitchEvaluationData: PitchEvaluationByUserModelData! = nil
@@ -18,6 +25,8 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   private var fillSurveyView: DetailPitchAddResultsView! = nil
   private var cancelDeclinButtonsView: DetailPitchCanceledDeclinedButtons! = nil
   private var tabBarForPitchDetail: TabBarArchiveEditDeletePitchView! = nil
+  
+  var delegate: DetailPitchViewDelegate?
   
   private let originalFrameForContainerView = CGRect.init(x: 0.0,
                                                           y: UIScreen.mainScreen().bounds.size.height + (50.0 * UtilityManager.sharedInstance.conversionHeight),
@@ -60,14 +69,14 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   private func createMainScrollView() {
     
     let frameForMainScrollView = CGRect.init(x: 0.0,
-                                             y: 200.0 * UtilityManager.sharedInstance.conversionHeight,
+                                             y: 180.0 * UtilityManager.sharedInstance.conversionHeight,
                                              width: UIScreen.mainScreen().bounds.size.width,
                                              height: UIScreen.mainScreen().bounds.size.height)//Value that I considered
     let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
                                                height: frameForMainScrollView.size.height + (450.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
-    mainScrollView.backgroundColor = UIColor.lightGrayColor()
+    mainScrollView.backgroundColor = UIColor.whiteColor()
     mainScrollView.contentSize = sizeForContentScrollView
     mainScrollView.showsVerticalScrollIndicator = true
     mainScrollView.alpha = 0.0
@@ -145,7 +154,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     
   }
   
-  func realoadDataAndInterface(newPitchEvaluationByUserData: PitchEvaluationByUserModelData, newGraphPart: GraphPartPitchCardView) {
+  func reloadDataAndInterface(newPitchEvaluationByUserData: PitchEvaluationByUserModelData, newGraphPart: GraphPartPitchCardView) {
     
     graphPitchView = newGraphPart
     pitchEvaluationData = newPitchEvaluationByUserData
@@ -157,6 +166,8 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     }
     
   }
+  
+  
   
   func animateShowPitchEvaluationDetail() {
     
@@ -180,29 +191,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
         
       
       }
-      
-      
-//      UIView.animateWithDuration(0.55,
-//                                 delay: 0.0,
-//                                 usingSpringWithDamping: 0.5,
-//                                 initialSpringVelocity: 10.0,
-//                                 options: UIViewAnimationOptions.CurveEaseOut,
-//                                 animations: {
-//                                  //Do all animations here
-//                                  self.graphPitchView.transform = CGAffineTransformMakeScale(0.98, 1.35)
-////                                  self.graphPitchView.frame = newFrameForGraph
-//                                  
-//        }, completion: {
-//          //Code to run after animating
-//          (finished) in
-//          
-//          if finished == true {
-//            
-//            //Do something
-//            
-//          }
-//      })
-      
+
     }
     
     self.animateShowBottomContainerView()
@@ -258,6 +247,83 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     
   }
   
+  func animateHiddingPitchEvaluationDetail() {
+    
+    self.disableTabBarForPitchDetail()
+    
+    if graphPitchView != nil {
+      
+      UIView.animateWithDuration(
+        0.15,
+        animations: { () -> Void in
+          
+          self.graphPitchView.containerAndGradientView.alpha = 0.0
+          
+      }) { (completed:Bool) -> Void in
+        
+        if completed == true {
+        
+          self.animateHiddingBottomContainerView()
+          self.graphPitchView.alpha = 0.0
+          self.graphPitchView.removeFromSuperview()
+          
+        }
+        
+      }
+      
+    }
+    
+  }
+  
+  private func disableTabBarForPitchDetail() {
+    
+    UIView.animateWithDuration(0.35,
+                               animations: {
+                                
+                                self.tabBarForPitchDetail.alpha = 0.0
+                                
+    }) { (finished) in
+      if finished == true {
+        
+        self.tabBarForPitchDetail.userInteractionEnabled = false
+        
+      }
+    }
+    
+  }
+  
+  private func disableMainScrollView() {
+    
+    mainScrollView.userInteractionEnabled = false
+    mainScrollView.alpha = 0.0
+    
+  }
+  
+  private func animateHiddingBottomContainerView() {
+    
+    UIView.animateWithDuration(0.55,
+                               delay: 0.0,
+                               usingSpringWithDamping: 0.5,
+                               initialSpringVelocity: 10.0,
+                               options: UIViewAnimationOptions.CurveEaseOut,
+                               animations: {
+                                //Do all animations here
+                                
+                                self.bottomContainerView.frame = self.originalFrameForContainerView
+                                
+      }, completion: {
+        //Code to run after animating
+        (finished) in
+        
+        if finished == true {
+          
+          self.disableMainScrollView()
+          
+        }
+    })
+    
+  }
+  
   //MARK: - DetailPitchAddResultsViewDelegate 
   
   func pushAddResultsViewController() {
@@ -268,7 +334,17 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   
   //MARK: - DetailPitchCanceledDeclinedButtonsDelegate
   
-  func doCancelPitchFunction() {
+  func doCanceledPitchFunction() {
+    
+    let params: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
+                                       "id": pitchEvaluationData.pitchEvaluationId
+                                      ]
+    
+    self.delegate?.cancelEvaluationPitch(params)
+    
+  }
+  
+  func doDeclinedPitchFunction() {
     
     
     
@@ -289,12 +365,6 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   }
   
   func deletePitchEvaluationButtonFromTabBarPressed() {
-    
-    
-    
-  }
-  
-  func doDeclinePitchFunction() {
     
     
     

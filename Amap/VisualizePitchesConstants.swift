@@ -21,6 +21,8 @@ class VisualizePitchesConstants {
     static let navigationRightButtonText = "Info"
     static let navigationBarTitleText = "Pitches"
     
+    static let navigationRightButtonWhenDetailPitchViewIsShownText = "Cerrar"
+    
   }
   
   enum CreateAddNewPitchAndWriteBrandNameViewController {

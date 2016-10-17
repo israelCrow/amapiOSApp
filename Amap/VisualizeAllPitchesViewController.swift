@@ -18,7 +18,7 @@ protocol VisualizeAllPitchesViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate {
+class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate, DetailPitchViewDelegate {
   
   private var mainCarousel: iCarousel! = nil
   
@@ -27,6 +27,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   private var arrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
   private var frontCard: PitchCardView! = nil
   private var mainDetailPitchView: DetailPitchView! = nil
+  private var detailNavigationBar: DetailedNavigationEvaluatPitchView! = nil
   
   private var isSecondTimeAppearing: Bool = false
   
@@ -271,12 +272,16 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   func createAndShowDetailedPitchView() {
     
+    self.navigationItem.rightBarButtonItem?.enabled = false
     mainCarousel.userInteractionEnabled = false
+    frontCard.userInteractionEnabled = false
+    
     let pitchEvaluationData = frontCard.getPitchEvaluationByUserData()
     let copyGraphInUse = self.makeACopyOfActualGraph()
     copyGraphInUse.animateGraph()
     copyGraphInUse.alpha = 0.0
-
+    
+    self.createDetailNavigationBar()
     
     if mainDetailPitchView == nil {
       
@@ -287,16 +292,23 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       mainDetailPitchView.backgroundColor = UIColor.clearColor()
       mainDetailPitchView.userInteractionEnabled = true
+      mainDetailPitchView.delegate = self
       self.view.addSubview(mainDetailPitchView)
       
     } else {
   
-      mainDetailPitchView.realoadDataAndInterface(pitchEvaluationData,
+      mainDetailPitchView.alpha = 1.0
+      mainDetailPitchView.reloadDataAndInterface(pitchEvaluationData,
                                                   newGraphPart: copyGraphInUse)
+      mainDetailPitchView.backgroundColor = UIColor.clearColor()
+      mainDetailPitchView.userInteractionEnabled = true
       
     }
+    
     self.delegateForShowAndHideTabBar?.requestToDisolveTabBarFromVisualizeAllPitchesViewControllerDelegate()
     mainDetailPitchView.animateShowPitchEvaluationDetail()
+    self.animateShowingDetailPitchView()
+    NSTimer.scheduledTimerWithTimeInterval(0.75, target: self, selector: #selector(changeRightButtonOfNavigationBarWhenDetailPitchViewIsShown), userInfo: nil, repeats: false)
     
   }
   
@@ -309,12 +321,155 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
                                     width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 347.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let arrayOfQualifications: [Int] = [arrayOfPitchesByUser[0].score]
+    let arrayOfQualifications: [Int] = [frontCard.getPitchEvaluationByUserData().score]
     let arrayOfAgencyNames: [String] = [AgencyModel.Data.name]
     
     return GraphPartPitchCardView.init(frame: frameForGraphPart,
                                             newArrayOfQualifications: arrayOfQualifications,
                                             newArrayOfAgencyNames: arrayOfAgencyNames)
+    
+  }
+  
+  private func createDetailNavigationBar() {
+    
+    if detailNavigationBar != nil {
+      
+      detailNavigationBar.removeFromSuperview()
+      detailNavigationBar = nil
+      
+    }
+    
+    let frameForDetailedNav = CGRect.init(x: 0.0,
+                                          y: -100.0 * UtilityManager.sharedInstance.conversionHeight,
+                                          width: self.view.frame.size.width,
+                                          height: 108.0 * UtilityManager.sharedInstance.conversionHeight)
+   
+    detailNavigationBar = DetailedNavigationEvaluatPitchView.init(frame: frameForDetailedNav,
+      newProjectName: frontCard.getPitchEvaluationByUserData().pitchName,
+      newBrandName: frontCard.getPitchEvaluationByUserData().brandName,
+      newCompanyName: frontCard.getPitchEvaluationByUserData().companyName,
+      newDateString: frontCard.getPitchEvaluationByUserData().briefDate)
+    
+    
+    self.navigationController?.navigationBar.addSubview(detailNavigationBar)
+    
+  }
+  
+  private func animateShowingDetailPitchView() {
+    
+    let newFrameForDetailedNav = CGRect.init(x: 0.0,
+    y: (self.navigationController?.navigationBar.frame.size.height)!,
+                                         width: detailNavigationBar.frame.size.width,
+                                        height: detailNavigationBar.frame.size.height)
+    
+    UIView.animateWithDuration(
+      0.35,
+      delay: 0.0,
+      usingSpringWithDamping: 0.8,
+      initialSpringVelocity: 8.0,
+      options: .BeginFromCurrentState,
+      animations: { () -> Void in
+        
+        self.detailNavigationBar.frame = newFrameForDetailedNav
+        
+    }) { (completed:Bool) -> Void in
+      
+      
+    }
+
+  }
+  
+  private func animateHiddingDetailPitchView() {
+    
+    NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(changeValuesWhenDetailPitchViewHidden), userInfo: nil, repeats: false)
+    
+    let newFrameForDetailedNav = CGRect.init(x: 0.0,
+                                             y: -150.0 * UtilityManager.sharedInstance.conversionHeight,
+                                             width: detailNavigationBar.frame.size.width,
+                                             height: detailNavigationBar.frame.size.height)
+    
+    UIView.animateWithDuration(
+      0.35,
+      delay: 0.0,
+      usingSpringWithDamping: 0.8,
+      initialSpringVelocity: 8.0,
+      options: .BeginFromCurrentState,
+      animations: { () -> Void in
+        
+        self.detailNavigationBar.frame = newFrameForDetailedNav
+        
+    }) { (completed:Bool) -> Void in
+      
+        self.detailNavigationBar.removeFromSuperview()
+      
+    }
+    
+  }
+  
+  @objc private func changeValuesWhenDetailPitchViewHidden() {
+    
+    mainCarousel.userInteractionEnabled = true
+    frontCard.userInteractionEnabled = true
+    
+  }
+  
+  @objc private func changeRightButtonOfNavigationBarWhenDetailPitchViewIsShown() {
+    
+    let rightButton = UIBarButtonItem(title: VisualizePitchesConstants.VisualizeAllPitchesViewController.navigationRightButtonWhenDetailPitchViewIsShownText,
+                                      style: UIBarButtonItemStyle.Plain,
+                                      target: self,
+                                      action: #selector(hideDetailPitchView))
+    
+    let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
+                                    size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    
+    let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
+                                              NSForegroundColorAttributeName: UIColor.whiteColor()
+    ]
+    
+    rightButton.setTitleTextAttributes(attributesDict, forState: .Normal)
+    
+    self.navigationItem.setRightBarButtonItem(rightButton, animated: true)
+    
+  }
+  
+  private func changeRightButtonOfNavigationBarWhenDetailPitchViewIsHidden() {
+    
+    let rightButton = UIBarButtonItem(title: VisualizePitchesConstants.VisualizeAllPitchesViewController.navigationRightButtonText,
+                                      style: UIBarButtonItemStyle.Plain,
+                                      target: self,
+                                      action: #selector(showInfo))
+    
+    let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
+                                    size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    
+    let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
+                                              NSForegroundColorAttributeName: UIColor.whiteColor()
+    ]
+    
+    rightButton.setTitleTextAttributes(attributesDict, forState: .Normal)
+    
+    self.navigationItem.setRightBarButtonItem(rightButton, animated: true)
+    
+  }
+  
+  @objc private func hideDetailPitchView() {
+    
+    self.changeRightButtonOfNavigationBarWhenDetailPitchViewIsHidden()
+    
+    self.delegateForShowAndHideTabBar?.requestToConcentrateTabBarFromVisualizeAllPitchesViewControllerDelegate()
+    
+    if mainDetailPitchView != nil {
+    
+      mainDetailPitchView.animateHiddingPitchEvaluationDetail()
+      
+    }
+    
+    self.animateHiddingDetailPitchView()
+    
+    mainCarousel.userInteractionEnabled = true
+    
+    mainDetailPitchView.alpha = 0.0
     
   }
   
@@ -425,6 +580,47 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
   }
   
-
+  //MARK: DetailPitchViewDelegate
+  
+  func declineEvaluationPitch(params: [String: AnyObject]) {
+    
+  }
+  
+  func cancelEvaluationPitch(params: [String: AnyObject]) {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToCancelPitchEvaluation(params) { (pitchEvaluationCancelled) in
+      
+      UtilityManager.sharedInstance.hideLoader()
+      self.hideDetailPitchView()
+      self.flipFrontCardToCancel()
+      
+    }
+    
+  }
+  
+  private func flipFrontCardToCancel() {
+    
+    let frameForBlanckView = CGRect.init(x: 0.0,
+                                         y: 0.0,
+                                         width: self.frontCard.frame.size.width,
+                                         height: self.frontCard.frame.size.height)
+    
+    let blanckView = UIView.init(frame: frameForBlanckView)
+    blanckView.backgroundColor = UIColor.blueColor()
+    self.frontCard.hidden = true
+    blanckView.hidden = false
+    
+    UIView.transitionFromView(self.frontCard,
+                              toView: blanckView,
+                              duration: 0.5,
+                              options: .TransitionFlipFromLeft) { (finished) in
+                                if finished {
+                                  //Do something
+                                }
+    }
+    
+  }
   
 }

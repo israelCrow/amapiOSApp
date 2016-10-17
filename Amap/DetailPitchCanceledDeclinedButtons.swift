@@ -10,8 +10,8 @@ import UIKit
 
 protocol DetailPitchCanceledDeclinedButtonsDelegate {
   
-  func doCancelPitchFunction()
-  func doDeclinePitchFunction()
+  func doCanceledPitchFunction()
+  func doDeclinedPitchFunction()
   
 }
 
@@ -157,13 +157,13 @@ class DetailPitchCanceledDeclinedButtons: UIView {
   
   @objc private func canceledPitchButtonPressed() {
     
-    self.delegate?.doCancelPitchFunction()
+    self.delegate?.doCanceledPitchFunction()
     
   }
   
   @objc private func declinedPitchButtonPressed() {
     
-    self.delegate?.doDeclinePitchFunction()
+    self.delegate?.doDeclinedPitchFunction()
     
   }
   

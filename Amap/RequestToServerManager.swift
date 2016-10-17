@@ -777,16 +777,6 @@ class RequestToServerManager: NSObject {
     }
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   func requestToCreateCompany(nameOfTheNewCompany: String!, actionsToMakeAfterSuccesfullCreateNewCompany: (newCompanyCreated: CompanyModelData)-> Void) {
     
 //    UtilityManager.sharedInstance.showLoader()
@@ -1319,6 +1309,142 @@ class RequestToServerManager: NSObject {
     }
   }
   
+  func requestToCancelPitchEvaluation(params: [String: AnyObject], actionsToMakeAfterSuccesfullCancelPitchEvaluation: (pitchEvaluationCancelled: AnyObject)-> Void) {
+    
+    //    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_evaluations/cancel"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          print(json)
+          
+          actionsToMakeAfterSuccesfullCancelPitchEvaluation(pitchEvaluationCancelled: json)
+          
+        }else {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          print("ERROR")
+          
+        }
+    }
+  }
+  
+  func requestToDeclinePitchEvaluation(params: [String: AnyObject], actionsToMakeAfterSuccesfullyDeclinedPitchEvaluation: (pitchEvaluationDeclined: AnyObject)-> Void) {
+    
+    //    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_evaluations/decline"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          print(json)
+          
+          actionsToMakeAfterSuccesfullyDeclinedPitchEvaluation(pitchEvaluationDeclined: json)
+          
+        }else {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          print("ERROR")
+          
+        }
+    }
+  }
+  
+  
+  func requestToArchivePitchEvaluation(params: [String: AnyObject], actionsToMakeAfterSuccesfullyArchivedPitchEvaluation: (pitchEvaluationArchived: AnyObject)-> Void) {
+    
+    //    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_evaluations/archive"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          print(json)
+          
+          actionsToMakeAfterSuccesfullyArchivedPitchEvaluation(pitchEvaluationArchived: json)
+          
+        }else {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          print("ERROR")
+          
+        }
+    }
+  }
+  
+  func requestToDestroyPitchEvaluation(params: [String: AnyObject], actionsToMakeAfterSuccesfullyDestroyedPitchEvaluation: (pitchEvaluationDestroyed: AnyObject)-> Void) {
+    
+    //    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_evaluations/destroy"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          print(json)
+          
+          actionsToMakeAfterSuccesfullyDestroyedPitchEvaluation(pitchEvaluationDestroyed: json)
+          
+        }else {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          print("ERROR")
+          
+        }
+    }
+  }
   
   
   
