@@ -18,18 +18,20 @@ protocol VisualizeAllPitchesViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate, DetailPitchViewDelegate {
+class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate, DetailPitchViewDelegate, CanceledPitchEvaluationViewDelegate, ArchivedPitchEvaluationViewDelegate, DeletedPitchEvaluationViewDelegate, DeclinedPitchEvaluationViewDelegate, LookForPitchCardViewDelegate, FilterPitchCardViewDelegate {
   
   private var mainCarousel: iCarousel! = nil
   
   private var searchButton: UIButton! = nil
   private var filterButton: UIButton! = nil
   private var arrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
+  private var arrayOfPitchesByUserWithoutModifications = [PitchEvaluationByUserModelData]()
   private var frontCard: PitchCardView! = nil
   private var mainDetailPitchView: DetailPitchView! = nil
   private var detailNavigationBar: DetailedNavigationEvaluatPitchView! = nil
   
   private var isSecondTimeAppearing: Bool = false
+  private var isShowingAMessageCard: Bool = false
   
   var delegateForShowAndHideTabBar: VisualizeAllPitchesViewControllerShowAndHideDelegate?
   
@@ -155,6 +157,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     RequestToServerManager.sharedInstance.requestToGetAllPitchEvaluationByUser { (pitchEvaluationsByUser) in
       
       self.arrayOfPitchesByUser = pitchEvaluationsByUser
+      self.arrayOfPitchesByUserWithoutModifications = pitchEvaluationsByUser
       
       if self.arrayOfPitchesByUser.count == 0 {
         
@@ -217,7 +220,19 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
     } else {
       
-      requestForAllPitchesAndTheirEvaluations()
+      if isShowingAMessageCard == false {
+       
+        requestForAllPitchesAndTheirEvaluations()
+      
+      } else {
+        
+        if mainCarousel != nil {
+          
+          mainCarousel.scrollEnabled = false
+          
+        }
+        
+      }
       
     }
     
@@ -226,11 +241,62 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   @objc private func searchButtonPressed() {
   
+    if mainCarousel != nil {
+      
+      isShowingAMessageCard = true
+      
+      searchButton.userInteractionEnabled = false
+      searchButton.enabled = false
+      filterButton.userInteractionEnabled = false
+      filterButton.enabled = false
+      mainCarousel.scrollEnabled = false
+      
+      let newElement = PitchEvaluationByUserModelData.init(newPitchEvaluationId: "-9999",
+        newPitchId: "-9999",
+        newPitchName: "qwertyytrewqqwertyytrewq",
+        newBriefDate: "-9999",
+        newScore: -9999,
+        newBrandName: "-9999",
+        newCompanyName: "-9999",
+        newOtherScores: [Int](),
+        newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData]())
+      
+      let actualIndex = mainCarousel.currentItemIndex
+      self.arrayOfPitchesByUser.insert(newElement, atIndex: actualIndex)
+      mainCarousel.insertItemAtIndex(actualIndex, animated: true)
+      
+    }
   
   }
   
   @objc private func filterButtonPressed() {
-        
+    
+    if mainCarousel != nil {
+      
+      isShowingAMessageCard = true
+      
+      searchButton.userInteractionEnabled = false
+      searchButton.enabled = false
+      filterButton.userInteractionEnabled = false
+      filterButton.enabled = false
+      mainCarousel.scrollEnabled = false
+      
+      let newElement = PitchEvaluationByUserModelData.init(newPitchEvaluationId: "-8888",
+        newPitchId: "-8888",
+        newPitchName: "qwertyytrewqqwertyytrewq",
+        newBriefDate: "-8888",
+        newScore: -8888,
+        newBrandName: "-8888",
+        newCompanyName: "-8888",
+        newOtherScores: [Int](),
+        newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData]())
+      
+      let actualIndex = mainCarousel.currentItemIndex
+      self.arrayOfPitchesByUser.insert(newElement, atIndex: actualIndex)
+      mainCarousel.insertItemAtIndex(actualIndex, animated: true)
+      
+    }
+    
   }
   
   @objc private func showInfo() {
@@ -290,6 +356,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
                                           newPitchData: pitchEvaluationData,
                                           newGraphPart: copyGraphInUse)
       
+      let heightOfDetailNavigationBar = (self.navigationController?.navigationBar.frame.size.height)! + (103.0 * UtilityManager.sharedInstance.conversionHeight) + UIApplication.sharedApplication().statusBarFrame.size.height
+
+      mainDetailPitchView.changeFrameOfContainerView(heightOfDetailNavigationBar)
       mainDetailPitchView.backgroundColor = UIColor.clearColor()
       mainDetailPitchView.userInteractionEnabled = true
       mainDetailPitchView.delegate = self
@@ -363,7 +432,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
                                         height: detailNavigationBar.frame.size.height)
     
     UIView.animateWithDuration(
-      0.35,
+      0.25,
       delay: 0.0,
       usingSpringWithDamping: 0.8,
       initialSpringVelocity: 8.0,
@@ -475,6 +544,10 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   //MARK: - iCarouselDelegates
   
+  func carousel(carousel: iCarousel, shouldSelectItemAtIndex index: Int) -> Bool {
+    return false
+  }
+  
   func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
     
     return arrayOfPitchesByUser.count
@@ -483,7 +556,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView {
     
-    var genericCard: PitchCardView
+    var genericCard = PitchCardView()
     
     if view == nil {
       
@@ -497,13 +570,49 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
     }else{
       
-      genericCard = view as! PitchCardView
+      if view as? PitchCardView != nil {
+      
+        genericCard = view as! PitchCardView
+      
+      }
       
     }
     
     genericCard.userInteractionEnabled = false
-    genericCard.changePitchData(arrayOfPitchesByUser[index])
-    return genericCard
+    
+    let pitchData = arrayOfPitchesByUser[index]
+    
+    
+    if pitchData.pitchId == "-9999" { //-9999 is for LookForPitch
+      
+      let frameForNewView = CGRect.init(x: 0.0,
+                                        y: 0.0,
+                                        width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+      let lookForPitchCard = LookForPitchCardView.init(frame: frameForNewView,
+                                   newArrayOfPitchesToFilter: arrayOfPitchesByUserWithoutModifications)
+      lookForPitchCard.delegate = self
+      return lookForPitchCard
+      
+    } else
+      if pitchData.pitchId == "-8888" {
+        
+        let frameForNewView = CGRect.init(x: 0.0,
+                                          y: 0.0,
+                                          width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                          height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
+        
+        let filterView = FilterPitchCardView.init(frame: frameForNewView)
+        filterView.delegate = self
+        return filterView
+     
+      } else {
+      
+      genericCard.changePitchData(arrayOfPitchesByUser[index])
+      return genericCard
+      
+      }
     
   }
   
@@ -579,19 +688,89 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     }
     
   }
+  //MARK: - FilterPitchCardViewDelegate 
   
-  //MARK: DetailPitchViewDelegate
+  func doCancelFilteringPitches() {
+    
+    self.removeFilterPitchCardView()
+    
+  }
+  
+  
+  //MARK: - DetailPitchViewDelegate
   
   func declineEvaluationPitch(params: [String: AnyObject]) {
+    
+    let alertController = UIAlertController(title: "Declinar Evaluación", message: "¿Deseas declinar la evaluación?", preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
+      //Something To Do
+      
+    }
+    
+    let okAction = UIAlertAction(title: "Sí", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+      
+      self.requestToDeclinePitchEvaluation(params)
+      
+    }
+    
+    alertController.addAction(cancelAction)
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
+  
+  private func requestToDeclinePitchEvaluation(params: [String: AnyObject]) {
+    
+    self.disabledSearchAndFilterButtons()
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToDeclinePitchEvaluation(params) { (pitchEvaluationDeclined) in
+      
+      self.mainCarousel.scrollEnabled = false
+      self.mainCarousel.userInteractionEnabled = false
+      UtilityManager.sharedInstance.hideLoader()
+      self.hideDetailPitchView()
+      self.flipFrontCardToDecline()
+      
+    }
     
   }
   
   func cancelEvaluationPitch(params: [String: AnyObject]) {
     
+    let alertController = UIAlertController(title: "Cancelar Evaluación", message: "¿Deseas cancelar la evaluación?", preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
+      //Something To Do
+      
+    }
+    
+    let okAction = UIAlertAction(title: "Sí", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+      
+      self.requestToCancelPitchEvaluation(params)
+        
+    }
+    
+    alertController.addAction(cancelAction)
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
+
+  private func requestToCancelPitchEvaluation(params: [String: AnyObject]) {
+    
+    self.disabledSearchAndFilterButtons()
+  
     UtilityManager.sharedInstance.showLoader()
     
     RequestToServerManager.sharedInstance.requestToCancelPitchEvaluation(params) { (pitchEvaluationCancelled) in
       
+      self.mainCarousel.scrollEnabled = false
+      self.mainCarousel.userInteractionEnabled = false
       UtilityManager.sharedInstance.hideLoader()
       self.hideDetailPitchView()
       self.flipFrontCardToCancel()
@@ -600,27 +779,386 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
   }
   
+  func archiveEvaluationPitch(params: [String: AnyObject]) {
+    
+    let alertController = UIAlertController(title: "Archivar Evaluación", message: "¿Deseas archivar la evaluación?", preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
+      //Something To Do
+      
+    }
+    
+    let okAction = UIAlertAction(title: "Sí", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+      
+      self.requestToArchivePitchEvaluation(params)
+      
+    }
+    
+    alertController.addAction(cancelAction)
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
+  
+  private func requestToArchivePitchEvaluation(params: [String: AnyObject]) {
+    
+    self.disabledSearchAndFilterButtons()
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToArchivePitchEvaluation(params) { (pitchEvaluationArchived) in
+      
+      self.mainCarousel.scrollEnabled = false
+      self.mainCarousel.userInteractionEnabled = false
+      UtilityManager.sharedInstance.hideLoader()
+      self.hideDetailPitchView()
+      self.flipFrontCardToArchived()
+      
+    }
+    
+  }
+  
+  func deleteEvaluationPitch(params: [String: AnyObject]) {
+    
+    let alertController = UIAlertController(title: "Eliminar Evaluación", message: "¿Deseas eliminar la evaluación?", preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
+      //Something To Do
+      
+    }
+    
+    let okAction = UIAlertAction(title: "Sí", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+      
+      self.requestToDeletePitchEvaluation(params)
+      
+    }
+    
+    alertController.addAction(cancelAction)
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
+  
+  private func requestToDeletePitchEvaluation(params: [String: AnyObject]) {
+    
+    self.disabledSearchAndFilterButtons()
+    
+    self.disabledSearchAndFilterButtons()
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToDestroyPitchEvaluation(params) {
+
+      UtilityManager.sharedInstance.hideLoader()
+      self.hideDetailPitchView()
+      self.flipFrontCardToDelete()
+      
+    }
+    
+  }
+  
   private func flipFrontCardToCancel() {
+    
+    isShowingAMessageCard = true
     
     let frameForBlanckView = CGRect.init(x: 0.0,
                                          y: 0.0,
                                          width: self.frontCard.frame.size.width,
                                          height: self.frontCard.frame.size.height)
     
-    let blanckView = UIView.init(frame: frameForBlanckView)
-    blanckView.backgroundColor = UIColor.blueColor()
+    let canceledPitch = CanceledPitchEvaluationView.init(frame: frameForBlanckView)
+    canceledPitch.backgroundColor = UIColor.whiteColor()
+    canceledPitch.delegate = self
     self.frontCard.hidden = true
-    blanckView.hidden = false
+    canceledPitch.hidden = false
     
     UIView.transitionFromView(self.frontCard,
-                              toView: blanckView,
+                              toView: canceledPitch,
                               duration: 0.5,
                               options: .TransitionFlipFromLeft) { (finished) in
                                 if finished {
-                                  //Do something
+                                
+                                  
+                                  
                                 }
     }
     
   }
+  
+  private func flipFrontCardToDecline() {
+    
+    isShowingAMessageCard = true
+    
+    let frameForBlanckView = CGRect.init(x: 0.0,
+                                         y: 0.0,
+                                         width: self.frontCard.frame.size.width,
+                                         height: self.frontCard.frame.size.height)
+    
+    let declinedPitch = DeclinedPitchEvaluationView.init(frame: frameForBlanckView)
+    declinedPitch.backgroundColor = UIColor.whiteColor()
+    declinedPitch.delegate = self
+    self.frontCard.hidden = true
+    declinedPitch.hidden = false
+    
+    UIView.transitionFromView(self.frontCard,
+                              toView: declinedPitch,
+                              duration: 0.5,
+                              options: .TransitionFlipFromLeft) { (finished) in
+                                if finished {
+                                  
+                                  
+                                  
+                                }
+    }
+    
+  }
+  
+  private func flipFrontCardToArchived() {
+    
+    isShowingAMessageCard = true
+    
+    let frameForBlanckView = CGRect.init(x: 0.0,
+                                         y: 0.0,
+                                         width: self.frontCard.frame.size.width,
+                                         height: self.frontCard.frame.size.height)
+    
+    let canceledPitch = ArchivedPitchEvaluationView.init(frame: frameForBlanckView)
+    canceledPitch.backgroundColor = UIColor.whiteColor()
+    canceledPitch.delegate = self
+    self.frontCard.hidden = true
+    canceledPitch.hidden = false
+    
+    UIView.transitionFromView(self.frontCard,
+                              toView: canceledPitch,
+                              duration: 0.5,
+                              options: .TransitionFlipFromLeft) { (finished) in
+                                if finished {
+                                  
+                                  
+                                  
+                                }
+    }
+    
+  }
+  
+  
+  private func flipFrontCardToDelete() {
+    
+    isShowingAMessageCard = true
+    
+    let frameForBlanckView = CGRect.init(x: 0.0,
+                                         y: 0.0,
+                                         width: self.frontCard.frame.size.width,
+                                         height: self.frontCard.frame.size.height)
+    
+    let deletedPitch = DeletedPitchEvaluationView.init(frame: frameForBlanckView)
+    deletedPitch.backgroundColor = UIColor.whiteColor()
+    deletedPitch.delegate = self
+    self.frontCard.hidden = true
+    deletedPitch.hidden = false
+    
+    UIView.transitionFromView(self.frontCard,
+                              toView: deletedPitch,
+                              duration: 0.5,
+                              options: .TransitionFlipFromLeft) { (finished) in
+                                if finished {
+                                  
+                                  
+                                  
+                                }
+    }
+    
+  }
+  
+  
+  //MARK: CanceledPitchEvaluationViewDelegate 
+  
+  func nextButtonPressedFromCanceledPitchEvaluationView(sender: CanceledPitchEvaluationView) {
+    
+    UIView.animateWithDuration(0.45,
+      animations: {
+        
+        sender.alpha = 0.0
+        
+      }) { (finished) in
+        if finished == true {
+          
+          
+          self.requestForAllPitchesAndTheirEvaluations()
+          
+          self.mainCarousel.scrollEnabled = true
+          self.mainCarousel.userInteractionEnabled = true
+          self.enableSearchAndFilterButtons()
+          self.isShowingAMessageCard = false
+          
+        }
+    }
+    
+    let actualIndex = mainCarousel.currentItemIndex
+    self.arrayOfPitchesByUser.removeAtIndex(actualIndex)
+    mainCarousel.removeItemAtIndex(actualIndex, animated: true)
+
+  }
+  
+  func nextButtonPressedFromArchivedPitchEvaluationView(sender: ArchivedPitchEvaluationView) {
+    
+    UIView.animateWithDuration(0.45,
+                               animations: {
+                                
+                                sender.alpha = 0.0
+                                
+    }) { (finished) in
+      if finished == true {
+        
+        self.requestForAllPitchesAndTheirEvaluations()
+        
+        self.mainCarousel.scrollEnabled = true
+        self.mainCarousel.userInteractionEnabled = true
+        self.enableSearchAndFilterButtons()
+        self.isShowingAMessageCard = false
+        
+      }
+    }
+    
+    let actualIndex = mainCarousel.currentItemIndex
+    self.arrayOfPitchesByUser.removeAtIndex(actualIndex)
+    mainCarousel.removeItemAtIndex(actualIndex, animated: true)
+    
+  }
+  
+  func nextButtonPressedFromDeclinedPitchEvaluationView(sender: DeclinedPitchEvaluationView) {
+    
+    UIView.animateWithDuration(0.45,
+                               animations: {
+                                
+                                sender.alpha = 0.0
+                                
+    }) { (finished) in
+      if finished == true {
+        
+        self.requestForAllPitchesAndTheirEvaluations()
+        
+        self.mainCarousel.scrollEnabled = true
+        self.mainCarousel.userInteractionEnabled = true
+        self.enableSearchAndFilterButtons()
+        self.isShowingAMessageCard = false
+        
+      }
+    }
+    
+    let actualIndex = mainCarousel.currentItemIndex
+    self.arrayOfPitchesByUser.removeAtIndex(actualIndex)
+    mainCarousel.removeItemAtIndex(actualIndex, animated: true)
+    
+  }
+  
+  func nextButtonPressedFromDeletedPitchEvaluationView(sender: DeletedPitchEvaluationView) {
+    
+    UIView.animateWithDuration(0.45,
+                               animations: {
+                                
+                                sender.alpha = 0.0
+                                
+    }) { (finished) in
+      if finished == true {
+        
+        self.requestForAllPitchesAndTheirEvaluations()
+        
+        self.mainCarousel.scrollEnabled = true
+        self.mainCarousel.userInteractionEnabled = true
+        self.enableSearchAndFilterButtons()
+        self.isShowingAMessageCard = false
+        
+      }
+    }
+    
+    let actualIndex = mainCarousel.currentItemIndex
+    self.arrayOfPitchesByUser.removeAtIndex(actualIndex)
+    mainCarousel.removeItemAtIndex(actualIndex, animated: true)
+
+    
+  }
+  
+  private func disabledSearchAndFilterButtons() {
+    
+    searchButton.userInteractionEnabled = false
+    filterButton.userInteractionEnabled = false
+    
+  }
+  
+  private func enableSearchAndFilterButtons() {
+    
+    searchButton.userInteractionEnabled = true
+    filterButton.userInteractionEnabled = true
+    
+  }
+  
+  //MARK: LookForPitchCardViewDelegate
+  
+  func lookForThisPitchID(pitchIDToLookFor: String) {
+    
+    for i in 0..<arrayOfPitchesByUserWithoutModifications.count {
+      
+      let pitchData = arrayOfPitchesByUserWithoutModifications[i]
+      if pitchData.pitchId == pitchIDToLookFor {
+        
+        self.removeLookForPitchCardView()
+        mainCarousel.reloadData()
+        mainCarousel.scrollToItemAtIndex(i, animated: true)
+
+        return
+        
+      }
+      
+    }
+    
+  }
+  
+  @objc private func removeLookForPitchCardView() {
+  
+    for i in 0..<arrayOfPitchesByUser.count - 1 {
+    
+      if arrayOfPitchesByUser[i].pitchId == "-9999" {
+    
+        self.arrayOfPitchesByUser.removeAtIndex(i)
+        mainCarousel.removeItemAtIndex(i, animated: false)
+        searchButton.userInteractionEnabled = true
+        searchButton.enabled = true
+        filterButton.userInteractionEnabled = true
+        filterButton.enabled = true
+        mainCarousel.scrollEnabled = true
+        
+        isShowingAMessageCard = false
+      
+      }
+    
+    }
+    
+  }
+  
+  @objc private func removeFilterPitchCardView() {
+    
+    for i in 0..<arrayOfPitchesByUser.count - 1 {
+      
+      if arrayOfPitchesByUser[i].pitchId == "-8888" {
+        
+        self.arrayOfPitchesByUser.removeAtIndex(i)
+        mainCarousel.removeItemAtIndex(i, animated: true)
+        searchButton.userInteractionEnabled = true
+        searchButton.enabled = true
+        filterButton.userInteractionEnabled = true
+        filterButton.enabled = true
+        mainCarousel.scrollEnabled = true
+        
+        isShowingAMessageCard = false
+        
+      }
+      
+    }
+    
+  }
+  
   
 }

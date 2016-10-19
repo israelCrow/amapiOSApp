@@ -34,6 +34,9 @@
 		AA0949631D528A01000E76E1 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0949621D528A01000E76E1 /* CreateAccountViewController.swift */; };
 		AA0949681D52955E000E76E1 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0949671D52955E000E76E1 /* CreateAccountView.swift */; };
 		AA09496A1D529A59000E76E1 /* CreateAccountConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0949691D529A59000E76E1 /* CreateAccountConstants.swift */; };
+		AA0BD36C1DB54BAC0057387D /* DeclinedPitchEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0BD36B1DB54BAC0057387D /* DeclinedPitchEvaluationView.swift */; };
+		AA0BD36E1DB54CD40057387D /* DeletedPitchEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0BD36D1DB54CD40057387D /* DeletedPitchEvaluationView.swift */; };
+		AA0BD3701DB54F840057387D /* ArchivedPitchEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0BD36F1DB54F840057387D /* ArchivedPitchEvaluationView.swift */; };
 		AA0FE9BE1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0FE9BD1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift */; };
 		AA0FE9C31D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0FE9C21D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift */; };
 		AA28B8FD1D80DF04007E22E3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA28B8FC1D80DF04007E22E3 /* MainTabBarController.swift */; };
@@ -43,6 +46,7 @@
 		AA2DB8581D53B97D00E9FB8A /* ChangePasswordRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB8571D53B97D00E9FB8A /* ChangePasswordRequestView.swift */; };
 		AA2DB85A1D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB8591D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift */; };
 		AA2DB85C1D53C17400E9FB8A /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB85B1D53C17400E9FB8A /* ChangePasswordViewController.swift */; };
+		AA39775F1DB5E554009A41C2 /* LookForPitchCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA39775E1DB5E554009A41C2 /* LookForPitchCardView.swift */; };
 		AA3E6EB11D74EFCD007D5736 /* SkillCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E6EB01D74EFCD007D5736 /* SkillCategory.swift */; };
 		AA3E6EB31D7507C1007D5736 /* Skill.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3E6EB21D7507C1007D5736 /* Skill.swift */; };
 		AA40C9D91D51051F00FF2B4D /* FlipCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */; };
@@ -176,10 +180,13 @@
 		AAB61E8E1D52335D00407FFD /* GoldenPitchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB61E8D1D52335D00407FFD /* GoldenPitchConstants.swift */; };
 		AABD5A9E1D8F8C95006A3B5E /* EvaluatePitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABD5A9D1D8F8C95006A3B5E /* EvaluatePitchViewController.swift */; };
 		AABD5AA21D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABD5AA11D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift */; };
+		AACB52E51DB703F2004719A5 /* FilterPitchCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB52E41DB703F2004719A5 /* FilterPitchCardView.swift */; };
+		AACB52E71DB7061A004719A5 /* CriterionWithImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB52E61DB7061A004719A5 /* CriterionWithImageView.swift */; };
 		AACB8CBD1D9D8EE60099D4ED /* PitchEvaluationByUserModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB8CBC1D9D8EE60099D4ED /* PitchEvaluationByUserModelData.swift */; };
 		AACBDE941D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE931D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift */; };
 		AACBDE961D7FD74700F8F9EF /* SkillLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE951D7FD74700F8F9EF /* SkillLevelView.swift */; };
 		AACBDE9A1D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE991D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift */; };
+		AACC71661DB527F3005EA446 /* CanceledPitchEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACC71651DB527F3005EA446 /* CanceledPitchEvaluationView.swift */; };
 		AADC08BD1D9C083000C5CBCD /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = AADC08BC1D9C083000C5CBCD /* iCarousel.m */; };
 		AADC08C01D9C23D700C5CBCD /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADC08BF1D9C23D700C5CBCD /* GraphView.swift */; };
 		AADC08C21D9C6E0300C5CBCD /* ExclusivityBrandModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADC08C11D9C6E0300C5CBCD /* ExclusivityBrandModelData.swift */; };
@@ -239,6 +246,9 @@
 		AA0949621D528A01000E76E1 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		AA0949671D52955E000E76E1 /* CreateAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 		AA0949691D529A59000E76E1 /* CreateAccountConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountConstants.swift; sourceTree = "<group>"; };
+		AA0BD36B1DB54BAC0057387D /* DeclinedPitchEvaluationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeclinedPitchEvaluationView.swift; sourceTree = "<group>"; };
+		AA0BD36D1DB54CD40057387D /* DeletedPitchEvaluationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletedPitchEvaluationView.swift; sourceTree = "<group>"; };
+		AA0BD36F1DB54F840057387D /* ArchivedPitchEvaluationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedPitchEvaluationView.swift; sourceTree = "<group>"; };
 		AA0FE9BD1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeAgencyProfileViewController.swift; sourceTree = "<group>"; };
 		AA0FE9C21D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyProfileVisualizeConstants.swift; sourceTree = "<group>"; };
 		AA28B8FC1D80DF04007E22E3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -248,6 +258,7 @@
 		AA2DB8571D53B97D00E9FB8A /* ChangePasswordRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordRequestView.swift; sourceTree = "<group>"; };
 		AA2DB8591D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordRequestConstants.swift; sourceTree = "<group>"; };
 		AA2DB85B1D53C17400E9FB8A /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		AA39775E1DB5E554009A41C2 /* LookForPitchCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookForPitchCardView.swift; sourceTree = "<group>"; };
 		AA3E6EB01D74EFCD007D5736 /* SkillCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillCategory.swift; sourceTree = "<group>"; };
 		AA3E6EB21D7507C1007D5736 /* Skill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
 		AA40C9D81D51051F00FF2B4D /* FlipCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlipCardView.swift; sourceTree = "<group>"; };
@@ -339,10 +350,13 @@
 		AAB61E8D1D52335D00407FFD /* GoldenPitchConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoldenPitchConstants.swift; sourceTree = "<group>"; };
 		AABD5A9D1D8F8C95006A3B5E /* EvaluatePitchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluatePitchViewController.swift; sourceTree = "<group>"; };
 		AABD5AA11D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControlWithTitleView.swift; sourceTree = "<group>"; };
+		AACB52E41DB703F2004719A5 /* FilterPitchCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterPitchCardView.swift; sourceTree = "<group>"; };
+		AACB52E61DB7061A004719A5 /* CriterionWithImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriterionWithImageView.swift; sourceTree = "<group>"; };
 		AACB8CBC1D9D8EE60099D4ED /* PitchEvaluationByUserModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchEvaluationByUserModelData.swift; sourceTree = "<group>"; };
 		AACBDE931D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeSkillsLevelView.swift; sourceTree = "<group>"; };
 		AACBDE951D7FD74700F8F9EF /* SkillLevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillLevelView.swift; sourceTree = "<group>"; };
 		AACBDE991D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCaseDetailViewController.swift; sourceTree = "<group>"; };
+		AACC71651DB527F3005EA446 /* CanceledPitchEvaluationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanceledPitchEvaluationView.swift; sourceTree = "<group>"; };
 		AADC08BB1D9C083000C5CBCD /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iCarousel.h; path = iCarousel/iCarousel.h; sourceTree = "<group>"; };
 		AADC08BC1D9C083000C5CBCD /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iCarousel.m; path = iCarousel/iCarousel.m; sourceTree = "<group>"; };
 		AADC08BF1D9C23D700C5CBCD /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
@@ -415,6 +429,7 @@
 				04AB39391D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift */,
 				047818A41D5E204F00BB498C /* CriterionView.swift */,
 				047818A81D5E2E6700BB498C /* CustomSwitchView.swift */,
+				AACB52E61DB7061A004719A5 /* CriterionWithImageView.swift */,
 			);
 			name = Criteria;
 			sourceTree = "<group>";
@@ -657,6 +672,8 @@
 			children = (
 				AADC08BE1D9C224300C5CBCD /* PitchCard */,
 				AA02375B1D81FF100014915C /* NoPitchAssignedView.swift */,
+				AA39775E1DB5E554009A41C2 /* LookForPitchCardView.swift */,
+				AACB52E41DB703F2004719A5 /* FilterPitchCardView.swift */,
 			);
 			name = Visualize;
 			sourceTree = "<group>";
@@ -691,6 +708,10 @@
 			isa = PBXGroup;
 			children = (
 				AA87B7681D8865E200BCA3E6 /* SuccessfullyCreationOfPitchView.swift */,
+				AA0BD36F1DB54F840057387D /* ArchivedPitchEvaluationView.swift */,
+				AACC71651DB527F3005EA446 /* CanceledPitchEvaluationView.swift */,
+				AA0BD36B1DB54BAC0057387D /* DeclinedPitchEvaluationView.swift */,
+				AA0BD36D1DB54CD40057387D /* DeletedPitchEvaluationView.swift */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -1196,9 +1217,12 @@
 				AA3E6EB11D74EFCD007D5736 /* SkillCategory.swift in Sources */,
 				AA74956F1D7739ED0082B6DF /* DashBoardPitchesAndAgencyProfileTabBarView.swift in Sources */,
 				AA8F6C0F1D790D620021683C /* VisualizeParticipateInView.swift in Sources */,
+				AACB52E51DB703F2004719A5 /* FilterPitchCardView.swift in Sources */,
 				AA8F6C0C1D7908AE0021683C /* VisualizeExclusiveView.swift in Sources */,
+				AA0BD3701DB54F840057387D /* ArchivedPitchEvaluationView.swift in Sources */,
 				AA7F58E61D90852C0057F67B /* PitchSkillCategory.swift in Sources */,
 				AA02375C1D81FF100014915C /* NoPitchAssignedView.swift in Sources */,
+				AA0BD36E1DB54CD40057387D /* DeletedPitchEvaluationView.swift in Sources */,
 				AA9A6CEF1D87385B00B85C17 /* CreateAddNewPitchAndWriteCategoryTypeViewController.swift in Sources */,
 				AADC08C21D9C6E0300C5CBCD /* ExclusivityBrandModelData.swift in Sources */,
 				AA2DB84E1D53B0D900E9FB8A /* ExistingAccountView.swift in Sources */,
@@ -1221,6 +1245,7 @@
 				AA7495731D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift in Sources */,
 				045F5C281D650CE100F0C077 /* CasesView.swift in Sources */,
 				04750BF91D6E000400CC0CD1 /* UserSession.swift in Sources */,
+				AA0BD36C1DB54BAC0057387D /* DeclinedPitchEvaluationView.swift in Sources */,
 				AAB376941DAF4A1F00830523 /* EditPitchesConstants.swift in Sources */,
 				AACB8CBD1D9D8EE60099D4ED /* PitchEvaluationByUserModelData.swift in Sources */,
 				AA7F58E01D90485D0057F67B /* CustomTextFieldWithTitleAndPickerView.swift in Sources */,
@@ -1261,6 +1286,7 @@
 				AAB61E8E1D52335D00407FFD /* GoldenPitchConstants.swift in Sources */,
 				AA8F6C091D78F08E0021683C /* VisualizeCriteriaView.swift in Sources */,
 				AABD5A9E1D8F8C95006A3B5E /* EvaluatePitchViewController.swift in Sources */,
+				AACB52E71DB7061A004719A5 /* CriterionWithImageView.swift in Sources */,
 				AA7F58E21D9066C40057F67B /* ProjectPitchModelData.swift in Sources */,
 				AA92D6421D50F05300CE7D95 /* GradientView.swift in Sources */,
 				AADC08C01D9C23D700C5CBCD /* GraphView.swift in Sources */,
@@ -1271,6 +1297,7 @@
 				047818AB1D5E557300BB498C /* ParticipateInView.swift in Sources */,
 				AADC08BD1D9C083000C5CBCD /* iCarousel.m in Sources */,
 				AAE7F2D11D7E1CD80045AE8E /* VisualizeCasesView.swift in Sources */,
+				AACC71661DB527F3005EA446 /* CanceledPitchEvaluationView.swift in Sources */,
 				AA92D60D1D50E7D300CE7D95 /* ViewController.swift in Sources */,
 				AA92D60B1D50E7D300CE7D95 /* AppDelegate.swift in Sources */,
 				AAE7F2DA1D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift in Sources */,
@@ -1289,6 +1316,7 @@
 				AA4400EC1DB009D70012633E /* DetailPitchCanceledDeclinedButtons.swift in Sources */,
 				AAA837DB1D590DBD00A47376 /* BlankViewController.swift in Sources */,
 				041DA4901D6653E200BAE262 /* VideoPlayerVimeoYoutubeView.swift in Sources */,
+				AA39775F1DB5E554009A41C2 /* LookForPitchCardView.swift in Sources */,
 				047818AE1D5E883100BB498C /* ExclusiveView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1412,9 +1412,7 @@ class RequestToServerManager: NSObject {
     }
   }
   
-  func requestToDestroyPitchEvaluation(params: [String: AnyObject], actionsToMakeAfterSuccesfullyDestroyedPitchEvaluation: (pitchEvaluationDestroyed: AnyObject)-> Void) {
-    
-    //    UtilityManager.sharedInstance.showLoader()
+  func requestToDestroyPitchEvaluation(params: [String: AnyObject], actionsToMakeAfterSuccesfullyDestroyedPitchEvaluation: ()-> Void) {
     
     let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_evaluations/destroy"
     
@@ -1428,13 +1426,9 @@ class RequestToServerManager: NSObject {
     Alamofire.request(requestConnection)
       .validate(statusCode: 200..<500)
       .responseJSON{ response in
-        if response.response?.statusCode == 200 {
+        if response.response?.statusCode == 204 {
           
-          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
-          
-          print(json)
-          
-          actionsToMakeAfterSuccesfullyDestroyedPitchEvaluation(pitchEvaluationDestroyed: json)
+          actionsToMakeAfterSuccesfullyDestroyedPitchEvaluation()
           
         }else {
           

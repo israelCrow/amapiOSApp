@@ -87,4 +87,12 @@ class VisualizePitchesConstants {
     
   }
   
+  enum FilterPitchCardView {
+    
+    static let archivedCriterionText = "Archivado"
+    static let declinedCriterionText = "Declinado"
+    static let canceledCriterionText = "Cancelado"
+    
+  }
+  
 }

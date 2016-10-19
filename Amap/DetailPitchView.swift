@@ -12,6 +12,8 @@ protocol DetailPitchViewDelegate {
   
   func declineEvaluationPitch(params: [String: AnyObject])
   func cancelEvaluationPitch(params: [String: AnyObject])
+  func archiveEvaluationPitch(params: [String: AnyObject])
+  func deleteEvaluationPitch(params: [String: AnyObject])
   
 }
 
@@ -33,7 +35,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
                                                       width: UIScreen.mainScreen().bounds.size.width,
                                                      height: 600.0 * UtilityManager.sharedInstance.conversionHeight)
   
-  private let frameWhenAnimateShowOfContainerView = CGRect.init(x: 0.0,
+  private var frameWhenAnimateShowOfContainerView = CGRect.init(x: 0.0,
                                                                y: (344.0 * UtilityManager.sharedInstance.conversionHeight),
                                                            width: UIScreen.mainScreen().bounds.size.width,
                                                           height: 600.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -73,7 +75,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
                                              width: UIScreen.mainScreen().bounds.size.width,
                                              height: UIScreen.mainScreen().bounds.size.height)//Value that I considered
     let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
-                                               height: frameForMainScrollView.size.height + (450.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
+                                               height: frameForMainScrollView.size.height + (350.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.whiteColor()
@@ -186,7 +188,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
         initialSpringVelocity: 10.0,
         options: .BeginFromCurrentState,
         animations: { () -> Void in
-          self.graphPitchView.containerAndGradientView.transform = CGAffineTransformMakeScale(1.27, 0.98)
+          self.graphPitchView.containerAndGradientView.transform = CGAffineTransformMakeScale(1.27, 0.99)
       }) { (completed:Bool) -> Void in
         
       
@@ -346,7 +348,11 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   
   func doDeclinedPitchFunction() {
     
+    let params: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
+                                       "id": pitchEvaluationData.pitchEvaluationId
+    ]
     
+    self.delegate?.declineEvaluationPitch(params)
     
   }
   
@@ -354,7 +360,21 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   
   func archivePitchEvaluationButtonFromTabBarPressed() {
     
+    let params: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
+                                       "id": pitchEvaluationData.pitchEvaluationId
+    ]
     
+    self.delegate?.archiveEvaluationPitch(params)
+    
+  }
+  
+  func deletePitchEvaluationButtonFromTabBarPressed() {
+    
+    let params: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
+                                       "id": pitchEvaluationData.pitchEvaluationId
+    ]
+    
+    self.delegate?.deleteEvaluationPitch(params)
     
   }
   
@@ -364,10 +384,15 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     
   }
   
-  func deletePitchEvaluationButtonFromTabBarPressed() {
+  func changeFrameOfContainerView(heightOfNavigationBar: CGFloat) {
     
+    let frameForMainScrolView = CGRect.init(x: 0.0,
+                                            y: heightOfNavigationBar,
+                                        width: frameWhenAnimateShowOfContainerView.size.width,
+                                       height: frameWhenAnimateShowOfContainerView.size.height)
     
-    
+    mainScrollView.frame = frameForMainScrolView
+  
   }
   
 }

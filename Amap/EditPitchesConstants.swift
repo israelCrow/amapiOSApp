@@ -35,7 +35,38 @@ class EditPitchesConstants {
     static let deletePitchButtonText = "Eliminar Pitch"
     
   }
-
+  
+  enum CanceledPitchEvaluationView {
+    
+    static let canceledMessageLabelText = "Este pitch se ha cancelado"
+    static let detailedMessageLabelText = "Podrás verlo en tus pitches archivados"
+    static let nextButtonText = "okey"
+    
+  }
+  
+  enum DeclinedPitchEvaluationView {
+    
+    static let canceledMessageLabelText = "Este pitch se ha declinado"
+    static let detailedMessageLabelText = "Podrás verlo en tus pitches archivados"
+    static let nextButtonText = "okey"
+    
+  }
+  
+  enum DeletedPitchEvaluationView {
+    
+    static let canceledMessageLabelText = "Se ha eliminado este pitch"
+    static let detailedMessageLabelText = ""
+    static let nextButtonText = "okey"
+    
+  }
+  
+  enum ArchivedPitchEvaluationView {
+    
+    static let canceledMessageLabelText = "Se ha archivado este pitch"
+    static let detailedMessageLabelText = "Podrás verlo en tus pitches archivados"
+    static let nextButtonText = "okey"
+    
+  }
   
     
 }
