@@ -1440,6 +1440,34 @@ class RequestToServerManager: NSObject {
     }
   }
   
+  func requestToSaveAddResults(params: [String: AnyObject], actionsToMakeAfterSuccesfullyAddResults: ()-> Void) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_results"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 201 {
+          
+          actionsToMakeAfterSuccesfullyAddResults()
+          
+        }else {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          print("ERROR")
+          
+        }
+    }
+  }
+  
   
   
   

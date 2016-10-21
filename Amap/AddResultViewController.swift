@@ -23,6 +23,13 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   private var recommendation: RecommendationView! = nil
   private var gonnaReceiveRuling: WhenGonnaReceiveRulingView! = nil
   private var gonnaShowPitch: WhenGonnaToShowPitchView! = nil
+  //Result of questions
+  private var showedYourProposalSelectedValue: Int! = nil
+  private var didReceiveRulingSelectedValue: Int! = nil
+  private var didWinPitchSelectedValue: Int! = nil
+  private var getFeedBackSelectedValue: Int! = nil
+  private var gonnaReceiveRulingSelectedValue: String! = nil
+  private var gonnaShowPitchSelectedValue: String! = nil
   
   private let leftPositionCard = CGPoint.init(x: -UIScreen.mainScreen().bounds.size.width,
                                               y: 148.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -778,11 +785,13 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     if nextScreenToShowWithTag == 2 {
       
+      showedYourProposalSelectedValue = 1
       self.moveDidReceiveRulingTo(.center)
       
     }else
       if nextScreenToShowWithTag == 9 {
         
+        showedYourProposalSelectedValue = 0
         self.moveGonnaShowPitchTo(.center)
         
       }
@@ -797,7 +806,12 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     if nextScreenToShowWithTag == 3 {
       
+      didReceiveRulingSelectedValue = 1
       self.moveDidWinPitchTo(.center)
+      
+    }else{
+      
+      didReceiveRulingSelectedValue = 0
       
     }
     
@@ -824,11 +838,13 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     if nextScreenToShowWithTag == 4 {
       
+      didWinPitchSelectedValue = 1
       self.moveYouWinPitchTo(.center)
       
     }else
       if nextScreenToShowWithTag == 5 {
         
+        didWinPitchSelectedValue = 0
         self.moveGetFeedBackTo(.center)
         
       }
@@ -839,8 +855,16 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   
   func youWinPitchNextButtonPressed() {
     
-    //By the moment
-    self.navigationController?.popToRootViewControllerAnimated(true)
+    let params = self.createParamsToSave()
+    UtilityManager.sharedInstance.showLoader()
+    RequestToServerManager.sharedInstance.requestToSaveAddResults(params) { 
+      
+      UtilityManager.sharedInstance.hideLoader()
+      self.navigationController?.popToRootViewControllerAnimated(true)
+      
+    }
+    
+
     
   }
   
@@ -848,7 +872,24 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   
   func didGetFeedbackNextButtonPressed(selectedAnswer: String) {
     
-    self.navigationController?.popToRootViewControllerAnimated(true)
+    if selectedAnswer == "Sí" {
+      
+      getFeedBackSelectedValue = 1
+      
+    }else{
+      
+      getFeedBackSelectedValue = 0
+      
+    }
+    
+    let params = self.createParamsToSave()
+    UtilityManager.sharedInstance.showLoader()
+    RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
+      
+      UtilityManager.sharedInstance.hideLoader()
+      self.navigationController?.popToRootViewControllerAnimated(true)
+      
+    }
     
   }
   
@@ -856,8 +897,14 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   
   func recommendationNextButtonPressed() {
     
-    self.navigationController?.popToRootViewControllerAnimated(true)
-    
+    let params = self.createParamsToSave()
+    UtilityManager.sharedInstance.showLoader()
+    RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
+      
+      UtilityManager.sharedInstance.hideLoader()
+      self.navigationController?.popToRootViewControllerAnimated(true)
+      
+    }
   }
   
   //MARK: - WhenGonnaReceiveRulingViewDelegate
@@ -872,7 +919,65 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   
   func whenGonnaToShowPitchNextButtonPressed(dateSelected: String) {
     
-    self.navigationController?.popToRootViewControllerAnimated(true)
+    gonnaShowPitchSelectedValue = dateSelected
+    
+    let params = self.createParamsToSave()
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
+      
+      UtilityManager.sharedInstance.hideLoader()
+      self.navigationController?.popToRootViewControllerAnimated(true)
+      
+    }
+    
+  }
+  
+  
+  private func createParamsToSave() -> [String: AnyObject] {
+    
+    var pitchResult = [String:AnyObject]()
+    
+    pitchResult["agency_id"] = AgencyModel.Data.id
+    pitchResult["pitch_id"] = pitchEvaluationData.pitchId
+    
+    if showedYourProposalSelectedValue != nil {
+      
+      pitchResult["was_proposal_presented"] = showedYourProposalSelectedValue
+      
+    }
+    if didReceiveRulingSelectedValue != nil {
+      
+      pitchResult["got_response"] = didReceiveRulingSelectedValue
+      
+    }
+    if didWinPitchSelectedValue != nil {
+      
+      pitchResult["was_pitch_won"] = didWinPitchSelectedValue
+      
+    }
+    if getFeedBackSelectedValue != nil {
+      
+      pitchResult["got_feedback"] = getFeedBackSelectedValue
+      
+    }
+    if gonnaReceiveRulingSelectedValue != nil {
+      
+      pitchResult["when_will_you_get_response"] = gonnaReceiveRulingSelectedValue
+      
+    }
+    if gonnaShowPitchSelectedValue != nil {
+      
+      pitchResult["when_are_you_presenting"] = gonnaShowPitchSelectedValue
+      
+    }
+    
+    let finalParams = [
+                       "auth_token"  : UserSession.session.auth_token,
+                       "pitch_result": pitchResult
+    ]
+    
+    return finalParams as! [String : AnyObject]
     
   }
   
