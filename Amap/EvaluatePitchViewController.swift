@@ -285,6 +285,11 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
           newEvaluationPitchCreated in
           UtilityManager.sharedInstance.hideLoader()
           self.dismissDetailedNavigation()
+          
+//          let rootView = (self.navigationController?.viewControllers.first as? VisualizeAllPitchesViewController != nil ? self.navigationController?.viewControllers.first as! VisualizeAllPitchesViewController : VisualizeAllPitchesViewController())
+//          
+//          rootView.changePitchEvaluationIDToLookForAfterCreated(newEvaluationPitchCreated.id)
+          
           self.navigationController?.popToRootViewControllerAnimated(true)
           
         }
@@ -308,6 +313,11 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
             print(newEvaluationPitchCreated)
             UtilityManager.sharedInstance.hideLoader()
             self.dismissDetailedNavigation()
+          
+//          let rootView = (self.navigationController?.viewControllers.first as? VisualizeAllPitchesViewController != nil ? self.navigationController?.viewControllers.first as! VisualizeAllPitchesViewController : VisualizeAllPitchesViewController())
+//          
+//          rootView.changePitchEvaluationIDToLookForAfterCreated(newEvaluationPitchCreated.id)
+          
             self.navigationController?.popToRootViewControllerAnimated(true)
           
         }

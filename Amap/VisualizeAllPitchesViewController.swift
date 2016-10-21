@@ -30,6 +30,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   private var mainDetailPitchView: DetailPitchView! = nil
   private var detailNavigationBar: DetailedNavigationEvaluatPitchView! = nil
   
+  private var pitchEvaluationIDToLookForAfterCreated: String = "-1"
   private var isSecondTimeAppearing: Bool = false
   private var isShowingAMessageCard: Bool = false
   private var isComingFromAddResultsController: Bool = false
@@ -173,7 +174,12 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         }
     
         self.mainCarousel.reloadData()
-        self.mainCarousel.scrollToItemAtIndex(self.arrayOfPitchesByUserWithoutModifications.count-1, animated: false)
+        if self.pitchEvaluationIDToLookForAfterCreated != "-1" && Int(self.pitchEvaluationIDToLookForAfterCreated) > 0 {
+          
+          self.lookForThisPitchID(self.pitchEvaluationIDToLookForAfterCreated)
+          self.pitchEvaluationIDToLookForAfterCreated = "-1"
+          
+        }
         
       }
       
@@ -251,6 +257,11 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
   }
   
+  func changePitchEvaluationIDToLookForAfterCreated(newPitchEvaluationToLookFor: String) {
+    
+    pitchEvaluationIDToLookForAfterCreated = newPitchEvaluationToLookFor
+    
+  }
   
   @objc private func searchButtonPressed() {
   
