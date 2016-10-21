@@ -23,7 +23,7 @@ class GraphView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(frame: CGRect, newAgencyName: String, newAgencyQualification: Int) {
+  init(frame: CGRect, newAgencyName: String?, newAgencyQualification: Int) {
     
     agencyNameString = newAgencyName
     agencyQualificationInt = newAgencyQualification
@@ -36,7 +36,12 @@ class GraphView: UIView {
   
   private func initInterface() {
     
-    self.createAgencyNameLabel()
+    if agencyNameString != nil {
+      
+      self.createAgencyNameLabel()
+      
+    }
+    
     self.createCircleView()
     self.createAgencyQualificationLabel()
     self.createBarOfGraphView()

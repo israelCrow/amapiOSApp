@@ -95,4 +95,12 @@ class VisualizePitchesConstants {
     
   }
   
+  enum AddResultViewController {
+    
+    static let backButtonItemText = "Atrás"
+    static let navigationBarTitleText = "Pitches"
+    static let rightButtonItemText = "Cerrar"
+    
+  }
+  
 }

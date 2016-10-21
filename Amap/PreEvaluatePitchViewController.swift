@@ -120,7 +120,7 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
   private func addDetailNavigationController() {
     
     let frameForDetailedNav = CGRect.init(x: self.view.frame.size.width,
-                                          y: 51.0 * UtilityManager.sharedInstance.conversionHeight,
+                                          y: (self.navigationController?.navigationBar.frame.size.height)!,
                                       width: self.view.frame.size.width,
                                      height: 108.0 * UtilityManager.sharedInstance.conversionHeight)
     

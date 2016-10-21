@@ -1,30 +1,29 @@
 //
-//  PreEvaluatePitchView.swift
+//  WhenGonnaReceiveRulingView.swift
 //  Amap
 //
-//  Created by Alejandro Aristi C on 9/13/16.
+//  Created by Alejandro Aristi C on 10/20/16.
 //  Copyright © 2016 Alejandro Aristi C. All rights reserved.
 //
 
 import UIKit
 
-protocol PreEvaluatePitchViewDelegate {
+protocol WhenGonnaReceiveRulingViewDelegate {
   
-  func savePitchAndFlipCard(briefEmailContact: String!, briefDate: String!)
+  func whenGonnaReceiveRulingNextButtonPressed(dateSelected: String)
   
 }
 
-class PreEvaluatePitchView: UIView, UITextFieldDelegate {
+class WhenGonnaReceiveRulingView: UIView, UITextFieldDelegate {
   
-  private var writeNameAgencyOrBrandView: CustomTextFieldWithTitleView! = nil
-  private var writeDateOfCreationOfPitchView: CustomTextFieldWithTitleView! = nil
+  private var whenGonnaReceiveRulingView: CustomTextFieldWithTitleView! = nil
+  private var titleLabel: UILabel! = nil
   private var nextButton: UIButton! = nil
   private var containerViewForPicker: UIView! = nil
   private var mainDatePicker: UIDatePicker! = nil
+  var regionPosition: PositionOfCardsAddResults! = nil
   
-  private var errorEMailLabel: UILabel! = nil
-  
-  var delegate: PreEvaluatePitchViewDelegate?
+  var delegate: WhenGonnaReceiveRulingViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -34,7 +33,14 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     
     super.init(frame: frame)
     
+    self.initValues()
     self.initInterface()
+    
+  }
+  
+  private func initValues() {
+    
+    self.tag = 8
     
   }
   
@@ -44,11 +50,10 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     
     self.createContainerViewForPicker()
     self.createMainDatePicker()
-    self.createWriteNameAgencyBrandView()
+    self.createTitleLabel()
     self.createWriteDateOfCreationOfPitchView()
     self.createNextButton()
-    
-    self.createErrorEMailLabel()
+  
     
   }
   
@@ -71,8 +76,8 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     
     let frameForPicker = CGRect.init(x: 0.0,
                                      y: button.frame.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight),
-                                 width: UIScreen.mainScreen().bounds.width,
-                                height: 150.0 * UtilityManager.sharedInstance.conversionHeight)
+                                     width: UIScreen.mainScreen().bounds.width,
+                                     height: 150.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainDatePicker = UIDatePicker.init(frame: frameForPicker)
     mainDatePicker.datePickerMode = .Date
@@ -102,8 +107,8 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     okButton.setAttributedTitle(stringWithFormat, forState: .Normal)
     okButton.backgroundColor = UIColor.grayColor()
     okButton.addTarget(self,
-                        action: #selector(okButtonPressed),
-                        forControlEvents: .TouchUpInside)
+                       action: #selector(okButtonPressed),
+                       forControlEvents: .TouchUpInside)
     okButton.sizeToFit()
     
     let frameForButton = CGRect.init(x: (UIScreen.mainScreen().bounds.width / 2.0) - (okButton.frame.size.width / 2.0),
@@ -118,40 +123,60 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     
   }
   
-  private func createWriteNameAgencyBrandView() {
+  private func createTitleLabel() {
     
-    let frameForView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   y: 68.0 * UtilityManager.sharedInstance.conversionHeight,
-                               width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                              height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 247.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
     
-    writeNameAgencyOrBrandView = CustomTextFieldWithTitleView.init(frame: frameForView,
-                                                                   title: VisualizePitchesConstants.PreEvaluatePitchView.descriptionWriteNameLabel,
-                                                                   image: nil)
+    titleLabel = UILabel.init(frame: frameForLabel)
+    titleLabel.numberOfLines = 0
+    titleLabel.lineBreakMode = .ByWordWrapping
     
-    writeNameAgencyOrBrandView.mainTextField.placeholder = "Correo"
-    writeNameAgencyOrBrandView.mainTextField.delegate = self
+    let font = UIFont(name: "SFUIDisplay-Ultralight",
+                      size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
     
-    self.addSubview(writeNameAgencyOrBrandView)
+    let stringWithFormat = NSMutableAttributedString(
+      string: EditPitchesConstants.DidYouShowYourProposalView.titleLabelText,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSKernAttributeName: CGFloat(2.0),
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    titleLabel.attributedText = stringWithFormat
+    titleLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (titleLabel.frame.size.width / 2.0),
+                               y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: titleLabel.frame.size.width,
+                               height: titleLabel.frame.size.height)
+    
+    titleLabel.frame = newFrame
+    
+    self.addSubview(titleLabel)
     
   }
   
   private func createWriteDateOfCreationOfPitchView() {
     
     let frameForView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   y: 167.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 128.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    writeDateOfCreationOfPitchView = CustomTextFieldWithTitleView.init(frame: frameForView,
-                                                                   title: VisualizePitchesConstants.PreEvaluatePitchView.descriptionWriteDateLabel,
+    whenGonnaReceiveRulingView = CustomTextFieldWithTitleView.init(frame: frameForView,
+                                                                   title: "¿Cuándo recibirás fallo?",
                                                                    image: "iconImputCalendar")
     
-    writeDateOfCreationOfPitchView.mainTextField.placeholder = "dd/mm/aa"
-    writeDateOfCreationOfPitchView.mainTextField.inputView = containerViewForPicker
-    writeDateOfCreationOfPitchView.mainTextField.delegate = self
+    whenGonnaReceiveRulingView.mainTextField.placeholder = "dd/mm/aa"
+    whenGonnaReceiveRulingView.mainTextField.inputView = containerViewForPicker
+    whenGonnaReceiveRulingView.mainTextField.delegate = self
     
-    self.addSubview(writeDateOfCreationOfPitchView)
+    self.addSubview(whenGonnaReceiveRulingView)
     
   }
   
@@ -166,7 +191,7 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: VisualizePitchesConstants.AddPitchAndWriteBrandNameView.addButtonText,
+      string: EditPitchesConstants.DidYouShowYourProposalView.nextButtonText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color
@@ -174,10 +199,10 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     )
     
     nextButton.setAttributedTitle(stringWithFormat, forState: .Normal)
-    nextButton.backgroundColor = UIColor.blackColor()
+    nextButton.backgroundColor = UIColor.grayColor()
     nextButton.addTarget(self,
-                        action: #selector(nextButtonPressed),
-                        forControlEvents: .TouchUpInside)
+                         action: #selector(nextButtonPressed),
+                         forControlEvents: .TouchUpInside)
     nextButton.sizeToFit()
     
     let frameForButton = CGRect.init(x: 0.0,
@@ -186,41 +211,10 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
                                      height: 70.0 * UtilityManager.sharedInstance.conversionHeight)
     
     nextButton.frame = frameForButton
+    nextButton.enabled = false
     nextButton.alpha = 1.0
     
     self.addSubview(nextButton)
-    
-  }
-  
-  private func createErrorEMailLabel() {
-    
-    errorEMailLabel = UILabel.init(frame: CGRectZero)
-    errorEMailLabel.numberOfLines = 2
-    
-    let font = UIFont(name: "SFUIText-Regular",
-                      size: 13.0 * UtilityManager.sharedInstance.conversionWidth)
-    let color = UIColor.redColor()
-    let style = NSMutableParagraphStyle()
-    style.alignment = NSTextAlignment.Center
-    
-    let stringWithFormat = NSMutableAttributedString(
-      string: "Mail o fecha incorrecta",
-      attributes:[NSFontAttributeName:font!,
-        NSParagraphStyleAttributeName:style,
-        NSForegroundColorAttributeName:color
-      ]
-    )
-    
-    errorEMailLabel.attributedText = stringWithFormat
-    errorEMailLabel.sizeToFit()
-    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (errorEMailLabel.frame.size.width / 2.0),
-                               y: writeDateOfCreationOfPitchView.frame.origin.y + writeDateOfCreationOfPitchView.frame.size.height + (10.0 * UtilityManager.sharedInstance.conversionHeight),
-                               width: errorEMailLabel.frame.size.width,
-                               height: errorEMailLabel.frame.size.height)
-    
-    errorEMailLabel.frame = newFrame
-    errorEMailLabel.alpha = 0.0
-    self.addSubview(errorEMailLabel)
     
   }
   
@@ -231,25 +225,15 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
     
     let stringDate = "\(components.year)-\(components.month)-\(components.day)"
-    writeDateOfCreationOfPitchView.mainTextField.text = stringDate
+    whenGonnaReceiveRulingView.mainTextField.text = stringDate
+    
+    self.changeNextButtonToEnabled()
     
   }
   
   @objc private func nextButtonPressed() {
     
-    let isValidEmail = UtilityManager.sharedInstance.isValidEmail(writeNameAgencyOrBrandView.mainTextField.text!)
-    let isValidDate = UtilityManager.sharedInstance.isValidText(writeDateOfCreationOfPitchView.mainTextField.text!)
-    
-    if isValidEmail == true && isValidDate == true{
-      
-      self.delegate?.savePitchAndFlipCard(writeNameAgencyOrBrandView.mainTextField.text!,
-                                          briefDate: writeDateOfCreationOfPitchView.mainTextField.text!)
-      
-    }else{
-      
-      self.showValidMailError()
-      
-    }
+    self.delegate?.whenGonnaReceiveRulingNextButtonPressed(whenGonnaReceiveRulingView.mainTextField.text!)
     
   }
   
@@ -260,36 +244,11 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
     
     let stringDate = "\(components.year)-\(components.month)-\(components.day)"
-    writeDateOfCreationOfPitchView.mainTextField.text = stringDate
+    whenGonnaReceiveRulingView.mainTextField.text = stringDate
+    
+    
     
     self.dismissKeyboard()
-    
-  }
-  
-  private func showValidMailError() {
-    
-//    self.removeAllErrorLabels()
-    nextButton.userInteractionEnabled = false
-    UIView.animateWithDuration(1.0,
-                               animations: {
-                                self.errorEMailLabel.alpha = 1.0
-    }) { (finished) in
-      if finished {
-        //                self.hideErrorMailLabel()
-        self.nextButton.userInteractionEnabled = true
-      }
-    }
-  }
-  
-  @objc private func hideErrorMailLabel() {
-    
-    UIView.animateWithDuration(0.3, animations: {
-      self.errorEMailLabel.alpha = 0.0
-    }) { (finished) in
-      if finished {
-        //                self.nextButton.userInteractionEnabled = true
-      }
-    }
     
   }
   
@@ -298,12 +257,30 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     self.endEditing(true)
     
   }
+
+  private func changeNextButtonToEnabled() {
+    
+    UIView.animateWithDuration(0.35,
+                               animations: {
+                                
+                                self.nextButton.backgroundColor = UIColor.blackColor()
+                                
+    }) { (finished) in
+      if finished == true {
+        
+        self.nextButton.enabled = true
+        
+      }
+    }
+    
+  }
   
-  //MARK: - UITextFieldDelegate 
+  
+  //MARK: - UITextFieldDelegate
   
   func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
     
-    self.hideErrorMailLabel()
+    self.changeNextButtonToEnabled()
     
     return true
   }
@@ -311,17 +288,17 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
   
   func textFieldShouldClear(textField: UITextField) -> Bool {
     
-    self.hideErrorMailLabel()
+    
     
     return true
   }
   
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
     
-    hideErrorMailLabel()
+    self.changeNextButtonToEnabled()
     
     return true
   }
-
+  
   
 }

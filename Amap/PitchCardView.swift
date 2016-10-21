@@ -110,7 +110,8 @@ class PitchCardView: UIView {
                                     width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 347.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let arrayOfQualifications: [Int] = [pitchEvaluationByUserData.score]
+    var arrayOfQualifications: [Int] = pitchEvaluationByUserData.otherScores
+    arrayOfQualifications.insert(pitchEvaluationByUserData.score, atIndex: 0)
     let arrayOfAgencyNames: [String] = [AgencyModel.Data.name]
     
     graphPart = GraphPartPitchCardView.init(frame: frameForGraphPart,

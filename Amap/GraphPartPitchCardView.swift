@@ -219,24 +219,72 @@ class GraphPartPitchCardView: UIView {
   
   private func createGraphs() {
     
-    for index in 0..<arrayOfQualifications.count {
+    if arrayOfQualifications.count >= 1 && arrayOfQualifications.count < 5 {
       
-      let qualification = arrayOfQualifications[index]
-      let agencyName = arrayOfAgencyNames[index]
+      for index in 0..<(arrayOfQualifications.count - 1) {
+        
+        arrayOfAgencyNames.append("Agencia \(index + 1)")
+        
+      }
       
-      let frameForGraph = CGRect.init(x: 32.0 * UtilityManager.sharedInstance.conversionWidth,
-                                      y: 45.0 * UtilityManager.sharedInstance.conversionHeight,
-                                  width: 50.0 * UtilityManager.sharedInstance.conversionWidth,
-                                 height: 287.5 * UtilityManager.sharedInstance.conversionHeight)
+      let spaceBetweenGraphs = (214.0 * UtilityManager.sharedInstance.conversionWidth) / CGFloat(arrayOfQualifications.count)
       
-      let newGraph = GraphView.init(frame: frameForGraph, newAgencyName: agencyName, newAgencyQualification: qualification)
-      newGraph.alpha = 0.0
-      self.addSubview(newGraph)
-      
-      arrayOfBarGraphic.append(newGraph)
-      
-    }
-    
+      for index in 0..<arrayOfQualifications.count {
+        
+        let qualification = arrayOfQualifications[index]
+        let agencyName = arrayOfAgencyNames[index]
+        
+        let frameForGraph = CGRect.init(x: (32.0 * UtilityManager.sharedInstance.conversionWidth) + (spaceBetweenGraphs * CGFloat(index)),
+                                        y: 45.0 * UtilityManager.sharedInstance.conversionHeight,
+                                        width: 50.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        height: 287.5 * UtilityManager.sharedInstance.conversionHeight)
+        
+        let newGraph = GraphView.init(frame: frameForGraph, newAgencyName: agencyName, newAgencyQualification: qualification)
+        newGraph.alpha = 0.0
+        self.addSubview(newGraph)
+        
+        arrayOfBarGraphic.append(newGraph)
+        
+      }
+
+    } else
+      if arrayOfQualifications.count > 4 {
+        
+        let qualification = arrayOfQualifications.first
+        let agencyName = arrayOfAgencyNames.first
+        
+        let frameForGraph = CGRect.init(x: 32.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        y: 45.0 * UtilityManager.sharedInstance.conversionHeight,
+                                        width: 50.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        height: 287.5 * UtilityManager.sharedInstance.conversionHeight)
+        
+        let newGraph = GraphView.init(frame: frameForGraph, newAgencyName: agencyName!, newAgencyQualification: qualification!)
+        newGraph.alpha = 0.0
+        self.addSubview(newGraph)
+        
+        arrayOfBarGraphic.append(newGraph)
+        
+        let spaceBetweenGraphs = (214.0 * UtilityManager.sharedInstance.conversionWidth) / CGFloat(arrayOfQualifications.count)
+        
+        for index in 1..<arrayOfQualifications.count {
+          
+          let qualification = arrayOfQualifications[index]
+          
+          let frameForGraph = CGRect.init(x: (32.0 * UtilityManager.sharedInstance.conversionWidth) + (spaceBetweenGraphs * CGFloat(index)),
+                                          y: 45.0 * UtilityManager.sharedInstance.conversionHeight,
+                                          width: 50.0 * UtilityManager.sharedInstance.conversionWidth,
+                                          height: 287.5 * UtilityManager.sharedInstance.conversionHeight)
+          
+          let newGraph = GraphView.init(frame: frameForGraph, newAgencyName: nil, newAgencyQualification: qualification)
+          newGraph.alpha = 0.0
+          self.addSubview(newGraph)
+          
+          arrayOfBarGraphic.append(newGraph)
+          
+        }
+        
+      }
+
   }
   
   func animateGraph() {

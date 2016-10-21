@@ -68,5 +68,27 @@ class EditPitchesConstants {
     
   }
   
+  enum DidYouShowYourProposalView {
+    
+    static let titleLabelText = "Agregar resultado"
+    static let nextButtonText = "responder pregunta"
+    
+  }
+  
+  enum YouWinPitchView {
+    
+    static let titleLabelText = "¡Felicidades has ganado!"
+    static let messageLabelText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi commodo, tellus sit amet scelerisque viverra, ligula nisi pellentesque lectus, sed tempus arcu ipsum vel tellus."
+    static let nextButtonText = "encuesta de seguimiento"
+    
+  }
+  
+  enum RecommendationView {
+    
+    static let titleLabelText = "Te recomendamos contactar a la marca"
+    static let messageLabelText = "Ha pasado mucho tiempo sin noticias"
+    static let nextButtonText = "ok"
+    
+  }
     
 }

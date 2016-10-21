@@ -32,6 +32,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   private var isSecondTimeAppearing: Bool = false
   private var isShowingAMessageCard: Bool = false
+  private var isComingFromAddResultsController: Bool = false
   
   var delegateForShowAndHideTabBar: VisualizeAllPitchesViewControllerShowAndHideDelegate?
   
@@ -166,9 +167,13 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       }else{
         
         if self.mainCarousel == nil {
+        
           self.createCarousel()
+          
         }
+    
         self.mainCarousel.reloadData()
+        self.mainCarousel.scrollToItemAtIndex(self.arrayOfPitchesByUserWithoutModifications.count-1, animated: false)
         
       }
       
@@ -212,7 +217,15 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(true)
     
-    self.delegateForShowAndHideTabBar?.requestToShowTabBarFromVisualizeAllPitchesViewControllerDelegate()
+    if isComingFromAddResultsController == true {
+    
+      isComingFromAddResultsController = false
+      
+    }else{
+      
+      self.delegateForShowAndHideTabBar?.requestToShowTabBarFromVisualizeAllPitchesViewControllerDelegate()
+    
+    }
     
     if isSecondTimeAppearing == false {
       
@@ -698,6 +711,16 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   
   //MARK: - DetailPitchViewDelegate
+  
+  func pushAddResultsViewController(pitchaEvaluationData: PitchEvaluationByUserModelData) {
+    
+    isComingFromAddResultsController = true
+    
+    let addResultsController = AddResultViewController.init(newPitchEvaluationDataByUser: pitchaEvaluationData)
+    
+    self.navigationController?.pushViewController(addResultsController, animated: true)
+    
+  }
   
   func declineEvaluationPitch(params: [String: AnyObject]) {
     

@@ -15,6 +15,8 @@ protocol DetailPitchViewDelegate {
   func archiveEvaluationPitch(params: [String: AnyObject])
   func deleteEvaluationPitch(params: [String: AnyObject])
   
+  func pushAddResultsViewController(pitchaEvaluationData: PitchEvaluationByUserModelData)
+  
 }
 
 class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, DetailPitchAddResultsViewDelegate, TabBarArchiveEditDeletePitchViewDelegate {
@@ -330,7 +332,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   
   func pushAddResultsViewController() {
     
-    
+    self.delegate?.pushAddResultsViewController(pitchEvaluationData)
     
   }
   
