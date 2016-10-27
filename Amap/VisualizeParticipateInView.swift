@@ -171,7 +171,7 @@ class VisualizeParticipateInView: UIView {
     
   private func createGoldImageView() {
     
-    let imageView = UIImageView.init(image: UIImage.init(named: "goldFace"))
+    let imageView = UIImageView.init(image: UIImage.init(named: "color_bigger_fill1"))
     imageView.frame = arrayOfFrames[actualFrame]
     
     arrayOfImageViews.append(imageView)
@@ -182,7 +182,7 @@ class VisualizeParticipateInView: UIView {
   
   private func createSilverImageView() {
     
-    let imageView = UIImageView.init(image: UIImage.init(named: "silverFace"))
+    let imageView = UIImageView.init(image: UIImage.init(named: "color_bigger_fill3"))
     imageView.frame = arrayOfFrames[actualFrame]
     
     arrayOfImageViews.append(imageView)
@@ -193,7 +193,7 @@ class VisualizeParticipateInView: UIView {
   
   private func createMediumRiskView() {
     
-    let imageView = UIImageView.init(image: UIImage.init(named: "mediumFace"))
+    let imageView = UIImageView.init(image: UIImage.init(named: "color_bigger_fill5"))
     imageView.frame = arrayOfFrames[actualFrame]
     
     arrayOfImageViews.append(imageView)
@@ -204,7 +204,7 @@ class VisualizeParticipateInView: UIView {
   
   private func createHighRiskView() {
     
-    let imageView = UIImageView.init(image: UIImage.init(named: "highFace"))
+    let imageView = UIImageView.init(image: UIImage.init(named: "color_bigger_fill7"))
     imageView.frame = arrayOfFrames[actualFrame]
     
     arrayOfImageViews.append(imageView)

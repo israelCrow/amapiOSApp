@@ -550,6 +550,59 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     
   }
   
+  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    
+    if textField.tag == 2 {
+      
+      let  char = string.cStringUsingEncoding(NSUTF8StringEncoding)!
+      let isBackSpace = strcmp(char, "\\b")
+      
+      if (isBackSpace == -92) {
+        return true
+      }
+      
+      if textField.text!.characters.count == 1 {
+        
+        textField.text = "+" + textField.text!
+        
+      }
+      
+      if textField.text!.characters.count == 3 {
+        
+        textField.text = textField.text! + " "
+        
+      }
+      
+      if textField.text!.characters.count == 4 {
+        
+        textField.text = textField.text! + "("
+        
+      }
+      
+      if textField.text!.characters.count == 7 {
+        
+        textField.text = textField.text! + ") "
+        
+      }
+      
+      if textField.text!.characters.count == 13 {
+        
+        textField.text = textField.text! + "."
+        
+      }
+      
+      if textField.text!.characters.count > 17 {
+        
+        return false
+        
+      }
+      
+    }
+    
+    return true
+    
+  }
+  
   func textFieldShouldReturn(textField: UITextField) -> Bool {
     
     let nextTag: NSInteger = textField.tag + 1;

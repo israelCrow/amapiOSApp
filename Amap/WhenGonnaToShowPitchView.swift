@@ -40,7 +40,7 @@ class WhenGonnaToShowPitchView: UIView, UITextFieldDelegate {
   
   private func initValues() {
     
-    self.tag = 9
+    self.tag = 11
     
   }
   

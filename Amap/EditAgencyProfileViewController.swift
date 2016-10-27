@@ -736,6 +736,149 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   //MARK: - CreateCaseViewDelegate
   
+  func updateCaseRequest(parameters: [String : AnyObject], caseID: String) {
+    
+    var newParameters = parameters
+    
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/success_cases/update"
+    
+    let headers = [
+      "Content-Type" : "application/json",
+      "Authorization": UtilityManager.sharedInstance.apiToken
+    ]
+    
+    let keyauth_token = "auth_token"
+    let auth_token = newParameters[keyauth_token]
+    
+    let keyfilename = "filename"
+    let filename = newParameters[keyfilename]
+    
+    let keyCaseId = "id"
+    let id = caseID
+    
+    var params = newParameters["success_case"] as! [String:AnyObject]
+    
+    let imageData = params["case_image"]
+    params.removeValueForKey("case_image")
+    
+    let keyAgency_id = "agency_id"
+    let agency_id_string = params[keyAgency_id] as! String
+    params.removeValueForKey(keyAgency_id)
+    
+    //    var caseName = newParamters["name"]
+    //    var caseDescription = newParamters["description"]
+    //    var caseURL = newParamters["url"]
+    //    var caseAgencyID = newParamters["agency_id"]
+    
+    let caseName = params["name"]
+    let caseDescription = params["description"]
+    let caseURL = params["url"]
+    
+    
+    
+    Alamofire.upload(.POST, urlToRequest, headers: headers, multipartFormData:{
+      multipartFormData in
+      
+      if imageData != nil {
+        multipartFormData.appendBodyPart(data: imageData as! NSData,
+          name: "case_image",
+          fileName: "AgencyExample.png",
+          mimeType: "image/png")
+      }
+      
+      multipartFormData.appendBodyPart(data: auth_token!.dataUsingEncoding(NSUTF8StringEncoding)!, name: keyauth_token)
+      
+      multipartFormData.appendBodyPart(data: id.dataUsingEncoding(NSUTF8StringEncoding)!, name: keyCaseId)
+      
+      multipartFormData.appendBodyPart(data: filename!.dataUsingEncoding(NSUTF8StringEncoding)!, name: keyfilename)
+      
+      multipartFormData.appendBodyPart(data: caseName!.dataUsingEncoding(NSUTF8StringEncoding)!,
+        name: "success_case[name]")
+      
+      multipartFormData.appendBodyPart(data: caseDescription!.dataUsingEncoding(NSUTF8StringEncoding)!,
+        name: "success_case[description]")
+      
+      multipartFormData.appendBodyPart(data: caseURL!.dataUsingEncoding(NSUTF8StringEncoding)!,
+        name: "success_case[url]")
+      
+      multipartFormData.appendBodyPart(data: agency_id_string.dataUsingEncoding(NSUTF8StringEncoding)!,
+        name: "success_case[agency_id]")
+      
+      }, encodingCompletion:{ encodingResult in
+        
+        switch encodingResult {
+        case .Success(let upload, _, _):
+          print("SUCCESSFUL")
+          upload.responseJSON { response in
+            //            print(response.request)  // original URL request
+            //            print(response.response) // URL response
+            //            print(response.data)     // server data
+            //            print(response.result)   // result of response serialization
+            
+            
+            if response.response?.statusCode >= 200 && response.response?.statusCode <= 350 {
+              
+              let rawImage = imageData as? NSData
+              
+              if rawImage != nil {
+                
+                let imageCase = UIImage.init(data: rawImage!)
+                
+                let newCaseData = Case(id: nil,
+                  name: caseName as! String,
+                  description: caseDescription as! String,
+                  url: caseURL as? String,
+                  case_image_url: nil,
+                  case_image_thumb: nil,
+                  case_image: imageCase,
+                  agency_id: AgencyModel.Data.id)
+                
+                
+                //                let newCaseData = Case(caseName: caseName as! String, caseDescription: caseDescription as! String, caseWebLink: caseURL as? String, caseImage: imageCase)
+                
+                self.casesView.addCaseToViewsOfCase(newCaseData)
+                
+              } else {
+                
+                let newCaseData = Case(id: nil,
+                  name: caseName as! String,
+                  description: caseDescription as! String,
+                  url: caseURL as? String,
+                  case_image_url: nil,
+                  case_image_thumb: nil,
+                  case_image: nil,
+                  agency_id: AgencyModel.Data.id)
+                
+                //                let newCaseData = Case(caseName: caseName as! String, caseDescription: caseDescription as! String, caseWebLink: caseURL as? String, caseImage: nil)
+                
+                self.casesView.addCaseToViewsOfCase(newCaseData)
+                
+              }
+              
+              self.flipCard.flip()
+              self.createButtonsForFlipCard()
+              self.createSaveChangesButton()
+              
+            }
+            
+            
+            if let JSON = response.result.value {
+              print("JSON: \(JSON)")
+            }
+          }
+          
+        case .Failure(let error):
+          print(error)
+          
+        }
+      }
+    )
+  }
+  
+  
+  
+  
+  
   func createCaseRequest(parameters: [String : AnyObject]) {
     
     var newParameters = parameters

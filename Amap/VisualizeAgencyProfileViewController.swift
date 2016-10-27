@@ -773,7 +773,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
         let latitude:CLLocationDegrees =  lat1.doubleValue
         let longitude:CLLocationDegrees =  lng1.doubleValue
         
-        let regionDistance:CLLocationDistance = 10000
+        let regionDistance:CLLocationDistance = 100
         let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
         let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
         let options = [

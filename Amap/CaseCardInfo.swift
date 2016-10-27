@@ -13,7 +13,6 @@ protocol CaseCardInfoViewDelegate {
   func flipCardAndShowPreviewCase(caseData: Case)
   func deleteCaseFromPreviewPlayer(dataCase: Case)
   
-  
 }
 
 class CaseCardInfoView: UIView, PreviewVimeoYoutubeViewDelegate {
@@ -49,7 +48,7 @@ class CaseCardInfoView: UIView, PreviewVimeoYoutubeViewDelegate {
     self.createTapForShowDetail()
     self.createCaseVideoPlayer()
     self.createCaseNameLabel()
-    self.createTwoPointsButton()
+    //self.createTwoPointsButton()
   
   }
   
@@ -164,6 +163,8 @@ class CaseCardInfoView: UIView, PreviewVimeoYoutubeViewDelegate {
   
   func editSelectedCase(caseData: Case) {
     ///EDIT CASE
+    self.delegate?.flipCardAndShowPreviewCase(self.caseData)
+    
   }
   
   

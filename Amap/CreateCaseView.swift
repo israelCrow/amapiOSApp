@@ -10,8 +10,9 @@ import UIKit
 
 protocol CreateCaseViewDelegate {
   
-  func createCaseRequest(parameters: [String:AnyObject])
+  func createCaseRequest(parameters: [String: AnyObject])
   func cancelCreateCase()
+  func updateCaseRequest(parameters: [String: AnyObject], caseID: String)
   func selectCaseImageFromLibrary()
   func askingForDeleteCaseImage()
   
@@ -36,8 +37,6 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
   private var isDownContentView: Bool = false
   
   private var caseDataForPreview: Case! = nil
-  
-  
   
   var delegate: CreateCaseViewDelegate?
   
@@ -97,6 +96,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     self.backgroundColor = UIColor.whiteColor()
     
     self.createCancelCreateButton()
+    self.createSaveCaseButtonForPreview()
     self.createMainScrollView()
     self.createContainerView()
     self.createCaseNameViewForPreview()
@@ -104,6 +104,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     self.createAddImageLabelForPreview()
     self.createPreviewVideoPlayerVimeoYoutube()
     self.createCaseWebLinkViewForPreview()
+    self.createErrorInFieldsLabel()
     
   }
   
@@ -164,6 +165,46 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     
   }
   
+  private func createSaveCaseButtonForPreview() {
+  
+    let font = UIFont(name: "SFUIDisplay-Light",
+                      size: 22.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.whiteColor()
+    let colorWhenPressed = UIColor.greenColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringForSaveButton = "Salvar cambios"
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: stringForSaveButton ,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    
+    let stringWithFormatWhenpressed = NSMutableAttributedString(
+      string: stringForSaveButton,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: colorWhenPressed
+      ]
+    )
+    
+    let frameForButton = CGRect.init(x: 0.0, y: self.frame.size.height - (70.0 * UtilityManager.sharedInstance.conversionHeight), width: self.frame.size.width, height: (70.0 * UtilityManager.sharedInstance.conversionHeight))
+    saveCaseButton = UIButton.init(frame: frameForButton)
+    saveCaseButton.addTarget(self,
+                             action: #selector(requestSaveEditCase),
+                             forControlEvents: .TouchUpInside)
+    saveCaseButton.backgroundColor = UIColor.blackColor()
+    saveCaseButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+    saveCaseButton.setAttributedTitle(stringWithFormatWhenpressed, forState: .Highlighted)
+    
+    self.addSubview(saveCaseButton)
+  
+  }
+  
   private func createMainScrollView() {
     
     let frameForMainScrollView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -221,7 +262,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     
     caseNameView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: nil, image: nil)
     caseNameView.mainTextField.text = caseDataForPreview.name
-    caseNameView.mainTextField.userInteractionEnabled = false
+    caseNameView.mainTextField.userInteractionEnabled = true
     caseNameView.backgroundColor = UIColor.clearColor()
     caseNameView.mainTextField.delegate = self
     self.containerView.addSubview(caseNameView)
@@ -276,7 +317,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     caseDescriptionTextView.font = UIFont(name:"SFUIText-Regular",
                                           size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
     caseDescriptionTextView.text = caseDataForPreview.description!
-    caseDescriptionTextView.userInteractionEnabled = false
+    caseDescriptionTextView.userInteractionEnabled = true
     caseDescriptionTextView.textColor = UIColor.blackColor()
     caseDescriptionTextView.delegate = self
     
@@ -416,7 +457,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
                                                         title: "Link del caso",
                                                         image: nil)
     caseWebLinkView.mainTextField.text = (caseDataForPreview.url != nil ? caseDataForPreview.url! : nil)
-    caseWebLinkView.mainTextField.userInteractionEnabled = false
+    caseWebLinkView.mainTextField.userInteractionEnabled = true
     caseWebLinkView.backgroundColor = UIColor.clearColor()
     caseWebLinkView.mainTextField.delegate = self
     caseWebLinkView.mainTextField.tag = 8
@@ -562,7 +603,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
                                           height: 110.0 * UtilityManager.sharedInstance.conversionHeight)
     
     previewVideoPlayerVimeoYoutube = PreviewVimeoYoutubeView.init(frame: frameForVideoPlayer,
-caseInfo: caseDataForPreview, showButtonsOfEdition: false)
+caseInfo: caseDataForPreview, showButtonsOfEdition: true)
     
     self.containerView.addSubview(previewVideoPlayerVimeoYoutube)
     
@@ -777,6 +818,69 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: false)
     }
   }
   
+  @objc private func requestSaveEditCase() {
+    
+    let isNameOk = UtilityManager.sharedInstance.isValidText(caseNameView.mainTextField.text!)
+    let isDescriptionOk = UtilityManager.sharedInstance.isValidText(caseDescriptionTextView.description)
+    let isURLOk = UIApplication.sharedApplication().canOpenURL(NSURL.init(string: caseWebLinkView.mainTextField.text!)!)
+    let doesExistImage: Bool
+    if caseImage != nil {
+      doesExistImage = true
+    }else{
+      doesExistImage = false
+    }
+    
+    if (isNameOk == true && isDescriptionOk == true && isURLOk == true) {
+      
+      self.disableAllElements()
+      
+      var params = [String:AnyObject]()
+      let caseName: String = caseNameView.mainTextField.text!
+      let caseDescription: String = caseDescriptionTextView.text
+      let caseWebLink: String = caseWebLinkView.mainTextField.text!
+      
+      if doesExistImage ==  false {
+        
+        params = [
+          "auth_token" : UserSession.session.auth_token,
+          "filename" : (AgencyModel.Data.name != nil ? "\(AgencyModel.Data.name).png" : "AgenciaID\(UserSession.session.agency_id).png"),
+          "success_case" :
+            ["name" : caseName,
+              "description" : caseDescription,
+              "url" : caseWebLink,
+              "agency_id" : UserSession.session.agency_id
+          ]
+        ]
+      }else{
+        
+        let dataImage = UIImagePNGRepresentation(caseImage!)
+        
+        params = [
+          "auth_token" : UserSession.session.auth_token,
+          "filename" : (AgencyModel.Data.name != nil ? "\(AgencyModel.Data.name).png" : "AgenciaID\(UserSession.session.agency_id).png"),
+          "success_case" :
+            [
+              "case_image" : dataImage!,
+              "name" : caseName,
+              "description" : caseDescription,
+              "url" : caseWebLink,
+              "agency_id" : UserSession.session.agency_id
+          ]
+        ]
+      }
+      
+      self.hideErrorInFieldsLabel()
+      self.delegate?.updateCaseRequest(params, caseID: caseDataForPreview.id)
+      
+    } else {
+      
+      self.showErrorInFieldsLabel()
+      
+    }
+
+    
+  }
+  
   @objc private func requestCreateCase() {
     
     let isNameOk = UtilityManager.sharedInstance.isValidText(caseNameView.mainTextField.text!)
@@ -844,7 +948,19 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: false)
     saveCaseButton.userInteractionEnabled = false
     caseDescriptionTextView.userInteractionEnabled = false
     clearButton.userInteractionEnabled = false
-    caseVideoPlayerVimeoYoutube.userInteractionEnabled = false
+    
+    if caseVideoPlayerVimeoYoutube != nil {
+      
+      caseVideoPlayerVimeoYoutube.userInteractionEnabled = false
+      
+    }
+    
+    if previewVideoPlayerVimeoYoutube != nil {
+      
+      previewVideoPlayerVimeoYoutube.userInteractionEnabled = false
+      
+    }
+    
     caseWebLinkView.userInteractionEnabled = false
     
   

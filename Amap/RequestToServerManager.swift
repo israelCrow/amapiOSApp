@@ -728,6 +728,8 @@ class RequestToServerManager: NSObject {
               let newBrandName = (pitchEvaluationByUser["brand"] as? String != nil ? pitchEvaluationByUser["brand"] as! String : "No Brand Name")
               let newCompanyName = (pitchEvaluationByUser["company"] as? String != nil ? pitchEvaluationByUser["company"] as! String : "No Company Name")
               let newOtherScores = (pitchEvaluationByUser["other_scores"] as? [Int] != nil ? pitchEvaluationByUser["other_scores"] as! [Int] : [Int]())
+              let newWasWon = (pitchEvaluationByUser["was_won"] as? Bool != nil ? pitchEvaluationByUser["was_won"] as! Bool : false)
+              let newPitchStatus = (pitchEvaluationByUser["pitch_status"] as? Int != nil ? pitchEvaluationByUser["pitch_status"] as! Int : 4) //4 is for archived, i'll ask this to client in future
               
               let arrayOfEvaluationPitchSkillCategories = (pitchEvaluationByUser["skill_categories"] as? Array<[String: AnyObject]> != nil ? pitchEvaluationByUser["skill_categories"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
               
@@ -758,7 +760,9 @@ class RequestToServerManager: NSObject {
                 newBrandName: newBrandName,
                 newCompanyName: newCompanyName,
                 newOtherScores: newOtherScores,
-                newArrayOfEvaluationPitchSkillCategory: newArrayOfEvaluationSkillCategoryModelData)
+                newArrayOfEvaluationPitchSkillCategory: newArrayOfEvaluationSkillCategoryModelData,
+                newWasWon: newWasWon,
+                newPitchStatus: newPitchStatus)
               
               newArrayOfPitchesByUser.append(newPitchEvaluationByUser)
             

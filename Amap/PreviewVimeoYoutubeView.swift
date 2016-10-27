@@ -109,7 +109,7 @@ class PreviewVimeoYoutubeView: UIView {
   
   private func createEditCaseButton() {
     
-    let frameForButton = CGRect.init(x: self.frame.size.width - (53.0 * UtilityManager.sharedInstance.conversionWidth),
+    let frameForButton = CGRect.init(x: self.frame.size.width - (55.0 * UtilityManager.sharedInstance.conversionWidth),
                                      y: self.frame.size.height - (25.0 * UtilityManager.sharedInstance.conversionHeight),
                                  width: 25.0 * UtilityManager.sharedInstance.conversionWidth,
                                 height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -135,7 +135,7 @@ class PreviewVimeoYoutubeView: UIView {
     let image = UIImage(named: "iconClose") as UIImage?
     deleteCaseButton.setImage(image, forState: .Normal)
     deleteCaseButton.tag = 2
-    editCaseButton.addTarget(self, action: #selector(deleteCase), forControlEvents:.TouchUpInside)
+    deleteCaseButton.addTarget(self, action: #selector(deleteCase), forControlEvents:.TouchUpInside)
     
     self.addSubview(deleteCaseButton)
     

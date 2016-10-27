@@ -220,7 +220,11 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
           
             .responseJSON{ response in
                 if response.response?.statusCode == 200 {
-                    
+                  
+                  
+                  NSUserDefaults.standardUserDefaults().setObject(name, forKey: UtilityManager.sharedInstance.kLastValidUserEmail)
+                  NSUserDefaults.standardUserDefaults().setObject(email, forKey: UtilityManager.sharedInstance.kLastValidUserPassword)
+
                   let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
                   
                   //print(json)

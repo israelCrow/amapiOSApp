@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddResultViewController: UIViewController, DidYouShowYourProposalViewDelegate, DidReceiveRulingViewDelegate, DidWinPitchViewDelegate, YouWinPitchViewDelegate, DidGetFeedbackViewDelegate, RecommendationViewDelegate, WhenGonnaReceiveRulingViewDelegate, WhenGonnaToShowPitchViewDelegate {
+class AddResultViewController: UIViewController, DidYouShowYourProposalViewDelegate, DidReceiveRulingViewDelegate, DidWinPitchViewDelegate, YouWinPitchViewDelegate, DidGetFeedbackViewDelegate, RecommendationViewDelegate, WhenGonnaReceiveRulingViewDelegate, WhenGonnaToShowPitchViewDelegate, DidSignContractPitchSurveyViewDelegate, DidProjectActivePitchSurveyViewDelegate, WhenYouWillSignTheContractPitchSurveyViewDelegate, WhenProjectWillActivePitchSurveyViewDelegate {
   
   private var pitchEvaluationData: PitchEvaluationByUserModelData! = nil
   private var containerAndGradientView: GradientView! = nil
@@ -30,6 +30,17 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   private var getFeedBackSelectedValue: Int! = nil
   private var gonnaReceiveRulingSelectedValue: String! = nil
   private var gonnaShowPitchSelectedValue: String! = nil
+  
+  //Pitch Survey
+  private var didSignContractView: DidSignContractPitchSurveyView! = nil
+  private var didProjectActiveView: DidProjectActivePitchSurveyView! = nil
+  private var whenYouWillSignView: WhenYouWillSignTheContractPitchSurveyView! = nil
+  private var whenProjectWillActiveView: WhenProjectWillActivePitchSurveyView! = nil
+  //Pitch Survey Results
+  private var didSignContractSelectedValue: Int! = nil
+  private var didProjectActiveSelectedValue: Int! = nil
+  private var whenYouWillSignSelectedValue: String! = nil
+  private var whenProjectWillActiveSelectedValue: String! = nil
   
   private let leftPositionCard = CGPoint.init(x: -UIScreen.mainScreen().bounds.size.width,
                                               y: 148.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -185,6 +196,11 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     self.createRecommendation()
     self.createGonnaReceiveRuling()
     self.createGonnaShowPitch()
+    //
+    self.createDidSignContractView()
+    self.createDidProjectActiveView()
+    self.createWhenYouWillSignView()
+    self.createWhenProjectWillActiveView()
     
   }
   
@@ -274,6 +290,53 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     containerAndGradientView.addSubview(gonnaShowPitch)
     
   }
+  
+  
+  private func createDidSignContractView() {
+    
+    didSignContractView = DidSignContractPitchSurveyView.init(frame: rightFrameForCards)
+    didSignContractView.regionPosition = .right
+    didSignContractView.alpha = 0.0
+    didSignContractView.delegate = self
+    
+    containerAndGradientView.addSubview(didSignContractView)
+    
+  }
+  
+  private func createDidProjectActiveView() {
+    
+    didProjectActiveView = DidProjectActivePitchSurveyView.init(frame: rightFrameForCards)
+    didProjectActiveView.regionPosition = .right
+    didProjectActiveView.alpha = 0.0
+    didProjectActiveView.delegate = self
+    
+    containerAndGradientView.addSubview(didProjectActiveView)
+    
+  }
+  
+  private func createWhenYouWillSignView() {
+    
+    whenYouWillSignView = WhenYouWillSignTheContractPitchSurveyView.init(frame: rightFrameForCards)
+    whenYouWillSignView.regionPosition = .right
+    whenYouWillSignView.alpha = 0.0
+    whenYouWillSignView.delegate = self
+    
+    containerAndGradientView.addSubview(whenYouWillSignView)
+    
+  }
+  
+  private func createWhenProjectWillActiveView() {
+    
+    whenProjectWillActiveView = WhenProjectWillActivePitchSurveyView.init(frame: rightFrameForCards)
+    whenProjectWillActiveView.regionPosition = .right
+    whenProjectWillActiveView.alpha = 0.0
+    whenProjectWillActiveView.delegate = self
+    
+    containerAndGradientView.addSubview(whenProjectWillActiveView)
+    
+  }
+  
+  
   
   private func createGradientView() -> GradientView{
     
@@ -774,6 +837,246 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     }
     
   }
+  
+  private func moveDidSignContractView(position: PositionOfCardsAddResults){
+  
+    switch position {
+    case .left:
+      
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+                                  self.didSignContractView.frame = self.leftFrameForCards
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            self.didSignContractView.alpha = 0.0
+            
+          }
+      })
+      
+      break
+      
+    case .center:
+      
+      self.didSignContractView.alpha = 1.0
+      
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+                                  self.didSignContractView.frame = self.centerFrameForCards
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            
+            
+          }
+      })
+      
+      break
+      
+    case .right:
+      
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+                                  self.didSignContractView.frame = self.rightFrameForCards
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            self.didSignContractView.alpha = 0.0
+            
+          }
+      })
+      
+      break
+      
+    }
+    
+  }
+ 
+  private func moveDidProjectActiveView(position: PositionOfCardsAddResults){
+  
+    switch position {
+    case .left:
+      
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+                                  self.didProjectActiveView.frame = self.leftFrameForCards
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            self.didProjectActiveView.alpha = 0.0
+            
+          }
+      })
+      
+      break
+      
+    case .center:
+      
+      self.didProjectActiveView.alpha = 1.0
+      
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+                                  self.didProjectActiveView.frame = self.centerFrameForCards
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            
+            
+          }
+      })
+      
+      break
+      
+    case .right:
+      
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+                                  self.didProjectActiveView.frame = self.rightFrameForCards
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            self.didProjectActiveView.alpha = 0.0
+            
+          }
+      })
+      
+      break
+      
+    }
+  
+  }
+  
+  private func moveWhenYouWillSignView(position: PositionOfCardsAddResults){
+  
+    switch position {
+    case .left:
+      
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+                                  self.whenYouWillSignView.frame = self.leftFrameForCards
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            self.whenYouWillSignView.alpha = 0.0
+            
+          }
+      })
+      
+      break
+      
+    case .center:
+      
+      self.whenYouWillSignView.alpha = 1.0
+      
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+                                  self.whenYouWillSignView.frame = self.centerFrameForCards
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            
+            
+          }
+      })
+      
+      break
+      
+    case .right:
+      
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+                                  self.whenYouWillSignView.frame = self.rightFrameForCards
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            self.whenYouWillSignView.alpha = 0.0
+            
+          }
+      })
+      
+      break
+      
+    }
+  
+  }
+  
+  private func moveWhenProjectWillActiveView(position: PositionOfCardsAddResults){
+  
+    switch position {
+    case .left:
+      
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+                                  self.whenProjectWillActiveView.frame = self.leftFrameForCards
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            self.whenProjectWillActiveView.alpha = 0.0
+            
+          }
+      })
+      
+      break
+      
+    case .center:
+      
+      self.whenProjectWillActiveView.alpha = 1.0
+      
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+                                  self.whenProjectWillActiveView.frame = self.centerFrameForCards
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            
+            
+          }
+      })
+      
+      break
+      
+    case .right:
+      
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+                                  self.whenProjectWillActiveView.frame = self.rightFrameForCards
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            self.whenProjectWillActiveView.alpha = 0.0
+            
+          }
+      })
+      
+      break
+      
+    }
+  
+  }
 
   
   
@@ -820,13 +1123,17 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   
   func lookForWinnerOfPitch() {
     
-    //USER WEB SERVICE TO ASK IF THERE IS A WINNER
-    
-    //By the moment
-    
     self.moveDidReceiveRulingTo(.left)
     
-    self.moveRecommendationTo(.center)
+    if pitchEvaluationData.wasWon == true {
+      
+      self.moveRecommendationTo(.center)
+      
+    } else {
+      
+      self.moveGonnaReceiveRulingTo(.center)
+      
+    }
     
   }
   
@@ -855,17 +1162,12 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   
   func youWinPitchNextButtonPressed() {
     
-    let params = self.createParamsToSave()
-    UtilityManager.sharedInstance.showLoader()
-    RequestToServerManager.sharedInstance.requestToSaveAddResults(params) { 
-      
-      UtilityManager.sharedInstance.hideLoader()
-      self.navigationController?.popToRootViewControllerAnimated(true)
-      
-    }
+    self.moveYouWinPitchTo(.left)
     
-
+    self.moveDidSignContractView(.center)
     
+//    self.saveDataToServer()
+   
   }
   
   //MARK: - DidGetFeedbackViewDelegate
@@ -882,14 +1184,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       
     }
     
-    let params = self.createParamsToSave()
-    UtilityManager.sharedInstance.showLoader()
-    RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
-      
-      UtilityManager.sharedInstance.hideLoader()
-      self.navigationController?.popToRootViewControllerAnimated(true)
-      
-    }
+    self.saveDataToServer()
     
   }
   
@@ -897,21 +1192,16 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   
   func recommendationNextButtonPressed() {
     
-    let params = self.createParamsToSave()
-    UtilityManager.sharedInstance.showLoader()
-    RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
-      
-      UtilityManager.sharedInstance.hideLoader()
-      self.navigationController?.popToRootViewControllerAnimated(true)
-      
-    }
+    self.saveDataToServer()
+    
   }
   
   //MARK: - WhenGonnaReceiveRulingViewDelegate
   
   func whenGonnaReceiveRulingNextButtonPressed(dateSelected: String) {
     
-    
+    gonnaReceiveRulingSelectedValue = dateSelected
+    self.saveDataToServer()
     
   }
   
@@ -921,9 +1211,14 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     gonnaShowPitchSelectedValue = dateSelected
     
+    self.saveDataToServer()
+    
+  }
+  
+  private func saveDataToServer() {
+    
     let params = self.createParamsToSave()
     UtilityManager.sharedInstance.showLoader()
-    
     RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
       
       UtilityManager.sharedInstance.hideLoader()
@@ -932,7 +1227,6 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     }
     
   }
-  
   
   private func createParamsToSave() -> [String: AnyObject] {
     
@@ -981,10 +1275,71 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
   }
   
+  //MARK: - DidSignContractPitchSurveyViewDelegate
+  
+  func didSignContractPitchSurveyNextButtonPressedSoShowScreenWithTag(valueSelected: String, nextScreenToShowWithTag: Int) {
+    
+    self.moveDidSignContractView(.left)
+    
+    if nextScreenToShowWithTag == 11 {
+      
+      didSignContractSelectedValue = 1
+      self.moveDidProjectActiveView(.center)
+      
+    }else
+      if nextScreenToShowWithTag == 13 {
+        
+        didSignContractSelectedValue = 0
+        self.moveWhenYouWillSignView(.center)
+        
+    }
+    
+  }
+  
+  //MARK: - DidProjectActivePitchSurveyViewDelegate
+  
+  func didProjectActivePitchSurveyNextButtonPressedSoShowScreenWithTag(valueSelected: String, nextScreenToShowWithTag: Int) {
+    
+    if nextScreenToShowWithTag == -1 {
+      
+      didProjectActiveSelectedValue = 1
+      self.saveDataToServer()
+      
+    }else
+      if nextScreenToShowWithTag == 12 {
+        
+        self.moveDidProjectActiveView(.left)
+        
+        didProjectActiveSelectedValue = 0
+        self.moveWhenProjectWillActiveView(.center)
+        
+      }
+
+  }
+  
+  //MARK: - WhenYouWillSignTheContractPitchSurveyViewDelegate
+  
+  func whenYouWillSignTheContractNextButtonPressed(dateSelected: String) {
+    
+    whenYouWillSignSelectedValue = dateSelected
+    
+    self.moveWhenYouWillSignView(.left)
+    
+    self.moveDidProjectActiveView(.center)
+    
+  }
+  
+  //MARK: - WhenProjectWillActivePitchSurveyViewDelegate
+  
+  func whenProjectWillActiveNextButtonPressed(dateSelected: String) {
+    
+    whenProjectWillActiveSelectedValue = dateSelected
+    
+    self.saveDataToServer()
+    
+  }
   
   //MARK: -
-  //MARK: - 
-  //MARK: - 
   
   
   

@@ -283,7 +283,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         newBrandName: "-9999",
         newCompanyName: "-9999",
         newOtherScores: [Int](),
-        newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData]())
+        newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData](),
+        newWasWon: false,
+        newPitchStatus: -1)
       
       let actualIndex = mainCarousel.currentItemIndex
       self.arrayOfPitchesByUser.insert(newElement, atIndex: actualIndex)
@@ -313,7 +315,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         newBrandName: "-8888",
         newCompanyName: "-8888",
         newOtherScores: [Int](),
-        newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData]())
+        newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData](),
+        newWasWon: false,
+        newPitchStatus: -1)
       
       let actualIndex = mainCarousel.currentItemIndex
       self.arrayOfPitchesByUser.insert(newElement, atIndex: actualIndex)

@@ -35,7 +35,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
   private var howManyAgenciesParticipate: CustomSegmentedControlWithTitleView! = nil
   private var isHowManyAgenciesParticipateEdited: Bool = false
   
-  private var howManyDaysToShow: CustomTextFieldWithTitleView! = nil //6
+  private var howManyDaysToShow: CustomTextFieldWithTitleAndPickerView! = nil //6
   private var isHowManyDaysToShowEdited: Bool = false
   
   private var youKnowHowManyPresentationRounds: CustomSegmentedControlWithTitleView! = nil
@@ -277,7 +277,9 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["2 - 4", ">4", "NA"]
+    let widthOfSegments = CGFloat(220.0 / 4.0)
+    
+    let segmentsArray = ["2 - 4", "5 - 7", "+ de 7", "No sé"]
     
     howManyAgenciesParticipate = CustomSegmentedControlWithTitleView.init(frame: frameForView,
                                                                       title: "¿Cuántas agencias participan en el pitch?",
@@ -285,6 +287,10 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
                                                                       segmentsText: segmentsArray)
     howManyAgenciesParticipate.delegate = self
     howManyAgenciesParticipate.tag = 5
+    howManyAgenciesParticipate.mainSegmentedControl.setWidth(widthOfSegments, forSegmentAtIndex: 0)
+    howManyAgenciesParticipate.mainSegmentedControl.setWidth(widthOfSegments, forSegmentAtIndex: 1)
+    howManyAgenciesParticipate.mainSegmentedControl.setWidth(widthOfSegments, forSegmentAtIndex: 2)
+    howManyAgenciesParticipate.mainSegmentedControl.setWidth(widthOfSegments, forSegmentAtIndex: 3)
     mainScrollView.addSubview(howManyAgenciesParticipate)
     
   }
@@ -296,15 +302,22 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-//    let segmentsArray = ["1 semana", "2 semanas", "3 semanas", "4 semanas"]
+    var segmentsArray = [String]()
     
-    howManyDaysToShow = CustomTextFieldWithTitleView.init(frame: frameForView,
-                                                          title: "¿Cuántas semanas les dieron para presentar?",
-                                                          image: nil)
-//      = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
-//      textLabel: "¿Cuántas semanas les dieron para presentar?",
-//      nameOfImage: "dropdown",
-//      newOptionsOfPicker: segmentsArray)
+    for i in 1...30 {
+      
+      segmentsArray.append(String(i))
+      
+    }
+    
+//    CustomTextFieldWithTitleView.init(frame: frameForView,
+//                                      title: "¿Cuántas semanas les dieron para presentar?",
+//                                      image: nil)
+    
+    howManyDaysToShow = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
+      textLabel: "¿Cuántos días les dieron para presentar?",
+      nameOfImage: "dropdown",
+      newOptionsOfPicker: segmentsArray)
     
     howManyDaysToShow.tag = 6
     howManyDaysToShow.mainTextField.keyboardType = .NumberPad
@@ -557,7 +570,10 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
           
     }
     
-    let howManyAgenciesResult = howManyAgenciesParticipate.returnValueSelectedFromSegmentControl()
+    var howManyAgenciesResult:String = howManyAgenciesParticipate.returnValueSelectedFromSegmentControl()
+    if howManyAgenciesResult == "No sé" {
+      howManyAgenciesResult = "no se"
+    }
 //    if howManyAgenciesParticipate.returnValueSelectedFromSegmentControl() == "- de 4" {
 //      
 //      howManyAgenciesResult = "- de 4"

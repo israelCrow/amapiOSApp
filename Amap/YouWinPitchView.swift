@@ -21,6 +21,8 @@ class YouWinPitchView: UIView {
   private var nextButton: UIButton! = nil
   var regionPosition: PositionOfCardsAddResults! = nil
   
+  private let ifNextButtonPressedGoTo = 10
+  
   var delegate: YouWinPitchViewDelegate?
   
   let kSpaceInSegments = 36.0 * UtilityManager.sharedInstance.conversionWidth

@@ -90,5 +90,12 @@ class EditPitchesConstants {
     static let nextButtonText = "ok"
     
   }
+  
+  enum DidSignContactPitchSurveyView {
+    
+    static let titleLabelText = "Ganaste este pitch"
+    static let nextButtonText = "siguiente"
+  
+  }
     
 }

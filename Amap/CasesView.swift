@@ -135,18 +135,18 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
   
   private func loadCases() {
     
-//    RequestToServerManager.sharedInstance.requestForAgencyData {
-//      if AgencyModel.Data.success_cases != nil {
+    RequestToServerManager.sharedInstance.requestForAgencyData {
+      if AgencyModel.Data.success_cases != nil {
     
         self.arrayOfCases = AgencyModel.Data.success_cases
         
         self.createCaseCardsInfoAfterRequestToServer()
-//
-//        UtilityManager.sharedInstance.hideLoader()
-//        
-//      }
-//    }
-    
+
+        UtilityManager.sharedInstance.hideLoader()
+        
+      }
+    }
+
   }
   
   private func createCaseCardsInfoAfterRequestToServer() {
@@ -255,16 +255,16 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
   
   func addCaseToViewsOfCase(newCase: Case){
     
-    if arrayOfCases.count == kLimitOfCases {
-      
-      arrayOfCases.popLast()
-      arrayOfCases.insert(newCase, atIndex: 0)
-      
-    }else{
-      
-      arrayOfCases.insert(newCase, atIndex: 0)
-      
-    }
+//    if arrayOfCases.count == kLimitOfCases {
+//      
+//      arrayOfCases.popLast()
+//      arrayOfCases.insert(newCase, atIndex: 0)
+//      
+//    }else{
+//      
+//      arrayOfCases.insert(newCase, atIndex: 0)
+//      
+//    }
     
     self.createCaseCardsInfo()
     

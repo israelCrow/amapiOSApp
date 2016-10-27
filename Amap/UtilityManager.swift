@@ -14,6 +14,8 @@ class UtilityManager: NSObject {
   static let sharedInstance = UtilityManager()
   
   let apiToken = "Token 40e97aa81c2be2de4b99f1c243bec9c4"
+  let kLastValidUserEmail = "kLastValidUserEmail"
+  let kLastValidUserPassword =  "kLastValidUserPassword"
   
   static let baseScreen = CGSize.init(width: 375.0, height: 667.0)
   static let screenSize = CGSize.init(width: UIScreen.mainScreen().bounds.size.width, height: UIScreen.mainScreen().bounds.size.height)
