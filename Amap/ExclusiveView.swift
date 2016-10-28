@@ -12,7 +12,8 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   
   private var mainScrollView: UIScrollView! = nil
   private var exclusiveLabel: UILabel! = nil
-  private var arrayOfExclusivesBrandNames: [String]! = nil
+  private var arrayOfExclusivesBrandToDelete = [ExclusivityBrandModelData]()
+  private var arrayOfExclusivesBrandNames: [ExclusivityBrandModelData]! = nil
   private var arrayOfExclusivesBrandTextFields: [UITextField]! = nil
   private var descriptionLabel: UILabel! = nil
   private var creatorOfBrandTextField: UITextField! = nil
@@ -28,8 +29,18 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   
   private func initValues() {
     
-    arrayOfExclusivesBrandNames = []
-    arrayOfExclusivesBrandTextFields = []
+    if AgencyModel.Data.exclusivityBrands != nil && AgencyModel.Data.exclusivityBrands?.count > 0 {
+    
+      arrayOfExclusivesBrandNames = AgencyModel.Data.exclusivityBrands!
+      arrayOfExclusivesBrandTextFields = []
+      
+    } else {
+      
+      arrayOfExclusivesBrandNames = []
+      arrayOfExclusivesBrandTextFields = []
+      
+    }
+
     
   }
   
@@ -102,12 +113,52 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   
   private func createTextFields() {
     
-    if arrayOfExclusivesBrandTextFields == nil || arrayOfExclusivesBrandTextFields?.count == 0{
+    if arrayOfExclusivesBrandNames == nil || arrayOfExclusivesBrandNames?.count == 0{
+    
       self.createTextFieldCreatorOfBrands()
+    
+    }else{
+      
+      self.createAllBrandsInTextFields()
+      self.createTextFieldCreatorOfBrands()
+      
     }
     
   }
   
+  private func createAllBrandsInTextFields() {
+    
+    var frameForBrands = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 14.0 * UtilityManager.sharedInstance.conversionHeight,
+                                 width: mainScrollView.frame.size.width - (4.0 * UtilityManager.sharedInstance.conversionWidth),
+                                height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    for brand in arrayOfExclusivesBrandNames {
+      
+      let newTextField = BasicCustomTextField.init(frame: frameForBrands, newExclusiveData: brand)
+      newTextField.delegate = self
+      newTextField.alpha = 1.0
+      newTextField.text = brand.name
+      newTextField.tag = Int(brand.id)!
+      newTextField.placeholder = "Nombre de marca"
+      
+      arrayOfExclusivesBrandTextFields.append(newTextField)
+      
+      self.mainScrollView.addSubview(newTextField)
+      mainScrollView.showsVerticalScrollIndicator = true
+      
+      frameForBrands = CGRect.init(x: frameForBrands.origin.x,
+                                   y: frameForBrands.origin.y + frameForBrands.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight),
+                               width: frameForBrands.size.width,
+                              height: frameForBrands.size.height)
+      
+      self.editValueOfMainScrollView()
+      
+    }
+    
+    
+    
+  }
   
   private func createTextFieldCreatorOfBrands() {
     
@@ -149,8 +200,13 @@ class ExclusiveView: UIView, UITextFieldDelegate {
                                            width: mainScrollView.frame.size.width - (4.0 * UtilityManager.sharedInstance.conversionWidth),
                                           height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
       
-      creatorOfBrandTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator)
-      creatorOfBrandTextField.tag = 1
+      let fictitiousBrandForCreator = ExclusivityBrandModelData.init(newId: "-1234567890",
+                                                                   newName: "creator")
+      
+      
+      creatorOfBrandTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator,
+                                               newExclusiveData: fictitiousBrandForCreator)
+      creatorOfBrandTextField.tag = -1234567890
       creatorOfBrandTextField.placeholder = "Ejemplo de marca"
       creatorOfBrandTextField.delegate = self
       
@@ -159,13 +215,59 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       
     } else {
       
-      //CHECK WHEN COMES BRAND NAMES FROM SERVER
+      descriptionLabel = UILabel.init(frame: CGRectZero)
+      descriptionLabel.numberOfLines = 2
+      
+      let font = UIFont(name: "SFUIText-Medium",
+                        size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
+      let color = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.25)
+      let style = NSMutableParagraphStyle()
+      style.alignment = NSTextAlignment.Left
+      
+      let stringWithFormat = NSMutableAttributedString(
+        string: AgencyProfileEditConstants.ExclusiveView.descriptionLabelText,
+        attributes:[NSFontAttributeName: font!,
+          NSParagraphStyleAttributeName: style,
+          NSForegroundColorAttributeName: color
+        ]
+      )
+      
+      descriptionLabel.attributedText = stringWithFormat
+      descriptionLabel.sizeToFit()
+      
+      let newFrame = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                 y: lastExclusiveBrand!.frame.origin.y + lastExclusiveBrand!.frame.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight),
+                             width: descriptionLabel.frame.size.width,
+                            height: descriptionLabel.frame.size.height)
+      
+      descriptionLabel.frame = newFrame
+      
+      self.mainScrollView.addSubview(descriptionLabel)
+      mainScrollView.showsVerticalScrollIndicator = true
+      
+      let frameForTextFieldCreator = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                 y: lastExclusiveBrand!.frame.origin.y + lastExclusiveBrand!.frame.size.height + (24.0 * UtilityManager.sharedInstance.conversionHeight),
+                                             width: mainScrollView.frame.size.width - (4.0 * UtilityManager.sharedInstance.conversionWidth),
+                                            height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+      let fictitiousBrandForCreator = ExclusivityBrandModelData.init(newId: "-1234567890",
+                                                                     newName: "creator")
+      
+      
+      creatorOfBrandTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator,
+                                                          newExclusiveData: fictitiousBrandForCreator)
+      creatorOfBrandTextField.tag = -1234567890
+      creatorOfBrandTextField.placeholder = "Ejemplo de marca"
+      creatorOfBrandTextField.delegate = self
+      
+      self.mainScrollView.addSubview(creatorOfBrandTextField)
+      mainScrollView.showsVerticalScrollIndicator = true
       
     }
   
   }
   
-  private func createAnotherTextFieldWithBrand(brandName: String) {
+  private func createAnotherTextFieldWithBrand(brand: ExclusivityBrandModelData) {
     
     let lastExclusiveBrandTextField = arrayOfExclusivesBrandTextFields?.last
     if lastExclusiveBrandTextField == nil {
@@ -175,11 +277,11 @@ class ExclusiveView: UIView, UITextFieldDelegate {
                                                  width: mainScrollView.frame.size.width - (4.0 * UtilityManager.sharedInstance.conversionWidth),
                                                  height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
       
-      let newTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator)
+      let newTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator, newExclusiveData: brand)
       newTextField.delegate = self
       newTextField.alpha = 0.0
-      newTextField.text = brandName
-      newTextField.tag = 666
+      newTextField.text = brand.name
+      newTextField.tag = Int(brand.id)!
       newTextField.placeholder = "Nombre de marca"
       
       arrayOfExclusivesBrandTextFields.append(newTextField)
@@ -191,17 +293,18 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       self.editValueOfMainScrollView()
     
     } else {
-      
+
       let frameForTextFieldCreator = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
-                                                 y: lastExclusiveBrandTextField!.frame.origin.y + lastExclusiveBrandTextField!.frame.size.height + (14.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                 y: lastExclusiveBrandTextField!.frame.origin.y + lastExclusiveBrandTextField!.frame.size.height + (14.0 * UtilityManager.sharedInstance.conversionHeight) ,
                                                  width: mainScrollView.frame.size.width - (4.0 * UtilityManager.sharedInstance.conversionWidth),
                                                  height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
       
-      let newTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator)
-      newTextField.alpha = 0.0
-      newTextField.text = brandName
-      newTextField.placeholder = "Nombre de marca"
+      let newTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator, newExclusiveData: brand)
       newTextField.delegate = self
+      newTextField.alpha = 0.0
+      newTextField.text = brand.name
+      newTextField.tag = Int(brand.id)!
+      newTextField.placeholder = "Nombre de marca"
       
       arrayOfExclusivesBrandTextFields.append(newTextField)
       
@@ -210,6 +313,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       
       self.animateNewTextFieldDescriptionLabelAndCreatorOfBrandsTextField(newTextField)
       self.editValueOfMainScrollView()
+      
     }
     
   }
@@ -307,18 +411,19 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     
   }
   
-  
-  
-  
   func textFieldShouldReturn(textField: UITextField) -> Bool {
     
     thereAreChanges = true
     
-    if textField.tag == 1 {//when texted in the creatorBrandTextField
+    if textField.tag == -1234567890 {//when texted in the creatorBrandTextField
       
       if UtilityManager.sharedInstance.isValidText(textField.text!){
       
-        self.createAnotherTextFieldWithBrand(textField.text!)
+        let newBrand = ExclusivityBrandModelData.init(newId: "-1",
+                                                    newName: textField.text!)
+        
+        
+        self.createAnotherTextFieldWithBrand(newBrand)
         textField.text = ""
       
       }
@@ -342,7 +447,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     
   }
   
-  @objc func dismissKeyboard(sender:AnyObject) {
+  @objc private func dismissKeyboard(sender:AnyObject) {
     self.endEditing(true)
   }
   
@@ -358,7 +463,20 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       animations: {
         textField.alpha = 0.0
       }) { (finished) in
-        if finished {
+        if finished == true {
+          
+          if textField as? BasicCustomTextField != nil {
+            
+            let brandTextField = textField as! BasicCustomTextField
+            let brandToDelete = brandTextField.getExclusiveBrandData()
+            
+            if brandToDelete.id != "-1" {
+            
+              self.arrayOfExclusivesBrandToDelete.append(brandToDelete)
+              
+            }
+            
+          }
           
           let index = self.arrayOfExclusivesBrandTextFields.indexOf(textField)
           if index != nil {
@@ -376,12 +494,20 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   
   func requestToSaveNewBrands() {
     
+    var arrayOfBrandsToCreate = [String]()
+    
     for textField in arrayOfExclusivesBrandTextFields {
       
-      if UtilityManager.sharedInstance.isValidText(textField.text!) == true {
+      if textField as? BasicCustomTextField != nil {
         
-        arrayOfExclusivesBrandNames.append(textField.text!)
+        let brandTextField = textField as! BasicCustomTextField
       
+        if UtilityManager.sharedInstance.isValidText(brandTextField.text!) == true && brandTextField.getExclusiveBrandData().id == "-1" {
+        
+          arrayOfBrandsToCreate.append(textField.text!)
+      
+        }
+     
       }
       
     }
@@ -390,7 +516,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     
       "auth_token": UserSession.session.auth_token,
       "id": AgencyModel.Data.id,
-      "brands": arrayOfExclusivesBrandNames
+      "brands": arrayOfBrandsToCreate
     
     ]
     
@@ -400,6 +526,8 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       
       print(jsonSentFromServerWhenSaveExclusiveData)
       print()
+      
+      //DELETE THE OTHERS
       
       UtilityManager.sharedInstance.hideLoader()
       

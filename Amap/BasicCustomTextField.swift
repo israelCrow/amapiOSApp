@@ -10,13 +10,20 @@ import UIKit
 
 class BasicCustomTextField: UITextField {
   
+  private var exclusiveBrandData: ExclusivityBrandModelData! = nil
+  
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override init(frame: CGRect) {
+  init(frame: CGRect, newExclusiveData: ExclusivityBrandModelData) {
+    
+    exclusiveBrandData = newExclusiveData
+    
     super.init(frame: frame)
+    
     self.editInterface()
+    
   }
   
   private func editInterface() {
@@ -33,6 +40,12 @@ class BasicCustomTextField: UITextField {
                                height: 1.0)
     self.layer.addSublayer(border)
     self.layer.masksToBounds = false
+    
+  }
+  
+  func getExclusiveBrandData() -> ExclusivityBrandModelData {
+    
+    return self.exclusiveBrandData
     
   }
   

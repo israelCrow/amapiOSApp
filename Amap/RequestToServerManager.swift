@@ -730,6 +730,7 @@ class RequestToServerManager: NSObject {
               let newOtherScores = (pitchEvaluationByUser["other_scores"] as? [Int] != nil ? pitchEvaluationByUser["other_scores"] as! [Int] : [Int]())
               let newWasWon = (pitchEvaluationByUser["was_won"] as? Bool != nil ? pitchEvaluationByUser["was_won"] as! Bool : false)
               let newPitchStatus = (pitchEvaluationByUser["pitch_status"] as? Int != nil ? pitchEvaluationByUser["pitch_status"] as! Int : 4) //4 is for archived, i'll ask this to client in future
+              let newPitchEvaluationStatus = (pitchEvaluationByUser["evaluation_status"] as? Bool != nil ? pitchEvaluationByUser["evaluation_status"] as! Bool : false)
               
               let arrayOfEvaluationPitchSkillCategories = (pitchEvaluationByUser["skill_categories"] as? Array<[String: AnyObject]> != nil ? pitchEvaluationByUser["skill_categories"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
               
@@ -762,7 +763,8 @@ class RequestToServerManager: NSObject {
                 newOtherScores: newOtherScores,
                 newArrayOfEvaluationPitchSkillCategory: newArrayOfEvaluationSkillCategoryModelData,
                 newWasWon: newWasWon,
-                newPitchStatus: newPitchStatus)
+                newPitchStatus: newPitchStatus,
+                newEvaluationStatus: newPitchEvaluationStatus)
               
               newArrayOfPitchesByUser.append(newPitchEvaluationByUser)
             

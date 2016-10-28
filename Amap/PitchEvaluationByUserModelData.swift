@@ -21,8 +21,9 @@ class PitchEvaluationByUserModelData {
   var arrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData]! = nil
   var wasWon: Bool! = nil
   var pitchStatus: Int! = nil
+  var evaluationStatus: Bool! = nil
   
-  init( newPitchEvaluationId: String, newPitchId: String, newPitchName: String, newBriefDate: String, newScore: Int, newBrandName: String, newCompanyName: String, newOtherScores: [Int], newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData], newWasWon: Bool, newPitchStatus: Int) {
+  init( newPitchEvaluationId: String, newPitchId: String, newPitchName: String, newBriefDate: String, newScore: Int, newBrandName: String, newCompanyName: String, newOtherScores: [Int], newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData], newWasWon: Bool, newPitchStatus: Int, newEvaluationStatus: Bool) {
     
     pitchEvaluationId = newPitchEvaluationId
     pitchId = newPitchId
@@ -35,6 +36,7 @@ class PitchEvaluationByUserModelData {
     arrayOfEvaluationPitchSkillCategory = newArrayOfEvaluationPitchSkillCategory
     wasWon = newWasWon
     pitchStatus = newPitchStatus
+    evaluationStatus = newEvaluationStatus
     
   }
   

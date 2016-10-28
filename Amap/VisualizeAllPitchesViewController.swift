@@ -18,7 +18,7 @@ protocol VisualizeAllPitchesViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate, DetailPitchViewDelegate, CanceledPitchEvaluationViewDelegate, ArchivedPitchEvaluationViewDelegate, DeletedPitchEvaluationViewDelegate, DeclinedPitchEvaluationViewDelegate, LookForPitchCardViewDelegate, FilterPitchCardViewDelegate {
+class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate, DetailPitchViewDelegate, CanceledPitchEvaluationViewDelegate, ArchivedPitchEvaluationViewDelegate, DeletedPitchEvaluationViewDelegate, DeclinedPitchEvaluationViewDelegate, LookForPitchCardViewDelegate, FilterPitchCardViewDelegate, PendingEvaluationCardViewDelegate {
   
   private var mainCarousel: iCarousel! = nil
   
@@ -27,6 +27,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   private var arrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
   private var arrayOfPitchesByUserWithoutModifications = [PitchEvaluationByUserModelData]()
   private var frontCard: PitchCardView! = nil
+  private var pendingEvaluationFrontCard: PendingEvaluationCardView! = nil
   private var mainDetailPitchView: DetailPitchView! = nil
   private var detailNavigationBar: DetailedNavigationEvaluatPitchView! = nil
   
@@ -285,7 +286,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         newOtherScores: [Int](),
         newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData](),
         newWasWon: false,
-        newPitchStatus: -1)
+        newPitchStatus: -1,
+        newEvaluationStatus: false)
       
       let actualIndex = mainCarousel.currentItemIndex
       self.arrayOfPitchesByUser.insert(newElement, atIndex: actualIndex)
@@ -317,7 +319,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         newOtherScores: [Int](),
         newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData](),
         newWasWon: false,
-        newPitchStatus: -1)
+        newPitchStatus: -1,
+        newEvaluationStatus: false)
       
       let actualIndex = mainCarousel.currentItemIndex
       self.arrayOfPitchesByUser.insert(newElement, atIndex: actualIndex)
@@ -624,7 +627,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       return lookForPitchCard
       
     } else
-      if pitchData.pitchId == "-8888" {
+      if pitchData.pitchId == "-8888" {  //-8888 for filtering
         
         let frameForNewView = CGRect.init(x: 0.0,
                                           y: 0.0,
@@ -635,12 +638,34 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         filterView.delegate = self
         return filterView
      
-      } else {
+    } else
       
+      if pitchData.evaluationStatus == false {
+        let frameForNewView = CGRect.init(x: 0.0,
+                                          y: 0.0,
+                                      width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
+          
+        let pendingEvaluation = PendingEvaluationCardView.init(frame: frameForNewView,
+                                                          newPitchData: pitchData)
+        pendingEvaluation.delegate = self
+          
+        return pendingEvaluation
+          
+    } else {
+      
+      let frameForNewView = CGRect.init(x: 0.0,
+                                        y: 0.0,
+                                    width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
+        
+      genericCard = PitchCardView.init(frame: frameForNewView)
+      genericCard.delegate = self
+        
       genericCard.changePitchData(arrayOfPitchesByUser[index])
       return genericCard
       
-      }
+    }
     
   }
   
@@ -673,7 +698,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     let possibleFrontCard = carousel.itemViewAtIndex(carousel.currentItemIndex)
     
-    if possibleFrontCard != nil {
+    if possibleFrontCard != nil && possibleFrontCard as? PitchCardView != nil{
       
       frontCard = possibleFrontCard! as! PitchCardView
       frontCard.animateGraph()
@@ -694,7 +719,28 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
           }
       })
       
-    }
+    }else
+      if possibleFrontCard != nil && possibleFrontCard as? PendingEvaluationCardView != nil {
+        
+        pendingEvaluationFrontCard = possibleFrontCard as! PendingEvaluationCardView
+        
+        UIView.animateWithDuration(0.35,
+          animations: {
+                                    
+          self.pendingEvaluationFrontCard.layer.shadowColor = UIColor.blackColor().CGColor
+          self.pendingEvaluationFrontCard!.layer.shadowOpacity = 0.25
+          self.pendingEvaluationFrontCard!.layer.shadowOffset = CGSizeZero
+          self.pendingEvaluationFrontCard!.layer.shadowRadius = 5
+                                    
+          }, completion: { (finished) in
+            if finished == true {
+              
+              self.pendingEvaluationFrontCard.userInteractionEnabled = true
+              
+            }
+        })
+        
+      }
 
   }
   
@@ -712,6 +758,28 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         self.frontCard!.layer.shadowRadius = 0
         
       }
+      
+    }
+    
+    if pendingEvaluationFrontCard != nil {
+      
+      pendingEvaluationFrontCard.userInteractionEnabled = false
+      
+      UIView.animateWithDuration(0.35,
+        animations: { 
+          
+          self.pendingEvaluationFrontCard.layer.shadowColor = UIColor.clearColor().CGColor
+          self.pendingEvaluationFrontCard!.layer.shadowOpacity = 0.0
+          self.pendingEvaluationFrontCard!.layer.shadowOffset = CGSizeZero
+          self.pendingEvaluationFrontCard!.layer.shadowRadius = 0
+          
+        }, completion: { (finished) in
+          if finished == true {
+            
+            self.pendingEvaluationFrontCard = nil
+            
+          }
+      })
       
     }
     
@@ -1198,5 +1266,25 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
   }
   
+  //MARK: - PendingEvaluationCardViewDelegate
+  
+  func nextButtonPressedFromPendingEvaluationCardView(pitchData: PitchEvaluationByUserModelData) {
+    
+    let projectPitchData = ProjectPitchModelData.init(newId: pitchData.pitchId,
+      newName: pitchData.pitchName,
+      newBrandId: "-1",
+      newBriefDate: pitchData.briefDate,
+      newBrieEMailContact: "",
+      newArrayOfPitchCategories: Array<PitchSkillCategory>())
+    
+    projectPitchData.voidPitchEvaluationId = pitchData.pitchEvaluationId
+    
+    
+    let evaluatePitch = EvaluatePitchViewController(newPitchData: projectPitchData,
+                                                    creatingANewPitchEvaluation: false,
+                                                    updatingAPreviousPitchEvaluation: true)
+    self.navigationController?.pushViewController(evaluatePitch, animated: true)
+    
+  }
   
 }

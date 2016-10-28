@@ -376,13 +376,13 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     let imageDashboardNonSelected = UIImage.init(named: "iconDashboardMedium")
     let imageDashboardSelected = UIImage.init(named: "iconDashboardWhite")
     
-    let blankController1 = BlankViewController()
+    let dashBoard = VisualizeMainCardsDashboardViewController()
     
     let tabOneBarItem = UITabBarItem.init(title: AgencyProfileVisualizeConstants.TabBarView.dashBoardButtonText,
                                           image: imageDashboardNonSelected,
                                           selectedImage: imageDashboardSelected)
     
-    let newNavController = UINavigationController.init(rootViewController: blankController1)
+    let newNavController = UINavigationController.init(rootViewController: dashBoard)
     
     tabOneBarItem.tag = 1
     newNavController.tabBarItem = tabOneBarItem

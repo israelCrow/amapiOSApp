@@ -103,4 +103,11 @@ class VisualizePitchesConstants {
     
   }
   
+  enum PendingEvaluationCardView {
+    
+    static let pendingEvaluationLabelText = "¡Evaluación Pendiente!"
+    static let nextButtonText = "encuesta"
+    
+  }
+  
 }
