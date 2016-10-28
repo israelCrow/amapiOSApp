@@ -13,6 +13,21 @@ class VisualizeDashboardConstants {
     static let navigationBarTitleText = "Dashboard de Agencia"
     
   }
+  
+  enum GeneralPerformanceCardView {
+    
+    static let selectorLabelText = "Elige a la persona que quieres visualizar"
+    
+  }
+  
+  enum Faces {
+    
+    static let kGold = "happytch"
+    static let kSilver = "happy"
+    static let kMedium = "mediumRisk"
+    static let kBad = "highRisk"
+    
+  }
 
 }
 

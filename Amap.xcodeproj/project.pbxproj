@@ -40,6 +40,9 @@
 		AA0FE9BE1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0FE9BD1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift */; };
 		AA0FE9C31D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0FE9C21D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift */; };
 		AA14418F1DC32F5C00EB013E /* VisualizeMainCardsDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA14418E1DC32F5C00EB013E /* VisualizeMainCardsDashboardViewController.swift */; };
+		AA25D5DE1DC3AE6B00C9E59F /* GeneralPerformanceCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA25D5DD1DC3AE6B00C9E59F /* GeneralPerformanceCardView.swift */; };
+		AA25D5E11DC3C11900C9E59F /* FacesEvaluationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA25D5E01DC3C11900C9E59F /* FacesEvaluationsView.swift */; };
+		AA25D5E31DC3DED600C9E59F /* CircleGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA25D5E21DC3DED600C9E59F /* CircleGraphView.swift */; };
 		AA28B8FD1D80DF04007E22E3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA28B8FC1D80DF04007E22E3 /* MainTabBarController.swift */; };
 		AA2DB84C1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB84B1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift */; };
 		AA2DB84E1D53B0D900E9FB8A /* ExistingAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2DB84D1D53B0D900E9FB8A /* ExistingAccountView.swift */; };
@@ -268,6 +271,9 @@
 		AA0FE9BD1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeAgencyProfileViewController.swift; sourceTree = "<group>"; };
 		AA0FE9C21D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyProfileVisualizeConstants.swift; sourceTree = "<group>"; };
 		AA14418E1DC32F5C00EB013E /* VisualizeMainCardsDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeMainCardsDashboardViewController.swift; sourceTree = "<group>"; };
+		AA25D5DD1DC3AE6B00C9E59F /* GeneralPerformanceCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPerformanceCardView.swift; sourceTree = "<group>"; };
+		AA25D5E01DC3C11900C9E59F /* FacesEvaluationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacesEvaluationsView.swift; sourceTree = "<group>"; };
+		AA25D5E21DC3DED600C9E59F /* CircleGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleGraphView.swift; sourceTree = "<group>"; };
 		AA28B8FC1D80DF04007E22E3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		AA2DB84B1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessfullyAskForAccountView.swift; sourceTree = "<group>"; };
 		AA2DB84D1D53B0D900E9FB8A /* ExistingAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExistingAccountView.swift; sourceTree = "<group>"; };
@@ -664,6 +670,9 @@
 		AA14418D1DC3298500EB013E /* Create/Edit/Visualize_Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				AA25D5DD1DC3AE6B00C9E59F /* GeneralPerformanceCardView.swift */,
+				AA25D5E21DC3DED600C9E59F /* CircleGraphView.swift */,
+				AA25D5E01DC3C11900C9E59F /* FacesEvaluationsView.swift */,
 				AA6F8D9B1DC3363200D22AF1 /* VisualizeDashboardConstants.swift */,
 			);
 			name = Create/Edit/Visualize_Dashboard;
@@ -1299,6 +1308,7 @@
 				AA3E6EB11D74EFCD007D5736 /* SkillCategory.swift in Sources */,
 				AA74956F1D7739ED0082B6DF /* DashBoardPitchesAndAgencyProfileTabBarView.swift in Sources */,
 				AA8F6C0F1D790D620021683C /* VisualizeParticipateInView.swift in Sources */,
+				AA25D5E11DC3C11900C9E59F /* FacesEvaluationsView.swift in Sources */,
 				AACB52E51DB703F2004719A5 /* FilterPitchCardView.swift in Sources */,
 				AA8F6C0C1D7908AE0021683C /* VisualizeExclusiveView.swift in Sources */,
 				AA0BD3701DB54F840057387D /* ArchivedPitchEvaluationView.swift in Sources */,
@@ -1367,6 +1377,7 @@
 				AA9A6CFF1D87757800B85C17 /* GraphPartPitchCardView.swift in Sources */,
 				AAB3768E1DAF2C5400830523 /* EvaluationPitchSkillCategoryModelData.swift in Sources */,
 				AA9A6CF31D873C1F00B85C17 /* AddPitchAndWriteWhichCategoryIsView.swift in Sources */,
+				AA25D5E31DC3DED600C9E59F /* CircleGraphView.swift in Sources */,
 				AA9A6CFB1D87691000B85C17 /* DetailedPartPitchCardView.swift in Sources */,
 				AA9A6CEB1D87156700B85C17 /* AddPitchAndWriteProjectNameView.swift in Sources */,
 				046229641D62746D0087E572 /* ExtensionView.swift in Sources */,
@@ -1397,6 +1408,7 @@
 				AA4ADD5C1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift in Sources */,
 				AA2DB84C1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift in Sources */,
 				AA68D8EA1D834CB500DD1411 /* AddPitchAndWriteBrandNameView.swift in Sources */,
+				AA25D5DE1DC3AE6B00C9E59F /* GeneralPerformanceCardView.swift in Sources */,
 				AA7AC7C61D526C23007522FB /* UtilityManager.swift in Sources */,
 				AA756D7F1D70F7FB0070F153 /* RequestToServerManager.swift in Sources */,
 				AACBDE9A1D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift in Sources */,

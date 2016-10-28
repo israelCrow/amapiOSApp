@@ -18,6 +18,7 @@ protocol VisualizeMainCardsDashboardViewControllerShowAndHideDelegate {
 class VisualizeMainCardsDashboardViewController: UIViewController {
   
   private var mainCarousel: iCarousel! = nil
+  private var gralPerformanceCardView: GeneralPerformanceCardView! = nil
 
   var delegateForShowAndHideTabBar: VisualizeAllPitchesViewControllerShowAndHideDelegate?
   
@@ -92,7 +93,16 @@ class VisualizeMainCardsDashboardViewController: UIViewController {
   
   private func createGeneralPerformanceCard() {
     
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (168.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    let frameForGralPerformView = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth),
+                                       y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
+                                   width: widthOfCard,
+                                  height: heightOfCard)
+    
+    gralPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForGralPerformView)
+    self.view.addSubview(gralPerformanceCardView)
     
   }
   
