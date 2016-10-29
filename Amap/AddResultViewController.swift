@@ -336,8 +336,6 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
   }
   
-  
-  
   private func createGradientView() -> GradientView{
     
     let frameForView = CGRect.init(x: 0.0, y: 60.0, width: UIScreen.mainScreen().bounds.size.width, height: UIScreen.mainScreen().bounds.size.height - 60.0)
@@ -1164,9 +1162,14 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     self.moveYouWinPitchTo(.left)
     
-    self.moveDidSignContractView(.center)
-    
-//    self.saveDataToServer()
+    let params = self.createParamsToSave()
+    UtilityManager.sharedInstance.showLoader()
+    RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
+      
+      UtilityManager.sharedInstance.hideLoader()
+      self.moveDidSignContractView(.center)
+      
+    }
    
   }
   
@@ -1303,7 +1306,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     if nextScreenToShowWithTag == -1 {
       
       didProjectActiveSelectedValue = 1
-      self.saveDataToServer()
+      self.saveDataForPitchSurvey()
       
     }else
       if nextScreenToShowWithTag == 12 {
@@ -1335,7 +1338,59 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     whenProjectWillActiveSelectedValue = dateSelected
     
-    self.saveDataToServer()
+    self.saveDataForPitchSurvey()
+    
+  }
+  
+  private func saveDataForPitchSurvey() {
+    
+    let paramsForPitchSurvey = self.createParamsForPitchSurvey()
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToSavePitchSurvey(paramsForPitchSurvey) { 
+    
+      UtilityManager.sharedInstance.hideLoader()
+      self.navigationController?.popToRootViewControllerAnimated(true)
+      
+    }
+    
+  }
+  
+  private func createParamsForPitchSurvey() -> [String: AnyObject] {
+    
+    var pitchResult = [String:AnyObject]()
+    
+    pitchResult["pitch_id"] = pitchEvaluationData.pitchId
+    pitchResult["agency_id"] = AgencyModel.Data.id
+    
+    if didSignContractSelectedValue != nil {
+      
+      pitchResult["was_contract_signed"] = didSignContractSelectedValue
+      
+    }
+    if whenYouWillSignSelectedValue != nil {
+      
+      pitchResult["contract_signature_date"] = whenYouWillSignSelectedValue
+      
+    }
+    if didProjectActiveSelectedValue != nil {
+      
+      pitchResult["was_project_activated"] = didProjectActiveSelectedValue
+      
+    }
+    if whenProjectWillActiveSelectedValue != nil {
+      
+      pitchResult["when_will_it_activate"] = whenProjectWillActiveSelectedValue
+      
+    }
+    
+    let finalParams = [
+      "auth_token"  : UserSession.session.auth_token,
+      "pitch_winner_survey": pitchResult
+    ]
+    
+    return finalParams as! [String : AnyObject]
     
   }
   

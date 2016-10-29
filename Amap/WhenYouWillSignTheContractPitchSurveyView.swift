@@ -185,7 +185,7 @@ class WhenYouWillSignTheContractPitchSurveyView: UIView, UITextFieldDelegate {
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
     whenYouWillSignTheContractView = CustomTextFieldWithTitleView.init(frame: frameForView,
-                                                                 title: "¿Cuándo se activará?",
+                                                                 title: "¿Cuándo lo firmarás?",
                                                                  image: "iconImputCalendar")
     
     whenYouWillSignTheContractView.mainTextField.placeholder = "dd/mm/aa"

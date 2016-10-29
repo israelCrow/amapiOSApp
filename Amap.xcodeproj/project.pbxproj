@@ -194,6 +194,8 @@
 		AACBDE961D7FD74700F8F9EF /* SkillLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE951D7FD74700F8F9EF /* SkillLevelView.swift */; };
 		AACBDE9A1D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE991D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift */; };
 		AACC71661DB527F3005EA446 /* CanceledPitchEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACC71651DB527F3005EA446 /* CanceledPitchEvaluationView.swift */; };
+		AAD3EEC61DC47B6F00E37ACA /* RecommendationsDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD3EEC51DC47B6F00E37ACA /* RecommendationsDashboardView.swift */; };
+		AAD3EEC81DC47D5A00E37ACA /* SimpleIconLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD3EEC71DC47D5A00E37ACA /* SimpleIconLabelView.swift */; };
 		AAD65A461DC2589700FA73B5 /* PendingEvaluationCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD65A451DC2589700FA73B5 /* PendingEvaluationCardView.swift */; };
 		AADA93561DC0F67F00CA5DBD /* DidSignContractPitchSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADA93551DC0F67F00CA5DBD /* DidSignContractPitchSurveyView.swift */; };
 		AADA93581DC0FC5C00CA5DBD /* WhenYouWillSignTheContractPitchSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADA93571DC0FC5C00CA5DBD /* WhenYouWillSignTheContractPitchSurveyView.swift */; };
@@ -383,6 +385,8 @@
 		AACBDE951D7FD74700F8F9EF /* SkillLevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillLevelView.swift; sourceTree = "<group>"; };
 		AACBDE991D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCaseDetailViewController.swift; sourceTree = "<group>"; };
 		AACC71651DB527F3005EA446 /* CanceledPitchEvaluationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanceledPitchEvaluationView.swift; sourceTree = "<group>"; };
+		AAD3EEC51DC47B6F00E37ACA /* RecommendationsDashboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendationsDashboardView.swift; sourceTree = "<group>"; };
+		AAD3EEC71DC47D5A00E37ACA /* SimpleIconLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleIconLabelView.swift; sourceTree = "<group>"; };
 		AAD65A451DC2589700FA73B5 /* PendingEvaluationCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PendingEvaluationCardView.swift; sourceTree = "<group>"; };
 		AADA93551DC0F67F00CA5DBD /* DidSignContractPitchSurveyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DidSignContractPitchSurveyView.swift; sourceTree = "<group>"; };
 		AADA93571DC0FC5C00CA5DBD /* WhenYouWillSignTheContractPitchSurveyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhenYouWillSignTheContractPitchSurveyView.swift; sourceTree = "<group>"; };
@@ -671,8 +675,10 @@
 			isa = PBXGroup;
 			children = (
 				AA25D5DD1DC3AE6B00C9E59F /* GeneralPerformanceCardView.swift */,
-				AA25D5E21DC3DED600C9E59F /* CircleGraphView.swift */,
 				AA25D5E01DC3C11900C9E59F /* FacesEvaluationsView.swift */,
+				AA25D5E21DC3DED600C9E59F /* CircleGraphView.swift */,
+				AAD3EEC51DC47B6F00E37ACA /* RecommendationsDashboardView.swift */,
+				AAD3EEC71DC47D5A00E37ACA /* SimpleIconLabelView.swift */,
 				AA6F8D9B1DC3363200D22AF1 /* VisualizeDashboardConstants.swift */,
 			);
 			name = Create/Edit/Visualize_Dashboard;
@@ -1295,6 +1301,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAD3EEC81DC47D5A00E37ACA /* SimpleIconLabelView.swift in Sources */,
 				AADD0C541DB980EF0095A51C /* WhenGonnaToShowPitchView.swift in Sources */,
 				AA8997991D89CB09009513E3 /* BrandModelData.swift in Sources */,
 				AADD0C501DB96F6F0095A51C /* RecommendationView.swift in Sources */,
@@ -1411,6 +1418,7 @@
 				AA25D5DE1DC3AE6B00C9E59F /* GeneralPerformanceCardView.swift in Sources */,
 				AA7AC7C61D526C23007522FB /* UtilityManager.swift in Sources */,
 				AA756D7F1D70F7FB0070F153 /* RequestToServerManager.swift in Sources */,
+				AAD3EEC61DC47B6F00E37ACA /* RecommendationsDashboardView.swift in Sources */,
 				AACBDE9A1D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift in Sources */,
 				AADA93561DC0F67F00CA5DBD /* DidSignContractPitchSurveyView.swift in Sources */,
 				0462295C1D620DC70087E572 /* BasicCustomTextField.swift in Sources */,

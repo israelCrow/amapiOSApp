@@ -14,6 +14,7 @@ class GeneralPerformanceCardView: UIView {
   private var selectorOfInformationView: CustomTextFieldWithTitleAndPickerView! = nil
   private var optionsForSelector: [String]! = nil
   private var circleGraph: CircleGraphView! = nil
+  private var recommendationsView: RecommendationsDashboardsView! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -41,6 +42,7 @@ class GeneralPerformanceCardView: UIView {
     self.createSelectorOfInformationView()
     self.createFaces()
     self.createCircleGraph()
+    self.createRecommendationsView()
     
   }
   
@@ -49,9 +51,10 @@ class GeneralPerformanceCardView: UIView {
     let frameForMainScrollView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                              y: 0.0,
                                          width: 235.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        height: 464.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
+                                        height: self.frame.size.height)
+    
     let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
-                                              height: frameForMainScrollView.size.height + (15.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
+                                              height: frameForMainScrollView.size.height + (200.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.clearColor()
@@ -105,15 +108,34 @@ class GeneralPerformanceCardView: UIView {
   
   private func createCircleGraph() {
     
-    let frameForCircleGraph = CGRect.init(x: 13.0 * UtilityManager.sharedInstance.conversionWidth,
+    let frameForCircleGraph = CGRect.init(x: 0.0,
                                           y: 211.0 * UtilityManager.sharedInstance.conversionHeight,
-                                      width: 181.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     height: 181.0 * UtilityManager.sharedInstance.conversionHeight)
+                                      width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 256.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    circleGraph = CircleGraphView.init(frame: frameForCircleGraph)
+    circleGraph = CircleGraphView.init(frame: frameForCircleGraph, toPercentage: 0.68)
     mainScrollView.addSubview(circleGraph)
-    circleGraph.animateCircle(1.2, toPercentage: 0.68)
+    circleGraph.animateCircle(0.5)
     
+  }
+  
+  private func createRecommendationsView() {
+    
+    let frameForRecommendations = CGRect.init(x: 0.0,
+                        y: circleGraph.frame.origin.y + circleGraph.frame.size.height + (15.0 * UtilityManager.sharedInstance.conversionHeight),
+                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                   height: 230.0 * UtilityManager.sharedInstance.conversionHeight)
+  
+    let arrayOfRecommendations = ["No aceptes pitches con más de 5 agencias involucradas",
+                                  "No aceptes pitches con más de 5 agencias involucradas",
+                                  "No aceptes pitches con más de 5 agencias involucradas"
+                                 ]
+    
+    recommendationsView = RecommendationsDashboardsView.init(frame: frameForRecommendations,
+      newArrayOfRecommendations: arrayOfRecommendations)
+    
+    mainScrollView.addSubview(recommendationsView)
+  
   }
   
 }
