@@ -148,8 +148,6 @@ class GraphPartPitchCardView: UIView {
     
   }
   
-  
-  
   private func createLinesOfGraph() {
     
     var border = CALayer()
@@ -219,7 +217,7 @@ class GraphPartPitchCardView: UIView {
   
   private func createGraphs() {
     
-    if arrayOfQualifications.count >= 1 && arrayOfQualifications.count < 5 {
+    if arrayOfQualifications.count >= 1 && arrayOfQualifications.count < 6 {
       
       for index in 0..<(arrayOfQualifications.count - 1) {
         
@@ -227,7 +225,7 @@ class GraphPartPitchCardView: UIView {
         
       }
       
-      let spaceBetweenGraphs = (214.0 * UtilityManager.sharedInstance.conversionWidth) / CGFloat(arrayOfQualifications.count)
+      let spaceBetweenGraphs = (250.0 * UtilityManager.sharedInstance.conversionWidth) / CGFloat(arrayOfQualifications.count)
       
       for index in 0..<arrayOfQualifications.count {
         
@@ -248,7 +246,7 @@ class GraphPartPitchCardView: UIView {
       }
 
     } else
-      if arrayOfQualifications.count > 4 {
+      if arrayOfQualifications.count >= 6 {
         
         let qualification = arrayOfQualifications.first
         let agencyName = arrayOfAgencyNames.first
@@ -264,9 +262,11 @@ class GraphPartPitchCardView: UIView {
         
         arrayOfBarGraphic.append(newGraph)
         
-        let spaceBetweenGraphs = (214.0 * UtilityManager.sharedInstance.conversionWidth) / CGFloat(arrayOfQualifications.count)
+        let limit = min(arrayOfQualifications.count, 7)
         
-        for index in 1..<arrayOfQualifications.count {
+        let spaceBetweenGraphs = (240.0 * UtilityManager.sharedInstance.conversionWidth) / CGFloat(limit)
+
+        for index in 1..<limit {
           
           let qualification = arrayOfQualifications[index]
           
@@ -275,7 +275,7 @@ class GraphPartPitchCardView: UIView {
                                           width: 50.0 * UtilityManager.sharedInstance.conversionWidth,
                                           height: 287.5 * UtilityManager.sharedInstance.conversionHeight)
           
-          let newGraph = GraphView.init(frame: frameForGraph, newAgencyName: nil, newAgencyQualification: qualification)
+          let newGraph = GraphView.init(frame: frameForGraph, newAgencyName: "", newAgencyQualification: qualification)
           newGraph.alpha = 0.0
           self.addSubview(newGraph)
           
@@ -283,8 +283,47 @@ class GraphPartPitchCardView: UIView {
           
         }
         
+        self.createOtherAgenciesLabel()
+        
       }
 
+  }
+  
+  private func createOtherAgenciesLabel() {
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 70.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    let otherAgenciesLabel = UILabel.init(frame: frameForLabel)
+    otherAgenciesLabel.numberOfLines = 0
+    otherAgenciesLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIDisplay-Regular",
+                      size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.whiteColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Otras agencias",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    otherAgenciesLabel.attributedText = stringWithFormat
+    otherAgenciesLabel.sizeToFit()
+    let newFrame = CGRect.init(x: 129.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: 317.5 * UtilityManager.sharedInstance.conversionHeight,
+                               width: otherAgenciesLabel.frame.size.width,
+                               height: otherAgenciesLabel.frame.size.height)
+    
+    otherAgenciesLabel.frame = newFrame
+    
+    self.addSubview(otherAgenciesLabel)
+  
   }
   
   func animateGraph() {
