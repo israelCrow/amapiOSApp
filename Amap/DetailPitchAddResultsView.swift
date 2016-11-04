@@ -16,6 +16,7 @@ protocol DetailPitchAddResultsViewDelegate {
 
 class DetailPitchAddResultsView: UIView {
   
+  private var stringForButton: String! = nil
   private var fillTheSurveyLabel: UILabel! = nil
   private var addResultsButton: UIButton! = nil
   
@@ -25,7 +26,9 @@ class DetailPitchAddResultsView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override init(frame: CGRect) {
+  init(frame: CGRect, newStringForButton: String) {
+    
+    stringForButton = newStringForButton
     
     super.init(frame: frame)
     
@@ -89,7 +92,7 @@ class DetailPitchAddResultsView: UIView {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: EditPitchesConstants.DetailPitchAddResultsView.addResultsButtonText,
+      string: stringForButton,//EditPitchesConstants.DetailPitchAddResultsView.addResultsButtonText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color,

@@ -17,6 +17,8 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
   private var pitchData: ProjectPitchModelData! = nil
   private var pitchDataCreated: ProjectPitchModelData! = nil
   
+  private var createNewPitchEvaluation: Bool = false
+  
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -229,6 +231,30 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
     
   }
   
+  func flipCardToOk() {
+    
+    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+    let heightOfCard = self.view.frame.size.height - (292.0 * UtilityManager.sharedInstance.conversionHeight)
+    let frameForBackAndFrontOfCard = CGRect.init(x: 0.0,
+                                                 y: 0.0,
+                                                 width: widthOfCard,
+                                                 height: heightOfCard)
+    
+    let backOfTheCard = SuccessfullyCreationOfPitchView.init(frame: frameForBackAndFrontOfCard)
+    backOfTheCard.hidden = true
+    backOfTheCard.delegate = self
+    self.flipCard.setSecondView(backOfTheCard)
+    
+    UtilityManager.sharedInstance.hideLoader()
+    
+    createNewPitchEvaluation = true
+    
+    self.flipCard.flip()
+    
+  }
+  
+  
+  
   //MARK: - PreEvaluatePitchViewDelegate
   
   func savePitchAndFlipCard(briefEmailContact: String!, briefDate: String!) {
@@ -279,12 +305,22 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
       self.detailedNavigation.frame = newFrameForDetailedNavigation
       
     }
+    
+    if createNewPitchEvaluation == true {
+      
+      let evaluatePitch = EvaluatePitchViewController(newPitchData: pitchData,
+                                                      creatingANewPitchEvaluation: true,
+                                                      updatingAPreviousPitchEvaluation: false)
+      self.navigationController?.pushViewController(evaluatePitch, animated: true)
+      
+      
+    } else {
   
-    let evaluatePitch = EvaluatePitchViewController(newPitchData: pitchDataCreated,
+      let evaluatePitch = EvaluatePitchViewController(newPitchData: pitchDataCreated,
                                      creatingANewPitchEvaluation: false,
                                 updatingAPreviousPitchEvaluation: true)
-    self.navigationController?.pushViewController(evaluatePitch, animated: true)
-    
+      self.navigationController?.pushViewController(evaluatePitch, animated: true)
+    }
     
   }
   

@@ -203,18 +203,31 @@ class CreateAddNewPitchAndWriteProjectNameViewController: UIViewController, AddP
       
       newProjectPitchData!.brandData = brandData
       newProjectPitchData!.companyData = companyData
+      newProjectPitchData!.arrayOfPitchCategories = [PitchSkillCategory]()
       
-      let createAndWriteWhichCategoryIs = CreateAddNewPitchAndWriteCategoryTypeViewController(newProjectPitchData: newProjectPitchData!)
-      self.navigationController?.pushViewController(createAndWriteWhichCategoryIs, animated: true)
+      
+      let preEvaluatePitch = PreEvaluatePitchViewController(newPitchData: newProjectPitchData!)
+      self.navigationController?.pushViewController(preEvaluatePitch, animated: true)
+      
+      
+//      let createAndWriteWhichCategoryIs = CreateAddNewPitchAndWriteCategoryTypeViewController(newProjectPitchData: newProjectPitchData!)
+//      self.navigationController?.pushViewController(createAndWriteWhichCategoryIs, animated: true)
       
     }else
       if newProjectPitchData == nil && selectedProjectPitchData != nil {
         
         selectedProjectPitchData!.brandData = brandData
         selectedProjectPitchData!.companyData = companyData
+        selectedProjectPitchData!.arrayOfPitchCategories = [PitchSkillCategory]()
+        
+        let preEvaluatePitch = PreEvaluatePitchViewController(newPitchData: selectedProjectPitchData!)
+        self.navigationController?.pushViewController(preEvaluatePitch, animated: true)
+        preEvaluatePitch.flipCardToOk()
+        
+        
       
-        let createAndWriteWhichCategoryIs = CreateAddNewPitchAndWriteCategoryTypeViewController(newProjectPitchData: selectedProjectPitchData!)
-        self.navigationController?.pushViewController(createAndWriteWhichCategoryIs, animated: true)
+//        let createAndWriteWhichCategoryIs = CreateAddNewPitchAndWriteCategoryTypeViewController(newProjectPitchData: selectedProjectPitchData!)
+//        self.navigationController?.pushViewController(createAndWriteWhichCategoryIs, animated: true)
       
       }
   

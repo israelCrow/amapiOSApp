@@ -1,35 +1,34 @@
 //
-//  EvaluatePitchViewController.swift
+//  EditPitchEvaluationViewController.swift
 //  Amap
 //
-//  Created by Alejandro Aristi C on 9/18/16.
+//  Created by Alejandro Aristi C on 11/3/16.
 //  Copyright © 2016 Alejandro Aristi C. All rights reserved.
 //
 
 import UIKit
 
-class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
+class EditPitchEvaluationViewController: UIViewController, EditPitchEvaluationViewDelegate {
   
   private var flipCard: FlipCardView! = nil
-  private var evaluatePitch: EvaluatePitchView! = nil
+  private var editPitchEvaluation: EditPitchEvaluationView! = nil
   private var backViewForEvaluatePitchView: UIView! = nil
   private var detailedNavigation: DetailedNavigationEvaluatPitchView! = nil
   
   private var createANewPitchEvaluation: Bool! = nil
   private var updateAPreviousPitchEvaluation: Bool! = nil
   
-  private var pitchData: ProjectPitchModelData! = nil
+  private var evaluationData: [String: AnyObject]! = nil
+  private var pitchEvaluationData: PitchEvaluationByUserModelData! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(newPitchData: ProjectPitchModelData, creatingANewPitchEvaluation: Bool, updatingAPreviousPitchEvaluation: Bool) {
-    
-    createANewPitchEvaluation = creatingANewPitchEvaluation
-    updateAPreviousPitchEvaluation = updatingAPreviousPitchEvaluation
-    
-    pitchData = newPitchData
+  init(newPitchEvaluationData: PitchEvaluationByUserModelData, newEvaluationData: [String: AnyObject]) {
+  
+    pitchEvaluationData = newPitchEvaluationData
+    evaluationData = newEvaluationData
     
     super.init(nibName: nil, bundle: nil)
     
@@ -131,10 +130,10 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
                                           height: 108.0 * UtilityManager.sharedInstance.conversionHeight)
     
     detailedNavigation = DetailedNavigationEvaluatPitchView.init(frame: frameForDetailedNav,
-      newProjectName: pitchData.name,
-      newBrandName: (pitchData.brandData != nil ? pitchData.brandData!.name : "Marca"),
-      newCompanyName: (pitchData.companyData != nil ? pitchData.companyData!.name : "Compañía"),
-      newDateString: pitchData.briefDate)
+                                                                 newProjectName: pitchEvaluationData.pitchName,
+                                                                 newBrandName: pitchEvaluationData.brandName,
+                                                                 newCompanyName: pitchEvaluationData.companyName ,
+                                                                 newDateString: pitchEvaluationData.briefDate)
     
     detailedNavigation.alpha = 0.0
     self.navigationController?.navigationBar.addSubview(detailedNavigation)
@@ -164,7 +163,7 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
     backViewForEvaluatePitchView.backgroundColor = UIColor.whiteColor()
     
     self.createEvaluatePitch(frameForBackAndFrontOfCard)
-    backViewForEvaluatePitchView.addSubview(self.evaluatePitch)
+    backViewForEvaluatePitchView.addSubview(self.editPitchEvaluation)
     
     flipCard = FlipCardView.init(frame: frameForCard,
                                  viewOne: backViewForEvaluatePitchView,
@@ -176,8 +175,9 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
   
   private func createEvaluatePitch(frameForPreEvaluatePitchView: CGRect) {
     
-    evaluatePitch = EvaluatePitchView.init(frame: frameForPreEvaluatePitchView)
-    evaluatePitch.delegate = self
+    editPitchEvaluation = EditPitchEvaluationView.init(frame: frameForPreEvaluatePitchView,
+                                      newPitchEvaluationData: evaluationData)
+    editPitchEvaluation.delegate = self
     
   }
   
@@ -239,128 +239,50 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
     
   }
   
-//  //MARK: - PreEvaluatePitchViewDelegate
-//  
-//  func savePitchAndFlipCard() {
-//    
-//    //Send Info to server, if is correct flipCard
-//    
-////    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
-////    let heightOfCard = self.view.frame.size.height - (292.0 * UtilityManager.sharedInstance.conversionHeight)
-////    let frameForBackAndFrontOfCard = CGRect.init(x: 0.0,
-////                                                 y: 0.0,
-////                                                 width: widthOfCard,
-////                                                 height: heightOfCard)
-//    
-////    let backOfTheCard = SuccessfullyCreationOfPitchView.init(frame: frameForBackAndFrontOfCard)
-////    backOfTheCard.hidden = true
-////    backOfTheCard.delegate = self
-////    flipCard.setSecondView(backOfTheCard)
-//    
-//    flipCard.flip()
-//    
-//  }
+  //  //MARK: - PreEvaluatePitchViewDelegate
+  //
+  //  func savePitchAndFlipCard() {
+  //
+  //    //Send Info to server, if is correct flipCard
+  //
+  ////    let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
+  ////    let heightOfCard = self.view.frame.size.height - (292.0 * UtilityManager.sharedInstance.conversionHeight)
+  ////    let frameForBackAndFrontOfCard = CGRect.init(x: 0.0,
+  ////                                                 y: 0.0,
+  ////                                                 width: widthOfCard,
+  ////                                                 height: heightOfCard)
+  //
+  ////    let backOfTheCard = SuccessfullyCreationOfPitchView.init(frame: frameForBackAndFrontOfCard)
+  ////    backOfTheCard.hidden = true
+  ////    backOfTheCard.delegate = self
+  ////    flipCard.setSecondView(backOfTheCard)
+  //
+  //    flipCard.flip()
+  //
+  //  }
   
-  //MARK: - EvaluatePitchVideDelegate
+    //MARK: - EditPitchEvaluationViewDelegate
   
-  func createEvaluatePitch(params: [String : AnyObject]) {
+  func updatePitchEvaluation(params: [String : AnyObject]) {
     
-    var paramsWithPitchID = params
-    paramsWithPitchID["pitch_id"] = pitchData.id
-
-    if updateAPreviousPitchEvaluation == true {
+    let finalParamsToUpdate = [
+    "id": pitchEvaluationData.pitchEvaluationId,
+    "auth_token": UserSession.session.auth_token,
+    "pitch_evaluation" : params
+    ]
     
-      if pitchData.voidPitchEvaluationId != nil {
-        
-        let finalParams: [String: AnyObject] = [
-          "auth_token": UserSession.session.auth_token,
-          "id": pitchData.voidPitchEvaluationId!,
-          "pitch_evaluation" : paramsWithPitchID
-        ]
-        
-        UtilityManager.sharedInstance.showLoader()
-        
-        RequestToServerManager.sharedInstance.requestToUpdateEvaluationOfProjectPitch(finalParams) {
-         
-          newEvaluationPitchCreated in
-          UtilityManager.sharedInstance.hideLoader()
-          self.dismissDetailedNavigation()
-          
-//          let rootView = (self.navigationController?.viewControllers.first as? VisualizeAllPitchesViewController != nil ? self.navigationController?.viewControllers.first as! VisualizeAllPitchesViewController : VisualizeAllPitchesViewController())
-//          
-//          rootView.changePitchEvaluationIDToLookForAfterCreated(newEvaluationPitchCreated.id)
-          
-          self.navigationController?.popToRootViewControllerAnimated(true)
-          
-        }
+    RequestToServerManager.sharedInstance.requestToUpdateEvaluationOfProjectPitch(finalParamsToUpdate as! [String : AnyObject]) {
       
-      }
-    
-    }else{
+      newEvaluationPitchCreated in
       
-      if createANewPitchEvaluation == true {
-        
-        let finalParams: [String: AnyObject] = [
-          "auth_token": UserSession.session.auth_token,
-          "pitch_evaluation" : paramsWithPitchID
-        ]
-        
-        UtilityManager.sharedInstance.showLoader()
-        
-        
-        RequestToServerManager.sharedInstance.requestToCreateEvaluationOfProjectPitch(finalParams, actionsToMakeAfterSuccesfullCreateNewEvaluationPitch: { (newEvaluationPitchCreated) in
-          
-//              print(newEvaluationPitchCreated)
-              UtilityManager.sharedInstance.hideLoader()
-              self.dismissDetailedNavigation()
-              self.navigationController?.popToRootViewControllerAnimated(true)
-          
-          }, actionsToMakeWhenPitchEvaluationAlreadyCreated: {message in
-            
-            UtilityManager.sharedInstance.hideLoader()
-            
-            let alertController = UIAlertController(title: "ERROR",
-                                                  message: message,
-                                           preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
-              
-              self.dismissDetailedNavigation()
-              self.navigationController?.popToRootViewControllerAnimated(true)
-              
-            }
-            
-            alertController.addAction(cancelAction)
-            self.presentViewController(alertController, animated: true, completion: nil)
-            
-            
-            
-            
-            
-            
-            
-
-            
-        })
-        
-//        RequestToServerManager.sharedInstance.requestToCreateEvaluationOfProjectPitch(finalParams) {
-//          (newEvaluationPitchCreated) in
-//        
-//            print(newEvaluationPitchCreated)
-//            UtilityManager.sharedInstance.hideLoader()
-//            self.dismissDetailedNavigation()
-//          
-////          let rootView = (self.navigationController?.viewControllers.first as? VisualizeAllPitchesViewController != nil ? self.navigationController?.viewControllers.first as! VisualizeAllPitchesViewController : VisualizeAllPitchesViewController())
-////          
-////          rootView.changePitchEvaluationIDToLookForAfterCreated(newEvaluationPitchCreated.id)
-//          
-//            self.navigationController?.popToRootViewControllerAnimated(true)
-//          
-//        }
-    
-      }
+      UtilityManager.sharedInstance.hideLoader()
+      self.dismissDetailedNavigation()
+      
+      self.navigationController?.popToRootViewControllerAnimated(true)
       
     }
+    
+    
     
   }
   
@@ -392,7 +314,7 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
     
     UIView.animateWithDuration(0.25) {
       
-      self.evaluatePitch.alpha = 0.0
+      self.editPitchEvaluation.alpha = 0.0
       
     }
     
@@ -403,9 +325,9 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
     let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
     let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
     let newFrameForCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth),
-                                   y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
-                                   width: widthOfCard,
-                                   height: heightOfCard)
+                                      y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
+                                      width: widthOfCard,
+                                      height: heightOfCard)
     
     let frameForBackAndFrontOfCard = CGRect.init(x: 0.0,
                                                  y: 0.0,
@@ -418,16 +340,16 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
     self.createEvaluatePitch(frameForBackAndFrontOfCard)
     
     UIView.animateWithDuration(0.25,
-      animations: { 
+                               animations: {
+                                
+                                self.flipCard.frame = newFrameForCard
+                                
+    }) { (finished) in
+      if finished == true {
         
-        self.flipCard.frame = newFrameForCard
+        self.animateFlipCard(blankAndBackView)
         
-      }) { (finished) in
-        if finished == true {
-          
-         self.animateFlipCard(blankAndBackView)
-          
-        }
+      }
     }
     
   }
@@ -496,12 +418,12 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
   }
   
   //MARK: - SuccessfullyCreationOfPitchViewDelegate
-//  
-//  func nextButtonPressedFromSuccessfullyCreationOfPitch() {
-//    
-//    
-//    
-//  }
+  //  
+  //  func nextButtonPressedFromSuccessfullyCreationOfPitch() {
+  //    
+  //    
+  //    
+  //  }
   
   @objc private func dismissKeyboard(sender:AnyObject) {
     

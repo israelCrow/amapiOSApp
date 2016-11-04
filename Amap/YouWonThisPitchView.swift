@@ -43,12 +43,17 @@ class YouWonThisPitchView: UIView {
   
   private func initInterface() {
     
+    self.backgroundColor = UIColor.whiteColor()
+    
     self.createGradientContainerView()
     self.createOkeyImageView()
     self.createYouWonThisPitchLabel()
-    self.createDetailedLabel()
     self.createDetailedPartView()
-    self.createNextButton()
+    
+    if pitchData.hasPitchWinnerSurvey == false {
+      self.createDetailedLabel()
+      self.createNextButton()
+    }
     
   }
   

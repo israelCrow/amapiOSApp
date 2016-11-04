@@ -17,6 +17,8 @@ protocol DetailPitchViewDelegate {
   
   func pushAddResultsViewController(pitchaEvaluationData: PitchEvaluationByUserModelData)
   
+  func editPitchEvaluation(pitchEvaluationData: PitchEvaluationByUserModelData)
+  
 }
 
 class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, DetailPitchAddResultsViewDelegate, TabBarArchiveEditDeletePitchViewDelegate {
@@ -119,12 +121,30 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   
   private func createFillSurveyView() {
     
+    if fillSurveyView != nil {
+      
+      fillSurveyView.removeFromSuperview()
+      fillSurveyView = nil
+      
+    }
+    
     let frameForView = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
                                    y: pitchSkillsView.frame.origin.y + pitchSkillsView.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                               height: 185.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    fillSurveyView = DetailPitchAddResultsView.init(frame: frameForView)
+    var stringForButton = ""
+    if pitchEvaluationData.hasResults == true {
+      
+      stringForButton = "editar resultado"
+      
+    } else {
+      
+      stringForButton = EditPitchesConstants.DetailPitchAddResultsView.addResultsButtonText
+      
+    }
+    
+    fillSurveyView = DetailPitchAddResultsView.init(frame: frameForView, newStringForButton: stringForButton)
     fillSurveyView.delegate = self
     
     bottomContainerView.addSubview(fillSurveyView)
@@ -166,6 +186,12 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     if pitchSkillsView != nil {
       
       pitchSkillsView.setArrayOfEvaluationPitchSkillCategories(pitchEvaluationData.arrayOfEvaluationPitchSkillCategory)
+      
+    }
+    
+    if fillSurveyView != nil {
+      
+      self.createFillSurveyView()
       
     }
     
@@ -382,7 +408,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   
   func editPitchEvaluationButtonFromTabBarPressed() {
     
-    
+    self.delegate?.editPitchEvaluation(pitchEvaluationData)
     
   }
   

@@ -438,7 +438,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     caseWebLinkView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                         title: AgencyProfileEditConstants.CreateCaseView.caseWebLinkLabelText,
                                                         image: nil)
-    caseWebLinkView.mainTextField.placeholder = "www.ejemplo.com"
+    caseWebLinkView.mainTextField.placeholder = "http://www.ejemplo.com"
     caseWebLinkView.backgroundColor = UIColor.clearColor()
     caseWebLinkView.mainTextField.delegate = self
     caseWebLinkView.mainTextField.tag = 8
@@ -775,7 +775,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true)
     if isDownContentView == false {
       
       let newFrameForContainerView = CGRect.init(x: containerView.frame.origin.x,
-                                                 y: containerView.frame.origin.y + (45.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                 y: containerView.frame.origin.y + (53.5 * UtilityManager.sharedInstance.conversionHeight),
                                                  width: containerView.frame.size.width,
                                                  height: containerView.frame.size.height)
       
@@ -883,15 +883,20 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true)
   
   @objc private func requestCreateCase() {
     
+    let finalUrl = self.transformURL()
+    let isURLOk = UIApplication.sharedApplication().canOpenURL(NSURL.init(string: finalUrl)!)
+    
     let isNameOk = UtilityManager.sharedInstance.isValidText(caseNameView.mainTextField.text!)
     let isDescriptionOk = UtilityManager.sharedInstance.isValidText(caseDescriptionTextView.description)
-    let isURLOk = UIApplication.sharedApplication().canOpenURL(NSURL.init(string: caseWebLinkView.mainTextField.text!)!)
     let doesExistImage: Bool
     if caseImage != nil {
       doesExistImage = true
     }else{
       doesExistImage = false
     }
+    
+
+    
     
     if (isNameOk == true && isDescriptionOk == true && isURLOk == true) {
       
@@ -900,7 +905,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true)
       var params = [String:AnyObject]()
       let caseName: String = caseNameView.mainTextField.text!
       let caseDescription: String = caseDescriptionTextView.text
-      let caseWebLink: String = caseWebLinkView.mainTextField.text!
+      let caseWebLink: String = finalUrl
       
       if doesExistImage ==  false {
 
@@ -940,6 +945,31 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true)
       self.showErrorInFieldsLabel()
       
     }
+  }
+  
+  private func transformURL() -> String {
+    
+    let isURLOk = UIApplication.sharedApplication().canOpenURL(NSURL.init(string: caseWebLinkView.mainTextField.text!)!)
+    
+    var finalURL = caseWebLinkView.mainTextField.text!
+    
+    if isURLOk == false {
+      
+      if finalURL.rangeOfString("www.") == nil {
+        
+        finalURL = "www." + finalURL
+        
+      }
+      if finalURL.rangeOfString("http://") == nil {
+        
+        finalURL = "http://" + finalURL
+        
+      }
+      
+    }
+    
+    return finalURL
+    
   }
   
   private func disableAllElements() {

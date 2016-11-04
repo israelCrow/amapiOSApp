@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol AddResultViewControllerDelegate {
+  
+  func doActionsWhenDisappear()
+  
+}
+
 class AddResultViewController: UIViewController, DidYouShowYourProposalViewDelegate, DidReceiveRulingViewDelegate, DidWinPitchViewDelegate, YouWinPitchViewDelegate, DidGetFeedbackViewDelegate, RecommendationViewDelegate, WhenGonnaReceiveRulingViewDelegate, WhenGonnaToShowPitchViewDelegate, DidSignContractPitchSurveyViewDelegate, DidProjectActivePitchSurveyViewDelegate, WhenYouWillSignTheContractPitchSurveyViewDelegate, WhenProjectWillActivePitchSurveyViewDelegate {
   
   private var pitchEvaluationData: PitchEvaluationByUserModelData! = nil
@@ -36,11 +42,15 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   private var didProjectActiveView: DidProjectActivePitchSurveyView! = nil
   private var whenYouWillSignView: WhenYouWillSignTheContractPitchSurveyView! = nil
   private var whenProjectWillActiveView: WhenProjectWillActivePitchSurveyView! = nil
+  
   //Pitch Survey Results
+  private var showDirectlyPitchSurvey: Bool! = nil
   private var didSignContractSelectedValue: Int! = nil
   private var didProjectActiveSelectedValue: Int! = nil
   private var whenYouWillSignSelectedValue: String! = nil
   private var whenProjectWillActiveSelectedValue: String! = nil
+  
+  var delegate: AddResultViewControllerDelegate?
   
   private let leftPositionCard = CGPoint.init(x: -UIScreen.mainScreen().bounds.size.width,
                                               y: 148.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -62,6 +72,15 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   init(newPitchEvaluationDataByUser: PitchEvaluationByUserModelData) {
     
     pitchEvaluationData = newPitchEvaluationDataByUser
+    
+    super.init(nibName: nil, bundle: nil)
+    
+  }
+  
+  init(newPitchEvaluationDataByUser: PitchEvaluationByUserModelData, initDirectlyInPitchSurveyPitch: Bool) {
+    
+    pitchEvaluationData = newPitchEvaluationDataByUser
+    showDirectlyPitchSurvey = initDirectlyInPitchSurveyPitch
     
     super.init(nibName: nil, bundle: nil)
     
@@ -170,7 +189,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   
   private func addDetailNavigationController() {
     
-    let frameForDetailedNav = CGRect.init(x: self.view.frame.size.width,
+    let frameForDetailedNav = CGRect.init(x: 0.0,
                                           y: (self.navigationController?.navigationBar.frame.size.height)!,
                                           width: self.view.frame.size.width,
                                           height: 108.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -181,26 +200,38 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
                                                                  newCompanyName: pitchEvaluationData.companyName,
                                                                  newDateString: pitchEvaluationData.briefDate)
     
-    detailedNavigation.alpha = 0.0
+    detailedNavigation.alpha = 1.0
     self.navigationController?.navigationBar.addSubview(detailedNavigation)
     
   }
   
   private func createAllCards() {
     
-    self.createShowedYourProposal()
-    self.createDidReceiveRuling()
-    self.createDidWinPitch()
-    self.createYouWinPitch()
-    self.createGetFeedBack()
-    self.createRecommendation()
-    self.createGonnaReceiveRuling()
-    self.createGonnaShowPitch()
-    //
-    self.createDidSignContractView()
-    self.createDidProjectActiveView()
-    self.createWhenYouWillSignView()
-    self.createWhenProjectWillActiveView()
+    if showDirectlyPitchSurvey != nil && showDirectlyPitchSurvey == true {
+      
+      self.createDidSignContractView()
+      self.moveDidSignContractView(.center)
+      self.createDidProjectActiveView()
+      self.createWhenYouWillSignView()
+      self.createWhenProjectWillActiveView()
+      
+    } else {
+      
+      self.createShowedYourProposal()
+      self.createDidReceiveRuling()
+      self.createDidWinPitch()
+      self.createYouWinPitch()
+      self.createGetFeedBack()
+      self.createRecommendation()
+      self.createGonnaReceiveRuling()
+      self.createGonnaShowPitch()
+      //
+      self.createDidSignContractView()
+      self.createDidProjectActiveView()
+      self.createWhenYouWillSignView()
+      self.createWhenProjectWillActiveView()
+      
+    }
     
   }
   
@@ -348,8 +379,39 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
   }
   
+  private func dismissDetailedNavigation() {
+    
+    let newFrameForDetailedNavigation = CGRect.init(x: UIScreen.mainScreen().bounds.size.width,
+                                                    y: detailedNavigation.frame.origin.y,
+                                                width: detailedNavigation.frame.size.width,
+                                               height: detailedNavigation.frame.size.height)
+    
+    UIView.animateWithDuration(0.25,
+      animations: {
+        
+        self.detailedNavigation.frame = newFrameForDetailedNavigation
+        self.detailedNavigation.alpha = 0.0
+        
+      }) { (finished) in
+        
+            if finished == true {
+          
+              if self.detailedNavigation != nil {
+          
+                self.detailedNavigation.removeFromSuperview()
+          
+              }
+          
+            }
+        
+      }
+    
+  }
+  
   @objc private func navigationRightButtonPressed() {
     
+    self.dismissDetailedNavigation()
+    self.delegate?.doActionsWhenDisappear()
     self.navigationController?.popToRootViewControllerAnimated(true)
     
   }
@@ -1164,10 +1226,20 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     let params = self.createParamsToSave()
     UtilityManager.sharedInstance.showLoader()
-    RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
+    
+    
+    if pitchEvaluationData.hasResults == true {
       
-      UtilityManager.sharedInstance.hideLoader()
-      self.moveDidSignContractView(.center)
+      /////////CHECK UPDATE OF RESULTS!!!
+      
+    } else {
+      
+      RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
+        
+        UtilityManager.sharedInstance.hideLoader()
+        self.moveDidSignContractView(.center)
+        
+      }
       
     }
    
@@ -1188,6 +1260,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     }
     
     self.saveDataToServer()
+    self.dismissDetailedNavigation()
     
   }
   
@@ -1196,6 +1269,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   func recommendationNextButtonPressed() {
     
     self.saveDataToServer()
+    self.dismissDetailedNavigation()
     
   }
   
@@ -1205,6 +1279,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     gonnaReceiveRulingSelectedValue = dateSelected
     self.saveDataToServer()
+    self.dismissDetailedNavigation()
     
   }
   
@@ -1215,6 +1290,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     gonnaShowPitchSelectedValue = dateSelected
     
     self.saveDataToServer()
+    self.dismissDetailedNavigation()
     
   }
   
@@ -1222,12 +1298,24 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     let params = self.createParamsToSave()
     UtilityManager.sharedInstance.showLoader()
-    RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
+    
+    if pitchEvaluationData.hasResults == true {
       
-      UtilityManager.sharedInstance.hideLoader()
-      self.navigationController?.popToRootViewControllerAnimated(true)
+      /////////CHECK UPDATE OF RESULTS!!!
+      
+    } else {
+      
+      RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
+        
+        UtilityManager.sharedInstance.hideLoader()
+        self.delegate?.doActionsWhenDisappear()
+        self.navigationController?.popToRootViewControllerAnimated(true)
+        
+      }
       
     }
+    
+
     
   }
   
@@ -1351,6 +1439,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     RequestToServerManager.sharedInstance.requestToSavePitchSurvey(paramsForPitchSurvey) { 
     
       UtilityManager.sharedInstance.hideLoader()
+      self.dismissDetailedNavigation()
       self.navigationController?.popToRootViewControllerAnimated(true)
       
     }

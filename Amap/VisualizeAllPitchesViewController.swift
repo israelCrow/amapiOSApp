@@ -18,7 +18,7 @@ protocol VisualizeAllPitchesViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate, DetailPitchViewDelegate, CanceledPitchEvaluationViewDelegate, ArchivedPitchEvaluationViewDelegate, DeletedPitchEvaluationViewDelegate, DeclinedPitchEvaluationViewDelegate, LookForPitchCardViewDelegate, FilterPitchCardViewDelegate, PendingEvaluationCardViewDelegate, YouWonThisPitchViewDelegate {
+class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate, DetailPitchViewDelegate, CanceledPitchEvaluationViewDelegate, ArchivedPitchEvaluationViewDelegate, DeletedPitchEvaluationViewDelegate, DeclinedPitchEvaluationViewDelegate, LookForPitchCardViewDelegate, FilterPitchCardViewDelegate, PendingEvaluationCardViewDelegate, YouWonThisPitchViewDelegate, AddResultViewControllerDelegate {
   
   private var mainCarousel: iCarousel! = nil
   
@@ -35,6 +35,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   private var isSecondTimeAppearing: Bool = false
   private var isShowingAMessageCard: Bool = false
   private var isComingFromAddResultsController: Bool = false
+  private var isComingFromEditPitchEvaluationController: Bool = false
   
   var delegateForShowAndHideTabBar: VisualizeAllPitchesViewControllerShowAndHideDelegate?
   
@@ -224,15 +225,26 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(true)
     
-    if isComingFromAddResultsController == true {
+    if isComingFromAddResultsController == true || isComingFromEditPitchEvaluationController == true {
     
       isComingFromAddResultsController = false
+      isComingFromEditPitchEvaluationController = false
       
     }else{
       
       self.delegateForShowAndHideTabBar?.requestToShowTabBarFromVisualizeAllPitchesViewControllerDelegate()
     
     }
+    
+//    if isComingFromEditPitchEvaluationController == true {
+//      
+//      isComingFromEditPitchEvaluationController = false
+//      
+//    } else {
+//      
+//      self.delegateForShowAndHideTabBar?.requestToShowTabBarFromVisualizeAllPitchesViewControllerDelegate()
+//      
+//    }
     
     if isSecondTimeAppearing == false {
       
@@ -287,7 +299,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData](),
         newWasWon: false,
         newPitchStatus: -1,
-        newEvaluationStatus: false)
+        newEvaluationStatus: false,
+        newHasResults: false,
+        newHasPitchWinnerSurvey: false)
       
       let actualIndex = mainCarousel.currentItemIndex
       self.arrayOfPitchesByUser.insert(newElement, atIndex: actualIndex)
@@ -320,7 +334,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData](),
         newWasWon: false,
         newPitchStatus: -1,
-        newEvaluationStatus: false)
+        newEvaluationStatus: false,
+        newHasResults: false,
+        newHasPitchWinnerSurvey: false)
       
       let actualIndex = mainCarousel.currentItemIndex
       self.arrayOfPitchesByUser.insert(newElement, atIndex: actualIndex)
@@ -390,6 +406,12 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   }
   
   func createAndShowDetailedPitchView() {
+    
+    if frontCard == nil {
+      
+      return
+      
+    }
     
     self.navigationItem.rightBarButtonItem?.enabled = false
     mainCarousel.userInteractionEnabled = false
@@ -503,29 +525,33 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   private func animateHiddingDetailPitchView() {
     
-    NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(changeValuesWhenDetailPitchViewHidden), userInfo: nil, repeats: false)
-    
-    let newFrameForDetailedNav = CGRect.init(x: 0.0,
-                                             y: -150.0 * UtilityManager.sharedInstance.conversionHeight,
-                                             width: detailNavigationBar.frame.size.width,
-                                             height: detailNavigationBar.frame.size.height)
-    
-    UIView.animateWithDuration(
-      0.35,
-      delay: 0.0,
-      usingSpringWithDamping: 0.8,
-      initialSpringVelocity: 8.0,
-      options: .BeginFromCurrentState,
-      animations: { () -> Void in
-        
-        self.detailNavigationBar.frame = newFrameForDetailedNav
-        
-    }) { (completed:Bool) -> Void in
+    if detailNavigationBar != nil {
       
+      NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(changeValuesWhenDetailPitchViewHidden), userInfo: nil, repeats: false)
+      
+      let newFrameForDetailedNav = CGRect.init(x: 0.0,
+                                               y: -150.0 * UtilityManager.sharedInstance.conversionHeight,
+                                               width: detailNavigationBar.frame.size.width,
+                                               height: detailNavigationBar.frame.size.height)
+      
+      UIView.animateWithDuration(
+        0.35,
+        delay: 0.0,
+        usingSpringWithDamping: 0.8,
+        initialSpringVelocity: 8.0,
+        options: .BeginFromCurrentState,
+        animations: { () -> Void in
+          
+          self.detailNavigationBar.frame = newFrameForDetailedNav
+          
+      }) { (completed:Bool) -> Void in
+        
         self.detailNavigationBar.removeFromSuperview()
+        
+      }
       
     }
-    
+
   }
   
   @objc private func changeValuesWhenDetailPitchViewHidden() {
@@ -832,11 +858,31 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   //MARK: - DetailPitchViewDelegate
   
+  func editPitchEvaluation(pitchEvaluationData: PitchEvaluationByUserModelData) {
+    
+    isComingFromEditPitchEvaluationController = true
+    
+    UtilityManager.sharedInstance.showLoader()
+  
+    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationByPitchID(pitchEvaluationData.pitchEvaluationId) { evaluationData in
+      
+      print(evaluationData)
+      UtilityManager.sharedInstance.hideLoader()
+      
+      let editPitchEvaluation = EditPitchEvaluationViewController.init(newPitchEvaluationData: pitchEvaluationData,
+                                                                       newEvaluationData: evaluationData)
+      self.navigationController?.pushViewController(editPitchEvaluation, animated: true)
+      
+    }
+    
+  }
+  
   func pushAddResultsViewController(pitchaEvaluationData: PitchEvaluationByUserModelData) {
     
     isComingFromAddResultsController = true
     
     let addResultsController = AddResultViewController.init(newPitchEvaluationDataByUser: pitchaEvaluationData)
+    addResultsController.delegate = self
     
     self.navigationController?.pushViewController(addResultsController, animated: true)
     
@@ -1436,7 +1482,21 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   func nextButtonPressedFromYouWonThisPitchView(pitchData: PitchEvaluationByUserModelData) {
     
+    isComingFromAddResultsController = true
     
+    let addResultsController = AddResultViewController.init(newPitchEvaluationDataByUser: pitchData,
+                                                          initDirectlyInPitchSurveyPitch: true)
+    addResultsController.delegate = self
+    
+    self.navigationController?.pushViewController(addResultsController, animated: true)
+    
+  }
+  
+  //MARK: - AddResultViewControllerDelegate
+  
+  func doActionsWhenDisappear() {
+    
+    self.hideDetailPitchView()
     
   }
   

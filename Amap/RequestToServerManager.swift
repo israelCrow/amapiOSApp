@@ -675,6 +675,36 @@ class RequestToServerManager: NSObject {
     }
   }
   
+  func requestToDeleteExclusiveBrands(params: [String: AnyObject], actionsToMakeAfterSuccesfullDeleteBrands: (jsonSentFromServerWhenDeleteExclusiveBrandsData: AnyObject)-> Void) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/agencies/remove_exclusivity_brands"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 201 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          actionsToMakeAfterSuccesfullDeleteBrands(jsonSentFromServerWhenDeleteExclusiveBrandsData: json)
+          
+        }else {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          print("ERROR")
+          
+        }
+    }
+  }
+  
   
   func requestToGetAllPitchEvaluationByUser(actionsToMakeAfterFinished: (pitchEvaluationsByUser: [PitchEvaluationByUserModelData]) -> Void) {
     
@@ -728,9 +758,14 @@ class RequestToServerManager: NSObject {
               let newBrandName = (pitchEvaluationByUser["brand"] as? String != nil ? pitchEvaluationByUser["brand"] as! String : "No Brand Name")
               let newCompanyName = (pitchEvaluationByUser["company"] as? String != nil ? pitchEvaluationByUser["company"] as! String : "No Company Name")
               let newOtherScores = (pitchEvaluationByUser["other_scores"] as? [Int] != nil ? pitchEvaluationByUser["other_scores"] as! [Int] : [Int]())
-              let newWasWon = (pitchEvaluationByUser["was_won"] as? Bool != nil ? pitchEvaluationByUser["was_won"] as! Bool : false)
+              var newWasWon: Bool! = nil
+                newWasWon = (pitchEvaluationByUser["was_won"] as? Bool != nil ? pitchEvaluationByUser["was_won"] as! Bool : nil)
               let newPitchStatus = (pitchEvaluationByUser["pitch_status"] as? Int != nil ? pitchEvaluationByUser["pitch_status"] as! Int : 4) //4 is for archived, i'll ask this to client in future
               let newPitchEvaluationStatus = (pitchEvaluationByUser["evaluation_status"] as? Bool != nil ? pitchEvaluationByUser["evaluation_status"] as! Bool : false)
+              let newHasResults = (pitchEvaluationByUser["has_results"] as? Bool != nil ? pitchEvaluationByUser["has_results"] as! Bool : false)
+              let newHasPitchWinnerSurvey = (pitchEvaluationByUser["has_pitch_winner_survey"] as? Bool != nil ? pitchEvaluationByUser["has_pitch_winner_survey"] as! Bool : false)
+              
+              
               
               let arrayOfEvaluationPitchSkillCategories = (pitchEvaluationByUser["skill_categories"] as? Array<[String: AnyObject]> != nil ? pitchEvaluationByUser["skill_categories"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
               
@@ -764,7 +799,9 @@ class RequestToServerManager: NSObject {
                 newArrayOfEvaluationPitchSkillCategory: newArrayOfEvaluationSkillCategoryModelData,
                 newWasWon: newWasWon,
                 newPitchStatus: newPitchStatus,
-                newEvaluationStatus: newPitchEvaluationStatus)
+                newEvaluationStatus: newPitchEvaluationStatus,
+                newHasResults: newHasResults,
+                newHasPitchWinnerSurvey: newHasPitchWinnerSurvey)
               
               newArrayOfPitchesByUser.append(newPitchEvaluationByUser)
             
@@ -1035,7 +1072,7 @@ class RequestToServerManager: NSObject {
     }
   }
   
-  func requestToCreateEvaluationOfProjectPitch(params: [String: AnyObject], actionsToMakeAfterSuccesfullCreateNewEvaluationPitch: (newEvaluationPitchCreated: PitchEvaluationModelData)-> Void) {
+  func requestToCreateEvaluationOfProjectPitch(params: [String: AnyObject], actionsToMakeAfterSuccesfullCreateNewEvaluationPitch: (newEvaluationPitchCreated: PitchEvaluationModelData)-> Void, actionsToMakeWhenPitchEvaluationAlreadyCreated: (errorMessage: String) -> Void) {
     
     let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_evaluations"
     
@@ -1165,7 +1202,23 @@ class RequestToServerManager: NSObject {
       
           //actionsToMakeAfterSuccesfullCreateNewEvaluationPitch(newPitchCreated: newProjectPitchCreated)
           
-        }else {
+        }else
+        
+          if response.response?.statusCode == 422 {
+            
+            let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+            
+            print(json)
+            
+            let message = (json["errors"] as? String != nil ? json["errors"] as! String : "")
+            
+            if message == "Ya existe una evaluación del pitch para este usuario." {
+              
+              actionsToMakeWhenPitchEvaluationAlreadyCreated(errorMessage: message)
+              
+            }
+            
+        } else {
           
           UtilityManager.sharedInstance.hideLoader()
           
@@ -1173,6 +1226,35 @@ class RequestToServerManager: NSObject {
           
         }
     }
+  }
+  
+  func requestToGetPitchEvaluationByPitchID(idOfPitchEvaluation: String, actionsToMakeAfterGetSuccesfullyPitchEvaluation: (evaluationData: [String: AnyObject]) -> Void) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_evaluations/" + idOfPitchEvaluation
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "GET"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          
+          let pitchEvaluationData = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          actionsToMakeAfterGetSuccesfullyPitchEvaluation(evaluationData: pitchEvaluationData as! [String : AnyObject])
+          
+        } else {
+          
+          print("ERROR WHEN GET PITCH EVALUATION \(response)")
+          UtilityManager.sharedInstance.hideLoader()
+          
+        }
+    }
+    
+    
   }
 
   func requestToUpdateEvaluationOfProjectPitch(params: [String: AnyObject], actionsToMakeAfterSuccesfullUpdateNewEvaluationPitch: (newEvaluationPitchCreated: PitchEvaluationModelData)-> Void) {

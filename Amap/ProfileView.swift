@@ -661,8 +661,14 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     let high_risk_pitch: String = (valuesSelectedFromParticipateInView["high_risk_pitch"] == true ? "1" : "0")
     let medium_risk_pitch: String = (valuesSelectedFromParticipateInView["medium_risk_pitch"] == true ? "1" : "0")
     
+    var finalWebsiteURL = ""
     
-    
+    if UtilityManager.sharedInstance.isValidText(agencyWebsiteView.mainTextField.text!) {
+      
+      finalWebsiteURL = self.transformURL(agencyWebsiteView.mainTextField.text!)
+      
+    }
+  
     var parameters: [String:AnyObject]
     
     if agencyLongitude != nil && agencyLatitude != nil {
@@ -706,7 +712,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
             "address": agencyAddressView.mainTextField.text!,
             "latitude": agencyLatitude!,
             "longitude": agencyLongitude!,
-            "website_url": agencyWebsiteView.mainTextField.text!,
+            "website_url": finalWebsiteURL,
             "num_employees": agencyNumberOfEmployees.mainTextField.text!,
             "golden_pitch": golden_pitch,
             "silver_pitch": silver_pitch,
@@ -727,7 +733,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
             "address": agencyAddressView.mainTextField.text!,
             "latitude": agencyLatitude!,
             "longitude": agencyLongitude!,
-            "website_url": agencyWebsiteView.mainTextField.text!,
+            "website_url": finalWebsiteURL,
             "num_employees": agencyNumberOfEmployees.mainTextField.text!,
             "golden_pitch": golden_pitch,
             "silver_pitch": silver_pitch,
@@ -769,7 +775,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
             "contact_name": "",
             "contact_email": agencyEMailView.mainTextField.text!,
             "address": agencyAddressView.mainTextField.text!,
-            "website_url": agencyWebsiteView.mainTextField.text!,
+            "website_url": finalWebsiteURL,
             "num_employees": agencyNumberOfEmployees.mainTextField.text!,
             "golden_pitch": golden_pitch,
             "silver_pitch": silver_pitch,
@@ -788,7 +794,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
             "contact_name": "",
             "contact_email": agencyEMailView.mainTextField.text!,
             "address": agencyAddressView.mainTextField.text!,
-            "website_url": agencyWebsiteView.mainTextField.text!,
+            "website_url": finalWebsiteURL,
             "num_employees": agencyNumberOfEmployees.mainTextField.text!,
             "golden_pitch": golden_pitch,
             "silver_pitch": silver_pitch,
@@ -801,6 +807,31 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
       self.delegate?.saveChangesFromEditProfileView(parameters, actionsToMakeAfterExecution: actionsToMakeAfterExecution)
       
     }
+  }
+  
+  private func transformURL(urlToCheck: String) -> String {
+    
+    let isURLOk = UIApplication.sharedApplication().canOpenURL(NSURL.init(string: urlToCheck)!)
+    
+    var finalURL = urlToCheck
+    
+    if isURLOk == false {
+      
+      if finalURL.rangeOfString("www.") == nil {
+        
+        finalURL = "www." + finalURL
+        
+      }
+      if finalURL.rangeOfString("http://") == nil {
+        
+        finalURL = "http://" + finalURL
+        
+      }
+      
+    }
+    
+    return finalURL
+    
   }
   
 }

@@ -575,7 +575,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
 
       lastFrameForFlipCard = flipCard.frame
       let newFrameForFlipCard = CGRect.init(x: flipCard.frame.origin.x,
-                                          y: flipCard.frame.origin.y - ((keyboardHeight - 100.0) * UtilityManager.sharedInstance.conversionHeight),
+                                          y: flipCard.frame.origin.y - ((keyboardHeight - 115.0) * UtilityManager.sharedInstance.conversionHeight),
                                       width: flipCard.frame.size.width,
                                      height: flipCard.frame.size.height)
     

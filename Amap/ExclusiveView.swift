@@ -473,6 +473,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
             if brandToDelete.id != "-1" {
             
               self.arrayOfExclusivesBrandToDelete.append(brandToDelete)
+              self.thereAreChanges = true
               
             }
             
@@ -527,7 +528,28 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       print(jsonSentFromServerWhenSaveExclusiveData)
       print()
       
-      //DELETE THE OTHERS
+    }
+    
+    var idBrandsToDelete = [String]()
+    
+    for brandToDelete in self.arrayOfExclusivesBrandToDelete {
+      
+      idBrandsToDelete.append(brandToDelete.id)
+      
+    }
+    
+    let paramsToDelete: [String: AnyObject] = [
+      
+      "auth_token": UserSession.session.auth_token,
+      "id": AgencyModel.Data.id,
+      "brands": idBrandsToDelete
+      
+    ]
+    
+    RequestToServerManager.sharedInstance.requestToDeleteExclusiveBrands(paramsToDelete) { (jsonSentFromServerWhenDeleteExclusiveBrandsData) in
+      
+      print(jsonSentFromServerWhenDeleteExclusiveBrandsData)
+      print()
       
       UtilityManager.sharedInstance.hideLoader()
       
