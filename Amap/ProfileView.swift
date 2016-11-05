@@ -15,7 +15,7 @@ protocol ProfileViewDelegate {
   func asKForDeleteProfileImage()
 }
 
-class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
+class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
   
   private var mainScrollView: UIScrollView! = nil
   private var profileLabel: UILabel! = nil
@@ -32,6 +32,10 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
   private var agencyNumberOfEmployees: CustomTextFieldWithTitleView! = nil
   private var agencyLatitude: String?
   private var agencyLongitude: String?
+  
+  private var optionsOfPicker = ["1 - 74", "75 - 150", "+ de 150"]
+  private var pickerView: UIPickerView! = nil
+  private var containerViewForPicker: UIView! = nil
   
   var thereAreChanges: Bool = false
   var delegate: ProfileViewDelegate?
@@ -67,6 +71,8 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     self.backgroundColor = UIColor.whiteColor()
     
     self.createMainScrollView()
+    self.createContainerViewForPicker()
+    self.createMainPickerView()
     self.createProfileLabel()
     self.createProfileImageView()
     self.createChangeProfileImageButton()
@@ -99,6 +105,72 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     mainScrollView.alwaysBounceVertical = true
     mainScrollView.showsVerticalScrollIndicator = true
     self.addSubview(mainScrollView)
+    
+  }
+  
+  private func createContainerViewForPicker() {
+    
+    let frameForContainerView = CGRect.init(x: 0.0,
+                                            y: 0.0,
+                                            width: UIScreen.mainScreen().bounds.width,
+                                            height: 250.0)
+    
+    containerViewForPicker = UIView.init(frame: frameForContainerView)
+    containerViewForPicker.backgroundColor = UIColor.clearColor()
+    
+  }
+  
+  private func createMainPickerView() {
+    
+    let button = self.createGenericButton()
+    containerViewForPicker.addSubview(button)
+    
+    let frameForPicker = CGRect.init(x: 0.0,
+                                     y: button.frame.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: UIScreen.mainScreen().bounds.width,
+                                     height: 250.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    pickerView = UIPickerView.init(frame: frameForPicker)
+    pickerView.delegate = self
+    pickerView.dataSource = self
+    containerViewForPicker.addSubview(pickerView)
+    
+  }
+  
+  private func createGenericButton() -> UIButton {
+    
+    let okButton = UIButton.init(frame: CGRectZero)
+    
+    let font = UIFont(name: "SFUIDisplay-Light",
+                      size: 15.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.whiteColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Ok",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    
+    okButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+    okButton.backgroundColor = UIColor.grayColor()
+    okButton.addTarget(self,
+                       action: #selector(okButtonPressed),
+                       forControlEvents: .TouchUpInside)
+    okButton.sizeToFit()
+    
+    let frameForButton = CGRect.init(x: (UIScreen.mainScreen().bounds.width / 2.0) - (okButton.frame.size.width / 2.0),
+                                     y: 8.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: okButton.frame.size.width,
+                                     height: okButton.frame.size.height)
+    
+    okButton.frame = frameForButton
+    okButton.layer.cornerRadius = 3.0
+    
+    return okButton
     
   }
   
@@ -389,37 +461,52 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     agencyNumberOfEmployees = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                           title: AgencyProfileEditConstants.ProfileView.agencyNumberOfEmployeTitleText,
                                                           image: "smallGroup")
-    agencyNumberOfEmployees.mainTextField.placeholder = "888"
+    agencyNumberOfEmployees.mainTextField.placeholder = ""
+    agencyNumberOfEmployees.mainTextField.inputView = containerViewForPicker
     agencyNumberOfEmployees.mainTextField.tag = 6
     
     if AgencyModel.Data.num_employees != nil {
       
-      agencyNumberOfEmployees.mainTextField.text = AgencyModel.Data.num_employees!
+      if AgencyModel.Data.num_employees == "Chica" {
+        
+        agencyNumberOfEmployees.mainTextField.text = "1 - 74"
+        
+      } else
+      
+      if AgencyModel.Data.num_employees == "Mediana" {
+          
+        agencyNumberOfEmployees.mainTextField.text = "75 - 150"
+          
+      } else
+      if AgencyModel.Data.num_employees == "Grande" {
+          
+        agencyNumberOfEmployees.mainTextField.text = "+ de 150"
+          
+      }
       
     }
     
-    agencyNumberOfEmployees.mainTextField.keyboardType = .NumberPad
     agencyNumberOfEmployees.backgroundColor = UIColor.clearColor()
     agencyNumberOfEmployees.mainTextField.delegate = self
     
-    let keyboardDoneButtonView = UIToolbar.init()
-    keyboardDoneButtonView.sizeToFit()
-    
-    let doneButton = UIBarButtonItem(title: "Ok", style: UIBarButtonItemStyle.Done, target: self, action: #selector(dismissKeyboard))
-    
-    let font = UIFont(name: "SFUIText-Regular",
-                      size: 20.0 * UtilityManager.sharedInstance.conversionWidth)
-    let color = UIColor.blackColor()
-    let style = NSMutableParagraphStyle()
-    style.alignment = NSTextAlignment.Center
-    
-    doneButton.setTitleTextAttributes([NSFontAttributeName: font!,
-                                      NSParagraphStyleAttributeName: style,
-                                      NSForegroundColorAttributeName: color],
-                                      forState: .Normal)
-    
-    keyboardDoneButtonView.items = [doneButton]
-    agencyNumberOfEmployees.mainTextField.inputAccessoryView = keyboardDoneButtonView
+//    let keyboardDoneButtonView = UIToolbar.init()
+//    keyboardDoneButtonView.sizeToFit()
+//    
+//    let doneButton = UIBarButtonItem(title: "Ok", style: UIBarButtonItemStyle.Done, target: self, action: #selector(dismissKeyboard))
+//    
+//    let font = UIFont(name: "SFUIText-Regular",
+//                      size: 20.0 * UtilityManager.sharedInstance.conversionWidth)
+//    let color = UIColor.blackColor()
+//    let style = NSMutableParagraphStyle()
+//    style.alignment = NSTextAlignment.Center
+//    
+//    doneButton.setTitleTextAttributes([NSFontAttributeName: font!,
+//                                      NSParagraphStyleAttributeName: style,
+//                                      NSForegroundColorAttributeName: color],
+//                                      forState: .Normal)
+//    
+//    keyboardDoneButtonView.items = [doneButton]
+//    agencyNumberOfEmployees.mainTextField.inputAccessoryView = keyboardDoneButtonView
     
     
     self.mainScrollView.addSubview(agencyNumberOfEmployees)
@@ -668,6 +755,24 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
       finalWebsiteURL = self.transformURL(agencyWebsiteView.mainTextField.text!)
       
     }
+    
+    var finalNumberOfEmployees = ""
+    
+    if agencyNumberOfEmployees.mainTextField.text! == "1 - 74" {
+      
+      finalNumberOfEmployees = "1"
+      
+    }else
+      if agencyNumberOfEmployees.mainTextField.text! == "75 - 150" {
+        
+        finalNumberOfEmployees = "2"
+        
+    }else
+        if agencyNumberOfEmployees.mainTextField.text! == "+ de 150" {
+          
+          finalNumberOfEmployees = "3"
+          
+    }
   
     var parameters: [String:AnyObject]
     
@@ -713,7 +818,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
             "latitude": agencyLatitude!,
             "longitude": agencyLongitude!,
             "website_url": finalWebsiteURL,
-            "num_employees": agencyNumberOfEmployees.mainTextField.text!,
+            "num_employees": finalNumberOfEmployees,
             "golden_pitch": golden_pitch,
             "silver_pitch": silver_pitch,
             "high_risk_pitch": high_risk_pitch,
@@ -734,7 +839,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
             "latitude": agencyLatitude!,
             "longitude": agencyLongitude!,
             "website_url": finalWebsiteURL,
-            "num_employees": agencyNumberOfEmployees.mainTextField.text!,
+            "num_employees": finalNumberOfEmployees,
             "golden_pitch": golden_pitch,
             "silver_pitch": silver_pitch,
             "high_risk_pitch": high_risk_pitch,
@@ -776,7 +881,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
             "contact_email": agencyEMailView.mainTextField.text!,
             "address": agencyAddressView.mainTextField.text!,
             "website_url": finalWebsiteURL,
-            "num_employees": agencyNumberOfEmployees.mainTextField.text!,
+            "num_employees": finalNumberOfEmployees,
             "golden_pitch": golden_pitch,
             "silver_pitch": silver_pitch,
             "high_risk_pitch": high_risk_pitch,
@@ -795,7 +900,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
             "contact_email": agencyEMailView.mainTextField.text!,
             "address": agencyAddressView.mainTextField.text!,
             "website_url": finalWebsiteURL,
-            "num_employees": agencyNumberOfEmployees.mainTextField.text!,
+            "num_employees": finalNumberOfEmployees,
             "golden_pitch": golden_pitch,
             "silver_pitch": silver_pitch,
             "high_risk_pitch": high_risk_pitch,
@@ -833,5 +938,40 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate {
     return finalURL
     
   }
+  
+  @objc private func okButtonPressed() {
+    
+    agencyNumberOfEmployees.mainTextField.text = optionsOfPicker[pickerView.selectedRowInComponent(0)]
+    
+    self.endEditing(true)
+    
+  }
+  
+  //MARK: - PickerViewDelegate - DataSource
+  
+  func numberOfComponentsInPickerView(picker: UIPickerView) -> Int {
+    
+    return 1
+    
+  }
+  
+  func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    
+    return optionsOfPicker.count
+    
+  }
+  
+  func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    
+    return optionsOfPicker[row]
+    
+  }
+  
+  func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    
+    agencyNumberOfEmployees.mainTextField.text = optionsOfPicker[row]
+    
+  }
+
   
 }

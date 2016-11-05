@@ -527,6 +527,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       
       print(jsonSentFromServerWhenSaveExclusiveData)
       print()
+      UtilityManager.sharedInstance.hideLoader()
       
     }
     
@@ -545,6 +546,8 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       "brands": idBrandsToDelete
       
     ]
+    
+    UtilityManager.sharedInstance.showLoader()
     
     RequestToServerManager.sharedInstance.requestToDeleteExclusiveBrands(paramsToDelete) { (jsonSentFromServerWhenDeleteExclusiveBrandsData) in
       

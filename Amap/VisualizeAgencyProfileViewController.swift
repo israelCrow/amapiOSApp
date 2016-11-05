@@ -20,7 +20,7 @@ protocol VisualizeAgencyProfileViewControllerDelegate {
 
 class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDelegate, VisualizeSkillsViewDelegate, VisualizeSkillsLevelViewDelegate, EditAgencyProfileViewControllerDelegate, AgencyProfilePicNameButtonsViewDelegate, MFMailComposeViewControllerDelegate, SFSafariViewControllerDelegate {
   
-  let kNumberOfCardsInScrollViewMinusOne = 6
+  let kNumberOfCardsInScrollViewMinusOne = 5
   
   private var mainTabBar: DashBoardPitchesAndAgencyProfileTabBarView! = nil
   private var flipCard: FlipCardView! = nil
@@ -255,20 +255,20 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     participateInVisualize.backgroundColor = UIColor.clearColor()
     scrollViewFrontFlipCard.addSubview(participateInVisualize)
     
-    let numberEmployees = VisualizeNumberOfEmployeesView.init(frame: CGRect.init(x: frameForCards.size.width * 4,
-      y: frameForScreensOfScrollView.origin.y,
-      width: frameForScreensOfScrollView.size.width,
-      height: frameForScreensOfScrollView.size.height))
-    scrollViewFrontFlipCard.addSubview(numberEmployees)
+//    let numberEmployees = VisualizeNumberOfEmployeesView.init(frame: CGRect.init(x: frameForCards.size.width * 4,
+//      y: frameForScreensOfScrollView.origin.y,
+//      width: frameForScreensOfScrollView.size.width,
+//      height: frameForScreensOfScrollView.size.height))
+//    scrollViewFrontFlipCard.addSubview(numberEmployees)
     
-    visualizeCases = VisualizeCasesView.init(frame: CGRect.init(x: frameForCards.size.width * 5,
+    visualizeCases = VisualizeCasesView.init(frame: CGRect.init(x: frameForCards.size.width * 4,
       y: frameForScreensOfScrollView.origin.y,
       width: frameForScreensOfScrollView.size.width,
       height: frameForScreensOfScrollView.size.height))
     visualizeCases.justVisualizeDelegate = self
     scrollViewFrontFlipCard.addSubview(visualizeCases)
     
-    skillsView = VisualizeSkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 6,
+    skillsView = VisualizeSkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 5,
       y: frameForScreensOfScrollView.origin.y,
       width: frameForScreensOfScrollView.size.width,
       height: frameForScreensOfScrollView.size.height))
@@ -358,15 +358,15 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
       break
       
     case 4:
-      pageToShow = 5
+      pageToShow = 3
       break
       
     case 5:
-      pageToShow = 3
+      pageToShow = 4
       break
 
-    case 6:
-      pageToShow = 4
+//    case 6:
+//      pageToShow = 4
       
     default:
       pageToShow = 0

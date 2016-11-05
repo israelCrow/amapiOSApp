@@ -16,11 +16,13 @@ class VisualizeAgencyInfoView: UIView {
   private var telephoneIconButton: UIButton! = nil
   private var websiteIconButton: UIButton! = nil
   private var locationIconButton: UIButton! = nil
+  private var employeesIconButton: UIButton! = nil
   
   private var mailLabel: UILabel! = nil
   private var telephoneLabel: UILabel! = nil
   private var websiteLabel: UILabel! = nil
   private var locationLabel: UILabel! = nil
+  private var employeesLabel: UILabel! = nil
   
   private var arrayOfExistingButtons = [UIButton]()
   private var arrayOfExistingLabels = [UILabel]()
@@ -66,6 +68,13 @@ class VisualizeAgencyInfoView: UIView {
       
       self.createLocationIconButton()
       self.createLocationLabel()
+      
+    }
+    
+    if AgencyModel.Data.num_employees != nil && UtilityManager.sharedInstance.isValidText(AgencyModel.Data.num_employees!){
+      
+      self.createEmployeesIconButton()
+      self.createEmployeesLabel()
       
     }
     
@@ -345,6 +354,67 @@ class VisualizeAgencyInfoView: UIView {
     arrayOfExistingLabels.append(locationLabel)
     
   }
+  
+  private func createEmployeesIconButton() {
+    
+    let frameForButton = CGRect.init(x: 25.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 0.0,
+                                     width: 28.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 23.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    employeesIconButton = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "smallGroup") as UIImage?
+    employeesIconButton.setImage(image, forState: .Normal)
+    employeesIconButton.tag = 5
+    employeesIconButton.addTarget(self, action: #selector(websiteIconPressed), forControlEvents:.TouchUpInside)
+    
+    arrayOfExistingButtons.append(employeesIconButton)
+    
+  }
+  
+  private func createEmployeesLabel() {
+    
+    let frameForLabel = CGRect.init(x: 66.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    y: 0.0,
+                                    width: 200.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: 23.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    employeesLabel = UILabel.init(frame: frameForLabel)
+    employeesLabel.adjustsFontSizeToFitWidth = true
+    //    websiteLabel.numberOfLines = 0
+    //    websiteLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Left
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: AgencyModel.Data.num_employees!,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    employeesLabel.attributedText = stringWithFormat
+    //    websiteLabel.sizeToFit()
+    let newFrame = CGRect.init(x: 66.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: 0.0,
+                               width: employeesLabel.frame.size.width,
+                               height: employeesLabel.frame.size.height)
+    
+    employeesLabel.frame = newFrame
+    
+    let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: nil)
+    tapGesture.numberOfTapsRequired = 1
+    employeesLabel.userInteractionEnabled = true
+    employeesLabel.addGestureRecognizer(tapGesture)
+    
+    arrayOfExistingLabels.append(employeesLabel)
+    
+  }
+  
   
   @objc private func mailIconPressed() {
     

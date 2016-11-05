@@ -39,7 +39,23 @@ class RequestToServerManager: NSObject {
           AgencyModel.Data.name = json["name"] as? String
           let numberOfEmployees = json["num_employees"] as? Int
           if numberOfEmployees != nil {
-            AgencyModel.Data.num_employees = String(numberOfEmployees!)
+            
+            if numberOfEmployees == 1 {
+              
+              AgencyModel.Data.num_employees = "Chica"
+              
+            }else
+              if numberOfEmployees == 2 {
+                
+                AgencyModel.Data.num_employees = "Mediana"
+                
+            }else
+              if numberOfEmployees == 3 {
+              
+                AgencyModel.Data.num_employees = "Grande"
+                
+            }
+            
           }
           AgencyModel.Data.phone = json["phone"] as? String
           AgencyModel.Data.website_url = json["website_url"] as? String

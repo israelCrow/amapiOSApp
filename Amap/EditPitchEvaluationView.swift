@@ -323,18 +323,18 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
       
       let is_marketing_involved = pitchEvaluationInfoFromServer["is_marketing_involved"] as! String
       
-      if is_marketing_involved == "si" {
+      if is_marketing_involved.lowercaseString == "si" {
         
         involvementOfMarketing.mainSegmentedControl.selectedSegmentIndex = 0
         
       } else
-        if is_marketing_involved == "no" {
+        if is_marketing_involved.lowercaseString == "no" {
         
           involvementOfMarketing.mainSegmentedControl.selectedSegmentIndex = 2
         
       } else
       
-        if is_marketing_involved == "no se" {
+        if is_marketing_involved.lowercaseString == "no se" {
             
           involvementOfMarketing.mainSegmentedControl.selectedSegmentIndex = 1
             
@@ -389,7 +389,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
             
         } else
           
-        if number_of_agencies == "no se" {
+        if number_of_agencies.lowercaseString == "no se" {
               
           howManyAgenciesParticipate.mainSegmentedControl.selectedSegmentIndex = 3
               
@@ -541,7 +541,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["2 semanas", "3 semanas", "4 semanas", "5 semanas", ">6", "NA"]
+    let segmentsArray = ["2 semanas", "3 semanas", "4 semanas", "5 semanas", ">5", "NA"]
     
     howManyDaysTheyGiveTheRuling = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
                                                                               textLabel: "¿En cuántas semanas les dan el fallo?",
@@ -576,7 +576,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
             
       } else
             
-        if time_to_know_decision == ">6" {
+        if time_to_know_decision == ">5" {
               
           howManyDaysTheyGiveTheRuling.mainTextField.text! = segmentsArray[4]
               
@@ -616,18 +616,18 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
       
       let deliver_copyright_for_pitching = pitchEvaluationInfoFromServer["deliver_copyright_for_pitching"] as! String
       
-      if deliver_copyright_for_pitching == "si" {
+      if deliver_copyright_for_pitching.lowercaseString == "si" {
         
         deliverIntelectualPropertyJustToPitch.mainSegmentedControl.selectedSegmentIndex = 0
         
       } else
-        if deliver_copyright_for_pitching == "no" {
+        if deliver_copyright_for_pitching.lowercaseString == "no" {
           
           deliverIntelectualPropertyJustToPitch.mainSegmentedControl.selectedSegmentIndex = 2
           
       } else
           
-        if deliver_copyright_for_pitching == "no se" {
+        if deliver_copyright_for_pitching.lowercaseString == "no se" {
             
           deliverIntelectualPropertyJustToPitch.mainSegmentedControl.selectedSegmentIndex = 1
             

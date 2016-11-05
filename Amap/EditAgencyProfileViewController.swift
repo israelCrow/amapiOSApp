@@ -468,11 +468,11 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       break
       
     case 3:
-      pageToShow = 5
+      pageToShow = 4
       break
       
     case 4:
-      pageToShow = 6
+      pageToShow = 5
       break
       
     case 5:

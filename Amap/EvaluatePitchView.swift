@@ -392,7 +392,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["2 semanas", "3 semanas", "4 semanas", "5 semanas", ">6", "NA"]
+    let segmentsArray = ["2 semanas", "3 semanas", "4 semanas", "5 semanas", ">5", "NA"]
     
     howManyDaysTheyGiveTheRuling = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
                                                                    textLabel: "¿En cuántas semanas les dan el fallo?",
