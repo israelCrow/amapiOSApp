@@ -118,4 +118,26 @@ class VisualizePitchesConstants {
     
   }
   
+  enum InfoPitchesViewAndViewController {
+    
+    static let navigationBarTitleText = "Info"
+    static let rightButtonItemText = "Cerrar"
+    
+    static let evaluationLabelText = "Evaluación"
+    static let faceOneLabelText = "65 - 100\n puntos"
+    static let faceTwoLabelText = "65 - 100\n puntos"
+    static let faceThreeLabelText = "65 - 100\n puntos"
+    static let faceFourLabelText = "65 - 100\n puntos"
+    
+    static let statisticsLabelText = "Estadísticas"
+    static let descriptionStatisticsLabelText = "Lorem ipsum dolor sit amet,consectetur adipiscing elit. Vivamus vestibulum velit nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Interdum et malesuada fames ac ante ipsum primis in faucibus."
+    
+    static let contactLabelText = "Contacto"
+    static let mailLabelText = "mail@amap.com.mx"
+    static let phoneLabelText = "(55) 3124 6578"
+    static let webSiteLabelText = "www.amap.com.mx"
+    
+    
+  }
+  
 }

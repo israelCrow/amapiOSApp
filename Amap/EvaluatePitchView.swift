@@ -574,6 +574,9 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     var howManyAgenciesResult:String = howManyAgenciesParticipate.returnValueSelectedFromSegmentControl()
     if howManyAgenciesResult == "No sé" {
       howManyAgenciesResult = "no se"
+    }else
+      if howManyAgenciesResult == "+ de 7" {
+        howManyAgenciesResult = "7+"
     }
 //    if howManyAgenciesParticipate.returnValueSelectedFromSegmentControl() == "- de 4" {
 //      

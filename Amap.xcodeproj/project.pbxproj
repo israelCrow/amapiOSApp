@@ -57,6 +57,8 @@
 		AA4400EC1DB009D70012633E /* DetailPitchCanceledDeclinedButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4400EB1DB009D70012633E /* DetailPitchCanceledDeclinedButtons.swift */; };
 		AA4400EE1DB026A40012633E /* TabBarArchiveEditDeletePitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4400ED1DB026A40012633E /* TabBarArchiveEditDeletePitchView.swift */; };
 		AA4ADD5C1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4ADD5B1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift */; };
+		AA4EAED41DD0FD0000AA305B /* InfoPitchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4EAED31DD0FD0000AA305B /* InfoPitchesViewController.swift */; };
+		AA4EAED61DD104D700AA305B /* InfoPitchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4EAED51DD104D700AA305B /* InfoPitchesView.swift */; };
 		AA681E381D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA681E371D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift */; };
 		AA68D8E61D833D3900DD1411 /* CreateAddNewPitchAndWriteBrandNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA68D8E51D833D3900DD1411 /* CreateAddNewPitchAndWriteBrandNameViewController.swift */; };
 		AA68D8EA1D834CB500DD1411 /* AddPitchAndWriteBrandNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA68D8E91D834CB500DD1411 /* AddPitchAndWriteBrandNameView.swift */; };
@@ -293,6 +295,8 @@
 		AA4400EB1DB009D70012633E /* DetailPitchCanceledDeclinedButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPitchCanceledDeclinedButtons.swift; sourceTree = "<group>"; };
 		AA4400ED1DB026A40012633E /* TabBarArchiveEditDeletePitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarArchiveEditDeletePitchView.swift; sourceTree = "<group>"; };
 		AA4ADD5B1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeAgencyInfoView.swift; sourceTree = "<group>"; };
+		AA4EAED31DD0FD0000AA305B /* InfoPitchesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoPitchesViewController.swift; sourceTree = "<group>"; };
+		AA4EAED51DD104D700AA305B /* InfoPitchesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoPitchesView.swift; sourceTree = "<group>"; };
 		AA681E371D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessfullyAskForChangePasswordView.swift; sourceTree = "<group>"; };
 		AA68D8E51D833D3900DD1411 /* CreateAddNewPitchAndWriteBrandNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAddNewPitchAndWriteBrandNameViewController.swift; sourceTree = "<group>"; };
 		AA68D8E91D834CB500DD1411 /* AddPitchAndWriteBrandNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPitchAndWriteBrandNameView.swift; sourceTree = "<group>"; };
@@ -694,6 +698,7 @@
 		AA28B8FA1D80DE69007E22E3 /* Create/Edit/Visualize_Pitches */ = {
 			isa = PBXGroup;
 			children = (
+				AA4EAED21DD0FC0100AA305B /* Message */,
 				AA68D8DE1D8339C700DD1411 /* Create */,
 				AA0237591D81FE420014915C /* Visualize */,
 				AA0237571D81FD670014915C /* Edit */,
@@ -725,6 +730,14 @@
 				AA4ADD5B1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift */,
 			);
 			name = Info;
+			sourceTree = "<group>";
+		};
+		AA4EAED21DD0FC0100AA305B /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				AA4EAED31DD0FD0000AA305B /* InfoPitchesViewController.swift */,
+			);
+			name = Message;
 			sourceTree = "<group>";
 		};
 		AA68D8DE1D8339C700DD1411 /* Create */ = {
@@ -803,6 +816,7 @@
 				AACC71651DB527F3005EA446 /* CanceledPitchEvaluationView.swift */,
 				AA0BD36B1DB54BAC0057387D /* DeclinedPitchEvaluationView.swift */,
 				AA0BD36D1DB54CD40057387D /* DeletedPitchEvaluationView.swift */,
+				AA4EAED51DD104D700AA305B /* InfoPitchesView.swift */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -1385,6 +1399,7 @@
 				AADA93581DC0FC5C00CA5DBD /* WhenYouWillSignTheContractPitchSurveyView.swift in Sources */,
 				AA87B7691D8865E200BCA3E6 /* SuccessfullyCreationOfPitchView.swift in Sources */,
 				AAB3768A1DAF1E7100830523 /* DetailPitchView.swift in Sources */,
+				AA4EAED41DD0FD0000AA305B /* InfoPitchesViewController.swift in Sources */,
 				04AB393E1D5D1808009B1D5C /* AgencyProfileEditConstants.swift in Sources */,
 				041DA48C1D6636A400BAE262 /* CaseCardInfo.swift in Sources */,
 				AA681E381D55389E0001FD86 /* SuccessfullyAskForChangePasswordView.swift in Sources */,
@@ -1414,6 +1429,7 @@
 				AA9A6CF91D87680A00B85C17 /* PitchCardView.swift in Sources */,
 				AADD0C521DB972340095A51C /* WhenGonnaReceiveRulingView.swift in Sources */,
 				047818AB1D5E557300BB498C /* ParticipateInView.swift in Sources */,
+				AA4EAED61DD104D700AA305B /* InfoPitchesView.swift in Sources */,
 				AADC08BD1D9C083000C5CBCD /* iCarousel.m in Sources */,
 				AAE7F2D11D7E1CD80045AE8E /* VisualizeCasesView.swift in Sources */,
 				AACC71661DB527F3005EA446 /* CanceledPitchEvaluationView.swift in Sources */,

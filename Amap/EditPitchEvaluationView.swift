@@ -383,7 +383,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
           
         } else
           
-        if number_of_agencies == "+ de 7" {
+        if number_of_agencies == "7+" {
             
           howManyAgenciesParticipate.mainSegmentedControl.selectedSegmentIndex = 2
             
@@ -810,6 +810,9 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     var howManyAgenciesResult:String = howManyAgenciesParticipate.returnValueSelectedFromSegmentControl()
     if howManyAgenciesResult == "No sé" {
       howManyAgenciesResult = "no se"
+    }else
+    if howManyAgenciesResult == "+ de 7" {
+      howManyAgenciesResult = "7+"
     }
     //    if howManyAgenciesParticipate.returnValueSelectedFromSegmentControl() == "- de 4" {
     //

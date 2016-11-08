@@ -348,6 +348,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   @objc private func showInfo() {
     
+    let infoController = InfoPitchesViewController()
+    self.navigationController?.pushViewController(infoController, animated: true)
     
   }
   
