@@ -42,7 +42,7 @@ class PitchCardView: UIView {
     self.backgroundColor = UIColor.clearColor()
     
     self.createContentView()
-    self.createAddPitchButton()
+    //self.createAddPitchButton()
     
   }
   
@@ -196,7 +196,7 @@ class PitchCardView: UIView {
                          newArrayOfQualifications: arrayOfQualifications,
                             newArrayOfAgencyNames: arrayOfAgencyNames)
     contentView.addSubview(graphPart)
-    contentView.bringSubviewToFront(addPitchButton)
+    //contentView.bringSubviewToFront(addPitchButton)
     
   }
   

@@ -44,7 +44,7 @@ class NoPitchAssignedView: UIView {
     self.backgroundColor = UIColor.clearColor()
     self.adaptMyself()
     self.createGradient()
-    self.createAddPitchButton()
+//    self.createAddPitchButton()
     self.createWarningImageView()
     self.createNoPitchAssignedLabel()
     

@@ -43,7 +43,7 @@ class CriterionView: UIView, CustomSwitchViewActionsDelegate {
   private func createDescriptionLabel() {
     
     descriptionLabel = UILabel.init(frame: CGRectZero)
-    descriptionLabel.numberOfLines = 2
+    descriptionLabel.numberOfLines = 4
     
     let font = UIFont(name: "SFUIText-Light",
                       size: 14.0 * UtilityManager.sharedInstance.conversionWidth)

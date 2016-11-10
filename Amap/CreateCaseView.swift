@@ -529,6 +529,19 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
         
         caseVideoPlayerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: frameForVideoPlayer, url: nil)
         caseVideoPlayerVimeoYoutube.delegate = self
+        
+        if caseVideoPlayerVimeoYoutube.deleteCaseImageButton != nil {
+          
+          caseVideoPlayerVimeoYoutube.deleteCaseImageButton.alpha = 0.0
+          
+        }
+        
+        
+        
+        let tapForAddImage = UITapGestureRecognizer.init(target: self, action: #selector(selectImageForCaseFromLibrary))
+        tapForAddImage.numberOfTapsRequired = 1
+        caseVideoPlayerVimeoYoutube.addGestureRecognizer(tapForAddImage)
+
         self.containerView.addSubview(caseVideoPlayerVimeoYoutube)
         
       } else { //supposedly never get this else
@@ -615,6 +628,11 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true)
     
     caseImage = newImage
     self.caseVideoPlayerVimeoYoutube.changeImageOfCase(newImage)
+    if caseVideoPlayerVimeoYoutube.deleteCaseImageButton != nil {
+      
+      caseVideoPlayerVimeoYoutube.deleteCaseImageButton.alpha = 1.0
+      
+    }
     
     
   }
@@ -1016,16 +1034,21 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true)
   func deleteImageOfNewCase() {
     
     self.caseVideoPlayerVimeoYoutube.deleteImageOfCase()
+    if caseVideoPlayerVimeoYoutube.deleteCaseImageButton != nil {
+      
+      caseVideoPlayerVimeoYoutube.deleteCaseImageButton.alpha = 0.0
+      
+    }
     
   }
 
   //MARK: - VideoPlayerVimeoYoutubeDelegate
   
-  func selectImageForCaseFromLibrary() {
+  @objc func selectImageForCaseFromLibrary() {
     
     self.moveUpContainerView()
       
-    delegate?.selectCaseImageFromLibrary()
+    self.delegate?.selectCaseImageFromLibrary()
     
   }
   

@@ -333,14 +333,6 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
             alertController.addAction(cancelAction)
             self.presentViewController(alertController, animated: true, completion: nil)
             
-            
-            
-            
-            
-            
-            
-
-            
         })
         
 //        RequestToServerManager.sharedInstance.requestToCreateEvaluationOfProjectPitch(finalParams) {

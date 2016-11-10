@@ -61,7 +61,7 @@ class CriteriaAgencyProfileEditView: UIView, CriterionViewDelegate {
                                    height: 355.0 * UtilityManager.sharedInstance.conversionHeight)
     
     //Change the value of the next 'size' to make scrollViewAnimate
-    let sizeOfScrollViewContent = CGSize.init(width: frameForMainScrollView.size.width, height: frameForMainScrollView.size.height + 0.0)
+    let sizeOfScrollViewContent = CGSize.init(width: frameForMainScrollView.size.width, height: frameForMainScrollView.size.height + 130.0)
    
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.contentSize = sizeOfScrollViewContent

@@ -681,12 +681,24 @@ class RequestToServerManager: NSObject {
           
           actionsToMakeAfterSuccesfullCreateNewBrand(jsonSentFromServerWhenSaveExclusiveData: json)
           
-        }else {
+        } else
+          if response.response?.statusCode == 422 {
           
-          UtilityManager.sharedInstance.hideLoader()
-          
-          print("ERROR")
-          
+            let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+            
+            let message = (json["errors"] as? String != nil ? json["errors"] as! String : "")
+            
+            if message == "No se encontró ninguna marca de exclusividad" {
+              
+              actionsToMakeAfterSuccesfullCreateNewBrand(jsonSentFromServerWhenSaveExclusiveData: json)
+              
+            }
+            
+          } else {
+            
+            UtilityManager.sharedInstance.hideLoader()
+            print ("ERROR WHEN CREATE EXCLUSIVITY BRANDS")
+            
         }
     }
   }
@@ -1087,6 +1099,59 @@ class RequestToServerManager: NSObject {
         }
     }
   }
+  
+  func requestToCreateAVoidEvaluationOfProjectPitch(params: [String: AnyObject], actionsToMakeAfterSuccessfullyCreateAVoidPitchEvaluation: (newIdOfVoidPitchEvaluation: String) -> Void, actionsToMakeWhenPitchEvaluationAlreadyCreated: (errorMessage: String) -> Void) {
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_evaluations"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        print()
+        if response.response?.statusCode == 201 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          let idOfVoidPitchEvaluation = (json["id"] as? Int != nil ? String(json["id"] as! Int) : "-1")
+          
+          actionsToMakeAfterSuccessfullyCreateAVoidPitchEvaluation(newIdOfVoidPitchEvaluation:  idOfVoidPitchEvaluation)
+          
+          
+        }else
+          
+          if response.response?.statusCode == 422 {
+            
+            let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+            
+            print(json)
+            
+            let message = (json["errors"] as? String != nil ? json["errors"] as! String : "")
+            
+            if message == "Ya existe una evaluación del pitch para este usuario." {
+              
+              actionsToMakeWhenPitchEvaluationAlreadyCreated(errorMessage: message)
+              
+            }
+            
+          } else {
+            
+            UtilityManager.sharedInstance.hideLoader()
+            
+            print("ERROR")
+            
+        }
+    }
+    
+    
+  }
+  
   
   func requestToCreateEvaluationOfProjectPitch(params: [String: AnyObject], actionsToMakeAfterSuccesfullCreateNewEvaluationPitch: (newEvaluationPitchCreated: PitchEvaluationModelData)-> Void, actionsToMakeWhenPitchEvaluationAlreadyCreated: (errorMessage: String) -> Void) {
     

@@ -337,6 +337,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     arrayOfViewControllers.append(self.createThirdBarItem())
     
     mainTabBarController.viewControllers = arrayOfViewControllers
+    mainTabBarController.selectedIndex = 1
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     UIView.transitionWithView(appDelegate.window!,

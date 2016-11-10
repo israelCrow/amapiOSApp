@@ -277,7 +277,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let widthOfSegments = CGFloat(220.0 / 4.0)
+    let widthOfSegments = CGFloat(210.0 / 4.0)
     
     let segmentsArray = ["2 - 4", "5 - 7", "+ de 7", "No sé"]
     
@@ -291,6 +291,19 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     howManyAgenciesParticipate.mainSegmentedControl.setWidth(widthOfSegments, forSegmentAtIndex: 1)
     howManyAgenciesParticipate.mainSegmentedControl.setWidth(widthOfSegments, forSegmentAtIndex: 2)
     howManyAgenciesParticipate.mainSegmentedControl.setWidth(widthOfSegments, forSegmentAtIndex: 3)
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 12.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let attributes = [NSFontAttributeName:font!,
+                      NSParagraphStyleAttributeName:style,
+                      NSForegroundColorAttributeName:color]
+    
+    howManyAgenciesParticipate.mainSegmentedControl.setTitleTextAttributes(attributes, forState: .Normal)
+    
     mainScrollView.addSubview(howManyAgenciesParticipate)
     
   }

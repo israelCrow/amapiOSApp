@@ -366,7 +366,7 @@ class VisualizeAgencyInfoView: UIView {
     let image = UIImage(named: "smallGroup") as UIImage?
     employeesIconButton.setImage(image, forState: .Normal)
     employeesIconButton.tag = 5
-    employeesIconButton.addTarget(self, action: #selector(websiteIconPressed), forControlEvents:.TouchUpInside)
+    employeesIconButton.addTarget(self, action: nil, forControlEvents:.TouchUpInside)
     
     arrayOfExistingButtons.append(employeesIconButton)
     

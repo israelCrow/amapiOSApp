@@ -220,9 +220,43 @@ class CreateAddNewPitchAndWriteProjectNameViewController: UIViewController, AddP
         selectedProjectPitchData!.companyData = companyData
         selectedProjectPitchData!.arrayOfPitchCategories = [PitchSkillCategory]()
         
-        let preEvaluatePitch = PreEvaluatePitchViewController(newPitchData: selectedProjectPitchData!)
-        self.navigationController?.pushViewController(preEvaluatePitch, animated: true)
-        preEvaluatePitch.flipCardToOk()
+        let params: [String: AnyObject] = [
+          "auth_token": UserSession.session.auth_token,
+          "pitch_id" : selectedProjectPitchData!.id
+        ]
+        
+        UtilityManager.sharedInstance.showLoader()
+    
+        RequestToServerManager.sharedInstance.requestToCreateAVoidEvaluationOfProjectPitch(params, actionsToMakeAfterSuccessfullyCreateAVoidPitchEvaluation: { (newIdOfVoidPitchEvaluation) in
+          
+          selectedProjectPitchData!.voidPitchEvaluationId = newIdOfVoidPitchEvaluation
+        
+          let preEvaluatePitch = PreEvaluatePitchViewController(newPitchData: selectedProjectPitchData!)
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          self.navigationController?.pushViewController(preEvaluatePitch, animated: true)
+          preEvaluatePitch.flipCardToOk()
+          
+          
+          }, actionsToMakeWhenPitchEvaluationAlreadyCreated: { (errorMessage) in
+            
+            UtilityManager.sharedInstance.hideLoader()
+            
+            let alertController = UIAlertController(title: "ERROR",
+              message: errorMessage,
+              preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+              
+              print()
+              
+            }
+            
+            alertController.addAction(cancelAction)
+            self.presentViewController(alertController, animated: true, completion: nil)
+            
+        })
         
         
       

@@ -527,36 +527,67 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       
       print(jsonSentFromServerWhenSaveExclusiveData)
       print()
-      UtilityManager.sharedInstance.hideLoader()
+//      UtilityManager.sharedInstance.hideLoader()
+      
+      
+      
+      
+      var idBrandsToDelete = [String]()
+      
+      for brandToDelete in self.arrayOfExclusivesBrandToDelete {
+        
+        idBrandsToDelete.append(brandToDelete.id)
+        
+      }
+      
+      let paramsToDelete: [String: AnyObject] = [
+        
+        "auth_token": UserSession.session.auth_token,
+        "id": AgencyModel.Data.id,
+        "brands": idBrandsToDelete
+        
+      ]
+      
+      UtilityManager.sharedInstance.showLoader()
+      
+      RequestToServerManager.sharedInstance.requestToDeleteExclusiveBrands(paramsToDelete) { (jsonSentFromServerWhenDeleteExclusiveBrandsData) in
+        
+        print(jsonSentFromServerWhenDeleteExclusiveBrandsData)
+        print()
+        
+        UtilityManager.sharedInstance.hideLoader()
+        
+      }
+      
       
     }
     
-    var idBrandsToDelete = [String]()
-    
-    for brandToDelete in self.arrayOfExclusivesBrandToDelete {
-      
-      idBrandsToDelete.append(brandToDelete.id)
-      
-    }
-    
-    let paramsToDelete: [String: AnyObject] = [
-      
-      "auth_token": UserSession.session.auth_token,
-      "id": AgencyModel.Data.id,
-      "brands": idBrandsToDelete
-      
-    ]
-    
-    UtilityManager.sharedInstance.showLoader()
-    
-    RequestToServerManager.sharedInstance.requestToDeleteExclusiveBrands(paramsToDelete) { (jsonSentFromServerWhenDeleteExclusiveBrandsData) in
-      
-      print(jsonSentFromServerWhenDeleteExclusiveBrandsData)
-      print()
-      
-      UtilityManager.sharedInstance.hideLoader()
-      
-    }
+//    var idBrandsToDelete = [String]()
+//    
+//    for brandToDelete in self.arrayOfExclusivesBrandToDelete {
+//      
+//      idBrandsToDelete.append(brandToDelete.id)
+//      
+//    }
+//    
+//    let paramsToDelete: [String: AnyObject] = [
+//      
+//      "auth_token": UserSession.session.auth_token,
+//      "id": AgencyModel.Data.id,
+//      "brands": idBrandsToDelete
+//      
+//    ]
+//    
+//    UtilityManager.sharedInstance.showLoader()
+//    
+//    RequestToServerManager.sharedInstance.requestToDeleteExclusiveBrands(paramsToDelete) { (jsonSentFromServerWhenDeleteExclusiveBrandsData) in
+//      
+//      print(jsonSentFromServerWhenDeleteExclusiveBrandsData)
+//      print()
+//      
+//      UtilityManager.sharedInstance.hideLoader()
+//      
+//    }
     
   }
   

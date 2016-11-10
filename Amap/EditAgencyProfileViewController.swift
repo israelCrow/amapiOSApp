@@ -328,6 +328,34 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     self.flipCard.addSubview(saveChangesButton)
     
   }
+  
+  private func hideSaveChangesButton() {
+    
+    if saveChangesButton != nil {
+      
+      UIView.animateWithDuration(0.15) {
+        
+        self.saveChangesButton.alpha = 0.0
+        
+      }
+      
+    }
+    
+  }
+  
+  private func showSaveChangesButton() {
+    
+    if saveChangesButton != nil {
+      
+      UIView.animateWithDuration(0.15) {
+        
+        self.saveChangesButton.alpha = 1.0
+        
+      }
+      
+    }
+    
+  }
 
   
   @objc private func moveScrollViewToLeft() {
@@ -339,6 +367,20 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       if actualPage == 0 {
         
         self.hideLeftButtonOfMainScrollView()
+        
+      }
+      
+      if actualPage == 3 {
+        
+        self.hideSaveChangesButton()
+        
+      } else {
+        
+        if saveChangesButton.alpha == 0.0 {
+          
+          self.showSaveChangesButton()
+          
+        }
         
       }
       
@@ -373,6 +415,20 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       if actualPage > 0 && self.leftButton.alpha == 0.0 {
         
         self.showLeftButtonOfMainScrollView()
+        
+      }
+      
+      if actualPage == 3 {
+        
+        self.hideSaveChangesButton()
+        
+      } else {
+        
+        if saveChangesButton.alpha == 0.0 {
+          
+          self.showSaveChangesButton()
+          
+        }
         
       }
       

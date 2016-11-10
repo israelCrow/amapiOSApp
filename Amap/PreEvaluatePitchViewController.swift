@@ -247,7 +247,7 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
     
     UtilityManager.sharedInstance.hideLoader()
     
-    createNewPitchEvaluation = true
+    createNewPitchEvaluation = false
     
     self.flipCard.flip()
     
@@ -316,7 +316,7 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
       
     } else {
   
-      let evaluatePitch = EvaluatePitchViewController(newPitchData: pitchDataCreated,
+      let evaluatePitch = EvaluatePitchViewController(newPitchData: pitchData,
                                      creatingANewPitchEvaluation: false,
                                 updatingAPreviousPitchEvaluation: true)
       self.navigationController?.pushViewController(evaluatePitch, animated: true)

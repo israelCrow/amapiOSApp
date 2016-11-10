@@ -24,6 +24,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   private var searchButton: UIButton! = nil
   private var filterButton: UIButton! = nil
+  private var addPitchButton: UIButton! = nil
   private var arrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
   private var arrayOfPitchesByUserWithoutModifications = [PitchEvaluationByUserModelData]()
   private var frontCard: PitchCardView! = nil
@@ -55,6 +56,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     self.changeNavigationRigthButtonItem()
     self.createSearchButton()
     self.createFilterButton()
+    self.createAddPitchButton()
     
     self.requestForAllPitchesAndTheirEvaluations()
     
@@ -152,6 +154,30 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     mainCarousel.dataSource = self
     self.view.addSubview(mainCarousel)
     
+    if addPitchButton != nil {
+      
+      self.view.bringSubviewToFront(addPitchButton)
+      
+    }
+    
+  }
+  
+  private func createAddPitchButton() {
+    
+    let frameForButton = CGRect.init(x: 283.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 100.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: 56.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    addPitchButton = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "buttonAddPitch") as UIImage?
+    addPitchButton.setImage(image, forState: .Normal)
+//    addPitchButton.tag = 1
+    addPitchButton.addTarget(self, action: #selector(pushCreateAddNewPitchAndWriteBrandNameViewControllerFromPitchCard),
+                             forControlEvents:.TouchUpInside)
+    
+    self.view.addSubview(addPitchButton)
+    
   }
   
   private func requestForAllPitchesAndTheirEvaluations() {
@@ -172,6 +198,16 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         if self.mainCarousel == nil {
         
           self.createCarousel()
+          
+        }
+        
+        if self.arrayOfPitchesByUser.count == 1 {
+          
+          self.mainCarousel.scrollEnabled = false
+          
+        }else{
+          
+          self.mainCarousel.scrollEnabled = true
           
         }
     
@@ -214,6 +250,12 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     let noPitchesAssignedView = NoPitchAssignedView.init(position: positionForNoPitchesView)
     noPitchesAssignedView.delegate = self
     self.view.addSubview(noPitchesAssignedView)
+    
+    if addPitchButton != nil {
+      
+      self.view.bringSubviewToFront(addPitchButton)
+      
+    }
     
   }
   
@@ -276,9 +318,31 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
   }
   
+  private func hideAddPitchButton() {
+    
+    UIView.animateWithDuration(0.15){
+      
+      self.addPitchButton.alpha = 0.0
+      
+    }
+    
+  }
+  
+  private func showAddPitchButton() {
+    
+    UIView.animateWithDuration(0.15){
+      
+      self.addPitchButton.alpha = 1.0
+      
+    }
+    
+  }
+  
   @objc private func searchButtonPressed() {
   
     if mainCarousel != nil {
+      
+      self.hideAddPitchButton()
       
       isShowingAMessageCard = true
       
@@ -314,6 +378,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   @objc private func filterButtonPressed() {
     
     if mainCarousel != nil {
+      
+      self.hideAddPitchButton()
       
       isShowingAMessageCard = true
       
@@ -467,7 +533,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
                                     width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 347.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let arrayOfQualifications: [Int] = [frontCard.getPitchEvaluationByUserData().score]
+    var arrayOfQualifications: [Int] = frontCard.getPitchEvaluationByUserData().otherScores
+    arrayOfQualifications.insert(frontCard.getPitchEvaluationByUserData().score, atIndex: 0)
     let arrayOfAgencyNames: [String] = [AgencyModel.Data.name]
     
     return GraphPartPitchCardView.init(frame: frameForGraphPart,
@@ -854,6 +921,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   func doCancelFilteringPitches() {
     
     self.removeFilterPitchCardView()
+    self.showAddPitchButton()
     
   }
   
@@ -1407,9 +1475,17 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         mainCarousel.reloadData()
         mainCarousel.scrollToItemAtIndex(i, animated: true)
 
+        self.showAddPitchButton()
+        
         return
         
       }
+      
+    }
+    
+    if addPitchButton.alpha == 0 {
+      
+      self.showAddPitchButton()
       
     }
     
