@@ -10,13 +10,19 @@ import UIKit
 
 class VisualizeCaseDetailViewController: UIViewController {
   
+  let kNotificationCenterKey = "ReceiveImageSuccessfully"
+  
   private var caseData: Case! = nil
   private var backgroundView: UIView! = nil
   private var mainScrollView: UIScrollView! = nil
   private var caseNameLabel: UILabel! = nil
   private var caseDescriptionLabel: UILabel! = nil
   private var playerVimeoYoutube: VideoPlayerVimeoYoutubeView! = nil
+  private var linkLabel: UILabel! = nil
   private var shareThisInfo: UIView! = nil
+  
+  private var mailIconButton: UIButton! = nil
+  private var whatsAppIconButton: UIButton! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -50,7 +56,7 @@ class VisualizeCaseDetailViewController: UIViewController {
     self.createCaseNameLabel()
     self.createCaseDescriptionLabel()
     self.createPlayerVimeoYoutube()
-    
+    self.createLinkLabel()
     self.createShareThisInfo()
     
   }
@@ -264,12 +270,68 @@ class VisualizeCaseDetailViewController: UIViewController {
     
   }
   
+  private func createLinkLabel() {
+    
+    if caseData.url != "" {
+      
+      let frameForLabel = CGRect.init(x: 0.0,
+                                      y: 0.0,
+                                      width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                      height: CGFloat.max)
+      
+      linkLabel = UILabel.init(frame: frameForLabel)
+      linkLabel.numberOfLines = 0
+      linkLabel.lineBreakMode = .ByWordWrapping
+      
+      let font = UIFont(name: "SFUIText-Light",
+                        size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+      let color = UIColor.blackColor()
+      let style = NSMutableParagraphStyle()
+      style.alignment = NSTextAlignment.Left
+      
+      let stringWithFormat = NSMutableAttributedString(
+        string: caseData.url,
+        attributes:[NSFontAttributeName: font!,
+          NSParagraphStyleAttributeName: style,
+          NSForegroundColorAttributeName: color
+        ]
+      )
+      linkLabel.attributedText = stringWithFormat
+      linkLabel.sizeToFit()
+      let newFrame = CGRect.init(x: 0.0,
+                                 y: 390.0 * UtilityManager.sharedInstance.conversionHeight,
+                                 width: linkLabel.frame.size.width,
+                                 height: linkLabel.frame.size.height)
+      
+      linkLabel.frame = newFrame
+      
+      mainScrollView.addSubview(linkLabel)
+      
+    }
+    
+  }
+  
   private func createShareThisInfo() {
     
-    let frameForShareView = CGRect.init(x: 0.0,
-                                        y: 360.0 * UtilityManager.sharedInstance.conversionHeight,
-                                    width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
+    var frameForShareView: CGRect
+    
+    if linkLabel != nil {
+      
+      frameForShareView = CGRect.init(x: 0.0,
+                                      y: linkLabel.frame.origin.y + linkLabel.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                  width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                 height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+    } else {
+      
+      frameForShareView = CGRect.init(x: 0.0,
+                                      y: 360.0 * UtilityManager.sharedInstance.conversionHeight,
+                                  width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                 height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+    }
+    
+
     
     shareThisInfo = UIView.init(frame: frameForShareView)
     shareThisInfo.backgroundColor = UIColor.clearColor()
@@ -325,7 +387,7 @@ class VisualizeCaseDetailViewController: UIViewController {
                                      width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 16.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let mailIconButton = UIButton.init(frame: frameForButton)
+    mailIconButton = UIButton.init(frame: frameForButton)
     let image = UIImage(named: "iconMailBlack") as UIImage?
     mailIconButton.setImage(image, forState: .Normal)
     
@@ -343,21 +405,99 @@ class VisualizeCaseDetailViewController: UIViewController {
                                      width: 19.6 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 19.6 * UtilityManager.sharedInstance.conversionHeight)
     
-    let whatsAppButton = UIButton.init(frame: frameForButton)
+    whatsAppIconButton = UIButton.init(frame: frameForButton)
     let image = UIImage(named: "page1") as UIImage?
-    whatsAppButton.setImage(image, forState: .Normal)
+    whatsAppIconButton.setImage(image, forState: .Normal)
     
-    whatsAppButton.backgroundColor = UIColor.clearColor()
-    whatsAppButton.tag = 2
-    whatsAppButton.addTarget(self, action: #selector(whatsAppButtonPressed), forControlEvents:.TouchUpInside)
-    shareThisInfo.addSubview(whatsAppButton)
+    whatsAppIconButton.backgroundColor = UIColor.clearColor()
+    whatsAppIconButton.tag = 2
+    whatsAppIconButton.addTarget(self, action: #selector(whatsAppButtonPressed), forControlEvents:.TouchUpInside)
+    shareThisInfo.addSubview(whatsAppIconButton)
     
+    
+  }
+  
+  override func viewDidLoad() {
+    
+    self.addLikeObserver()
+    
+  }
+  
+  private func addLikeObserver() {
+    
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(changePositionOfButtons) , name: kNotificationCenterKey, object: nil)
+    
+  }
+  
+  @objc private func changePositionOfButtons(notification: NSNotification) {
+    
+    if notification.userInfo?["image"] as? UIImage != nil {
+      
+      let image = notification.userInfo?["image"] as! UIImage
+      
+      let sizeInPixels = CGSize.init(width: image.size.width * image.scale,
+                                    height: image.size.height * image.scale)
+      
+      
+      
+      UIView.animateWithDuration(0.35) {
+        
+        if self.linkLabel != nil {
+          
+          self.linkLabel.frame = CGRect.init(x: self.linkLabel.frame.origin.x,
+                                             y: self.playerVimeoYoutube.frame.origin.y + sizeInPixels.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                         width: self.linkLabel.frame.size.width,
+                                        height: self.linkLabel.frame.size.height)
+          
+          self.shareThisInfo.frame = CGRect.init(x: self.shareThisInfo.frame.origin.x,
+                                                 y: self.linkLabel.frame.origin.y + self.linkLabel.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                             width: self.shareThisInfo.frame.size.width,
+                                            height: self.shareThisInfo.frame.size.height)
+          
+        } else {
+        
+          self.shareThisInfo.frame = CGRect.init(x: self.shareThisInfo.frame.origin.x,
+                                                 y: self.playerVimeoYoutube.frame.origin.y + sizeInPixels.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                 width: self.shareThisInfo.frame.size.width,
+                                                 height: self.shareThisInfo.frame.size.height)
+        
+        }
+
+       
+
+      }
+      
+    } else
+      if notification.userInfo?["image"] as? String != nil {
+    
+        let message = notification.userInfo?["image"] as! String
+        if message == "No hay imagen" {
+          
+          self.showErrorFromDownloadImage()
+          
+        }
+        
+    }
+    
+  }
+  
+  private func showErrorFromDownloadImage() {
+    
+    print()
     
   }
   
   @objc private func popThis() {
     
     self.navigationController?.popViewControllerAnimated(true)
+    
+  }
+  
+  override func viewWillDisappear(animated: Bool) {
+    
+    super.viewWillDisappear(animated)
+    
+    NSNotificationCenter.defaultCenter().removeObserver(self)
     
   }
   

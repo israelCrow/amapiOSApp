@@ -661,6 +661,12 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     if isKeyboardAlreadyShown == true {
     
+      if createCaseView != nil && createCaseView?.isBeingShown == true {
+        
+        createCaseView?.moveUpContainerView()
+        
+      }
+      
       UIView.animateWithDuration(0.35,
         animations: {
           self.flipCard.frame = self.lastFrameForFlipCard

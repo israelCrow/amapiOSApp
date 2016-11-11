@@ -706,7 +706,12 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     if AgencyModel.Data.phone != nil {
       
-      if let url = NSURL(string: "tel://\(AgencyModel.Data.phone!)") {
+      var finalPhone = AgencyModel.Data.phone.stringByReplacingOccurrencesOfString(".", withString: "")
+      finalPhone = finalPhone.stringByReplacingOccurrencesOfString(" ", withString: "")
+      finalPhone = finalPhone.stringByReplacingOccurrencesOfString("(", withString: "")
+      finalPhone = finalPhone.stringByReplacingOccurrencesOfString(")", withString: "")
+      
+      if let url = NSURL(string: "tel://\(finalPhone)") {
         UIApplication.sharedApplication().openURL(url)
       }
       

@@ -36,6 +36,8 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
   private var errorInFieldsLabel: UILabel! = nil
   private var isDownContentView: Bool = false
   
+  var isBeingShown: Bool! = nil
+  
   private var caseDataForPreview: Case! = nil
   
   var delegate: CreateCaseViewDelegate?
@@ -45,6 +47,8 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
   }
   
   override init(frame: CGRect) {
+    
+    isBeingShown = true
     
     super.init(frame: frame)
     
@@ -812,7 +816,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true)
 
   }
   
-  private func moveUpContainerView() {
+  func moveUpContainerView() {
     
     if isDownContentView == true {
       

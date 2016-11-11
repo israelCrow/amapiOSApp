@@ -83,7 +83,7 @@ extension UIImageView {
             
             if newImage!.size.width > (295.0 * UtilityManager.sharedInstance.conversionWidth) {
               
-              let factorOfTransformation = (295.00 / newImage!.size.width)
+              let factorOfTransformation = ((295.0 * UtilityManager.sharedInstance.conversionWidth) / newImage!.size.width)
               let newHeight = newImage!.size.height * factorOfTransformation
               let newWidth = newImage!.size.width * factorOfTransformation
               
@@ -137,6 +137,21 @@ extension UIImageView {
         }
         
         self.image = finalImage
+        
+        if self.image != nil {
+        
+          let imageSize: [String: UIImage] = ["image": self.image!]
+        
+          NSNotificationCenter.defaultCenter().postNotificationName("ReceiveImageSuccessfully", object: nil, userInfo: imageSize)
+          
+        } else {
+          
+          let imageSize: [String: String] = ["image": "No hay imagen"]
+          
+          NSNotificationCenter.defaultCenter().postNotificationName("ReceiveImageSuccessfully", object: nil, userInfo: imageSize)
+          
+        }
+        
         
       })
     }//dispatch_async
