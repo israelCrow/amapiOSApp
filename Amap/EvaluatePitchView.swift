@@ -277,7 +277,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let widthOfSegments = CGFloat(210.0 / 4.0)
+    let widthOfSegments = CGFloat((210.0 * UtilityManager.sharedInstance.conversionWidth) / 4.0)
     
     let segmentsArray = ["2 - 4", "5 - 7", "+ de 7", "No sé"]
     
@@ -589,7 +589,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
       howManyAgenciesResult = "no se"
     }else
       if howManyAgenciesResult == "+ de 7" {
-        howManyAgenciesResult = "7+"
+        howManyAgenciesResult = "+7"
     }
 //    if howManyAgenciesParticipate.returnValueSelectedFromSegmentControl() == "- de 4" {
 //      

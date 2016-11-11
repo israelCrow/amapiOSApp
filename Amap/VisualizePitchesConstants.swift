@@ -71,6 +71,12 @@ class VisualizePitchesConstants {
     
   }
   
+  enum EditPitchEvaluationViewcontroller {
+    
+    static let navigationBarTitleText = "Editar Pitch"
+    
+  }
+  
   enum PreEvaluatePitchView {
     
     static let descriptionWriteNameLabel =  "Escribe el mail del contacto que te brifeó"
@@ -124,10 +130,10 @@ class VisualizePitchesConstants {
     static let rightButtonItemText = "Cerrar"
     
     static let evaluationLabelText = "Evaluación"
-    static let faceOneLabelText = "65 - 100\n puntos"
-    static let faceTwoLabelText = "65 - 100\n puntos"
-    static let faceThreeLabelText = "65 - 100\n puntos"
-    static let faceFourLabelText = "65 - 100\n puntos"
+    static let faceOneLabelText = "70 - 100\n puntos"
+    static let faceTwoLabelText = "59 - 69\n puntos"
+    static let faceThreeLabelText = "45 - 58\n puntos"
+    static let faceFourLabelText = "0 - 44\n puntos"
     
     static let statisticsLabelText = "Estadísticas"
     static let descriptionStatisticsLabelText = "Lorem ipsum dolor sit amet,consectetur adipiscing elit. Vivamus vestibulum velit nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Interdum et malesuada fames ac ante ipsum primis in faucibus."

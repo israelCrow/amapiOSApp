@@ -53,7 +53,7 @@ class GraphPartPitchCardView: UIView {
     
       let myQualification = arrayOfQualifications[0]
       
-      if myQualification > 70 {
+      if myQualification >= 70 {
         
         firstColor = UIColor.init(red: 237.0/255.0, green: 237.0/255.0, blue: 24.0/255.0, alpha: 1.0)
         secondColor = UIColor.init(red: 255.0/255.0, green: 85.0/255.0, blue: 0.0/255.0, alpha: 1.0)

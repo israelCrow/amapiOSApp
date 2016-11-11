@@ -53,8 +53,8 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         self.addActions()
         self.adaptMyself()
         self.createGoldenPitchStar()
-        self.createGoldenPitchTitleLabel()
-        self.createAmapLabel()
+//        self.createGoldenPitchTitleLabel()
+//        self.createAmapLabel()
         self.createWriteNameDescriptionLabel()
         //    self.createNameLabel()
         self.createNameTextField()
@@ -90,11 +90,10 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
     }
     
     private func createGoldenPitchStar() {
-        goldenPitchStarImageView = UIImageView.init(image: UIImage.init(named: "goldenPitch_star"))
-        let goldenPitchStarFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (goldenPitchStarImageView.frame.size.width / 2.0),
-                                               y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
-                                               width: goldenPitchStarImageView.frame.size.width,
-                                               height: goldenPitchStarImageView.frame.size.height)
+        goldenPitchStarImageView = UIImageView.init(image: UIImage.init(named: "logo"))
+        let goldenPitchStarFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (52.0 * UtilityManager.sharedInstance.conversionWidth),
+                                               y: 30.0 * UtilityManager.sharedInstance.conversionHeight,                                               width: 104.0 * UtilityManager.sharedInstance.conversionWidth,
+                                               height: 139.0 * UtilityManager.sharedInstance.conversionHeight)
         goldenPitchStarImageView.frame = goldenPitchStarFrame
         
         self.addSubview(goldenPitchStarImageView)

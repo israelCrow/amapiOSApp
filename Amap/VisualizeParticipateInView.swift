@@ -42,14 +42,13 @@ class VisualizeParticipateInView: UIView {
     self.createParticipateInLabel()
     self.createMainScrollView()
     self.createAllImageViews()
-    self.createHappitchLabel()
     
   }
   
   private func createAllPossibleFrames() {
     
     
-    //first quadrant
+    //left top
     var frameForImageView = CGRect.init(x: 28.0 * UtilityManager.sharedInstance.conversionWidth,
                                         y: 56.0 * UtilityManager.sharedInstance.conversionHeight,
                                     width: 60.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -57,7 +56,7 @@ class VisualizeParticipateInView: UIView {
     
     arrayOfFrames.append(frameForImageView)
     
-    //second quadrant
+    //right top
     
     frameForImageView = CGRect.init(x: 139.0 * UtilityManager.sharedInstance.conversionWidth,
                                     y: 56.0 * UtilityManager.sharedInstance.conversionHeight,
@@ -67,7 +66,7 @@ class VisualizeParticipateInView: UIView {
     arrayOfFrames.append(frameForImageView)
     
     
-    //third quadrant
+    //left bottom
     
     frameForImageView = CGRect.init(x: 28.0 * UtilityManager.sharedInstance.conversionWidth,
                                     y: 167.0 * UtilityManager.sharedInstance.conversionHeight,
@@ -76,7 +75,7 @@ class VisualizeParticipateInView: UIView {
     
     arrayOfFrames.append(frameForImageView)
     
-    //fourth quadrant
+    //right bottom
     
     frameForImageView = CGRect.init(x: 139.0 * UtilityManager.sharedInstance.conversionWidth,
                                     y: 167.0 * UtilityManager.sharedInstance.conversionHeight,
@@ -86,6 +85,8 @@ class VisualizeParticipateInView: UIView {
     arrayOfFrames.append(frameForImageView)
     
   }
+  
+
   
   private func createParticipateInLabel() {
     
@@ -177,6 +178,9 @@ class VisualizeParticipateInView: UIView {
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)
     
+    mainScrollView.addSubview(self.createLabel("happitch", frameToBase: arrayOfFrames[actualFrame]))
+    
+    
   }
   
   
@@ -187,6 +191,8 @@ class VisualizeParticipateInView: UIView {
     
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)
+    
+    mainScrollView.addSubview(self.createLabel("happy", frameToBase: arrayOfFrames[actualFrame]))
     
   }
   
@@ -199,6 +205,8 @@ class VisualizeParticipateInView: UIView {
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)
     
+    mainScrollView.addSubview(self.createLabel("ok", frameToBase: arrayOfFrames[actualFrame]))
+    
   }
   
   
@@ -210,9 +218,11 @@ class VisualizeParticipateInView: UIView {
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)
     
+    mainScrollView.addSubview(self.createLabel("unhappy", frameToBase: arrayOfFrames[actualFrame]))
+    
   }
   
-  private func createHappitchLabel() {
+  private func createLabel(textOfLabel: String, frameToBase: CGRect) -> UILabel{
     
     let happitchLabel = UILabel.init(frame: CGRectZero)
     
@@ -223,7 +233,7 @@ class VisualizeParticipateInView: UIView {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "Happitch",
+      string: textOfLabel,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color
@@ -231,14 +241,14 @@ class VisualizeParticipateInView: UIView {
     )
     happitchLabel.attributedText = stringWithFormat
     happitchLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 28.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 126.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: (frameToBase.origin.x + (frameToBase.size.width / 2.0)) - (happitchLabel.frame.size.width / 2.0),
+                               y: frameToBase.origin.y + frameToBase.size.height + (12.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: happitchLabel.frame.size.width,
                                height: happitchLabel.frame.size.height)
     
     happitchLabel.frame = newFrame
     
-    mainScrollView.addSubview(happitchLabel)
+    return happitchLabel
     
   }
   

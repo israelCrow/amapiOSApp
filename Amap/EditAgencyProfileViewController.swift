@@ -274,7 +274,14 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     rightButton.addTarget(self, action: #selector(moveScrollViewToRight), forControlEvents: .TouchUpInside)
     
     if actualPage == 0 {
+      
       self.hideLeftButtonOfMainScrollView()
+      
+    } else
+      if actualPage == kNumberOfCardsInScrollViewMinusOne {
+      
+        self.hideRightButtonOfMainScrollView()
+        
     }
     
     flipCard.addSubview(leftButton)

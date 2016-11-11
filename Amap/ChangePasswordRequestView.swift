@@ -45,8 +45,8 @@ class ChangePasswordRequestView: UIView, UITextFieldDelegate {
         self.backgroundColor = UIColor.whiteColor()
         self.addActions()
         self.createGoldenPitchStar()
-        self.createGoldenPitchTitleLabel()
-        self.createAmapLabel()
+//        self.createGoldenPitchTitleLabel()
+//        self.createAmapLabel()
         self.createMessageLabel()
         self.createWriteEMailDescriptionLabel()
         //    self.createEMailLabel()
@@ -69,11 +69,11 @@ class ChangePasswordRequestView: UIView, UITextFieldDelegate {
     }
     
     private func createGoldenPitchStar() {
-        goldenPitchStarImageView = UIImageView.init(image: UIImage.init(named: "goldenPitch_star"))
-        let goldenPitchStarFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (goldenPitchStarImageView.frame.size.width / 2.0),
+        goldenPitchStarImageView = UIImageView.init(image: UIImage.init(named: "logo"))
+        let goldenPitchStarFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (52.0 * UtilityManager.sharedInstance.conversionWidth),
                                                y: (30.0 * UtilityManager.sharedInstance.conversionHeight),
-                                               width: goldenPitchStarImageView.frame.size.width,
-                                               height: goldenPitchStarImageView.frame.size.height)
+                                               width: 104.0 * UtilityManager.sharedInstance.conversionWidth,
+                                               height: 139.0 * UtilityManager.sharedInstance.conversionHeight)
         goldenPitchStarImageView.frame = goldenPitchStarFrame
         
         self.addSubview(goldenPitchStarImageView)
@@ -158,7 +158,7 @@ class ChangePasswordRequestView: UIView, UITextFieldDelegate {
         messageLabel.attributedText = stringWithFormat
         messageLabel.sizeToFit()
         let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (messageLabel.frame.size.width / 2.0),
-                                   y: amapLabel.frame.origin.y + amapLabel.frame.size.height + (31.0 * UtilityManager.sharedInstance.conversionHeight),
+                                   y: 180.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: messageLabel.frame.size.width,
                                    height: messageLabel.frame.size.height)
         

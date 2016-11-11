@@ -94,12 +94,12 @@ class DetailedPartPitchCardView: UIView {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: 271.0 * UtilityManager.sharedInstance.conversionWidth,
-                                    height: CGFloat.max)
+                                    width: 280.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: 28.0 * UtilityManager.sharedInstance.conversionHeight)
     
     projectNameLabel = UILabel.init(frame: frameForLabel)
     projectNameLabel.numberOfLines = 1
-    projectNameLabel.lineBreakMode = .ByTruncatingTail
+    projectNameLabel.adjustsFontSizeToFitWidth = true
     
     let font = UIFont(name: "SFUIDisplay-Semibold",
                       size: 22.0 * UtilityManager.sharedInstance.conversionWidth)
@@ -115,7 +115,7 @@ class DetailedPartPitchCardView: UIView {
       ]
     )
     projectNameLabel.attributedText = stringWithFormat
-    projectNameLabel.sizeToFit()
+//    projectNameLabel.sizeToFit()
     let newFrame = CGRect.init(x: 12.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 29.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: projectNameLabel.frame.size.width,
@@ -131,12 +131,12 @@ class DetailedPartPitchCardView: UIView {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: 271.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    width: 280.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
     brandNameLabel = UILabel.init(frame: frameForLabel)
     brandNameLabel.numberOfLines = 1
-    brandNameLabel.lineBreakMode = .ByTruncatingTail
+    projectNameLabel.adjustsFontSizeToFitWidth = true
     
     let font = UIFont(name: "SFUIDisplay-Regular",
                       size: 18.0 * UtilityManager.sharedInstance.conversionWidth)
@@ -168,12 +168,12 @@ class DetailedPartPitchCardView: UIView {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: 271.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    width: 280.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
     companyNameLabel = UILabel.init(frame: frameForLabel)
     companyNameLabel.numberOfLines = 1
-    companyNameLabel.lineBreakMode = .ByTruncatingTail
+    projectNameLabel.adjustsFontSizeToFitWidth = true
     
     let font = UIFont(name: "SFUIText-Light",
                       size: 12.0 * UtilityManager.sharedInstance.conversionWidth)

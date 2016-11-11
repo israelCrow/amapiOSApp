@@ -90,7 +90,7 @@ class EditPitchEvaluationViewController: UIViewController, EditPitchEvaluationVi
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: VisualizePitchesConstants.PreEvaluatePitchViewController.navigationBarTitleText,
+      string: VisualizePitchesConstants.EditPitchEvaluationViewcontroller.navigationBarTitleText,
       attributes:[NSFontAttributeName:font!,
         NSParagraphStyleAttributeName:style,
         NSForegroundColorAttributeName:color

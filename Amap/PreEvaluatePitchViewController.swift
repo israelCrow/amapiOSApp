@@ -17,7 +17,7 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
   private var pitchData: ProjectPitchModelData! = nil
   private var pitchDataCreated: ProjectPitchModelData! = nil
   
-  private var createNewPitchEvaluation: Bool = false
+  private var usePitchDataCreated: Bool = false
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -247,7 +247,7 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
     
     UtilityManager.sharedInstance.hideLoader()
     
-    createNewPitchEvaluation = false
+    usePitchDataCreated = false
     
     self.flipCard.flip()
     
@@ -283,6 +283,8 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
       backOfTheCard.delegate = self
       self.flipCard.setSecondView(backOfTheCard)
       
+      self.usePitchDataCreated = true
+      
       UtilityManager.sharedInstance.hideLoader()
       
       self.flipCard.flip()
@@ -306,11 +308,11 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
       
     }
     
-    if createNewPitchEvaluation == true {
+    if usePitchDataCreated == true {
       
-      let evaluatePitch = EvaluatePitchViewController(newPitchData: pitchData,
-                                                      creatingANewPitchEvaluation: true,
-                                                      updatingAPreviousPitchEvaluation: false)
+      let evaluatePitch = EvaluatePitchViewController(newPitchData: pitchDataCreated,
+                                                      creatingANewPitchEvaluation: false,
+                                                      updatingAPreviousPitchEvaluation: true)
       self.navigationController?.pushViewController(evaluatePitch, animated: true)
       
       

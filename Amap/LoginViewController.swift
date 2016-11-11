@@ -230,14 +230,14 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                   //print(json)
                   
                     
-                  let agency_id = json["agency_id"] as? Int
-                  let brand_id = json["brand_id"] as? Int
-                  let auth_token = json["auth_token"] as? String
-                  let email = json["email"] as? String
-                  let first_name = json["first_name"] as? String
-                  let id_user_int = json["id"] as? Int
-                  let id_user_string = String(id_user_int!)
-                  let is_member_amap = json["is_member_amap"] as? String
+                  let agency_id = (json["agency_id"] as? Int != nil ? json["agency_id"] as! Int : -1)
+                  let brand_id = (json["brand_id"] as? Int != nil ? json["brand_id"] as! Int : -1)
+                  let auth_token = (json["auth_token"] as? String != nil ? json["auth_token"] as! String : "")
+                  let email = (json["email"] as? String != nil ? json["email"] as! String : "")
+                  let first_name = (json["first_name"] as? String != nil ? json["first_name"] as! String : "")
+                  let id_user_int = (json["id"] as? Int != nil ? json["id"] as! Int : -1)
+                  let id_user_string = String(id_user_int)
+                  let is_member_amap = (json["is_member_amap"] as? String != nil ? json["is_member_amap"] as! String : "0")
                   
                   var is_member_amap_bool: Bool
                   if is_member_amap == "0" {
@@ -246,28 +246,28 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                     is_member_amap_bool = true
                   }
                     
-                  let last_name = json["last_name"] as? String
-                  let role_int = json["role"] as? Int
+                  let last_name = (json["last_name"] as? String != nil ? json["last_name"] as! String : "")
+                  let role_int = (json["role"] as? Int != nil ? json["role"] as! Int : -1)
                   let role_string = String(role_int)
                   
-                  if agency_id != nil && agency_id != -1 {
+                  if agency_id != -1 {
                       
-                    UserSession.session.agency_id = String(agency_id!)
+                    UserSession.session.agency_id = String(agency_id)
                     AgencyModel.Data.id = UserSession.session.agency_id!
                       
                   } else
-                    if brand_id != nil && brand_id != -1 {
+                    if brand_id != -1 {
                         
-                      UserSession.session.brand_id = String(brand_id!)
+                      UserSession.session.brand_id = String(brand_id)
                         
                   }
 
-                  UserSession.session.auth_token = auth_token!
-                  UserSession.session.email = email!
-                  UserSession.session.first_name = first_name!
+                  UserSession.session.auth_token = auth_token
+                  UserSession.session.email = email
+                  UserSession.session.first_name = first_name
                   UserSession.session.id = id_user_string
                   UserSession.session.is_member_amap = is_member_amap_bool
-                  UserSession.session.last_name = last_name!
+                  UserSession.session.last_name = last_name
                   UserSession.session.role = role_string
                   
                   RequestToServerManager.sharedInstance.requestForAgencyData(){

@@ -82,7 +82,7 @@ class InfoPitchesView: UIView {
     
     let frameForMainScrollView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                              y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
-                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         width: 230.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: self.frame.size.height - (30.0 * UtilityManager.sharedInstance.conversionHeight))
     
     let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
@@ -108,7 +108,7 @@ class InfoPitchesView: UIView {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: 150.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    width: 160.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
     evaluationLabel = UILabel.init(frame: frameForLabel)
@@ -131,7 +131,7 @@ class InfoPitchesView: UIView {
     )
     evaluationLabel.attributedText = stringWithFormat
     evaluationLabel.sizeToFit()
-    let newFrame = CGRect.init(x: (mainScrollView.frame.size.width / 2.0) - (evaluationLabel.frame.size.width / 2.0),
+    let newFrame = CGRect.init(x: 35.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 0.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: evaluationLabel.frame.size.width,
                                height: evaluationLabel.frame.size.height)
@@ -198,7 +198,7 @@ class InfoPitchesView: UIView {
     )
     faceOneLabel.attributedText = stringWithFormat
     faceOneLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 45.0 * UtilityManager.sharedInstance.conversionWidth,
+    let newFrame = CGRect.init(x: 42.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 58.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: faceOneLabel.frame.size.width,
                                height: faceOneLabel.frame.size.height)
@@ -249,7 +249,7 @@ class InfoPitchesView: UIView {
     )
     faceTwoLabel.attributedText = stringWithFormat
     faceTwoLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 45.0 * UtilityManager.sharedInstance.conversionWidth,
+    let newFrame = CGRect.init(x: 42.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 113.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: faceTwoLabel.frame.size.width,
                                height: faceTwoLabel.frame.size.height)
@@ -263,7 +263,7 @@ class InfoPitchesView: UIView {
   private func createFaceThreeIcon() {
     
     faceThreeIcon = UIImageView.init(image: UIImage.init(named: "color_bigger_fill5"))
-    let iconFrame = CGRect.init(x: 127.0 * UtilityManager.sharedInstance.conversionWidth,
+    let iconFrame = CGRect.init(x: 124.0 * UtilityManager.sharedInstance.conversionWidth,
                                 y: (57.0 * UtilityManager.sharedInstance.conversionHeight),
                                 width: 35.0 * UtilityManager.sharedInstance.conversionWidth,
                                 height: 34.0 * UtilityManager.sharedInstance.conversionWidth)
@@ -300,7 +300,7 @@ class InfoPitchesView: UIView {
     )
     faceThreeLabel.attributedText = stringWithFormat
     faceThreeLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 172.0 * UtilityManager.sharedInstance.conversionWidth,
+    let newFrame = CGRect.init(x: 169.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 58.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: faceThreeLabel.frame.size.width,
                                height: faceThreeLabel.frame.size.height)
@@ -314,7 +314,7 @@ class InfoPitchesView: UIView {
   private func createFaceFourIcon() {
     
     faceFourIcon = UIImageView.init(image: UIImage.init(named: "color_bigger_fill7"))
-    let iconFrame = CGRect.init(x: 127.0 * UtilityManager.sharedInstance.conversionWidth,
+    let iconFrame = CGRect.init(x: 124.0 * UtilityManager.sharedInstance.conversionWidth,
                                 y: (112.0 * UtilityManager.sharedInstance.conversionHeight),
                                 width: 35.0 * UtilityManager.sharedInstance.conversionWidth,
                                 height: 34.0 * UtilityManager.sharedInstance.conversionWidth)
@@ -351,7 +351,7 @@ class InfoPitchesView: UIView {
     )
     faceFourLabel.attributedText = stringWithFormat
     faceFourLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 172.0 * UtilityManager.sharedInstance.conversionWidth,
+    let newFrame = CGRect.init(x: 169.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 113.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: faceFourLabel.frame.size.width,
                                height: faceFourLabel.frame.size.height)
@@ -414,7 +414,7 @@ class InfoPitchesView: UIView {
     )
     statisticsLabel.attributedText = stringWithFormat
     statisticsLabel.sizeToFit()
-    let newFrame = CGRect.init(x: (mainScrollView.frame.size.width / 2.0) - (statisticsLabel.frame.size.width / 2.0),
+    let newFrame = CGRect.init(x: 28.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 207.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: statisticsLabel.frame.size.width,
                                height: statisticsLabel.frame.size.height)
@@ -521,7 +521,7 @@ class InfoPitchesView: UIView {
     )
     contactLabel.attributedText = stringWithFormat
     contactLabel.sizeToFit()
-    let newFrame = CGRect.init(x: (mainScrollView.frame.size.width / 2.0) - (contactLabel.frame.size.width / 2.0),
+    let newFrame = CGRect.init(x: 46.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 454.0 * UtilityManager.sharedInstance.conversionHeight,
                            width: contactLabel.frame.size.width,
                           height: contactLabel.frame.size.height)
