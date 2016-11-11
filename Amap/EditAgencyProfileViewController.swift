@@ -1061,7 +1061,9 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
                 self.casesView.addCaseToViewsOfCase(newCaseData)
                 
               }
-          
+              
+              UtilityManager.sharedInstance.hideLoader()
+              
               self.flipCard.flip()
               self.createButtonsForFlipCard()
               self.createSaveChangesButton()
@@ -1070,11 +1072,15 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
             
             
             if let JSON = response.result.value {
+              
+              UtilityManager.sharedInstance.hideLoader()
               print("JSON: \(JSON)")
             }
           }
         
         case .Failure(let error):
+          
+          UtilityManager.sharedInstance.hideLoader()
           print(error)
         
         }

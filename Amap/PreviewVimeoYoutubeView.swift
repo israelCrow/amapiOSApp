@@ -72,7 +72,7 @@ class PreviewVimeoYoutubeView: UIView {
     
     self.backgroundColor = UIColor.clearColor()
     
-    if caseData.case_image_thumb != nil {
+    if caseData.case_image_thumb != nil && (caseData.case_image_thumb?.containsString("missing.png") == false) {
       
       self.createImageForCaseImageView()
       

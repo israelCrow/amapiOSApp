@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol VisualizeCaseDetailViewControllerDelegate {
+  
+  func showCasesFromCaseDetailViewController()
+  
+}
+
 class VisualizeCaseDetailViewController: UIViewController {
   
   let kNotificationCenterKey = "ReceiveImageSuccessfully"
@@ -23,6 +29,8 @@ class VisualizeCaseDetailViewController: UIViewController {
   
   private var mailIconButton: UIButton! = nil
   private var whatsAppIconButton: UIButton! = nil
+  
+  var delegate: VisualizeCaseDetailViewControllerDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -245,7 +253,7 @@ class VisualizeCaseDetailViewController: UIViewController {
                                      height: playerVimeoYoutube.frame.size.height)
       playerVimeoYoutube.imageForCaseImageView = nil
       playerVimeoYoutube.imageForCaseImageView = UIImageView.init(frame: frameForImageView)
-      playerVimeoYoutube.imageForCaseImageView.backgroundColor = UIColor.lightGrayColor()
+      playerVimeoYoutube.imageForCaseImageView.backgroundColor = UIColor.whiteColor()
       playerVimeoYoutube.imageForCaseImageView.userInteractionEnabled = true
       playerVimeoYoutube.imageForCaseImageView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
       playerVimeoYoutube.imageForCaseImageView.contentMode = .ScaleAspectFit
@@ -299,7 +307,7 @@ class VisualizeCaseDetailViewController: UIViewController {
       linkLabel.attributedText = stringWithFormat
       linkLabel.sizeToFit()
       let newFrame = CGRect.init(x: 0.0,
-                                 y: 390.0 * UtilityManager.sharedInstance.conversionHeight,
+                                 y: 295.0 * UtilityManager.sharedInstance.conversionHeight,
                                  width: linkLabel.frame.size.width,
                                  height: linkLabel.frame.size.height)
       
@@ -325,7 +333,7 @@ class VisualizeCaseDetailViewController: UIViewController {
     } else {
       
       frameForShareView = CGRect.init(x: 0.0,
-                                      y: 360.0 * UtilityManager.sharedInstance.conversionHeight,
+                                      y: 295.0 * UtilityManager.sharedInstance.conversionHeight,
                                   width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                                  height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
       
@@ -462,10 +470,11 @@ class VisualizeCaseDetailViewController: UIViewController {
                                                  height: self.shareThisInfo.frame.size.height)
         
         }
-
-       
-
+        
       }
+      
+      mainScrollView.contentSize = CGSize.init(width: mainScrollView.contentSize.width,
+                                              height: mainScrollView.contentSize.height + sizeInPixels.height)
       
     } else
       if notification.userInfo?["image"] as? String != nil {
@@ -498,6 +507,8 @@ class VisualizeCaseDetailViewController: UIViewController {
     super.viewWillDisappear(animated)
     
     NSNotificationCenter.defaultCenter().removeObserver(self)
+    
+    self.delegate?.showCasesFromCaseDetailViewController()
     
   }
   

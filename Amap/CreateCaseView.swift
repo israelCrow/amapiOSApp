@@ -661,6 +661,29 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true)
     }
     
     return true
+    
+  }
+  
+  func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+    
+    if textField.tag == 8 {
+      
+      let textChecked = textField.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+      
+      if textChecked != nil && textChecked != "" {
+        
+        createCaseVideoPlayerVimeoYoutube(textChecked!)
+        
+      } else {
+        
+        createCaseVideoPlayerVimeoYoutubeWithoutURL()
+        
+      }
+      
+    }
+    
+    return true
+    
   }
   
   private func showErrorInFieldsLabel() {
@@ -921,6 +944,8 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true)
     
     
     if (isNameOk == true && isDescriptionOk == true && isURLOk == true) {
+      
+      UtilityManager.sharedInstance.showLoader()
       
       self.disableAllElements()
       

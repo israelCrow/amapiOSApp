@@ -18,7 +18,7 @@ protocol VisualizeAgencyProfileViewControllerDelegate {
   
 }
 
-class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDelegate, VisualizeSkillsViewDelegate, VisualizeSkillsLevelViewDelegate, EditAgencyProfileViewControllerDelegate, AgencyProfilePicNameButtonsViewDelegate, MFMailComposeViewControllerDelegate, SFSafariViewControllerDelegate {
+class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDelegate, VisualizeSkillsViewDelegate, VisualizeSkillsLevelViewDelegate, EditAgencyProfileViewControllerDelegate, AgencyProfilePicNameButtonsViewDelegate, MFMailComposeViewControllerDelegate, SFSafariViewControllerDelegate, VisualizeCaseDetailViewControllerDelegate {
   
   let kNumberOfCardsInScrollViewMinusOne = 5
   
@@ -195,6 +195,17 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     profilePicNameButtonsView = AgencyProfilePicNameButtonsView.init(frame: frameForProfilePicStuff)
     profilePicNameButtonsView.delegate = self
+    
+    if numberOfPageToMove != nil && numberOfPageToMove != 0 {
+      
+      profilePicNameButtonsView.animateWhenInfoIsHidding()
+      
+    }else
+      if numberOfPageToMove != nil && numberOfPageToMove == 0 {
+        
+        profilePicNameButtonsView.animateWhenInfoIsShowing()
+        
+    }
 
     frontViewOfClipCard.addSubview(profilePicNameButtonsView)
     
@@ -595,8 +606,17 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   func showDetailOfCase(caseData: Case) {
     
     let previewVisualizerCase = VisualizeCaseDetailViewController.init(dataOfCase: caseData)
+    previewVisualizerCase.delegate = self
     
     self.navigationController?.pushViewController(previewVisualizerCase, animated: true)
+    
+  }
+  
+  //MARK: - VisualizeCaseDetailViewControllerDelegate
+  
+  func showCasesFromCaseDetailViewController() {
+  
+    self.numberOfPageToMove = 4
     
   }
   
