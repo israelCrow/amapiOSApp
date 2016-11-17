@@ -23,7 +23,7 @@ protocol DidYouShowYourProposalViewDelegate {
 class DidYouShowYourProposalView: UIView, CustomSegmentedControlWithTitleViewDelegate {
   
   private var titleLabel: UILabel! = nil
-  private var didYouShowYourProposalView: CustomSegmentedControlWithTitleView! = nil
+  var didYouShowYourProposalView: CustomSegmentedControlWithTitleView! = nil
   private var nextButton: UIButton! = nil
   var regionPosition: PositionOfCardsAddResults! = nil
   
@@ -202,7 +202,7 @@ class DidYouShowYourProposalView: UIView, CustomSegmentedControlWithTitleViewDel
     
   }
   
-  private func changeNextButtonToEnabled() {
+  func changeNextButtonToEnabled() {
     
     UIView.animateWithDuration(0.35,
       animations: { 

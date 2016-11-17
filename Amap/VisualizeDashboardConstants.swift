@@ -28,6 +28,12 @@ class VisualizeDashboardConstants {
     static let kBad = "highRisk"
     
   }
+  
+  enum GraphOfAgencyVSIndustry {
+    
+    static let agencyPerformanceLabelText = "Performance de tu agencia"
+    
+  }
 
 }
 

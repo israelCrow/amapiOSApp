@@ -18,7 +18,7 @@ protocol DidWinPitchViewDelegate {
 class DidWinPitchView: UIView, CustomSegmentedControlWithTitleViewDelegate {
   
   private var titleLabel: UILabel! = nil
-  private var didYouReceiveRulingView: CustomSegmentedControlWithTitleView! = nil
+  var didYouReceiveRulingView: CustomSegmentedControlWithTitleView! = nil
   private var nextButton: UIButton! = nil
   var regionPosition: PositionOfCardsAddResults! = nil
   
@@ -197,7 +197,7 @@ class DidWinPitchView: UIView, CustomSegmentedControlWithTitleViewDelegate {
     
   }
   
-  private func changeNextButtonToEnabled() {
+  func changeNextButtonToEnabled() {
     
     UIView.animateWithDuration(0.35,
                                animations: {

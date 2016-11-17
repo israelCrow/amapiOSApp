@@ -737,7 +737,17 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true)
   
   func textFieldDidBeginEditing(textField: UITextField) {
     
-    self.moveDownContainerView()
+    if textField.tag == 8 {
+      
+      self.moveDownContainerViewForLinkTextField()
+      
+    }else{
+      
+      self.moveDownContainerView()
+      
+    }
+    
+    
     self.hideErrorInFieldsLabel()
     
   }
@@ -815,6 +825,30 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true)
     
   }
   
+  private func moveDownContainerViewForLinkTextField() {
+    
+    if isDownContentView == false {
+      
+      let newFrameForContainerView = CGRect.init(x: containerView.frame.origin.x,
+                                                 y: containerView.frame.origin.y - (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                 width: containerView.frame.size.width,
+                                                 height: containerView.frame.size.height)
+      
+      UIView.animateWithDuration(0.1,
+                                 animations: {
+                                  self.containerView.frame = newFrameForContainerView
+      }) { (finished) in
+        if finished == true {
+          
+          self.mainScrollView.scrollEnabled = true
+          self.isDownContentView = true
+          
+        }
+      }
+    }
+    
+  }
+  
   private func moveDownContainerView() {
     
     if isDownContentView == false {
@@ -828,7 +862,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true)
                                  animations: {
                                   self.containerView.frame = newFrameForContainerView
       }) { (finished) in
-        if finished {
+        if finished == true {
           
           self.mainScrollView.scrollEnabled = true
           self.isDownContentView = true
@@ -852,7 +886,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true)
                                  animations: {
                                   self.containerView.frame = newFrameForContainerView
       }) { (finished) in
-        if finished {
+        if finished == true {
           
           self.mainScrollView.setContentOffset(CGPointZero, animated: true)
           self.mainScrollView.scrollEnabled = false

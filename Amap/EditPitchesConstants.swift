@@ -23,8 +23,8 @@ class EditPitchesConstants {
   
   enum DetailPitchCanceledDeclinedButtones {
     
-    static let pitchCanceledButtonText = "pitch\ncancelado"
-    static let pitchDeclinedButtonText = "pitch declinado"
+    static let pitchCanceledButtonText = "Pitch Cancelado"
+    static let pitchDeclinedButtonText = "Pitch Declinado"
     
   }
   

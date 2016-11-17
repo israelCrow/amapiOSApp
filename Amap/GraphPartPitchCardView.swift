@@ -12,6 +12,7 @@ class GraphPartPitchCardView: UIView {
   
   var containerAndGradientView: GradientView! = nil
   private var arrayOfQualifications = [Int]()
+  private var arrayOfFinalQualifications = [Int]()
   private var arrayOfAgencyNames = [String]()
   private var arrayOfBarGraphic = [GraphView]()
   
@@ -32,10 +33,23 @@ class GraphPartPitchCardView: UIView {
   
   private func initInterface() {
     
+    self.changeValuesOfQualifications()
+    
     self.createContainerAndGradientView()
     self.createFaces()
     self.createLinesOfGraph()
     self.createGraphs()
+    
+  }
+  
+  private func changeValuesOfQualifications() {
+    
+    for element in arrayOfQualifications {
+      
+      let finalValue = Int(CGFloat(100.0/92.0) * CGFloat(element + 5))
+      arrayOfFinalQualifications.append(finalValue)
+      
+    }
     
   }
   
@@ -49,11 +63,17 @@ class GraphPartPitchCardView: UIView {
     var firstColor = UIColor.whiteColor()
     var secondColor = UIColor.whiteColor()
     
+    var titleLabel =  UILabel.init()
+    
     if arrayOfQualifications.count > 0 {
     
-      let myQualification = arrayOfQualifications[0]
+      var myQualification = arrayOfQualifications[0]
+      
+      myQualification = Int(CGFloat(100.0/92.0) * CGFloat(myQualification + 5))
       
       if myQualification >= 70 {
+        
+        titleLabel = self.createTitleLabel("HAPPITCH")
         
         firstColor = UIColor.init(red: 237.0/255.0, green: 237.0/255.0, blue: 24.0/255.0, alpha: 1.0)
         secondColor = UIColor.init(red: 255.0/255.0, green: 85.0/255.0, blue: 0.0/255.0, alpha: 1.0)
@@ -64,18 +84,22 @@ class GraphPartPitchCardView: UIView {
           firstColor = UIColor.init(red: 45.0/255.0, green: 252.0/255.0, blue: 197.0/255.0, alpha: 1.0)
           secondColor = UIColor.init(red: 21.0/255.0, green: 91.0/255.0, blue: 138.0/255.0, alpha: 1.0)
           
+          titleLabel = self.createTitleLabel("HAPPY")
+          
         }else
         if myQualification >= 45 && myQualification <= 58 {
             
             firstColor = UIColor.init(red: 48.0/255.0, green: 196.0/255.0, blue: 255.0/255.0, alpha: 1.0)
             secondColor = UIColor.init(red: 242.0/255.0, green: 10.0/255.0, blue: 172.0/255.0, alpha: 1.0)
-            
+            titleLabel = self.createTitleLabel("OK")
+          
         }else
         if myQualification <= 44 {
             
             firstColor = UIColor.init(red: 190.0/255.0, green: 81.0/255.0, blue: 237.0/255.0, alpha: 1.0)
             secondColor = UIColor.init(red: 255.0/255.0, green: 25.0/255.0, blue: 33.0/255.0, alpha: 1.0)
-            
+            titleLabel = self.createTitleLabel("UNHAPPY")
+          
         }
   
     }
@@ -84,6 +108,44 @@ class GraphPartPitchCardView: UIView {
 
     containerAndGradientView = GradientView.init(frame: frameForGradient, arrayOfcolors: colorsForBackground, typeOfInclination: GradientView.TypeOfInclination.leftToRightInclination)
     self.addSubview(containerAndGradientView)
+    self.containerAndGradientView.addSubview(titleLabel)
+    
+  }
+  
+  private func createTitleLabel(text: String) -> UILabel{
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 75.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    let label = UILabel.init(frame: frameForLabel)
+    label.numberOfLines = 0
+    label.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIDisplay-Ultralight",
+                      size: 17.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.init(white: 0, alpha: 0.45)
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: text,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    label.attributedText = stringWithFormat
+    label.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (label.frame.size.width / 2.0),
+                               y: 13.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: label.frame.size.width,
+                               height: label.frame.size.height)
+    
+    label.frame = newFrame
+    
+    return label
     
   }
   
@@ -217,19 +279,19 @@ class GraphPartPitchCardView: UIView {
   
   private func createGraphs() {
     
-    if arrayOfQualifications.count >= 1 && arrayOfQualifications.count < 6 {
+    if arrayOfFinalQualifications.count >= 1 && arrayOfFinalQualifications.count < 6 {
       
-      for index in 0..<(arrayOfQualifications.count - 1) {
+      for index in 0..<(arrayOfFinalQualifications.count - 1) {
         
         arrayOfAgencyNames.append("Agencia \(index + 1)")
         
       }
       
-      let spaceBetweenGraphs = (250.0 * UtilityManager.sharedInstance.conversionWidth) / CGFloat(arrayOfQualifications.count)
+      let spaceBetweenGraphs = (250.0 * UtilityManager.sharedInstance.conversionWidth) / CGFloat(arrayOfFinalQualifications.count)
       
-      for index in 0..<arrayOfQualifications.count {
+      for index in 0..<arrayOfFinalQualifications.count {
         
-        let qualification = arrayOfQualifications[index]
+        let qualification = arrayOfFinalQualifications[index]
         let agencyName = arrayOfAgencyNames[index]
         
         let frameForGraph = CGRect.init(x: (32.0 * UtilityManager.sharedInstance.conversionWidth) + (spaceBetweenGraphs * CGFloat(index)),
@@ -246,9 +308,9 @@ class GraphPartPitchCardView: UIView {
       }
 
     } else
-      if arrayOfQualifications.count >= 6 {
+      if arrayOfFinalQualifications.count >= 6 {
         
-        let qualification = arrayOfQualifications.first
+        let qualification = arrayOfFinalQualifications.first
         let agencyName = arrayOfAgencyNames.first
         
         let frameForGraph = CGRect.init(x: 32.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -262,13 +324,13 @@ class GraphPartPitchCardView: UIView {
         
         arrayOfBarGraphic.append(newGraph)
         
-        let limit = min(arrayOfQualifications.count, 7)
+        let limit = min(arrayOfFinalQualifications.count, 7)
         
         let spaceBetweenGraphs = (240.0 * UtilityManager.sharedInstance.conversionWidth) / CGFloat(limit)
 
         for index in 1..<limit {
           
-          let qualification = arrayOfQualifications[index]
+          let qualification = arrayOfFinalQualifications[index]
           
           let frameForGraph = CGRect.init(x: (32.0 * UtilityManager.sharedInstance.conversionWidth) + (spaceBetweenGraphs * CGFloat(index)),
                                           y: 45.0 * UtilityManager.sharedInstance.conversionHeight,

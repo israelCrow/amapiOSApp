@@ -20,23 +20,32 @@ protocol VisualizeAllPitchesViewControllerShowAndHideDelegate {
 
 class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate, DetailPitchViewDelegate, CanceledPitchEvaluationViewDelegate, ArchivedPitchEvaluationViewDelegate, DeletedPitchEvaluationViewDelegate, DeclinedPitchEvaluationViewDelegate, LookForPitchCardViewDelegate, FilterPitchCardViewDelegate, PendingEvaluationCardViewDelegate, YouWonThisPitchViewDelegate, AddResultViewControllerDelegate {
   
+  private let kNotificationCenterForLookingForPitchEvaluation = "LookForThisPitchEvaluation"
+  
   private var mainCarousel: iCarousel! = nil
   
   private var searchButton: UIButton! = nil
   private var filterButton: UIButton! = nil
   private var addPitchButton: UIButton! = nil
+  private var archivedButton: UIButton! = nil
+  private var archivedLabel: UILabel! = nil
   private var arrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
   private var arrayOfPitchesByUserWithoutModifications = [PitchEvaluationByUserModelData]()
   private var frontCard: PitchCardView! = nil
+  private var originalFrameOfFrontCard: CGRect! = nil
+  private var noPitchesAssignedView: NoPitchAssignedView! = nil
   private var pendingEvaluationFrontCard: PendingEvaluationCardView! = nil
   private var mainDetailPitchView: DetailPitchView! = nil
   private var detailNavigationBar: DetailedNavigationEvaluatPitchView! = nil
   
+  private var archivePitchEvaluationParams: [String: AnyObject]! = nil
   private var pitchEvaluationIDToLookForAfterCreated: String = "-1"
   private var isSecondTimeAppearing: Bool = false
   private var isShowingAMessageCard: Bool = false
   private var isComingFromAddResultsController: Bool = false
   private var isComingFromEditPitchEvaluationController: Bool = false
+  
+  private var paramsForFilterPitchEvaluations: [String: AnyObject] = ["auth_token": UserSession.session.auth_token]
   
   var delegateForShowAndHideTabBar: VisualizeAllPitchesViewControllerShowAndHideDelegate?
   
@@ -57,6 +66,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     self.createSearchButton()
     self.createFilterButton()
     self.createAddPitchButton()
+    self.createArchiveButton()
+    self.createArchiveLabel()
     
     self.requestForAllPitchesAndTheirEvaluations()
     
@@ -102,6 +113,120 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     rightButton.setTitleTextAttributes(attributesDict, forState: .Normal)
     
     self.navigationItem.rightBarButtonItem = rightButton
+    
+  }
+  
+  private func createArchiveButton() {
+    
+    let archivedButtonFrame = CGRect.init(x: 139.0 * UtilityManager.sharedInstance.conversionWidth,
+                                          y: 158.0 * UtilityManager.sharedInstance.conversionHeight,
+                                      width: 97.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 97.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    
+    archivedButton = UIButton.init(frame: archivedButtonFrame)
+    let image = UIImage(named: "archivarIcon") as UIImage?
+    archivedButton.setImage(image, forState: .Normal)
+    archivedButton.addTarget(self, action: #selector(archiveButtonPressed),
+                         forControlEvents:.TouchUpInside)
+    
+    archivedButton.alpha = 0.0
+    
+    self.view.addSubview(archivedButton)
+    
+  }
+  
+  private func createArchiveLabel() {
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 201.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    archivedLabel = UILabel.init(frame: frameForLabel)
+    archivedLabel.numberOfLines = 0
+    archivedLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Archivar Pitch",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    archivedLabel.attributedText = stringWithFormat
+    archivedLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (self.view.frame.size.width / 2.0) - (archivedLabel.frame.size.width / 2.0),
+                               y: 265.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: archivedLabel.frame.size.width,
+                               height: archivedLabel.frame.size.height)
+    
+    archivedLabel.frame = newFrame
+    archivedLabel.alpha = 0.0
+    
+    self.view.addSubview(archivedLabel)
+
+  }
+  
+  private func showArchiveButton() {
+    
+    if archivedButton != nil {
+      
+      UIView.animateWithDuration(0.25) {
+        
+        self.archivedButton.alpha = 1.0
+        
+      }
+      
+    }
+  
+  }
+  
+  private func hideArchiveButton() {
+    
+    if archivedButton != nil {
+      
+      UIView.animateWithDuration(0.25) {
+        
+        self.archivedButton.alpha = 0.0
+        
+      }
+      
+    }
+    
+  }
+  
+  private func showArchiveLabel() {
+    
+    if archivedLabel != nil {
+      
+      UIView.animateWithDuration(0.25) {
+        
+        self.archivedLabel.alpha = 1.0
+        
+      }
+      
+    }
+    
+  }
+  
+  private func hideArchiveLabel() {
+    
+    if archivedLabel != nil {
+      
+      UIView.animateWithDuration(0.25) {
+        
+        self.archivedLabel.alpha = 0.0
+        
+      }
+      
+    }
     
   }
   
@@ -152,6 +277,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     mainCarousel.backgroundColor = UIColor.clearColor()
     mainCarousel.delegate = self
     mainCarousel.dataSource = self
+    mainCarousel.alpha = 1.0
     self.view.addSubview(mainCarousel)
     
     if addPitchButton != nil {
@@ -189,11 +315,24 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       self.arrayOfPitchesByUser = pitchEvaluationsByUser
       self.arrayOfPitchesByUserWithoutModifications = pitchEvaluationsByUser
       
+      
+      
       if self.arrayOfPitchesByUser.count == 0 {
         
-        self.createAndAddNoPitchesAssignedView()
+        UIView.animateWithDuration(0.2,
+          animations: {
+            
+            self.mainCarousel.alpha = 0.0
+            
+          }, completion: { (finished) in
+            
+            self.createAndAddNoPitchesAssignedView()
+            
+        })
         
       }else{
+        
+        self.hideNoPitchesView()
         
         if self.mainCarousel == nil {
         
@@ -244,11 +383,40 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   private func createAndAddNoPitchesAssignedView() {
     
+    if noPitchesAssignedView != nil {
+      
+//      if noPitchesAssignedView.alpha == 0.0 {
+//        
+        noPitchesAssignedView.removeFromSuperview()
+        noPitchesAssignedView = nil
+        
+//      } else {
+//        
+//        UIView.animateWithDuration(0.2,
+//          animations: { 
+//            
+//            self.noPitchesAssignedView.alpha = 0.0
+//            
+//          }, completion: { (finished) in
+//            if finished == true {
+//              
+//              self.noPitchesAssignedView.removeFromSuperview()
+//              self.noPitchesAssignedView = nil
+//              
+//            }
+//        })
+//        
+//      }
+
+      
+    }
+    
     let positionForNoPitchesView = CGPoint.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
                                                 y: 133.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let noPitchesAssignedView = NoPitchAssignedView.init(position: positionForNoPitchesView)
+    noPitchesAssignedView = NoPitchAssignedView.init(position: positionForNoPitchesView)
     noPitchesAssignedView.delegate = self
+    noPitchesAssignedView.alpha = 1.0
     self.view.addSubview(noPitchesAssignedView)
     
     if addPitchButton != nil {
@@ -264,8 +432,32 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
   }
   
+  override func viewWillDisappear(animated: Bool) {
+    
+    super.viewWillDisappear(true)
+    
+    NSNotificationCenter.defaultCenter().removeObserver(self)
+    
+  }
+  
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(true)
+  
+    if mainCarousel != nil {
+      
+      if mainCarousel.alpha == 0.0 {
+      
+        UIView.animateWithDuration(0.2) {
+        
+          self.mainCarousel.alpha = 1.0
+        
+        }
+      
+      }
+    
+    }
+    
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(lookForPitchEvaluation) , name: kNotificationCenterForLookingForPitchEvaluation, object: nil)
     
     if isComingFromAddResultsController == true || isComingFromEditPitchEvaluationController == true {
     
@@ -296,7 +488,10 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       if isShowingAMessageCard == false {
        
-        requestForAllPitchesAndTheirEvaluations()
+        //requestForAllPitchesAndTheirEvaluations()
+        
+        self.requestFilteringPitches()
+        
       
       } else {
         
@@ -307,6 +502,136 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         }
         
       }
+      
+    }
+    
+  }
+  
+  private func requestFilteringPitches() {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToFilterPitchEvaluations(paramsForFilterPitchEvaluations, actionsToMakeWhenReceiveElements: { (arrayFiltered) in
+      
+      self.arrayOfPitchesByUser = arrayFiltered
+      self.arrayOfPitchesByUserWithoutModifications = arrayFiltered
+      
+      if self.arrayOfPitchesByUser.count == 0 {
+        
+        UIView.animateWithDuration(0.2){
+          
+          self.mainCarousel.alpha = 0.0
+          
+        }
+        
+        if self.mainCarousel != nil {
+          
+          self.mainCarousel.reloadData()
+          
+        }
+        
+        self.createAndAddNoPitchesAssignedView()
+        
+      }else{
+        
+        self.hideNoPitchesView()
+        
+        if self.mainCarousel.alpha == 0.0 {
+          
+          UIView.animateWithDuration(0.2) {
+            
+            self.mainCarousel.alpha = 1.0
+            
+          }
+          
+        }
+        
+        if self.mainCarousel == nil {
+          
+          self.createCarousel()
+          
+        }
+        
+        if self.arrayOfPitchesByUser.count == 1 {
+          
+          self.mainCarousel.scrollEnabled = false
+          
+        }else{
+          
+          self.mainCarousel.scrollEnabled = true
+          
+        }
+        
+        self.mainCarousel.reloadData()
+        //          if self.pitchEvaluationIDToLookForAfterCreated != "-1" && Int(self.pitchEvaluationIDToLookForAfterCreated) > 0 {
+        //
+        //            self.lookForThisPitchID(self.pitchEvaluationIDToLookForAfterCreated)
+        //            self.pitchEvaluationIDToLookForAfterCreated = "-1"
+        //
+        //          }
+      }
+      
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+    })
+
+    
+  }
+  
+  @objc private func archiveButtonPressed() {
+    
+    let alertController = UIAlertController(title: "Archivar Pitch", message: "¿Deseas archivar este pitch?", preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+          self.frontCard.frame = self.originalFrameOfFrontCard
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            self.hideArchiveButton()
+            self.hideArchiveLabel()
+            self.enableSearchAndFilterButtons()
+            self.mainCarousel.scrollEnabled = true
+            self.mainCarousel.userInteractionEnabled = true
+            self.navigationItem.rightBarButtonItem?.enabled = true
+            self.addPitchButton.userInteractionEnabled = true
+            self.isShowingAMessageCard = false
+            
+          }
+      })
+      
+    }
+    
+    let okAction = UIAlertAction(title: "Sí", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+      
+      
+      if self.archivePitchEvaluationParams != nil {
+        
+        self.requestToArchivePitchEvaluationFromDraggingDown()
+        
+      }
+      
+    }
+    
+    
+    alertController.addAction(cancelAction)
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
+  
+  @objc private func lookForPitchEvaluation(notification: NSNotification) {
+    
+    if notification.userInfo?["pitchEvaluationToLookFor"] as? String != nil {
+      
+      let pitchEvaluationIDToLookFor = notification.userInfo?["pitchEvaluationToLookFor"] as! String
+      
+      self.lookForThisPitchID(pitchEvaluationIDToLookFor)
       
     }
     
@@ -365,7 +690,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         newPitchStatus: -1,
         newEvaluationStatus: false,
         newHasResults: false,
-        newHasPitchWinnerSurvey: false)
+        newHasPitchWinnerSurvey: false,
+        newPitchResultsId: "-9999")
       
       let actualIndex = mainCarousel.currentItemIndex
       self.arrayOfPitchesByUser.insert(newElement, atIndex: actualIndex)
@@ -377,7 +703,19 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   @objc private func filterButtonPressed() {
     
+    self.hideNoPitchesView()
+    
     if mainCarousel != nil {
+      
+      if mainCarousel.alpha == 0.0 {
+        
+        UIView.animateWithDuration(0.2) {
+          
+          self.mainCarousel.alpha = 1.0
+          
+        }
+        
+      }
       
       self.hideAddPitchButton()
       
@@ -402,10 +740,19 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         newPitchStatus: -1,
         newEvaluationStatus: false,
         newHasResults: false,
-        newHasPitchWinnerSurvey: false)
+        newHasPitchWinnerSurvey: false,
+        newPitchResultsId: "-8888")
       
       let actualIndex = mainCarousel.currentItemIndex
-      self.arrayOfPitchesByUser.insert(newElement, atIndex: actualIndex)
+      if actualIndex == -1 {
+        
+        self.arrayOfPitchesByUser.insert(newElement, atIndex: 0)
+        
+      } else {
+        
+        self.arrayOfPitchesByUser.insert(newElement, atIndex: actualIndex)
+        
+      }
       mainCarousel.insertItemAtIndex(actualIndex, animated: true)
       
     }
@@ -441,25 +788,64 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   //MARK: - PitchCardViewDelegate
   
+  func upSwipeDetectedInPitchCard() {
+    
+    UIView.animateWithDuration(0.35,
+                               animations: {
+                                
+                                self.frontCard.frame = self.originalFrameOfFrontCard
+                                
+      }, completion: { (finished) in
+        if finished == true {
+          
+          self.hideArchiveButton()
+          self.hideArchiveLabel()
+          self.enableSearchAndFilterButtons()
+          self.mainCarousel.scrollEnabled = true
+          self.mainCarousel.userInteractionEnabled = true
+          self.navigationItem.rightBarButtonItem?.enabled = true
+          self.addPitchButton.userInteractionEnabled = true
+          self.isShowingAMessageCard = false
+          
+          self.frontCard.isCardDown = false
+          
+        }
+    })
+    
+  }
+  
   func askForArchiveThisPitchCard(params: [String : AnyObject]) {
     
-    let alertController = UIAlertController(title: "Archivar Pitch", message: "¿Deseas archivar este pitch?", preferredStyle: UIAlertControllerStyle.Alert)
     
-    let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
-      
-    }
     
-    let okAction = UIAlertAction(title: "Sí", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+    self.archivePitchEvaluationParams = params
+    
+    if frontCard != nil {
       
-      self.requestToArchivePitchEvaluationFromDraggingDown(params)
+      frontCard.isCardDown = true
+      isShowingAMessageCard = true
+      self.disabledSearchAndFilterButtons()
+      self.mainCarousel.scrollEnabled = false
+//      self.mainCarousel.userInteractionEnabled = false
+      self.navigationItem.rightBarButtonItem?.enabled = false
+      self.addPitchButton.userInteractionEnabled = false
+      
+      originalFrameOfFrontCard = frontCard.frame
+      let newFrameForCard = CGRect.init(x: frontCard.frame.origin.x,
+                                        y: frontCard.frame.origin.y + (185.0 * UtilityManager.sharedInstance.conversionHeight),
+                                    width: frontCard.frame.size.width,
+                                   height: frontCard.frame.size.height)
+      
+      self.showArchiveButton()
+      self.showArchiveLabel()
+      
+      UIView.animateWithDuration(0.2) {
         
+        self.frontCard.frame = newFrameForCard
+        
+      }
+
     }
-    
-    
-    alertController.addAction(cancelAction)
-    alertController.addAction(okAction)
-    self.presentViewController(alertController, animated: true, completion: nil)
-    
     
   }
   
@@ -806,19 +1192,45 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     if option == .Spacing {
       
-      return 1.05 * value
+      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 7 {
+        
+        return 1.55 * value
+        
+      }else{
+      
+        return 1.05 * value
+      
+      }
       
     }
     
     if option == .Radius {
       
-      return 1.1 * value
+      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 7 {
+        
+        return 1.51 * value
+        
+      }else{
+        
+        return 1.1 * value
+        
+      }
       
     }
     
     if option == .Arc {
       
-      return 0.65 * value
+      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 7 {
+        
+        return 0.65 * value
+        
+      }else{
+        
+        return 0.65 * value
+        
+      }
+      
+      
       
     }
     
@@ -918,12 +1330,62 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   }
   //MARK: - FilterPitchCardViewDelegate 
   
-  func doCancelFilteringPitches() {
+  func doApplyFilterPitches(paramsForFilter: [String : AnyObject]) {
     
-    self.removeFilterPitchCardView()
+    paramsForFilterPitchEvaluations = paramsForFilter
+    self.removeFilterPitchCardView(paramsForFilterPitchEvaluations)
     self.showAddPitchButton()
     
   }
+  
+  
+  func doCancelFilteringPitches() {
+  
+    self.onlyRemoveFilterPitchCardView()
+    self.showAddPitchButton()
+    
+  }
+  
+  private func onlyRemoveFilterPitchCardView() {
+    
+    if arrayOfPitchesByUser.count == 1 {
+      
+      self.arrayOfPitchesByUser.removeAtIndex(0)
+      mainCarousel.removeItemAtIndex(0, animated: true)
+      searchButton.userInteractionEnabled = true
+      searchButton.enabled = true
+      filterButton.userInteractionEnabled = true
+      filterButton.enabled = true
+      mainCarousel.scrollEnabled = true
+      
+      isShowingAMessageCard = false
+      
+      self.createAndAddNoPitchesAssignedView()
+      
+    }else{
+      
+      for i in 0..<arrayOfPitchesByUser.count - 1 {
+        
+        if arrayOfPitchesByUser[i].pitchId == "-8888" {
+          
+          self.arrayOfPitchesByUser.removeAtIndex(i)
+          mainCarousel.removeItemAtIndex(i, animated: true)
+          searchButton.userInteractionEnabled = true
+          searchButton.enabled = true
+          filterButton.userInteractionEnabled = true
+          filterButton.enabled = true
+          mainCarousel.scrollEnabled = true
+          
+          isShowingAMessageCard = false
+          
+        }
+        
+      }
+    }
+    
+  }
+  
+  
   
   
   //MARK: - DetailPitchViewDelegate
@@ -950,11 +1412,36 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   func pushAddResultsViewController(pitchaEvaluationData: PitchEvaluationByUserModelData) {
     
     isComingFromAddResultsController = true
+//    let addResultsController = AddResultViewController.init(newPitchEvaluationDataByUser: pitchaEvaluationData)
+//    addResultsController.delegate = self
+//    self.navigationController?.pushViewController(addResultsController, animated: true)
     
-    let addResultsController = AddResultViewController.init(newPitchEvaluationDataByUser: pitchaEvaluationData)
-    addResultsController.delegate = self
+    UtilityManager.sharedInstance.showLoader()
     
-    self.navigationController?.pushViewController(addResultsController, animated: true)
+    RequestToServerManager.sharedInstance.requestToGetPitchResults(pitchaEvaluationData.pitchResultsId, functionToMakeWhenThereIsPitchResultCreated: { (pitchResult) in
+      
+        print(pitchResult)
+      UtilityManager.sharedInstance.hideLoader()
+      
+      let addResultsController = AddResultViewController.init(newPitchEvaluationDataByUser: pitchaEvaluationData, newInfoSelectedBefore: pitchResult)
+      addResultsController.delegate = self
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+      self.navigationController?.pushViewController(addResultsController, animated: true)
+      
+      
+      
+      }) { 
+        
+        let addResultsController = AddResultViewController.init(newPitchEvaluationDataByUser: pitchaEvaluationData)
+        addResultsController.delegate = self
+        
+        UtilityManager.sharedInstance.hideLoader()
+        
+        self.navigationController?.pushViewController(addResultsController, animated: true)
+        
+    }
     
   }
   
@@ -1044,8 +1531,6 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
       
-      //Something To Do
-      
     }
     
     let okAction = UIAlertAction(title: "Sí", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
@@ -1060,14 +1545,15 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
   }
   
-  private func requestToArchivePitchEvaluationFromDraggingDown(params: [String: AnyObject]) {
+  private func requestToArchivePitchEvaluationFromDraggingDown() {
+    
     
     self.disabledSearchAndFilterButtons()
     
     UtilityManager.sharedInstance.showLoader()
     
-    RequestToServerManager.sharedInstance.requestToArchivePitchEvaluation(params) { (pitchEvaluationArchived) in
-      
+    RequestToServerManager.sharedInstance.requestToArchivePitchEvaluation(self.archivePitchEvaluationParams) { (pitchEvaluationArchived) in
+    
       self.mainCarousel.scrollEnabled = false
       self.mainCarousel.userInteractionEnabled = false
       UtilityManager.sharedInstance.hideLoader()
@@ -1080,50 +1566,6 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   private func simulateDragDownFrontCard() {
     
     if frontCard != nil {
-      
-      //Create icon and label of archived drag down
-      let archivedImageView = UIImageView.init(image: UIImage.init(named: "archivarIcon"))
-      let archivedImageViewFrame = CGRect.init(x: (self.view.frame.size.width / 2.0) - (archivedImageView.frame.size.width / 2.0),
-                                               y: (158.0 * UtilityManager.sharedInstance.conversionHeight),
-                                               width: archivedImageView.frame.size.width,
-                                               height: archivedImageView.frame.size.height)
-      archivedImageView.frame = archivedImageViewFrame
-      self.view.addSubview(archivedImageView)
-      
-      let frameForLabel = CGRect.init(x: 0.0,
-                                                              y: 0.0,
-                                                              width: 201.0 * UtilityManager.sharedInstance.conversionWidth,
-                                                              height: CGFloat.max)
-      
-      let archivedLabel = UILabel.init(frame: frameForLabel)
-      archivedLabel.numberOfLines = 0
-      archivedLabel.lineBreakMode = .ByWordWrapping
-      
-      let font = UIFont(name: "SFUIText-Light",
-                        size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
-      let color = UIColor.blackColor()
-      let style = NSMutableParagraphStyle()
-      style.alignment = NSTextAlignment.Center
-      
-      let stringWithFormat = NSMutableAttributedString(
-        string: "Archivar Pitch",
-        attributes:[NSFontAttributeName: font!,
-          NSParagraphStyleAttributeName: style,
-          NSForegroundColorAttributeName: color
-        ]
-      )
-      archivedLabel.attributedText = stringWithFormat
-      archivedLabel.sizeToFit()
-      let newFrame = CGRect.init(x: (self.view.frame.size.width / 2.0) - (archivedLabel.frame.size.width / 2.0),
-                                 y: 265.0 * UtilityManager.sharedInstance.conversionHeight,
-                                 width: archivedLabel.frame.size.width,
-                                 height: archivedLabel.frame.size.height)
-      
-      archivedLabel.frame = newFrame
-      
-      self.view.addSubview(archivedLabel)
-    
-      
       
       let newFrameForFrontCard = CGRect.init(x: frontCard.frame.origin.x,
                                              y: frontCard.frame.origin.y + UIScreen.mainScreen().bounds.size.height,
@@ -1141,14 +1583,11 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
             UIView.animateWithDuration(0.2,
               animations: {
                 
-                archivedImageView.alpha = 0.0
-                archivedLabel.alpha = 0.0
+                self.archivedButton.alpha = 0.0
+                self.archivedLabel.alpha = 0.0
                 
               }, completion: { (finished) in
                 if finished == true {
-                  
-                  archivedImageView.removeFromSuperview()
-                  archivedLabel.removeFromSuperview()
                   
                   let actualIndex = self.mainCarousel.currentItemIndex
                   self.arrayOfPitchesByUserWithoutModifications.removeAtIndex(actualIndex)
@@ -1157,6 +1596,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
                   self.mainCarousel.scrollEnabled = true
                   self.mainCarousel.userInteractionEnabled = true
                   self.enableSearchAndFilterButtons()
+                  self.navigationItem.rightBarButtonItem?.enabled = true
+                  self.addPitchButton.userInteractionEnabled = true
+                  self.isShowingAMessageCard = false
                   
                 }
             })
@@ -1513,25 +1955,124 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
   }
   
-  @objc private func removeFilterPitchCardView() {
+  private func hideNoPitchesView() {
     
-    for i in 0..<arrayOfPitchesByUser.count - 1 {
+    if noPitchesAssignedView != nil && noPitchesAssignedView.alpha != 0.0 {
       
-      if arrayOfPitchesByUser[i].pitchId == "-8888" {
+      UIView.animateWithDuration(0.2) {
         
-        self.arrayOfPitchesByUser.removeAtIndex(i)
-        mainCarousel.removeItemAtIndex(i, animated: true)
-        searchButton.userInteractionEnabled = true
-        searchButton.enabled = true
-        filterButton.userInteractionEnabled = true
-        filterButton.enabled = true
-        mainCarousel.scrollEnabled = true
-        
-        isShowingAMessageCard = false
+        self.noPitchesAssignedView.alpha = 0.0
         
       }
       
     }
+    
+    
+  }
+  
+  @objc private func removeFilterPitchCardView(paramsToFilter: [String: AnyObject]) {
+    
+    if arrayOfPitchesByUser.count == 1 {
+      
+      self.arrayOfPitchesByUser.removeAtIndex(0)
+      mainCarousel.removeItemAtIndex(0, animated: true)
+      searchButton.userInteractionEnabled = true
+      searchButton.enabled = true
+      filterButton.userInteractionEnabled = true
+      filterButton.enabled = true
+      mainCarousel.scrollEnabled = true
+      
+      isShowingAMessageCard = false
+      
+    }else{
+      
+      for i in 0..<arrayOfPitchesByUser.count - 1 {
+        
+        if arrayOfPitchesByUser[i].pitchId == "-8888" {
+          
+          self.arrayOfPitchesByUser.removeAtIndex(i)
+          mainCarousel.removeItemAtIndex(i, animated: true)
+          searchButton.userInteractionEnabled = true
+          searchButton.enabled = true
+          filterButton.userInteractionEnabled = true
+          filterButton.enabled = true
+          mainCarousel.scrollEnabled = true
+          
+          isShowingAMessageCard = false
+          
+        }
+        
+      }
+    }
+    
+        UtilityManager.sharedInstance.showLoader()
+        
+        RequestToServerManager.sharedInstance.requestToFilterPitchEvaluations(paramsToFilter, actionsToMakeWhenReceiveElements: { (arrayFiltered) in
+          
+          self.arrayOfPitchesByUser = arrayFiltered
+          self.arrayOfPitchesByUserWithoutModifications = arrayFiltered
+          
+          if self.arrayOfPitchesByUser.count == 0 {
+            
+            UIView.animateWithDuration(0.125){
+              
+              self.mainCarousel.alpha = 0.0
+              
+            }
+            
+            if self.mainCarousel != nil {
+              
+              self.mainCarousel.reloadData()
+              
+            }
+            
+            self.createAndAddNoPitchesAssignedView()
+            
+          }else{
+            
+            self.hideNoPitchesView()
+            
+            if self.mainCarousel.alpha == 0.0 {
+              
+              UIView.animateWithDuration(0.125) {
+                
+                self.mainCarousel.alpha = 1.0
+                
+              }
+              
+            }
+            
+            if self.mainCarousel == nil {
+              
+              self.createCarousel()
+              
+            }
+            
+            if self.arrayOfPitchesByUser.count == 1 {
+              
+              self.mainCarousel.scrollEnabled = false
+              
+            }else{
+              
+              self.mainCarousel.scrollEnabled = true
+              
+            }
+            
+            self.mainCarousel.reloadData()
+            //          if self.pitchEvaluationIDToLookForAfterCreated != "-1" && Int(self.pitchEvaluationIDToLookForAfterCreated) > 0 {
+            //
+            //            self.lookForThisPitchID(self.pitchEvaluationIDToLookForAfterCreated)
+            //            self.pitchEvaluationIDToLookForAfterCreated = "-1"
+            //
+            //          }
+          }
+          
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+        })
+        
+    
     
   }
   
@@ -1574,7 +2115,10 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   func doActionsWhenDisappear() {
     
-    self.hideDetailPitchView()
+    mainDetailPitchView.pitchEvaluationData.hasResults = true
+    mainDetailPitchView.reloadOnlyFillSurveyView()
+  
+    //self.hideDetailPitchView()
     
   }
   

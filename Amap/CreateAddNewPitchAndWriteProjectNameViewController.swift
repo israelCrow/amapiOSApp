@@ -247,7 +247,7 @@ class CreateAddNewPitchAndWriteProjectNameViewController: UIViewController, AddP
               message: errorMessage,
               preferredStyle: UIAlertControllerStyle.Alert)
             
-            let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+            let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
               
               print()
               

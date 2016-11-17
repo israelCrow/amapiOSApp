@@ -10,7 +10,7 @@ import UIKit
 
 protocol CriterionWithImageViewDelegate {
   
-  func theValueHasChangedFromCriterionWithImage(isValueChanged: Bool)
+  func theValueHasChangedFromCriterionWithImage(valueChangedTo: Bool, sender: CriterionWithImageView)
   
 }
 
@@ -95,7 +95,7 @@ class CriterionWithImageView: UIView, CustomSwitchViewActionsDelegate {
   
   func customSwitchChangedItsValue(valueSelected: Bool) {
     
-    self.delegate?.theValueHasChangedFromCriterionWithImage(true)
+    self.delegate?.theValueHasChangedFromCriterionWithImage(valueSelected, sender: self)
     
   }
   

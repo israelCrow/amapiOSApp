@@ -82,7 +82,6 @@ class GeneralPerformanceCardView: UIView {
 //                                              forControlEvents: .AllEditingEvents)
     mainScrollView.addSubview(selectorOfInformationView)
 
-    
   }
   
   private func createFaces() {

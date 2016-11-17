@@ -16,7 +16,7 @@ protocol WhenGonnaToShowPitchViewDelegate {
 
 class WhenGonnaToShowPitchView: UIView, UITextFieldDelegate {
   
-  private var whenGonnaToShowPitchView: CustomTextFieldWithTitleView! = nil
+  var whenGonnaToShowPitchView: CustomTextFieldWithTitleView! = nil
   private var titleLabel: UILabel! = nil
   private var nextButton: UIButton! = nil
   private var containerViewForPicker: UIView! = nil
@@ -258,7 +258,7 @@ class WhenGonnaToShowPitchView: UIView, UITextFieldDelegate {
     
   }
   
-  private func changeNextButtonToEnabled() {
+  func changeNextButtonToEnabled() {
     
     UIView.animateWithDuration(0.35,
                                animations: {

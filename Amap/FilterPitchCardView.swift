@@ -11,12 +11,14 @@ import UIKit
 protocol FilterPitchCardViewDelegate {
   
   func doCancelFilteringPitches()
+  func doApplyFilterPitches(paramsForFilter: [String: AnyObject])
   
 }
 
 class FilterPitchCardView: UIView {
   
   private var cancelButton: UIButton! = nil
+  private var applyFilterButton: UIButton! = nil
   private var mainScrollView: UIScrollView! = nil
   private var happitchCriterion: CriterionWithImageView! = nil
   private var silverCriterion: CriterionWithImageView! = nil
@@ -25,6 +27,8 @@ class FilterPitchCardView: UIView {
   private var archivedPitchCriterion: CriterionView! = nil
   private var declinedPitchCriterion: CriterionView! = nil
   private var canceledPitchCriterion: CriterionView! = nil
+  
+  private var finalParams = [String: AnyObject]()
   
   var delegate: FilterPitchCardViewDelegate?
   
@@ -45,6 +49,7 @@ class FilterPitchCardView: UIView {
     self.backgroundColor = UIColor.whiteColor()
     
     self.createCancelButton()
+    self.createApplyFilterButton()
     self.createMainScrollView()
     self.createHappitchCriterion()
     self.createSilverCriterion()
@@ -73,14 +78,51 @@ class FilterPitchCardView: UIView {
     
   }
   
+  private func createApplyFilterButton() {
+    
+    applyFilterButton = UIButton.init(frame: CGRectZero)
+    
+    let font = UIFont(name: "SFUIDisplay-Light",
+                      size: 22.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.whiteColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Aplica el filtro",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    
+    applyFilterButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+    applyFilterButton.backgroundColor = UIColor.blackColor()
+    applyFilterButton.addTarget(self,
+                        action: #selector(applyFilterButtonPressed),
+                        forControlEvents: .TouchUpInside)
+    applyFilterButton.sizeToFit()
+    
+    let frameForButton = CGRect.init(x: 0.0,
+                                     y: self.frame.size.height - (70.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: self.frame.size.width,
+                                     height: 70.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    applyFilterButton.frame = frameForButton
+    applyFilterButton.alpha = 1.0
+    
+    self.addSubview(applyFilterButton)
+    
+  }
+  
   private func createMainScrollView() {
     
     let frameForMainScrollView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                              y: 15.0 * UtilityManager.sharedInstance.conversionHeight,
                                              width: 235.0 * UtilityManager.sharedInstance.conversionWidth,
-                                             height: 415.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
+                                             height: 370.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
     let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
-                                               height: frameForMainScrollView.size.height + (10.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
+                                               height: frameForMainScrollView.size.height + (80.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.clearColor()
@@ -100,6 +142,7 @@ class FilterPitchCardView: UIView {
     happitchCriterion = CriterionWithImageView.init(frame: frameForCriterion,
                                                 nameImage: "color_fill1",
                                             valueOfSwitch: false)
+    
     mainScrollView.addSubview(happitchCriterion)
     
   }
@@ -191,6 +234,56 @@ class FilterPitchCardView: UIView {
     
   }
   
+  @objc private func applyFilterButtonPressed() {
+    
+    var finalParams: [String: AnyObject] = ["auth_token": UserSession.session.auth_token]
+    
+    if getHappitchCriterionValue() == true {
+      
+      finalParams["happitch"] = true
+      
+    }
+    
+    if getSilverCriterionValue() == true {
+      
+      finalParams["happy"] = true
+      
+    }
+    
+    if getMediumCriterionValue() == true {
+      
+      finalParams["ok"] = true
+      
+    }
+    
+    if getHighRiskCriterionValue() == true {
+      
+      finalParams["unhappy"] = true
+      
+    }
+    
+    if getArchivedPitchValue() == true {
+      
+      finalParams["archived"] = true
+      
+    }
+    
+    if getCanceledPitchValue() == true {
+      
+      finalParams["cancelled"] = true
+      
+    }
+    
+    if getDeclinedPitchValue() == true {
+      
+      finalParams["declined"] = true
+      
+    }
+    
+    self.delegate?.doApplyFilterPitches(finalParams)
+    
+  }
+  
   @objc private func cancelButtonPressed() {
     
     self.delegate?.doCancelFilteringPitches()
@@ -238,5 +331,6 @@ class FilterPitchCardView: UIView {
     return canceledPitchCriterion.getValueOfSwitch()
     
   }
+
   
 }

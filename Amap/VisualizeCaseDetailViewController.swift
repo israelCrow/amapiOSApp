@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 protocol VisualizeCaseDetailViewControllerDelegate {
   
@@ -14,7 +15,7 @@ protocol VisualizeCaseDetailViewControllerDelegate {
   
 }
 
-class VisualizeCaseDetailViewController: UIViewController {
+class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewControllerDelegate {
   
   let kNotificationCenterKey = "ReceiveImageSuccessfully"
   
@@ -441,6 +442,8 @@ class VisualizeCaseDetailViewController: UIViewController {
     
     if notification.userInfo?["image"] as? UIImage != nil {
       
+      playerVimeoYoutube.existsImage = true
+      
       let image = notification.userInfo?["image"] as! UIImage
       
       let sizeInPixels = CGSize.init(width: image.size.width * image.scale,
@@ -514,14 +517,130 @@ class VisualizeCaseDetailViewController: UIViewController {
   
   @objc private func mailIconPressed() {
     
+    if UtilityManager.sharedInstance.validateIfLinkIsYoutube(caseData.url) || UtilityManager.sharedInstance.validateIfLinkIsVimeo(caseData.url) {
+      
+      self.shareURLViaMail()
+      
+      
+    } else
+      
+      if playerVimeoYoutube.existsImage == true {
+        
+        self.shareImageViaMail()
+        
+    }
     
+  }
+  
+  private func shareURLViaMail() {
+      
+    let mailComposeVC = MFMailComposeViewController()
+    mailComposeVC.mailComposeDelegate = self
+      
+    mailComposeVC.setSubject("Caso \(caseData.name)")
+      
+    mailComposeVC.setMessageBody("Conoce el caso \(caseData.name) de \(AgencyModel.Data.name):\n\(caseData.url).\n\nDescarga Android\nDescarga iOS", isHTML: false)
+      
+    self.presentViewController(mailComposeVC, animated: true, completion: nil)
+    
+  }
+  
+  private func shareImageViaMail() {
+      
+    let mailComposeVC = MFMailComposeViewController()
+    mailComposeVC.mailComposeDelegate = self
+      
+    mailComposeVC.addAttachmentData(UIImageJPEGRepresentation(playerVimeoYoutube.imageForCaseImageView.image!, CGFloat(1.0))!, mimeType: "image/jpeg", fileName:"caso_\(caseData.name).jpeg")
+      
+    mailComposeVC.setSubject("Caso \(caseData.name)")
+      
+    mailComposeVC.setMessageBody("Descarga Happitch y conoce el caso \(caseData.name) de \(AgencyModel.Data.name).\n\nDescarga Android\nDescarga iOS", isHTML: false)
+      
+    self.presentViewController(mailComposeVC, animated: true, completion: nil)
     
   }
   
   @objc private func whatsAppButtonPressed() {
     
+    if UtilityManager.sharedInstance.validateIfLinkIsYoutube(caseData.url) || UtilityManager.sharedInstance.validateIfLinkIsVimeo(caseData.url) {
+      
+      self.shareURLViaWhatsapp()
+      
+      
+    } else
+      
+      if playerVimeoYoutube.existsImage == true {
+        
+        self.shareImageViaWhatsapp()
+        
+    }
     
+  }
+  
+  private func shareURLViaWhatsapp() {
     
+    let textToShare = "Conoce el caso \(caseData.name) de \(AgencyModel.Data.name):\n\(caseData.url).\n\nDescarga Android\nDescarga iOS"
+    
+    let activityItems: [AnyObject] = [textToShare]
+    
+    let activityController = UIActivityViewController.init(activityItems: activityItems,
+                                                           applicationActivities: nil)
+    
+    activityController.excludedActivityTypes = [ UIActivityTypePrint,
+                                                 UIActivityTypeCopyToPasteboard,
+                                                 UIActivityTypeAssignToContact,
+                                                 UIActivityTypeSaveToCameraRoll,
+                                                 UIActivityTypeAddToReadingList,
+                                                 UIActivityTypeAirDrop,
+                                                 UIActivityTypeMail,
+                                                 UIActivityTypeMessage]
+    
+    self.presentViewController(activityController, animated: true, completion: nil)
+
+  }
+  
+  private func shareImageViaWhatsapp() {
+    
+    if playerVimeoYoutube.imageForCaseImageView.image != nil {
+      
+      
+      let textToShare = "Descarga Happitch y conoce el caso \(caseData.name) de \(AgencyModel.Data.name).\n\nDescarga Android\nDescarga iOS"
+      
+      let activityItems: [AnyObject] = [textToShare, playerVimeoYoutube.imageForCaseImageView.image!]
+      
+      let activityController = UIActivityViewController.init(activityItems: activityItems,
+                                                     applicationActivities: nil)
+      
+      activityController.excludedActivityTypes = [ UIActivityTypePrint,
+                                                   UIActivityTypeCopyToPasteboard,
+                                                   UIActivityTypeAssignToContact,
+                                                   UIActivityTypeSaveToCameraRoll,
+                                                   UIActivityTypeAddToReadingList,
+                                                   UIActivityTypeAirDrop,
+                                                   UIActivityTypeMail,
+                                                   UIActivityTypeMessage]
+    
+      self.presentViewController(activityController, animated: true, completion: nil)
+      
+    }
+    
+  }
+  
+  func showSendMailErrorAlert() {
+    
+    let alertController = UIAlertController(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
+    }
+    
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
+  
+  func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    controller.dismissViewControllerAnimated(true, completion: nil)
   }
   
   override func viewWillAppear(animated: Bool) {

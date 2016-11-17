@@ -17,8 +17,14 @@ protocol VisualizeMainCardsDashboardViewControllerShowAndHideDelegate {
 
 class VisualizeMainCardsDashboardViewController: UIViewController {
   
-  private var mainCarousel: iCarousel! = nil
+  private let kNumberOfCards = 3
+  
+  private var mainScrollView: UIScrollView! = nil
   private var gralPerformanceCardView: GeneralPerformanceCardView! = nil
+  
+  //JUST FOR TEST
+  private var firstCard: GraphAccordingToUserView! = nil
+  private var thirdCard: GraphOfAgencyVSIndustryView! = nil
 
   var delegateForShowAndHideTabBar: VisualizeAllPitchesViewControllerShowAndHideDelegate?
   
@@ -37,6 +43,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController {
     self.changeNavigationBarTitle()
     self.changeNavigationRigthButtonItem()
     
+    self.createMainScrollView()
     self.createCards()
     
   }
@@ -84,6 +91,22 @@ class VisualizeMainCardsDashboardViewController: UIViewController {
     
   }
   
+  private func createMainScrollView() {
+    
+    let firstCardPoint = CGPoint.init(x: UIScreen.mainScreen().bounds.width,
+                                      y: 0.0)
+    
+    mainScrollView = UIScrollView.init(frame: UIScreen.mainScreen().bounds)
+    mainScrollView.backgroundColor = UIColor.clearColor()
+    mainScrollView.contentSize = CGSize.init(width: UIScreen.mainScreen().bounds.width * CGFloat(kNumberOfCards),
+                                            height: UIScreen.mainScreen().bounds.height)
+    mainScrollView.pagingEnabled = true
+    mainScrollView.setContentOffset(firstCardPoint, animated: false)
+    
+    self.view.addSubview(mainScrollView)
+    
+  }
+  
   private func createCards() {
     
     self.createGeneralPerformanceCard()
@@ -96,13 +119,29 @@ class VisualizeMainCardsDashboardViewController: UIViewController {
     let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
     let heightOfCard = self.view.frame.size.height - (168.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let frameForGralPerformView = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth),
-                                       y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
-                                   width: widthOfCard,
-                                  height: heightOfCard)
+    let frameForFirstCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth),
+                                        y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
+                                    width: widthOfCard,
+                                   height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
     
-    gralPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForGralPerformView)
-    self.view.addSubview(gralPerformanceCardView)
+    let frameForSecondCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth) + (mainScrollView.frame.size.width * CGFloat(kNumberOfCards - 2)),
+                                         y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: widthOfCard,
+                                    height: heightOfCard)
+    
+    let frameForThirdCard  = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth) + (mainScrollView.frame.size.width * CGFloat(kNumberOfCards - 1)),
+                                         y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: widthOfCard,
+                                    height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
+    
+    firstCard = GraphAccordingToUserView.init(frame: frameForFirstCard)
+    mainScrollView.addSubview(firstCard)
+    
+    gralPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForSecondCard)
+    mainScrollView.addSubview(gralPerformanceCardView)
+    
+    thirdCard = GraphOfAgencyVSIndustryView.init(frame: frameForThirdCard)
+    mainScrollView.addSubview(thirdCard)
     
   }
   

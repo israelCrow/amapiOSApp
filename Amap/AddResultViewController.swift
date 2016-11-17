@@ -65,6 +65,8 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   private var centerFrameForCards: CGRect! = nil
   private var rightFrameForCards: CGRect! = nil
   
+  private var infoSelectedBefore: PitchResultsModelData! = nil
+  
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -72,6 +74,15 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   init(newPitchEvaluationDataByUser: PitchEvaluationByUserModelData) {
     
     pitchEvaluationData = newPitchEvaluationDataByUser
+    
+    super.init(nibName: nil, bundle: nil)
+    
+  }
+  
+  init(newPitchEvaluationDataByUser: PitchEvaluationByUserModelData, newInfoSelectedBefore: PitchResultsModelData) {
+    
+    pitchEvaluationData = newPitchEvaluationDataByUser
+    infoSelectedBefore = newInfoSelectedBefore
     
     super.init(nibName: nil, bundle: nil)
     
@@ -241,6 +252,22 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     showedYourProposal.regionPosition = .center
     showedYourProposal.delegate = self
     
+    if infoSelectedBefore != nil && infoSelectedBefore.wasProposalPresented != nil {
+      
+      if infoSelectedBefore.wasProposalPresented! == true {
+        
+        showedYourProposal.didYouShowYourProposalView.mainSegmentedControl.selectedSegmentIndex = 0
+        
+      } else {
+      
+        showedYourProposal.didYouShowYourProposalView.mainSegmentedControl.selectedSegmentIndex = 2
+        
+      }
+      
+      showedYourProposal.changeNextButtonToEnabled()
+      
+    }
+    
     containerAndGradientView.addSubview(showedYourProposal)
     
   }
@@ -252,6 +279,22 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     didReceiveRuling.alpha = 0.0
     didReceiveRuling.delegate = self
     
+    if infoSelectedBefore != nil && infoSelectedBefore.gotResponse != nil {
+      
+      if infoSelectedBefore.gotResponse! == true {
+        
+        didReceiveRuling.didYouReceiveRulingView.mainSegmentedControl.selectedSegmentIndex = 0
+        
+      } else {
+        
+        didReceiveRuling.didYouReceiveRulingView.mainSegmentedControl.selectedSegmentIndex = 2
+        
+      }
+      
+      didReceiveRuling.changeNextButtonToEnabled()
+      
+    }
+    
     containerAndGradientView.addSubview(didReceiveRuling)
     
   }
@@ -262,6 +305,23 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     didWinPitch.regionPosition = .right
     didWinPitch.alpha = 0.0
     didWinPitch.delegate = self
+    
+    if infoSelectedBefore != nil && infoSelectedBefore.wasPitchWon != nil {
+      
+      if infoSelectedBefore.wasPitchWon! == true {
+        
+        didWinPitch.didYouReceiveRulingView.mainSegmentedControl.selectedSegmentIndex = 0
+        
+      } else {
+        
+        didWinPitch.didYouReceiveRulingView.mainSegmentedControl.selectedSegmentIndex = 2
+        
+      }
+      
+      didWinPitch.changeNextButtonToEnabled()
+      
+    }
+    
     
     containerAndGradientView.addSubview(didWinPitch)
     
@@ -285,6 +345,22 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     getFeedBack.alpha = 0.0
     getFeedBack.delegate = self
     
+    if infoSelectedBefore != nil && infoSelectedBefore.gotFeedback != nil {
+      
+      if infoSelectedBefore.gotFeedback! == true {
+        
+        getFeedBack.didYouGetFeedbackView.mainSegmentedControl.selectedSegmentIndex = 0
+        
+      } else {
+        
+        getFeedBack.didYouGetFeedbackView.mainSegmentedControl.selectedSegmentIndex = 2
+        
+      }
+      
+      getFeedBack.changeNextButtonToEnabled()
+      
+    }
+    
     containerAndGradientView.addSubview(getFeedBack)
     
   }
@@ -307,6 +383,14 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     gonnaReceiveRuling.alpha = 0.0
     gonnaReceiveRuling.delegate = self
     
+    if infoSelectedBefore != nil && infoSelectedBefore.whenWillYouGetResponse != nil && infoSelectedBefore.whenWillYouGetResponse != "" {
+      
+      gonnaReceiveRuling.whenGonnaReceiveRulingView.mainTextField.text = infoSelectedBefore.whenWillYouGetResponse
+      
+      gonnaReceiveRuling.changeNextButtonToEnabled()
+      
+    }
+    
     containerAndGradientView.addSubview(gonnaReceiveRuling)
     
   }
@@ -317,6 +401,14 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     gonnaShowPitch.regionPosition = .right
     gonnaShowPitch.alpha = 0.0
     gonnaShowPitch.delegate = self
+    
+    if infoSelectedBefore != nil && infoSelectedBefore.whenAreYouPresenting != nil && infoSelectedBefore.whenAreYouPresenting != "" {
+      
+      gonnaShowPitch.whenGonnaToShowPitchView.mainTextField.text = infoSelectedBefore.whenAreYouPresenting
+      
+      gonnaShowPitch.changeNextButtonToEnabled()
+      
+    }
     
     containerAndGradientView.addSubview(gonnaShowPitch)
     
@@ -411,7 +503,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   @objc private func navigationRightButtonPressed() {
     
     self.dismissDetailedNavigation()
-    self.delegate?.doActionsWhenDisappear()
+//    self.delegate?.doActionsWhenDisappear()
     self.navigationController?.popToRootViewControllerAnimated(true)
     
   }
@@ -1183,6 +1275,8 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   
   func lookForWinnerOfPitch() {
     
+    didReceiveRulingSelectedValue = 0
+    
     self.moveDidReceiveRulingTo(.left)
     
     if pitchEvaluationData.wasWon == true {
@@ -1224,7 +1318,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     self.moveYouWinPitchTo(.left)
     
-    let params = self.createParamsToSave()
+    
     UtilityManager.sharedInstance.showLoader()
     
     
@@ -1232,11 +1326,24 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       
       /////////CHECK UPDATE OF RESULTS!!!
       
+      let paramsForUpdate = self.createParamsToUpdate()
+      
+      RequestToServerManager.sharedInstance.requestToUpdatePitchResults(paramsForUpdate, actionsToMakeAfterSuccesfullyPitchResultsSaved: { 
+        
+        UtilityManager.sharedInstance.hideLoader()
+        self.delegate?.doActionsWhenDisappear()
+        self.moveDidSignContractView(.center)
+        
+      })
+      
     } else {
+      
+      let params = self.createParamsToSave()
       
       RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
         
         UtilityManager.sharedInstance.hideLoader()
+        self.delegate?.doActionsWhenDisappear()
         self.moveDidSignContractView(.center)
         
       }
@@ -1303,6 +1410,16 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       
       /////////CHECK UPDATE OF RESULTS!!!
       
+      let paramsForUpdate = self.createParamsToUpdate()
+      
+      RequestToServerManager.sharedInstance.requestToUpdatePitchResults(paramsForUpdate, actionsToMakeAfterSuccesfullyPitchResultsSaved: {
+        
+        UtilityManager.sharedInstance.hideLoader()
+        self.delegate?.doActionsWhenDisappear()
+        self.navigationController?.popToRootViewControllerAnimated(true)
+        
+      })
+      
     } else {
       
       RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
@@ -1315,7 +1432,50 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       
     }
     
-
+  }
+  
+  private func createParamsToUpdate() -> [String: AnyObject] {
+    
+    var pitchResult = [String:AnyObject]()
+    
+    if showedYourProposalSelectedValue != nil {
+      
+      pitchResult["was_proposal_presented"] = showedYourProposalSelectedValue
+      
+    }
+    if didReceiveRulingSelectedValue != nil {
+      
+      pitchResult["got_response"] = didReceiveRulingSelectedValue
+      
+    }
+    if didWinPitchSelectedValue != nil {
+      
+      pitchResult["was_pitch_won"] = didWinPitchSelectedValue
+      
+    }
+    if getFeedBackSelectedValue != nil {
+      
+      pitchResult["got_feedback"] = getFeedBackSelectedValue
+      
+    }
+    if gonnaReceiveRulingSelectedValue != nil {
+      
+      pitchResult["when_will_you_get_response"] = gonnaReceiveRulingSelectedValue
+      
+    }
+    if gonnaShowPitchSelectedValue != nil {
+      
+      pitchResult["when_are_you_presenting"] = gonnaShowPitchSelectedValue
+      
+    }
+    
+    let finalParams = [
+      "auth_token"  : UserSession.session.auth_token,
+      "id": infoSelectedBefore.pitchResultsId!,
+      "pitch_result": pitchResult
+    ]
+    
+    return finalParams as! [String : AnyObject]
     
   }
   

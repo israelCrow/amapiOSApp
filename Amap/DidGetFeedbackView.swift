@@ -17,7 +17,7 @@ protocol DidGetFeedbackViewDelegate {
 class DidGetFeedbackView: UIView, CustomSegmentedControlWithTitleViewDelegate {
   
   private var titleLabel: UILabel! = nil
-  private var didYouGetFeedbackView: CustomSegmentedControlWithTitleView! = nil
+  var didYouGetFeedbackView: CustomSegmentedControlWithTitleView! = nil
   private var nextButton: UIButton! = nil
   var regionPosition: PositionOfCardsAddResults! = nil
   
@@ -185,7 +185,7 @@ class DidGetFeedbackView: UIView, CustomSegmentedControlWithTitleViewDelegate {
     
   }
   
-  private func changeNextButtonToEnabled() {
+  func changeNextButtonToEnabled() {
     
     UIView.animateWithDuration(0.35,
                                animations: {

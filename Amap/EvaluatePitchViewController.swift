@@ -20,6 +20,8 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
   
   private var pitchData: ProjectPitchModelData! = nil
   
+  private var pitchEvaluationIDToLookFor: String! = nil
+  
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -283,6 +285,9 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
         RequestToServerManager.sharedInstance.requestToUpdateEvaluationOfProjectPitch(finalParams) {
          
           newEvaluationPitchCreated in
+          
+          self.pitchEvaluationIDToLookFor = newEvaluationPitchCreated.pitchId
+          
           UtilityManager.sharedInstance.hideLoader()
           self.dismissDetailedNavigation()
           
@@ -311,6 +316,7 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
         RequestToServerManager.sharedInstance.requestToCreateEvaluationOfProjectPitch(finalParams, actionsToMakeAfterSuccesfullCreateNewEvaluationPitch: { (newEvaluationPitchCreated) in
           
 //              print(newEvaluationPitchCreated)
+              self.pitchEvaluationIDToLookFor = newEvaluationPitchCreated.pitchId
               UtilityManager.sharedInstance.hideLoader()
               self.dismissDetailedNavigation()
               self.navigationController?.popToRootViewControllerAnimated(true)
@@ -498,6 +504,20 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
   @objc private func dismissKeyboard(sender:AnyObject) {
     
     self.view.endEditing(true)
+    
+  }
+  
+  override func viewDidDisappear(animated: Bool) {
+    
+    super.viewDidDisappear(animated)
+    
+    if pitchEvaluationIDToLookFor != nil {
+      
+      let imageSize: [String: String] = ["pitchEvaluationToLookFor": self.pitchEvaluationIDToLookFor]
+      
+      NSNotificationCenter.defaultCenter().postNotificationName("LookForThisPitchEvaluation", object: nil, userInfo: imageSize)
+      
+    }
     
   }
   

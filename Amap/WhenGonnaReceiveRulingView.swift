@@ -16,7 +16,7 @@ protocol WhenGonnaReceiveRulingViewDelegate {
 
 class WhenGonnaReceiveRulingView: UIView, UITextFieldDelegate {
   
-  private var whenGonnaReceiveRulingView: CustomTextFieldWithTitleView! = nil
+  var whenGonnaReceiveRulingView: CustomTextFieldWithTitleView! = nil
   private var titleLabel: UILabel! = nil
   private var nextButton: UIButton! = nil
   private var containerViewForPicker: UIView! = nil
@@ -258,7 +258,7 @@ class WhenGonnaReceiveRulingView: UIView, UITextFieldDelegate {
     
   }
 
-  private func changeNextButtonToEnabled() {
+  func changeNextButtonToEnabled() {
     
     UIView.animateWithDuration(0.35,
                                animations: {

@@ -23,7 +23,7 @@ protocol DetailPitchViewDelegate {
 
 class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, DetailPitchAddResultsViewDelegate, TabBarArchiveEditDeletePitchViewDelegate {
   
-  private var pitchEvaluationData: PitchEvaluationByUserModelData! = nil
+  var pitchEvaluationData: PitchEvaluationByUserModelData! = nil
   private var mainScrollView: UIScrollView! = nil
   private var graphPitchView: GraphPartPitchCardView! = nil
   private var bottomContainerView: UIView! = nil
@@ -151,6 +151,12 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     
   }
   
+  func reloadOnlyFillSurveyView() {
+    
+    self.createFillSurveyView()
+    
+  }
+  
   private func createCancelEditButtonsView() {
     
     let frameForView = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -196,8 +202,6 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     }
     
   }
-  
-  
   
   func animateShowPitchEvaluationDetail() {
     

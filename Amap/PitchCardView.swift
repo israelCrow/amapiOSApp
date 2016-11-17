@@ -13,6 +13,7 @@ protocol PitchCardViewDelegate {
   func pushCreateAddNewPitchAndWriteBrandNameViewControllerFromPitchCard()
   func createAndShowDetailedPitchView()
   func askForArchiveThisPitchCard(params: [String: AnyObject])
+  func upSwipeDetectedInPitchCard()
   
 }
 
@@ -24,6 +25,8 @@ class PitchCardView: UIView {
   private var graphPart: GraphPartPitchCardView! = nil
   private var detailedPart: DetailedPartPitchCardView! = nil
   private var pitchEvaluationByUserData: PitchEvaluationByUserModelData! = nil
+  
+  var isCardDown: Bool = false
   
   var delegate: PitchCardViewDelegate?
   
@@ -79,6 +82,10 @@ class PitchCardView: UIView {
     downSwipe.direction = .Down
     self.addGestureRecognizer(downSwipe)
     
+    let upSwipe = UISwipeGestureRecognizer.init(target: self, action: #selector(upSwipeCard))
+    upSwipe.direction = .Up
+    self.addGestureRecognizer(upSwipe)
+    
 //    let dragAction = UIPanGestureRecognizer.init(target: self, action: #selector(dragCardAction))
 //    self.addGestureRecognizer(dragAction)
     
@@ -93,7 +100,7 @@ class PitchCardView: UIView {
   
   @objc private func downSwipeCard(sender: UISwipeGestureRecognizer) {
     
-    if sender.direction == .Down {
+    if sender.direction == .Down && isCardDown == false {
       
       let params: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
                                                  "id": pitchEvaluationByUserData.pitchEvaluationId
@@ -101,6 +108,16 @@ class PitchCardView: UIView {
       
       self.delegate?.askForArchiveThisPitchCard(params)
         
+    }
+    
+  }
+  
+  @objc private func upSwipeCard(sender: UISwipeGestureRecognizer) {
+    
+    if sender.direction == .Up && isCardDown == true {
+      
+      self.delegate?.upSwipeDetectedInPitchCard()
+      
     }
     
   }

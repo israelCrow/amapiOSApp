@@ -24,8 +24,9 @@ class PitchEvaluationByUserModelData {
   var evaluationStatus: Bool! = nil //to know if has a pitch evaluation
   var hasResults: Bool! = nil       //to know if the questionnaire "add results" has been done
   var hasPitchWinnerSurvey: Bool! = nil //to know if the questionnaire "winner survey" has been done
+  var pitchResultsId: String! = nil
   
-  init( newPitchEvaluationId: String, newPitchId: String, newPitchName: String, newBriefDate: String, newScore: Int, newBrandName: String, newCompanyName: String, newOtherScores: [Int], newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData], newWasWon: Bool?, newPitchStatus: Int, newEvaluationStatus: Bool, newHasResults: Bool, newHasPitchWinnerSurvey: Bool) {
+  init( newPitchEvaluationId: String, newPitchId: String, newPitchName: String, newBriefDate: String, newScore: Int, newBrandName: String, newCompanyName: String, newOtherScores: [Int], newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData], newWasWon: Bool?, newPitchStatus: Int, newEvaluationStatus: Bool, newHasResults: Bool, newHasPitchWinnerSurvey: Bool, newPitchResultsId: String) {
     
     pitchEvaluationId = newPitchEvaluationId
     pitchId = newPitchId
@@ -41,6 +42,7 @@ class PitchEvaluationByUserModelData {
     evaluationStatus = newEvaluationStatus
     hasResults = newHasResults
     hasPitchWinnerSurvey = newHasPitchWinnerSurvey
+    pitchResultsId = newPitchResultsId
     
   }
   

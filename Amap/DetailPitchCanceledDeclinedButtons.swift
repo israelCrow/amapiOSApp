@@ -78,8 +78,8 @@ class DetailPitchCanceledDeclinedButtons: UIView {
     
     canceledPitchButton = UIButton.init(frame: CGRectZero)
     
-    let font = UIFont(name: "SFUIDisplay-Regular",
-                      size: 18.0 * UtilityManager.sharedInstance.conversionWidth)
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -88,8 +88,7 @@ class DetailPitchCanceledDeclinedButtons: UIView {
       string: EditPitchesConstants.DetailPitchCanceledDeclinedButtones.pitchCanceledButtonText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color,
-        NSKernAttributeName: CGFloat(1.5)
+        NSForegroundColorAttributeName: color
       ]
     )
     
@@ -103,8 +102,8 @@ class DetailPitchCanceledDeclinedButtons: UIView {
     
     let frameForButton = CGRect.init(x: 0.0,
                                      y: 0.0 * UtilityManager.sharedInstance.conversionHeight,
-                                     width: 137.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     height: 70.0 * UtilityManager.sharedInstance.conversionHeight)
+                                     width: 144.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 43.0 * UtilityManager.sharedInstance.conversionHeight)
     
     canceledPitchButton.frame = frameForButton
     canceledPitchButton.layer.borderColor = UIColor.blackColor().CGColor
@@ -118,8 +117,8 @@ class DetailPitchCanceledDeclinedButtons: UIView {
     
     declinedPitchButton = UIButton.init(frame: CGRectZero)
     
-    let font = UIFont(name: "SFUIDisplay-Regular",
-                      size: 18.0 * UtilityManager.sharedInstance.conversionWidth)
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -128,8 +127,7 @@ class DetailPitchCanceledDeclinedButtons: UIView {
       string: EditPitchesConstants.DetailPitchCanceledDeclinedButtones.pitchDeclinedButtonText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color,
-        NSKernAttributeName: CGFloat(1.5)
+        NSForegroundColorAttributeName: color
       ]
     )
     
@@ -141,10 +139,10 @@ class DetailPitchCanceledDeclinedButtons: UIView {
                                   forControlEvents: .TouchUpInside)
     declinedPitchButton.sizeToFit()
     
-    let frameForButton = CGRect.init(x: 158.0 * UtilityManager.sharedInstance.conversionWidth,
+    let frameForButton = CGRect.init(x: 151.0 * UtilityManager.sharedInstance.conversionWidth,
                                      y: 0.0 * UtilityManager.sharedInstance.conversionHeight,
-                                     width: 137.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     height: 70.0 * UtilityManager.sharedInstance.conversionHeight)
+                                     width: 144.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 43.0 * UtilityManager.sharedInstance.conversionHeight)
     
     declinedPitchButton.frame = frameForButton
     
