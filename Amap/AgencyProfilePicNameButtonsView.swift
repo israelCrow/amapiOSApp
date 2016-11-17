@@ -299,39 +299,46 @@ class AgencyProfilePicNameButtonsView: UIView {
                                      width: 0.0,
                                      height: 0.0)
     
-    for index in 0..<(arrayOfExistingButtons.count - 1) {
+    if arrayOfExistingButtons.count > 0 {
       
+      for index in 0..<(arrayOfExistingButtons.count - 1) {
+        
+        
+        let actualButton = arrayOfExistingButtons[index]
+        
+        frameForButton = CGRect.init(x: frameForButton.origin.x,
+                                     y: actualButton.frame.origin.y,
+                                     width: actualButton.frame.size.width,
+                                     height: actualButton.frame.size.height)
+        
+        actualButton.frame = frameForButton
+        containerView.addSubview(actualButton)
+        
+        frameForButton = CGRect.init(x: frameForButton.origin.x + (64.0 * UtilityManager.sharedInstance.conversionWidth),
+                                     y: 0.0,
+                                     width: 0.0,
+                                     height: 0.0)
+        
+      }
       
-      let actualButton = arrayOfExistingButtons[index]
+      if arrayOfExistingButtons.last != nil {
+        
+        let actualButton = arrayOfExistingButtons.last!
+        
+        frameForButton = CGRect.init(x: frameForButton.origin.x,
+                                     y: actualButton.frame.origin.y,
+                                     width: actualButton.frame.size.width,
+                                     height: actualButton.frame.size.height)
+        
+        actualButton.frame = frameForButton
+        containerView.addSubview(actualButton)
+        
+      }
       
-      frameForButton = CGRect.init(x: frameForButton.origin.x,
-                                   y: actualButton.frame.origin.y,
-                                   width: actualButton.frame.size.width,
-                                   height: actualButton.frame.size.height)
-      
-      actualButton.frame = frameForButton
-      containerView.addSubview(actualButton)
-  
-      frameForButton = CGRect.init(x: frameForButton.origin.x + (64.0 * UtilityManager.sharedInstance.conversionWidth),
-                                   y: 0.0,
-                               width: 0.0,
-                              height: 0.0)
       
     }
     
-    if arrayOfExistingButtons.last != nil {
-      
-      let actualButton = arrayOfExistingButtons.last!
-      
-      frameForButton = CGRect.init(x: frameForButton.origin.x,
-                                   y: actualButton.frame.origin.y,
-                                   width: actualButton.frame.size.width,
-                                   height: actualButton.frame.size.height)
-      
-      actualButton.frame = frameForButton
-      containerView.addSubview(actualButton)
-      
-    }
+
     
   }
   

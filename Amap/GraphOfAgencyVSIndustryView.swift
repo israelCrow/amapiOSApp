@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol GraphOfAgencyVSIndustryViewDelegate {
+  
+  func filterFromGraphOfAgencyVSIndustryPressed()
+  
+}
+
 class GraphOfAgencyVSIndustryView: UIView {
   
   private var filterButton: UIButton! = nil
@@ -15,11 +21,20 @@ class GraphOfAgencyVSIndustryView: UIView {
   private var genericGraph: GenericDashboardGraphic! = nil
   private var optionsForSelector: [String]! = nil
   
+  private var arrayOfPitchesAverageByAgency = [Double]()
+  
+  private var arrayOfPitchesAvergaeByIndustry = [Double]()
+  
+  var delegate: GraphOfAgencyVSIndustryViewDelegate?
+  
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override init(frame: CGRect) {
+  init(frame: CGRect, newArrayByAgency: [Double], newArrayByIndustry: [Double]) {
+    
+    arrayOfPitchesAverageByAgency = newArrayByAgency
+    arrayOfPitchesAvergaeByIndustry = newArrayByIndustry
     
     super.init(frame: frame)
     
@@ -108,16 +123,23 @@ class GraphOfAgencyVSIndustryView: UIView {
                                     width: 285.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: 260.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    var stringName = AgencyModel.Data.name
+    let index = stringName.startIndex.advancedBy(11)
+    stringName = stringName.substringToIndex(index)
+    stringName = stringName + "..."
+    
     genericGraph = GenericDashboardGraphic.init(frame: frameForGraph,
-                                                newDataForLineChart: [5.0, 10.0, 20.0, 18.0, 13.0],
-                                                newDataForBarChart: [13.0, 18.0, 20.0, 10.0, 5.0],
+                                                newDataForLineChart: arrayOfPitchesAverageByAgency,
+                                                newDataForBarChart: arrayOfPitchesAvergaeByIndustry,
                                                 newValuesOfXAxis: nil,
-                                                newDescriptionBarGraph: nil,
-                                                newDescriptionLineGraph: nil)
+                                                newDescriptionBarGraph: "Industria",
+                                                newDescriptionLineGraph: stringName)
+    
+    
     
     self.addSubview(genericGraph)
     
-    NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(3), target: self, selector: #selector(changeData), userInfo: nil, repeats: false)
+//    NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(3), target: self, selector: #selector(changeData), userInfo: nil, repeats: false)
     
   }
   
@@ -164,7 +186,7 @@ class GraphOfAgencyVSIndustryView: UIView {
   
   @objc private func filterButtonPressed() {
     
-    
+    self.delegate?.filterFromGraphOfAgencyVSIndustryPressed()
     
   }
   

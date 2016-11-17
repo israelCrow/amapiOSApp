@@ -1899,16 +1899,208 @@ class RequestToServerManager: NSObject {
           //          actionsToMakeAfterFinished()
         }
     }
-
     
+  }
+  
+  func requestToGetPitchEvaluationsAveragePerMonthByAgency(actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthOfAgency:[PitchEvaluationAveragePerMonthModelData] , arrayOfUsers: [AgencyUserModelData]) -> Void) {
+    
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/pitch_evaluations/average_per_month_by_agency"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    //print(caseData)
+    
+    let params = ["id" : AgencyModel.Data.id,
+                  "auth_token" : UserSession.session.auth_token
+                  ]
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<400)
+      .responseJSON{ response in
+        
+        //print(response)
+        
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          print(json)
+          
+          let arrayOfUsers = json["users"] as? Array<[String: AnyObject]>
+          let arrayOfScores = json["average_per_month"] as? Array<[String: AnyObject]>
+          
+          var arrayOfUsersModelData = [AgencyUserModelData]()
+          
+          if arrayOfUsers != nil {
+            
+            for user in arrayOfUsers! {
+              
+              let newId = (user["id"] as? Int != nil ? String(user["id"] as! Int) : "-1")
+              let newFirstName = (user["first_name"] as? String != nil ? user["first_name"] as! String : "")
+              let newLastName = (user["last_name"] as? String != nil ? user["last_name"] as! String : "")
+              
+              let newUser = AgencyUserModelData.init(newId: newId,
+                newFirstName: newFirstName,
+                newLastName: newLastName)
+              
+              arrayOfUsersModelData.append(newUser)
+              
+            }
+            
+          }
+          
+          
+          var arrayOfScoresModelData = [PitchEvaluationAveragePerMonthModelData]()
+          
+          if arrayOfScores != nil {
+            
+            for score in arrayOfScores! {
+              
+              let newId: String? = (score["id"] as? Int != nil ? String(score["id"] as! Int) : nil)
+              let newMonthYear = (score["month_year"] as? String != nil ? score["month_year"] as! String : "")
+              let newScore = (score["score"] as? Int != nil ? String(score["score"] as! Int) : "")
+              
+              let newScoreModelData = PitchEvaluationAveragePerMonthModelData.init(newId: newId,
+                newMonthYear: newMonthYear,
+                newScore: newScore)
+              
+              arrayOfScoresModelData.append(newScoreModelData)
+              
+            }
+            
+          }
+          
+          actionsToMakeAfterGetingInfo(arrayOfScoresPerMonthOfAgency: arrayOfScoresModelData, arrayOfUsers: arrayOfUsersModelData)
+          
+        }else{
+          print("ERROR DELETING CASE")
+        }
+        
+    }
     
   }
   
   
+
+  func requestToGetPitchEvaluationsAveragePerMonthByUser(params: [String: AnyObject],actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthByUser:[PitchEvaluationAveragePerMonthModelData]) -> Void) {
+    
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/pitch_evaluations/average_per_month_by_user"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<400)
+      .responseJSON{ response in
+        
+        //print(response)
+        
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          let arrayOfScores = json as? Array<[String: AnyObject]>
+          
+          var arrayOfScoresModelData = [PitchEvaluationAveragePerMonthModelData]()
+          
+          if arrayOfScores != nil {
+            
+            for score in arrayOfScores! {
+              
+              let newId: String? = (score["id"] as? Int != nil ? String(score["id"] as! Int) : nil)
+              let newMonthYear = (score["month_year"] as? String != nil ? score["month_year"] as! String : "")
+              let newScore = (score["score"] as? Int != nil ? String(score["score"] as! Int) : "")
+              
+              let newScoreModelData = PitchEvaluationAveragePerMonthModelData.init(newId: newId,
+                newMonthYear: newMonthYear,
+                newScore: newScore)
+              
+              arrayOfScoresModelData.append(newScoreModelData)
+              
+            }
+            
+          }
+          
+          actionsToMakeAfterGetingInfo(arrayOfScoresPerMonthByUser: arrayOfScoresModelData)
+          
+        }else{
+          print("ERROR GETTING AVERAGE BY USER")
+        }
+        
+    }
+    
+  }
+
   
-  
-  
-  
+  func requestToGetPitchEvaluationsAveragePerMonthByIndustry(actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthOfIndustry:[PitchEvaluationAveragePerMonthModelData]) -> Void) {
+    
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/pitch_evaluations/average_per_month_industry"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    //print(caseData)
+    
+    let params = [
+                  "auth_token" : UserSession.session.auth_token
+                 ]
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<400)
+      .responseJSON{ response in
+        
+        //print(response)
+        
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          let arrayOfScores = json as? Array<[String: AnyObject]>
+          
+          var arrayOfScoresModelData = [PitchEvaluationAveragePerMonthModelData]()
+          
+          if arrayOfScores != nil {
+            
+            for score in arrayOfScores! {
+              
+              let newId: String? = (score["id"] as? Int != nil ? String(score["id"] as! Int) : nil)
+              let newMonthYear = (score["month_year"] as? String != nil ? score["month_year"] as! String : "")
+              let newScore = (score["score"] as? Int != nil ? String(score["score"] as! Int) : "")
+              
+              let newScoreModelData = PitchEvaluationAveragePerMonthModelData.init(newId: newId,
+                newMonthYear: newMonthYear,
+                newScore: newScore)
+              
+              arrayOfScoresModelData.append(newScoreModelData)
+              
+            }
+            
+          }
+          
+          
+          actionsToMakeAfterGetingInfo(arrayOfScoresPerMonthOfIndustry: arrayOfScoresModelData)
+          
+        }else{
+          print("ERROR DELETING CASE")
+        }
+        
+    }
+    
+  }
+
   
   
   

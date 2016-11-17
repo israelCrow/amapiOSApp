@@ -319,16 +319,26 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       if self.arrayOfPitchesByUser.count == 0 {
         
-        UIView.animateWithDuration(0.2,
-          animations: {
-            
-            self.mainCarousel.alpha = 0.0
-            
-          }, completion: { (finished) in
-            
-            self.createAndAddNoPitchesAssignedView()
-            
-        })
+        if self.mainCarousel != nil {
+          
+          UIView.animateWithDuration(0.2,
+            animations: {
+              
+              self.mainCarousel.alpha = 0.0
+              
+            }, completion: { (finished) in
+              
+              self.createAndAddNoPitchesAssignedView()
+              
+          })
+        
+        }else{
+          
+          self.createAndAddNoPitchesAssignedView()
+          
+        }
+        
+
         
       }else{
         
@@ -704,6 +714,12 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   @objc private func filterButtonPressed() {
     
     self.hideNoPitchesView()
+    
+    if mainCarousel == nil {
+      
+      self.createCarousel()
+      
+    }
     
     if mainCarousel != nil {
       
@@ -1192,7 +1208,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     if option == .Spacing {
       
-      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 7 {
+      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 5 {
         
         return 1.55 * value
         
@@ -1206,7 +1222,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     if option == .Radius {
       
-      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 7 {
+      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 5 {
         
         return 1.51 * value
         
@@ -1220,7 +1236,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     if option == .Arc {
       
-      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 7 {
+      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 5 {
         
         return 0.65 * value
         

@@ -623,7 +623,8 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
 //        
 //      howManyPresentationRoundsResult = "false"
 //        
-//    }else
+//    }
+//    else
 //    if youKnowHowManyPresentationRounds.returnValueSelectedFromSegmentControl() == "No sé" {
 //          
 //      howManyPresentationRoundsResult = "true"
@@ -632,9 +633,16 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     
 //    let howManyRoundsResult = (UtilityManager.sharedInstance.isValidText(howMany.mainTextField.text!) == true ? howMany.mainTextField.text! : "")
     
-    let howManyRounds = (UtilityManager.sharedInstance.isValidText(howMany.mainTextField.text!) == true ? howMany.mainTextField.text! : "1r")
+    let howManyRounds = (UtilityManager.sharedInstance.isValidText(howMany.mainTextField.text!) == true ? howMany.mainTextField.text! : "")
+    
+    var howManyRoundsResult = "no"
+    
+    if howManyRounds != "" {
+    
     let howManyRoundsWithoutSpaces = howManyRounds.stringByReplacingOccurrencesOfString(" ", withString: "")
-    let howManyRoundsResult = howManyRoundsWithoutSpaces.substringWithRange(howManyRoundsWithoutSpaces.startIndex..<howManyRoundsWithoutSpaces.startIndex.advancedBy(2))
+    howManyRoundsResult = howManyRoundsWithoutSpaces.substringWithRange(howManyRoundsWithoutSpaces.startIndex..<howManyRoundsWithoutSpaces.startIndex.advancedBy(2))
+      
+    }
     
     let howManyWeeksRuling = (UtilityManager.sharedInstance.isValidText(howManyDaysTheyGiveTheRuling.mainTextField.text!) == true ? howManyDaysTheyGiveTheRuling.mainTextField.text! : "2s")
     let howManyRulingWeeksWithoutSpaces = howManyWeeksRuling.stringByReplacingOccurrencesOfString(" ", withString: "")

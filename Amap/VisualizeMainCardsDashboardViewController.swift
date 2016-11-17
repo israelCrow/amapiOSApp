@@ -15,7 +15,7 @@ protocol VisualizeMainCardsDashboardViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeMainCardsDashboardViewController: UIViewController {
+class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccordingToUserViewDelegate, FilterAccordingToUserAndAgencyViewDelegate, GraphOfAgencyVSIndustryViewDelegate {
   
   private let kNumberOfCards = 3
   
@@ -23,8 +23,20 @@ class VisualizeMainCardsDashboardViewController: UIViewController {
   private var gralPerformanceCardView: GeneralPerformanceCardView! = nil
   
   //JUST FOR TEST
-  private var firstCard: GraphAccordingToUserView! = nil
-  private var thirdCard: GraphOfAgencyVSIndustryView! = nil
+  private var firstCard: FlipCardView! = nil
+  private var thirdCard: FlipCardView! = nil
+  
+  private var graphAccordingUser: GraphAccordingToUserView! = nil
+  private var graphAgencyVSIndustry: GraphOfAgencyVSIndustryView! = nil
+  
+  private var arrayOfUsers = [AgencyUserModelData]()
+  private var arrayOfScoresByAgency = [PitchEvaluationAveragePerMonthModelData]()
+  private var arrayOfScoresByIndustry = [PitchEvaluationAveragePerMonthModelData]()
+  
+  private var firstFilterView: FilterAccordingToUserAndAgencyView! = nil
+  private var secondFilterView: FilterAccordingToUserAndAgencyView! = nil
+  
+  private var nextTimeFlipFirstCard: Bool! = false
 
   var delegateForShowAndHideTabBar: VisualizeAllPitchesViewControllerShowAndHideDelegate?
   
@@ -44,7 +56,8 @@ class VisualizeMainCardsDashboardViewController: UIViewController {
     self.changeNavigationRigthButtonItem()
     
     self.createMainScrollView()
-    self.createCards()
+    
+    self.getInfoFromServer()
     
   }
   
@@ -107,6 +120,35 @@ class VisualizeMainCardsDashboardViewController: UIViewController {
     
   }
   
+  private func getInfoFromServer() {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByAgency { (arrayOfScoresPerMonthOfAgency, arrayOfUsers) in
+      
+      
+      print(arrayOfUsers)
+      print(arrayOfScoresPerMonthOfAgency)
+      
+      self.arrayOfUsers = arrayOfUsers
+      self.arrayOfScoresByAgency = arrayOfScoresPerMonthOfAgency
+      
+      
+      RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByIndustry({ (arrayOfScoresPerMonthOfIndustry) in
+        
+        self.arrayOfScoresByIndustry = arrayOfScoresPerMonthOfIndustry
+        
+        UtilityManager.sharedInstance.hideLoader()
+        
+         self.createCards()
+        
+      })
+      
+    }
+    
+    
+  }
+  
   private func createCards() {
     
     self.createGeneralPerformanceCard()
@@ -124,6 +166,11 @@ class VisualizeMainCardsDashboardViewController: UIViewController {
                                     width: widthOfCard,
                                    height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
     
+    let frameForFrontAndBack = CGRect.init(x: 0.0,
+                                             y: 0.0,
+                                             width: widthOfCard,
+                                             height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
+    
     let frameForSecondCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth) + (mainScrollView.frame.size.width * CGFloat(kNumberOfCards - 2)),
                                          y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
                                      width: widthOfCard,
@@ -134,14 +181,56 @@ class VisualizeMainCardsDashboardViewController: UIViewController {
                                      width: widthOfCard,
                                     height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
     
-    firstCard = GraphAccordingToUserView.init(frame: frameForFirstCard)
+    firstFilterView = FilterAccordingToUserAndAgencyView.init(frame: frameForFrontAndBack)
+    firstFilterView.delegate = self
+    secondFilterView = FilterAccordingToUserAndAgencyView.init(frame: frameForFrontAndBack)
+    secondFilterView.delegate = self
+    
+    graphAccordingUser = GraphAccordingToUserView.init(frame: frameForFrontAndBack, newArrayOfUsers: arrayOfUsers)
+    graphAccordingUser.delegate = self
+    graphAccordingUser.layer.shadowColor = UIColor.blackColor().CGColor
+    graphAccordingUser.layer.shadowOpacity = 0.25
+    graphAccordingUser.layer.shadowOffset = CGSizeZero
+    graphAccordingUser.layer.shadowRadius = 5
+    
+    
+    //third card
+    
+    var scoresAgency = [Double]()
+    var scoresIndustry = [Double]()
+    
+    for scoreAgency in arrayOfScoresByAgency {
+      
+      scoresAgency.append(Double(scoreAgency.score)!)
+      
+    }
+    
+    for scoreIndustry in arrayOfScoresByIndustry {
+      
+      scoresIndustry.append(Double(scoreIndustry.score)!)
+      
+    }
+    
+    graphAgencyVSIndustry = GraphOfAgencyVSIndustryView.init(frame: frameForFrontAndBack, newArrayByAgency: scoresAgency, newArrayByIndustry: scoresIndustry)
+    graphAgencyVSIndustry.delegate = self
+
+    
+    
+    firstCard = FlipCardView.init(frame: frameForFirstCard,
+                                  viewOne: graphAccordingUser,
+                                  viewTwo: firstFilterView)
+    
+    thirdCard = FlipCardView.init(frame: frameForThirdCard,
+                                viewOne: graphAgencyVSIndustry,
+                                viewTwo: secondFilterView)
+    
+    
+
     mainScrollView.addSubview(firstCard)
-    
-    gralPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForSecondCard)
-    mainScrollView.addSubview(gralPerformanceCardView)
-    
-    thirdCard = GraphOfAgencyVSIndustryView.init(frame: frameForThirdCard)
     mainScrollView.addSubview(thirdCard)
+    
+    gralPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForSecondCard, newArrayOfUsers: arrayOfUsers)
+    mainScrollView.addSubview(gralPerformanceCardView)
     
   }
   
@@ -156,5 +245,77 @@ class VisualizeMainCardsDashboardViewController: UIViewController {
     return GradientView.init(frame: frameForView, arrayOfcolors: colorsForBackground, typeOfInclination: GradientView.TypeOfInclination.leftToRightInclination)
     
   }
+  
+  //MARK: - GrapAccordingToUserViewDelegate
+  
+  func getEvaluationsAveragePerMonth(params: [String : AnyObject]) {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByUser(params) { (arrayOfScoresPerMonthByUser) in
+      
+      var arrayOfScoresInDouble = [Double]()
+      var arrayOfScoresInDoubleByAgency = [Double]()
+      
+      for score in arrayOfScoresPerMonthByUser {
+       
+        arrayOfScoresInDouble.append(Double(score.score)!)
+        
+      }
+      
+      for score in self.arrayOfScoresByAgency {
+        
+        arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
+        
+      }
+      
+      self.graphAccordingUser.changeData(arrayOfScoresInDouble, newValuesForAgency: arrayOfScoresInDoubleByAgency)
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+    }
+    
+  }
+  
+  func flipCardToShowFilterOfGraphAccordingToUser() {
+    
+    nextTimeFlipFirstCard = true
+    
+    self.firstCard.flip()
+    
+  }
+  
+  //MARK: - FilterAccordingToUserAndAgencyViewDelegate
+  
+  func cancelFilterButtonPressed() {
+   
+    if nextTimeFlipFirstCard == true {
+      
+      self.firstCard.flip()
+      nextTimeFlipFirstCard = false
+      
+    } else {
+      
+      self.thirdCard.flip()
+      
+    }
+    
+  }
+  
+  func applyFilterButtonPressedFromFilterAccordingToUserAndAgencyView() {
+    
+    
+    
+  }
+  
+  //MARK: - GraphOfAgencyVSIndustryViewDelegate
+  
+  func filterFromGraphOfAgencyVSIndustryPressed() {
+
+    self.thirdCard.flip()
+    
+  }
+  
+  
   
 }

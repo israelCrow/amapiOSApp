@@ -357,7 +357,7 @@ class VisualizeAgencyInfoView: UIView {
   
   private func createEmployeesIconButton() {
     
-    let frameForButton = CGRect.init(x: 25.0 * UtilityManager.sharedInstance.conversionWidth,
+    let frameForButton = CGRect.init(x: 19.0 * UtilityManager.sharedInstance.conversionWidth,
                                      y: 0.0,
                                      width: 28.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 23.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -448,7 +448,7 @@ class VisualizeAgencyInfoView: UIView {
                                      height: 0.0)
     
     var frameForLabel = CGRect.init(x: 0.0,
-                                    y: 61.0,
+                                    y: 58.0,
                                     width: 0.0,
                                     height: 0.0)
     
@@ -475,15 +475,17 @@ class VisualizeAgencyInfoView: UIView {
       self.addSubview(actualButton)
       self.addSubview(actualLabel)
       
+      frameForLabel = CGRect.init(x: 0.0,
+                                  y: frameForButton.origin.y + actualButton.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                  width: 0.0,
+                                  height: 0.0)
+      
       frameForButton = CGRect.init(x: 0.0,
                                    y: frameForButton.origin.y + actualButton.frame.size.height + (32.33 * UtilityManager.sharedInstance.conversionHeight),
                                    width: 0.0,
                                    height: 0.0)
       
-      frameForLabel = CGRect.init(x: 0.0,
-                                  y: frameForLabel.origin.y + actualLabel.frame.size.height + (30.25 * UtilityManager.sharedInstance.conversionHeight),
-                                  width: 0.0,
-                                  height: 0.0)
+
       
     }
     

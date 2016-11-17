@@ -202,6 +202,9 @@
 		AACBDE941D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE931D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift */; };
 		AACBDE961D7FD74700F8F9EF /* SkillLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE951D7FD74700F8F9EF /* SkillLevelView.swift */; };
 		AACBDE9A1D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBDE991D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift */; };
+		AACBE27C1DDE08C6007314C3 /* AgencyUserModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBE27B1DDE08C6007314C3 /* AgencyUserModelData.swift */; };
+		AACBE2801DDE0DCE007314C3 /* PitchEvaluationAveragePerMonthModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBE27F1DDE0DCE007314C3 /* PitchEvaluationAveragePerMonthModelData.swift */; };
+		AACBE2821DDE4A58007314C3 /* CustomTextFieldWithTitleAndPickerForDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBE2811DDE4A58007314C3 /* CustomTextFieldWithTitleAndPickerForDashboardView.swift */; };
 		AACC71661DB527F3005EA446 /* CanceledPitchEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACC71651DB527F3005EA446 /* CanceledPitchEvaluationView.swift */; };
 		AAD3EEC61DC47B6F00E37ACA /* RecommendationsDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD3EEC51DC47B6F00E37ACA /* RecommendationsDashboardView.swift */; };
 		AAD3EEC81DC47D5A00E37ACA /* SimpleIconLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD3EEC71DC47D5A00E37ACA /* SimpleIconLabelView.swift */; };
@@ -229,6 +232,7 @@
 		AAECDF661D51472700CCDA85 /* GoldenPitchLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAECDF651D51472700CCDA85 /* GoldenPitchLoginView.swift */; };
 		AAF347AA1D7A4B0F00D386E5 /* VisualizeNumberOfEmployeesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF347A91D7A4B0F00D386E5 /* VisualizeNumberOfEmployeesView.swift */; };
 		AAFD0E1A1DDCDC620019EF03 /* PitchResultsModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFD0E191DDCDC620019EF03 /* PitchResultsModelData.swift */; };
+		AAFD0E1E1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */; };
 		C04FC772F5442066639C311A /* Pods_Amap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730B22C94A0E292BE5556150 /* Pods_Amap.framework */; };
 /* End PBXBuildFile section */
 
@@ -447,6 +451,9 @@
 		AACBDE931D7FD33500F8F9EF /* VisualizeSkillsLevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeSkillsLevelView.swift; sourceTree = "<group>"; };
 		AACBDE951D7FD74700F8F9EF /* SkillLevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillLevelView.swift; sourceTree = "<group>"; };
 		AACBDE991D800A9C00F8F9EF /* VisualizeCaseDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCaseDetailViewController.swift; sourceTree = "<group>"; };
+		AACBE27B1DDE08C6007314C3 /* AgencyUserModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyUserModelData.swift; sourceTree = "<group>"; };
+		AACBE27F1DDE0DCE007314C3 /* PitchEvaluationAveragePerMonthModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchEvaluationAveragePerMonthModelData.swift; sourceTree = "<group>"; };
+		AACBE2811DDE4A58007314C3 /* CustomTextFieldWithTitleAndPickerForDashboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextFieldWithTitleAndPickerForDashboardView.swift; sourceTree = "<group>"; };
 		AACC71651DB527F3005EA446 /* CanceledPitchEvaluationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanceledPitchEvaluationView.swift; sourceTree = "<group>"; };
 		AAD3EEC51DC47B6F00E37ACA /* RecommendationsDashboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendationsDashboardView.swift; sourceTree = "<group>"; };
 		AAD3EEC71DC47D5A00E37ACA /* SimpleIconLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleIconLabelView.swift; sourceTree = "<group>"; };
@@ -475,6 +482,7 @@
 		AAECDF651D51472700CCDA85 /* GoldenPitchLoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoldenPitchLoginView.swift; sourceTree = "<group>"; };
 		AAF347A91D7A4B0F00D386E5 /* VisualizeNumberOfEmployeesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeNumberOfEmployeesView.swift; sourceTree = "<group>"; };
 		AAFD0E191DDCDC620019EF03 /* PitchResultsModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchResultsModelData.swift; sourceTree = "<group>"; };
+		AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterAccordingToUserAndAgencyView.swift; sourceTree = "<group>"; };
 		D32EBDE6D734E5F3142D1570 /* Pods-Amap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amap.release.xcconfig"; path = "Pods/Target Support Files/Pods-Amap/Pods-Amap.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -582,6 +590,8 @@
 				AA8997981D89CB09009513E3 /* BrandModelData.swift */,
 				AA7F58E11D9066C40057F67B /* ProjectPitchModelData.swift */,
 				AA80C2721D917B3D00087DC0 /* CriteriaModelData.swift */,
+				AACBE27B1DDE08C6007314C3 /* AgencyUserModelData.swift */,
+				AACBE27F1DDE0DCE007314C3 /* PitchEvaluationAveragePerMonthModelData.swift */,
 			);
 			name = ModelData;
 			sourceTree = "<group>";
@@ -746,7 +756,7 @@
 		AA14418C1DC3295C00EB013E /* Create/Edit/Visualize_Dashboard */ = {
 			isa = PBXGroup;
 			children = (
-				AACEE3B61DDA0C1F0088CA81 /* FirstCard */,
+				AACEE3B61DDA0C1F0088CA81 /* Visualize */,
 			);
 			name = Create/Edit/Visualize_Dashboard;
 			sourceTree = "<group>";
@@ -759,6 +769,7 @@
 				AAF4A5971DD198CC00464000 /* SecondCard */,
 				AA084F251DDA110600B76649 /* ThirdCard */,
 				AA6F8D9B1DC3363200D22AF1 /* VisualizeDashboardConstants.swift */,
+				AACBE2811DDE4A58007314C3 /* CustomTextFieldWithTitleAndPickerForDashboardView.swift */,
 			);
 			name = Create/Edit/Visualize_Dashboard;
 			sourceTree = "<group>";
@@ -1085,12 +1096,12 @@
 			name = Fonts;
 			sourceTree = "<group>";
 		};
-		AACEE3B61DDA0C1F0088CA81 /* FirstCard */ = {
+		AACEE3B61DDA0C1F0088CA81 /* Visualize */ = {
 			isa = PBXGroup;
 			children = (
 				AA14418E1DC32F5C00EB013E /* VisualizeMainCardsDashboardViewController.swift */,
 			);
-			name = FirstCard;
+			name = Visualize;
 			sourceTree = "<group>";
 		};
 		AADA93541DC0F52600CA5DBD /* PitchSurvey */ = {
@@ -1183,6 +1194,7 @@
 			isa = PBXGroup;
 			children = (
 				AA084F2B1DDA2B6300B76649 /* GraphAccordingToUserView.swift */,
+				AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */,
 			);
 			name = SecondCard;
 			sourceTree = "<group>";
@@ -1474,6 +1486,7 @@
 				AAD3EEC81DC47D5A00E37ACA /* SimpleIconLabelView.swift in Sources */,
 				AADD0C541DB980EF0095A51C /* WhenGonnaToShowPitchView.swift in Sources */,
 				AA8997991D89CB09009513E3 /* BrandModelData.swift in Sources */,
+				AAFD0E1E1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift in Sources */,
 				AADD0C501DB96F6F0095A51C /* RecommendationView.swift in Sources */,
 				044F89D61D6377E800AA7FF3 /* CustomSkillTableViewCell.swift in Sources */,
 				AA0949681D52955E000E76E1 /* CreateAccountView.swift in Sources */,
@@ -1491,6 +1504,7 @@
 				AA0BD3701DB54F840057387D /* ArchivedPitchEvaluationView.swift in Sources */,
 				AA7F58E61D90852C0057F67B /* PitchSkillCategory.swift in Sources */,
 				AA02375C1D81FF100014915C /* NoPitchAssignedView.swift in Sources */,
+				AACBE2821DDE4A58007314C3 /* CustomTextFieldWithTitleAndPickerForDashboardView.swift in Sources */,
 				AA0BD36E1DB54CD40057387D /* DeletedPitchEvaluationView.swift in Sources */,
 				AA9A6CEF1D87385B00B85C17 /* CreateAddNewPitchAndWriteCategoryTypeViewController.swift in Sources */,
 				AADC08C21D9C6E0300C5CBCD /* ExclusivityBrandModelData.swift in Sources */,
@@ -1547,6 +1561,7 @@
 				AADA93581DC0FC5C00CA5DBD /* WhenYouWillSignTheContractPitchSurveyView.swift in Sources */,
 				AA87B7691D8865E200BCA3E6 /* SuccessfullyCreationOfPitchView.swift in Sources */,
 				AAB3768A1DAF1E7100830523 /* DetailPitchView.swift in Sources */,
+				AACBE2801DDE0DCE007314C3 /* PitchEvaluationAveragePerMonthModelData.swift in Sources */,
 				AA084F311DDA7D8100B76649 /* GraphOfAgencyVSIndustryView.swift in Sources */,
 				AA4EAED41DD0FD0000AA305B /* InfoPitchesViewController.swift in Sources */,
 				04AB393E1D5D1808009B1D5C /* AgencyProfileEditConstants.swift in Sources */,
@@ -1555,6 +1570,7 @@
 				AA2DB85A1D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift in Sources */,
 				AA0FE9C31D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift in Sources */,
 				AA9A6CFF1D87757800B85C17 /* GraphPartPitchCardView.swift in Sources */,
+				AACBE27C1DDE08C6007314C3 /* AgencyUserModelData.swift in Sources */,
 				AAB3768E1DAF2C5400830523 /* EvaluationPitchSkillCategoryModelData.swift in Sources */,
 				AA9A6CF31D873C1F00B85C17 /* AddPitchAndWriteWhichCategoryIsView.swift in Sources */,
 				AA25D5E31DC3DED600C9E59F /* CircleGraphView.swift in Sources */,

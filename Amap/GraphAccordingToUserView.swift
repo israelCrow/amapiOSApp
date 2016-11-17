@@ -8,18 +8,31 @@
 
 import UIKit
 
-class GraphAccordingToUserView: UIView {
+protocol GrapAccordingToUserViewDelegate {
+  
+  func getEvaluationsAveragePerMonth(params: [String: AnyObject])
+  func flipCardToShowFilterOfGraphAccordingToUser()
+  
+}
+
+class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDashboardViewDelegate {
 
   private var filterButton: UIButton! = nil
-  private var selectorOfInformationView: CustomTextFieldWithTitleAndPickerView! = nil
+  private var selectorOfInformationView: CustomTextFieldWithTitleAndPickerForDashboardView! = nil
   private var genericGraph: GenericDashboardGraphic! = nil
-  private var optionsForSelector: [String]! = nil
+  private var optionsForSelector = [String]()
+  private var arrayOfAgencyUsersModelData = [AgencyUserModelData]()
+  private var numberOfUserSelected = 0
+  
+  var delegate: GrapAccordingToUserViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override init(frame: CGRect) {
+  init(frame: CGRect, newArrayOfUsers: [AgencyUserModelData]) {
+    
+    arrayOfAgencyUsersModelData = newArrayOfUsers
     
     super.init(frame: frame)
     
@@ -30,7 +43,21 @@ class GraphAccordingToUserView: UIView {
   
   private func initValues() {
     
-    optionsForSelector = ["Performance General", "Usuario 1", "Usuario 2"]
+    for user in arrayOfAgencyUsersModelData {
+      
+      if user.firstName != "" {
+      
+        optionsForSelector.append(user.firstName)
+      
+      } else {
+        
+        optionsForSelector.append("unknown user")
+        
+      }
+      
+    }
+    
+//    optionsForSelector = ["Performance General", "Usuario 1", "Usuario 2"]
     
   }
   
@@ -69,12 +96,13 @@ class GraphAccordingToUserView: UIView {
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    selectorOfInformationView = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
+    selectorOfInformationView = CustomTextFieldWithTitleAndPickerForDashboardView.init(frame: frameForView,
                                                                            textLabel: VisualizeDashboardConstants.GeneralPerformanceCardView.selectorLabelText,
                                                                            nameOfImage: "dropdown",
                                                                            newOptionsOfPicker: optionsForSelector)
     
     selectorOfInformationView.tag = 1
+    selectorOfInformationView.delegate = self
     //    selectorOfInformationView.mainTextField.addTarget(self,
     //                                              action: #selector(howManyDaysToShowEdited),
     //                                              forControlEvents: .AllEditingEvents)
@@ -98,16 +126,18 @@ class GraphAccordingToUserView: UIView {
     
     self.addSubview(genericGraph)
     
-    NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(3), target: self, selector: #selector(changeData), userInfo: nil, repeats: false)
+//    NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(3), target: self, selector: #selector(changeData), userInfo: nil, repeats: false)
     
   }
   
-  @objc private func changeData() {
+  @objc func changeData(newValuesForUser: [Double], newValuesForAgency: [Double]) {
     
-    genericGraph.changeValuesOfGraph("usuario 666",
+    let nameUser = optionsForSelector[numberOfUserSelected]
+    
+    genericGraph.changeValuesOfGraph(nameUser,
                                      newXValues: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-                               newLineGraphData: [1,2,3,4,5,6,7,8,9,10,11,12],
-                                newBarGraphData: [12,11,10,9,8,7,6,5,4,3,2,1])
+                               newLineGraphData: newValuesForUser,
+                                newBarGraphData: newValuesForAgency)
     
   }
   
@@ -145,6 +175,26 @@ class GraphAccordingToUserView: UIView {
   
   @objc private func filterButtonPressed() {
     
+    self.delegate?.flipCardToShowFilterOfGraphAccordingToUser()
+    
+  }
+  
+  //MARK: - CustomTextFieldWithTitleAndPickerForDashboardViewDelegate
+  
+  func userSelected(numberOfElementInArrayOfUsers: Int) {
+    
+    if arrayOfAgencyUsersModelData[numberOfElementInArrayOfUsers].id != nil {
+    
+      numberOfUserSelected = numberOfElementInArrayOfUsers
+      
+      let params: [String: AnyObject] = [
+        "id": arrayOfAgencyUsersModelData[numberOfElementInArrayOfUsers].id,
+        "auth_token": UserSession.session.auth_token
+      ]
+      
+      self.delegate?.getEvaluationsAveragePerMonth(params)
+      
+    }
     
     
   }

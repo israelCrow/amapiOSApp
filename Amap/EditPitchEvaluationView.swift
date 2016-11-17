@@ -868,9 +868,16 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     
     //    let howManyRoundsResult = (UtilityManager.sharedInstance.isValidText(howMany.mainTextField.text!) == true ? howMany.mainTextField.text! : "")
     
-    let howManyRounds = (UtilityManager.sharedInstance.isValidText(howMany.mainTextField.text!) == true ? howMany.mainTextField.text! : "1r")
-    let howManyRoundsWithoutSpaces = howManyRounds.stringByReplacingOccurrencesOfString(" ", withString: "")
-    let howManyRoundsResult = howManyRoundsWithoutSpaces.substringWithRange(howManyRoundsWithoutSpaces.startIndex..<howManyRoundsWithoutSpaces.startIndex.advancedBy(2))
+    let howManyRounds = (UtilityManager.sharedInstance.isValidText(howMany.mainTextField.text!) == true ? howMany.mainTextField.text! : "")
+    
+    var howManyRoundsResult = "no"
+    
+    if howManyRounds != "" {
+      
+      let howManyRoundsWithoutSpaces = howManyRounds.stringByReplacingOccurrencesOfString(" ", withString: "")
+      howManyRoundsResult = howManyRoundsWithoutSpaces.substringWithRange(howManyRoundsWithoutSpaces.startIndex..<howManyRoundsWithoutSpaces.startIndex.advancedBy(2))
+      
+    }
     
     let howManyWeeksRuling = (UtilityManager.sharedInstance.isValidText(howManyDaysTheyGiveTheRuling.mainTextField.text!) == true ? howManyDaysTheyGiveTheRuling.mainTextField.text! : "2s")
     let howManyRulingWeeksWithoutSpaces = howManyWeeksRuling.stringByReplacingOccurrencesOfString(" ", withString: "")

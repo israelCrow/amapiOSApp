@@ -12,15 +12,19 @@ class GeneralPerformanceCardView: UIView {
   
   private var mainScrollView: UIScrollView! = nil
   private var selectorOfInformationView: CustomTextFieldWithTitleAndPickerView! = nil
-  private var optionsForSelector: [String]! = nil
+  private var optionsForSelector = [String]()
   private var circleGraph: CircleGraphView! = nil
   private var recommendationsView: RecommendationsDashboardsView! = nil
+  
+  private var arrayOfAgencyUsersModelData = [AgencyUserModelData]()
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override init(frame: CGRect) {
+  init(frame: CGRect, newArrayOfUsers: [AgencyUserModelData]) {
+    
+    arrayOfAgencyUsersModelData = newArrayOfUsers
     
     super.init(frame: frame)
     
@@ -31,7 +35,21 @@ class GeneralPerformanceCardView: UIView {
   
   private func initValues() {
     
-    optionsForSelector = ["Performance General", "Usuario 1", "Usuario 2"]
+    for user in arrayOfAgencyUsersModelData {
+      
+      if user.firstName != nil && user.firstName != "" {
+        
+        optionsForSelector.append(user.firstName)
+        
+      } else {
+        
+        optionsForSelector.append("unknown user")
+        
+      }
+      
+    }
+    
+//    optionsForSelector = ["Performance General", "Usuario 1", "Usuario 2"]
     
   }
   
