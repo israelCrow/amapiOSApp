@@ -47,6 +47,16 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     self.editNavigationBar()
     self.initInterface()
     
+    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial)
+    
+    if notToShowTutorial == false {
+      
+      let tutorialProfile = ProfileScreenTutorialView.init(frame: CGRect.init())
+      let rootViewController = UtilityManager.sharedInstance.currentViewController()
+      rootViewController.view.addSubview(tutorialProfile)
+      
+    }
+    
   }
   
   private func editNavigationBar() {

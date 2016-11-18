@@ -124,9 +124,14 @@ class GraphOfAgencyVSIndustryView: UIView {
                                     height: 260.0 * UtilityManager.sharedInstance.conversionHeight)
     
     var stringName = AgencyModel.Data.name
-    let index = stringName.startIndex.advancedBy(11)
-    stringName = stringName.substringToIndex(index)
-    stringName = stringName + "..."
+    
+    if stringName.characters.count > 13 {
+    
+      let index = stringName.startIndex.advancedBy(11)
+      stringName = stringName.substringToIndex(index)
+      stringName = stringName + "..."
+    
+    }
     
     genericGraph = GenericDashboardGraphic.init(frame: frameForGraph,
                                                 newDataForLineChart: arrayOfPitchesAverageByAgency,

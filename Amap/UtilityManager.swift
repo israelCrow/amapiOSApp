@@ -16,6 +16,7 @@ class UtilityManager: NSObject {
   let apiToken = "Token 40e97aa81c2be2de4b99f1c243bec9c4"
   let kLastValidUserEmail = "kLastValidUserEmail"
   let kLastValidUserPassword =  "kLastValidUserPassword"
+  let kNotToShowTutorial = "kNotToShowTutorial"
   
   static let baseScreen = CGSize.init(width: 375.0, height: 667.0)
   static let screenSize = CGSize.init(width: UIScreen.mainScreen().bounds.size.width, height: UIScreen.mainScreen().bounds.size.height)
@@ -64,6 +65,7 @@ class UtilityManager: NSObject {
   var loaderImageView: UIImageView! = nil
   private var requestToLoader = 0
   var loadingView: UIView! = nil
+  var mainTabBarController: UITabBarController! = nil
   
   func getFrontViewController() -> UIViewController? {
     

@@ -71,6 +71,16 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     self.requestForAllPitchesAndTheirEvaluations()
     
+    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial)
+    
+    if notToShowTutorial == false {
+      
+      let tutorialPitches = PitchesTutorialView.init(frame: CGRect.init())
+      let rootViewController = UtilityManager.sharedInstance.currentViewController()
+      rootViewController.view.addSubview(tutorialPitches)
+      
+    }
+    
   }
   
   private func changeNavigationBarTitle() {

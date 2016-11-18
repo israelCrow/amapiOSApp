@@ -22,7 +22,6 @@ class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccording
   private var mainScrollView: UIScrollView! = nil
   private var gralPerformanceCardView: GeneralPerformanceCardView! = nil
   
-  //JUST FOR TEST
   private var firstCard: FlipCardView! = nil
   private var thirdCard: FlipCardView! = nil
   
@@ -58,6 +57,16 @@ class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccording
     self.createMainScrollView()
     
     self.getInfoFromServer()
+    
+    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial)
+    
+    if notToShowTutorial == false {
+      
+      let tutorialFirstScreenDashboard = DashboardFirstScreenTutorialView.init(frame: CGRect.init())
+      let rootViewController = UtilityManager.sharedInstance.currentViewController()
+      rootViewController.view.addSubview(tutorialFirstScreenDashboard)
+      
+    }
     
   }
   
