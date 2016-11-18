@@ -229,7 +229,7 @@ class CustomTextFieldWithTitleAndPickerForDashboardView: UIView, UIPickerViewDel
     let frameForTextField = CGRect.init(x: newPositionX,
                                         y: newPositionY,
                                         width: newWidth,
-                                        height: 44.0 * UtilityManager.sharedInstance.conversionHeight)
+                                        height: 50.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainTextField = UITextField.init(frame: frameForTextField)
     

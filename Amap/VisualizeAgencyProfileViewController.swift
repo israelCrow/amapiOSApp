@@ -47,7 +47,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     self.editNavigationBar()
     self.initInterface()
     
-    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial)
+    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial + UserSession.session.email)
     
     if notToShowTutorial == false {
       

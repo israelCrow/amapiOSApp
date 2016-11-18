@@ -27,6 +27,8 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
         
         self.view.addSubview(self.createGradientView())
     }
+  
+  
     
     private func addObserverToKeyboardNotification() {
         

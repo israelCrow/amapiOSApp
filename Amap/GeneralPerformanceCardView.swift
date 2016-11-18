@@ -94,6 +94,13 @@ class GeneralPerformanceCardView: UIView {
       nameOfImage: "dropdown",
       newOptionsOfPicker: optionsForSelector)
     
+    let newFrameForSelector = CGRect.init(x: selectorOfInformationView.mainTextField.frame.origin.x,
+                                          y: selectorOfInformationView.mainTextField.frame.origin.y,
+      width: selectorOfInformationView.mainTextField.frame.size.width,
+      height: selectorOfInformationView.mainTextField.frame.size.height + (6.0 * UtilityManager.sharedInstance.conversionHeight))
+    
+    selectorOfInformationView.mainTextField.frame = newFrameForSelector
+    
     selectorOfInformationView.tag = 1
 //    selectorOfInformationView.mainTextField.addTarget(self,
 //                                              action: #selector(howManyDaysToShowEdited),

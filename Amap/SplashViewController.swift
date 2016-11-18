@@ -168,7 +168,7 @@ class SplashViewController: UIViewController {
     
     mainTabBarController.viewControllers = arrayOfViewControllers
     
-    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial)
+    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial + UserSession.session.email)
     
     if notToShowTutorial == false {
       

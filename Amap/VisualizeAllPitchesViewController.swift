@@ -45,6 +45,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   private var isComingFromAddResultsController: Bool = false
   private var isComingFromEditPitchEvaluationController: Bool = false
   
+  private var indexOfArchivedButton: Int! = nil
+  
   private var paramsForFilterPitchEvaluations: [String: AnyObject] = ["auth_token": UserSession.session.auth_token]
   
   var delegateForShowAndHideTabBar: VisualizeAllPitchesViewControllerShowAndHideDelegate?
@@ -71,7 +73,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     self.requestForAllPitchesAndTheirEvaluations()
     
-    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial)
+    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial + UserSession.session.email)
     
     if notToShowTutorial == false {
       
@@ -186,7 +188,13 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   private func showArchiveButton() {
     
+    indexOfArchivedButton = self.view.subviews.indexOf(self.archivedButton)
+    
+    self.view.bringSubviewToFront(self.archivedButton)
+    
     if archivedButton != nil {
+      
+      self.archivedButton.userInteractionEnabled = true
       
       UIView.animateWithDuration(0.25) {
         
@@ -199,6 +207,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   }
   
   private func hideArchiveButton() {
+    
+    self.view.insertSubview(self.archivedButton, atIndex: indexOfArchivedButton)
     
     if archivedButton != nil {
       
@@ -605,6 +615,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
       
+      self.hideArchiveButton()
+      self.hideArchiveLabel()
+      
       UIView.animateWithDuration(0.35,
                                  animations: {
                                   
@@ -613,14 +626,14 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         }, completion: { (finished) in
           if finished == true {
             
-            self.hideArchiveButton()
-            self.hideArchiveLabel()
             self.enableSearchAndFilterButtons()
             self.mainCarousel.scrollEnabled = true
             self.mainCarousel.userInteractionEnabled = true
             self.navigationItem.rightBarButtonItem?.enabled = true
             self.addPitchButton.userInteractionEnabled = true
             self.isShowingAMessageCard = false
+            
+            self.frontCard.isCardDown = false
             
           }
       })
@@ -816,6 +829,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   func upSwipeDetectedInPitchCard() {
     
+    self.hideArchiveButton()
+    self.hideArchiveLabel()
+    
     UIView.animateWithDuration(0.35,
                                animations: {
                                 
@@ -824,8 +840,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       }, completion: { (finished) in
         if finished == true {
           
-          self.hideArchiveButton()
-          self.hideArchiveLabel()
+//          self.hideArchiveButton()
+//          self.hideArchiveLabel()
           self.enableSearchAndFilterButtons()
           self.mainCarousel.scrollEnabled = true
           self.mainCarousel.userInteractionEnabled = true
@@ -1271,6 +1287,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     if possibleFrontCard != nil && possibleFrontCard as? PitchCardView != nil{
       
       frontCard = possibleFrontCard! as! PitchCardView
+      frontCard.isCardDown = false
       frontCard.animateGraph()
       
       UIView.animateWithDuration(0.35,
@@ -1556,6 +1573,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     let alertController = UIAlertController(title: "Archivar Evaluación", message: "¿Deseas archivar la evaluación?", preferredStyle: UIAlertControllerStyle.Alert)
     
     let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
       
     }
     
