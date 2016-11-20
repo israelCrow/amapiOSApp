@@ -47,7 +47,15 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   private var indexOfArchivedButton: Int! = nil
   
-  private var paramsForFilterPitchEvaluations: [String: AnyObject] = ["auth_token": UserSession.session.auth_token]
+  private var paramsForFilterPitchEvaluations: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
+                                                                      "happitch": 1,
+                                                                      "happy": 1,
+                                                                      "ok": 1,
+                                                                      "unhappy": 1
+//                                                                      "cancelled": 0
+//                                                                      "declined": 0,
+//                                                                      "archived": 0
+                                                                      ]
   
   var delegateForShowAndHideTabBar: VisualizeAllPitchesViewControllerShowAndHideDelegate?
   
@@ -1179,7 +1187,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
                                           width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                                           height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
         
-        let filterView = FilterPitchCardView.init(frame: frameForNewView)
+        let filterView = FilterPitchCardView.init(frame: frameForNewView, newOptionsSelected: paramsForFilterPitchEvaluations)
         filterView.delegate = self
         return filterView
      

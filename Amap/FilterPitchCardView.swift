@@ -28,6 +28,7 @@ class FilterPitchCardView: UIView {
   private var declinedPitchCriterion: CriterionView! = nil
   private var canceledPitchCriterion: CriterionView! = nil
   
+  private var optionsSelected: [String: AnyObject]! = nil
   private var finalParams = [String: AnyObject]()
   
   var delegate: FilterPitchCardViewDelegate?
@@ -36,7 +37,9 @@ class FilterPitchCardView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override init(frame: CGRect) {
+  init(frame: CGRect, newOptionsSelected: [String: AnyObject]) {
+    
+    optionsSelected = newOptionsSelected
     
     super.init(frame: frame)
     
@@ -57,7 +60,7 @@ class FilterPitchCardView: UIView {
     self.createHighRiskCriterion()
     self.createArchivedPitch()
     self.createDeclinedPitch()
-    self.createCanceledPitch()
+    self.createCancelledPitch()
     
   }
   
@@ -139,9 +142,18 @@ class FilterPitchCardView: UIView {
                                     width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    var valueOfSwitch = false
+    
+    if optionsSelected["happitch"] as? Bool != nil {
+      
+      valueOfSwitch = optionsSelected["happitch"] as! Bool
+      
+    }
+    
+    
     happitchCriterion = CriterionWithImageView.init(frame: frameForCriterion,
                                                 nameImage: "color_fill1",
-                                            valueOfSwitch: false)
+                                            valueOfSwitch: valueOfSwitch)
     
     mainScrollView.addSubview(happitchCriterion)
     
@@ -154,9 +166,17 @@ class FilterPitchCardView: UIView {
                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    var valueOfSwitch = false
+    
+    if optionsSelected["happy"] as? Bool != nil {
+      
+      valueOfSwitch = optionsSelected["happy"] as! Bool
+      
+    }
+    
     silverCriterion = CriterionWithImageView.init(frame: frameForCriterion,
                                                     nameImage: "color_fill3",
-                                                    valueOfSwitch: false)
+                                                    valueOfSwitch: valueOfSwitch)
     mainScrollView.addSubview(silverCriterion)
     
   }
@@ -168,9 +188,17 @@ class FilterPitchCardView: UIView {
                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    var valueOfSwitch = false
+    
+    if optionsSelected["ok"] as? Bool != nil {
+      
+      valueOfSwitch = optionsSelected["ok"] as! Bool
+      
+    }
+    
     mediumCriterion = CriterionWithImageView.init(frame: frameForCriterion,
                                                   nameImage: "color_fill5",
-                                                  valueOfSwitch: false)
+                                                  valueOfSwitch: valueOfSwitch)
     mainScrollView.addSubview(mediumCriterion)
     
   }
@@ -182,9 +210,17 @@ class FilterPitchCardView: UIView {
                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    var valueOfSwitch = false
+    
+    if optionsSelected["unhappy"] as? Bool != nil {
+      
+      valueOfSwitch = optionsSelected["unhappy"] as! Bool
+      
+    }
+    
     highRiskCriterion = CriterionWithImageView.init(frame: frameForCriterion,
                                                   nameImage: "color_fill7",
-                                                  valueOfSwitch: false)
+                                                  valueOfSwitch: valueOfSwitch)
     mainScrollView.addSubview(highRiskCriterion)
     
   }
@@ -196,9 +232,17 @@ class FilterPitchCardView: UIView {
                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    var valueOfSwitch = false
+    
+    if optionsSelected["archived"] as? Bool != nil {
+      
+      valueOfSwitch = optionsSelected["archived"] as! Bool
+      
+    }
+    
     archivedPitchCriterion = CriterionView.init(frame: frameForCriterion,
                                    textLabel: VisualizePitchesConstants.FilterPitchCardView.archivedCriterionText,
-                               valueOfSwitch: false)
+                               valueOfSwitch: valueOfSwitch)
     archivedPitchCriterion.adaptSize()
     mainScrollView.addSubview(archivedPitchCriterion)
     
@@ -211,24 +255,40 @@ class FilterPitchCardView: UIView {
                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    var valueOfSwitch = false
+    
+    if optionsSelected["declined"] as? Bool != nil {
+      
+      valueOfSwitch = optionsSelected["declined"] as! Bool
+      
+    }
+    
     declinedPitchCriterion = CriterionView.init(frame: frameForCriterion,
                                        textLabel: VisualizePitchesConstants.FilterPitchCardView.declinedCriterionText,
-                                       valueOfSwitch: false)
+                                       valueOfSwitch: valueOfSwitch)
     declinedPitchCriterion.adaptSize()
     mainScrollView.addSubview(declinedPitchCriterion)
     
   }
   
-  private func createCanceledPitch() {
+  private func createCancelledPitch() {
     
     let frameForCriterion = CGRect.init(x: 0.0,
                                         y: 370.0 * UtilityManager.sharedInstance.conversionHeight,
                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    var valueOfSwitch = false
+    
+    if optionsSelected["cancelled"] as? Bool != nil {
+      
+      valueOfSwitch = optionsSelected["cancelled"] as! Bool
+      
+    }
+    
     canceledPitchCriterion = CriterionView.init(frame: frameForCriterion,
                                        textLabel: VisualizePitchesConstants.FilterPitchCardView.canceledCriterionText,
-                                       valueOfSwitch: false)
+                                       valueOfSwitch: valueOfSwitch)
     canceledPitchCriterion.adaptSize()
     mainScrollView.addSubview(canceledPitchCriterion)
     
@@ -240,43 +300,43 @@ class FilterPitchCardView: UIView {
     
     if getHappitchCriterionValue() == true {
       
-      finalParams["happitch"] = true
+      finalParams["happitch"] = 1
       
     }
     
     if getSilverCriterionValue() == true {
       
-      finalParams["happy"] = true
+      finalParams["happy"] = 1
       
     }
     
     if getMediumCriterionValue() == true {
       
-      finalParams["ok"] = true
+      finalParams["ok"] = 1
       
     }
     
     if getHighRiskCriterionValue() == true {
       
-      finalParams["unhappy"] = true
+      finalParams["unhappy"] = 1
       
     }
     
     if getArchivedPitchValue() == true {
       
-      finalParams["archived"] = true
+      finalParams["archived"] = 1
       
     }
     
     if getCanceledPitchValue() == true {
       
-      finalParams["cancelled"] = true
+      finalParams["cancelled"] = 1
       
     }
     
     if getDeclinedPitchValue() == true {
       
-      finalParams["declined"] = true
+      finalParams["declined"] = 1
       
     }
     
