@@ -13,6 +13,7 @@ protocol ProfileViewDelegate {
   func selectProfileImageFromLibrary()
   func saveChangesFromEditProfileView(parameters: [String:AnyObject], actionsToMakeAfterExecution: () -> Void)
   func asKForDeleteProfileImage()
+  func showMessageOfMandatoryInfo()
 }
 
 class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -741,7 +742,41 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     
   }
   
+  func isAgencyNameAndAgencyImageWithInfo() -> Bool {
+    
+    if agencyNameView.mainTextField.text != "" && profileImageView.image != nil {
+      
+      return true
+      
+    } else {
+      
+      return false
+      
+    }
+    
+  }
+  
   func saveChangesOfAgencyProfile(valuesSelectedFromParticipateInView: [String:Bool], actionsToMakeAfterExecution: () -> Void) {
+    
+//    let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+//    
+//    if savedPhotoAndSavedName == false {
+//      
+//      if agencyNameView.mainTextField.text != "" && profileImageView.image != nil {
+//        
+//        NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+//        
+//      } else {
+//        
+//        self.delegate?.showMessageOfMandatoryInfo()
+//        
+//        return
+//        
+//      }
+//      
+//    }
+//    
+
     
     let golden_pitch: String = (valuesSelectedFromParticipateInView["golden_pitch"] == true ? "1" : "0")
     let silver_pitch: String = (valuesSelectedFromParticipateInView["silver_pitch"] == true ? "1" : "0")

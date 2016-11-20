@@ -17,6 +17,7 @@ class UtilityManager: NSObject {
   let kLastValidUserEmail = "kLastValidUserEmail"
   let kLastValidUserPassword =  "kLastValidUserPassword"
   let kNotToShowTutorial = "kNotToShowTutorial"
+  let kSavedPhotoAndSavedName = "kSavedPhotoAndSavedName"
   
   static let baseScreen = CGSize.init(width: 375.0, height: 667.0)
   static let screenSize = CGSize.init(width: UIScreen.mainScreen().bounds.size.width, height: UIScreen.mainScreen().bounds.size.height)

@@ -153,6 +153,18 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   override func viewDidLoad() {
     
+    let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+    
+    if savedPhotoAndSavedName == false {
+      
+      let welcomeScreen = WelcomeScreenTutorialView.init(frame: CGRect.init())
+      let rootViewController = UtilityManager.sharedInstance.currentViewController()
+      rootViewController.view.addSubview(welcomeScreen)
+
+    }
+    
+    
+    
     self.addGestureToDismissKeyboard()
     self.createAndAddFlipCard()
     self.createSaveChangesButton()
@@ -698,13 +710,31 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   @objc private func requestToEveryScreenToSave(actionsToMakeAfterExecuting: () -> Void) {
     //this for every screen
     
-    self.criteriaView.saveCriterionsSelected()
+    let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
     
-    self.exclusiveView.requestToSaveNewBrands()
-    
-    //Profile Data and Participe In
-    let valuesFromParticipateView = self.participateView.getTheValuesSelected()
-    self.profileView.saveChangesOfAgencyProfile(valuesFromParticipateView, actionsToMakeAfterExecution: actionsToMakeAfterExecuting)
+    if savedPhotoAndSavedName == false && profileView.isAgencyNameAndAgencyImageWithInfo() == false {
+      
+      self.showMessageOfMandatoryInfo()
+      
+    } else {
+      
+      self.criteriaView.saveCriterionsSelected()
+      
+      self.exclusiveView.requestToSaveNewBrands()
+      
+      //Profile Data and Participe In
+      let valuesFromParticipateView = self.participateView.getTheValuesSelected()
+      
+      self.profileView.saveChangesOfAgencyProfile(valuesFromParticipateView, actionsToMakeAfterExecution: { 
+        actionsToMakeAfterExecuting()
+        
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+        
+      })
+      
+//      self.profileView.saveChangesOfAgencyProfile(valuesFromParticipateView, actionsToMakeAfterExecution: actionsToMakeAfterExecuting)
+      
+    }
     
 //    //Skills Data
 //    let paramsFromSkills = self.skillsView.getParamsToSaveDataOfSkills()
@@ -760,21 +790,59 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         let alertController = UIAlertController(title: "Cambios detectados", message: "¿Deseas guardar los cambios realizados?", preferredStyle: UIAlertControllerStyle.Alert)
     
         let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
-      
+          
+          if NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email) == false {
+            
+            let alertController = UIAlertController(title: "AVISO",
+                                                    message: "Antes de usar la aplicación salva una foto de perfil y un nombre de agencia :)",
+                                                    preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+              
+              
+              
+            }
+            
+            alertController.addAction(okAction)
+            self.presentViewController(alertController, animated: true, completion: nil)
+            
+            return
+            
+          }
+          
           self.requestToShowTabBar()
           self.navigationController?.popViewControllerAnimated(true)
           
         }
     
         let okAction = UIAlertAction(title: "Sí", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+        
+          if self.profileView.isAgencyNameAndAgencyImageWithInfo() == false {
+            
+            let alertController = UIAlertController(title: "AVISO",
+                                                    message: "Antes de usar la aplicación salva una foto de perfil y un nombre de agencia :)",
+                                                    preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+              
+            }
+            
+            alertController.addAction(okAction)
+            self.presentViewController(alertController, animated: true, completion: nil)
+            
+            return
+            
+          } else {
           
-          self.requestToEveryScreenToSave(){
+            self.requestToEveryScreenToSave(){
             
-            self.requestToShowTabBar()
-            self.navigationController?.popViewControllerAnimated(true)
+              self.requestToShowTabBar()
+              self.navigationController?.popViewControllerAnimated(true)
             
+            }
+ 
           }
-      
+            
         }
       
         alertController.addAction(cancelAction)
@@ -782,6 +850,33 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         self.presentViewController(alertController, animated: true, completion: nil)
       
     }else{
+      
+      if self.profileView.isAgencyNameAndAgencyImageWithInfo() == true {
+        
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+        
+      } else {
+        
+        if NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email) == false {
+          
+          let alertController = UIAlertController(title: "AVISO",
+                                                  message: "Antes de usar la aplicación salva una foto de perfil y un nombre de agencia :)",
+                                                  preferredStyle: UIAlertControllerStyle.Alert)
+          
+          let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+            
+            
+            
+          }
+          
+          alertController.addAction(okAction)
+          self.presentViewController(alertController, animated: true, completion: nil)
+          
+          return
+          
+        }
+        
+      }
       
       self.requestToShowTabBar()
       self.navigationController?.popViewControllerAnimated(true)
@@ -1136,6 +1231,23 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   }
   
   //MARK: - ProfileViewDelegate
+  
+  func showMessageOfMandatoryInfo() {
+    
+    let alertController = UIAlertController(title: "AVISO",
+                                            message: "Antes de usar la aplicación salva una foto de perfil y un nombre de agencia :)",
+                                            preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+      
+      
+      
+    }
+    
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
   
   func selectProfileImageFromLibrary() {
     

@@ -49,7 +49,9 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial + UserSession.session.email)
     
-    if notToShowTutorial == false {
+      let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+    
+    if notToShowTutorial == false && savedPhotoAndSavedName == true {
       
       let tutorialProfile = ProfileScreenTutorialView.init(frame: CGRect.init())
       let rootViewController = UtilityManager.sharedInstance.currentViewController()
@@ -66,6 +68,19 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     self.changeBackButtonItem()
     self.changeNavigationBarTitle()
     self.changeRigthButtonItem()
+    
+    //Checar si va aquí o va en otro lugar
+    
+    let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+    
+    if savedPhotoAndSavedName == false {
+      
+      UIApplication.sharedApplication().sendAction((self.navigationItem.leftBarButtonItem?.action)!,
+                                                 to: self.navigationItem.leftBarButtonItem?.target,
+                                               from: nil,
+                                           forEvent: nil)
+      
+    }
     
   }
   
@@ -597,6 +612,18 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     UIView.setAnimationsEnabled(true)
     
+    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial + UserSession.session.email)
+    
+    let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+    
+    if notToShowTutorial == false && savedPhotoAndSavedName == true {
+      
+      let tutorialProfile = ProfileScreenTutorialView.init(frame: CGRect.init())
+      let rootViewController = UtilityManager.sharedInstance.currentViewController()
+      rootViewController.view.addSubview(tutorialProfile)
+      
+    }
+    
     if flipCard != nil {
       
 //      UtilityManager.sharedInstance.hideLoader()
@@ -608,6 +635,8 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
 //      self.hideLeftButtonOfMainScrollView()
       
     }
+    
+
     
   }
   

@@ -22,6 +22,7 @@ extension UIImageView {
     activity.startAnimating()
     
     let url = NSURL(string: urlString)
+    
     dispatch_async(dispatch_get_main_queue()) {
       let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap
       activity.stopAnimating()
