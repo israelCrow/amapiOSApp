@@ -15,7 +15,7 @@ protocol VisualizeMainCardsDashboardViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccordingToUserViewDelegate, FilterAccordingToUserAndAgencyViewDelegate, GraphOfAgencyVSIndustryViewDelegate {
+class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccordingToUserViewDelegate, FilterAccordingToUserAndAgencyViewDelegate, GraphOfAgencyVSIndustryViewDelegate, GeneralPerformanceCardViewDelegate {
   
   private let kNumberOfCards = 3
   
@@ -31,6 +31,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccording
   private var arrayOfUsers = [AgencyUserModelData]()
   private var arrayOfScoresByAgency = [PitchEvaluationAveragePerMonthModelData]()
   private var arrayOfScoresByIndustry = [PitchEvaluationAveragePerMonthModelData]()
+  private var numberOfPitchesByAgency = [String: Int]()
   
   private var firstFilterView: FilterAccordingToUserAndAgencyView! = nil
   private var secondFilterView: FilterAccordingToUserAndAgencyView! = nil
@@ -147,9 +148,17 @@ class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccording
         
         self.arrayOfScoresByIndustry = arrayOfScoresPerMonthOfIndustry
         
-        UtilityManager.sharedInstance.hideLoader()
-        
-         self.createCards()
+        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSumaryByAgency({ (numberOfPitchesByAgencyForDashboardSumary, arrayOfUsers) in
+          
+          self.numberOfPitchesByAgency = numberOfPitchesByAgencyForDashboardSumary
+          
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          self.createCards()
+          
+          
+        })
         
       })
       
@@ -238,7 +247,14 @@ class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccording
     mainScrollView.addSubview(firstCard)
     mainScrollView.addSubview(thirdCard)
     
-    gralPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForSecondCard, newArrayOfUsers: arrayOfUsers)
+    let agencyUser = AgencyUserModelData.init(newId: AgencyModel.Data.id,
+                                              newFirstName: AgencyModel.Data.name,
+                                              newLastName: "")
+    var finalUsersforGeneralPerformance = arrayOfUsers
+    finalUsersforGeneralPerformance.insert(agencyUser, atIndex: 0)
+    
+    gralPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForSecondCard, newArrayOfUsers: finalUsersforGeneralPerformance, newNumberOfPitchesByAgency: numberOfPitchesByAgency)
+    gralPerformanceCardView.delegate = self
     mainScrollView.addSubview(gralPerformanceCardView)
     
   }
@@ -322,6 +338,36 @@ class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccording
   func filterFromGraphOfAgencyVSIndustryPressed() {
 
     self.thirdCard.flip()
+    
+  }
+  
+  //MARK: - GeneralPerformanceCardViewDelegate
+  
+  func requestToGetValuesByUser(params: [String : AnyObject]) {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSummaryByUser(params) { (numberOfPitchesByAgencyForDashboardSumary) in
+      
+      self.gralPerformanceCardView.updateData(numberOfPitchesByAgencyForDashboardSumary)
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+    }
+    
+  }
+  
+  func requestToGetValuesFromAgency() {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSumaryByAgency { (numberOfPitchesByAgencyForDashboardSumary, arrayOfUsers) in
+      
+      self.gralPerformanceCardView.updateData(numberOfPitchesByAgencyForDashboardSumary)
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+    }
     
   }
   

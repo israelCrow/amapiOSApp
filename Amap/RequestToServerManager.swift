@@ -1978,14 +1978,14 @@ class RequestToServerManager: NSObject {
           actionsToMakeAfterGetingInfo(arrayOfScoresPerMonthOfAgency: arrayOfScoresModelData, arrayOfUsers: arrayOfUsersModelData)
           
         }else{
+          
+          UtilityManager.sharedInstance.hideLoader()
           print("ERROR DELETING CASE")
         }
         
     }
     
   }
-  
-  
 
   func requestToGetPitchEvaluationsAveragePerMonthByUser(params: [String: AnyObject],actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthByUser:[PitchEvaluationAveragePerMonthModelData]) -> Void) {
     
@@ -2033,6 +2033,8 @@ class RequestToServerManager: NSObject {
           actionsToMakeAfterGetingInfo(arrayOfScoresPerMonthByUser: arrayOfScoresModelData)
           
         }else{
+          
+          UtilityManager.sharedInstance.hideLoader()
           print("ERROR GETTING AVERAGE BY USER")
         }
         
@@ -2040,7 +2042,6 @@ class RequestToServerManager: NSObject {
     
   }
 
-  
   func requestToGetPitchEvaluationsAveragePerMonthByIndustry(actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthOfIndustry:[PitchEvaluationAveragePerMonthModelData]) -> Void) {
     
     let urlToRequest = "http://amap-dev.herokuapp.com/api/pitch_evaluations/average_per_month_industry"
@@ -2090,16 +2091,151 @@ class RequestToServerManager: NSObject {
             
           }
           
-          
           actionsToMakeAfterGetingInfo(arrayOfScoresPerMonthOfIndustry: arrayOfScoresModelData)
           
         }else{
+          
+          UtilityManager.sharedInstance.hideLoader()
           print("ERROR DELETING CASE")
         }
         
     }
     
   }
+  
+  
+  
+  
+  
+  
+  func requestToGetPitchEvaluationsDashboardSumaryByAgency(actionsToMakeAfterGetingInfo: (numberOfPitchesByAgencyForDashboardSumary: [String: Int] , arrayOfUsers: [AgencyUserModelData]) -> Void) {
+    
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/pitch_evaluations/dashboard_summary_by_agency"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    //print(caseData)
+    
+    let params = ["id" : AgencyModel.Data.id,
+                  "auth_token" : UserSession.session.auth_token
+    ]
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<400)
+      .responseJSON{ response in
+        
+        //print(response)
+        
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          print(json)
+          
+          let numberOfHappitchesByAgency = (json["happitch"] as? Int != nil ? json["happitch"] as! Int : 0)
+          let numberOfHappiesByAgency = (json["happy"] as? Int != nil ? json["happy"] as! Int : 0)
+          let numberOfOksByAgency = (json["ok"] as? Int != nil ? json ["ok"] as! Int : 0)
+          let numberOfUnhappiesByAgency = (json["unhappy"] as? Int != nil ? json["unhappy"] as! Int : 0)
+          let numberOfLostPitchesByAgency = (json["lost"] as? Int != nil ? json["lost"] as! Int : 0)
+          let numberOfWonPitchesByAgency = (json["won"] as? Int != nil ? json["won"] as! Int : 0)
+          
+          let finalNumberOfPitchesByAgency = [
+            "happitch": numberOfHappitchesByAgency,
+            "happy":    numberOfHappiesByAgency,
+            "ok":       numberOfOksByAgency,
+            "unhappy":  numberOfUnhappiesByAgency,
+            "lost":     numberOfLostPitchesByAgency,
+            "won":      numberOfWonPitchesByAgency
+          ]
+          
+          let arrayOfUsers = json["users"] as? Array<[String: AnyObject]>
+          var arrayOfUsersModelData = [AgencyUserModelData]()
+          
+          if arrayOfUsers != nil {
+            
+            for user in arrayOfUsers! {
+              
+              let newId = (user["id"] as? Int != nil ? String(user["id"] as! Int) : "-1")
+              let newFirstName = (user["first_name"] as? String != nil ? user["first_name"] as! String : "")
+              let newLastName = (user["last_name"] as? String != nil ? user["last_name"] as! String : "")
+              
+              let newUser = AgencyUserModelData.init(newId: newId,
+                newFirstName: newFirstName,
+                newLastName: newLastName)
+              
+              arrayOfUsersModelData.append(newUser)
+              
+            }
+            
+          }
+          
+          actionsToMakeAfterGetingInfo(numberOfPitchesByAgencyForDashboardSumary: finalNumberOfPitchesByAgency, arrayOfUsers: arrayOfUsersModelData)
+          
+        }else{
+          
+          UtilityManager.sharedInstance.hideLoader()
+          print("ERROR DELETING CASE")
+        }
+        
+    }
+    
+  }
+  
+  func requestToGetPitchEvaluationsDashboardSummaryByUser(params: [String: AnyObject],actionsToMakeAfterGetingInfo: (numberOfPitchesByAgencyForDashboardSumary: [String: Int]) -> Void) {
+    
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/pitch_evaluations/dashboard_summary_by_user"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<400)
+      .responseJSON{ response in
+        
+        //print(response)
+        
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          let numberOfHappitchesByAgency = (json["happitch"] as? Int != nil ? json["happitch"] as! Int : 0)
+          let numberOfHappiesByAgency = (json["happy"] as? Int != nil ? json["happy"] as! Int : 0)
+          let numberOfOksByAgency = (json["ok"] as? Int != nil ? json ["ok"] as! Int : 0)
+          let numberOfUnhappiesByAgency = (json["unhappy"] as? Int != nil ? json["unhappy"] as! Int : 0)
+          let numberOfLostPitchesByAgency = (json["lost"] as? Int != nil ? json["lost"] as! Int : 0)
+          let numberOfWonPitchesByAgency = (json["won"] as? Int != nil ? json["won"] as! Int : 0)
+          
+          let finalNumberOfPitchesByAgency = [
+            "happitch": numberOfHappitchesByAgency,
+            "happy":    numberOfHappiesByAgency,
+            "ok":       numberOfOksByAgency,
+            "unhappy":  numberOfUnhappiesByAgency,
+            "lost":     numberOfLostPitchesByAgency,
+            "won":      numberOfWonPitchesByAgency
+          ]
+          
+          actionsToMakeAfterGetingInfo(numberOfPitchesByAgencyForDashboardSumary: finalNumberOfPitchesByAgency)
+          
+        }else{
+          
+          UtilityManager.sharedInstance.hideLoader()
+          print("ERROR GETTING SUMMARY BY USER")
+        }
+        
+    }
+    
+  }
+
+
 
   
   

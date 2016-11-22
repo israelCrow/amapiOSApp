@@ -76,7 +76,7 @@ class CircleGraphView: UIView {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "\(percentageOfRate * 100)%",
+      string: String(format: "%.2f", percentageOfRate) + "%",
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color

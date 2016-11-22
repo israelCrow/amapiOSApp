@@ -8,23 +8,35 @@
 
 import UIKit
 
-class GeneralPerformanceCardView: UIView {
+protocol GeneralPerformanceCardViewDelegate {
+  
+  func requestToGetValuesByUser(params: [String: AnyObject])
+  func requestToGetValuesFromAgency()
+  
+}
+
+class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDashboardViewDelegate {
   
   private var mainScrollView: UIScrollView! = nil
-  private var selectorOfInformationView: CustomTextFieldWithTitleAndPickerView! = nil
+  private var selectorOfInformationView: CustomTextFieldWithTitleAndPickerForDashboardView! = nil
   private var optionsForSelector = [String]()
+  private var facesView: FacesEvaluationsView! = nil
   private var circleGraph: CircleGraphView! = nil
   private var recommendationsView: RecommendationsDashboardsView! = nil
   
   private var arrayOfAgencyUsersModelData = [AgencyUserModelData]()
+  private var numberOfPitchesByAgency = [String: Int]()
+  
+  var delegate: GeneralPerformanceCardViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(frame: CGRect, newArrayOfUsers: [AgencyUserModelData]) {
+  init(frame: CGRect, newArrayOfUsers: [AgencyUserModelData], newNumberOfPitchesByAgency: [String: Int]) {
     
     arrayOfAgencyUsersModelData = newArrayOfUsers
+    numberOfPitchesByAgency = newNumberOfPitchesByAgency
     
     super.init(frame: frame)
     
@@ -89,7 +101,7 @@ class GeneralPerformanceCardView: UIView {
                                width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                               height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    selectorOfInformationView = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
+    selectorOfInformationView = CustomTextFieldWithTitleAndPickerForDashboardView.init(frame: frameForView,
       textLabel: VisualizeDashboardConstants.GeneralPerformanceCardView.selectorLabelText,
       nameOfImage: "dropdown",
       newOptionsOfPicker: optionsForSelector)
@@ -99,6 +111,7 @@ class GeneralPerformanceCardView: UIView {
       width: selectorOfInformationView.mainTextField.frame.size.width,
       height: selectorOfInformationView.mainTextField.frame.size.height + (6.0 * UtilityManager.sharedInstance.conversionHeight))
     
+    selectorOfInformationView.delegate = self
     selectorOfInformationView.mainTextField.frame = newFrameForSelector
     
     selectorOfInformationView.tag = 1
@@ -111,11 +124,24 @@ class GeneralPerformanceCardView: UIView {
   
   private func createFaces() {
     
-    let facesToShow = [
-      VisualizeDashboardConstants.Faces.kGold:   7,
-      VisualizeDashboardConstants.Faces.kSilver: 5,
-      VisualizeDashboardConstants.Faces.kMedium: 3,
-      VisualizeDashboardConstants.Faces.kBad:    1
+    if facesView != nil {
+      
+      facesView.removeFromSuperview()
+      facesView = nil
+      
+    }
+    
+    let numberOfHappitchesByAgency = (numberOfPitchesByAgency["happitch"] != nil ? numberOfPitchesByAgency["happitch"] : 0)
+    let numberOfHappiesByAgency = (numberOfPitchesByAgency["happy"] != nil ? numberOfPitchesByAgency["happy"] : 0)
+    let numberOfOksByAgency = (numberOfPitchesByAgency["ok"] != nil ? numberOfPitchesByAgency["ok"] : 0)
+    let numberOfUnhappiesByAgency = (numberOfPitchesByAgency["unhappy"] != nil ? numberOfPitchesByAgency["unhappy"] : 0)
+    
+    
+    let facesToShow: [String: Int] = [
+      VisualizeDashboardConstants.Faces.kGold:   numberOfHappitchesByAgency!,
+      VisualizeDashboardConstants.Faces.kSilver: numberOfHappiesByAgency!,
+      VisualizeDashboardConstants.Faces.kMedium: numberOfOksByAgency!,
+      VisualizeDashboardConstants.Faces.kBad:    numberOfUnhappiesByAgency!
     ]
     
     let frameForFacesView = CGRect.init(x: 0.0,
@@ -123,7 +149,7 @@ class GeneralPerformanceCardView: UIView {
                                     width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let facesView = FacesEvaluationsView.init(frame: frameForFacesView,
+    facesView = FacesEvaluationsView.init(frame: frameForFacesView,
                                         facesToShow: facesToShow)
     
     mainScrollView.addSubview(facesView)
@@ -132,14 +158,35 @@ class GeneralPerformanceCardView: UIView {
   
   private func createCircleGraph() {
     
+    if circleGraph != nil {
+      
+      circleGraph.removeFromSuperview()
+      circleGraph = nil
+      
+    }
+    
+    let numberOfLostPitchesByAgency = (numberOfPitchesByAgency["lost"] != nil ? numberOfPitchesByAgency["lost"] : 0)
+    let numberOfWonPitchesByAgency = (numberOfPitchesByAgency["won"] != nil ? numberOfPitchesByAgency["won"] : 0)
+    
+    let finalPercentage: CGFloat = CGFloat(CGFloat(numberOfWonPitchesByAgency!) * 100.0) / CGFloat(numberOfLostPitchesByAgency! + numberOfWonPitchesByAgency!)
+    
     let frameForCircleGraph = CGRect.init(x: 0.0,
                                           y: 211.0 * UtilityManager.sharedInstance.conversionHeight,
                                       width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 256.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    circleGraph = CircleGraphView.init(frame: frameForCircleGraph, toPercentage: 0.68)
+    circleGraph = CircleGraphView.init(frame: frameForCircleGraph, toPercentage: finalPercentage)
     mainScrollView.addSubview(circleGraph)
     circleGraph.animateCircle(0.5)
+    
+  }
+  
+  func updateData(newNumberOfPitchesByAgency: [String: Int]) {
+    
+    numberOfPitchesByAgency = newNumberOfPitchesByAgency
+    
+    self.createFaces()
+    self.createCircleGraph()
     
   }
   
@@ -160,6 +207,25 @@ class GeneralPerformanceCardView: UIView {
     
     mainScrollView.addSubview(recommendationsView)
   
+  }
+  
+  //MARK: - CustomTextFieldWithTitleAndPickerForDashboardViewDelegate
+  
+  func userSelected(numberOfElementInArrayOfUsers: Int) {
+    
+    if numberOfElementInArrayOfUsers == 0 {
+      
+      self.delegate?.requestToGetValuesFromAgency()
+      
+    } else {
+      
+      let params: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
+                                         "id": arrayOfAgencyUsersModelData[numberOfElementInArrayOfUsers - 1].id]
+      
+      self.delegate?.requestToGetValuesByUser(params)
+      
+    }
+    
   }
   
 }
