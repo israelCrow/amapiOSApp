@@ -378,27 +378,27 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     switch actualPage {
     case 0:
-      pageToShow = 5
+      pageToShow = 0
       break
     
     case 1:
-      pageToShow = 0
-      break
-      
-    case 2:
       pageToShow = 1
       break
       
-    case 3:
+    case 2:
       pageToShow = 2
       break
       
-    case 4:
+    case 3:
       pageToShow = 3
       break
       
-    case 5:
+    case 4:
       pageToShow = 4
+      break
+      
+    case 5:
+      pageToShow = 5
       break
 
 //    case 6:

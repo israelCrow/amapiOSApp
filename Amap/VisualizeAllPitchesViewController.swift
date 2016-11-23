@@ -556,13 +556,14 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       if self.arrayOfPitchesByUser.count == 0 {
         
-        UIView.animateWithDuration(0.2){
-          
-          self.mainCarousel.alpha = 0.0
-          
-        }
         
         if self.mainCarousel != nil {
+          
+          UIView.animateWithDuration(0.2){
+            
+            self.mainCarousel.alpha = 0.0
+            
+          }
           
           self.mainCarousel.reloadData()
           
@@ -2066,13 +2067,14 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
           
           if self.arrayOfPitchesByUser.count == 0 {
             
-            UIView.animateWithDuration(0.125){
-              
-              self.mainCarousel.alpha = 0.0
-              
-            }
             
             if self.mainCarousel != nil {
+              
+              UIView.animateWithDuration(0.125){
+                
+                self.mainCarousel.alpha = 0.0
+                
+              }
               
               self.mainCarousel.reloadData()
               

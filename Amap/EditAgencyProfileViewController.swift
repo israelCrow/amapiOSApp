@@ -211,36 +211,38 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     //------------------------------------------SCREENS
     
-    criteriaView = CriteriaAgencyProfileEditView.init(frame: frameForCards)
+    profileView = ProfileView.init(frame: frameForCards)
+    profileView.delegate = self
+    
+    criteriaView = CriteriaAgencyProfileEditView.init(frame: CGRect.init(x: frameForCards.size.width,
+      y: 0.0 ,
+      width: frameForCards.size.width,
+      height: frameForCards.size.height))
     criteriaView.getAllCriterionsFromServer()
     
-    exclusiveView = ExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width,
+    exclusiveView = ExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width * 2.0,
       y: 0.0 ,
       width: frameForCards.size.width,
       height: frameForCards.size.height))
     
-    participateView = ParticipateInView.init(frame: CGRect.init(x: frameForCards.size.width * 2.0,
+    participateView = ParticipateInView.init(frame: CGRect.init(x: frameForCards.size.width * 3.0,
       y: 0.0 ,
       width: frameForCards.size.width,
       height: frameForCards.size.height))
     
-    casesView = CasesView.init(frame: CGRect.init(x: frameForCards.size.width * 3.0,
+    casesView = CasesView.init(frame: CGRect.init(x: frameForCards.size.width * 4.0,
       y: 0.0,
       width:frameForCards.size.width,
       height:frameForCards.size.height))
     casesView.delegate = self
     
-    skillsView = SkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 4.0,
+    skillsView = SkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 5.0,
       y: 0.0,
       width: frameForCards.size.width,
       height: frameForCards.size.height))
     skillsView.getAllSkillsFromServer()
     
-    profileView = ProfileView.init(frame: CGRect.init(x: frameForCards.size.width * 5.0,
-      y: 0.0,
-      width: frameForCards.size.width,
-      height: frameForCards.size.height))
-    profileView.delegate = self
+
     
     scrollViewFrontFlipCard.addSubview(criteriaView)
     scrollViewFrontFlipCard.addSubview(participateView)
@@ -389,7 +391,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         
       }
       
-      if actualPage == 3 {
+      if actualPage == 4 {
         
         self.hideSaveChangesButton()
         
@@ -437,7 +439,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         
       }
       
-      if actualPage == 3 {
+      if actualPage == 4 {
         
         self.hideSaveChangesButton()
         
@@ -531,27 +533,27 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     switch actualPage {
     case 0:
-      pageToShow = 1
+      pageToShow = 0
       break
       
     case 1:
-      pageToShow = 2
+      pageToShow = 1
       break
       
     case 2:
-      pageToShow = 3
+      pageToShow = 2
       break
       
     case 3:
-      pageToShow = 4
+      pageToShow = 3
       break
       
     case 4:
-      pageToShow = 5
+      pageToShow = 4
       break
       
     case 5:
-      pageToShow = 0
+      pageToShow = 5
       break
       
     default:
@@ -1202,6 +1204,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   }
   
   func cancelCreateCase() {
+  
     flipCard.flip()
     let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
     let heightOfCard = self.view.frame.size.height - (136.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -1214,6 +1217,13 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     flipCard.setSecondView(blankView)
     self.createButtonsForFlipCard()
     self.createSaveChangesButton()
+    
+    if actualPage == 4 {
+      
+      self.saveChangesButton.alpha = 0.0
+      
+    }
+    
   }
   
   func selectCaseImageFromLibrary() {

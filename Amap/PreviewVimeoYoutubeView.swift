@@ -191,7 +191,7 @@ class PreviewVimeoYoutubeView: UIView {
         self.createLoadingLabel("Sin multimedia")
         if showButtonsOfEditionAndDelete == true {
           self.createEditCaseButton()
-          self.createDeleteCaseButton()
+          //self.createDeleteCaseButton()
         }
         //self.createImageForCaseImageView()
     }
