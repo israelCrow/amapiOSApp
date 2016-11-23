@@ -2132,12 +2132,27 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   func nextButtonPressedFromPendingEvaluationCardView(pitchData: PitchEvaluationByUserModelData) {
     
+    let justNameOfBrand = BrandModelData.init(newId: "",
+                                            newName: pitchData.brandName,
+                                     newContactName: "",
+                                    newContactEMail: "",
+                                 newContactPosition: "",
+                              newProprietaryCompany: "")
+    
+    let justNameOfCompany = CompanyModelData.init(newId: "",
+                                              newName: pitchData.companyName,
+                                            newBrands: [BrandModelData]())
+    
+    
     let projectPitchData = ProjectPitchModelData.init(newId: pitchData.pitchId,
       newName: pitchData.pitchName,
       newBrandId: "-1",
       newBriefDate: pitchData.briefDate,
       newBrieEMailContact: "",
       newArrayOfPitchCategories: Array<PitchSkillCategory>())
+    
+    projectPitchData.brandData = justNameOfBrand
+    projectPitchData.companyData = justNameOfCompany
     
     projectPitchData.voidPitchEvaluationId = pitchData.pitchEvaluationId
     

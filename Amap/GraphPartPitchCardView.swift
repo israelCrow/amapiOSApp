@@ -46,8 +46,10 @@ class GraphPartPitchCardView: UIView {
     
     for element in arrayOfQualifications {
       
-      let finalValue = Int(CGFloat(100.0/92.0) * CGFloat(element + 5))
-      arrayOfFinalQualifications.append(finalValue)
+//      let finalValue = Int(CGFloat(100.0/92.0) * CGFloat(element + 5))
+//      arrayOfFinalQualifications.append(finalValue)
+      
+      arrayOfFinalQualifications.append(element)
       
     }
     
@@ -67,9 +69,9 @@ class GraphPartPitchCardView: UIView {
     
     if arrayOfQualifications.count > 0 {
     
-      var myQualification = arrayOfQualifications[0]
+      let myQualification = arrayOfQualifications[0]
       
-      myQualification = Int(CGFloat(100.0/92.0) * CGFloat(myQualification + 5))
+//      myQualification = Int(CGFloat(100.0/92.0) * CGFloat(myQualification + 5))
       
       if myQualification >= 70 {
         
@@ -291,13 +293,24 @@ class GraphPartPitchCardView: UIView {
       
       for index in 0..<arrayOfFinalQualifications.count {
         
-        let qualification = arrayOfFinalQualifications[index]
+        var qualification = arrayOfFinalQualifications[index]
         let agencyName = arrayOfAgencyNames[index]
         
         let frameForGraph = CGRect.init(x: (32.0 * UtilityManager.sharedInstance.conversionWidth) + (spaceBetweenGraphs * CGFloat(index)),
                                         y: 45.0 * UtilityManager.sharedInstance.conversionHeight,
                                         width: 50.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 287.5 * UtilityManager.sharedInstance.conversionHeight)
+        
+        if qualification == -5 {
+          
+          qualification = 0
+          
+        } else
+          if qualification == 87 {
+            
+            qualification = 100
+            
+          }
         
         let newGraph = GraphView.init(frame: frameForGraph, newAgencyName: agencyName, newAgencyQualification: qualification)
         newGraph.alpha = 0.0
@@ -310,13 +323,24 @@ class GraphPartPitchCardView: UIView {
     } else
       if arrayOfFinalQualifications.count >= 6 {
         
-        let qualification = arrayOfFinalQualifications.first
+        var qualification = arrayOfFinalQualifications.first
         let agencyName = arrayOfAgencyNames.first
         
         let frameForGraph = CGRect.init(x: 32.0 * UtilityManager.sharedInstance.conversionWidth,
                                         y: 45.0 * UtilityManager.sharedInstance.conversionHeight,
                                         width: 50.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 287.5 * UtilityManager.sharedInstance.conversionHeight)
+        
+        if qualification == -5 {
+          
+          qualification = 0
+          
+        } else
+          if qualification == 87 {
+            
+            qualification = 100
+            
+        }
         
         let newGraph = GraphView.init(frame: frameForGraph, newAgencyName: agencyName!, newAgencyQualification: qualification!)
         newGraph.alpha = 0.0
@@ -330,12 +354,23 @@ class GraphPartPitchCardView: UIView {
 
         for index in 1..<limit {
           
-          let qualification = arrayOfFinalQualifications[index]
+          var qualification = arrayOfFinalQualifications[index]
           
           let frameForGraph = CGRect.init(x: (32.0 * UtilityManager.sharedInstance.conversionWidth) + (spaceBetweenGraphs * CGFloat(index)),
                                           y: 45.0 * UtilityManager.sharedInstance.conversionHeight,
                                           width: 50.0 * UtilityManager.sharedInstance.conversionWidth,
                                           height: 287.5 * UtilityManager.sharedInstance.conversionHeight)
+          
+          if qualification == -5 {
+            
+            qualification = 0
+            
+          } else
+            if qualification == 87 {
+              
+              qualification = 100
+              
+          }
           
           let newGraph = GraphView.init(frame: frameForGraph, newAgencyName: "", newAgencyQualification: qualification)
           newGraph.alpha = 0.0
