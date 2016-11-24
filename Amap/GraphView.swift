@@ -164,10 +164,23 @@ class GraphView: UIView {
   
   func animateBar() {
     
+    var finalQualification = agencyQualificationInt
+    
+    if finalQualification == -5 {
+      
+      finalQualification = 0
+      
+    } else
+      if finalQualification == 87 {
+        
+        finalQualification = 100
+        
+    }
+    
     let frameForBarView = CGRect.init(x: circleView.center.x - (4.0 * UtilityManager.sharedInstance.conversionWidth),
                                       y: circleView.center.y,
                                       width: barOfGraphView.frame.size.width,
-                                      height: -(CGFloat(agencyQualificationInt) / 100.0) * (246.0 * UtilityManager.sharedInstance.conversionHeight))
+                                      height: -(CGFloat(finalQualification) / 100.0) * (246.0 * UtilityManager.sharedInstance.conversionHeight))
     
     UIView.animateWithDuration(0.20){
       
