@@ -54,7 +54,7 @@ class CustomSegmentedControlWithTitleView: UIView {
       
       let frameForLabel = CGRect.init(x: 0.0,
                                       y: 0.0,
-                                      width: 210.0 * UtilityManager.sharedInstance.conversionWidth,
+                                      width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                       height: CGFloat.max)
       
       titleLabel = UILabel.init(frame: frameForLabel)
@@ -63,7 +63,7 @@ class CustomSegmentedControlWithTitleView: UIView {
       
       let font = UIFont(name: "SFUIText-Medium",
                         size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
-      let color = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.25)
+      let color = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
       let style = NSMutableParagraphStyle()
       style.alignment = NSTextAlignment.Left
       

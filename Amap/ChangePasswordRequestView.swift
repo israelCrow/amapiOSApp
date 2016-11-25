@@ -138,7 +138,7 @@ class ChangePasswordRequestView: UIView, UITextFieldDelegate {
     }
     
     private func createMessageLabel() {
-        messageLabel = UILabel.init(frame: CGRect.init(x: 0.0, y: 0.0, width: self.frame.size.width - (63.0 * UtilityManager.sharedInstance.conversionWidth), height: 0.0))
+        messageLabel = UILabel.init(frame: CGRect.init(x: 0.0, y: 0.0, width: self.frame.size.width - (60.0 * UtilityManager.sharedInstance.conversionWidth), height: 0.0))
         messageLabel.adjustsFontSizeToFitWidth = true
         messageLabel.numberOfLines = 5
         let font = UIFont(name: "SFUIText-Light",

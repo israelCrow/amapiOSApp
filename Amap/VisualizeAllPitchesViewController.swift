@@ -526,9 +526,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       if isShowingAMessageCard == false {
        
-        //requestForAllPitchesAndTheirEvaluations()
+        self.requestForAllPitchesAndTheirEvaluations()
         
-        self.requestFilteringPitches()
+        //self.requestFilteringPitches()
         
       
       } else {

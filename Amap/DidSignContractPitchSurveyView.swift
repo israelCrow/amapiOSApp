@@ -90,7 +90,7 @@ class DidSignContractPitchSurveyView: UIView, CustomSegmentedControlWithTitleVie
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: EditPitchesConstants.DidSignContactPitchSurveyView.titleLabelText,
+      string: "¡Felicidades, ganaste! pero antes...",
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSKernAttributeName: CGFloat(2.0),
@@ -120,7 +120,7 @@ class DidSignContractPitchSurveyView: UIView, CustomSegmentedControlWithTitleVie
     let segmentsArray = ["Sí", "", "No"]
     
     didSignContractView = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                          title: "¿Firmaste contrato?",
+                                                                          title: "¿Ya firmaste contrato?",
                                                                           image: nil,
                                                                           segmentsText: segmentsArray)
     let originalSegmentControlFrame = didSignContractView.mainSegmentedControl.frame

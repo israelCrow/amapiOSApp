@@ -162,7 +162,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         
         let font = UIFont(name: "SFUIText-Medium",
                           size: 12.0 * UtilityManager.sharedInstance.conversionWidth)
-        let color = UIColor.init(white: 0, alpha: 0.25)
+        let color = UIColor.init(white: 0, alpha: 1.0)
         let style = NSMutableParagraphStyle()
         style.alignment = NSTextAlignment.Center
         
@@ -269,7 +269,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         
         let font = UIFont(name: "SFUIText-Medium",
                           size: 12.0 * UtilityManager.sharedInstance.conversionWidth)
-        let color = UIColor.init(white: 0, alpha: 0.25)
+        let color = UIColor.init(white: 0, alpha: 1.0)
         let style = NSMutableParagraphStyle()
         style.alignment = NSTextAlignment.Center
         
@@ -382,7 +382,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
                           size: 11.0 * UtilityManager.sharedInstance.conversionWidth)
         let color = UIColor.blackColor()
         let style = NSMutableParagraphStyle()
-        style.alignment = NSTextAlignment.Center
+        style.alignment = NSTextAlignment.Left
         
         let stringWithFormat = NSMutableAttributedString(
             string: GoldenPitchConstants.forgotPasswordText,
@@ -392,7 +392,8 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
             ]
         )
         stringWithFormat.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSMakeRange(0, GoldenPitchConstants.forgotPasswordText.characters.count))
-        
+      
+        forgotPasswordLabel.numberOfLines = 2
         forgotPasswordLabel.attributedText = stringWithFormat
         forgotPasswordLabel.sizeToFit()
         let newFrame = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -584,7 +585,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         style.alignment = NSTextAlignment.Center
         
         let stringWithFormat = NSMutableAttributedString(
-            string: "Mail o password incorrecto(s)",
+            string: "!Wooo¡ ¡este usuario no es válido!",
             attributes:[NSFontAttributeName:font!,
                 NSParagraphStyleAttributeName:style,
                 NSForegroundColorAttributeName:color

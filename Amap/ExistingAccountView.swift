@@ -19,10 +19,14 @@ class ExistingAccountView: UIView {
   private var alreadyHaveAnAccountLabel: UILabel! = nil
   private var recommendationLabel: UILabel! = nil
   private var nextButton: UIButton! = nil
+  private var showAlreadyExistingAgencyUser: Bool! = nil
   
   var delegate: ExistingAccountViewDelegate?
   
-  override init(frame: CGRect) {
+  init(frame: CGRect, newShowAlreadyExistingAgencyUser: Bool) {
+    
+    showAlreadyExistingAgencyUser = newShowAlreadyExistingAgencyUser
+    
     super.init(frame: frame)
     self.initInterface()
   }
@@ -82,6 +86,18 @@ class ExistingAccountView: UIView {
   
   private func createAlreadyHaveAnAccountLabel() {
     
+    var message = ""
+    
+    if showAlreadyExistingAgencyUser == true {
+      
+      message = CreateAccountConstants.ExistingAccountView.alreadyExistAgencyUser
+      
+    } else {
+      
+      message = CreateAccountConstants.ExistingAccountView.alreadyHaveAnAccount
+      
+    }
+    
     alreadyHaveAnAccountLabel = UILabel.init(frame: CGRectZero)
     
     let font = UIFont(name: "SFUIText-Light",
@@ -91,12 +107,13 @@ class ExistingAccountView: UIView {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: CreateAccountConstants.ExistingAccountView.alreadyHaveAnAccount,
+      string: message,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color
       ]
     )
+    alreadyHaveAnAccountLabel.numberOfLines = 2
     alreadyHaveAnAccountLabel.attributedText = stringWithFormat
     alreadyHaveAnAccountLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (alreadyHaveAnAccountLabel.frame.size.width / 2.0),

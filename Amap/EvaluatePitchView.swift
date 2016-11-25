@@ -173,7 +173,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     let segmentsArray = ["Sí", "", "No"]
     
     clearObjectivesView = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                   title: "¿Tienes los objetivos claros?",
+                                                                   title: "¿Te quedaron claro los objetivos?",
                                                                    image: nil,
                                                                    segmentsText: segmentsArray)
     let originalSegmentControlFrame = clearObjectivesView.mainSegmentedControl.frame
@@ -202,7 +202,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     let segmentsArray = ["Sí", "", "No"]
     
     youKnowTheProjectBudget = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                   title: "¿Saben el budget del proyecto?",
+                                                                   title: "¿Sabes el presupuesto del proyecto?",
                                                                    image: nil,
                                                                    segmentsText: segmentsArray)
     let originalSegmentControlFrame = youKnowTheProjectBudget.mainSegmentedControl.frame
@@ -232,7 +232,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     let segmentsArray = ["Sí", "", "No"]
     
     youKnowTheSelectionCriteria = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                   title: "¿Saben el criterio de selección?",
+                                                                   title: "¿Sabes el criterio de selección?",
                                                                    image: nil,
                                                                    segmentsText: segmentsArray)
     
@@ -261,7 +261,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     let segmentsArray = ["Sí", "No sé", "No"]
     
     involvementOfMarketing = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                           title: "¿Hay involucramiento de alguien de marketing?",
+                                                                           title: "¿Está involucrado alguien del departamento de marketing?",
                                                                            image: nil,
                                                                            segmentsText: segmentsArray)
     involvementOfMarketing.tag = 4
@@ -282,7 +282,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     let segmentsArray = ["2 - 4", "5 - 7", "+ de 7", "No sé"]
     
     howManyAgenciesParticipate = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                      title: "¿Cuántas agencias participan en el pitch?",
+                                                                      title: "¿Cuántas agencias están participando en el pitch?",
                                                                       image: nil,
                                                                       segmentsText: segmentsArray)
     howManyAgenciesParticipate.delegate = self
@@ -328,7 +328,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
 //                                      image: nil)
     
     howManyDaysToShow = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
-      textLabel: "¿Cuántos días les dieron para presentar?",
+      textLabel: "¿Cuántos días te dieron para presentar?",
       nameOfImage: "dropdown",
       newOptionsOfPicker: segmentsArray)
     
@@ -351,7 +351,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     let segmentsArray = ["Sí", "", "No"]
     
     youKnowHowManyPresentationRounds = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                          title: "¿Sabes cuántas rondas de presentación hay?",
+                                                                          title: "¿Sabes cuántas rondas hay de presentación?",
                                                                           image: nil,
                                                                           segmentsText: segmentsArray)
     youKnowHowManyPresentationRounds.tag = 7
@@ -408,7 +408,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     let segmentsArray = ["2 semanas", "3 semanas", "4 semanas", "5 semanas", ">5", "NA"]
     
     howManyDaysTheyGiveTheRuling = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
-                                                                   textLabel: "¿En cuántas semanas les dan el fallo?",
+                                                                   textLabel: "¿En cuántas semanas te darán el resultado?",
                                                                    nameOfImage: "dropdown",
                                                                    newOptionsOfPicker: segmentsArray)
     howManyDaysTheyGiveTheRuling.tag = 9
@@ -427,7 +427,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     let segmentsArray = ["Sí", "No sé", "No"]
     
     deliverIntelectualPropertyJustToPitch = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                               title: "¿Entregarás la propiedad intelectual de tu trabajo solo por pitchear?",
+                                                                               title: "¿Entregarás la propiedad intelectual de tu trabajo solo para el pitch?",
                                                                                image: nil,
                                                                                segmentsText: segmentsArray)
     deliverIntelectualPropertyJustToPitch.delegate = self
@@ -446,7 +446,7 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     let segmentsArray = ["Sí", "", "No"]
     
     clearDeliverable = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                           title: "¿Tienes los entregables claros?",
+                                                                           title: "Los entregables del pitch ¿quedaron claros?",
                                                                            image: nil,
                                                                            segmentsText: segmentsArray)
     

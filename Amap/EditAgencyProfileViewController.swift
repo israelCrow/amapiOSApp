@@ -1280,7 +1280,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       self.profileView.changeProfileImageView(image)
       requestImageForProfile = false
       self.profileView.thereAreChanges = true
-//      self.goToLastPage()
+      self.goToFirstPage()
 
     }else
       if requestImageForCase == true {
@@ -1309,6 +1309,13 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     alertController.addAction(cancelAction)
     alertController.addAction(okAction)
     self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
+  
+  private func goToFirstPage() {
+    
+    let pointToMove = CGPoint.init(x: 0.0, y: 0.0)
+    scrollViewFrontFlipCard.setContentOffset(pointToMove, animated: false)
     
   }
   

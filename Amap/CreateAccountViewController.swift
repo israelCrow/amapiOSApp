@@ -208,12 +208,12 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
         flipCard.flip()
     }
     
-    private func flipCardToFailedExistingAccount() {
+  private func flipCardToFailedExistingAccount(showAlreadyExistingAgencyUser: Bool) {
         
         let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
         let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
         let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
-        let existingAccView = ExistingAccountView.init(frame: frameForViewsOfCard)
+        let existingAccView = ExistingAccountView.init(frame: frameForViewsOfCard, newShowAlreadyExistingAgencyUser: showAlreadyExistingAgencyUser)
         existingAccView.hidden = true
         existingAccView.delegate = self
         
@@ -290,12 +290,21 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
                       
                         let errorinString = stringError![0] as? String
 
-                        if errorinString == "Ya existe una cuenta con ese email" || errorinString == "Ya existe un usuario de tu agencia registrado" {
-                          self.flipCardToFailedExistingAccount()
+                        if errorinString == "Ya existe una cuenta con ese email" {
+                          
+                          self.flipCardToFailedExistingAccount(false)
+                          
+                        } else if errorinString == "Ya existe un usuario de tu agencia registrado" {
+                        
+                          self.flipCardToFailedExistingAccount(true)
+                          
                         }else
+                          
                           if errorinString == "Ya existe una solicitud con ese email" {
+                          
                             self.flipCardFailedCreateAccountProcessAlreadyBegun()
-                          }else { actionToMakeWhenFinished() }
+                            
+                          } else { actionToMakeWhenFinished() }
 
                       }
                         

@@ -18,7 +18,7 @@ class CreateAccountConstants {
     static let nameText = "Nombre"
     static let writeEMailDescriptioText = "Escribe tu mail"
     static let emailText = "Email"
-    static let nextButtonText = "solicitar contraseña"
+    static let nextButtonText = "Pide tu contraseña"
   
     static let separationBetweenGoldenPitchStarAndGoldenPitchLabel = 10.0
     static let separationBetweenGoldenPitchStarAndAmap = 36.0
@@ -27,26 +27,27 @@ class CreateAccountConstants {
   
   enum  SuccessfullyAskForAccountView {
     
-    static let readyText = "¡Listo!"
-    static let successfullyMessageText = "Si es aprobada se enviará una contraseña a tu mail en las próximas 48 horas."
-    static let nextButtonText = "ok"
+    static let readyText = "¡Bravo!"
+    static let successfullyMessageText = "Si tus datos son aprobados, en las próximas 48 horas recibirás tu password."
+    static let nextButtonText = "Ok"
     
   }
   
   enum ExistingAccountView {
     
-    static let oopsText = "¡Oops!"
+    static let oopsText = "¡Ouuh!"
+    static let alreadyExistAgencyUser = "Ya existe un usuario\nde tu agencia registrado"
     static let alreadyHaveAnAccount = "Al parecer ya tienes una cuenta."
     static let recommendationText = "Te recomendamos contactar al responsable para tener acceso."
-    static let nextButtonText = "ok"
+    static let nextButtonText = "Ok"
     
   }
   
   enum CreateAccountProcessAlreadyBegunView {
     
-    static let oopsText = "¡Oops!"
+    static let oopsText = "¡Ouuh!"
     static let alreadyBegunProcessText = "Ya existe una solicitud de creación de cuenta en proceso con este E-mail."
-    static let nextButtonText = "ok"
+    static let nextButtonText = "Ok"
     
   }
   

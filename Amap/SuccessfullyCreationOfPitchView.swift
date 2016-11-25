@@ -88,9 +88,9 @@ class SuccessfullyCreationOfPitchView: UIView {
     
     messageLabel = UILabel.init(frame: CGRect.init(x: 0.0,
       y: 0.0,
-      width: self.frame.size.width - (150.0 * UtilityManager.sharedInstance.conversionWidth),
+      width: self.frame.size.width - (60.0 * UtilityManager.sharedInstance.conversionWidth),
       height: 0.0))
-    messageLabel.numberOfLines = 1
+    messageLabel.numberOfLines = 2
     
     let font = UIFont(name: "SFUIText-Light",
                       size: 16.0 * UtilityManager.sharedInstance.conversionWidth)

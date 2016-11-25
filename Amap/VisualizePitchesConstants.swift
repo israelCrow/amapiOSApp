@@ -10,7 +10,7 @@ class VisualizePitchesConstants {
   
   enum NoPitchesAssignedView {
     
-    static let warningNoPitchesText = "No tienes ningún\n pitch asignado"
+    static let warningNoPitchesText = "¡Oops!\nNo tienes ningún\n pitch asignado"
     static let navigationBarText = "Perfil Agencia"
     static let rightButtonText = "Log Out"
   
@@ -37,7 +37,7 @@ class VisualizePitchesConstants {
     
     static let writeCompanyNameLabelText = "Escribe el nombre de la compañía"
     static let askPermissionLabelText = "No hay ninguna compañía registrada con ese nombre\n\n¿Desea agregarla?"
-    static let addButtonText = "agregar"
+    static let addButtonText = "Agregar"
     
   }
   
@@ -45,7 +45,7 @@ class VisualizePitchesConstants {
     
     static let writeBrandNameLabelText = "Escribe el nombre de la marca"
     static let askPermissionLabelText = "No hay ninguna marca registrada con ese nombre\n\n¿Desea agregarla?"
-    static let addButtonText = "agregar"
+    static let addButtonText = "Agregar"
     
   }
   
@@ -53,7 +53,7 @@ class VisualizePitchesConstants {
     
     static let writeProjectNameLabelText = "Escribe el nombre del proyecto"
     static let askPermissionLabelText = "No hay ningún proyecto registrado con ese nombre\n\n¿Desea agregarla?"
-    static let addButtonText = "agregar"
+    static let addButtonText = "Agregar"
     
   }
   
@@ -61,7 +61,7 @@ class VisualizePitchesConstants {
     
     static let writeWhichCategoryIsLabelText = "Escribe qué tipo\nde categoría es:"
 //    static let askPermissionLabelText = "No hay ningún proyecto registrado con ese nombre\n\n¿Desea agregarla?"
-    static let addButtonText = "agregar pitch"
+    static let addButtonText = "Agregar pitch"
     
   }
   
@@ -81,15 +81,15 @@ class VisualizePitchesConstants {
     
     static let descriptionWriteNameLabel =  "Escribe el mail del contacto que te brifeó"
     static let descriptionWriteDateLabel = "¿Qué día te dieron el brief?"
-    static let nextButtonText = "listo"
+    static let nextButtonText = "Listo"
     
   }
   
   enum SuccessfullyCreationOfPitchView {
     
-    static let readyLabelText = "¡Listo!"
-    static let descriptionLabelText = "Pitch dado de alta"
-    static let nextButtonText = "evaluar pitch"
+    static let readyLabelText = "¡Felicidades!"
+    static let descriptionLabelText = "Tu pitch se ha dado de alta con éxito"
+    static let nextButtonText = "Evaluar pitch"
     
   }
   
@@ -112,7 +112,7 @@ class VisualizePitchesConstants {
   enum PendingEvaluationCardView {
     
     static let pendingEvaluationLabelText = "¡Evaluación Pendiente!"
-    static let nextButtonText = "encuesta"
+    static let nextButtonText = "Encuesta"
     
   }
   
@@ -120,7 +120,7 @@ class VisualizePitchesConstants {
     
     static let youWonThisPitchLabelText = "¡Ganaste este pitch!"
     static let detailedLabelText = "Queremos saber si tu proyecto se activo. Dale seguimiento llenando la encuesta"
-    static let nextButtonText = "encuesta"
+    static let nextButtonText = "Encuesta"
     
   }
   
