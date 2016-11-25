@@ -1280,7 +1280,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       self.profileView.changeProfileImageView(image)
       requestImageForProfile = false
       self.profileView.thereAreChanges = true
-      self.goToLastPage()
+//      self.goToLastPage()
 
     }else
       if requestImageForCase == true {
