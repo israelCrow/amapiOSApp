@@ -12,7 +12,7 @@ class TutorialConstants {
   
   enum WelcomeScreen {
     
-    static let welcomeMessageText = "!Bienvenido!"
+    static let welcomeMessageText = "¡Bienvenido!"
     static let descriptionText = "Llena tu perfil de agencia para empezar a utilizar la aplicación."
     
   }

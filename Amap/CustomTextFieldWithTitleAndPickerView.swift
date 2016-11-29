@@ -140,7 +140,7 @@ class CustomTextFieldWithTitleAndPickerView: UIView, UIPickerViewDelegate, UIPic
       
       let font = UIFont(name: "SFUIText-Medium",
                         size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
-      let color = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.25)
+      let color = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
       let style = NSMutableParagraphStyle()
       style.alignment = NSTextAlignment.Center
       

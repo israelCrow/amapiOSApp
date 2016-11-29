@@ -347,6 +347,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       if self.arrayOfPitchesByUser.count == 0 {
         
+        self.searchButton.userInteractionEnabled = false
+        self.searchButton.enabled = false
+        
         if self.mainCarousel != nil {
           
           UIView.animateWithDuration(0.2,
@@ -365,8 +368,6 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
           self.createAndAddNoPitchesAssignedView()
           
         }
-        
-
         
       }else{
         
@@ -389,6 +390,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         }
     
         self.mainCarousel.reloadData()
+        self.searchButton.userInteractionEnabled = true
+        self.searchButton.enabled = true
+        
         if self.pitchEvaluationIDToLookForAfterCreated != "-1" && Int(self.pitchEvaluationIDToLookForAfterCreated) > 0 {
           
           self.lookForThisPitchID(self.pitchEvaluationIDToLookForAfterCreated)
@@ -556,6 +560,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       if self.arrayOfPitchesByUser.count == 0 {
         
+        self.searchButton.userInteractionEnabled = false
+        self.searchButton.enabled = false
         
         if self.mainCarousel != nil {
           
@@ -602,6 +608,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         }
         
         self.mainCarousel.reloadData()
+        
+        self.searchButton.userInteractionEnabled = true
+        self.searchButton.enabled = true
         //          if self.pitchEvaluationIDToLookForAfterCreated != "-1" && Int(self.pitchEvaluationIDToLookForAfterCreated) > 0 {
         //
         //            self.lookForThisPitchID(self.pitchEvaluationIDToLookForAfterCreated)
@@ -1959,6 +1968,13 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   //MARK: LookForPitchCardViewDelegate
   
+  func doCancelLookForCard() {
+    
+    self.onlyRemoveLookForCardView()
+    self.showAddPitchButton()
+    
+  }
+  
   func lookForThisPitchID(pitchIDToLookFor: String) {
     
     for i in 0..<arrayOfPitchesByUserWithoutModifications.count {
@@ -1982,6 +1998,45 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       self.showAddPitchButton()
       
+    }
+    
+  }
+  
+  private func onlyRemoveLookForCardView() {
+    
+    if arrayOfPitchesByUser.count == 1 {
+      
+      self.arrayOfPitchesByUser.removeAtIndex(0)
+      mainCarousel.removeItemAtIndex(0, animated: true)
+      searchButton.userInteractionEnabled = true
+      searchButton.enabled = true
+      filterButton.userInteractionEnabled = true
+      filterButton.enabled = true
+      mainCarousel.scrollEnabled = true
+      
+      isShowingAMessageCard = false
+      
+      self.createAndAddNoPitchesAssignedView()
+      
+    }else{
+      
+      for i in 0..<arrayOfPitchesByUser.count - 1 {
+        
+        if arrayOfPitchesByUser[i].pitchId == "-9999" {
+          
+          self.arrayOfPitchesByUser.removeAtIndex(i)
+          mainCarousel.removeItemAtIndex(i, animated: true)
+          searchButton.userInteractionEnabled = true
+          searchButton.enabled = true
+          filterButton.userInteractionEnabled = true
+          filterButton.enabled = true
+          mainCarousel.scrollEnabled = true
+          
+          isShowingAMessageCard = false
+          
+        }
+        
+      }
     }
     
   }
@@ -2067,6 +2122,8 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
           
           if self.arrayOfPitchesByUser.count == 0 {
             
+            self.searchButton.userInteractionEnabled = false
+            self.searchButton.enabled = false
             
             if self.mainCarousel != nil {
               
@@ -2082,7 +2139,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
             
             self.createAndAddNoPitchesAssignedView()
             
-          }else{
+          } else {
             
             self.hideNoPitchesView()
             
@@ -2113,6 +2170,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
             }
             
             self.mainCarousel.reloadData()
+            
+            self.searchButton.userInteractionEnabled = true
+            self.searchButton.enabled = true
             //          if self.pitchEvaluationIDToLookForAfterCreated != "-1" && Int(self.pitchEvaluationIDToLookForAfterCreated) > 0 {
             //
             //            self.lookForThisPitchID(self.pitchEvaluationIDToLookForAfterCreated)

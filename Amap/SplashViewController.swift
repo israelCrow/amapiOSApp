@@ -14,8 +14,11 @@ class SplashViewController: UIViewController {
   private var mainTabBarController: MainTabBarController! = nil
   
   override func loadView() {
+
     self.view = UIView.init(frame: UIScreen.mainScreen().bounds)
     self.view.backgroundColor = UIColor.blackColor()
+    self.view.addSubview(createGradientView())
+    
   }
   
   override func viewDidLoad() {
@@ -264,6 +267,15 @@ class SplashViewController: UIViewController {
   }
   
   override func didReceiveMemoryWarning() {
+    
+  }
+  
+  private func createGradientView() -> GradientView{
+    
+    let firstColorGradient = UIColor.init(red: 0.0/255.0, green: 169.0/255.0, blue: 175.0/255.0, alpha: 1.0)
+    let secondColorGradient = UIColor.init(red: 221.0/255.0, green: 225.0/255.0, blue: 30.0/255.0, alpha: 1.0)
+    let colorsForBackground = [firstColorGradient,secondColorGradient]
+    return GradientView.init(frame: UIScreen.mainScreen().bounds, arrayOfcolors: colorsForBackground, typeOfInclination: GradientView.TypeOfInclination.leftToRightInclination)
     
   }
   

@@ -19,11 +19,13 @@ import UIKit
 protocol LookForPitchCardViewDelegate {
   
   func lookForThisPitchID(pitchIDToLookFor: String)
+  func doCancelLookForCard()
   
 }
 
 class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
   
+  private var cancelButton: UIButton! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
   private var mainTableView: UITableView! = nil
   private var arrayOfFilteredProjects = Array<PitchEvaluationByUserModelData>()
@@ -47,6 +49,7 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
   private func initInterface() {
     
     self.adaptMyself()
+    self.createCancelButton()
     self.createSearchView()
     self.createMainTableView()
     
@@ -68,6 +71,23 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
     tapToDismissKeyboard.numberOfTapsRequired = 1
     tapToDismissKeyboard.cancelsTouchesInView = false
     self.addGestureRecognizer(tapToDismissKeyboard)
+    
+  }
+  
+  private func createCancelButton() {
+    
+    let frameForButton = CGRect.init(x:270.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 10.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: 15.0 * UtilityManager.sharedInstance.conversionWidth ,
+                                     height: 15.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    cancelButton = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "iconCloseBlack") as UIImage?
+    cancelButton.setImage(image, forState: .Normal)
+    cancelButton.alpha = 1.0
+    cancelButton.addTarget(self, action: #selector(cancelButtonPressed), forControlEvents:.TouchUpInside)
+    
+    self.addSubview(cancelButton)
     
   }
   
@@ -340,5 +360,12 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
     self.endEditing(true)
     
   }
+  
+  @objc private func cancelButtonPressed() {
+    
+    self.delegate?.doCancelLookForCard()
+    
+  }
+
   
 }
