@@ -337,9 +337,9 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     arrayOfViewControllers.append(self.createThirdBarItem())
     
     mainTabBarController.viewControllers = arrayOfViewControllers
-    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial + UserSession.session.email)
+    let notToShowPitchesTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
     
-    if notToShowTutorial == false {
+    if notToShowPitchesTutorial == false {
       
       mainTabBarController.selectedIndex = 2
       

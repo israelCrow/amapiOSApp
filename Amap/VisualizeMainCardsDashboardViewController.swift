@@ -59,9 +59,9 @@ class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccording
     
     self.getInfoFromServer()
     
-    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial + UserSession.session.email)
+    let notToShowDashboardTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowDashboardTutorial + UserSession.session.email)
     
-    if notToShowTutorial == false {
+    if notToShowDashboardTutorial == false {
       
       let tutorialFirstScreenDashboard = DashboardFirstScreenTutorialView.init(frame: CGRect.init())
       let rootViewController = UtilityManager.sharedInstance.currentViewController()

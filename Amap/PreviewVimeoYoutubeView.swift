@@ -24,9 +24,9 @@ class PreviewVimeoYoutubeView: UIView {
   private var caseData: Case! = nil
   private var videoURLString: String?
   private var videoURLNSURL: NSURL! = nil
-  private var imageForCaseImageView: UIImageView! = nil
+  var imageForCaseImageView: UIImageView! = nil
   private var editCaseButton: UIButton! = nil
-  private var deleteCaseButton: UIButton! = nil
+  var deleteCaseButton: UIButton! = nil
   private var itsPossibleToChangeImage: Bool = false
   private var isYoutubeVideo: Bool = false
   private var isVimeoVideo: Bool = false
@@ -40,6 +40,7 @@ class PreviewVimeoYoutubeView: UIView {
   private var showButtonsOfEditionAndDelete: Bool! = nil
   
   var delegate: PreviewVimeoYoutubeViewDelegate?
+  var delegateForDeleteAndChangeImage: VideoPlayerVimeoYoutubeViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -48,8 +49,8 @@ class PreviewVimeoYoutubeView: UIView {
   init(frame: CGRect, caseInfo: Case, showButtonsOfEdition: Bool) {
 
     showButtonsOfEditionAndDelete = showButtonsOfEdition
-    
     caseData = caseInfo
+    
     if caseData.url != nil {
       
       videoURLString = caseData.url
@@ -68,6 +69,42 @@ class PreviewVimeoYoutubeView: UIView {
     
   }
   
+  init(frame: CGRect, caseInfo: Case, showButtonsOfEdition: Bool, newURLVideo: String?) {
+    
+    showButtonsOfEditionAndDelete = showButtonsOfEdition
+    caseData = caseInfo
+    
+    if newURLVideo != nil {
+      
+      videoURLString = newURLVideo!
+      videoURLNSURL = NSURL.init(string: videoURLString!)
+      
+    } else {
+      
+      videoURLString = nil
+      videoURLNSURL = nil
+      
+    }
+    
+    super.init(frame: frame)
+    
+    self.initInterfaceWithURL()
+    
+  }
+  
+  init(frame: CGRect, caseInfo: Case, showButtonsOfEdition: Bool, withCleanPreview: Bool) {
+    
+    showButtonsOfEditionAndDelete = showButtonsOfEdition
+    caseData = caseInfo
+    
+    super.init(frame: frame)
+    
+    self.backgroundColor = UIColor.clearColor()
+    
+    self.createImageForCaseImageView()
+    
+  }
+  
   private func initInterface() {
     
     self.backgroundColor = UIColor.clearColor()
@@ -81,6 +118,13 @@ class PreviewVimeoYoutubeView: UIView {
       self.checkForTypeOfVideo()
       
     }
+    
+  }
+  
+  private func initInterfaceWithURL() {
+    
+    self.backgroundColor = UIColor.clearColor()
+    self.checkForTypeOfVideo()
     
   }
   
@@ -188,7 +232,7 @@ class PreviewVimeoYoutubeView: UIView {
         self.loadVideoPlayerVimeoAVPlayer()
         
       }else{
-        self.createLoadingLabel("Sin multimedia")
+        self.createLoadingLabel("")
         if showButtonsOfEditionAndDelete == true {
           self.createEditCaseButton()
           //self.createDeleteCaseButton()
@@ -287,12 +331,14 @@ class PreviewVimeoYoutubeView: UIView {
   func editCase() {
     
     self.delegate?.editSelectedCase(caseData)
+    self.delegateForDeleteAndChangeImage?.selectImageForCaseFromLibrary()
     
   }
   
   @objc private func deleteCase() {
     
     self.delegate?.deleteSelectedCase(caseData)
+    self.delegateForDeleteAndChangeImage?.askForDeleteCaseImage()
     
   }
   
@@ -311,9 +357,29 @@ class PreviewVimeoYoutubeView: UIView {
 //    }
 //    
 //  }
-
   
+  func changeImageOfCase(newImage: UIImage) {
+    
+    if imageForCaseImageView == nil {
+      
+      self.createImageForCaseImageView()
+      
+    }
+    
+    imageForCaseImageView.backgroundColor = UIColor.clearColor()
+    imageForCaseImageView.image = newImage
+    
+//    existsImage = true
+    
+  }
   
-  
+  func deleteImageOfCase() {
+    
+    imageForCaseImageView.backgroundColor = UIColor.clearColor()
+    imageForCaseImageView.image = nil
+    
+//    existsImage = false
+    
+  }
   
 }

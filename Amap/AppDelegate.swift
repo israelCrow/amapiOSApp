@@ -42,6 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   private func adaptInterface() {
+    
+    UINavigationBar.appearance().barTintColor = UIColor.blackColor()
+    UINavigationBar.appearance().tintColor = UIColor.blackColor()
+    
     UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     self.window?.backgroundColor = UIColor.blackColor()
   }

@@ -68,21 +68,28 @@ class TabBarArchiveEditDeletePitchView: UIView{
     
     
     archivePitchEvaluationButton = UIButton.init(frame: frameForButton)
-    archivePitchEvaluationButton.setImage(UIImage(named:"archivar"), forState: UIControlState.Normal)
+    
+    var buttonImage = UIImage.init(named: "archivar")
+    let newSize = CGSize.init(width: 25.0 * UtilityManager.sharedInstance.conversionWidth,
+                             height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+    buttonImage = UtilityManager.sharedInstance.resizeImage(buttonImage!, newSize: newSize)
+    
+    
+    archivePitchEvaluationButton.setImage(buttonImage, forState: UIControlState.Normal)
     archivePitchEvaluationButton.imageEdgeInsets = UIEdgeInsets(top: 5.0 * UtilityManager.sharedInstance.conversionHeight,
                                                    left: 50.0 * UtilityManager.sharedInstance.conversionWidth,
                                                    bottom: 15.0 * UtilityManager.sharedInstance.conversionHeight,
                                                    right: 50.0 * UtilityManager.sharedInstance.conversionWidth)
     
     archivePitchEvaluationButton.titleEdgeInsets = UIEdgeInsets(top: 39.0 * UtilityManager.sharedInstance.conversionHeight,
-                                                   left: -18.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                   left: -16.0 * UtilityManager.sharedInstance.conversionWidth,
                                                    bottom: 9.0 * UtilityManager.sharedInstance.conversionHeight,
-                                                   right: 10.0)
+                                                   right: 10.0 * UtilityManager.sharedInstance.conversionWidth)
     
     let colorForTextWhenNotPressed = UIColor.init(red: 255.0/255.0,
                                                   green: 255.0/255.0,
                                                   blue: 255.0/255.0,
-                                                  alpha: 0.4)
+                                                  alpha: 1.0)
     
     let colorForTextWhenPressed = UIColor.init(red: 255.0/255.0,
                                                green: 255.0/255.0,
@@ -101,7 +108,7 @@ class TabBarArchiveEditDeletePitchView: UIView{
     archivePitchEvaluationButton.addTarget(self, action: #selector(archivePitchEvaluationButtonPressed),
                               forControlEvents: UIControlEvents.TouchUpInside)
     
-    archivePitchEvaluationButton.alpha = 0.7
+    archivePitchEvaluationButton.alpha = 1.0
     self.addSubview(archivePitchEvaluationButton)
     
   }
@@ -113,9 +120,13 @@ class TabBarArchiveEditDeletePitchView: UIView{
                                      width: width,
                                      height: self.frame.size.height)
     
+    var buttonImage = UIImage.init(named: "edit")
+    let newSize = CGSize.init(width: 25.0 * UtilityManager.sharedInstance.conversionWidth,
+                              height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+    buttonImage = UtilityManager.sharedInstance.resizeImage(buttonImage!, newSize: newSize)
     
     editPitchEvaluationButton = UIButton.init(frame: frameForButton)
-    editPitchEvaluationButton.setImage(UIImage(named:"edit"), forState: UIControlState.Normal)
+    editPitchEvaluationButton.setImage(buttonImage, forState: UIControlState.Normal)
     
     editPitchEvaluationButton.imageEdgeInsets = UIEdgeInsets(top: 5.0 * UtilityManager.sharedInstance.conversionHeight,
                                                  left: 50.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -123,14 +134,14 @@ class TabBarArchiveEditDeletePitchView: UIView{
                                                  right: 50.0 * UtilityManager.sharedInstance.conversionWidth)
     
     editPitchEvaluationButton.titleEdgeInsets = UIEdgeInsets(top: 39.0 * UtilityManager.sharedInstance.conversionHeight,
-                                                 left: -17.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                 left: -15.0 * UtilityManager.sharedInstance.conversionWidth,
                                                  bottom: 9.0 * UtilityManager.sharedInstance.conversionHeight,
-                                                 right: 10.0)
+                                                 right: 10.0 * UtilityManager.sharedInstance.conversionWidth)
     
     let colorForTextWhenNotPressed = UIColor.init(red: 255.0/255.0,
                                                   green: 255.0/255.0,
                                                   blue: 255.0/255.0,
-                                                  alpha: 0.4)
+                                                  alpha: 1.0)
     
     let colorForTextWhenPressed = UIColor.init(red: 255.0/255.0,
                                                green: 255.0/255.0,
@@ -148,7 +159,7 @@ class TabBarArchiveEditDeletePitchView: UIView{
     editPitchEvaluationButton.backgroundColor = UIColor.blackColor()
     editPitchEvaluationButton.addTarget(self, action: #selector(editPitchEvaluationButtonPressed),
                             forControlEvents: UIControlEvents.TouchUpInside)
-    editPitchEvaluationButton.alpha = 0.7
+    editPitchEvaluationButton.alpha = 1.0
     
     self.addSubview(editPitchEvaluationButton)
     
@@ -161,6 +172,10 @@ class TabBarArchiveEditDeletePitchView: UIView{
                                      width: width,
                                      height: self.frame.size.height)
     
+    var buttonImage = UIImage.init(named: "eliminar")
+    let newSize = CGSize.init(width: 25.0 * UtilityManager.sharedInstance.conversionWidth,
+                              height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+    buttonImage = UtilityManager.sharedInstance.resizeImage(buttonImage!, newSize: newSize)
     
     deletePitchEvaluationButton = UIButton.init(frame: frameForButton)
     deletePitchEvaluationButton.setImage(UIImage(named:"eliminar"), forState: UIControlState.Normal)
@@ -178,7 +193,7 @@ class TabBarArchiveEditDeletePitchView: UIView{
     let colorForTextWhenNotPressed = UIColor.init(red: 255.0/255.0,
                                                   green: 255.0/255.0,
                                                   blue: 255.0/255.0,
-                                                  alpha: 0.4)
+                                                  alpha: 1.0)
     
     let colorForTextWhenPressed = UIColor.init(red: 255.0/255.0,
                                                green: 255.0/255.0,
@@ -196,7 +211,7 @@ class TabBarArchiveEditDeletePitchView: UIView{
     deletePitchEvaluationButton.backgroundColor = UIColor.blackColor()
     deletePitchEvaluationButton.addTarget(self, action: #selector(deletePitchEvaluationButtonPressed),
                                   forControlEvents: UIControlEvents.TouchUpInside)
-    deletePitchEvaluationButton.alpha = 0.7
+    deletePitchEvaluationButton.alpha = 1.0
     
     self.addSubview(deletePitchEvaluationButton)
     
@@ -205,13 +220,13 @@ class TabBarArchiveEditDeletePitchView: UIView{
   
   @objc private func archivePitchEvaluationButtonPressed(sender: AnyObject) {
     
-    archivePitchEvaluationButton.selected = true
-    editPitchEvaluationButton.selected = false
-    deletePitchEvaluationButton.selected = false
-    
-    self.animateArchiveButtonSelected()
-    self.animateEditButtonUnselected()
-    self.animateDeleteButtonUnselected()
+//    archivePitchEvaluationButton.selected = true
+//    editPitchEvaluationButton.selected = false
+//    deletePitchEvaluationButton.selected = false
+//    
+//    self.animateArchiveButtonSelected()
+//    self.animateEditButtonUnselected()
+//    self.animateDeleteButtonUnselected()
     
     self.delegate?.archivePitchEvaluationButtonFromTabBarPressed()
     
@@ -219,13 +234,13 @@ class TabBarArchiveEditDeletePitchView: UIView{
   
   @objc private func editPitchEvaluationButtonPressed(sender: AnyObject) {
     
-    archivePitchEvaluationButton.selected = false
-    editPitchEvaluationButton.selected = true
-    deletePitchEvaluationButton.selected = false
-    
-    self.animateArchiveButtonUnselected()
-    self.animateEditButtonSelected()
-    self.animateDeleteButtonUnselected()
+//    archivePitchEvaluationButton.selected = false
+//    editPitchEvaluationButton.selected = true
+//    deletePitchEvaluationButton.selected = false
+//    
+//    self.animateArchiveButtonUnselected()
+//    self.animateEditButtonSelected()
+//    self.animateDeleteButtonUnselected()
     
     self.delegate?.editPitchEvaluationButtonFromTabBarPressed()
     
@@ -233,13 +248,13 @@ class TabBarArchiveEditDeletePitchView: UIView{
   
   @objc private func deletePitchEvaluationButtonPressed(sender: AnyObject) {
     
-    archivePitchEvaluationButton.selected = false
-    editPitchEvaluationButton.selected = false
-    deletePitchEvaluationButton.selected = true
-    
-    self.animateArchiveButtonUnselected()
-    self.animateEditButtonUnselected()
-    self.animateDeleteButtonSelected()
+//    archivePitchEvaluationButton.selected = false
+//    editPitchEvaluationButton.selected = false
+//    deletePitchEvaluationButton.selected = true
+//    
+//    self.animateArchiveButtonUnselected()
+//    self.animateEditButtonUnselected()
+//    self.animateDeleteButtonSelected()
     
     self.delegate?.deletePitchEvaluationButtonFromTabBarPressed()
     

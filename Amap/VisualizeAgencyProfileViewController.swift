@@ -47,7 +47,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     self.editNavigationBar()
     self.initInterface()
     
-    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial + UserSession.session.email)
+    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
     
       let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
     
@@ -612,11 +612,11 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     UIView.setAnimationsEnabled(true)
     
-    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial + UserSession.session.email)
+    let notToShowProfileTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
     
     let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
     
-    if notToShowTutorial == false && savedPhotoAndSavedName == true {
+    if notToShowProfileTutorial == false && savedPhotoAndSavedName == true {
       
       let tutorialProfile = ProfileScreenTutorialView.init(frame: CGRect.init())
       let rootViewController = UtilityManager.sharedInstance.currentViewController()

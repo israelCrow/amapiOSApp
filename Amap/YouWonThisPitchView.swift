@@ -79,8 +79,8 @@ class YouWonThisPitchView: UIView {
     okeyImageView = UIImageView.init(image: UIImage.init(named: "whiteIconOkey"))
     let canceledImageViewFrame = CGRect.init(x: (15.0 * UtilityManager.sharedInstance.conversionWidth),
                                              y: (61.0 * UtilityManager.sharedInstance.conversionHeight),
-                                             width: okeyImageView.frame.size.width,
-                                             height: okeyImageView.frame.size.height)
+                                             width: (97.0 * UtilityManager.sharedInstance.conversionWidth),
+                                             height: (97.0 * UtilityManager.sharedInstance.conversionHeight))
     okeyImageView.frame = canceledImageViewFrame
     
     gradientContainerView.addSubview(okeyImageView)

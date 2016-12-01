@@ -348,6 +348,12 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     self.flipCard.addSubview(saveChangesButton)
     
+    if actualPage == 4 {
+      
+      self.saveChangesButton.alpha = 0.0
+      
+    }
+    
   }
   
   private func hideSaveChangesButton() {
@@ -756,6 +762,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
     
     createCaseView = CreateCaseView.init(frame: frameForViewsOfCard)
+    createCaseView!.isShowingEditCase = false
     createCaseView!.delegate = self
     createCaseView!.hidden = true
     flipCard.setSecondView(createCaseView!)
@@ -772,6 +779,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
     
     createCaseView = CreateCaseView.init(frame: frameForViewsOfCard, caseData: caseData)
+    createCaseView!.isShowingEditCase = true
     createCaseView!.delegate = self
     createCaseView!.hidden = true
     flipCard.setSecondView(createCaseView!)
@@ -913,6 +921,10 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       "Authorization": UtilityManager.sharedInstance.apiToken
     ]
     
+    let keyDelete_image = "delete_image"
+    let deleteImageBool: Bool = newParameters[keyDelete_image] as! Bool
+    var deleteImageInt: Int = (deleteImageBool == true ? 1 : 0)
+    
     let keyauth_token = "auth_token"
     let auth_token = newParameters[keyauth_token]
     
@@ -950,6 +962,12 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
           name: "case_image",
           fileName: "AgencyExample.png",
           mimeType: "image/png")
+      }
+      
+      if deleteImageBool == true {
+        
+        multipartFormData.appendBodyPart(data: NSData(bytes: &deleteImageInt, length: sizeof(Int)), name: keyDelete_image)
+        
       }
       
       multipartFormData.appendBodyPart(data: auth_token!.dataUsingEncoding(NSUTF8StringEncoding)!, name: keyauth_token)
@@ -1348,6 +1366,10 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     let key_auth_token = "auth_token"
     let auth_token = newParameters[key_auth_token] as? String
     
+    let keyDelete_image = "delete_image"
+    let deleteImageBool: Bool = (newParameters[keyDelete_image] as? Bool != nil ? newParameters[keyDelete_image] as! Bool : false)
+    var deleteImageInt: Int = (deleteImageBool == true ? 1 : 0)
+    
     let key_filename = "filename"
     let filename = newParameters[key_filename] as? String
     
@@ -1399,6 +1421,12 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
           name: "logo",
           fileName: "AgencyProfileImage.png",
           mimeType: "image/png")
+      }
+      
+      if deleteImageBool == true {
+      
+        multipartFormData.appendBodyPart(data: NSData(bytes: &deleteImageInt, length: sizeof(Int)), name: keyDelete_image)
+        
       }
       
       multipartFormData.appendBodyPart(data: id_string!.dataUsingEncoding(NSUTF8StringEncoding)!, name: key_id)

@@ -81,9 +81,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     self.requestForAllPitchesAndTheirEvaluations()
     
-    let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowTutorial + UserSession.session.email)
+    let notToShowPitchesTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowPitchesTutorial + UserSession.session.email)
     
-    if notToShowTutorial == false {
+    if notToShowPitchesTutorial == false {
       
       let tutorialPitches = PitchesTutorialView.init(frame: CGRect.init())
       let rootViewController = UtilityManager.sharedInstance.currentViewController()
@@ -301,6 +301,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
                                   height: 464.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainCarousel = iCarousel.init(frame: frameForCarousel)
+    mainCarousel.scrollSpeed = 0.5
     mainCarousel.type = .Rotary
     mainCarousel.backgroundColor = UIColor.clearColor()
     mainCarousel.delegate = self
@@ -1249,6 +1250,17 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat
   {
+   
+    
+    if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 5 {
+      
+      mainCarousel.scrollSpeed = 0.2
+      
+    }else{
+      
+      mainCarousel.scrollSpeed = 0.5
+      
+    }
     
     if option == .Spacing {
       

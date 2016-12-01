@@ -253,7 +253,7 @@ class DashboardFourthScreenTutorialView: UIView {
     
     self.removeFromSuperview()
     
-    NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kNotToShowTutorial + UserSession.session.email)
+    NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kNotToShowDashboardTutorial + UserSession.session.email)
     
   }
   

@@ -141,7 +141,9 @@ class ProfileScreenTutorialView: UIView {
     
     self.removeFromSuperview()
     
-    UtilityManager.sharedInstance.mainTabBarController.selectedIndex = 1
+    //UtilityManager.sharedInstance.mainTabBarController.selectedIndex = 1
+    
+    NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
     
   }
   

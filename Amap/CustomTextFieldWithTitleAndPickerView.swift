@@ -190,9 +190,21 @@ class CustomTextFieldWithTitleAndPickerView: UIView, UIPickerViewDelegate, UIPic
       
       imageOfArrow!.frame = iconImageViewFrame
       
+      let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(makeFirstResponderTheMainTextField))
+      tapGesture.numberOfTapsRequired = 1
+      
+      imageOfArrow.userInteractionEnabled = true
+      imageOfArrow.addGestureRecognizer(tapGesture)
+      
       self.addSubview(imageOfArrow!)
       
     }
+    
+  }
+  
+  @objc private func makeFirstResponderTheMainTextField() {
+    
+    self.mainTextField.becomeFirstResponder()
     
   }
   

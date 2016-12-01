@@ -459,6 +459,8 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   
   func textFieldShouldClear(textField: UITextField) -> Bool {
     
+    self.thereAreChanges = true
+    
     UIView.animateWithDuration(0.15,
       animations: {
         textField.alpha = 0.0

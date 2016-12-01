@@ -168,7 +168,10 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     let numberOfLostPitchesByAgency = (numberOfPitchesByAgency["lost"] != nil ? numberOfPitchesByAgency["lost"] : 0)
     let numberOfWonPitchesByAgency = (numberOfPitchesByAgency["won"] != nil ? numberOfPitchesByAgency["won"] : 0)
     
-    let finalPercentage: CGFloat = CGFloat(CGFloat(numberOfWonPitchesByAgency!) * 100.0) / CGFloat(numberOfLostPitchesByAgency! + numberOfWonPitchesByAgency!)
+    let finalPercentage: CGFloat = CGFloat(CGFloat(numberOfWonPitchesByAgency!)) / CGFloat(numberOfLostPitchesByAgency! + numberOfWonPitchesByAgency!)
+    
+//    let stringNumber: String = String(format: "%.1f", Double(finalPercentage))
+//    finalPercentage = CGFloat((stringNumber as NSString).floatValue)
     
     let frameForCircleGraph = CGRect.init(x: 0.0,
                                           y: 211.0 * UtilityManager.sharedInstance.conversionHeight,

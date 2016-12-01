@@ -24,6 +24,7 @@ class FilterPitchCardView: UIView {
   private var silverCriterion: CriterionWithImageView! = nil
   private var mediumCriterion: CriterionWithImageView! = nil
   private var highRiskCriterion: CriterionWithImageView! = nil
+  private var activePitchCriterion: CriterionView! = nil
   private var archivedPitchCriterion: CriterionView! = nil
   private var declinedPitchCriterion: CriterionView! = nil
   private var canceledPitchCriterion: CriterionView! = nil
@@ -58,6 +59,8 @@ class FilterPitchCardView: UIView {
     self.createSilverCriterion()
     self.createMediumCriterion()
     self.createHighRiskCriterion()
+    
+    self.createActivePitch()
     self.createArchivedPitch()
     self.createDeclinedPitch()
     self.createCancelledPitch()
@@ -125,7 +128,7 @@ class FilterPitchCardView: UIView {
                                              width: 235.0 * UtilityManager.sharedInstance.conversionWidth,
                                              height: 370.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
     let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
-                                               height: frameForMainScrollView.size.height + (80.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
+                                               height: frameForMainScrollView.size.height + (110.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.clearColor()
@@ -225,10 +228,33 @@ class FilterPitchCardView: UIView {
     
   }
   
-  private func createArchivedPitch() {
+  private func createActivePitch() {
     
     let frameForCriterion = CGRect.init(x: 0.0,
                                         y: 258.0 * UtilityManager.sharedInstance.conversionHeight,
+                                        width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    var valueOfSwitch = false
+    
+    if optionsSelected["active"] as? Bool != nil {
+      
+      valueOfSwitch = optionsSelected["active"] as! Bool
+      
+    }
+    
+    activePitchCriterion = CriterionView.init(frame: frameForCriterion,
+                                                textLabel: VisualizePitchesConstants.FilterPitchCardView.activeCriterionText,
+                                                valueOfSwitch: valueOfSwitch)
+    activePitchCriterion.adaptSize()
+    mainScrollView.addSubview(activePitchCriterion)
+    
+  }
+  
+  private func createArchivedPitch() {
+    
+    let frameForCriterion = CGRect.init(x: 0.0,
+                                        y: 314.0 * UtilityManager.sharedInstance.conversionHeight,
                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -251,7 +277,7 @@ class FilterPitchCardView: UIView {
   private func createDeclinedPitch() {
     
     let frameForCriterion = CGRect.init(x: 0.0,
-                                        y: 314.0 * UtilityManager.sharedInstance.conversionHeight,
+                                        y: 370.0 * UtilityManager.sharedInstance.conversionHeight,
                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -274,7 +300,7 @@ class FilterPitchCardView: UIView {
   private func createCancelledPitch() {
     
     let frameForCriterion = CGRect.init(x: 0.0,
-                                        y: 370.0 * UtilityManager.sharedInstance.conversionHeight,
+                                        y: 426.0 * UtilityManager.sharedInstance.conversionHeight,
                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -319,6 +345,12 @@ class FilterPitchCardView: UIView {
     if getHighRiskCriterionValue() == true {
       
       finalParams["unhappy"] = 1
+      
+    }
+    
+    if getActivePitchValue() == true {
+      
+      finalParams["active"] = 1
       
     }
     
@@ -371,6 +403,12 @@ class FilterPitchCardView: UIView {
   func getHighRiskCriterionValue() -> Bool {
    
     return highRiskCriterion.getValueOfSwitch()
+    
+  }
+  
+  func getActivePitchValue() -> Bool {
+    
+    return activePitchCriterion.getValueOfSwitch()
     
   }
   

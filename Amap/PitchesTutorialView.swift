@@ -248,7 +248,9 @@ class PitchesTutorialView: UIView {
     
     self.removeFromSuperview()
     
-    UtilityManager.sharedInstance.mainTabBarController.selectedIndex = 0
+    //UtilityManager.sharedInstance.mainTabBarController.selectedIndex = 0
+    
+    NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kNotToShowPitchesTutorial + UserSession.session.email)
     
   }
   

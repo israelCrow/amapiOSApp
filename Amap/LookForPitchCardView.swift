@@ -27,6 +27,7 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
   
   private var cancelButton: UIButton! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
+  private var noResultsLabel: UILabel! = nil
   private var mainTableView: UITableView! = nil
   private var arrayOfFilteredProjects = Array<PitchEvaluationByUserModelData>()
   
@@ -51,6 +52,7 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
     self.adaptMyself()
     self.createCancelButton()
     self.createSearchView()
+    self.createNoResultsView()
     self.createMainTableView()
     
   }
@@ -107,6 +109,44 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
     searchView.mainTextField.delegate = self
     
     self.addSubview(searchView)
+    
+  }
+  
+  private func createNoResultsView() {
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 255.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    noResultsLabel = UILabel.init(frame: frameForLabel)
+    noResultsLabel.numberOfLines = 0
+    noResultsLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Left
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "No se encontraron resultados",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    noResultsLabel.attributedText = stringWithFormat
+    noResultsLabel.sizeToFit()
+    let newFrame = CGRect.init(x: 45.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: 105.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: noResultsLabel.frame.size.width,
+                               height: noResultsLabel.frame.size.height)
+    
+    noResultsLabel.frame = newFrame
+    noResultsLabel.alpha = 0.0
+    
+    self.addSubview(noResultsLabel)
     
   }
   
@@ -200,7 +240,7 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
       arrayOfFilteredProjects = arrayOfAllProjects
       
       self.showMainTableView()
-      //      self.hideAskPermissionLabel()
+      self.hideNoResultsLabel()
       //      self.hideAddButton()
       
       mainTableView.reloadData()
@@ -226,13 +266,13 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
     if arrayOfFilteredProjects.count == 0 {
       
       self.hideMainTableView()
-      //      self.showAskPermissionLabel()
+      self.showNoResultsLabel()
       //      self.showAddButton()
       
     } else {
       
       self.showMainTableView()
-      //      self.hideAskPermissionLabel()
+      self.hideNoResultsLabel()
       //      self.hideAddButton()
       
     }
@@ -259,25 +299,25 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
     
   }
   //
-  //  private func showAskPermissionLabel() {
-  //
-  //    UIView.animateWithDuration(0.25){
-  //
-  //      self.askPermissionLabel.alpha = 1.0
-  //
-  //    }
-  //
-  //  }
-  //
-  //  private func hideAskPermissionLabel() {
-  //
-  //    UIView.animateWithDuration(0.25){
-  //
-  //      self.askPermissionLabel.alpha = 0.0
-  //
-  //    }
-  //
-  //  }
+    private func showNoResultsLabel() {
+  
+      UIView.animateWithDuration(0.25){
+  
+        self.noResultsLabel.alpha = 1.0
+  
+      }
+  
+    }
+  
+    private func hideNoResultsLabel() {
+  
+      UIView.animateWithDuration(0.25){
+  
+        self.noResultsLabel.alpha = 0.0
+  
+      }
+  
+    }
   //
   //  private func showAddButton() {
   //

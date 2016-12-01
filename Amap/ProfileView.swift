@@ -38,6 +38,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
   private var pickerView: UIPickerView! = nil
   private var containerViewForPicker: UIView! = nil
   
+  private var deleteImage: Bool = false
   var thereAreChanges: Bool = false
   var delegate: ProfileViewDelegate?
   
@@ -732,12 +733,14 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
   
   func deleteProfileImage() {
     
+    thereAreChanges = true
     profileImageView.image = nil
     
   }
   
   func changeProfileImageView(image: UIImage) {
     
+    thereAreChanges = true
     profileImageView.image = image
     
   }
@@ -865,6 +868,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
         parameters = [
           "id" : UserSession.session.agency_id,
           "auth_token": UserSession.session.auth_token,
+          "delete_image": true,
           "agency": [
             "name" : agencyNameView.mainTextField.text!,
             "phone": agencyPhoneView.mainTextField.text!,
@@ -928,6 +932,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
         parameters = [
           "id" : UserSession.session.agency_id,
           "auth_token": UserSession.session.auth_token,
+          "delete_image": true,
           "agency": [
             "name" : agencyNameView.mainTextField.text!,
             "phone": agencyPhoneView.mainTextField.text!,
