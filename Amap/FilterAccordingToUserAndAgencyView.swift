@@ -49,6 +49,7 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
     
     self.backgroundColor = UIColor.whiteColor()
     
+    self.addGestures()
     self.createCancelFilterButton()
     self.createContainerViewForPicker()
     self.createMainDatePicker()
@@ -61,12 +62,22 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
     
   }
   
+  private func addGestures() {
+    
+    let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                              action: #selector(dismissKeyboard))
+    tapToDismissKeyboard.numberOfTapsRequired = 1
+    tapToDismissKeyboard.cancelsTouchesInView = false
+    self.addGestureRecognizer(tapToDismissKeyboard)
+    
+  }
+  
   private func createContainerViewForPicker() {
     
     let frameForContainerView = CGRect.init(x: 0.0,
                                             y: 0.0,
                                             width: UIScreen.mainScreen().bounds.width,
-                                            height: 175.0)
+                                            height: 181.0 * UtilityManager.sharedInstance.conversionHeight)
     
     containerViewForPicker = UIView.init(frame: frameForContainerView)
     containerViewForPicker.backgroundColor = UIColor.clearColor()
@@ -405,7 +416,7 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
     
   }
   
-  private func dismissKeyboard() {
+  @objc private func dismissKeyboard() {
     
     self.endEditing(true)
     
@@ -482,6 +493,5 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
     self.delegate?.cancelFilterButtonPressed()
   
   }
-  
   
 }
