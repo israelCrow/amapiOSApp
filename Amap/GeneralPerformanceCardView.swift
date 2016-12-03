@@ -40,8 +40,19 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     
     super.init(frame: frame)
     
+    self.addGestures()
     self.initValues()
     self.initInterface()
+    
+  }
+  
+  private func addGestures() {
+    
+    let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                              action: #selector(dismissKeyboard))
+    tapToDismissKeyboard.numberOfTapsRequired = 1
+    tapToDismissKeyboard.cancelsTouchesInView = false
+    self.addGestureRecognizer(tapToDismissKeyboard)
     
   }
   
@@ -228,6 +239,12 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
       self.delegate?.requestToGetValuesByUser(params)
       
     }
+    
+  }
+  
+  @objc private func dismissKeyboard(sender:AnyObject) {
+    
+    self.endEditing(true)
     
   }
   

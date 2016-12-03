@@ -11,7 +11,7 @@ import Alamofire
 
 class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
-  let kCreateAccountText = "¿Cómo? ¿no estás registrado? Crea una cuenta ahora"
+  let kCreateAccountText = "¿Cómo? ¿No estás registrado? Crea una cuenta ahora"
     
   private var flipCard:FlipCardView! = nil
   private var createAccountLabel: UILabel! = nil

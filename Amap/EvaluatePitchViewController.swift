@@ -220,18 +220,32 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
   
   @objc private func navigationRightButtonPressed() {
     
-    let newFrameForDetailedNavigation = CGRect.init(x: detailedNavigation.frame.size.width,
-                                                    y: detailedNavigation.frame.origin.y,
-                                                    width: detailedNavigation.frame.size.width,
-                                                    height: detailedNavigation.frame.size.height)
+    let alertController = UIAlertController(title: "AVISO", message: "Al salir perderás tus cambios, ¿deseas salir?", preferredStyle: UIAlertControllerStyle.Alert)
     
-    UIView.animateWithDuration(0.20){
-      
-      self.detailedNavigation.frame = newFrameForDetailedNavigation
+    let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
       
     }
     
-    self.navigationController?.popToRootViewControllerAnimated(true)
+    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+      
+      let newFrameForDetailedNavigation = CGRect.init(x: self.detailedNavigation.frame.size.width,
+                                                      y: self.detailedNavigation.frame.origin.y,
+                                                      width: self.detailedNavigation.frame.size.width,
+                                                      height: self.detailedNavigation.frame.size.height)
+      
+      UIView.animateWithDuration(0.20){
+        
+        self.detailedNavigation.frame = newFrameForDetailedNavigation
+        
+      }
+      
+      self.navigationController?.popToRootViewControllerAnimated(true)
+      
+    }
+    
+    alertController.addAction(cancelAction)
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
     
   }
   

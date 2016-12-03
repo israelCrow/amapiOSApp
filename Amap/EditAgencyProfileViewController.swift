@@ -1248,6 +1248,8 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
       let imagePicker = UIImagePickerController()
+      imagePicker.navigationBar.barTintColor = UIColor.init(white: 1.0, alpha: 1.0)
+//      imagePicker.navigationBar.tintColor = UIColor.init(white: 1.0, alpha: 1.0)
       imagePicker.delegate = self
       imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
       imagePicker.allowsEditing = true
@@ -1255,6 +1257,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       requestImageForCase = true
       
       self.presentViewController(imagePicker, animated: true, completion: nil)
+      
     }
   }
   
@@ -1281,6 +1284,8 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
       let imagePicker = UIImagePickerController()
+      imagePicker.navigationBar.barTintColor = UIColor.init(white: 1.0, alpha: 1.0)
+//      imagePicker.navigationBar.tintColor = UIColor.init(white: 1.0, alpha: 1.0)
       imagePicker.delegate = self
       imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
       imagePicker.allowsEditing = true

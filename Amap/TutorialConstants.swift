@@ -28,14 +28,14 @@ class TutorialConstants {
   
   enum DashboardFirstScreenTutorial {
     
-    static let leftBottomLabelText = "Éste es el panel de estadísticas. Mientras más información nos des, más completa estará."
+    static let leftBottomLabelText = "Éste es el panel de estadísticas. Mientras más información nos des, más completa estará"
     static let bottomDashBoardLabelText = "Dashboard"
     
   }
   
   enum DashboardSecondScreenTutotial {
     
-    static let topLabelText = "Aquí puedes filtras la información por miembro del equipo o de toda la agencia"
+    static let topLabelText = "Aquí puedes filtrar la información por miembro del equipo o de toda la agencia"
     static let bottomDashBoardLabelText = "Dashboard"
     
   }

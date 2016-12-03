@@ -134,14 +134,16 @@ class GenericDashboardGraphic: UIView {
     combinedData.barData = self.generateBarData(dataForBarChart)
     
     chartView.data = combinedData
+    chartView.userInteractionEnabled = false
     chartView.drawBordersEnabled = false
+    chartView.legend.yOffset = 10.0
     chartView.legend.form = .Circle
-    chartView.legend.formSize = 15.0 * UtilityManager.sharedInstance.conversionWidth
+    chartView.legend.formSize = 14.0 * UtilityManager.sharedInstance.conversionWidth
     chartView.legend.xEntrySpace = 53.0 * UtilityManager.sharedInstance.conversionWidth
     chartView.legend.yEntrySpace =  15.0 * UtilityManager.sharedInstance.conversionHeight
     chartView.legend.position = .BelowChartLeft
     chartView.legend.font = UIFont(name: "SFUIText-Light",
-                                   size: 14.0 * UtilityManager.sharedInstance.conversionWidth)!
+                                   size: 13.0 * UtilityManager.sharedInstance.conversionWidth)!
     
     chartView.xAxis.labelPosition = .Top
     chartView.xAxis.axisLineWidth = 0.0
@@ -258,7 +260,7 @@ class GenericDashboardGraphic: UIView {
     border4.borderColor = UIColor.darkGrayColor().CGColor
     border4.borderWidth = width
     border4.frame = CGRect.init(x: 0.0,
-                                y: 213.0 * UtilityManager.sharedInstance.conversionHeight,
+                                y: 214.5 * UtilityManager.sharedInstance.conversionHeight,
                             width: 283.0 * UtilityManager.sharedInstance.conversionWidth,
                            height: 0.5 * UtilityManager.sharedInstance.conversionHeight)
     self.layer.addSublayer(border4)

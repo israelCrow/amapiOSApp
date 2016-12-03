@@ -18,6 +18,8 @@ class CriterionWithImageView: UIView, CustomSwitchViewActionsDelegate {
   
   private var nameImageText: String! = nil
   private var imageView: UIImageView! = nil
+  private var textAfterImageLabel: UILabel! = nil
+  private var textAfterImageString: String = ""
   private var selectValueSwitch: CustomSwitchView! = nil
   private var initialValueFromSwitch: Bool = false
   var criterionId: String! = nil
@@ -33,9 +35,26 @@ class CriterionWithImageView: UIView, CustomSwitchViewActionsDelegate {
     
   }
   
+  init(frame: CGRect, nameImage: String, valueOfSwitch: Bool, newTextAfterImage: String){
+    initialValueFromSwitch = valueOfSwitch
+    nameImageText = nameImage
+    textAfterImageString = newTextAfterImage
+    
+    super.init(frame: frame)
+    self.initInterface()
+    
+  }
+  
   private func initInterface() {
     
     self.createImageView()
+    
+    if textAfterImageString != "" {
+      
+      self.createTextAfterImageLabel()
+      
+    }
+    
     self.createSelectValueSwitch()
     self.createBottomLine()
     
@@ -51,6 +70,43 @@ class CriterionWithImageView: UIView, CustomSwitchViewActionsDelegate {
     imageView.frame = newFrameOfImageView
     self.addSubview(imageView)
     
+  }
+  
+  private func createTextAfterImageLabel() {
+  
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 80.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    textAfterImageLabel = UILabel.init(frame: frameForLabel)
+    textAfterImageLabel.numberOfLines = 0
+    textAfterImageLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Left
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: textAfterImageString,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    textAfterImageLabel.attributedText = stringWithFormat
+    textAfterImageLabel.sizeToFit()
+    let newFrame = CGRect.init(x: 46.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: 20.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: textAfterImageLabel.frame.size.width,
+                               height: textAfterImageLabel.frame.size.height)
+    
+    textAfterImageLabel.frame = newFrame
+    
+    self.addSubview(textAfterImageLabel)
+  
   }
   
   private func createSelectValueSwitch() {

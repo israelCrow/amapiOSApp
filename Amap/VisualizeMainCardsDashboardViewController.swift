@@ -37,6 +37,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccording
   private var secondFilterView: FilterAccordingToUserAndAgencyView! = nil
   
   private var nextTimeFlipFirstCard: Bool! = false
+  private var actualPage: Int = 1
 
   var delegateForShowAndHideTabBar: VisualizeAllPitchesViewControllerShowAndHideDelegate?
   

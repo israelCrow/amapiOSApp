@@ -55,11 +55,11 @@ class AgencyProfileEditConstants {
     static let changeProfilePictureButtonText = "Cambiar Foto de Perfil"
     static let deleteProfilePictureButtonText = "Borrar Foto de Perfil"
     static let agencyPhoneTitleText = "Escribe tu teléfono con LADA"
-    static let agencyMailContactTitleText = "Escribe tu mail y nombre de contacto"
+    static let agencyMailContactTitleText = "Escribe tu mail"
     static let agencyContactTitleText = "Escribe un nombre de contacto"
     static let agencyAddressTitleText = "Escribe la dirección de la agencia"
     static let agencyWebSiteTitleText = "Escribe tu website"
-    static let agencyNumberOfEmployeTitleText = "Número de empleados"
+    static let agencyNumberOfEmployeTitleText = "Tamaño de la agencia"
     
   }
   

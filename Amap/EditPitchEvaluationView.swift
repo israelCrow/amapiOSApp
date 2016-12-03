@@ -313,7 +313,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     let segmentsArray = ["Sí", "No sé", "No"]
     
     involvementOfMarketing = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                      title: "¿Está involucrado alguien del departamento de marketing?",
+                                                                      title: "¿Hay involucramiento de Senior Marketing en el proceso?",
                                                                       image: nil,
                                                                       segmentsText: segmentsArray)
     involvementOfMarketing.tag = 4
@@ -466,7 +466,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     let segmentsArray = ["Sí", "", "No"]
     
     youKnowHowManyPresentationRounds = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                                title: "¿Sabes cuántas rondas hay de presentación?",
+                                                                                title: "¿Sabes cuántas rondas de presentación hay?",
                                                                                 image: nil,
                                                                                 segmentsText: segmentsArray)
     youKnowHowManyPresentationRounds.tag = 7
@@ -492,7 +492,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 300.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["1 round", "2 rounds", "3 rounds", "4 rounds"]
+    let segmentsArray = ["1 ronda", "2 rondas", "3 rondas", "4 rondas"]
     
     howMany = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
                                                          textLabel: "¿Cuántas?",
@@ -554,7 +554,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["2 semanas", "3 semanas", "4 semanas", "5 semanas", ">5", "NA"]
+    let segmentsArray = ["No sé", "2 semanas", "3 semanas", "4 semanas", "5 semanas", "Más de 5"]
     
     howManyDaysTheyGiveTheRuling = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
                                                                               textLabel: "¿En cuántas semanas te darán el resultado?",
@@ -881,7 +881,18 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     
     let howManyWeeksRuling = (UtilityManager.sharedInstance.isValidText(howManyDaysTheyGiveTheRuling.mainTextField.text!) == true ? howManyDaysTheyGiveTheRuling.mainTextField.text! : "2s")
     let howManyRulingWeeksWithoutSpaces = howManyWeeksRuling.stringByReplacingOccurrencesOfString(" ", withString: "")
-    let howManyWeeksTheRulingResult = howManyRulingWeeksWithoutSpaces.substringWithRange(howManyRulingWeeksWithoutSpaces.startIndex..<howManyRulingWeeksWithoutSpaces.startIndex.advancedBy(2))
+    var howManyWeeksTheRulingResult = howManyRulingWeeksWithoutSpaces.substringWithRange(howManyRulingWeeksWithoutSpaces.startIndex..<howManyRulingWeeksWithoutSpaces.startIndex.advancedBy(2))
+    
+    if howManyWeeksTheRulingResult == "Má" {
+      
+      howManyWeeksTheRulingResult = ">5"
+      
+    }else
+      if howManyWeeksTheRulingResult == "No" {
+        
+        howManyWeeksTheRulingResult = "NA" //Checar, puede que sea "no se"
+        
+    }
     
     //    let howManyDaysTheyRulingResult = (UtilityManager.sharedInstance.isValidText(howManyDaysTheyGiveTheRuling.mainTextField.text!) == true ? howManyDaysTheyGiveTheRuling.mainTextField.text! : "1")
     

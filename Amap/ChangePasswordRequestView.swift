@@ -234,7 +234,7 @@ class ChangePasswordRequestView: UIView, UITextFieldDelegate {
                                             height: 45.0 * UtilityManager.sharedInstance.conversionHeight)
         
         eMailTextField = UITextField.init(frame: frameForTextField)
-        eMailTextField.placeholder = "jen@ejemplo.com"
+        eMailTextField.placeholder = "email"
         eMailTextField.tag = 1
         eMailTextField.delegate = self
         eMailTextField.clearButtonMode = .WhileEditing

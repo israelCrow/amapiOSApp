@@ -385,7 +385,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         
         eMailTextField = UITextField.init(frame: frameForTextField)
         eMailTextField.tag = 2
-        eMailTextField.placeholder = "jen@ejemplo.com"
+        eMailTextField.placeholder = "email"
         eMailTextField.delegate = self
         eMailTextField.clearButtonMode = .WhileEditing
 //        eMailTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)

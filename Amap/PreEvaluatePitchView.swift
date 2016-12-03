@@ -23,6 +23,7 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
   private var mainDatePicker: UIDatePicker! = nil
   
   private var errorEMailLabel: UILabel! = nil
+  private var sameEmailErrorLabel: UILabel! = nil
   
   var delegate: PreEvaluatePitchViewDelegate?
   
@@ -49,6 +50,7 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     self.createNextButton()
     
     self.createErrorEMailLabel()
+    self.createSameEmailErrorLabel()
     
   }
   
@@ -224,6 +226,38 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     
   }
   
+  private func createSameEmailErrorLabel() {
+    
+    sameEmailErrorLabel = UILabel.init(frame: CGRectZero)
+    sameEmailErrorLabel.numberOfLines = 2
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 13.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.redColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "No puedes ingresar tu propio mail",
+      attributes:[NSFontAttributeName:font!,
+        NSParagraphStyleAttributeName:style,
+        NSForegroundColorAttributeName:color
+      ]
+    )
+    
+    sameEmailErrorLabel.attributedText = stringWithFormat
+    sameEmailErrorLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (sameEmailErrorLabel.frame.size.width / 2.0),
+                               y: writeDateOfCreationOfPitchView.frame.origin.y + writeDateOfCreationOfPitchView.frame.size.height + (10.0 * UtilityManager.sharedInstance.conversionHeight),
+                               width: sameEmailErrorLabel.frame.size.width,
+                               height: sameEmailErrorLabel.frame.size.height)
+    
+    sameEmailErrorLabel.frame = newFrame
+    sameEmailErrorLabel.alpha = 0.0
+    self.addSubview(sameEmailErrorLabel)
+    
+  }
+  
   @objc private func datePickerViewChanged(sender: UIDatePicker) {
     
     let dateFromPicker = mainDatePicker.date
@@ -240,16 +274,26 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     let isValidEmail = UtilityManager.sharedInstance.isValidEmail(writeNameAgencyOrBrandView.mainTextField.text!)
     let isValidDate = UtilityManager.sharedInstance.isValidText(writeDateOfCreationOfPitchView.mainTextField.text!)
     
-    if isValidEmail == true && isValidDate == true{
+    if writeNameAgencyOrBrandView.mainTextField.text!.lowercaseString != UserSession.session.email.lowercaseString {
       
-      self.delegate?.savePitchAndFlipCard(writeNameAgencyOrBrandView.mainTextField.text!,
-                                          briefDate: writeDateOfCreationOfPitchView.mainTextField.text!)
+      if isValidEmail == true && isValidDate == true{
+        
+        self.delegate?.savePitchAndFlipCard(writeNameAgencyOrBrandView.mainTextField.text!,
+                                            briefDate: writeDateOfCreationOfPitchView.mainTextField.text!)
+        
+      } else {
+        
+        self.showValidMailError()
+        
+      }
       
-    }else{
+    } else {
       
-      self.showValidMailError()
+      self.showSameMailError()
       
     }
+    
+
     
   }
   
@@ -293,6 +337,33 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     
   }
   
+  private func showSameMailError() {
+    
+    //    self.removeAllErrorLabels()
+    nextButton.userInteractionEnabled = false
+    UIView.animateWithDuration(1.0,
+                               animations: {
+                                self.sameEmailErrorLabel.alpha = 1.0
+    }) { (finished) in
+      if finished {
+        //                self.hideErrorMailLabel()
+        self.nextButton.userInteractionEnabled = true
+      }
+    }
+  }
+  
+  @objc private func hideSameMailLabel() {
+    
+    UIView.animateWithDuration(0.3, animations: {
+      self.sameEmailErrorLabel.alpha = 0.0
+    }) { (finished) in
+      if finished {
+        //                self.nextButton.userInteractionEnabled = true
+      }
+    }
+    
+  }
+  
   private func dismissKeyboard() {
     
     self.endEditing(true)
@@ -304,6 +375,7 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
   func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
     
     self.hideErrorMailLabel()
+    self.hideSameMailLabel()
     
     return true
   }
@@ -312,13 +384,15 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
   func textFieldShouldClear(textField: UITextField) -> Bool {
     
     self.hideErrorMailLabel()
+    self.hideSameMailLabel()
     
     return true
   }
   
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
     
-    hideErrorMailLabel()
+    self.hideErrorMailLabel()
+    self.hideSameMailLabel()
     
     return true
   }

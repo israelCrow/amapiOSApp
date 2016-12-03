@@ -9,16 +9,16 @@
 import UIKit
 
 
-class ParticipateInView: UIView, CriterionViewDelegate {
+class ParticipateInView: UIView, CriterionWithImageViewDelegate {
   
   private var mainScrollView: UIScrollView! = nil
-  private var arrayOfLabels: [CriterionView]! = nil
+  private var arrayOfLabels: [CriterionWithImageView]! = nil
   
   private var participateInLabel: UILabel! = nil
-  private var goldenPitchCriterion: CriterionView! = nil
-  private var silverPitchCriterion: CriterionView! = nil
-  private var mediumRiskPitchCriterion: CriterionView! = nil
-  private var highRiskPitchCriterion: CriterionView! = nil
+  private var goldenPitchCriterion: CriterionWithImageView! = nil
+  private var silverPitchCriterion: CriterionWithImageView! = nil
+  private var mediumRiskPitchCriterion: CriterionWithImageView! = nil
+  private var highRiskPitchCriterion: CriterionWithImageView! = nil
   
   var thereAreChanges: Bool = false
   
@@ -103,12 +103,14 @@ class ParticipateInView: UIView, CriterionViewDelegate {
     
     let frameForNewCriterion = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
                                            y: 14.0 * UtilityManager.sharedInstance.conversionHeight,
-                                           width: 220 * UtilityManager.sharedInstance.conversionWidth,
-                                           height: 56 * UtilityManager.sharedInstance.conversionHeight)
+                                           width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                           height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    goldenPitchCriterion = CriterionView.init(frame: frameForNewCriterion,
-                                                   textLabel: AgencyProfileEditConstants.ParticipateInView.goldenPitchLabelText, valueOfSwitch: AgencyModel.Data.golden_pitch!)
-    goldenPitchCriterion.adaptSize()
+    goldenPitchCriterion = CriterionWithImageView.init(frame: frameForNewCriterion,
+                                                   nameImage: "color_fill1",
+                                               valueOfSwitch: AgencyModel.Data.golden_pitch!,
+                                           newTextAfterImage: "Happitch")
+    
     goldenPitchCriterion.delegate = self
     
     arrayOfLabels.append(goldenPitchCriterion)
@@ -119,12 +121,14 @@ class ParticipateInView: UIView, CriterionViewDelegate {
     
     let frameForNewCriterion = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
                                            y: 14.0 * UtilityManager.sharedInstance.conversionHeight,
-                                           width: 220 * UtilityManager.sharedInstance.conversionWidth,
-                                           height: 56 * UtilityManager.sharedInstance.conversionHeight)
+                                           width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                           height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    silverPitchCriterion = CriterionView.init(frame: frameForNewCriterion,
-                                                textLabel: AgencyProfileEditConstants.ParticipateInView.silverPitchLabelText, valueOfSwitch: AgencyModel.Data.silver_pitch!)
-    silverPitchCriterion.adaptSize()
+    silverPitchCriterion = CriterionWithImageView.init(frame: frameForNewCriterion,
+                                                       nameImage: "color_fill3",
+                                                       valueOfSwitch: AgencyModel.Data.silver_pitch!,
+                                                       newTextAfterImage: "Happy")
+    
     silverPitchCriterion.delegate = self
     
     arrayOfLabels.append(silverPitchCriterion)
@@ -138,9 +142,10 @@ class ParticipateInView: UIView, CriterionViewDelegate {
                                            width: 220 * UtilityManager.sharedInstance.conversionWidth,
                                            height: 56 * UtilityManager.sharedInstance.conversionHeight)
     
-    mediumRiskPitchCriterion = CriterionView.init(frame: frameForNewCriterion,
-                                                             textLabel: AgencyProfileEditConstants.ParticipateInView.mRiskPitchLabelText, valueOfSwitch: AgencyModel.Data.medium_risk_pitch!)
-    mediumRiskPitchCriterion.adaptSize()
+    mediumRiskPitchCriterion = CriterionWithImageView.init(frame: frameForNewCriterion,
+                                                           nameImage: "color_fill5",
+                                                           valueOfSwitch: AgencyModel.Data.medium_risk_pitch!,
+                                                           newTextAfterImage: "OK")
     mediumRiskPitchCriterion.delegate = self
     
     arrayOfLabels.append(mediumRiskPitchCriterion)
@@ -154,9 +159,10 @@ class ParticipateInView: UIView, CriterionViewDelegate {
                                            width: 220 * UtilityManager.sharedInstance.conversionWidth,
                                            height: 56 * UtilityManager.sharedInstance.conversionHeight)
     
-    highRiskPitchCriterion = CriterionView.init(frame: frameForNewCriterion,
-                                                      textLabel: AgencyProfileEditConstants.ParticipateInView.highRiskPitchLabelText, valueOfSwitch: AgencyModel.Data.high_risk_pitch!)
-    highRiskPitchCriterion.adaptSize()
+    highRiskPitchCriterion = CriterionWithImageView.init(frame: frameForNewCriterion,
+                                                         nameImage: "color_fill7",
+                                                         valueOfSwitch: AgencyModel.Data.high_risk_pitch!,
+                                                         newTextAfterImage: "Unhappy")
     highRiskPitchCriterion.delegate = self
     
     arrayOfLabels.append(highRiskPitchCriterion)
@@ -172,7 +178,7 @@ class ParticipateInView: UIView, CriterionViewDelegate {
       let lastCriterion = arrayOfLabels[i-1]
       let nextCriterion = arrayOfLabels[i]
       let newFrame = CGRect.init(x: nextCriterion.frame.origin.x,
-                                 y: lastCriterion.frame.origin.y + lastCriterion.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
+                                 y: lastCriterion.frame.origin.y + lastCriterion.frame.size.height + (0.0 * UtilityManager.sharedInstance.conversionHeight),
                                  width: nextCriterion.frame.size.width,
                                  height: nextCriterion.frame.size.height)
       nextCriterion.frame = newFrame
@@ -193,9 +199,9 @@ class ParticipateInView: UIView, CriterionViewDelegate {
 
   }
   
-  //MARK: - CriterionViewDelegate
+  //MARK: - CriterionWithImageViewDelegate
   
-  func theValueHasChanged(isValueChanged: Bool) {
+  func theValueHasChangedFromCriterionWithImage(valueChangedTo: Bool, sender: CriterionWithImageView) {
     
     thereAreChanges = true
     

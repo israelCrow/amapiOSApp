@@ -171,7 +171,7 @@ class CustomTextFieldWithTitleAndPickerForDashboardView: UIView, UIPickerViewDel
     
     if titleLabel != nil {
       
-      positionY = titleLabel!.frame.origin.y + titleLabel!.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight) //When has title but not icon
+      positionY = titleLabel!.frame.origin.y + titleLabel!.frame.size.height + (36.0 * UtilityManager.sharedInstance.conversionHeight) //When has title but not icon
       
     } else {
       
@@ -190,9 +190,21 @@ class CustomTextFieldWithTitleAndPickerForDashboardView: UIView, UIPickerViewDel
       
       imageOfArrow!.frame = iconImageViewFrame
       
+      let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(makeFirstResponderTheMainTextField))
+      tapGesture.numberOfTapsRequired = 1
+      
+      imageOfArrow!.userInteractionEnabled = true
+      imageOfArrow!.addGestureRecognizer(tapGesture)
+      
       self.addSubview(imageOfArrow!)
       
     }
+    
+  }
+  
+  @objc private func makeFirstResponderTheMainTextField() {
+    
+    self.mainTextField.becomeFirstResponder()
     
   }
   
@@ -296,6 +308,5 @@ class CustomTextFieldWithTitleAndPickerForDashboardView: UIView, UIPickerViewDel
     //self.delegate?.customTextFieldWithTitleAndPickerViewDidBeginEditing(self)
     
   }
-  
   
 }

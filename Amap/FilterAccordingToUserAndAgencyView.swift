@@ -56,8 +56,8 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
     self.createFilterLabel()
     self.createFromDateView()
     self.createToDateView()
-    self.createRankTimeLabel()
-    self.createMonthsSegmentedControl()
+//    self.createRankTimeLabel()
+//    self.createMonthsSegmentedControl()
     self.createApplyFilterButton()
     
   }
