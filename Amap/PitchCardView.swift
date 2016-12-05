@@ -14,6 +14,7 @@ protocol PitchCardViewDelegate {
   func createAndShowDetailedPitchView()
   func askForArchiveThisPitchCard(params: [String: AnyObject])
   func upSwipeDetectedInPitchCard()
+  func showAlreadyArchivedMessage(alert: UIAlertController)
   
 }
 
@@ -102,11 +103,31 @@ class PitchCardView: UIView {
     
     if sender.direction == .Down && isCardDown == false {
       
-      let params: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
+      
+      if pitchEvaluationByUserData.pitchStatus == 4 { //already archived
+        
+        let alertController = UIAlertController(title: "AVISO", message: "Este pitch ya ha sido archivado", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+          
+          //Something To Do
+          
+        }
+        
+        alertController.addAction(cancelAction)
+        self.delegate?.showAlreadyArchivedMessage(alertController)
+        
+      } else {
+      
+      
+        let params: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
                                                  "id": pitchEvaluationByUserData.pitchEvaluationId
                                         ]
       
-      self.delegate?.askForArchiveThisPitchCard(params)
+        self.delegate?.askForArchiveThisPitchCard(params)
+      
+      
+      }
         
     }
     

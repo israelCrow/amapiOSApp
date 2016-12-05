@@ -846,6 +846,12 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   //MARK: - PitchCardViewDelegate
   
+  func showAlreadyArchivedMessage(alert: UIAlertController) {
+    
+    self.presentViewController(alert, animated: true, completion: nil)
+    
+  }
+  
   func upSwipeDetectedInPitchCard() {
     
     self.hideArchiveButton()
@@ -876,8 +882,6 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   }
   
   func askForArchiveThisPitchCard(params: [String : AnyObject]) {
-    
-    
     
     self.archivePitchEvaluationParams = params
     
@@ -1462,6 +1466,12 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   
   //MARK: - DetailPitchViewDelegate
+  
+  func showMessageOfAlreadyArchived(alert: UIAlertController) {
+    
+    self.presentViewController(alert, animated: true, completion: nil)
+    
+  }
   
   func editPitchEvaluation(pitchEvaluationData: PitchEvaluationByUserModelData) {
     

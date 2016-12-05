@@ -15,7 +15,12 @@ protocol VisualizeMainCardsDashboardViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccordingToUserViewDelegate, FilterAccordingToUserAndAgencyViewDelegate, GraphOfAgencyVSIndustryViewDelegate, GeneralPerformanceCardViewDelegate {
+class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewDelegate,  GrapAccordingToUserViewDelegate, FilterAccordingToUserAndAgencyViewDelegate, GraphOfAgencyVSIndustryViewDelegate, GeneralPerformanceCardViewDelegate {
+  
+  enum ScrollDirection {
+    case toLeft
+    case toRight
+  }
   
   private let kNumberOfCards = 3
   
@@ -38,6 +43,9 @@ class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccording
   
   private var nextTimeFlipFirstCard: Bool! = false
   private var actualPage: Int = 1
+  private var lastOffSetOfMainScroll: CGPoint = CGPoint.init(x: UIScreen.mainScreen().bounds.size.width,
+                                                             y: 0.0)
+  private var directionOfScroll: ScrollDirection! = nil
 
   var delegateForShowAndHideTabBar: VisualizeAllPitchesViewControllerShowAndHideDelegate?
   
@@ -126,6 +134,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccording
                                             height: UIScreen.mainScreen().bounds.height)
     mainScrollView.pagingEnabled = true
     mainScrollView.setContentOffset(firstCardPoint, animated: false)
+    mainScrollView.delegate = self
     
     self.view.addSubview(mainScrollView)
     
@@ -180,7 +189,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccording
     let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
     let heightOfCard = self.view.frame.size.height - (168.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let frameForFirstCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth),
+    let frameForFirstCard = CGRect.init(x: (90.0 * UtilityManager.sharedInstance.conversionWidth),
                                         y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
                                     width: widthOfCard,
                                    height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
@@ -195,7 +204,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccording
                                      width: widthOfCard,
                                     height: heightOfCard)
     
-    let frameForThirdCard  = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth) + (mainScrollView.frame.size.width * CGFloat(kNumberOfCards - 1)),
+    let frameForThirdCard  = CGRect.init(x: (mainScrollView.frame.size.width * CGFloat(kNumberOfCards - 1)) - (10.0 * UtilityManager.sharedInstance.conversionWidth),
                                          y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
                                      width: widthOfCard,
                                     height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
@@ -372,6 +381,148 @@ class VisualizeMainCardsDashboardViewController: UIViewController, GrapAccording
     
   }
   
+  //MARK: - UIScrollViewDelegate
   
+  func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    
+    if mainScrollView.contentOffset.x == 0 {
+      
+      actualPage = 0
+      
+    }else
+      
+      if mainScrollView.contentOffset.x == UIScreen.mainScreen().bounds.size.width {
+        
+        actualPage = 1
+        
+      }else
+        
+        if mainScrollView.contentOffset.x == UIScreen.mainScreen().bounds.size.width * 2.0 {
+          
+          actualPage = 2
+          
+    }
+    
+  }
+  
+  func scrollViewDidScroll(scrollView: UIScrollView) {
+    
+    if lastOffSetOfMainScroll.x > mainScrollView.contentOffset.x {
+      
+      directionOfScroll = .toLeft
+      
+    } else
+    
+      if lastOffSetOfMainScroll.x < mainScrollView.contentOffset.x {
+        
+        directionOfScroll = .toRight
+        
+      }
+    
+    
+    if mainScrollView.contentOffset.x > 0.0 && mainScrollView.contentOffset.x < UIScreen.mainScreen().bounds.size.width {
+      
+      let proportion = (50.0 * UtilityManager.sharedInstance.conversionWidth) / UIScreen.mainScreen().bounds.size.width
+      
+      var newPositionInX: CGFloat = 40.0 * UtilityManager.sharedInstance.conversionWidth
+      
+      var newPositionInXForSecondCard: CGFloat = 40.0 * UtilityManager.sharedInstance.conversionWidth
+
+      if directionOfScroll == .toLeft {
+        
+        newPositionInX = (90.0 * UtilityManager.sharedInstance.conversionWidth) + ((mainScrollView.contentOffset.x - (UIScreen.mainScreen().bounds.size.width)) * proportion)
+        
+        newPositionInXForSecondCard = (((40.0 * UtilityManager.sharedInstance.conversionWidth) + UIScreen.mainScreen().bounds.size.width) + ((mainScrollView.contentOffset.x - (UIScreen.mainScreen().bounds.size.width)) * proportion))
+        
+      } else
+        if directionOfScroll == .toRight {
+          
+          newPositionInX = (40.0 * UtilityManager.sharedInstance.conversionWidth) + (mainScrollView.contentOffset.x * proportion)
+          
+          newPositionInXForSecondCard = ((-10.0 * UtilityManager.sharedInstance.conversionWidth) + UIScreen.mainScreen().bounds.size.width) + (mainScrollView.contentOffset.x * proportion)
+          
+        }
+      
+      let newFramePosition = CGRect.init(x: newPositionInX,
+                                         y: firstCard.frame.origin.y,
+                                         width: firstCard.frame.size.width,
+                                         height: firstCard.frame.size.height)
+      
+      let newFramePositionForSecondCard = CGRect.init(x: newPositionInXForSecondCard,
+                                                      y: gralPerformanceCardView.frame.origin.y,
+                                                  width: gralPerformanceCardView.frame.size.width,
+                                                 height: gralPerformanceCardView.frame.size.height)
+      
+      firstCard.frame = newFramePosition
+      
+      gralPerformanceCardView.frame = newFramePositionForSecondCard
+      
+    } else
+    
+      if mainScrollView.contentOffset.x > UIScreen.mainScreen().bounds.size.width && mainScrollView.contentOffset.x < UIScreen.mainScreen().bounds.size.width * 3.0 {
+        
+        let proportion = (50.0 * UtilityManager.sharedInstance.conversionWidth) / UIScreen.mainScreen().bounds.size.width
+        
+        var newPositionInX: CGFloat = (mainScrollView.frame.size.width * CGFloat(kNumberOfCards - 1)) - (10.0 * UtilityManager.sharedInstance.conversionWidth)
+        
+        var newPositionInXForSecondCard: CGFloat = 40.0 * UtilityManager.sharedInstance.conversionWidth
+        
+        if directionOfScroll == .toLeft {
+          
+            newPositionInX = (mainScrollView.frame.size.width * CGFloat(kNumberOfCards - 1)) + (40.0 * UtilityManager.sharedInstance.conversionWidth) + ((mainScrollView.contentOffset.x - (UIScreen.mainScreen().bounds.size.width * 2.0)) * proportion)
+          
+            newPositionInXForSecondCard = (UIScreen.mainScreen().bounds.size.width) + (90.0 * UtilityManager.sharedInstance.conversionWidth) + ((mainScrollView.contentOffset.x - (UIScreen.mainScreen().bounds.size.width * 2.0)) * proportion)
+          
+        } else
+          if directionOfScroll == .toRight {
+            
+            newPositionInX = (mainScrollView.frame.size.width * CGFloat(kNumberOfCards - 1)) - (10.0 * UtilityManager.sharedInstance.conversionWidth) + ((mainScrollView.contentOffset.x - (UIScreen.mainScreen().bounds.size.width * 1.0)) * proportion)
+            
+            newPositionInXForSecondCard = ((40.0 * UtilityManager.sharedInstance.conversionWidth) + UIScreen.mainScreen().bounds.size.width) + ((mainScrollView.contentOffset.x - (UIScreen.mainScreen().bounds.size.width * 1.0)) * proportion)
+            
+        }
+        
+        let newFramePosition = CGRect.init(x: newPositionInX,
+                                           y: firstCard.frame.origin.y,
+                                           width: firstCard.frame.size.width,
+                                           height: firstCard.frame.size.height)
+        
+        thirdCard.frame = newFramePosition
+        
+        let newFramePositionForSecondCard = CGRect.init(x: newPositionInXForSecondCard,
+                                                        y: gralPerformanceCardView.frame.origin.y,
+                                                        width: gralPerformanceCardView.frame.size.width,
+                                                        height: gralPerformanceCardView.frame.size.height)
+        
+        gralPerformanceCardView.frame = newFramePositionForSecondCard
+        
+        
+      }
+    
+    
+    
+    
+    
+    lastOffSetOfMainScroll = mainScrollView.contentOffset
+
+    
+//    if actualPage == 0 {
+//      
+//      let newFrameForFirstCard = CGRect.init(x: positionForFirstCardInFirstPage.x,
+//                                             y: positionForFirstCardInFirstPage.y,
+//                                         width: firstCard.frame.size.width,
+//                                        height: firstCard.frame.size.height)
+//    
+//      UIView.animateWithDuration(0.15){
+//        
+//        self.firstCard.frame = newFrameForFirstCard
+//        
+//      }
+//    
+//    }
+//    
+//    lastOffSetOfMainScroll = mainScrollView.contentOffset
+    
+  }
   
 }

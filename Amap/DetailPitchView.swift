@@ -14,6 +14,7 @@ protocol DetailPitchViewDelegate {
   func cancelEvaluationPitch(params: [String: AnyObject])
   func archiveEvaluationPitch(params: [String: AnyObject])
   func deleteEvaluationPitch(params: [String: AnyObject])
+  func showMessageOfAlreadyArchived(alert: UIAlertController)
   
   func pushAddResultsViewController(pitchaEvaluationData: PitchEvaluationByUserModelData)
   
@@ -392,11 +393,35 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   
   func archivePitchEvaluationButtonFromTabBarPressed() {
     
-    let params: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
-                                       "id": pitchEvaluationData.pitchEvaluationId
-    ]
-    
-    self.delegate?.archiveEvaluationPitch(params)
+    if pitchEvaluationData.pitchStatus == 4 { //already archived
+      
+      let alertController = UIAlertController(title: "AVISO", message: "Este pitch ya ha sido archivado", preferredStyle: UIAlertControllerStyle.Alert)
+      
+      let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+        
+        //Something To Do
+        
+      }
+      
+      alertController.addAction(cancelAction)
+      self.delegate?.showMessageOfAlreadyArchived(alertController)
+      
+    } else {
+      
+      
+      let params: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
+                                         "id": pitchEvaluationData.pitchEvaluationId
+      ]
+      
+      self.delegate?.archiveEvaluationPitch(params)
+      
+      
+    }
+//    let params: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
+//                                       "id": pitchEvaluationData.pitchEvaluationId
+//    ]
+//    
+//    self.delegate?.archiveEvaluationPitch(params)
     
   }
   
