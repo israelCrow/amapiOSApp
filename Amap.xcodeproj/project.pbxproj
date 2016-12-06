@@ -70,6 +70,7 @@
 		AA6D81341DB8593200175710 /* AddResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6D81331DB8593200175710 /* AddResultViewController.swift */; };
 		AA6D81391DB88DAB00175710 /* DidShowYourProposalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6D81381DB88DAB00175710 /* DidShowYourProposalView.swift */; };
 		AA6F8D9C1DC3363200D22AF1 /* VisualizeDashboardConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6F8D9B1DC3363200D22AF1 /* VisualizeDashboardConstants.swift */; };
+		AA7232BE1DF668C500BF3DAD /* NoFilterResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7232BD1DF668C500BF3DAD /* NoFilterResultsView.swift */; };
 		AA74956F1D7739ED0082B6DF /* DashBoardPitchesAndAgencyProfileTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74956E1D7739ED0082B6DF /* DashBoardPitchesAndAgencyProfileTabBarView.swift */; };
 		AA7495731D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7495721D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift */; };
 		AA756D7B1D709F8C0070F153 /* AgencyModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA756D7A1D709F8C0070F153 /* AgencyModelData.swift */; };
@@ -371,6 +372,7 @@
 		AA6D81331DB8593200175710 /* AddResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddResultViewController.swift; sourceTree = "<group>"; };
 		AA6D81381DB88DAB00175710 /* DidShowYourProposalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DidShowYourProposalView.swift; sourceTree = "<group>"; };
 		AA6F8D9B1DC3363200D22AF1 /* VisualizeDashboardConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeDashboardConstants.swift; sourceTree = "<group>"; };
+		AA7232BD1DF668C500BF3DAD /* NoFilterResultsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoFilterResultsView.swift; sourceTree = "<group>"; };
 		AA74956E1D7739ED0082B6DF /* DashBoardPitchesAndAgencyProfileTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardPitchesAndAgencyProfileTabBarView.swift; sourceTree = "<group>"; };
 		AA7495721D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyProfilePicNameButtonsView.swift; sourceTree = "<group>"; };
 		AA756D7A1D709F8C0070F153 /* AgencyModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyModelData.swift; sourceTree = "<group>"; };
@@ -851,6 +853,7 @@
 			children = (
 				AADC08BE1D9C224300C5CBCD /* PitchCard */,
 				AA02375B1D81FF100014915C /* NoPitchAssignedView.swift */,
+				AA7232BD1DF668C500BF3DAD /* NoFilterResultsView.swift */,
 				AA39775E1DB5E554009A41C2 /* LookForPitchCardView.swift */,
 				AACB52E41DB703F2004719A5 /* FilterPitchCardView.swift */,
 				AAD65A451DC2589700FA73B5 /* PendingEvaluationCardView.swift */,
@@ -1562,6 +1565,7 @@
 				AA8997971D89CA5A009513E3 /* CompanyModelData.swift in Sources */,
 				AA80C2731D917B3D00087DC0 /* CriteriaModelData.swift in Sources */,
 				044F89D91D6383D200AA7FF3 /* ProfileView.swift in Sources */,
+				AA7232BE1DF668C500BF3DAD /* NoFilterResultsView.swift in Sources */,
 				AA7495731D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift in Sources */,
 				AACBE28D1DDF7B1A007314C3 /* DashboardSecondScreenTutorialView.swift in Sources */,
 				AADA935C1DC109B000CA5DBD /* WhenProjectWillActivePitchSurveyView.swift in Sources */,

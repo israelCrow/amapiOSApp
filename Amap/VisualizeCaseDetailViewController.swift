@@ -27,6 +27,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
   private var playerVimeoYoutube: VideoPlayerVimeoYoutubeView! = nil
   private var linkLabel: UILabel! = nil
   private var shareThisInfo: UIView! = nil
+  private var imageCase: UIImageView! = nil
   
   private var mailIconButton: UIButton! = nil
   private var whatsAppIconButton: UIButton! = nil
@@ -49,6 +50,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     self.view = UIView.init(frame: UIScreen.mainScreen().bounds)
     self.view.backgroundColor = UIColor.blackColor()
     
+    self.addLikeObserver()
     self.initInterface()
     
   }
@@ -248,25 +250,36 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     
     
     if caseData.case_image_url != nil && UIApplication.sharedApplication().canOpenURL(NSURL.init(string: caseData.case_image_url!)!) == true{
-      let frameForImageView = CGRect.init(x: 0.0,
-                                          y: 0.0,
-                                      width: playerVimeoYoutube.frame.size.width,
-                                     height: playerVimeoYoutube.frame.size.height)
-      playerVimeoYoutube.imageForCaseImageView = nil
-      playerVimeoYoutube.imageForCaseImageView = UIImageView.init(frame: frameForImageView)
-      playerVimeoYoutube.imageForCaseImageView.backgroundColor = UIColor.whiteColor()
-      playerVimeoYoutube.imageForCaseImageView.userInteractionEnabled = true
-      playerVimeoYoutube.imageForCaseImageView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-      playerVimeoYoutube.imageForCaseImageView.contentMode = .ScaleAspectFit
-      playerVimeoYoutube.imageForCaseImageView.center = playerVimeoYoutube.center
-    
-      playerVimeoYoutube.imageForCaseImageView.imageFromUrlAndAdaptToSize(caseData.case_image_url!)
-      playerVimeoYoutube.addSubview(playerVimeoYoutube.imageForCaseImageView)
+//      let frameForImageView = CGRect.init(x: 0.0,
+//                                          y: 0.0,
+//                                      width: playerVimeoYoutube.frame.size.width,
+//                                     height: playerVimeoYoutube.frame.size.height)
+      
+      imageCase = UIImageView.init(frame: frameForPlayer)
+      imageCase.backgroundColor = UIColor.clearColor()
+      imageCase.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+      imageCase.contentMode = .ScaleAspectFit
+      imageCase.imageFromUrlAndAdaptToSize(caseData.case_image_url!)
+      mainScrollView.addSubview(imageCase)
+
+      
+//      playerVimeoYoutube.imageForCaseImageView = nil
+//      playerVimeoYoutube.imageForCaseImageView = UIImageView.init(frame: frameForImageView)
+//      playerVimeoYoutube.imageForCaseImageView.backgroundColor = UIColor.whiteColor()
+//      playerVimeoYoutube.imageForCaseImageView.userInteractionEnabled = true
+//      playerVimeoYoutube.imageForCaseImageView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+//      playerVimeoYoutube.imageForCaseImageView.contentMode = .ScaleAspectFit
+//      playerVimeoYoutube.imageForCaseImageView.center = playerVimeoYoutube.center
+//    
+//      playerVimeoYoutube.imageForCaseImageView.imageFromUrlAndAdaptToSize(caseData.case_image_url!)
+//      playerVimeoYoutube.addSubview(playerVimeoYoutube.imageForCaseImageView)
     }
     
     
     playerVimeoYoutube.changeCaseImageButton = nil
     playerVimeoYoutube.deleteCaseImageButton = nil
+    
+    playerVimeoYoutube.backgroundColor = UIColor.clearColor()
     
     mainScrollView.addSubview(playerVimeoYoutube)
     
@@ -428,7 +441,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
   
   override func viewDidLoad() {
     
-    self.addLikeObserver()
+//    self.addLikeObserver()
     
   }
   
@@ -442,35 +455,77 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     
     if notification.userInfo?["image"] as? UIImage != nil {
       
-      playerVimeoYoutube.existsImage = true
-      
       let image = notification.userInfo?["image"] as! UIImage
-      
       let sizeInPixels = CGSize.init(width: image.size.width * image.scale,
                                     height: image.size.height * image.scale)
       
-      
+      if sizeInPixels.width < (295.0 * UtilityManager.sharedInstance.conversionWidth) {
+        
+        imageCase.frame = CGRect.init(x: (imageCase.frame.size.width / 2.0) - (image.size.width / 2.0),
+                                      y: imageCase.frame.origin.y,
+                                  width: sizeInPixels.width,
+                                 height: sizeInPixels.height)
+        
+      }
       
       UIView.animateWithDuration(0.35) {
         
-        if self.linkLabel != nil {
+        if self.linkLabel != nil && (UtilityManager.sharedInstance.validateIfLinkIsYoutube(self.caseData.url) == true || UtilityManager.sharedInstance.validateIfLinkIsVimeo(self.caseData.url) == true) {
+        
+          self.playerVimeoYoutube.frame = CGRect.init(
+            x: self.playerVimeoYoutube.frame.origin.x,
+            y: self.playerVimeoYoutube.frame.origin.y + sizeInPixels.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+        width: self.playerVimeoYoutube.frame.size.width,
+       height: self.playerVimeoYoutube.frame.size.height)
           
-          self.linkLabel.frame = CGRect.init(x: self.linkLabel.frame.origin.x,
-                                             y: self.playerVimeoYoutube.frame.origin.y + sizeInPixels.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
-                                         width: self.linkLabel.frame.size.width,
-                                        height: self.linkLabel.frame.size.height)
+          self.linkLabel.frame = CGRect.init(
+            x: self.linkLabel.frame.origin.x,
+            y: self.playerVimeoYoutube.frame.origin.y + self.playerVimeoYoutube.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+        width: self.linkLabel.frame.size.width,
+       height: self.linkLabel.frame.size.height)
           
           self.shareThisInfo.frame = CGRect.init(x: self.shareThisInfo.frame.origin.x,
                                                  y: self.linkLabel.frame.origin.y + self.linkLabel.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
                                              width: self.shareThisInfo.frame.size.width,
                                             height: self.shareThisInfo.frame.size.height)
           
-        } else {
+        } else
         
+          if self.linkLabel == nil && (UtilityManager.sharedInstance.validateIfLinkIsYoutube(self.caseData.url) == true || UtilityManager.sharedInstance.validateIfLinkIsVimeo(self.caseData.url) == true) {
+            
+            self.playerVimeoYoutube.frame = CGRect.init(
+              x: self.playerVimeoYoutube.frame.origin.x,
+              y: self.playerVimeoYoutube.frame.origin.y + sizeInPixels.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+              width: self.playerVimeoYoutube.frame.size.width,
+              height: self.playerVimeoYoutube.frame.size.height)
+            
+            self.shareThisInfo.frame = CGRect.init(x: self.shareThisInfo.frame.origin.x,
+                                                   y: self.playerVimeoYoutube.frame.origin.y + self.playerVimeoYoutube.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                   width: self.shareThisInfo.frame.size.width,
+                                                   height: self.shareThisInfo.frame.size.height)
+            
+            
+        } else
+            
+          if self.linkLabel != nil {
+            
+            self.linkLabel.frame = CGRect.init(
+              x: self.linkLabel.frame.origin.x,
+              y: self.imageCase.frame.origin.y + self.imageCase.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+          width: self.linkLabel.frame.size.width,
+         height: self.linkLabel.frame.size.height)
+            
+            self.shareThisInfo.frame = CGRect.init(x: self.shareThisInfo.frame.origin.x,
+                                                   y: self.linkLabel.frame.origin.y + self.linkLabel.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                               width: self.shareThisInfo.frame.size.width,
+                                              height: self.shareThisInfo.frame.size.height)
+              
+          } else {
+          
           self.shareThisInfo.frame = CGRect.init(x: self.shareThisInfo.frame.origin.x,
-                                                 y: self.playerVimeoYoutube.frame.origin.y + sizeInPixels.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
-                                                 width: self.shareThisInfo.frame.size.width,
-                                                 height: self.shareThisInfo.frame.size.height)
+                                                 y: self.imageCase.frame.origin.y + self.imageCase.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                             width: self.shareThisInfo.frame.size.width,
+                                            height: self.shareThisInfo.frame.size.height)
         
         }
         

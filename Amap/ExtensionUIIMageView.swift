@@ -93,20 +93,21 @@ extension UIImageView {
               finalImage = UIGraphicsGetImageFromCurrentImageContext()
               UIGraphicsEndImageContext()
               
-              let videoPlayerView = self.superview! as! VideoPlayerVimeoYoutubeView
-              videoPlayerView.backgroundColor = UIColor.clearColor()
-              let frameForVideoPlayer = CGRect.init(x: videoPlayerView.frame.origin.x,
-                y: videoPlayerView.frame.origin.y,
+//              let videoPlayerView = self.superview! as! VideoPlayerVimeoYoutubeView
+//              videoPlayerView.backgroundColor = UIColor.clearColor()
+//              let frameForVideoPlayer = CGRect.init(x: videoPlayerView.frame.origin.x,
+//                y: videoPlayerView.frame.origin.y,
+//                width: finalImage!.size.width,
+//                height: finalImage!.size.height)
+              
+//              videoPlayerView.frame = frameForVideoPlayer
+              let frameForMyself = CGRect.init(x: self.frame.origin.x,
+                y: self.frame.origin.y,
                 width: finalImage!.size.width,
                 height: finalImage!.size.height)
               
-              videoPlayerView.frame = frameForVideoPlayer
-              let frameForMyself = CGRect.init(x: 0.0,
-                y: 0.0,
-                width: finalImage!.size.width,
-                height: finalImage!.size.height)
-              
-              videoPlayerView.frame = frameForVideoPlayer
+//              videoPlayerView.frame = frameForVideoPlayer
+              self.backgroundColor = UIColor.clearColor()
               self.frame = frameForMyself
               //                self.center = videoPlayerView.center
               
@@ -119,8 +120,10 @@ extension UIImageView {
               
             }else{
               
-              let videoPlayerView = self.superview! as! VideoPlayerVimeoYoutubeView
-              videoPlayerView.backgroundColor = UIColor.clearColor()
+//              let videoPlayerView = self.superview! as! VideoPlayerVimeoYoutubeView
+//              videoPlayerView.backgroundColor = UIColor.clearColor()
+              
+              self.backgroundColor = UIColor.clearColor()
               finalImage = newImage
               
             }

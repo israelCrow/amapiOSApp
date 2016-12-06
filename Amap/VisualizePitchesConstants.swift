@@ -7,6 +7,12 @@
 //
 
 class VisualizePitchesConstants {
+
+  enum NoFilterResultsView {
+    
+    static let warningNoPitchesText = "¡Oops!\nNo hay ningún\n pitch filtrado"
+    
+  }
   
   enum NoPitchesAssignedView {
     

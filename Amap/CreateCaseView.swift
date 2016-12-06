@@ -31,6 +31,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
   private var addImageLabel: UILabel! = nil
   private var caseImageView: UIImageView! = nil
   private var caseVideoPlayerVimeoYoutube: VideoPlayerVimeoYoutubeView! = nil
+  private var onlyCaseVideoPlayerVimeoYoutube: VideoPlayerVimeoYoutubeView! = nil
   private var previewVideoPlayerVimeoYoutube: PreviewVimeoYoutubeView! = nil
   private var caseWebLinkView: CustomTextFieldWithTitleView! = nil
   private var errorInFieldsLabel: UILabel! = nil
@@ -100,8 +101,6 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
   
   private func initInterfaceForPreview() {
     
-    
-    
     self.backgroundColor = UIColor.whiteColor()
     
     self.createCancelCreateButton()
@@ -113,6 +112,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     self.createAddImageLabelForPreview()
     self.createPreviewVideoPlayerVimeoYoutube(nil)
     self.createCaseWebLinkViewForPreview()
+    self.createCaseVideoPlayerVimeoYoutube(caseDataForPreview.url)
     self.createErrorInFieldsLabel()
     
   }
@@ -222,12 +222,12 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
                                         height: 419.0 * UtilityManager.sharedInstance.conversionHeight)
     
     let newContentSize = CGSize.init(width: frameForMainScrollView.size.width,
-                                    height: frameForMainScrollView.size.height + (65.0 * UtilityManager.sharedInstance.conversionHeight))
+                                    height: frameForMainScrollView.size.height + (165.0 * UtilityManager.sharedInstance.conversionHeight))
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.showsVerticalScrollIndicator = true
     mainScrollView.contentSize = newContentSize
-    mainScrollView.scrollEnabled = false
+    mainScrollView.scrollEnabled = true
     mainScrollView.backgroundColor = UIColor.whiteColor()
     self.addSubview(mainScrollView)
     
@@ -238,7 +238,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     let frameForContainerView = CGRect.init(x: 0.0,
                                             y: 0.0,
                                         width: mainScrollView.frame.size.width,
-                                       height: mainScrollView.frame.size.height)
+                                       height: mainScrollView.contentSize.height)
     
     containerView = UIView.init(frame: frameForContainerView)
     containerView.backgroundColor = UIColor.clearColor()
@@ -496,7 +496,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     errorInFieldsLabel.attributedText = stringWithFormat
     errorInFieldsLabel.sizeToFit()
     let newFrame = CGRect.init(x: (containerView.frame.size.width / 2.0) - (errorInFieldsLabel.frame.size.width / 2.0),
-                               y: 400.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: mainScrollView.contentSize.height - (errorInFieldsLabel.frame.size.height + 5.0 * UtilityManager.sharedInstance.conversionHeight),
                            width: errorInFieldsLabel.frame.size.width,
                           height: errorInFieldsLabel.frame.size.height)
     
@@ -576,39 +576,59 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
   private func createCaseVideoPlayerVimeoYoutube(url: String) {
     
     var lastFrameOfCaseVideoPlayer: CGRect? = nil
-    
-    let isYoutubeOrVimeoLink = UtilityManager.sharedInstance.validateIfLinkIsVimeo(url) || UtilityManager.sharedInstance.validateIfLinkIsYoutube(url)
-    
-    if isYoutubeOrVimeoLink == true {
-      
-      if caseVideoPlayerVimeoYoutube != nil { //caseVideoPlayer exists
+//
+//    let isYoutubeOrVimeoLink = UtilityManager.sharedInstance.validateIfLinkIsVimeo(url) || UtilityManager.sharedInstance.validateIfLinkIsYoutube(url)
+//    
+//    if isYoutubeOrVimeoLink == true {
+//      
+      if onlyCaseVideoPlayerVimeoYoutube != nil { //caseVideoPlayer exists
         
+        lastFrameOfCaseVideoPlayer = onlyCaseVideoPlayerVimeoYoutube.frame
         
-        lastFrameOfCaseVideoPlayer = caseVideoPlayerVimeoYoutube.frame
+        onlyCaseVideoPlayerVimeoYoutube.layer.removeAllAnimations()
+        onlyCaseVideoPlayerVimeoYoutube.layer.removeFromSuperlayer()
+        onlyCaseVideoPlayerVimeoYoutube = nil
         
-        caseVideoPlayerVimeoYoutube.layer.removeAllAnimations()
-        caseVideoPlayerVimeoYoutube.layer.removeFromSuperlayer()
-        caseVideoPlayerVimeoYoutube = nil
-        
-        caseVideoPlayerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: lastFrameOfCaseVideoPlayer!, url: url)
-        caseVideoPlayerVimeoYoutube.delegate = self
-        self.containerView.addSubview(caseVideoPlayerVimeoYoutube)
+        onlyCaseVideoPlayerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: lastFrameOfCaseVideoPlayer!, url: url)
+        if onlyCaseVideoPlayerVimeoYoutube.changeCaseImageButton != nil {
+          
+          onlyCaseVideoPlayerVimeoYoutube.changeCaseImageButton.removeFromSuperview()
+          
+        }
+        if onlyCaseVideoPlayerVimeoYoutube.deleteCaseImageButton != nil {
+          
+          onlyCaseVideoPlayerVimeoYoutube.deleteCaseImageButton.removeFromSuperview()
+          
+        }
+
+//        onlyCaseVideoPlayerVimeoYoutube.delegate = self
+        self.containerView.addSubview(onlyCaseVideoPlayerVimeoYoutube)
         
         
         
       } else {
-        
+    
         let frameForVideoPlayer = CGRect.init(x: 0.0,
-                                              y: addImageLabel.frame.origin.y + addImageLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
+                                              y: caseWebLinkView.frame.origin.y + caseWebLinkView.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
                                               width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                               height: 110.0 * UtilityManager.sharedInstance.conversionHeight)
         
-        caseVideoPlayerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: frameForVideoPlayer, url: url)
-        caseVideoPlayerVimeoYoutube.delegate = self
-        self.containerView.addSubview(caseVideoPlayerVimeoYoutube)
+        onlyCaseVideoPlayerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: frameForVideoPlayer, url: url)
+        if onlyCaseVideoPlayerVimeoYoutube.changeCaseImageButton != nil {
         
-      }
-      
+          onlyCaseVideoPlayerVimeoYoutube.changeCaseImageButton.removeFromSuperview()
+          
+        }
+        if onlyCaseVideoPlayerVimeoYoutube.deleteCaseImageButton != nil {
+          
+          onlyCaseVideoPlayerVimeoYoutube.deleteCaseImageButton.removeFromSuperview()
+          
+        }
+//        onlyCaseVideoPlayerVimeoYoutube.delegate = self
+        self.containerView.addSubview(onlyCaseVideoPlayerVimeoYoutube)
+        
+//      }
+//      
     }
     
   }
@@ -630,8 +650,11 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     
     if urlChecked == nil {
       
+      var caseWithoutCaseURL = caseDataForPreview
+      caseWithoutCaseURL.url = nil
+      
       previewVideoPlayerVimeoYoutube = PreviewVimeoYoutubeView.init(frame: frameForVideoPlayer,
-                                                                    caseInfo: caseDataForPreview, showButtonsOfEdition: true)
+                                                                    caseInfo: caseWithoutCaseURL, showButtonsOfEdition: true)
       previewVideoPlayerVimeoYoutube.delegateForDeleteAndChangeImage = self
       
       self.containerView.addSubview(previewVideoPlayerVimeoYoutube)
@@ -697,8 +720,8 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
         
         if isShowingEditCase == true {
           
-          deleteImage = true
-          self.createPreviewVideoPlayerVimeoYoutube(textChecked!)
+//          deleteImage = true
+          self.createCaseVideoPlayerVimeoYoutube(textChecked!)
           
         } else {
           
@@ -711,11 +734,13 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
         
         if isShowingEditCase == true {
           
-          self.createPreviewVideoPlayerVimeoYoutube("clean")
+          //self.createPreviewVideoPlayerVimeoYoutube("clean")
+          self.createCaseVideoPlayerVimeoYoutube("")
           
         } else {
           
-          self.createCaseVideoPlayerVimeoYoutubeWithoutURL()
+          self.createCaseVideoPlayerVimeoYoutube("")
+          //self.createCaseVideoPlayerVimeoYoutubeWithoutURL()
           
         }
         
@@ -737,7 +762,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
         
         if isShowingEditCase == true {
           
-          deleteImage = true
+//          deleteImage = true
           //self.createPreviewVideoPlayerVimeoYoutube(textChecked!)
           
         } else {
@@ -754,7 +779,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
           
         } else {
           
-          createCaseVideoPlayerVimeoYoutubeWithoutURL()
+          self.createCaseVideoPlayerVimeoYoutubeWithoutURL()
           
         }
       
@@ -968,7 +993,6 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
         if finished == true {
           
           self.mainScrollView.setContentOffset(CGPointZero, animated: true)
-          self.mainScrollView.scrollEnabled = false
           self.isDownContentView = false
           
         }
@@ -1001,78 +1025,88 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
       doesExistImage = false
     }
     
-    if isNameOk == true && isDescriptionOk == true && (urlIsFromYoutube == true || urlIsFromVimeo == true) {
+    if previewVideoPlayerVimeoYoutube.imageForCaseImageView.image == nil {
       
-      //correct
-      UtilityManager.sharedInstance.showLoader()
+      deleteImage = true
       
-      self.disableAllElements()
+    } else {
       
-      var params = [String:AnyObject]()
-      let caseName: String = caseNameView.mainTextField.text!
-      let caseDescription: String = caseDescriptionTextView.text
-      let caseWebLink: String = finalUrl //CHECAR FINALURL
+      deleteImage = false
       
-      params = [
-        "auth_token" : UserSession.session.auth_token,
-        "filename" : (AgencyModel.Data.name != nil ? "\(AgencyModel.Data.name).png" : "AgenciaID\(UserSession.session.agency_id).png"),
-        "delete_image": deleteImage,
-        "success_case" :
-          ["name" : caseName,
-            "description" : caseDescription,
-            "url" : caseWebLink,
-            "agency_id" : UserSession.session.agency_id
-        ]
-      ]
-      
-//      if doesExistImage ==  false {
-//        
-//        params = [
-//          "auth_token" : UserSession.session.auth_token,
-//          "filename" : (AgencyModel.Data.name != nil ? "\(AgencyModel.Data.name).png" : "AgenciaID\(UserSession.session.agency_id).png"),
-//          "success_case" :
-//            ["name" : caseName,
-//              "description" : caseDescription,
-//              "url" : caseWebLink,
-//              "agency_id" : UserSession.session.agency_id
-//          ]
+    }
+    
+//    if isNameOk == true && isDescriptionOk == true && (urlIsFromYoutube == true || urlIsFromVimeo == true) {
+//      
+//      //correct
+//      UtilityManager.sharedInstance.showLoader()
+//      
+//      self.disableAllElements()
+//      
+//      var params = [String:AnyObject]()
+//      let caseName: String = caseNameView.mainTextField.text!
+//      let caseDescription: String = caseDescriptionTextView.text
+//      let caseWebLink: String = finalUrl //CHECAR FINALURL
+//      
+//      params = [
+//        "auth_token" : UserSession.session.auth_token,
+//        "filename" : (AgencyModel.Data.name != nil ? "\(AgencyModel.Data.name).png" : "AgenciaID\(UserSession.session.agency_id).png"),
+//        "delete_image": deleteImage,
+//        "success_case" :
+//          ["name" : caseName,
+//            "description" : caseDescription,
+//            "url" : caseWebLink,
+//            "agency_id" : UserSession.session.agency_id
 //        ]
-//      }else{
-//        
-//        var dataImage: NSData = NSData.init()
-//        
-//        if caseImage != nil {
-//          
-//          dataImage = UIImagePNGRepresentation(caseImage!)!
-//          
-//        } else
-//          
-//          if previewVideoPlayerVimeoYoutube.imageForCaseImageView.image != nil {
-//            
-//            dataImage = UIImagePNGRepresentation(previewVideoPlayerVimeoYoutube.imageForCaseImageView.image!)!
-//            
-//        }
-//        
-//        params = [
-//          "auth_token" : UserSession.session.auth_token,
-//          "filename" : (AgencyModel.Data.name != nil ? "\(AgencyModel.Data.name).png" : "AgenciaID\(UserSession.session.agency_id).png"),
-//          "success_case" :
-//            [
-//              "case_image" : dataImage,
-//              "name" : caseName,
-//              "description" : caseDescription,
-//              "url" : caseWebLink,
-//              "agency_id" : UserSession.session.agency_id
-//          ]
-//        ]
-//      }
-      
-      self.hideErrorInFieldsLabel()
-      self.delegate?.updateCaseRequest(params, caseID: caseDataForPreview.id)
-
-      
-    } else
-      
+//      ]
+//      
+////      if doesExistImage ==  false {
+////        
+////        params = [
+////          "auth_token" : UserSession.session.auth_token,
+////          "filename" : (AgencyModel.Data.name != nil ? "\(AgencyModel.Data.name).png" : "AgenciaID\(UserSession.session.agency_id).png"),
+////          "success_case" :
+////            ["name" : caseName,
+////              "description" : caseDescription,
+////              "url" : caseWebLink,
+////              "agency_id" : UserSession.session.agency_id
+////          ]
+////        ]
+////      }else{
+////        
+////        var dataImage: NSData = NSData.init()
+////        
+////        if caseImage != nil {
+////          
+////          dataImage = UIImagePNGRepresentation(caseImage!)!
+////          
+////        } else
+////          
+////          if previewVideoPlayerVimeoYoutube.imageForCaseImageView.image != nil {
+////            
+////            dataImage = UIImagePNGRepresentation(previewVideoPlayerVimeoYoutube.imageForCaseImageView.image!)!
+////            
+////        }
+////        
+////        params = [
+////          "auth_token" : UserSession.session.auth_token,
+////          "filename" : (AgencyModel.Data.name != nil ? "\(AgencyModel.Data.name).png" : "AgenciaID\(UserSession.session.agency_id).png"),
+////          "success_case" :
+////            [
+////              "case_image" : dataImage,
+////              "name" : caseName,
+////              "description" : caseDescription,
+////              "url" : caseWebLink,
+////              "agency_id" : UserSession.session.agency_id
+////          ]
+////        ]
+////      }
+//      
+//      self.hideErrorInFieldsLabel()
+//      self.delegate?.updateCaseRequest(params, caseID: caseDataForPreview.id)
+//
+//      
+//    } else
+//      
       if doesExistImage == true && isNameOk == true && isDescriptionOk == true {
         
         //correct
@@ -1131,6 +1165,80 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
         
         self.hideErrorInFieldsLabel()
         self.delegate?.updateCaseRequest(params, caseID: caseDataForPreview.id)
+        
+      }
+        
+      else
+        
+      if isNameOk == true && isDescriptionOk == true && (urlIsFromYoutube == true || urlIsFromVimeo == true) {
+        
+        //correct
+        UtilityManager.sharedInstance.showLoader()
+        
+        self.disableAllElements()
+        
+        var params = [String:AnyObject]()
+        let caseName: String = caseNameView.mainTextField.text!
+        let caseDescription: String = caseDescriptionTextView.text
+        let caseWebLink: String = finalUrl //CHECAR FINALURL
+        
+        params = [
+          "auth_token" : UserSession.session.auth_token,
+          "filename" : (AgencyModel.Data.name != nil ? "\(AgencyModel.Data.name).png" : "AgenciaID\(UserSession.session.agency_id).png"),
+          "delete_image": deleteImage,
+          "success_case" :
+            ["name" : caseName,
+              "description" : caseDescription,
+              "url" : caseWebLink,
+              "agency_id" : UserSession.session.agency_id
+          ]
+        ]
+        
+        //      if doesExistImage ==  false {
+        //
+        //        params = [
+        //          "auth_token" : UserSession.session.auth_token,
+        //          "filename" : (AgencyModel.Data.name != nil ? "\(AgencyModel.Data.name).png" : "AgenciaID\(UserSession.session.agency_id).png"),
+        //          "success_case" :
+        //            ["name" : caseName,
+        //              "description" : caseDescription,
+        //              "url" : caseWebLink,
+        //              "agency_id" : UserSession.session.agency_id
+        //          ]
+        //        ]
+        //      }else{
+        //
+        //        var dataImage: NSData = NSData.init()
+        //
+        //        if caseImage != nil {
+        //
+        //          dataImage = UIImagePNGRepresentation(caseImage!)!
+        //
+        //        } else
+        //
+        //          if previewVideoPlayerVimeoYoutube.imageForCaseImageView.image != nil {
+        //
+        //            dataImage = UIImagePNGRepresentation(previewVideoPlayerVimeoYoutube.imageForCaseImageView.image!)!
+        //
+        //        }
+        //
+        //        params = [
+        //          "auth_token" : UserSession.session.auth_token,
+        //          "filename" : (AgencyModel.Data.name != nil ? "\(AgencyModel.Data.name).png" : "AgenciaID\(UserSession.session.agency_id).png"),
+        //          "success_case" :
+        //            [
+        //              "case_image" : dataImage,
+        //              "name" : caseName,
+        //              "description" : caseDescription,
+        //              "url" : caseWebLink,
+        //              "agency_id" : UserSession.session.agency_id
+        //          ]
+        //        ]
+        //      }
+        
+        self.hideErrorInFieldsLabel()
+        self.delegate?.updateCaseRequest(params, caseID: caseDataForPreview.id)
+        
         
       }
         
@@ -1225,6 +1333,8 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
     }else{
       doesExistImage = false
     }
+    
+    
     
     if isNameOk == true && isDescriptionOk == true && (urlIsFromYoutube == true || urlIsFromVimeo == true) {
       

@@ -34,6 +34,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   private var frontCard: PitchCardView! = nil
   private var originalFrameOfFrontCard: CGRect! = nil
   private var noPitchesAssignedView: NoPitchAssignedView! = nil
+  private var noFilterResultsView: NoFilterResultsView! = nil
   private var pendingEvaluationFrontCard: PendingEvaluationCardView! = nil
   private var mainDetailPitchView: DetailPitchView! = nil
   private var detailNavigationBar: DetailedNavigationEvaluatPitchView! = nil
@@ -373,6 +374,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       }else{
         
         self.hideNoPitchesView()
+        self.hideNoFilterResultsView()
         
         if self.mainCarousel == nil {
         
@@ -461,6 +463,51 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     noPitchesAssignedView.delegate = self
     noPitchesAssignedView.alpha = 1.0
     self.view.addSubview(noPitchesAssignedView)
+    
+    if addPitchButton != nil {
+      
+      self.view.bringSubviewToFront(addPitchButton)
+      
+    }
+    
+  }
+  
+  private func createAndAddNoFilterResultsView() {
+    
+    if noFilterResultsView != nil {
+      
+      //      if noPitchesAssignedView.alpha == 0.0 {
+      //
+      noFilterResultsView.removeFromSuperview()
+      noFilterResultsView = nil
+      
+      //      } else {
+      //
+      //        UIView.animateWithDuration(0.2,
+      //          animations: {
+      //
+      //            self.noPitchesAssignedView.alpha = 0.0
+      //
+      //          }, completion: { (finished) in
+      //            if finished == true {
+      //
+      //              self.noPitchesAssignedView.removeFromSuperview()
+      //              self.noPitchesAssignedView = nil
+      //
+      //            }
+      //        })
+      //
+      //      }
+      
+      
+    }
+    
+    let positionForNoFilterResultsView = CGPoint.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                y: 133.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    noFilterResultsView = NoFilterResultsView.init(position: positionForNoFilterResultsView)
+    noFilterResultsView.alpha = 1.0
+    self.view.addSubview(noFilterResultsView)
     
     if addPitchButton != nil {
       
@@ -576,11 +623,12 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
           
         }
         
-        self.createAndAddNoPitchesAssignedView()
+        self.createAndAddNoFilterResultsView()
         
       }else{
         
         self.hideNoPitchesView()
+        self.hideNoFilterResultsView()
         
         if self.mainCarousel.alpha == 0.0 {
           
@@ -756,6 +804,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   @objc private func filterButtonPressed() {
     
     self.hideNoPitchesView()
+    self.hideNoFilterResultsView()
     
     if mainCarousel == nil {
       
@@ -1437,7 +1486,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       isShowingAMessageCard = false
       
-      self.createAndAddNoPitchesAssignedView()
+      self.createAndAddNoFilterResultsView()
       
     }else{
       
@@ -2097,6 +2146,19 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
     }
     
+  }
+  
+  private func hideNoFilterResultsView() {
+    
+    if noFilterResultsView != nil && noFilterResultsView.alpha != 0.0 {
+      
+      UIView.animateWithDuration(0.2) {
+        
+        self.noFilterResultsView.alpha = 0.0
+        
+      }
+      
+    }
     
   }
   
@@ -2159,11 +2221,12 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
               
             }
             
-            self.createAndAddNoPitchesAssignedView()
+            self.createAndAddNoFilterResultsView()
             
           } else {
             
             self.hideNoPitchesView()
+            self.hideNoFilterResultsView()
             
             if self.mainCarousel.alpha == 0.0 {
               
