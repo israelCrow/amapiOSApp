@@ -19,7 +19,7 @@ protocol EditAgencyProfileViewControllerDelegate {
 class EditAgencyProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CasesViewDelegate, CreateCaseViewDelegate, ProfileViewDelegate {
     
   private let kEditAgencyProfile = "Editar Perfil Agencia"
-  private let kNumberOfCardsInScrollViewMinusOne = 5
+  private let kNumberOfCardsInScrollViewMinusOne = 4
   
   private var flipCard: FlipCardView! = nil
   private var scrollViewFrontFlipCard: UIScrollView! = nil

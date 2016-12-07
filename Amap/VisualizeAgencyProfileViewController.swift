@@ -20,7 +20,7 @@ protocol VisualizeAgencyProfileViewControllerDelegate {
 
 class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDelegate, VisualizeSkillsViewDelegate, VisualizeSkillsLevelViewDelegate, EditAgencyProfileViewControllerDelegate, AgencyProfilePicNameButtonsViewDelegate, MFMailComposeViewControllerDelegate, SFSafariViewControllerDelegate, VisualizeCaseDetailViewControllerDelegate {
   
-  let kNumberOfCardsInScrollViewMinusOne = 5
+  let kNumberOfCardsInScrollViewMinusOne = 4
   
   private var mainTabBar: DashBoardPitchesAndAgencyProfileTabBarView! = nil
   private var flipCard: FlipCardView! = nil

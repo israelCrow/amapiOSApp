@@ -92,7 +92,7 @@ class SplashViewController: UIViewController {
           
           
           let agency_id = (json["agency_id"] as? Int != nil ? json["agency_id"] as! Int : -1)
-          let brand_id = (json["brand_id"] as? Int != nil ? json["brand_id"] as! Int : -1)
+          let brand_id = (json["company_id"] as? Int != nil ? json["company_id"] as! Int : -1)
           let auth_token = (json["auth_token"] as? String != nil ? json["auth_token"] as! String : "")
           let email = (json["email"] as? String != nil ? json["email"] as! String : "")
           let first_name = (json["first_name"] as? String != nil ? json["first_name"] as! String : "")
@@ -119,7 +119,7 @@ class SplashViewController: UIViewController {
           } else
             if brand_id != -1 {
               
-              UserSession.session.brand_id = String(brand_id)
+              UserSession.session.company_id = String(brand_id)
               
           }
           
@@ -131,13 +131,34 @@ class SplashViewController: UIViewController {
           UserSession.session.last_name = last_name
           UserSession.session.role = role_string
           
-          RequestToServerManager.sharedInstance.requestForAgencyData(){
+//          RequestToServerManager.sharedInstance.requestForAgencyData(){
+//            
+//            UtilityManager.sharedInstance.hideLoader()
+//            
+//            self.initAndChangeRootToMainTabBarController()
+//
+//          }
+          
+          if UserSession.session.role == "2" {
             
-            UtilityManager.sharedInstance.hideLoader()
+            RequestToServerManager.sharedInstance.requestForAgencyData(){
+              
+              UtilityManager.sharedInstance.hideLoader()
+              
+              self.initAndChangeRootToMainTabBarController()
+              
+            }
             
-            self.initAndChangeRootToMainTabBarController()
-
+          }else
+            if UserSession.session.role == "4" {
+              
+              UtilityManager.sharedInstance.hideLoader()
+              
+              self.initAndChangeRootToMainTabBarController()
+              
           }
+          
+          
           
         } else {
           
@@ -163,39 +184,73 @@ class SplashViewController: UIViewController {
     
     var arrayOfViewControllers = [UINavigationController]()
     
-    //    mainTabBarController.viewControllers = [UIViewController]()
-    
-    arrayOfViewControllers.append(self.createFirstBarItem())
-    arrayOfViewControllers.append(self.createSecondBarItem())
-    arrayOfViewControllers.append(self.createThirdBarItem())
-    
-    mainTabBarController.viewControllers = arrayOfViewControllers
-    
-    let notToShowPitchesTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowPitchesTutorial + UserSession.session.email)
-    
-    if notToShowPitchesTutorial == false {
+    if UserSession.session.role == "2" {
       
-     mainTabBarController.selectedIndex = 2
-    
-    } else {
-    
-      mainTabBarController.selectedIndex = 1
+      arrayOfViewControllers.append(self.createFirstBarItem())
+      arrayOfViewControllers.append(self.createSecondBarItem())
+      arrayOfViewControllers.append(self.createThirdBarItem())
       
+      mainTabBarController.viewControllers = arrayOfViewControllers
+      let notToShowPitchesTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
+      
+      if notToShowPitchesTutorial == false {
+        
+        mainTabBarController.selectedIndex = 2
+        
+      } else {
+        
+        mainTabBarController.selectedIndex = 1
+        
+      }
+      
+      UtilityManager.sharedInstance.mainTabBarController = mainTabBarController
+      
+      let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+      UIView.transitionWithView(appDelegate.window!,
+                                duration: 0.25,
+                                options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                animations: {
+                                  self.view.alpha = 0.0
+                                  appDelegate.window?.rootViewController = self.mainTabBarController
+                                  appDelegate.window?.makeKeyAndVisible()
+                                  
+        },
+                                completion: nil)
+      
+    } else
+      
+      if UserSession.session.role == "4" {
+        
+        arrayOfViewControllers.append(self.createSecondBarItemForNormalUser())
+        
+        mainTabBarController.viewControllers = arrayOfViewControllers
+        //        let notToShowPitchesTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
+        //
+        //        if notToShowPitchesTutorial == false {
+        //
+        //          mainTabBarController.selectedIndex = 2
+        //
+        //        } else {
+        //
+        //          mainTabBarController.selectedIndex = 1
+        //
+        //        }
+        
+        UtilityManager.sharedInstance.mainTabBarController = mainTabBarController
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        UIView.transitionWithView(appDelegate.window!,
+                                  duration: 0.25,
+                                  options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                  animations: {
+                                    self.view.alpha = 0.0
+                                    appDelegate.window?.rootViewController = self.mainTabBarController
+                                    appDelegate.window?.makeKeyAndVisible()
+                                    
+          },
+                                  completion: nil)
+        
     }
-    
-    UtilityManager.sharedInstance.mainTabBarController = mainTabBarController
-    
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    UIView.transitionWithView(appDelegate.window!,
-                              duration: 0.25,
-                              options: UIViewAnimationOptions.TransitionCrossDissolve,
-                              animations: {
-                                self.view.alpha = 0.0
-                                appDelegate.window?.rootViewController = self.mainTabBarController
-                                appDelegate.window?.makeKeyAndVisible()
-                                
-      },
-                              completion: nil)
     
   }
 
@@ -276,6 +331,27 @@ class SplashViewController: UIViewController {
     let secondColorGradient = UIColor.init(red: 221.0/255.0, green: 225.0/255.0, blue: 30.0/255.0, alpha: 1.0)
     let colorsForBackground = [firstColorGradient,secondColorGradient]
     return GradientView.init(frame: UIScreen.mainScreen().bounds, arrayOfcolors: colorsForBackground, typeOfInclination: GradientView.TypeOfInclination.leftToRightInclination)
+    
+  }
+  
+  private func createSecondBarItemForNormalUser() -> UINavigationController  { //CHECAR AQUI
+    
+    let imagePitchesNonSelected = UIImage.init(named: "iconPitchesMedium")
+    let imagePitchesSelected = UIImage.init(named: "iconPitchesWhite")
+    
+    let visualizeAllPitchesForNormalClient = VisualizeAllPitchesForNormalClientViewController()
+//    visualizeAllPitchesForNormalClient.delegateForShowAndHideTabBar = mainTabBarController
+    let tabTwoBarItem = UITabBarItem.init(title: AgencyProfileVisualizeConstants.TabBarView.pitchesButtonText,
+                                          image: imagePitchesNonSelected,
+                                          selectedImage: imagePitchesSelected)
+    
+    let newNavController = UINavigationController.init(rootViewController: visualizeAllPitchesForNormalClient)
+    
+    tabTwoBarItem.tag = 2
+    newNavController.tabBarItem = tabTwoBarItem
+    newNavController.navigationBar.barStyle = .Black
+    
+    return newNavController
     
   }
   

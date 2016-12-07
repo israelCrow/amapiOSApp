@@ -228,10 +228,9 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                   let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
                   
                   //print(json)
-                  
                     
                   let agency_id = (json["agency_id"] as? Int != nil ? json["agency_id"] as! Int : -1)
-                  let brand_id = (json["brand_id"] as? Int != nil ? json["brand_id"] as! Int : -1)
+                  let company_id = (json["company_id"] as? Int != nil ? json["company_id"] as! Int : -1)
                   let auth_token = (json["auth_token"] as? String != nil ? json["auth_token"] as! String : "")
                   let email = (json["email"] as? String != nil ? json["email"] as! String : "")
                   let first_name = (json["first_name"] as? String != nil ? json["first_name"] as! String : "")
@@ -256,9 +255,9 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                     AgencyModel.Data.id = UserSession.session.agency_id!
                       
                   } else
-                    if brand_id != -1 {
+                    if company_id != -1 {
                         
-                      UserSession.session.brand_id = String(brand_id)
+                      UserSession.session.company_id = String(company_id)
                         
                   }
 
@@ -270,27 +269,40 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                   UserSession.session.last_name = last_name
                   UserSession.session.role = role_string
                   
-                  RequestToServerManager.sharedInstance.requestForAgencyData(){
+                  if UserSession.session.role == "2" {
                     
-                    UtilityManager.sharedInstance.hideLoader()
+                    RequestToServerManager.sharedInstance.requestForAgencyData(){
                       
-                    self.initAndChangeRootToMainTabBarController()
+                      UtilityManager.sharedInstance.hideLoader()
                       
-//                      let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-//                      let rootMainTabScreen = MainTabBarController()
-//                      
-//                      appDelegate.window?.rootViewController = rootMainTabScreen
-//                      appDelegate.window?.makeKeyAndVisible()
+                      self.initAndChangeRootToMainTabBarController()
                       
-//                      self.navigationController?.pushViewController(mainTabScreen, animated: true)
+                      //                      let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                      //                      let rootMainTabScreen = MainTabBarController()
+                      //
+                      //                      appDelegate.window?.rootViewController = rootMainTabScreen
+                      //                      appDelegate.window?.makeKeyAndVisible()
+                      
+                      //                      self.navigationController?.pushViewController(mainTabScreen, animated: true)
+                      
+                      //                      let visualizeAgencyProfile = VisualizeAgencyProfileViewController()
+                      //                      self.navigationController?.pushViewController(visualizeAgencyProfile, animated: true)
+                      
+                      //                      let editStuffAgency = EditAgencyProfileViewController()
+                      //                      self.navigationController?.pushViewController(editStuffAgency, animated: true)
+                      
+                    }
+                    
+                  }else
+                    if UserSession.session.role == "4" {
+                      
+                      UtilityManager.sharedInstance.hideLoader()
+                      
+                      self.initAndChangeRootToMainTabBarController()
+                      
+                    }
+                  
 
-//                      let visualizeAgencyProfile = VisualizeAgencyProfileViewController()
-//                      self.navigationController?.pushViewController(visualizeAgencyProfile, animated: true)
-                      
-//                      let editStuffAgency = EditAgencyProfileViewController()
-//                      self.navigationController?.pushViewController(editStuffAgency, animated: true)
-                    
-                  }
                   
                 } else {
                   
@@ -330,38 +342,75 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
     var arrayOfViewControllers = [UINavigationController]()
     
-//    mainTabBarController.viewControllers = [UIViewController]()
-    
-    arrayOfViewControllers.append(self.createFirstBarItem())
-    arrayOfViewControllers.append(self.createSecondBarItem())
-    arrayOfViewControllers.append(self.createThirdBarItem())
-    
-    mainTabBarController.viewControllers = arrayOfViewControllers
-    let notToShowPitchesTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
-    
-    if notToShowPitchesTutorial == false {
+    if UserSession.session.role == "2" {
       
-      mainTabBarController.selectedIndex = 2
+      arrayOfViewControllers.append(self.createFirstBarItem())
+      arrayOfViewControllers.append(self.createSecondBarItem())
+      arrayOfViewControllers.append(self.createThirdBarItem())
       
-    } else {
+      mainTabBarController.viewControllers = arrayOfViewControllers
+      let notToShowPitchesTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
       
-      mainTabBarController.selectedIndex = 1
+      if notToShowPitchesTutorial == false {
+        
+        mainTabBarController.selectedIndex = 2
+        
+      } else {
+        
+        mainTabBarController.selectedIndex = 1
+        
+      }
       
-    }
+      UtilityManager.sharedInstance.mainTabBarController = mainTabBarController
+      
+      let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+      UIView.transitionWithView(appDelegate.window!,
+                                duration: 0.25,
+                                options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                animations: {
+                                  self.view.alpha = 0.0
+                                  appDelegate.window?.rootViewController = self.mainTabBarController
+                                  appDelegate.window?.makeKeyAndVisible()
+                                  
+        },
+                                completion: nil)
+      
+    } else
     
-    UtilityManager.sharedInstance.mainTabBarController = mainTabBarController
+      if UserSession.session.role == "4" {
+        
+        arrayOfViewControllers.append(self.createSecondBarItemForNormalUser())
+        
+        mainTabBarController.viewControllers = arrayOfViewControllers
+//        let notToShowPitchesTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
+//        
+//        if notToShowPitchesTutorial == false {
+//          
+//          mainTabBarController.selectedIndex = 2
+//          
+//        } else {
+//          
+//          mainTabBarController.selectedIndex = 1
+//          
+//        }
+        
+        UtilityManager.sharedInstance.mainTabBarController = mainTabBarController
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        UIView.transitionWithView(appDelegate.window!,
+                                  duration: 0.25,
+                                  options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                  animations: {
+                                    self.view.alpha = 0.0
+                                    appDelegate.window?.rootViewController = self.mainTabBarController
+                                    appDelegate.window?.makeKeyAndVisible()
+                                    
+          },
+                                  completion: nil)
+        
+      }
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    UIView.transitionWithView(appDelegate.window!,
-                              duration: 0.25,
-                              options: UIViewAnimationOptions.TransitionCrossDissolve,
-                              animations: {
-                                self.view.alpha = 0.0
-                                appDelegate.window?.rootViewController = self.mainTabBarController
-                                appDelegate.window?.makeKeyAndVisible()
-                                
-      },
-                              completion: nil)
+
     
   }
   
@@ -441,6 +490,27 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
     tabThreeBarItem.tag = 3
     newNavController.tabBarItem = tabThreeBarItem
+    newNavController.navigationBar.barStyle = .Black
+    
+    return newNavController
+    
+  }
+  
+  private func createSecondBarItemForNormalUser() -> UINavigationController  { //CHECAR AQUI
+    
+    let imagePitchesNonSelected = UIImage.init(named: "iconPitchesMedium")
+    let imagePitchesSelected = UIImage.init(named: "iconPitchesWhite")
+    
+    let visualizeAllPitchesForNormalClient = VisualizeAllPitchesForNormalClientViewController()
+    //    visualizeAllPitchesForNormalClient.delegateForShowAndHideTabBar = mainTabBarController
+    let tabTwoBarItem = UITabBarItem.init(title: AgencyProfileVisualizeConstants.TabBarView.pitchesButtonText,
+                                          image: imagePitchesNonSelected,
+                                          selectedImage: imagePitchesSelected)
+    
+    let newNavController = UINavigationController.init(rootViewController: visualizeAllPitchesForNormalClient)
+    
+    tabTwoBarItem.tag = 2
+    newNavController.tabBarItem = tabTwoBarItem
     newNavController.navigationBar.barStyle = .Black
     
     return newNavController

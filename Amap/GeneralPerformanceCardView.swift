@@ -83,7 +83,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     self.createSelectorOfInformationView()
     self.createFaces()
     self.createCircleGraph()
-    self.createRecommendationsView()
+//    self.createRecommendationsView()
     
   }
   
