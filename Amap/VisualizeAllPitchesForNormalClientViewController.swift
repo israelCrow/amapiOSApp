@@ -23,8 +23,8 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
   private var mainCarousel: iCarousel! = nil
   private var frontCard: UIView! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
-  private var arrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
-  private var arrayOfPitchesByUserWithoutModifications = [PitchEvaluationByUserModelData]()
+  private var arrayOfPitchesByUser = [PitchEvaluationByUserModelDataForCompany]()
+  private var arrayOfPitchesByUserWithoutModifications = [PitchEvaluationByUserModelDataForCompany]()
   
   var delegateForShowAndHideTabBar: VisualizeAllPitchesForNormalClientViewControllerShowAndHideDelegate?
   
@@ -128,26 +128,55 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
     
     //ask to server for the info
     
-    let newElement = PitchEvaluationByUserModelData.init(newPitchEvaluationId: "-8888",
-                                                         newPitchId: "-8888",
-                                                         newPitchName: "Pitch name",
-                                                         newBriefDate: "-8888",
-                                                         newScore: -8888,
-                                                         newBrandName: "Brand name",
-                                                         newCompanyName: "Company name",
-                                                         newOtherScores: [Int](),
-                                                         newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData](),
-                                                         newWasWon: false,
-                                                         newPitchStatus: -1,
-                                                         newEvaluationStatus: false,
-                                                         newHasResults: false,
-                                                         newHasPitchWinnerSurvey: false,
-                                                         newPitchResultsId: "-8888")
     
-    arrayOfPitchesByUser.append(newElement)
-    arrayOfPitchesByUserWithoutModifications.append(newElement)
+    RequestToServerManager.sharedInstance.requestToGetAllPitchEvaluationByUser { (pitchEvaluationsByUser, pitchesForCompany) in
+      
+      if pitchesForCompany != nil {
+        
+        self.arrayOfPitchesByUser = pitchesForCompany!
+        self.arrayOfPitchesByUserWithoutModifications = pitchesForCompany!
+        
+        self.createMainCarousel()
+        
+      }
+      
+    }
     
-    self.createMainCarousel()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//    let newElement = PitchEvaluationByUserModelData.init(newPitchEvaluationId: "-8888",
+//                                                         newPitchId: "-8888",
+//                                                         newPitchName: "Pitch name",
+//                                                         newBriefDate: "-8888",
+//                                                         newScore: -8888,
+//                                                         newBrandName: "Brand name",
+//                                                         newCompanyName: "Company name",
+//                                                         newOtherScores: [Int](),
+//                                                         newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData](),
+//                                                         newWasWon: false,
+//                                                         newPitchStatus: -1,
+//                                                         newEvaluationStatus: false,
+//                                                         newHasResults: false,
+//                                                         newHasPitchWinnerSurvey: false,
+//                                                         newPitchResultsId: "-8888")
+//    
+//    arrayOfPitchesByUser.append(newElement)
+//    arrayOfPitchesByUserWithoutModifications.append(newElement)
+    
+    
     
   }
   
@@ -206,21 +235,23 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
         
       } else {
       
-        let newElement = PitchEvaluationByUserModelData.init(newPitchEvaluationId: "-8888",
-                                                             newPitchId: "-8888",
-                                                             newPitchName: "Pitch name",
-                                                             newBriefDate: "-8888",
-                                                             newScore: -8888,
-                                                             newBrandName: "Brand name",
-                                                             newCompanyName: "Company name",
-                                                             newOtherScores: [Int](),
-                                                             newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData](),
-                                                             newWasWon: false,
-                                                             newPitchStatus: -1,
-                                                             newEvaluationStatus: false,
-                                                             newHasResults: false,
-                                                             newHasPitchWinnerSurvey: false,
-                                                             newPitchResultsId: "-8888")
+//        let newElement = PitchEvaluationByUserModelData.init(newPitchEvaluationId: "-8888",
+//                                                             newPitchId: "-8888",
+//                                                             newPitchName: "Pitch name",
+//                                                             newBriefDate: "-8888",
+//                                                             newScore: -8888,
+//                                                             newBrandName: "Brand name",
+//                                                             newCompanyName: "Company name",
+//                                                             newOtherScores: [Int](),
+//                                                             newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData](),
+//                                                             newWasWon: false,
+//                                                             newPitchStatus: -1,
+//                                                             newEvaluationStatus: false,
+//                                                             newHasResults: false,
+//                                                             newHasPitchWinnerSurvey: false,
+//                                                             newPitchResultsId: "-8888")
+        
+        let pitchData = arrayOfPitchesByUser[index]
         
         let frameForNewView = CGRect.init(x: 0.0,
                                           y: 0.0,
@@ -228,7 +259,7 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
                                           height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
         
         genericCard = PitchCardForNormalClientView.init(frame: frameForNewView,
-                                                        newPitchData: newElement)
+                                                        newPitchData: pitchData)
       
       }
       

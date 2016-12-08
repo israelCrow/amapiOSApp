@@ -238,6 +238,7 @@
 		AADDDF1B1DC7CB8F005DE770 /* YouWonThisPitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADDDF1A1DC7CB8F005DE770 /* YouWonThisPitchView.swift */; };
 		AAE2216B1DCBB086000361E7 /* EditPitchEvaluationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE2216A1DCBB086000361E7 /* EditPitchEvaluationViewController.swift */; };
 		AAE2216D1DCBB1A0000361E7 /* EditPitchEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE2216C1DCBB1A0000361E7 /* EditPitchEvaluationView.swift */; };
+		AAE307B51DF9C7580030508E /* PitchEvaluationByUserModelDataForCompany.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE307B41DF9C7580030508E /* PitchEvaluationByUserModelDataForCompany.swift */; };
 		AAE7F2D11D7E1CD80045AE8E /* VisualizeCasesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7F2D01D7E1CD80045AE8E /* VisualizeCasesView.swift */; };
 		AAE7F2D61D7E27CB0045AE8E /* VisualizeSkillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7F2D51D7E27CB0045AE8E /* VisualizeSkillsView.swift */; };
 		AAE7F2DA1D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7F2D91D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift */; };
@@ -500,6 +501,7 @@
 		AADDDF1A1DC7CB8F005DE770 /* YouWonThisPitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YouWonThisPitchView.swift; sourceTree = "<group>"; };
 		AAE2216A1DCBB086000361E7 /* EditPitchEvaluationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPitchEvaluationViewController.swift; sourceTree = "<group>"; };
 		AAE2216C1DCBB1A0000361E7 /* EditPitchEvaluationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPitchEvaluationView.swift; sourceTree = "<group>"; };
+		AAE307B41DF9C7580030508E /* PitchEvaluationByUserModelDataForCompany.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchEvaluationByUserModelDataForCompany.swift; sourceTree = "<group>"; };
 		AAE7F2D01D7E1CD80045AE8E /* VisualizeCasesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCasesView.swift; sourceTree = "<group>"; };
 		AAE7F2D51D7E27CB0045AE8E /* VisualizeSkillsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeSkillsView.swift; sourceTree = "<group>"; };
 		AAE7F2D91D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCategorySkillCell.swift; sourceTree = "<group>"; };
@@ -609,6 +611,7 @@
 				AAB3768D1DAF2C5400830523 /* EvaluationPitchSkillCategoryModelData.swift */,
 				AA896A461D9ADC3C0046CC26 /* PitchEvaluationModelData.swift */,
 				AACB8CBC1D9D8EE60099D4ED /* PitchEvaluationByUserModelData.swift */,
+				AAE307B41DF9C7580030508E /* PitchEvaluationByUserModelDataForCompany.swift */,
 				AAFD0E191DDCDC620019EF03 /* PitchResultsModelData.swift */,
 				AA8997961D89CA5A009513E3 /* CompanyModelData.swift */,
 				AA8997981D89CB09009513E3 /* BrandModelData.swift */,
@@ -1597,6 +1600,7 @@
 				AA0FE9BE1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift in Sources */,
 				AA3E6EB11D74EFCD007D5736 /* SkillCategory.swift in Sources */,
 				AA74956F1D7739ED0082B6DF /* DashBoardPitchesAndAgencyProfileTabBarView.swift in Sources */,
+				AAE307B51DF9C7580030508E /* PitchEvaluationByUserModelDataForCompany.swift in Sources */,
 				AA8F6C0F1D790D620021683C /* VisualizeParticipateInView.swift in Sources */,
 				AA25D5E11DC3C11900C9E59F /* FacesEvaluationsView.swift in Sources */,
 				AACB52E51DB703F2004719A5 /* FilterPitchCardView.swift in Sources */,

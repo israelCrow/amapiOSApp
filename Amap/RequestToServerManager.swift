@@ -734,7 +734,7 @@ class RequestToServerManager: NSObject {
   }
   
   
-  func requestToGetAllPitchEvaluationByUser(actionsToMakeAfterFinished: (pitchEvaluationsByUser: [PitchEvaluationByUserModelData]) -> Void) {
+  func requestToGetAllPitchEvaluationByUser(actionsToMakeAfterFinished: (pitchEvaluationsByUser: [PitchEvaluationByUserModelData]?, pitchesForCompany: [PitchEvaluationByUserModelDataForCompany]?) -> Void) {
     
     //    UtilityManager.sharedInstance.showLoader()
     
@@ -774,70 +774,128 @@ class RequestToServerManager: NSObject {
           
           if arrayOfPitchEvaluationByUserModelData != nil {
             
-            var newArrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
+            if UserSession.session.role == "2" {
             
-            for pitchEvaluationByUser in arrayOfPitchEvaluationByUserModelData! {
+              var newArrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
               
-              let newPitchEvaluationId = (pitchEvaluationByUser["pitch_evaluation_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_evaluation_id"] as! Int) : "-1")
-              let newPitchId = (pitchEvaluationByUser["pitch_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_id"] as! Int) : "-1")
-              let newPitchName = (pitchEvaluationByUser["pitch_name"] as? String != nil ? pitchEvaluationByUser["pitch_name"] as! String : "No Pitch Name")
-              let newBriefDate = (pitchEvaluationByUser["brief_date"] as? String != nil ? pitchEvaluationByUser["brief_date"] as! String : "01/01/1900")
-              let newScore = (pitchEvaluationByUser["score"] as? Int != nil ? pitchEvaluationByUser["score"] as! Int : -1)
-              let newBrandName = (pitchEvaluationByUser["brand"] as? String != nil ? pitchEvaluationByUser["brand"] as! String : "No Brand Name")
-              let newCompanyName = (pitchEvaluationByUser["company"] as? String != nil ? pitchEvaluationByUser["company"] as! String : "No Company Name")
-              let newOtherScores = (pitchEvaluationByUser["other_scores"] as? [Int] != nil ? pitchEvaluationByUser["other_scores"] as! [Int] : [Int]())
-              var newWasWon: Bool! = nil
+              for pitchEvaluationByUser in arrayOfPitchEvaluationByUserModelData! {
+                
+                let newPitchEvaluationId = (pitchEvaluationByUser["pitch_evaluation_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_evaluation_id"] as! Int) : "-1")
+                let newPitchId = (pitchEvaluationByUser["pitch_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_id"] as! Int) : "-1")
+                let newPitchName = (pitchEvaluationByUser["pitch_name"] as? String != nil ? pitchEvaluationByUser["pitch_name"] as! String : "No Pitch Name")
+                let newBriefDate = (pitchEvaluationByUser["brief_date"] as? String != nil ? pitchEvaluationByUser["brief_date"] as! String : "01/01/1900")
+                let newScore = (pitchEvaluationByUser["score"] as? Int != nil ? pitchEvaluationByUser["score"] as! Int : -1)
+                let newBrandName = (pitchEvaluationByUser["brand"] as? String != nil ? pitchEvaluationByUser["brand"] as! String : "No Brand Name")
+                let newCompanyName = (pitchEvaluationByUser["company"] as? String != nil ? pitchEvaluationByUser["company"] as! String : "No Company Name")
+                let newOtherScores = (pitchEvaluationByUser["other_scores"] as? [Int] != nil ? pitchEvaluationByUser["other_scores"] as! [Int] : [Int]())
+                var newWasWon: Bool! = nil
                 newWasWon = (pitchEvaluationByUser["was_won"] as? Bool != nil ? pitchEvaluationByUser["was_won"] as! Bool : nil)
-              let newPitchStatus = (pitchEvaluationByUser["pitch_status"] as? Int != nil ? pitchEvaluationByUser["pitch_status"] as! Int : 4) //4 is for archived, i'll ask this to client in future
-              let newPitchEvaluationStatus = (pitchEvaluationByUser["evaluation_status"] as? Bool != nil ? pitchEvaluationByUser["evaluation_status"] as! Bool : false)
-              let newHasResults = (pitchEvaluationByUser["has_results"] as? Bool != nil ? pitchEvaluationByUser["has_results"] as! Bool : false)
-              let newHasPitchWinnerSurvey = (pitchEvaluationByUser["has_pitch_winner_survey"] as? Bool != nil ? pitchEvaluationByUser["has_pitch_winner_survey"] as! Bool : false)
-              let newPitchsResultsId = (pitchEvaluationByUser["pitch_results_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_results_id"] as! Int) : "-1")
-              
-              
-              
-              let arrayOfEvaluationPitchSkillCategories = (pitchEvaluationByUser["skill_categories"] as? Array<[String: AnyObject]> != nil ? pitchEvaluationByUser["skill_categories"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
-              
-              var newArrayOfEvaluationSkillCategoryModelData = [EvaluationPitchSkillCategoryModelData]()
-              
-              if arrayOfEvaluationPitchSkillCategories.count > 0 {
+                let newPitchStatus = (pitchEvaluationByUser["pitch_status"] as? Int != nil ? pitchEvaluationByUser["pitch_status"] as! Int : 4) //4 is for archived, i'll ask this to client in future
+                let newPitchEvaluationStatus = (pitchEvaluationByUser["evaluation_status"] as? Bool != nil ? pitchEvaluationByUser["evaluation_status"] as! Bool : false)
+                let newHasResults = (pitchEvaluationByUser["has_results"] as? Bool != nil ? pitchEvaluationByUser["has_results"] as! Bool : false)
+                let newHasPitchWinnerSurvey = (pitchEvaluationByUser["has_pitch_winner_survey"] as? Bool != nil ? pitchEvaluationByUser["has_pitch_winner_survey"] as! Bool : false)
+                let newPitchsResultsId = (pitchEvaluationByUser["pitch_results_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_results_id"] as! Int) : "-1")
                 
-                for evaluationSkillCategory in arrayOfEvaluationPitchSkillCategories {
                 
-                  let newEvaluationPitchSkillCategoryID = (evaluationSkillCategory["id"] as? Int != nil ? String(evaluationSkillCategory["id"] as! Int) : "-1")
-                  let newEvaluationPitchSkillCategoryName = (evaluationSkillCategory["name"] as? String != nil ? evaluationSkillCategory["name"] as! String : "Skill Category NO NAME")
+                
+                let arrayOfEvaluationPitchSkillCategories = (pitchEvaluationByUser["skill_categories"] as? Array<[String: AnyObject]> != nil ? pitchEvaluationByUser["skill_categories"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
+                
+                var newArrayOfEvaluationSkillCategoryModelData = [EvaluationPitchSkillCategoryModelData]()
+                
+                if arrayOfEvaluationPitchSkillCategories.count > 0 {
                   
-                  let newEvaluationPitchSkillCategory = EvaluationPitchSkillCategoryModelData.init(newEvaluationSkillCategoryId: newEvaluationPitchSkillCategoryID,
-                    newEvaluationSkillCategoryName: newEvaluationPitchSkillCategoryName)
+                  for evaluationSkillCategory in arrayOfEvaluationPitchSkillCategories {
+                    
+                    let newEvaluationPitchSkillCategoryID = (evaluationSkillCategory["id"] as? Int != nil ? String(evaluationSkillCategory["id"] as! Int) : "-1")
+                    let newEvaluationPitchSkillCategoryName = (evaluationSkillCategory["name"] as? String != nil ? evaluationSkillCategory["name"] as! String : "Skill Category NO NAME")
+                    
+                    let newEvaluationPitchSkillCategory = EvaluationPitchSkillCategoryModelData.init(newEvaluationSkillCategoryId: newEvaluationPitchSkillCategoryID,
+                      newEvaluationSkillCategoryName: newEvaluationPitchSkillCategoryName)
+                    
+                    newArrayOfEvaluationSkillCategoryModelData.append(newEvaluationPitchSkillCategory)
+                    
+                  }
                   
-                  newArrayOfEvaluationSkillCategoryModelData.append(newEvaluationPitchSkillCategory)
-                
                 }
-            
+                
+                let newPitchEvaluationByUser = PitchEvaluationByUserModelData.init(
+                  newPitchEvaluationId: newPitchEvaluationId,
+                  newPitchId: newPitchId,
+                  newPitchName: newPitchName,
+                  newBriefDate: newBriefDate,
+                  newScore: newScore,
+                  newBrandName: newBrandName,
+                  newCompanyName: newCompanyName,
+                  newOtherScores: newOtherScores,
+                  newArrayOfEvaluationPitchSkillCategory: newArrayOfEvaluationSkillCategoryModelData,
+                  newWasWon: newWasWon,
+                  newPitchStatus: newPitchStatus,
+                  newEvaluationStatus: newPitchEvaluationStatus,
+                  newHasResults: newHasResults,
+                  newHasPitchWinnerSurvey: newHasPitchWinnerSurvey,
+                  newPitchResultsId: newPitchsResultsId)
+                
+                newArrayOfPitchesByUser.append(newPitchEvaluationByUser)
+                
               }
               
-              let newPitchEvaluationByUser = PitchEvaluationByUserModelData.init(
-                newPitchEvaluationId: newPitchEvaluationId,
-                newPitchId: newPitchId,
-                newPitchName: newPitchName,
-                newBriefDate: newBriefDate,
-                newScore: newScore,
-                newBrandName: newBrandName,
-                newCompanyName: newCompanyName,
-                newOtherScores: newOtherScores,
-                newArrayOfEvaluationPitchSkillCategory: newArrayOfEvaluationSkillCategoryModelData,
-                newWasWon: newWasWon,
-                newPitchStatus: newPitchStatus,
-                newEvaluationStatus: newPitchEvaluationStatus,
-                newHasResults: newHasResults,
-                newHasPitchWinnerSurvey: newHasPitchWinnerSurvey,
-                newPitchResultsId: newPitchsResultsId)
-              
-              newArrayOfPitchesByUser.append(newPitchEvaluationByUser)
+              actionsToMakeAfterFinished(pitchEvaluationsByUser: newArrayOfPitchesByUser, pitchesForCompany: nil)
             
-            }
-          
-            actionsToMakeAfterFinished(pitchEvaluationsByUser: newArrayOfPitchesByUser)
+            } else
+            
+              if UserSession.session.role == "4" {
+                
+                var newArrayOfPitchesByUserForCompany = [PitchEvaluationByUserModelDataForCompany]()
+                
+                let arrayOfPitchEvaluationByUserModelDataForCompany = arrayOfPitchEvaluationByUserModelData
+                
+                for pitchEvaluationForCompany in arrayOfPitchEvaluationByUserModelDataForCompany! {
+                  
+                  let newBrandName = (pitchEvaluationForCompany["brand"] as? String != nil ? pitchEvaluationForCompany["brand"] as! String : "No brand name")
+                  let newBriefDate = (pitchEvaluationForCompany["brief_date"] as? String != nil ? pitchEvaluationForCompany["brief_date"] as! String : "01/01/1900")
+                  let newBriefEmailContact = (pitchEvaluationForCompany["brief_email_contact"] as? String != nil ? pitchEvaluationForCompany["brief_email_contact"] as! String : "noBriefContact@mail.com")
+                  let newCompanyName = (pitchEvaluationForCompany["company"] as? String != nil ? pitchEvaluationForCompany["company"] as! String : "No company name")
+                  let newPitchID = (pitchEvaluationForCompany["pitch_id"] as? Int != nil ? String(pitchEvaluationForCompany["pitch_id"] as! Int) : "-1")
+                  let newPitchName = (pitchEvaluationForCompany["pitch_name"] as? String != nil ? pitchEvaluationForCompany["pitch_name"] as! String : "No Pitch Name")
+                  let newWinner = (pitchEvaluationForCompany["winner"] as? Int != nil ? String(pitchEvaluationForCompany["winner"] as! Int) : "-1")
+                  
+                  let newBreakDown = (pitchEvaluationForCompany["breakdown"] as? [String: AnyObject] != nil ? pitchEvaluationForCompany["breakdown"] as! [String: AnyObject] : [String: AnyObject]())
+                  
+                  let newPitchesTypesPercentage = (pitchEvaluationForCompany["pitch_types_percentage"] as? [String: AnyObject] != nil ? pitchEvaluationForCompany["pitch_types_percentage"] as! [String: AnyObject] : [String: AnyObject]())
+                  
+                  let newPitchEvaluationForCompany = PitchEvaluationByUserModelDataForCompany.init(newBrandName: newBrandName,
+                    newBreakDown: newBreakDown,
+                    newBriefDate: newBriefDate,
+                    newBriefEmailContact: newBriefEmailContact,
+                    newCompanyName: newCompanyName,
+                    newPitchId: newPitchID,
+                    newPitchName: newPitchName,
+                    newPitchTypesPercentage: newPitchesTypesPercentage,
+                    newWinner: newWinner)
+                  
+                  newArrayOfPitchesByUserForCompany.append(newPitchEvaluationForCompany)
+            
+                }
+                
+                actionsToMakeAfterFinished(pitchEvaluationsByUser: nil, pitchesForCompany: newArrayOfPitchesByUserForCompany)
+                
+                
+                  print(json)
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+              }
+            
+
           
           }
           

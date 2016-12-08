@@ -15,13 +15,13 @@ class PitchCardForNormalClientView: UIView {
   //circular graph
   
   private var facesView: FacesEvaluationsView! = nil
-  private var pitchData: PitchEvaluationByUserModelData! = nil
+  private var pitchData: PitchEvaluationByUserModelDataForCompany! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(frame: CGRect, newPitchData: PitchEvaluationByUserModelData) {
+  init(frame: CGRect, newPitchData: PitchEvaluationByUserModelDataForCompany) {
     
     pitchData = newPitchData
     
@@ -46,10 +46,22 @@ class PitchCardForNormalClientView: UIView {
                                width: 255.0 * UtilityManager.sharedInstance.conversionWidth,
                               height: 80.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    var winner: String = ""
+    
+    if pitchData.winner == "0" {
+      
+      winner = "Ganador: Por definir"
+      
+    } else {
+      
+      winner = String.init(format: "Ganador: " + pitchData.winner)
+      
+    }
+    
     descriptionView = PitchCardForNormalClientDescriptionView.init(frame: frameForView,
-                                                            newMailBrief: "contactbrief@company.com",
+                                                            newMailBrief: pitchData.briefEmailContact,
                                                           newProjectName: pitchData.pitchName,
-                                                           newWinnerName: "Ganador: Por definir",
+                                                           newWinnerName: winner,
                                                           newCompanyName: pitchData.companyName)
     
     self.addSubview(descriptionView)

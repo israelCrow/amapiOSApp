@@ -340,75 +340,149 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     UtilityManager.sharedInstance.showLoader()
     
-    RequestToServerManager.sharedInstance.requestToGetAllPitchEvaluationByUser { (pitchEvaluationsByUser) in
+    RequestToServerManager.sharedInstance.requestToGetAllPitchEvaluationByUser { (pitchEvaluationsByUser, pitchesForCompany) in
       
-      self.arrayOfPitchesByUser = pitchEvaluationsByUser
-      self.arrayOfPitchesByUserWithoutModifications = pitchEvaluationsByUser
-      
-      
-      
-      if self.arrayOfPitchesByUser.count == 0 {
+      if pitchEvaluationsByUser != nil {
         
-        self.searchButton.userInteractionEnabled = false
-        self.searchButton.enabled = false
+        self.arrayOfPitchesByUser = pitchEvaluationsByUser!
+        self.arrayOfPitchesByUserWithoutModifications = pitchEvaluationsByUser!
         
-        if self.mainCarousel != nil {
+        
+        
+        if self.arrayOfPitchesByUser.count == 0 {
           
-          UIView.animateWithDuration(0.2,
-            animations: {
-              
-              self.mainCarousel.alpha = 0.0
-              
-            }, completion: { (finished) in
-              
-              self.createAndAddNoPitchesAssignedView()
-              
-          })
-        
-        }else{
+          self.searchButton.userInteractionEnabled = false
+          self.searchButton.enabled = false
           
-          self.createAndAddNoPitchesAssignedView()
-          
-        }
-        
-      }else{
-        
-        self.hideNoPitchesView()
-        self.hideNoFilterResultsView()
-        
-        if self.mainCarousel == nil {
-        
-          self.createCarousel()
-          
-        }
-        
-        if self.arrayOfPitchesByUser.count == 1 {
-          
-          self.mainCarousel.scrollEnabled = false
+          if self.mainCarousel != nil {
+            
+            UIView.animateWithDuration(0.2,
+              animations: {
+                
+                self.mainCarousel.alpha = 0.0
+                
+              }, completion: { (finished) in
+                
+                self.createAndAddNoPitchesAssignedView()
+                
+            })
+            
+          }else{
+            
+            self.createAndAddNoPitchesAssignedView()
+            
+          }
           
         }else{
           
-          self.mainCarousel.scrollEnabled = true
+          self.hideNoPitchesView()
+          self.hideNoFilterResultsView()
+          
+          if self.mainCarousel == nil {
+            
+            self.createCarousel()
+            
+          }
+          
+          if self.arrayOfPitchesByUser.count == 1 {
+            
+            self.mainCarousel.scrollEnabled = false
+            
+          }else{
+            
+            self.mainCarousel.scrollEnabled = true
+            
+          }
+          
+          self.mainCarousel.reloadData()
+          self.searchButton.userInteractionEnabled = true
+          self.searchButton.enabled = true
+          
+          if self.pitchEvaluationIDToLookForAfterCreated != "-1" && Int(self.pitchEvaluationIDToLookForAfterCreated) > 0 {
+            
+            self.lookForThisPitchID(self.pitchEvaluationIDToLookForAfterCreated)
+            self.pitchEvaluationIDToLookForAfterCreated = "-1"
+            
+          }
           
         }
-    
-        self.mainCarousel.reloadData()
-        self.searchButton.userInteractionEnabled = true
-        self.searchButton.enabled = true
         
-        if self.pitchEvaluationIDToLookForAfterCreated != "-1" && Int(self.pitchEvaluationIDToLookForAfterCreated) > 0 {
-          
-          self.lookForThisPitchID(self.pitchEvaluationIDToLookForAfterCreated)
-          self.pitchEvaluationIDToLookForAfterCreated = "-1"
-          
-        }
         
+        UtilityManager.sharedInstance.hideLoader()
+
       }
       
-      
-      UtilityManager.sharedInstance.hideLoader()
-      
     }
+    
+//    RequestToServerManager.sharedInstance.requestToGetAllPitchEvaluationByUser { (pitchEvaluationsByUser) in
+//      
+//      self.arrayOfPitchesByUser = pitchEvaluationsByUser
+//      self.arrayOfPitchesByUserWithoutModifications = pitchEvaluationsByUser
+//      
+//      
+//      
+//      if self.arrayOfPitchesByUser.count == 0 {
+//        
+//        self.searchButton.userInteractionEnabled = false
+//        self.searchButton.enabled = false
+//        
+//        if self.mainCarousel != nil {
+//          
+//          UIView.animateWithDuration(0.2,
+//            animations: {
+//              
+//              self.mainCarousel.alpha = 0.0
+//              
+//            }, completion: { (finished) in
+//              
+//              self.createAndAddNoPitchesAssignedView()
+//              
+//          })
+//        
+//        }else{
+//          
+//          self.createAndAddNoPitchesAssignedView()
+//          
+//        }
+//        
+//      }else{
+//        
+//        self.hideNoPitchesView()
+//        self.hideNoFilterResultsView()
+//        
+//        if self.mainCarousel == nil {
+//        
+//          self.createCarousel()
+//          
+//        }
+//        
+//        if self.arrayOfPitchesByUser.count == 1 {
+//          
+//          self.mainCarousel.scrollEnabled = false
+//          
+//        }else{
+//          
+//          self.mainCarousel.scrollEnabled = true
+//          
+//        }
+//    
+//        self.mainCarousel.reloadData()
+//        self.searchButton.userInteractionEnabled = true
+//        self.searchButton.enabled = true
+//        
+//        if self.pitchEvaluationIDToLookForAfterCreated != "-1" && Int(self.pitchEvaluationIDToLookForAfterCreated) > 0 {
+//          
+//          self.lookForThisPitchID(self.pitchEvaluationIDToLookForAfterCreated)
+//          self.pitchEvaluationIDToLookForAfterCreated = "-1"
+//          
+//        }
+//        
+//      }
+//      
+//      
+//      UtilityManager.sharedInstance.hideLoader()
+//      
+//    }
     
     
     
