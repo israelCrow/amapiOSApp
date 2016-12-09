@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import Charts
 
 class PitchCardForNormalClientView: UIView {
   
   private var descriptionView: PitchCardForNormalClientDescriptionView! = nil
   
-  //circular graph
+  private var circularView: PieChartView! = nil
   
   private var facesView: FacesEvaluationsView! = nil
   private var pitchData: PitchEvaluationByUserModelDataForCompany! = nil
@@ -35,6 +36,7 @@ class PitchCardForNormalClientView: UIView {
     
     self.backgroundColor = UIColor.whiteColor()
     self.createDescriptionView()
+    self.createCircularChart()
     self.createFaces()
     
   }
@@ -68,6 +70,62 @@ class PitchCardForNormalClientView: UIView {
     
   }
   
+  private func createCircularChart() {
+    
+    let frameForChartView = CGRect.init(x: (self.frame.size.width / 2.0) - (90.5 * UtilityManager.sharedInstance.conversionWidth),
+                                        y: 135.0 * UtilityManager.sharedInstance.conversionHeight,
+                                        width: 181.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        height: 181.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let happitchPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["happitch"] as! Int) / 100.0)
+    let happyPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["happy"] as! Int) / 100.0)
+    let okPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["ok"] as! Int) / 100.0)
+    let sadPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["sad"] as! Int) / 100.0)
+    
+    circularView = PieChartView.init(frame: frameForChartView)
+    
+    let nameValues = ["","","",""]
+    let firstPercentage = BarChartDataEntry.init(value: happitchPercentage, xIndex: 0)
+    let secondPercentage = BarChartDataEntry.init(value: happyPercentage, xIndex: 1)
+    let thirdPercentage = BarChartDataEntry.init(value: okPercentage, xIndex: 2)
+    let fourthPercentage = BarChartDataEntry.init(value: sadPercentage, xIndex:3)
+    let percentageValues = [firstPercentage, secondPercentage, thirdPercentage, fourthPercentage]
+    
+    
+    let dataSetForPie = PieChartDataSet.init(yVals: percentageValues, label: nil)
+    dataSetForPie.sliceSpace = 0.0
+    
+    let colors = [UIColor.init(red: 238.0/255.0, green: 220.0/255.0, blue: 55.0/255.0, alpha: 1.0),
+                  UIColor.init(red: 219.0/255.0, green: 59.0/255.0, blue: 39.0/255.0, alpha: 1.0),
+                  UIColor.init(red: 111.0/255.0, green: 139.0/255.0, blue: 226.0/255.0, alpha: 1.0),
+                  UIColor.init(red: 49.0/255.0, green: 190.0/255.0, blue: 175.0/255.0, alpha: 1.0)]
+    dataSetForPie.colors = colors
+    
+    let dataPie: PieChartData = PieChartData.init(xVals: nameValues, dataSet: dataSetForPie)
+    let pieFormatter = NSNumberFormatter.init()
+    pieFormatter.numberStyle = .PercentStyle
+    pieFormatter.maximumFractionDigits = 2
+    pieFormatter.multiplier = 1.0
+    pieFormatter.percentSymbol = " %"
+    
+    dataPie.setValueFormatter(pieFormatter)
+    //    dataPie.setValueFont(UIFont.)
+    dataPie.setValueTextColor(UIColor.whiteColor())
+    
+    circularView.data = dataPie
+    circularView.userInteractionEnabled = false
+    circularView.transparentCircleRadiusPercent = 0.0
+    circularView.drawHoleEnabled = false
+    
+    circularView.animate(xAxisDuration: 0.7)
+    circularView.animate(yAxisDuration: 0.7)
+    circularView.legend.enabled = false
+    circularView.descriptionText = ""
+    
+    self.addSubview(circularView)
+    
+  }
+  
   private func createFaces() {
     
     if facesView != nil {
@@ -84,7 +142,7 @@ class PitchCardForNormalClientView: UIView {
       VisualizeDashboardConstants.Faces.kBad:    0
     ]
     
-    let frameForFacesView = CGRect.init(x: 38.0,
+    let frameForFacesView = CGRect.init(x: (self.frame.size.width / 2.0) - (110.0 * UtilityManager.sharedInstance.conversionWidth),
                                         y: 340.0 * UtilityManager.sharedInstance.conversionHeight,
                                     width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 43.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -97,6 +155,11 @@ class PitchCardForNormalClientView: UIView {
     
   }
   
+  func getData() -> PitchEvaluationByUserModelDataForCompany {
+    
+    return pitchData
+    
+  }
 
   
 }

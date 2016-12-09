@@ -171,7 +171,7 @@ class PitchCardForNormalClientDescriptionView: UIView {
     
     let font = UIFont(name: "SFUIDisplay-Regular",
                       size: 11.0 * UtilityManager.sharedInstance.conversionWidth)
-    let color = UIColor.blackColor()
+    let color = UIColor.init(white: 0.0, alpha: 0.5)
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Left
     

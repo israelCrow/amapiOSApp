@@ -21,7 +21,7 @@ protocol VisualizeAllPitchesForNormalClientViewControllerShowAndHideDelegate {
 class VisualizeAllPitchesForNormalClientViewController: UIViewController, UITextFieldDelegate, iCarouselDelegate, iCarouselDataSource {
   
   private var mainCarousel: iCarousel! = nil
-  private var frontCard: UIView! = nil
+  private var frontCard: PitchCardForNormalClientView! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
   private var arrayOfPitchesByUser = [PitchEvaluationByUserModelDataForCompany]()
   private var arrayOfPitchesByUserWithoutModifications = [PitchEvaluationByUserModelDataForCompany]()
@@ -142,42 +142,6 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
       
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-//    let newElement = PitchEvaluationByUserModelData.init(newPitchEvaluationId: "-8888",
-//                                                         newPitchId: "-8888",
-//                                                         newPitchName: "Pitch name",
-//                                                         newBriefDate: "-8888",
-//                                                         newScore: -8888,
-//                                                         newBrandName: "Brand name",
-//                                                         newCompanyName: "Company name",
-//                                                         newOtherScores: [Int](),
-//                                                         newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData](),
-//                                                         newWasWon: false,
-//                                                         newPitchStatus: -1,
-//                                                         newEvaluationStatus: false,
-//                                                         newHasResults: false,
-//                                                         newHasPitchWinnerSurvey: false,
-//                                                         newPitchResultsId: "-8888")
-//    
-//    arrayOfPitchesByUser.append(newElement)
-//    arrayOfPitchesByUserWithoutModifications.append(newElement)
-    
-    
-    
   }
   
   private func createMainCarousel() {
@@ -224,8 +188,10 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
       genericCard = PitchCardForNormalClientView.init(frame: frameForNewView,
                                                newPitchData: arrayOfPitchesByUser[index])
       
-//      genericCard = PitchCardView.init(frame: frameForNewView)
-//      genericCard.delegate = self
+      let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(frontCardPressed))
+      tapGesture.numberOfTapsRequired = 1
+      
+      genericCard.addGestureRecognizer(tapGesture)
       
     }else{
       
@@ -234,24 +200,6 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
         genericCard = view as! PitchCardForNormalClientView
         
       } else {
-      
-//        let newElement = PitchEvaluationByUserModelData.init(newPitchEvaluationId: "-8888",
-//                                                             newPitchId: "-8888",
-//                                                             newPitchName: "Pitch name",
-//                                                             newBriefDate: "-8888",
-//                                                             newScore: -8888,
-//                                                             newBrandName: "Brand name",
-//                                                             newCompanyName: "Company name",
-//                                                             newOtherScores: [Int](),
-//                                                             newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData](),
-//                                                             newWasWon: false,
-//                                                             newPitchStatus: -1,
-//                                                             newEvaluationStatus: false,
-//                                                             newHasResults: false,
-//                                                             newHasPitchWinnerSurvey: false,
-//                                                             newPitchResultsId: "-8888")
-        
-        let pitchData = arrayOfPitchesByUser[index]
         
         let frameForNewView = CGRect.init(x: 0.0,
                                           y: 0.0,
@@ -259,14 +207,12 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
                                           height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
         
         genericCard = PitchCardForNormalClientView.init(frame: frameForNewView,
-                                                        newPitchData: pitchData)
+                                                        newPitchData: arrayOfPitchesByUser[index])
       
       }
       
     }
-  
-//    let pitchData = arrayOfPitchesByUser[index]
-  
+    
     return genericCard
     
   }
@@ -332,104 +278,62 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
   
   func carouselDidEndScrollingAnimation(carousel: iCarousel) {
     
-//    let possibleFrontCard = carousel.itemViewAtIndex(carousel.currentItemIndex)
-//    
-//    if possibleFrontCard != nil && possibleFrontCard as? PitchCardView != nil{
-//      
-//      frontCard = possibleFrontCard! as! PitchCardView
-//      frontCard.isCardDown = false
-//      frontCard.animateGraph()
-//      
-//      UIView.animateWithDuration(0.35,
-//                                 animations: {
-//                                  
-//                                  self.frontCard.layer.shadowColor = UIColor.blackColor().CGColor
-//                                  self.frontCard!.layer.shadowOpacity = 0.25
-//                                  self.frontCard!.layer.shadowOffset = CGSizeZero
-//                                  self.frontCard!.layer.shadowRadius = 5
-//                                  
-//        }, completion: { (finished) in
-//          if finished == true {
-//            
-//            self.frontCard.userInteractionEnabled = true
-//            
-//          }
-//      })
-//      
-//    }else
-//      if possibleFrontCard != nil && possibleFrontCard as? PendingEvaluationCardView != nil {
-//        
-//        pendingEvaluationFrontCard = possibleFrontCard as! PendingEvaluationCardView
-//        
-//        UIView.animateWithDuration(0.35,
-//                                   animations: {
-//                                    
-//                                    self.pendingEvaluationFrontCard.layer.shadowColor = UIColor.blackColor().CGColor
-//                                    self.pendingEvaluationFrontCard!.layer.shadowOpacity = 0.25
-//                                    self.pendingEvaluationFrontCard!.layer.shadowOffset = CGSizeZero
-//                                    self.pendingEvaluationFrontCard!.layer.shadowRadius = 5
-//                                    
-//          }, completion: { (finished) in
-//            if finished == true {
-//              
-//              self.pendingEvaluationFrontCard.userInteractionEnabled = true
-//              
-//            }
-//        })
-//        
-//    }
+    let possibleFrontCard = carousel.itemViewAtIndex(carousel.currentItemIndex)
+
+    if possibleFrontCard != nil && possibleFrontCard as? PitchCardForNormalClientView != nil{
+
+      frontCard = possibleFrontCard! as! PitchCardForNormalClientView
+
+      UIView.animateWithDuration(0.35,
+                                 animations: {
+                                  
+                                  self.frontCard.layer.shadowColor = UIColor.blackColor().CGColor
+                                  self.frontCard!.layer.shadowOpacity = 0.25
+                                  self.frontCard!.layer.shadowOffset = CGSizeZero
+                                  self.frontCard!.layer.shadowRadius = 5
+                                  
+        }, completion: { (finished) in
+          if finished == true {
+            
+            self.frontCard.userInteractionEnabled = true
+            
+          }
+      })
+      
+    }
     
   }
   
   func carouselWillBeginDragging(carousel: iCarousel) {
     
-//    if frontCard != nil {
-//      
-//      frontCard.userInteractionEnabled = false
-//      
-//      UIView.animateWithDuration(0.35){
-//        
-//        self.frontCard.layer.shadowColor = UIColor.clearColor().CGColor
-//        self.frontCard!.layer.shadowOpacity = 0.0
-//        self.frontCard!.layer.shadowOffset = CGSizeZero
-//        self.frontCard!.layer.shadowRadius = 0
-//        
-//      }
-//      
-//    }
-//    
-//    if pendingEvaluationFrontCard != nil {
-//      
-//      pendingEvaluationFrontCard.userInteractionEnabled = false
-//      
-//      UIView.animateWithDuration(0.35,
-//                                 animations: { 
-//                                  
-//                                  self.pendingEvaluationFrontCard.layer.shadowColor = UIColor.clearColor().CGColor
-//                                  self.pendingEvaluationFrontCard!.layer.shadowOpacity = 0.0
-//                                  self.pendingEvaluationFrontCard!.layer.shadowOffset = CGSizeZero
-//                                  self.pendingEvaluationFrontCard!.layer.shadowRadius = 0
-//                                  
-//        }, completion: { (finished) in
-//          if finished == true {
-//            
-//            self.pendingEvaluationFrontCard = nil
-//            
-//          }
-//      })
-//      
-//    }
-    
+    if frontCard != nil {
+      
+      frontCard.userInteractionEnabled = false
+      
+      UIView.animateWithDuration(0.35){
+        
+        self.frontCard.layer.shadowColor = UIColor.clearColor().CGColor
+        self.frontCard!.layer.shadowOpacity = 0.0
+        self.frontCard!.layer.shadowOffset = CGSizeZero
+        self.frontCard!.layer.shadowRadius = 0
+        
+      }
+      
+    }
+
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
+  @objc private func frontCardPressed() {
+    
+    if frontCard != nil {
+    
+      let detailViewController = VisualizePitchInformationForCompanyViewController(newPitchData: frontCard.getData())
+      
+      self.navigationController?.pushViewController(detailViewController, animated: true)
+      
+    }
+    
+  }
   
   
   //MARK: UITextFieldDelegate

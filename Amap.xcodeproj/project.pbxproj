@@ -42,6 +42,9 @@
 		AA0BD3701DB54F840057387D /* ArchivedPitchEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0BD36F1DB54F840057387D /* ArchivedPitchEvaluationView.swift */; };
 		AA0FE9BE1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0FE9BD1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift */; };
 		AA0FE9C31D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0FE9C21D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift */; };
+		AA104AA01DFA6CBE00129935 /* VisualizePitchInformationForCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA104A9F1DFA6CBE00129935 /* VisualizePitchInformationForCompanyViewController.swift */; };
+		AA104AA71DFA7AF200129935 /* EvaluationBreakDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA104AA61DFA7AF200129935 /* EvaluationBreakDownView.swift */; };
+		AA104AAA1DFA7D9F00129935 /* BreakDownDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA104AA91DFA7D9F00129935 /* BreakDownDescriptionView.swift */; };
 		AA14418F1DC32F5C00EB013E /* VisualizeMainCardsDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA14418E1DC32F5C00EB013E /* VisualizeMainCardsDashboardViewController.swift */; };
 		AA25D5DE1DC3AE6B00C9E59F /* GeneralPerformanceCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA25D5DD1DC3AE6B00C9E59F /* GeneralPerformanceCardView.swift */; };
 		AA25D5E11DC3C11900C9E59F /* FacesEvaluationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA25D5E01DC3C11900C9E59F /* FacesEvaluationsView.swift */; };
@@ -348,6 +351,9 @@
 		AA0BD36F1DB54F840057387D /* ArchivedPitchEvaluationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedPitchEvaluationView.swift; sourceTree = "<group>"; };
 		AA0FE9BD1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeAgencyProfileViewController.swift; sourceTree = "<group>"; };
 		AA0FE9C21D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyProfileVisualizeConstants.swift; sourceTree = "<group>"; };
+		AA104A9F1DFA6CBE00129935 /* VisualizePitchInformationForCompanyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizePitchInformationForCompanyViewController.swift; sourceTree = "<group>"; };
+		AA104AA61DFA7AF200129935 /* EvaluationBreakDownView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluationBreakDownView.swift; sourceTree = "<group>"; };
+		AA104AA91DFA7D9F00129935 /* BreakDownDescriptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreakDownDescriptionView.swift; sourceTree = "<group>"; };
 		AA14418E1DC32F5C00EB013E /* VisualizeMainCardsDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeMainCardsDashboardViewController.swift; sourceTree = "<group>"; };
 		AA25D5DD1DC3AE6B00C9E59F /* GeneralPerformanceCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPerformanceCardView.swift; sourceTree = "<group>"; };
 		AA25D5E01DC3C11900C9E59F /* FacesEvaluationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacesEvaluationsView.swift; sourceTree = "<group>"; };
@@ -780,6 +786,32 @@
 			name = Visualize;
 			sourceTree = "<group>";
 		};
+		AA104AA31DFA7A8D00129935 /* PitchCardForCompany */ = {
+			isa = PBXGroup;
+			children = (
+				AAB974031DF8B0C50024B663 /* PitchCardForNormalClientView.swift */,
+				AAB974051DF8B33A0024B663 /* PitchCardForNormalClientDescriptionView.swift */,
+			);
+			name = PitchCardForCompany;
+			sourceTree = "<group>";
+		};
+		AA104AA51DFA7AB300129935 /* PitchInformation */ = {
+			isa = PBXGroup;
+			children = (
+				AA104AA81DFA7B6000129935 /* EvaluationBreakDown */,
+			);
+			name = PitchInformation;
+			sourceTree = "<group>";
+		};
+		AA104AA81DFA7B6000129935 /* EvaluationBreakDown */ = {
+			isa = PBXGroup;
+			children = (
+				AA104AA61DFA7AF200129935 /* EvaluationBreakDownView.swift */,
+				AA104AA91DFA7D9F00129935 /* BreakDownDescriptionView.swift */,
+			);
+			name = EvaluationBreakDown;
+			sourceTree = "<group>";
+		};
 		AA14418C1DC3295C00EB013E /* Create/Edit/Visualize_Dashboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -1163,6 +1195,7 @@
 			isa = PBXGroup;
 			children = (
 				AAB973FF1DF8A1FD0024B663 /* VisualizeAllPitchesForNormalClientViewController.swift */,
+				AA104A9F1DFA6CBE00129935 /* VisualizePitchInformationForCompanyViewController.swift */,
 			);
 			name = Visualize_Pitches;
 			sourceTree = "<group>";
@@ -1178,8 +1211,8 @@
 		AAB974021DF8B08F0024B663 /* Visualize */ = {
 			isa = PBXGroup;
 			children = (
-				AAB974031DF8B0C50024B663 /* PitchCardForNormalClientView.swift */,
-				AAB974051DF8B33A0024B663 /* PitchCardForNormalClientDescriptionView.swift */,
+				AA104AA31DFA7A8D00129935 /* PitchCardForCompany */,
+				AA104AA51DFA7AB300129935 /* PitchInformation */,
 			);
 			name = Visualize;
 			sourceTree = "<group>";
@@ -1621,6 +1654,7 @@
 				AA2DB85C1D53C17400E9FB8A /* ChangePasswordViewController.swift in Sources */,
 				AACBE2871DDE9116007314C3 /* TutorialConstants.swift in Sources */,
 				AACBE2851DDE8EF0007314C3 /* WelcomeScreenTutorialView.swift in Sources */,
+				AA104AA71DFA7AF200129935 /* EvaluationBreakDownView.swift in Sources */,
 				AA2DB8541D53B6C800E9FB8A /* CreateAccountProcessAlreadyBegunView.swift in Sources */,
 				AA6D81391DB88DAB00175710 /* DidShowYourProposalView.swift in Sources */,
 				AA0949631D528A01000E76E1 /* CreateAccountViewController.swift in Sources */,
@@ -1658,7 +1692,9 @@
 				AA68D8EE1D837E7700DD1411 /* AddPitchAndWriteCompanyNameView.swift in Sources */,
 				AAB2EECF1DAC470300396ED6 /* VisualizePitchCardDetailViewController.swift in Sources */,
 				AA2DB8581D53B97D00E9FB8A /* ChangePasswordRequestView.swift in Sources */,
+				AA104AAA1DFA7D9F00129935 /* BreakDownDescriptionView.swift in Sources */,
 				AA9A6CF51D8745BF00B85C17 /* PitchCategoryTableViewCell.swift in Sources */,
+				AA104AA01DFA6CBE00129935 /* VisualizePitchInformationForCompanyViewController.swift in Sources */,
 				041DA48A1D66213400BAE262 /* ExtensionUIIMageView.swift in Sources */,
 				04AB39321D5D06EC009B1D5C /* EditAgencyProfileViewController.swift in Sources */,
 				AA896A491D9ADC940046CC26 /* PitchModelData.swift in Sources */,
