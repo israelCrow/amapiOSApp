@@ -101,7 +101,7 @@ class EvaluationBreakDownView: UIView {
     self.frame = CGRect.init(x: self.frame.origin.x,
                              y: self.frame.origin.y,
                          width: self.frame.size.width,
-                        height: frameForDescriptions.size.height)
+                        height: frameForDescriptions.origin.y)
     
   }
   

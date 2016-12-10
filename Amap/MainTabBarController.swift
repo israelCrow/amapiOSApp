@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainTabBarController: UITabBarController, UITabBarControllerDelegate, VisualizeAgencyProfileViewControllerDelegate, VisualizeAllPitchesViewControllerShowAndHideDelegate {
+class MainTabBarController: UITabBarController, UITabBarControllerDelegate, VisualizeAgencyProfileViewControllerDelegate, VisualizeAllPitchesViewControllerShowAndHideDelegate, VisualizeCompanyProfileViewControllerDelegate {
   
   var isShownTabBar: Bool = true
   
@@ -92,6 +92,19 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate, Visu
     self.showTabBar()
     
   }
+  
+  func requestToShowTabBarFromVisualizeCompanyProfileViewControllerDelegate() {
+    
+    self.showTabBar()
+    
+  }
+  
+  func requestToHideTabBarFromVisualizeCompanyProfileViewControllerDelegate() {
+    
+    self.hideTabBar()
+    
+  }
+  
 
   override func didReceiveMemoryWarning() {
     

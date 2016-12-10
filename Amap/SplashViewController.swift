@@ -152,9 +152,13 @@ class SplashViewController: UIViewController {
           }else
             if UserSession.session.role == "4" {
               
-              UtilityManager.sharedInstance.hideLoader()
-              
-              self.initAndChangeRootToMainTabBarController()
+              RequestToServerManager.sharedInstance.requestForCompanyData({ 
+                
+                UtilityManager.sharedInstance.hideLoader()
+                
+                self.initAndChangeRootToMainTabBarController()
+                
+              })
               
           }
           
@@ -222,6 +226,7 @@ class SplashViewController: UIViewController {
       if UserSession.session.role == "4" {
         
         arrayOfViewControllers.append(self.createSecondBarItemForNormalUser())
+        arrayOfViewControllers.append(self.createFourthBarItemForNormalUser())
         
         mainTabBarController.viewControllers = arrayOfViewControllers
         //        let notToShowPitchesTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
@@ -349,6 +354,27 @@ class SplashViewController: UIViewController {
     
     tabTwoBarItem.tag = 2
     newNavController.tabBarItem = tabTwoBarItem
+    newNavController.navigationBar.barStyle = .Black
+    
+    return newNavController
+    
+  }
+  
+  private func createFourthBarItemForNormalUser() -> UINavigationController  { //CHECAR AQUI
+    
+    let imageAgencyProfileNonSelected = UIImage.init(named: "iconAgencyMedium")
+    let imageAgencyProfileSelected = UIImage.init(named: "iconAgencyWhite")
+    
+    let visualizeCompanyProfileController = VisualizeCompanyProfileViewController()
+    visualizeCompanyProfileController.delegate = mainTabBarController
+    let tabFourthBarItem = UITabBarItem.init(title: "Perfil Marca",
+                                            image: imageAgencyProfileNonSelected,
+                                            selectedImage: imageAgencyProfileSelected)
+    
+    let newNavController = UINavigationController.init(rootViewController: visualizeCompanyProfileController)
+    
+    tabFourthBarItem.tag = 4
+    newNavController.tabBarItem = tabFourthBarItem
     newNavController.navigationBar.barStyle = .Black
     
     return newNavController

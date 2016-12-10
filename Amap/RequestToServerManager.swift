@@ -459,6 +459,57 @@ class RequestToServerManager: NSObject {
       }
   }
   
+  func requestForCompanyData(functionToMakeWhenFinished: () -> Void) {
+    
+    //    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/companies/" + UserSession.session.company_id
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "GET"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+//          print(json)
+      
+          let idCompany = (json["id"] as? Int != nil ? String(json["id"] as! Int) : "-1")
+          let companyName = (json["name"] as? String != nil ? json["name"] as! String : "")
+          let contactName = (json["contact_name"] as? String != nil ? json["contact_name"] as! String : "")
+          let contactEMail = (json["contact_email"] as? String != nil ? json["contact_email"] as! String : "")
+          let contactPosition = (json["contact_position"] as? String != nil ? json["contact_position"] as! String : "")
+          let logoURL = (json["logo"] as? String != nil ? json["logo"] as! String : "")
+          let brands = (json["brands"] as? Array<[String: AnyObject]> != nil ? json["brands"] as? Array<[String: AnyObject]> : nil)
+              
+          let arrayOfBrands = self.getAllBrandsFromRaw(brands, proprietaryCompanyID: idCompany)
+              
+          MyCompanyModelData.Data.id = idCompany
+          MyCompanyModelData.Data.name = companyName
+          MyCompanyModelData.Data.contactName = contactName
+          MyCompanyModelData.Data.contactEMail = contactEMail
+          MyCompanyModelData.Data.contactPosition = contactPosition
+          MyCompanyModelData.Data.logoURL = logoURL
+          MyCompanyModelData.Data.brands = arrayOfBrands
+
+          functionToMakeWhenFinished()
+            
+          
+        } else {
+          
+          print("ERROR")
+          UtilityManager.sharedInstance.hideLoader()
+          
+        }
+    }
+    
+  }
+
+  
   func requestToGetAllCompanies(functionToMakeWhenFinished: (allCompanies:[CompanyModelData]) -> Void) {
     
 //    UtilityManager.sharedInstance.showLoader()
