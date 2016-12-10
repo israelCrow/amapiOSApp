@@ -15,7 +15,7 @@ protocol VisualizeCompanyProfileViewControllerDelegate {
   
 }
 
-class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompanyContactViewDelegate {
+class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompanyContactViewDelegate, EditCompanyProfileViewControllerDelegate {
   
   private var flipCard: FlipCardView! = nil
   private var topDetailCompanyView: DetailedInfoCompanyContactView! = nil
@@ -300,7 +300,17 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
   
   @objc private func pushEditCompanyProfile() {
     
+    self.delegate?.requestToHideTabBarFromVisualizeCompanyProfileViewControllerDelegate()
     
+    let editCompany = EditCompanyProfileViewController()
+    editCompany.delegate = self
+    self.navigationController?.pushViewController(editCompany, animated: true)
+    
+  }
+  
+  func requestToShowTabBarFromEditCompanyProfileViewControllerDelegate() {
+    
+    self.delegate?.requestToShowTabBarFromVisualizeCompanyProfileViewControllerDelegate()
     
   }
 

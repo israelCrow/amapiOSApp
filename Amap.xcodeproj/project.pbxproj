@@ -208,6 +208,8 @@
 		AAB974061DF8B33A0024B663 /* PitchCardForNormalClientDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB974051DF8B33A0024B663 /* PitchCardForNormalClientDescriptionView.swift */; };
 		AABD5A9E1D8F8C95006A3B5E /* EvaluatePitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABD5A9D1D8F8C95006A3B5E /* EvaluatePitchViewController.swift */; };
 		AABD5AA21D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABD5AA11D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift */; };
+		AABF34911DFBCEE8003EC7B6 /* EditCompanyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABF34901DFBCEE8003EC7B6 /* EditCompanyProfileView.swift */; };
+		AABF34931DFBDF18003EC7B6 /* EditConflictsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABF34921DFBDF18003EC7B6 /* EditConflictsView.swift */; };
 		AAC05F941DFB0AC40091ADF4 /* PitchRecommendationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC05F931DFB0AC40091ADF4 /* PitchRecommendationsView.swift */; };
 		AAC05F961DFB0AE80091ADF4 /* PitchRecommendationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC05F951DFB0AE80091ADF4 /* PitchRecommendationView.swift */; };
 		AACB52E51DB703F2004719A5 /* FilterPitchCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACB52E41DB703F2004719A5 /* FilterPitchCardView.swift */; };
@@ -480,6 +482,8 @@
 		AAB974051DF8B33A0024B663 /* PitchCardForNormalClientDescriptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchCardForNormalClientDescriptionView.swift; sourceTree = "<group>"; };
 		AABD5A9D1D8F8C95006A3B5E /* EvaluatePitchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EvaluatePitchViewController.swift; sourceTree = "<group>"; };
 		AABD5AA11D8F8F9D006A3B5E /* CustomSegmentedControlWithTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControlWithTitleView.swift; sourceTree = "<group>"; };
+		AABF34901DFBCEE8003EC7B6 /* EditCompanyProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCompanyProfileView.swift; sourceTree = "<group>"; };
+		AABF34921DFBDF18003EC7B6 /* EditConflictsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditConflictsView.swift; sourceTree = "<group>"; };
 		AAC05F931DFB0AC40091ADF4 /* PitchRecommendationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchRecommendationsView.swift; sourceTree = "<group>"; };
 		AAC05F951DFB0AE80091ADF4 /* PitchRecommendationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchRecommendationView.swift; sourceTree = "<group>"; };
 		AACB52E41DB703F2004719A5 /* FilterPitchCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterPitchCardView.swift; sourceTree = "<group>"; };
@@ -828,19 +832,20 @@
 			name = EvaluationBreakDown;
 			sourceTree = "<group>";
 		};
-		AA13CDE91DFB6C53002E1A4D /* Profile */ = {
+		AA13CDE91DFB6C53002E1A4D /* Edit/Visualize_Company */ = {
 			isa = PBXGroup;
 			children = (
+				AABF34881DFBCA65003EC7B6 /* Edit */,
 				AA13CDEA1DFB6C61002E1A4D /* Visualize */,
 			);
-			name = Profile;
+			name = Edit/Visualize_Company;
 			sourceTree = "<group>";
 		};
 		AA13CDEA1DFB6C61002E1A4D /* Visualize */ = {
 			isa = PBXGroup;
 			children = (
-				AA13CDEB1DFB6C9C002E1A4D /* DetailedInfoCompanyContactView.swift */,
-				AA13CDED1DFB7FEA002E1A4D /* CompanyConflictsView.swift */,
+				AABF348C1DFBCBE4003EC7B6 /* Profile */,
+				AABF348D1DFBCBF1003EC7B6 /* Conflicts */,
 			);
 			name = Visualize;
 			sourceTree = "<group>";
@@ -1227,7 +1232,7 @@
 		AAB973FC1DF896CE0024B663 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				AAC05F971DFB31930091ADF4 /* Edit/Visualize_Profile */,
+				AAC05F971DFB31930091ADF4 /* Edit/Visualize_Company */,
 				AAB973FE1DF8A1C80024B663 /* Visualize_Pitches */,
 			);
 			name = ViewControllers;
@@ -1236,7 +1241,7 @@
 		AAB973FD1DF896DA0024B663 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				AA13CDE91DFB6C53002E1A4D /* Profile */,
+				AA13CDE91DFB6C53002E1A4D /* Edit/Visualize_Company */,
 				AAB974011DF8B0890024B663 /* Pitches */,
 			);
 			name = Views;
@@ -1268,6 +1273,47 @@
 			name = Visualize;
 			sourceTree = "<group>";
 		};
+		AABF34881DFBCA65003EC7B6 /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				AABF348E1DFBCC06003EC7B6 /* Profile */,
+				AABF348F1DFBCC0C003EC7B6 /* Conflicts */,
+			);
+			name = Edit;
+			sourceTree = "<group>";
+		};
+		AABF348C1DFBCBE4003EC7B6 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				AA13CDEB1DFB6C9C002E1A4D /* DetailedInfoCompanyContactView.swift */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		AABF348D1DFBCBF1003EC7B6 /* Conflicts */ = {
+			isa = PBXGroup;
+			children = (
+				AA13CDED1DFB7FEA002E1A4D /* CompanyConflictsView.swift */,
+			);
+			name = Conflicts;
+			sourceTree = "<group>";
+		};
+		AABF348E1DFBCC06003EC7B6 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				AABF34901DFBCEE8003EC7B6 /* EditCompanyProfileView.swift */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		AABF348F1DFBCC0C003EC7B6 /* Conflicts */ = {
+			isa = PBXGroup;
+			children = (
+				AABF34921DFBDF18003EC7B6 /* EditConflictsView.swift */,
+			);
+			name = Conflicts;
+			sourceTree = "<group>";
+		};
 		AAC05F901DFB070C0091ADF4 /* PitchRecommendations */ = {
 			isa = PBXGroup;
 			children = (
@@ -1277,13 +1323,13 @@
 			name = PitchRecommendations;
 			sourceTree = "<group>";
 		};
-		AAC05F971DFB31930091ADF4 /* Edit/Visualize_Profile */ = {
+		AAC05F971DFB31930091ADF4 /* Edit/Visualize_Company */ = {
 			isa = PBXGroup;
 			children = (
 				AA13CDF11DFB88AF002E1A4D /* Edit */,
 				AA13CDF01DFB88A7002E1A4D /* Visualize */,
 			);
-			name = Edit/Visualize_Profile;
+			name = Edit/Visualize_Company;
 			sourceTree = "<group>";
 		};
 		AACBE2831DDE8A2E007314C3 /* Tutorial */ = {
@@ -1767,6 +1813,7 @@
 				AA2DB8581D53B97D00E9FB8A /* ChangePasswordRequestView.swift in Sources */,
 				AA104AAA1DFA7D9F00129935 /* BreakDownDescriptionView.swift in Sources */,
 				AA9A6CF51D8745BF00B85C17 /* PitchCategoryTableViewCell.swift in Sources */,
+				AABF34931DFBDF18003EC7B6 /* EditConflictsView.swift in Sources */,
 				AA104AA01DFA6CBE00129935 /* VisualizePitchInformationForCompanyViewController.swift in Sources */,
 				041DA48A1D66213400BAE262 /* ExtensionUIIMageView.swift in Sources */,
 				04AB39321D5D06EC009B1D5C /* EditAgencyProfileViewController.swift in Sources */,
@@ -1782,6 +1829,7 @@
 				AA87B7691D8865E200BCA3E6 /* SuccessfullyCreationOfPitchView.swift in Sources */,
 				AAB3768A1DAF1E7100830523 /* DetailPitchView.swift in Sources */,
 				AA13CDEE1DFB7FEA002E1A4D /* CompanyConflictsView.swift in Sources */,
+				AABF34911DFBCEE8003EC7B6 /* EditCompanyProfileView.swift in Sources */,
 				AACBE2801DDE0DCE007314C3 /* PitchEvaluationAveragePerMonthModelData.swift in Sources */,
 				AA084F311DDA7D8100B76649 /* GraphOfAgencyVSIndustryView.swift in Sources */,
 				AA4EAED41DD0FD0000AA305B /* InfoPitchesViewController.swift in Sources */,
