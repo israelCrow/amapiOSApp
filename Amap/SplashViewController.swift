@@ -226,8 +226,9 @@ class SplashViewController: UIViewController {
       
       if UserSession.session.role == "4" {
         
-        arrayOfViewControllers.append(self.createSecondBarItemForNormalUser())
-        arrayOfViewControllers.append(self.createFourthBarItemForNormalUser())
+        arrayOfViewControllers.append(self.createSecondBarItemForCompanyUser())
+        arrayOfViewControllers.append(self.createThirdBarItemForCompanyUser())
+        arrayOfViewControllers.append(self.createFourthBarItemForCompanyUser())
         
         mainTabBarController.viewControllers = arrayOfViewControllers
         //        let notToShowPitchesTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
@@ -340,7 +341,7 @@ class SplashViewController: UIViewController {
     
   }
   
-  private func createSecondBarItemForNormalUser() -> UINavigationController  { //CHECAR AQUI
+  private func createSecondBarItemForCompanyUser() -> UINavigationController  { //CHECAR AQUI
     
     let imagePitchesNonSelected = UIImage.init(named: "iconPitchesMedium")
     let imagePitchesSelected = UIImage.init(named: "iconPitchesWhite")
@@ -361,7 +362,28 @@ class SplashViewController: UIViewController {
     
   }
   
-  private func createFourthBarItemForNormalUser() -> UINavigationController  { //CHECAR AQUI
+  private func createThirdBarItemForCompanyUser() -> UINavigationController  {
+    
+    let imageAgencyProfileNonSelected = UIImage.init(named: "directorioSemiWhite")
+    let imageAgencyProfileSelected = UIImage.init(named: "directorioWhite")
+    
+    let visualizeAgencyFilterController = VisualizeAgencyFilterViewController()
+    //    visualizeAgencyFilterController.delegate = mainTabBarController
+    let tabThirdBarItem = UITabBarItem.init(title: "Directorio",
+                                            image: imageAgencyProfileNonSelected,
+                                            selectedImage: imageAgencyProfileSelected)
+    
+    let newNavController = UINavigationController.init(rootViewController: visualizeAgencyFilterController)
+    
+    tabThirdBarItem.tag = 3
+    newNavController.tabBarItem = tabThirdBarItem
+    newNavController.navigationBar.barStyle = .Black
+    
+    return newNavController
+    
+  }
+  
+  private func createFourthBarItemForCompanyUser() -> UINavigationController  { //CHECAR AQUI
     
     let imageAgencyProfileNonSelected = UIImage.init(named: "iconAgencyMedium")
     let imageAgencyProfileSelected = UIImage.init(named: "iconAgencyWhite")

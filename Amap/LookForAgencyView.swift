@@ -1,39 +1,39 @@
 //
-//  LookForPitchCardView.swift
+//  LookForAgencyView.swift
 //  Amap
 //
-//  Created by Alejandro Aristi C on 10/18/16.
+//  Created by Alejandro Aristi C on 12/11/16.
 //  Copyright © 2016 Alejandro Aristi C. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-protocol LookForPitchCardViewDelegate {
+protocol LookForAgencyViewDelegate {
   
-  func lookForThisPitchID(pitchIDToLookFor: String)
-  func doCancelLookForCard()
+  func showInfoOfThisSelectedAgency(id: String)
   
 }
 
-class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class LookForAgencyView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
   
   private var cancelButton: UIButton! = nil
   private var searchView: CustomTextFieldWithTitleView! = nil
   private var noResultsLabel: UILabel! = nil
   private var mainTableView: UITableView! = nil
-  private var arrayOfFilteredProjects = Array<PitchEvaluationByUserModelData>()
+  private var arrayOfFilteredAgencies = Array<GenericAgencyData>()
   
-  private var arrayOfAllProjects = Array<PitchEvaluationByUserModelData>()
+  private var arrayOfAllAgencies = Array<GenericAgencyData>()
   
-  var delegate: LookForPitchCardViewDelegate?
+  var delegate: LookForAgencyViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(frame: CGRect, newArrayOfPitchesToFilter: [PitchEvaluationByUserModelData]) {
+  init(frame: CGRect, newArrayOfAgenciesToFilter: [GenericAgencyData]) {
     
-    arrayOfAllProjects = newArrayOfPitchesToFilter
+    arrayOfAllAgencies = newArrayOfAgenciesToFilter
+    
     super.init(frame: frame)
     
     self.initInterface()
@@ -42,7 +42,7 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
   private func initInterface() {
     
     self.adaptMyself()
-    self.createCancelButton()
+    //self.createCancelButton()
     self.createSearchView()
     self.createNoResultsView()
     self.createMainTableView()
@@ -160,30 +160,30 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
     
   }
   
-  func setArrayOfAllProjectsPitches(newArrayOfAllProjectsPitches: [PitchEvaluationByUserModelData]) {
+  func setArrayOfAllAgencies(newArrayOfAllAgencies: [GenericAgencyData]) {
     
-//    if newArrayOfAllProjectsPitches.count == 0 {
-//      
-//      self.hideMainTableView()
-//      //      self.showAskPermissionLabel()
-//      //      self.showAddButton()
-//      
-//    } else {
+    //    if newArrayOfAllProjectsPitches.count == 0 {
+    //
+    //      self.hideMainTableView()
+    //      //      self.showAskPermissionLabel()
+    //      //      self.showAddButton()
+    //
+    //    } else {
     
-      self.showMainTableView()
-      
-      arrayOfAllProjects = newArrayOfAllProjectsPitches
-      arrayOfFilteredProjects = arrayOfAllProjects
-      mainTableView.reloadData()
-      
-//    }
+    self.showMainTableView()
+    
+    arrayOfAllAgencies = newArrayOfAllAgencies
+    arrayOfFilteredAgencies = arrayOfAllAgencies
+    mainTableView.reloadData()
+    
+    //    }
     
   }
   
   //MARK: - ViewTableDelegate
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return arrayOfFilteredProjects.count
+    return arrayOfFilteredAgencies.count
   }
   
   func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -192,14 +192,14 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
   
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     
-    self.cellPressed(arrayOfFilteredProjects[indexPath.row].pitchId)
+    self.cellPressed(arrayOfFilteredAgencies[indexPath.row].id)
     
   }
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell!
     
-    self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfFilteredProjects[indexPath.row].pitchName)
+    self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfFilteredAgencies[indexPath.row].name)
     cell.selectionStyle = UITableViewCellSelectionStyle.None
     
     return cell
@@ -229,7 +229,7 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
     if textField.text! == "" || textField.text == nil || textField.text! == " " {
       
       //CHANGE ARRAY OF ALL PROJECTS
-      arrayOfFilteredProjects = arrayOfAllProjects
+      arrayOfFilteredAgencies = arrayOfAllAgencies
       
       self.showMainTableView()
       self.hideNoResultsLabel()
@@ -248,14 +248,14 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
   
   private func filterCompaniesWithText(filterText: String) {
     
-    arrayOfFilteredProjects = arrayOfAllProjects.filter({ (projectData) -> Bool in
-      return projectData.pitchName.rangeOfString(filterText) != nil
+    arrayOfFilteredAgencies = arrayOfAllAgencies.filter({ (agencyData) -> Bool in
+      return agencyData.name.rangeOfString(filterText) != nil
     })
     
     
     mainTableView.reloadData()
     
-    if arrayOfFilteredProjects.count == 0 {
+    if arrayOfFilteredAgencies.count == 0 {
       
       self.hideMainTableView()
       self.showNoResultsLabel()
@@ -291,25 +291,25 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
     
   }
   //
-    private func showNoResultsLabel() {
-  
-      UIView.animateWithDuration(0.25){
-  
-        self.noResultsLabel.alpha = 1.0
-  
-      }
-  
+  private func showNoResultsLabel() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.noResultsLabel.alpha = 1.0
+      
     }
+    
+  }
   
-    private func hideNoResultsLabel() {
-  
-      UIView.animateWithDuration(0.25){
-  
-        self.noResultsLabel.alpha = 0.0
-  
-      }
-  
+  private func hideNoResultsLabel() {
+    
+    UIView.animateWithDuration(0.25){
+      
+      self.noResultsLabel.alpha = 0.0
+      
     }
+    
+  }
   //
   //  private func showAddButton() {
   //
@@ -348,7 +348,7 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
   
   private func cellPressed(pitchIDToLookFor: String) {
     
-    self.delegate?.lookForThisPitchID(pitchIDToLookFor)
+    self.delegate?.showInfoOfThisSelectedAgency(pitchIDToLookFor)
     
   }
   
@@ -395,9 +395,9 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
   
   @objc private func cancelButtonPressed() {
     
-    self.delegate?.doCancelLookForCard()
+    
     
   }
-
+  
   
 }

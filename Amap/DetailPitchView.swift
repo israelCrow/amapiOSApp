@@ -66,7 +66,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     
     self.createMainScrollView()
     self.createBottomContainerView()
-    self.createPitchSkillsView()
+//    self.createPitchSkillsView()
     self.createFillSurveyView()
     self.createCancelEditButtonsView()
     self.createTabBarForPitchDetail()
@@ -80,7 +80,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
                                              width: UIScreen.mainScreen().bounds.size.width,
                                              height: UIScreen.mainScreen().bounds.size.height)//Value that I considered
     let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
-                                               height: frameForMainScrollView.size.height + (350.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
+                                               height: frameForMainScrollView.size.height + (200.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered //WITH SKILLS IS 350.0
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.whiteColor()
@@ -130,7 +130,8 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     }
     
     let frameForView = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   y: pitchSkillsView.frame.origin.y + pitchSkillsView.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                   y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
+//                                   y: pitchSkillsView.frame.origin.y + pitchSkillsView.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                               height: 185.0 * UtilityManager.sharedInstance.conversionHeight)
     

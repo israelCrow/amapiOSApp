@@ -10,7 +10,7 @@ class VisualizePitchesConstants {
 
   enum NoFilterResultsView {
     
-    static let warningNoPitchesText = "¡Oops!\nNo hay ningún\n pitch filtrado"
+    static let warningNoPitchesText = "¡Oops!\nNo tenemos filtros\nque mostrarte"
     
   }
   
@@ -101,6 +101,7 @@ class VisualizePitchesConstants {
   
   enum FilterPitchCardView {
     
+    static let wonCriterionText = "Ganado"
     static let activeCriterionText = "Activo"
     static let archivedCriterionText = "Archivado"
     static let declinedCriterionText = "Declinado"

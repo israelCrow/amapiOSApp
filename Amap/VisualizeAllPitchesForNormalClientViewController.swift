@@ -88,10 +88,10 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
   
   private func changeNavigationRigthButtonItem() {
     
-    let rightButton = UIBarButtonItem(title: "",
+    let rightButton = UIBarButtonItem(title: VisualizePitchesConstants.VisualizeAllPitchesViewController.navigationRightButtonText,
                                       style: UIBarButtonItemStyle.Plain,
                                       target: self,
-                                      action: nil)
+                                      action: #selector(showInfo))
     
     let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
                                     size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
@@ -103,6 +103,13 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
     rightButton.setTitleTextAttributes(attributesDict, forState: .Normal)
     
     self.navigationItem.rightBarButtonItem = rightButton
+    
+  }
+  
+  @objc private func showInfo() {
+    
+    let infoController = InfoPitchesViewController()
+    self.navigationController?.pushViewController(infoController, animated: true)
     
   }
   
