@@ -476,7 +476,7 @@ class RequestToServerManager: NSObject {
         if response.response?.statusCode == 200 {
           
           let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
-//          print(json)
+          print(json)
       
           let idCompany = (json["id"] as? Int != nil ? String(json["id"] as! Int) : "-1")
           let companyName = (json["name"] as? String != nil ? json["name"] as! String : "")
@@ -2343,6 +2343,13 @@ class RequestToServerManager: NSObject {
     }
     
   }
+  
+  
+  
+  
+  
+  
+  
 
 
 

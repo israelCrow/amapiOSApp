@@ -120,6 +120,7 @@ class SplashViewController: UIViewController {
             if brand_id != -1 {
               
               UserSession.session.company_id = String(brand_id)
+              MyCompanyModelData.Data.id = String(brand_id)
               
           }
           

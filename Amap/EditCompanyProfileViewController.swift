@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 protocol EditCompanyProfileViewControllerDelegate {
   
@@ -14,7 +15,7 @@ protocol EditCompanyProfileViewControllerDelegate {
   
 }
 
-class EditCompanyProfileViewController: UIViewController {
+class EditCompanyProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, EditCompanyProfileViewDelegate {
   
   private var flipCard: FlipCardView! = nil
   private var scrollViewFrontFlipCard: UIScrollView! = nil
@@ -169,7 +170,7 @@ class EditCompanyProfileViewController: UIViewController {
     //------------------------------------------SCREENS
     
     editProfile = EditCompanyProfileView.init(frame: frameForCards)
-//    editProfile.delegate = self
+    editProfile.delegate = self
     
     editConflicts = EditConflictsView.init(frame: CGRect.init(x: frameForCards.size.width,
       y: 0.0 ,
@@ -342,6 +343,8 @@ class EditCompanyProfileViewController: UIViewController {
     
     self.requestToEveryScreenToSave(){
       
+    self.editProfile.thereAreChanges = false
+    self.editConflicts.thereAreChanges = false
 //      self.criteriaView.thereAreChanges = false
 //      self.participateView.thereAreChanges = false
 //      self.exclusiveView.thereAreChanges = false
@@ -354,6 +357,8 @@ class EditCompanyProfileViewController: UIViewController {
   
   @objc private func requestToEveryScreenToSave(actionsToMakeAfterExecuting: () -> Void) {
     //this for every screen
+    
+    editProfile.saveChangesOfCompanyProfile(actionsToMakeAfterExecuting)
     
 //    let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
 //    
@@ -381,9 +386,202 @@ class EditCompanyProfileViewController: UIViewController {
     
   }
 
+  //MARK: - EditCompanyProfileViewDelegate
+  
+  func selectProfileImageFromLibrary() {
+    
+    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+      
+      let imagePicker = UIImagePickerController()
+      imagePicker.navigationBar.barTintColor = UIColor.init(white: 1.0, alpha: 1.0)
+//      imagePicker.navigationBar.tintColor = UIColor.init(white: 1.0, alpha: 1.0)
+      imagePicker.delegate = self
+      imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+      imagePicker.allowsEditing = true
+    
+      self.presentViewController(imagePicker, animated: true, completion: nil)
+      
+    }
+    
+  }
+  
+  func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+    
+      self.editProfile.changeProfileImageView(image)
+      self.editProfile.thereAreChanges = true
+      //self.goToFirstPage()
+
+    
+    self.dismissViewControllerAnimated(true, completion: nil);
+    
+  }
+  
+  func asKForDeleteProfileImage() {
+    
+    let alertController = UIAlertController(title: "Borrar Foto de Perfil", message: "¿Estás seguro que deseas eleminar la imagen de perfil?", preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let cancelAction = UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
+    }
+    
+    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+      
+      self.editProfile.deleteProfileImage()
+      
+    }
+    
+    alertController.addAction(cancelAction)
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
+  
+  func saveChangesFromEditCompanyProfileView(parameters: [String:AnyObject], actionsToMakeAfterExecution: () -> Void) {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    var newParameters = parameters
+    
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/companies/update"
+    
+    let headers = [
+      "Content-Type" : "application/json",
+      "Authorization": UtilityManager.sharedInstance.apiToken
+    ]
+    
+    let key_id = "id"
+    let id_string = newParameters[key_id] as? String
+    
+    let key_auth_token = "auth_token"
+    let auth_token = newParameters[key_auth_token] as? String
+    
+    let keyDelete_image = "delete_image"
+    let deleteImageBool: Bool = (newParameters[keyDelete_image] as? Bool != nil ? newParameters[keyDelete_image] as! Bool : false)
+    var deleteImageInt: Int = (deleteImageBool == true ? 1 : 0)
+    
+    let keyFile_name = "filename"
+    let filename = newParameters["filename"] as? String
+    
+    let imageData = newParameters["logo"]
+    
+    let companyData = newParameters["company"] as! [String: AnyObject]
+    
+    let key_name = "name"
+    let name = companyData[key_name] as? String
+    
+    let key_contact_name = "contact_name"
+    let contact_name = companyData[key_contact_name] as? String
+    
+    let key_contact_email = "contact_email"
+    let contact_email = companyData[key_contact_email] as? String
+    
+    let key_contact_position = "contact_position"
+    let contact_position = companyData[key_contact_position] as? String
+    
+    Alamofire.upload(.POST, urlToRequest, headers: headers, multipartFormData:{
+      multipartFormData in
+      
+      if imageData != nil {
+        multipartFormData.appendBodyPart(data: imageData as! NSData,
+          name: "logo",
+          fileName: "CompanyProfileImage.png",
+          mimeType: "image/png")
+        
+        multipartFormData.appendBodyPart(data: filename!.dataUsingEncoding(NSUTF8StringEncoding)!, name: keyFile_name)
+        
+      }
+      
+      if deleteImageBool == true {
+        
+        multipartFormData.appendBodyPart(data: NSData(bytes: &deleteImageInt, length: sizeof(Int)), name: keyDelete_image)
+        
+      }
+      
+      multipartFormData.appendBodyPart(data: id_string!.dataUsingEncoding(NSUTF8StringEncoding)!, name: key_id)
+      
+      if auth_token != nil {
+        multipartFormData.appendBodyPart(data: auth_token!.dataUsingEncoding(NSUTF8StringEncoding)!, name: key_auth_token)
+        
+      }
+      
+      if name != nil {
+        multipartFormData.appendBodyPart(data: name!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "company[name]")
+        
+      }
+      
+      if contact_name != nil {
+        multipartFormData.appendBodyPart(data: contact_name!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "company[contact_name]")
+        
+      }
+      
+      if contact_email != nil {
+        multipartFormData.appendBodyPart(data: contact_email!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "company[contact_email]")
+        
+      }
+      
+      if contact_position != nil {
+        multipartFormData.appendBodyPart(data: contact_position!.dataUsingEncoding(NSUTF8StringEncoding)!, name: "company[contact_position]")
+        
+      }
+      
+      
+      }, encodingCompletion:{ encodingResult in
+        
+        switch encodingResult {
+        case .Success(let upload, _, _):
+          print("SUCCESSFUL")
+          upload.responseJSON { response in
+            
+            //Skills Data
+            //            let paramsFromSkills = self.skillsView.getParamsToSaveDataOfSkills()
+            //            RequestToServerManager.sharedInstance.requestToSaveDataFromSkills(paramsFromSkills) {
+            //
+            //              RequestToServerManager.sharedInstance.requestForAgencyData {
+            //
+            UtilityManager.sharedInstance.hideLoader()
+            actionsToMakeAfterExecution()
+            //
+            //              }
+            //
+            //            }
+            
+            //            print(response.request)  // original URL request
+            //            print(response.response) // URL response
+            //            print(response.data)     // server data
+            //            print(response.result)   // result of response serialization
+            
+            if let JSON = response.result.value {
+              print("JSON: \(JSON)")
+            }
+          }
+          
+        case .Failure(let error):
+          
+          UtilityManager.sharedInstance.hideLoader()
+          print(error)
+          
+        }
+      }
+    )
+  }
 
   
-  
+  func showMessageOfMandatoryInfo() {
+    
+    let alertController = UIAlertController(title: "AVISO",
+                                            message: "Antes de usar la aplicación salva una foto de perfil y un nombre de agencia :)",
+                                            preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+      
+      
+      
+    }
+    
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
   
   
   
@@ -506,5 +704,6 @@ class EditCompanyProfileViewController: UIViewController {
     self.view.endEditing(true)
     
   }
+  
   
 }

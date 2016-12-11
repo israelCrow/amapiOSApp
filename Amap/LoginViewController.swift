@@ -258,7 +258,8 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                     if company_id != -1 {
                         
                       UserSession.session.company_id = String(company_id)
-                        
+                      MyCompanyModelData.Data.id = String(company_id)
+                      
                   }
 
                   UserSession.session.auth_token = auth_token

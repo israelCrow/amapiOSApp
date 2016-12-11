@@ -14,7 +14,7 @@ protocol EditCompanyProfileViewDelegate {
   
   func asKForDeleteProfileImage()
   
-  func saveChangesFromEditProfileView(parameters: [String:AnyObject], actionsToMakeAfterExecution: () -> Void)
+  func saveChangesFromEditCompanyProfileView(parameters: [String:AnyObject], actionsToMakeAfterExecution: () -> Void)
 
   func showMessageOfMandatoryInfo()
   
@@ -32,7 +32,7 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
   private var companyEMailView: CustomTextFieldWithTitleView! = nil
   private var companyContactView: CustomTextFieldWithTitleView! = nil
   private var companyPositionView: CustomTextFieldWithTitleView! = nil
-
+  
   var thereAreChanges: Bool = false
   
   var delegate: EditCompanyProfileViewDelegate?
@@ -401,6 +401,62 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
     
     thereAreChanges = true
     profileImageView.image = image
+    
+  }
+  
+  
+  func saveChangesOfCompanyProfile(actionsToMakeAfterExecution: () -> Void) {
+    
+    var parameters: [String:AnyObject]
+    
+    if profileImageView.image != nil {
+      
+      var fileName: String = ""
+      
+      if MyCompanyModelData.Data.name != nil && MyCompanyModelData.Data.name != "" {
+        
+        fileName = MyCompanyModelData.Data.name + "_img.png"
+        
+      } else {
+        
+        fileName = "Company_img.png"
+        
+      }
+      
+      let profileImage = profileImageView.image!
+      let profileDataImage = UIImagePNGRepresentation(profileImage)
+      
+      parameters = [
+        "auth_token"       : UserSession.session.auth_token,
+        "id"               : UserSession.session.company_id,
+        "filename"         : fileName,
+        "logo"             : profileDataImage!,
+        "delete_image"     : false,
+        "company"          :
+          [
+            "name"             : companyNameView.mainTextField.text!,
+            "contact_name"     : companyContactView.mainTextField.text!,
+            "contact_email"    : companyEMailView.mainTextField.text!,
+            "contact_position" : companyPositionView.mainTextField.text!]
+      ]
+      
+    } else {
+      
+      parameters = [
+        "auth_token"       : UserSession.session.auth_token,
+        "id"               : UserSession.session.company_id,
+        "delete_image"     : true,
+        "company"          :
+          [
+            "name"             : companyNameView.mainTextField.text!,
+            "contact_name"     : companyContactView.mainTextField.text!,
+            "contact_email"    : companyEMailView.mainTextField.text!,
+            "contact_position" : companyPositionView.mainTextField.text!]
+      ]
+      
+    }
+    
+    delegate?.saveChangesFromEditCompanyProfileView(parameters, actionsToMakeAfterExecution: actionsToMakeAfterExecution)
     
   }
   

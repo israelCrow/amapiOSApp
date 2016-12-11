@@ -1,8 +1,8 @@
 //
-//  VisualizeAgencyProfileViewController.swift
+//  VisualizeCompanyDirectoryViewController.swift
 //  Amap
 //
-//  Created by Alejandro Aristi C on 8/30/16.
+//  Created by Alejandro Aristi C on 12/10/16.
 //  Copyright © 2016 Alejandro Aristi C. All rights reserved.
 //
 
@@ -11,14 +11,14 @@ import MessageUI
 import MapKit
 import SafariServices
 
-protocol VisualizeAgencyProfileViewControllerDelegate {
+protocol VisualizeCompanyDirectorViewControllerDelegate {
   
   func requestToHideTabBarFromVisualizeAgencyProfileViewControllerDelegate()
   func requestToShowTabBarFromVisualizeAgencyProfileViewControllerDelegate()
   
 }
 
-class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDelegate, VisualizeSkillsViewDelegate, VisualizeSkillsLevelViewDelegate, EditAgencyProfileViewControllerDelegate, AgencyProfilePicNameButtonsViewDelegate, MFMailComposeViewControllerDelegate, SFSafariViewControllerDelegate, VisualizeCaseDetailViewControllerDelegate {
+class VisualizeCompanyDirectorViewController: UIViewController, VisualizeCasesDelegate, VisualizeSkillsViewDelegate, VisualizeSkillsLevelViewDelegate, EditAgencyProfileViewControllerDelegate, AgencyProfilePicNameButtonsViewDelegate, MFMailComposeViewControllerDelegate, SFSafariViewControllerDelegate, VisualizeCaseDetailViewControllerDelegate {
   
   let kNumberOfCardsInScrollViewMinusOne = 4
   
@@ -37,7 +37,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   private var actualPage: Int! = 0
   private var numberOfPageToMove: Int! = nil
   
-  var delegate: VisualizeAgencyProfileViewControllerDelegate?
+  var delegate: VisualizeCompanyDirectorViewControllerDelegate?
   
   override func loadView() {
     
@@ -49,7 +49,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     let notToShowTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
     
-      let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+    let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
     
     if notToShowTutorial == false && savedPhotoAndSavedName == true {
       
@@ -76,9 +76,9 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     if savedPhotoAndSavedName == false {
       
       UIApplication.sharedApplication().sendAction((self.navigationItem.leftBarButtonItem?.action)!,
-                                                 to: self.navigationItem.leftBarButtonItem?.target,
-                                               from: nil,
-                                           forEvent: nil)
+                                                   to: self.navigationItem.leftBarButtonItem?.target,
+                                                   from: nil,
+                                                   forEvent: nil)
       
     }
     
@@ -87,19 +87,19 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   private func changeBackButtonItem() {
     
     let backButton = UIBarButtonItem(title: AgencyProfileVisualizeConstants.VisualizeAgencyProfileViewController.backButtonText,
-      style: UIBarButtonItemStyle.Plain,
-      target: self,
-      action: #selector(pushEditAgencyProfile))
+                                     style: UIBarButtonItemStyle.Plain,
+                                     target: self,
+                                     action: #selector(pushEditAgencyProfile))
     
     let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
                                     size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
     
     let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
                                               NSForegroundColorAttributeName: UIColor.whiteColor()
-                                              ]
+    ]
     
     backButton.setTitleTextAttributes(attributesDict, forState: .Normal)
-  
+    
     self.navigationItem.leftBarButtonItem = backButton
     
   }
@@ -130,16 +130,16 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   private func changeRigthButtonItem() {
     
     let rightButton = UIBarButtonItem(title: AgencyProfileVisualizeConstants.VisualizeAgencyProfileViewController.rightButtonText,
-      style: UIBarButtonItemStyle.Plain,
-      target: self,
-      action: #selector(logOutAndPopThis))
+                                      style: UIBarButtonItemStyle.Plain,
+                                      target: self,
+                                      action: #selector(logOutAndPopThis))
     
     let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
                                     size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
     
     let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
                                               NSForegroundColorAttributeName: UIColor.whiteColor()
-                                              ]
+    ]
     
     rightButton.setTitleTextAttributes(attributesDict, forState: .Normal)
     
@@ -188,13 +188,13 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
                                        height: heightOfCard)
     
     let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
-
+    
     //createTheFrontCard
     self.createFrontViewForFlipCard(frameForViewsOfCard)
-
+    
     //createTheBackCard
     let blankView = UIView.init(frame:frameForViewsOfCard)
-//
+    //
     flipCard = FlipCardView.init(frame: frameForFlipCard, viewOne: frontViewOfClipCard, viewTwo: blankView)
     self.view.addSubview(flipCard)
     self.createButtonsForFlipCard()
@@ -215,8 +215,8 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     let frameForProfilePicStuff = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                               y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
-                                          width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         height: 123.0 * UtilityManager.sharedInstance.conversionHeight)
+                                              width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                              height: 123.0 * UtilityManager.sharedInstance.conversionHeight)
     
     profilePicNameButtonsView = AgencyProfilePicNameButtonsView.init(frame: frameForProfilePicStuff)
     profilePicNameButtonsView.delegate = self
@@ -231,7 +231,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
         profilePicNameButtonsView.animateWhenInfoIsShowing()
         
     }
-
+    
     frontViewOfClipCard.addSubview(profilePicNameButtonsView)
     
   }
@@ -239,18 +239,18 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   private func createMainScrollView(frameForCards: CGRect) {
     
     self.createScrollViewFrontFlipCard(frameForCards)
-
+    
   }
   
   private func createScrollViewFrontFlipCard(frameForCards: CGRect) {
     
     let realFrameForScrollView = CGRect.init(x: frameForCards.origin.x,
                                              y: 183.0 * UtilityManager.sharedInstance.conversionHeight,
-                                         width: frameForCards.size.width,
-                                        height: 315.0 * UtilityManager.sharedInstance.conversionHeight)
+                                             width: frameForCards.size.width,
+                                             height: 315.0 * UtilityManager.sharedInstance.conversionHeight)
     
     let contentSizeOfScrollView = CGSize.init(width: frameForCards.size.width * CGFloat(kNumberOfCardsInScrollViewMinusOne),
-                                             height: frameForCards.size.height)
+                                              height: frameForCards.size.height)
     
     scrollViewFrontFlipCard = UIScrollView.init(frame: realFrameForScrollView)
     scrollViewFrontFlipCard.backgroundColor = UIColor.whiteColor()
@@ -261,8 +261,8 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     let frameForScreensOfScrollView = CGRect.init(x: 0.0,
                                                   y: 0.0,
-                                              width: frameForCards.size.width,
-                                             height: 316.0 * UtilityManager.sharedInstance.conversionHeight)
+                                                  width: frameForCards.size.width,
+                                                  height: 316.0 * UtilityManager.sharedInstance.conversionHeight)
     
     let infoVisualize = VisualizeAgencyInfoView.init(frame: frameForScreensOfScrollView)
     infoVisualize.delegate = self
@@ -291,11 +291,11 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     participateInVisualize.backgroundColor = UIColor.clearColor()
     scrollViewFrontFlipCard.addSubview(participateInVisualize)
     
-//    let numberEmployees = VisualizeNumberOfEmployeesView.init(frame: CGRect.init(x: frameForCards.size.width * 4,
-//      y: frameForScreensOfScrollView.origin.y,
-//      width: frameForScreensOfScrollView.size.width,
-//      height: frameForScreensOfScrollView.size.height))
-//    scrollViewFrontFlipCard.addSubview(numberEmployees)
+    //    let numberEmployees = VisualizeNumberOfEmployeesView.init(frame: CGRect.init(x: frameForCards.size.width * 4,
+    //      y: frameForScreensOfScrollView.origin.y,
+    //      width: frameForScreensOfScrollView.size.width,
+    //      height: frameForScreensOfScrollView.size.height))
+    //    scrollViewFrontFlipCard.addSubview(numberEmployees)
     
     visualizeCases = VisualizeCasesView.init(frame: CGRect.init(x: frameForCards.size.width * 4,
       y: frameForScreensOfScrollView.origin.y,
@@ -311,7 +311,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     scrollViewFrontFlipCard.addSubview(skillsView)
     skillsView.getAllSkillsFromServer()
     skillsView.delegate = self
- 
+    
     frontViewOfClipCard.addSubview(scrollViewFrontFlipCard)
     
     if numberOfPageToMove != nil {
@@ -321,7 +321,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     }
     
   }
-
+  
   private func createButtonsForFlipCard() {
     leftButton = nil
     rightButton = nil
@@ -358,10 +358,10 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
       self.hideLeftButtonOfMainScrollView()
     }else
       if actualPage == kNumberOfCardsInScrollViewMinusOne {
-      
-          self.hideRightButtonOfMainScrollView()
         
-      }
+        self.hideRightButtonOfMainScrollView()
+        
+    }
     
     flipCard.addSubview(leftButton)
     flipCard.addSubview(rightButton)
@@ -380,7 +380,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     case 0:
       pageToShow = 0
       break
-    
+      
     case 1:
       pageToShow = 1
       break
@@ -400,14 +400,14 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     case 5:
       pageToShow = 5
       break
-
-//    case 6:
-//      pageToShow = 4
+      
+      //    case 6:
+      //      pageToShow = 4
       
     default:
       pageToShow = 0
     }
-  
+    
     let editStuffAgency = EditAgencyProfileViewController(pageOfCardToShow: pageToShow)
     editStuffAgency.delegate = self
     self.navigationController?.pushViewController(editStuffAgency, animated: true)
@@ -541,9 +541,9 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
       self.hideRightButtonOfMainScrollView()
       
     } else {
-    
+      
       if numberOfPageToMove == 0 {
-       
+        
         profilePicNameButtonsView.animateWhenInfoIsShowing()
         self.hideLeftButtonOfMainScrollView()
         
@@ -626,17 +626,17 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     if flipCard != nil {
       
-//      UtilityManager.sharedInstance.hideLoader()
+      //      UtilityManager.sharedInstance.hideLoader()
       
       flipCard.removeFromSuperview()
       flipCard = nil
       actualPage = 0
       self.createAndAddFlipCard()
-//      self.hideLeftButtonOfMainScrollView()
+      //      self.hideLeftButtonOfMainScrollView()
       
     }
     
-
+    
     
   }
   
@@ -654,7 +654,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   //MARK: - VisualizeCaseDetailViewControllerDelegate
   
   func showCasesFromCaseDetailViewController() {
-  
+    
     self.numberOfPageToMove = 4
     
   }
@@ -713,7 +713,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
       mailComposeViewController.navigationBar.barTintColor = UIColor.init(white: 1.0, alpha: 1.0)
       
       if MFMailComposeViewController.canSendMail() {
-  
+        
         self.presentViewController(mailComposeViewController, animated: true, completion: nil)
         
       } else {
@@ -734,7 +734,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
       self.presentViewController(alertController, animated: true, completion: nil)
       
     }
-
+    
   }
   
   func configuredMailComposeViewController() -> MFMailComposeViewController {
@@ -752,7 +752,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   func showSendMailErrorAlert() {
     
     let alertController = UIAlertController(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: UIAlertControllerStyle.Alert)
-
+    
     let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
       
     }
@@ -798,7 +798,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   func weblinkIconButtonPressed() {
     
     if AgencyModel.Data.website_url != nil && UIApplication.sharedApplication().canOpenURL(NSURL.init(string: AgencyModel.Data.website_url!)!) {
-
+      
       let url = NSURL.init(string: AgencyModel.Data.website_url!)
       
       let safariExplorer = SFSafariViewController.init(URL: url!)
@@ -806,7 +806,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
       
       self.navigationController?.presentViewController(safariExplorer, animated: true, completion: nil)
       
-//      UIApplication.sharedApplication().openURL(NSURL.init(string: AgencyModel.Data.website_url!)!)
+      //      UIApplication.sharedApplication().openURL(NSURL.init(string: AgencyModel.Data.website_url!)!)
       
     } else {
       
@@ -858,7 +858,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
         mapItem.openInMapsWithLaunchOptions(options)
         
       }
-
+      
     }
     
   }

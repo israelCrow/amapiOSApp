@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 protocol VisualizeCompanyProfileViewControllerDelegate {
   
@@ -15,7 +16,7 @@ protocol VisualizeCompanyProfileViewControllerDelegate {
   
 }
 
-class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompanyContactViewDelegate, EditCompanyProfileViewControllerDelegate {
+class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompanyContactViewDelegate, EditCompanyProfileViewControllerDelegate, MFMailComposeViewControllerDelegate {
   
   private var flipCard: FlipCardView! = nil
   private var topDetailCompanyView: DetailedInfoCompanyContactView! = nil
@@ -294,7 +295,51 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
   
   func mailIconPressedFromDetailedInfoView() {
     
+    let mailComposeViewController = configuredMailComposeViewController()
+    mailComposeViewController.navigationBar.barTintColor = UIColor.init(white: 1.0, alpha: 1.0)
     
+    if MFMailComposeViewController.canSendMail() {
+      
+      self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+      
+    } else {
+      
+      self.showSendMailErrorAlert()
+      
+    }
+    
+  }
+  
+  func configuredMailComposeViewController() -> MFMailComposeViewController {
+    
+    let mailComposerVC = MFMailComposeViewController()
+    mailComposerVC.mailComposeDelegate = self
+    
+    mailComposerVC.setToRecipients([MyCompanyModelData.Data.contactEMail])
+    mailComposerVC.setSubject("Contactado desde Happitch :)")
+    mailComposerVC.setMessageBody("", isHTML: false)
+    
+    return mailComposerVC
+    
+  }
+  
+  
+  func showSendMailErrorAlert() {
+    
+    let alertController = UIAlertController(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
+    }
+    
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
+  
+  func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    
+    controller.dismissViewControllerAnimated(true, completion: nil)
     
   }
   

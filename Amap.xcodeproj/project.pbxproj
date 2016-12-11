@@ -237,6 +237,7 @@
 		AADA93581DC0FC5C00CA5DBD /* WhenYouWillSignTheContractPitchSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADA93571DC0FC5C00CA5DBD /* WhenYouWillSignTheContractPitchSurveyView.swift */; };
 		AADA935A1DC1016400CA5DBD /* DidProjectActivePitchSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADA93591DC1016400CA5DBD /* DidProjectActivePitchSurveyView.swift */; };
 		AADA935C1DC109B000CA5DBD /* WhenProjectWillActivePitchSurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADA935B1DC109B000CA5DBD /* WhenProjectWillActivePitchSurveyView.swift */; };
+		AADBEC4B1DFC8B8300D5E2FA /* VisualizeCompanyDirectoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADBEC4A1DFC8B8300D5E2FA /* VisualizeCompanyDirectoryViewController.swift */; };
 		AADC08BD1D9C083000C5CBCD /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = AADC08BC1D9C083000C5CBCD /* iCarousel.m */; };
 		AADC08C01D9C23D700C5CBCD /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADC08BF1D9C23D700C5CBCD /* GraphView.swift */; };
 		AADC08C21D9C6E0300C5CBCD /* ExclusivityBrandModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADC08C11D9C6E0300C5CBCD /* ExclusivityBrandModelData.swift */; };
@@ -511,6 +512,7 @@
 		AADA93571DC0FC5C00CA5DBD /* WhenYouWillSignTheContractPitchSurveyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhenYouWillSignTheContractPitchSurveyView.swift; sourceTree = "<group>"; };
 		AADA93591DC1016400CA5DBD /* DidProjectActivePitchSurveyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DidProjectActivePitchSurveyView.swift; sourceTree = "<group>"; };
 		AADA935B1DC109B000CA5DBD /* WhenProjectWillActivePitchSurveyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhenProjectWillActivePitchSurveyView.swift; sourceTree = "<group>"; };
+		AADBEC4A1DFC8B8300D5E2FA /* VisualizeCompanyDirectoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCompanyDirectoryViewController.swift; sourceTree = "<group>"; };
 		AADC08BB1D9C083000C5CBCD /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iCarousel.h; path = iCarousel/iCarousel.h; sourceTree = "<group>"; };
 		AADC08BC1D9C083000C5CBCD /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = iCarousel.m; path = iCarousel/iCarousel.m; sourceTree = "<group>"; };
 		AADC08BF1D9C23D700C5CBCD /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
@@ -1232,6 +1234,7 @@
 		AAB973FC1DF896CE0024B663 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				AADBEC471DFC8B2B00D5E2FA /* Edit/Visualize_Directory */,
 				AAC05F971DFB31930091ADF4 /* Edit/Visualize_Company */,
 				AAB973FE1DF8A1C80024B663 /* Visualize_Pitches */,
 			);
@@ -1364,6 +1367,22 @@
 				AADA935B1DC109B000CA5DBD /* WhenProjectWillActivePitchSurveyView.swift */,
 			);
 			name = PitchSurvey;
+			sourceTree = "<group>";
+		};
+		AADBEC471DFC8B2B00D5E2FA /* Edit/Visualize_Directory */ = {
+			isa = PBXGroup;
+			children = (
+				AADBEC4C1DFCF9A300D5E2FA /* Visualize */,
+			);
+			name = Edit/Visualize_Directory;
+			sourceTree = "<group>";
+		};
+		AADBEC4C1DFCF9A300D5E2FA /* Visualize */ = {
+			isa = PBXGroup;
+			children = (
+				AADBEC4A1DFC8B8300D5E2FA /* VisualizeCompanyDirectoryViewController.swift */,
+			);
+			name = Visualize;
 			sourceTree = "<group>";
 		};
 		AADC08BA1D9C082300C5CBCD /* iCarousel */ = {
@@ -1845,6 +1864,7 @@
 				AA25D5E31DC3DED600C9E59F /* CircleGraphView.swift in Sources */,
 				AA9A6CFB1D87691000B85C17 /* DetailedPartPitchCardView.swift in Sources */,
 				AA9A6CEB1D87156700B85C17 /* AddPitchAndWriteProjectNameView.swift in Sources */,
+				AADBEC4B1DFC8B8300D5E2FA /* VisualizeCompanyDirectoryViewController.swift in Sources */,
 				AACBE2931DDF8D83007314C3 /* ProfileScreenTutorialView.swift in Sources */,
 				046229641D62746D0087E572 /* ExtensionView.swift in Sources */,
 				AAF347AA1D7A4B0F00D386E5 /* VisualizeNumberOfEmployeesView.swift in Sources */,

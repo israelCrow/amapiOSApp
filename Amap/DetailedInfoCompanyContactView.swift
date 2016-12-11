@@ -40,7 +40,14 @@ class DetailedInfoCompanyContactView: UIView {
     
     self.createCompanyLogoView()
     self.createCompanyNameLabel()
-    self.createLetterButton()
+    
+    if MyCompanyModelData.Data.contactEMail != nil && UtilityManager.sharedInstance.isValidEmail(MyCompanyModelData.Data.contactEMail) == true {
+      
+      self.createLetterButton()
+      
+    }
+    
+    
     self.createContactNameLabel()
     self.createContactPositionLabel()
     
