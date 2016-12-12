@@ -6,10 +6,11 @@
 //  Copyright © 2016 Alejandro Aristi C. All rights reserved.
 //
 
-class VisualizeAgencyFilterViewController: UIViewController {
+class VisualizeAgencyFilterViewController: UIViewController, LookForAgencyViewDelegate {
   
   private var flipCard: FlipCardView! = nil
   private var frontViewOfFlipCard: UIView! = nil
+  private var lookForAgencyView: LookForAgencyView! = nil
   
   override func loadView() {
     
@@ -141,22 +142,57 @@ class VisualizeAgencyFilterViewController: UIViewController {
     frontViewOfFlipCard = UIView.init(frame: frameForCards)
     frontViewOfFlipCard.backgroundColor = UIColor.whiteColor()
     
-    let lookForAgency = LookForAgencyView.init(frame: frameForCards,
+    lookForAgencyView = LookForAgencyView.init(frame: frameForCards,
                           newArrayOfAgenciesToFilter: [GenericAgencyData]())
+    lookForAgencyView.delegate = self
     
-    frontViewOfFlipCard.addSubview(lookForAgency)
+    frontViewOfFlipCard.addSubview(lookForAgencyView)
     
   }
   
   
+  override func viewDidLoad() {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToGetAllAgencies { (allAgencies) in
+      
+      self.lookForAgencyView.setArrayOfAllAgencies(allAgencies)
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+    }
+    
+  }
   
+  override func viewWillAppear(animated: Bool) {
+    
+    super.viewWillAppear(animated)
+    
+    if UserSession.session.role == "4" {
+      
+      AgencyModel.Data.reset()
+      
+    }
+    
+  }
   
+  //MARK: - LookForAgencyViewDelegate
   
-  
-  
-  
-  
-  
+  func showInfoOfThisSelectedAgency(id: String) {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestForAgencyData { 
+      
+      let visualizeAgencyProfile = VisualizeAgencyProfileViewController()
+      self.navigationController?.pushViewController(visualizeAgencyProfile, animated: true)
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+    }
+    
+  }
   
   
   

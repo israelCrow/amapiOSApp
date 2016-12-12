@@ -452,42 +452,50 @@ class VisualizeAgencyInfoView: UIView {
                                     width: 0.0,
                                     height: 0.0)
     
+    
+    if arrayOfExistingButtons.count > 0 {
       
-    for index in 0..<(arrayOfExistingButtons.count - 1) {
       
+      for index in 0..<(arrayOfExistingButtons.count - 1) {
+        
+        
+        let actualButton = arrayOfExistingButtons[index]
+        let actualLabel = arrayOfExistingLabels[index]
+        
+        frameForButton = CGRect.init(x: actualButton.frame.origin.x,
+                                     y: frameForButton.origin.y,
+                                     width: actualButton.frame.size.width,
+                                     height: actualButton.frame.size.height)
+        
+        frameForLabel = CGRect.init(x: actualLabel.frame.origin.x,
+                                    y: frameForLabel.origin.y,
+                                    width: actualLabel.frame.size.width,
+                                    height: actualLabel.frame.size.height)
+        
+        actualButton.frame = frameForButton
+        actualLabel.frame = frameForLabel
+        
+        self.addSubview(actualButton)
+        self.addSubview(actualLabel)
+        
+        frameForLabel = CGRect.init(x: 0.0,
+                                    y: frameForButton.origin.y + actualButton.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                    width: 0.0,
+                                    height: 0.0)
+        
+        frameForButton = CGRect.init(x: 0.0,
+                                     y: frameForButton.origin.y + actualButton.frame.size.height + (32.33 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: 0.0,
+                                     height: 0.0)
+        
+        
+        
+      }
       
-      let actualButton = arrayOfExistingButtons[index]
-      let actualLabel = arrayOfExistingLabels[index]
-      
-      frameForButton = CGRect.init(x: actualButton.frame.origin.x,
-                                   y: frameForButton.origin.y,
-                                   width: actualButton.frame.size.width,
-                                   height: actualButton.frame.size.height)
-      
-      frameForLabel = CGRect.init(x: actualLabel.frame.origin.x,
-                                  y: frameForLabel.origin.y,
-                              width: actualLabel.frame.size.width,
-                             height: actualLabel.frame.size.height)
-      
-      actualButton.frame = frameForButton
-      actualLabel.frame = frameForLabel
-      
-      self.addSubview(actualButton)
-      self.addSubview(actualLabel)
-      
-      frameForLabel = CGRect.init(x: 0.0,
-                                  y: frameForButton.origin.y + actualButton.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
-                                  width: 0.0,
-                                  height: 0.0)
-      
-      frameForButton = CGRect.init(x: 0.0,
-                                   y: frameForButton.origin.y + actualButton.frame.size.height + (32.33 * UtilityManager.sharedInstance.conversionHeight),
-                                   width: 0.0,
-                                   height: 0.0)
-      
-
       
     }
+    
+
     
     if arrayOfExistingButtons.last != nil {
       

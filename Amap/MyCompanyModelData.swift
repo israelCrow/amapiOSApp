@@ -18,8 +18,9 @@ class MyCompanyModelData: NSObject {
   var contactEMail: String! = nil
   var contactPosition: String! = nil
   var logoURL: String! = nil
-  
-  var brands = [BrandModelData]()
+
+  var brands: [BrandModelData]? = [BrandModelData]()
+  var exclusivityBrands: [ExclusivityBrandModelData]? = [ExclusivityBrandModelData]()
   
   init(newId: String!, newName: String!, newBrands:[BrandModelData]) {
     
@@ -30,6 +31,19 @@ class MyCompanyModelData: NSObject {
       brands = newBrands
       
     }
+    
+  }
+  
+  func reset() {
+    
+    id = nil
+    name = nil
+    contactName = nil
+    contactEMail = nil
+    contactPosition = nil
+    logoURL = nil
+    brands = [BrandModelData]()
+    exclusivityBrands = [ExclusivityBrandModelData]()
     
   }
   

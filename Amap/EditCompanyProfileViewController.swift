@@ -688,8 +688,33 @@ class EditCompanyProfileViewController: UIViewController, UIImagePickerControlle
   
   @objc private func popThisViewController() {
     
-    self.requestToShowTabBar()
-    self.navigationController?.popViewControllerAnimated(true)
+    if editProfile.thereAreChanges == true {
+      
+        let alertController = UIAlertController(title: "Cambios detectados", message: "¿Deseas guardar los cambios realizados?", preferredStyle: UIAlertControllerStyle.Alert)
+      
+      let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+        
+        self.requestToShowTabBar()
+        self.navigationController?.popViewControllerAnimated(true)
+        
+      }
+      
+      let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+        
+        self.editProfile.saveChangesOfCompanyProfile({ 
+          
+          self.requestToShowTabBar()
+          self.navigationController?.popViewControllerAnimated(true)
+          
+        })
+        
+      }
+      
+      alertController.addAction(cancelAction)
+      alertController.addAction(okAction)
+      self.presentViewController(alertController, animated: true, completion: nil)
+      
+    }
     
   }
   

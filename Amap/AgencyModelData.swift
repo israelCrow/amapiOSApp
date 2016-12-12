@@ -32,6 +32,30 @@ class AgencyModel: NSObject {
   var criteria: [CriteriaModelData]?
   var exclusivityBrands: [ExclusivityBrandModelData]?
   
+  func reset() {
+    
+    id = nil
+    name = nil
+    phone = nil
+    contact_name = nil
+    contact_email = nil
+    address = nil
+    latitude = nil
+    longitude = nil
+    website_url = nil
+    num_employees = nil
+    golden_pitch = nil
+    silver_pitch = nil
+    high_risk_pitch = nil
+    medium_risk_pitch = nil
+    logo = nil
+    success_cases = nil
+    skillsLevel = nil
+    criteria = nil
+    exclusivityBrands = nil
+    
+  }
+  
   private override init(){}
   
   

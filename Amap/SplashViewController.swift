@@ -25,6 +25,9 @@ class SplashViewController: UIViewController {
     self.navigationController?.navigationBarHidden = true
     self.navigationController?.navigationBar.barStyle = .Black
     
+    AgencyModel.Data.reset()
+    MyCompanyModelData.Data.reset()
+    
     //Check whether there has already been a coonection
     
     //If there's not info show tutorial

@@ -32,9 +32,9 @@ class CompanyConflictsView: UIView {
   
   private func initSomeValues() {
     
-    if AgencyModel.Data.exclusivityBrands != nil {
+    if MyCompanyModelData.Data.exclusivityBrands != nil {
       
-      for exclusivityBrand in AgencyModel.Data.exclusivityBrands! {
+      for exclusivityBrand in MyCompanyModelData.Data.exclusivityBrands! {
         
         arrayOfCriteriaString.append(exclusivityBrand.name)
         

@@ -23,6 +23,7 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
   private var frontViewOfFlipCard: UIView! = nil
   private var scrollViewFrontFlipCard: UIScrollView! = nil
   
+  private var logoURLBeforeChangeViewController: String = ""
   
   var delegate: VisualizeCompanyProfileViewControllerDelegate?
   
@@ -263,6 +264,27 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
   }
   
   
+  override func viewWillAppear(animated: Bool) {
+    
+    super.viewWillAppear(animated)
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestForCompanyData({
+      
+      if self.topDetailCompanyView != nil {
+        
+        self.topDetailCompanyView.reloadDataToShow(self.logoURLBeforeChangeViewController != MyCompanyModelData.Data.logoURL)
+        
+      }
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+      
+    })
+    
+  }
+  
   
   
   
@@ -347,6 +369,8 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
     
     self.delegate?.requestToHideTabBarFromVisualizeCompanyProfileViewControllerDelegate()
     
+    logoURLBeforeChangeViewController = MyCompanyModelData.Data.logoURL
+    
     let editCompany = EditCompanyProfileViewController()
     editCompany.delegate = self
     self.navigationController?.pushViewController(editCompany, animated: true)
@@ -364,7 +388,12 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
     UtilityManager.sharedInstance.showLoader()
     
     RequestToServerManager.sharedInstance.logOut(){
+      
+      AgencyModel.Data.reset()
+      MyCompanyModelData.Data.reset()
+      
       self.initAndChangeRootToLoginViewController()
+      
     }
     
   }

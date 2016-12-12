@@ -29,9 +29,9 @@ class EditConflictsView: UIView, UITextFieldDelegate {
   
   private func initValues() {
     
-    if AgencyModel.Data.exclusivityBrands != nil && AgencyModel.Data.exclusivityBrands?.count > 0 {
+    if MyCompanyModelData.Data.exclusivityBrands != nil && MyCompanyModelData.Data.exclusivityBrands?.count > 0 {
       
-      arrayOfExclusivesBrandNames = AgencyModel.Data.exclusivityBrands!
+      arrayOfExclusivesBrandNames = MyCompanyModelData.Data.exclusivityBrands!
       arrayOfExclusivesBrandTextFields = []
       
     } else {

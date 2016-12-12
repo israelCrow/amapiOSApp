@@ -348,6 +348,7 @@ class LookForAgencyView: UIView, UITableViewDelegate, UITableViewDataSource, UIT
   
   private func cellPressed(pitchIDToLookFor: String) {
     
+    AgencyModel.Data.id = pitchIDToLookFor
     self.delegate?.showInfoOfThisSelectedAgency(pitchIDToLookFor)
     
   }

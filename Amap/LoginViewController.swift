@@ -27,7 +27,10 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
   }
     
   override func viewDidLoad() {
-      
+    
+    AgencyModel.Data.reset()
+    MyCompanyModelData.Data.reset()
+    
     self.createTapGestureForDismissKeyboard()
     self.addObserverToKeyboardNotification()
     self.createFlipCardView()

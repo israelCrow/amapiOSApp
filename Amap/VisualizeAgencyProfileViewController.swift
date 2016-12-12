@@ -34,6 +34,9 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   private var leftButton: UIButton! = nil
   private var rightButton: UIButton! = nil
   
+  private var favoriteButton: UIButton! = nil
+  private var isFavoriteAgency: Bool = false
+  
   private var actualPage: Int! = 0
   private var numberOfPageToMove: Int! = nil
   
@@ -86,21 +89,46 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   
   private func changeBackButtonItem() {
     
-    let backButton = UIBarButtonItem(title: AgencyProfileVisualizeConstants.VisualizeAgencyProfileViewController.backButtonText,
-      style: UIBarButtonItemStyle.Plain,
-      target: self,
-      action: #selector(pushEditAgencyProfile))
+    if UserSession.session.role == "2" {
+      
+      let backButton = UIBarButtonItem(title: AgencyProfileVisualizeConstants.VisualizeAgencyProfileViewController.backButtonText,
+                                       style: UIBarButtonItemStyle.Plain,
+                                       target: self,
+                                       action: #selector(pushEditAgencyProfile))
+      
+      let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
+                                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+      
+      let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
+                                                NSForegroundColorAttributeName: UIColor.whiteColor()
+      ]
+      
+      backButton.setTitleTextAttributes(attributesDict, forState: .Normal)
+      
+      self.navigationItem.leftBarButtonItem = backButton
+      
+    } else
+      if UserSession.session.role == "4" {
+        
+        let backButton = UIBarButtonItem(title: "",
+                                         style: UIBarButtonItemStyle.Plain,
+                                         target: self,
+                                         action: nil)
+        
+        let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
+                                        size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+        
+        let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
+                                                  NSForegroundColorAttributeName: UIColor.whiteColor()
+        ]
+        
+        backButton.setTitleTextAttributes(attributesDict, forState: .Normal)
+        
+        self.navigationItem.leftBarButtonItem = backButton
+        
+      }
     
-    let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
-                                    size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
-    
-    let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
-                                              NSForegroundColorAttributeName: UIColor.whiteColor()
-                                              ]
-    
-    backButton.setTitleTextAttributes(attributesDict, forState: .Normal)
-  
-    self.navigationItem.leftBarButtonItem = backButton
+
     
   }
   
@@ -129,21 +157,44 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   
   private func changeRigthButtonItem() {
     
-    let rightButton = UIBarButtonItem(title: AgencyProfileVisualizeConstants.VisualizeAgencyProfileViewController.rightButtonText,
-      style: UIBarButtonItemStyle.Plain,
-      target: self,
-      action: #selector(logOutAndPopThis))
-    
-    let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
-                                    size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
-    
-    let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
-                                              NSForegroundColorAttributeName: UIColor.whiteColor()
-                                              ]
-    
-    rightButton.setTitleTextAttributes(attributesDict, forState: .Normal)
-    
-    self.navigationItem.rightBarButtonItem = rightButton
+    if UserSession.session.role == "2" {
+      
+      let rightButton = UIBarButtonItem(title: AgencyProfileVisualizeConstants.VisualizeAgencyProfileViewController.rightButtonText,
+                                        style: UIBarButtonItemStyle.Plain,
+                                        target: self,
+                                        action: #selector(logOutAndPopThis))
+      
+      let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
+                                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+      
+      let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
+                                                NSForegroundColorAttributeName: UIColor.whiteColor()
+      ]
+      
+      rightButton.setTitleTextAttributes(attributesDict, forState: .Normal)
+      
+      self.navigationItem.rightBarButtonItem = rightButton
+      
+    } else
+      if UserSession.session.role == "4" {
+        
+        let rightButton = UIBarButtonItem(title: "",
+                                          style: UIBarButtonItemStyle.Plain,
+                                          target: self,
+                                          action: nil)
+        
+        let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
+                                        size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+        
+        let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
+                                                  NSForegroundColorAttributeName: UIColor.whiteColor()
+        ]
+        
+        rightButton.setTitleTextAttributes(attributesDict, forState: .Normal)
+        
+        self.navigationItem.rightBarButtonItem = rightButton
+        
+      }
     
   }
   
@@ -244,10 +295,21 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   
   private func createScrollViewFrontFlipCard(frameForCards: CGRect) {
     
-    let realFrameForScrollView = CGRect.init(x: frameForCards.origin.x,
+    var realFrameForScrollView = CGRect.init(x: frameForCards.origin.x,
                                              y: 183.0 * UtilityManager.sharedInstance.conversionHeight,
-                                         width: frameForCards.size.width,
-                                        height: 315.0 * UtilityManager.sharedInstance.conversionHeight)
+                                             width: frameForCards.size.width,
+                                             height: 315.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    if UserSession.session.role == "4" {
+      
+      realFrameForScrollView = CGRect.init(x: frameForCards.origin.x,
+                                           y: 219.0 * UtilityManager.sharedInstance.conversionHeight,
+                                       width: frameForCards.size.width,
+                                      height: 279.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+      self.createFavoriteButton()
+      
+    }
     
     let contentSizeOfScrollView = CGSize.init(width: frameForCards.size.width * CGFloat(kNumberOfCardsInScrollViewMinusOne),
                                              height: frameForCards.size.height)
@@ -321,6 +383,88 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     }
     
   }
+  
+  private func createFavoriteButton() {
+    
+    favoriteButton = UIButton.init(frame: CGRectZero)
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Agregar a favoritos              \u{2661}",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    
+    favoriteButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+    favoriteButton.backgroundColor = UIColor.clearColor()
+    favoriteButton.addTarget(self,
+                        action: #selector(favoriteButtonPressed),
+                        forControlEvents: .TouchUpInside)
+    favoriteButton.sizeToFit()
+    
+    let frameForButton = CGRect.init(x: (frontViewOfClipCard.frame.size.width / 2.0) - (favoriteButton.frame.size.width / 2.0),
+                                     y: 173.0 * UtilityManager.sharedInstance.conversionHeight,
+                                 width: favoriteButton.frame.size.width,
+                                height: favoriteButton.frame.size.height)
+    
+    favoriteButton.frame = frameForButton
+    favoriteButton.alpha = 1.0
+    
+    self.frontViewOfClipCard.addSubview(favoriteButton)
+    
+  }
+  
+  @objc private func favoriteButtonPressed() {
+    
+    if isFavoriteAgency == false {
+      
+      let font = UIFont(name: "SFUIText-Light",
+                        size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+      let color = UIColor.blackColor()
+      let style = NSMutableParagraphStyle()
+      style.alignment = NSTextAlignment.Center
+      
+      let stringWithFormat = NSMutableAttributedString(
+        string: "Agregar a favoritos              \u{2665}",
+        attributes:[NSFontAttributeName: font!,
+          NSParagraphStyleAttributeName: style,
+          NSForegroundColorAttributeName: color
+        ]
+      )
+      
+      favoriteButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+      
+    } else {
+      
+      let font = UIFont(name: "SFUIText-Light",
+                        size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+      let color = UIColor.blackColor()
+      let style = NSMutableParagraphStyle()
+      style.alignment = NSTextAlignment.Center
+      
+      let stringWithFormat = NSMutableAttributedString(
+        string: "Agregar a favoritos              \u{2661}",
+        attributes:[NSFontAttributeName: font!,
+          NSParagraphStyleAttributeName: style,
+          NSForegroundColorAttributeName: color
+        ]
+      )
+      
+      favoriteButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+      
+    }
+    
+    isFavoriteAgency = !isFavoriteAgency
+    print("Is favorite?: \(isFavoriteAgency)")
+    
+  }
 
   private func createButtonsForFlipCard() {
     leftButton = nil
@@ -330,15 +474,30 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     let sizeForButtons = CGSize.init(width: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 49.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let frameForLeftButton = CGRect.init(x: 23.0 * UtilityManager.sharedInstance.conversionWidth,
+    var frameForLeftButton = CGRect.init(x: 23.0 * UtilityManager.sharedInstance.conversionWidth,
                                          y: 177.0 * UtilityManager.sharedInstance.conversionHeight,
                                          width: sizeForButtons.width,
                                          height:sizeForButtons.height)
     
-    let frameForRightButton = CGRect.init(x: 235.0 * UtilityManager.sharedInstance.conversionWidth,
+    var frameForRightButton = CGRect.init(x: 235.0 * UtilityManager.sharedInstance.conversionWidth,
                                           y: 177.0 * UtilityManager.sharedInstance.conversionHeight,
                                           width: sizeForButtons.width,
                                           height: sizeForButtons.height)
+    
+    
+    if UserSession.session.role == "4" {
+      
+      frameForLeftButton = CGRect.init(x: 23.0 * UtilityManager.sharedInstance.conversionWidth,
+                                       y: 213.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   width: sizeForButtons.width,
+                                  height: sizeForButtons.height)
+      
+      frameForRightButton = CGRect.init(x: 235.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        y: 213.0 * UtilityManager.sharedInstance.conversionHeight,
+                                    width: sizeForButtons.width,
+                                   height: sizeForButtons.height)
+      
+    }
     
     let leftButtonImage = UIImage(named: "navNext") as UIImage?
     let rightButtonImage = UIImage(named: "navPrev") as UIImage?
@@ -431,7 +590,12 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     UtilityManager.sharedInstance.showLoader()
     
     RequestToServerManager.sharedInstance.logOut(){
+      
+      AgencyModel.Data.reset()
+      MyCompanyModelData.Data.reset()
+      
       self.initAndChangeRootToLoginViewController()
+      
     }
     
   }
@@ -612,31 +776,63 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     UIView.setAnimationsEnabled(true)
     
-    let notToShowProfileTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
-    
-    let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
-    
-    if notToShowProfileTutorial == false && savedPhotoAndSavedName == true {
+    if UserSession.session.role == "2" {
       
-      let tutorialProfile = ProfileScreenTutorialView.init(frame: CGRect.init())
-      let rootViewController = UtilityManager.sharedInstance.currentViewController()
-      rootViewController.view.addSubview(tutorialProfile)
+      let notToShowProfileTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
       
-    }
+      let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+      
+      if notToShowProfileTutorial == false && savedPhotoAndSavedName == true {
+        
+        let tutorialProfile = ProfileScreenTutorialView.init(frame: CGRect.init())
+        let rootViewController = UtilityManager.sharedInstance.currentViewController()
+        rootViewController.view.addSubview(tutorialProfile)
+        
+      }
+      
+//      if flipCard != nil {
+//        
+//        //      UtilityManager.sharedInstance.hideLoader()
+//        
+//        flipCard.removeFromSuperview()
+//        flipCard = nil
+//        actualPage = 0
+//        self.createAndAddFlipCard()
+//        //      self.hideLeftButtonOfMainScrollView()
+//        
+//      }
+ 
+    } else
     
+      if UserSession.session.role == "4" {
+        //MakeSomething If necessary
+        print()
+ 
+      }
+
     if flipCard != nil {
       
-//      UtilityManager.sharedInstance.hideLoader()
+      //      UtilityManager.sharedInstance.hideLoader()
       
       flipCard.removeFromSuperview()
       flipCard = nil
       actualPage = 0
       self.createAndAddFlipCard()
-//      self.hideLeftButtonOfMainScrollView()
+      //      self.hideLeftButtonOfMainScrollView()
       
     }
     
-
+  }
+  
+  override func viewWillDisappear(animated: Bool) {
+    
+    super.viewWillDisappear(animated)
+    
+//    if UserSession.session.role == "4" {
+//      
+//      AgencyModel.Data.reset()
+//      
+//    }
     
   }
   

@@ -81,6 +81,14 @@ class DetailedInfoCompanyContactView: UIView {
   
   private func createCompanyNameLabel() {
     
+    if companyNameLabel != nil {
+      
+      companyNameLabel.removeFromSuperview()
+      companyNameLabel = nil
+      
+      
+    }
+    
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
                                     width: 156.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -118,6 +126,13 @@ class DetailedInfoCompanyContactView: UIView {
   
   private func createContactNameLabel() {
     
+    if contactNameLabel != nil {
+      
+      contactNameLabel.removeFromSuperview()
+      contactNameLabel = nil
+      
+    }
+    
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
                                     width: 165.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -154,6 +169,13 @@ class DetailedInfoCompanyContactView: UIView {
   }
   
   private func createContactPositionLabel() {
+    
+    if contactPositionLabel != nil {
+      
+      contactPositionLabel.removeFromSuperview()
+      contactPositionLabel = nil
+      
+    }
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
@@ -213,6 +235,20 @@ class DetailedInfoCompanyContactView: UIView {
   @objc private func mailIconPressed() {
     
     self.delegate?.mailIconPressedFromDetailedInfoView()
+    
+  }
+  
+  func reloadDataToShow(reloadImage: Bool) {
+    
+    if MyCompanyModelData.Data.logoURL != "" && companyLogoView != nil && reloadImage == true {
+      
+      companyLogoView.imageFromUrl(MyCompanyModelData.Data.logoURL!)
+      
+    }
+    
+    self.createCompanyNameLabel()
+    self.createContactNameLabel()
+    self.createContactPositionLabel()
     
   }
   
