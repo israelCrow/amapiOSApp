@@ -179,6 +179,21 @@ class VisualizeAgencyFilterViewController: UIViewController, LookForAgencyViewDe
   
   //MARK: - LookForAgencyViewDelegate
   
+  func requestToServerToLookFor(params: [String: AnyObject]) {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToGetAgenciesBySearch(params) { (allAgencies) in
+      
+      self.lookForAgencyView.setArrayOfAllAgencies(allAgencies)
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+    }
+    
+    
+  }
+  
   func showInfoOfThisSelectedAgency(id: String) {
     
     UtilityManager.sharedInstance.showLoader()

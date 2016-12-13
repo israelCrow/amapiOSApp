@@ -39,7 +39,7 @@ class EditPitchesConstants {
   enum CanceledPitchEvaluationView {
     
     static let canceledMessageLabelText = "Este pitch se ha cancelado"
-    static let detailedMessageLabelText = "Podrás verlo en tus pitches archivados"
+    static let detailedMessageLabelText = ""//"Podrás verlo en tus pitches archivados"
     static let nextButtonText = "Okey"
     
   }
@@ -47,7 +47,7 @@ class EditPitchesConstants {
   enum DeclinedPitchEvaluationView {
     
     static let canceledMessageLabelText = "Este pitch se ha declinado"
-    static let detailedMessageLabelText = "Podrás verlo en tus pitches archivados"
+    static let detailedMessageLabelText = ""//"Podrás verlo en tus pitches archivados"
     static let nextButtonText = "Okey"
     
   }
@@ -63,7 +63,7 @@ class EditPitchesConstants {
   enum ArchivedPitchEvaluationView {
     
     static let canceledMessageLabelText = "Se ha archivado este pitch"
-    static let detailedMessageLabelText = "Podrás verlo en tus pitches archivados"
+    static let detailedMessageLabelText = ""//"Podrás verlo en tus pitches archivados"
     static let nextButtonText = "Okey"
     
   }

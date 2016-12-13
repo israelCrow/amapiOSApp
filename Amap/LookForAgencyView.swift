@@ -10,6 +10,7 @@ import Foundation
 
 protocol LookForAgencyViewDelegate {
   
+  func requestToServerToLookFor(params: [String: AnyObject])
   func showInfoOfThisSelectedAgency(id: String)
   
 }
@@ -98,6 +99,7 @@ class LookForAgencyView: UIView, UITableViewDelegate, UITableViewDataSource, UIT
     searchView.mainTextField.addTarget(self,
                                        action: #selector(textDidChange),
                                        forControlEvents: UIControlEvents.EditingChanged)
+    searchView.mainTextField.returnKeyType = .Search
     searchView.mainTextField.delegate = self
     
     self.addSubview(searchView)
@@ -382,6 +384,13 @@ class LookForAgencyView: UIView, UITableViewDelegate, UITableViewDataSource, UIT
   //  }
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
+    
+    let params = ["auth_token": UserSession.session.auth_token,
+                  "company_id": MyCompanyModelData.Data.id,
+                  "keyword": textField.text!
+                  ]
+    
+    self.delegate?.requestToServerToLookFor(params)
     
     self.dismissKeyboard(textField)
     

@@ -666,6 +666,65 @@ class RequestToServerManager: NSObject {
     
   }
   
+  func requestToGetAgenciesBySearch(parameters: [String: AnyObject], functionToMakeWhenFinished: (allAgencies:[GenericAgencyData]) -> Void) {
+    
+    //    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/agencies/search"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(parameters, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          print(json)
+          
+          let agencies = json["agencies"] as? Array<[String: AnyObject]>
+          
+          if agencies != nil {
+            
+            var arrayOfAgencies = [GenericAgencyData]()
+            
+            for agency in agencies! {
+              //
+              let agencyName = (agency["name"] as? String != nil ? agency["name"] as! String : "No Name")
+              let agencyId = (agency["id"] as? Int != nil ? String(agency["id"] as! Int) : "-1")
+              
+              //CHECK THIS
+              let isFavorite = (agency["is_favorite"] as? Bool != nil ? agency["is_favorite"] as! Bool : false)
+              
+              let newAgency = GenericAgencyData(newId: agencyId,
+                newName: agencyName,
+                newIsFavorite: isFavorite)
+              
+              arrayOfAgencies.append(newAgency)
+              
+            }
+            
+            functionToMakeWhenFinished(allAgencies: arrayOfAgencies)
+            
+          }
+          
+          //          functionToMakeWhenFinished(allCompanies: [CompanyModelData]())
+          
+        } else {
+          
+          print("ERROR")
+          UtilityManager.sharedInstance.hideLoader()
+          
+        }
+    }
+    
+  }
+  
   func requestToGetAllProjectsPitches(byBrandId: String!, functionToMakeWhenFinished: (allProjects:[ProjectPitchModelData]) -> Void) {
     
 //    UtilityManager.sharedInstance.showLoader()
