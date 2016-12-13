@@ -501,7 +501,13 @@ class ChangePasswordRequestView: UIView, UITextFieldDelegate {
         self.removeAllErrorLabels()
         return true
     }
+  
+  func changeTextInEMailTextField(newText: String) {
     
+    self.eMailTextField.text = newText
+    
+  }
+  
     private func removeAllErrorLabels() {
         
         self.hideErrorMailLabel()

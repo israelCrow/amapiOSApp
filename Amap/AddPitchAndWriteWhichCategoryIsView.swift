@@ -292,7 +292,7 @@ class AddPitchAndWriteWhichCategoryIsView: UIView, UITableViewDelegate, UITableV
   private func filterCompaniesWithText(filterText: String) {
     
     arrayOfFilteredCategories = arrayOfAllCategories.filter({ (pitchSkillCategoryData) -> Bool in
-      return pitchSkillCategoryData.pitchSkillCategoryName.rangeOfString(filterText) != nil
+      return pitchSkillCategoryData.pitchSkillCategoryName.rangeOfString(filterText, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil
     })
     
     mainTableView.reloadData()

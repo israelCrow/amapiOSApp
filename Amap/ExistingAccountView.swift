@@ -20,11 +20,13 @@ class ExistingAccountView: UIView {
   private var recommendationLabel: UILabel! = nil
   private var nextButton: UIButton! = nil
   private var showAlreadyExistingAgencyUser: Bool! = nil
+  private var typeOfUser: Int! = nil
   
   var delegate: ExistingAccountViewDelegate?
   
-  init(frame: CGRect, newShowAlreadyExistingAgencyUser: Bool) {
+  init(frame: CGRect, newShowAlreadyExistingAgencyUser: Bool, newTypeOfUser: Int?) {
     
+    typeOfUser = newTypeOfUser
     showAlreadyExistingAgencyUser = newShowAlreadyExistingAgencyUser
     
     super.init(frame: frame)
@@ -90,7 +92,16 @@ class ExistingAccountView: UIView {
     
     if showAlreadyExistingAgencyUser == true {
       
-      message = CreateAccountConstants.ExistingAccountView.alreadyExistAgencyUser
+      if typeOfUser != nil && typeOfUser == 2 {
+      
+        message = CreateAccountConstants.ExistingAccountView.alreadyExistAgencyUser
+      
+      } else
+        if typeOfUser != nil && typeOfUser == 4 {
+          
+          message = CreateAccountConstants.ExistingAccountView.alreadyExistCompanyUser
+          
+        }
       
     } else {
       
@@ -117,7 +128,7 @@ class ExistingAccountView: UIView {
     alreadyHaveAnAccountLabel.attributedText = stringWithFormat
     alreadyHaveAnAccountLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (alreadyHaveAnAccountLabel.frame.size.width / 2.0),
-                               y: oopsLabel.frame.origin.y + oopsLabel.frame.size.height + (40.0 * UtilityManager.sharedInstance.conversionHeight),
+                               y: oopsLabel.frame.origin.y + oopsLabel.frame.size.height + (25.0 * UtilityManager.sharedInstance.conversionHeight),
                            width: alreadyHaveAnAccountLabel.frame.size.width,
                           height: alreadyHaveAnAccountLabel.frame.size.height)
     
@@ -129,7 +140,10 @@ class ExistingAccountView: UIView {
   
   private func createRecommendationLabel() {
     
-    recommendationLabel = UILabel.init(frame: CGRect.init(x: 0.0, y: 0.0, width: self.frame.size.width - (55.0 * UtilityManager.sharedInstance.conversionWidth), height: 0.0))
+    recommendationLabel = UILabel.init(frame: CGRect.init(x: 0.0,
+      y: 0.0,
+      width: self.frame.size.width - (55.0 * UtilityManager.sharedInstance.conversionWidth),
+      height: 0.0))
     recommendationLabel.adjustsFontSizeToFitWidth = true
     recommendationLabel.numberOfLines = 5
     let font = UIFont(name: "SFUIText-Light",
@@ -183,7 +197,10 @@ class ExistingAccountView: UIView {
       ]
     )
     
-    let frameForButton = CGRect.init(x: 0.0, y: self.frame.size.height - (70.0 * UtilityManager.sharedInstance.conversionHeight), width: self.frame.size.width, height: (70.0 * UtilityManager.sharedInstance.conversionHeight))
+    let frameForButton = CGRect.init(x: 0.0,
+                                     y: self.frame.size.height - (70.0 * UtilityManager.sharedInstance.conversionHeight),
+                                 width: self.frame.size.width,
+                                height: (70.0 * UtilityManager.sharedInstance.conversionHeight))
     nextButton = UIButton.init(frame: frameForButton)
     nextButton.addTarget(self,
                          action: #selector(nextButtonWasPressed),

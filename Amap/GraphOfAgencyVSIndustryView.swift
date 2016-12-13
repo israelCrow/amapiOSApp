@@ -95,7 +95,7 @@ class GraphOfAgencyVSIndustryView: UIView {
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
     
-    let stringWithFormat = NSMutableAttributedString(
+    var stringWithFormat = NSMutableAttributedString(
       string: VisualizeDashboardConstants.GraphOfAgencyVSIndustry.agencyPerformanceLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
@@ -103,6 +103,20 @@ class GraphOfAgencyVSIndustryView: UIView {
         NSForegroundColorAttributeName: color
       ]
     )
+    
+    if UserSession.session.role == "4" {
+      
+      stringWithFormat = NSMutableAttributedString(
+        string: VisualizeDashboardConstants.GraphOfAgencyVSIndustry.companyPerformanceLabelText,
+        attributes:[NSFontAttributeName: font!,
+          NSParagraphStyleAttributeName: style,
+          NSKernAttributeName: CGFloat(2.0),
+          NSForegroundColorAttributeName: color
+        ]
+      )
+      
+    }
+    
     agencyPerformanceLabel.attributedText = stringWithFormat
     agencyPerformanceLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (agencyPerformanceLabel.frame.size.width / 2.0),
@@ -123,7 +137,24 @@ class GraphOfAgencyVSIndustryView: UIView {
                                     width: 285.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: 260.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    var stringName = AgencyModel.Data.name
+    
+    
+    var stringName = ""
+    
+    if UserSession.session.role == "2" {
+      
+      stringName = AgencyModel.Data.name
+      
+    } else
+      if UserSession.session.role == "4" {
+      
+        stringName = MyCompanyModelData.Data.name
+        
+      }
+    
+    
+    
+    
     
     if stringName.characters.count > 13 {
     

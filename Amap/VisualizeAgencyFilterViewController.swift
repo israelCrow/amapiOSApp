@@ -153,15 +153,15 @@ class VisualizeAgencyFilterViewController: UIViewController, LookForAgencyViewDe
   
   override func viewDidLoad() {
     
-    UtilityManager.sharedInstance.showLoader()
-    
-    RequestToServerManager.sharedInstance.requestToGetAllAgencies { (allAgencies) in
-      
-      self.lookForAgencyView.setArrayOfAllAgencies(allAgencies)
-      
-      UtilityManager.sharedInstance.hideLoader()
-      
-    }
+//    UtilityManager.sharedInstance.showLoader()
+//    
+//    RequestToServerManager.sharedInstance.requestToGetAllAgencies { (allAgencies) in
+//      
+//      self.lookForAgencyView.setArrayOfAllAgencies(allAgencies)
+//      
+//      UtilityManager.sharedInstance.hideLoader()
+//      
+//    }
     
   }
   
@@ -172,6 +172,8 @@ class VisualizeAgencyFilterViewController: UIViewController, LookForAgencyViewDe
     if UserSession.session.role == "4" {
       
       AgencyModel.Data.reset()
+      lookForAgencyView.resetValues()
+      
       
     }
     
@@ -194,13 +196,16 @@ class VisualizeAgencyFilterViewController: UIViewController, LookForAgencyViewDe
     
   }
   
-  func showInfoOfThisSelectedAgency(id: String) {
-    
+  func showInfoOfThisSelectedAgency(basicDataOfAgency: GenericAgencyData) {
+
     UtilityManager.sharedInstance.showLoader()
+    
+    AgencyModel.Data.id = basicDataOfAgency.id
     
     RequestToServerManager.sharedInstance.requestForAgencyData { 
       
       let visualizeAgencyProfile = VisualizeAgencyProfileViewController()
+      visualizeAgencyProfile.isFavoriteAgency = basicDataOfAgency.isFavorite
       self.navigationController?.pushViewController(visualizeAgencyProfile, animated: true)
       
       UtilityManager.sharedInstance.hideLoader()

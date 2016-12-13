@@ -640,7 +640,7 @@ class RequestToServerManager: NSObject {
               let agencyId = (agency["id"] as? Int != nil ? String(agency["id"] as! Int) : "-1")
               
               //CHECK THIS
-              let isFavorite = (agency["favorite"] as? Bool != nil ? agency["favorite"] as! Bool : false)
+              let isFavorite = (agency["is_favorite"] as? Bool != nil ? agency["is_favorite"] as! Bool : false)
 
               let newAgency = GenericAgencyData(newId: agencyId,
                 newName: agencyName,
@@ -2459,6 +2459,83 @@ class RequestToServerManager: NSObject {
     }
     
   }
+  
+  func requestToSetAgencyToFavorite(params: [String: AnyObject],actionsToMakeAfterSetAgencyToFavorite: () -> Void) {
+    
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/companies/add_favorite_agency"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<400)
+      .responseJSON{ response in
+        
+        //print(response)
+        
+        if response.response?.statusCode == 201 {
+          
+          //let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          
+          actionsToMakeAfterSetAgencyToFavorite()
+          
+        }else{
+          
+          UtilityManager.sharedInstance.hideLoader()
+          print("ERROR SET TO FAVORITE")
+        }
+        
+    }
+    
+  }
+  
+  func requestToRemoveAgencyFromFavorite(params: [String: AnyObject],actionsToMakeAfterRemoveAgencyFromFavorite: () -> Void) {
+    
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/companies/remove_favorite_agency"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<400)
+      .responseJSON{ response in
+        
+        //print(response)
+        
+        if response.response?.statusCode == 200 {
+          
+          //let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          
+          actionsToMakeAfterRemoveAgencyFromFavorite()
+          
+        }else{
+          
+          UtilityManager.sharedInstance.hideLoader()
+          print("ERROR REMOVING FAVORITE")
+        }
+        
+    }
+    
+  }
+  
+  
+
+  
+  
+  
+  
+  
+  
   
   
   

@@ -128,11 +128,19 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
                                 width: 285.0 * UtilityManager.sharedInstance.conversionWidth,
                                height: 260.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    var barDescription = "Agencia"
+    
+    if UserSession.session.role == "4" {
+      
+      barDescription = MyCompanyModelData.Data.name
+      
+    }
+    
     genericGraph = GenericDashboardGraphic.init(frame: frameForGraph,
                                   newDataForLineChart: [5.0, 10.0, 20.0, 18.0, 13.0],
                                    newDataForBarChart: [13.0, 18.0, 20.0, 10.0, 5.0],
                                      newValuesOfXAxis: nil,
-                               newDescriptionBarGraph: nil,
+                               newDescriptionBarGraph: barDescription,
                               newDescriptionLineGraph: nil)
     
     self.addSubview(genericGraph)

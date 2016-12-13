@@ -68,15 +68,26 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     
     self.getInfoFromServer()
     
-    let notToShowDashboardTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowDashboardTutorial + UserSession.session.email)
+    if UserSession.session.role == "2" {
+      
+      let notToShowDashboardTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowDashboardTutorial + UserSession.session.email)
+      
+      if notToShowDashboardTutorial == false {
+        
+        let tutorialFirstScreenDashboard = DashboardFirstScreenTutorialView.init(frame: CGRect.init())
+        let rootViewController = UtilityManager.sharedInstance.currentViewController()
+        rootViewController.view.addSubview(tutorialFirstScreenDashboard)
+        
+      }
+      
+    } else
+      if UserSession.session.role == "4" {
+        
+        
+        
+      }
     
-    if notToShowDashboardTutorial == false {
-      
-      let tutorialFirstScreenDashboard = DashboardFirstScreenTutorialView.init(frame: CGRect.init())
-      let rootViewController = UtilityManager.sharedInstance.currentViewController()
-      rootViewController.view.addSubview(tutorialFirstScreenDashboard)
-      
-    }
+
     
   }
   
@@ -90,13 +101,27 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
     
-    let stringWithFormat = NSMutableAttributedString(
+    var stringWithFormat = NSMutableAttributedString(
       string: VisualizeDashboardConstants.VisualizeMainCardsDashboardViewController.navigationBarTitleText,
       attributes:[NSFontAttributeName:font!,
         NSParagraphStyleAttributeName:style,
         NSForegroundColorAttributeName:color
       ]
     )
+    
+    if UserSession.session.role == "4" {
+      
+      stringWithFormat = NSMutableAttributedString(
+        string: VisualizeDashboardConstants.VisualizeMainCardsDashboardViewController.navigationBarTitleTextForCompany,
+        attributes:[NSFontAttributeName:font!,
+          NSParagraphStyleAttributeName:style,
+          NSForegroundColorAttributeName:color
+        ]
+      )
+
+      
+    }
+    
     titleLabel.attributedText = stringWithFormat
     titleLabel.sizeToFit()
     self.navigationItem.titleView = titleLabel
@@ -142,38 +167,77 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   
   private func getInfoFromServer() {
     
-    UtilityManager.sharedInstance.showLoader()
-    
-    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByAgency { (arrayOfScoresPerMonthOfAgency, arrayOfUsers) in
+    if UserSession.session.role == "2" {
+     
+      UtilityManager.sharedInstance.showLoader()
       
-      
-      print(arrayOfUsers)
-      print(arrayOfScoresPerMonthOfAgency)
-      
-      self.arrayOfUsers = arrayOfUsers
-      self.arrayOfScoresByAgency = arrayOfScoresPerMonthOfAgency
-      
-      
-      RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByIndustry({ (arrayOfScoresPerMonthOfIndustry) in
+      RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByAgency { (arrayOfScoresPerMonthOfAgency, arrayOfUsers) in
         
-        self.arrayOfScoresByIndustry = arrayOfScoresPerMonthOfIndustry
         
-        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSumaryByAgency({ (numberOfPitchesByAgencyForDashboardSumary, arrayOfUsers) in
+        print(arrayOfUsers)
+        print(arrayOfScoresPerMonthOfAgency)
+        
+        self.arrayOfUsers = arrayOfUsers
+        self.arrayOfScoresByAgency = arrayOfScoresPerMonthOfAgency
+        
+        
+        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByIndustry({ (arrayOfScoresPerMonthOfIndustry) in
           
-          self.numberOfPitchesByAgency = numberOfPitchesByAgencyForDashboardSumary
+          self.arrayOfScoresByIndustry = arrayOfScoresPerMonthOfIndustry
           
-          
-          UtilityManager.sharedInstance.hideLoader()
-          
-          self.createCards()
-          
+          RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSumaryByAgency({ (numberOfPitchesByAgencyForDashboardSumary, arrayOfUsers) in
+            
+            self.numberOfPitchesByAgency = numberOfPitchesByAgencyForDashboardSumary
+            
+            
+            UtilityManager.sharedInstance.hideLoader()
+            
+            self.createCards()
+            
+            
+          })
           
         })
         
-      })
+      }
       
-    }
-    
+    } else
+      if UserSession.session.role == "4" {
+        
+        let userOne =  AgencyUserModelData.init(newId: "-1",
+                                         newFirstName: "Usuario 1",
+                                          newLastName: "One")
+        
+        let userTwo =  AgencyUserModelData.init(newId: "-2",
+                                                newFirstName: "Usuario 2",
+                                                newLastName: "Two")
+        
+        arrayOfUsers = [userOne, userTwo]//
+        
+        let scoreOne = PitchEvaluationAveragePerMonthModelData.init(newId: "-1",
+                                                             newMonthYear: "octubre-2016",
+                                                                 newScore: "45")
+        
+        let scoreTwo = PitchEvaluationAveragePerMonthModelData.init(newId: "-2",
+                                                                    newMonthYear: "noviembre-2016",
+                                                                    newScore: "87")
+        
+        arrayOfScoresByAgency = [scoreOne, scoreTwo]//
+        
+        arrayOfScoresByIndustry = [scoreTwo, scoreOne]//
+        
+        numberOfPitchesByAgency = [
+          "happitch": 7,
+          "happy":    11,
+          "ok":       5,
+          "unhappy":  15,
+          "lost":     6,
+          "won":      5
+        ]
+        
+        self.createCards()
+        
+      }
     
   }
   
@@ -257,9 +321,25 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     mainScrollView.addSubview(firstCard)
     mainScrollView.addSubview(thirdCard)
     
-    let agencyUser = AgencyUserModelData.init(newId: AgencyModel.Data.id,
+    var agencyUser = AgencyUserModelData.init(newId: "-1",
+                                       newFirstName: "Void",
+                                       newLastName: "")
+    
+    if UserSession.session.role == "2" {
+    
+      agencyUser = AgencyUserModelData.init(newId: AgencyModel.Data.id,
                                               newFirstName: AgencyModel.Data.name,
                                               newLastName: "")
+    
+    } else
+      if UserSession.session.role == "4" {
+        
+        agencyUser = AgencyUserModelData.init(newId: MyCompanyModelData.Data.id,
+                                              newFirstName: MyCompanyModelData.Data.name,
+                                              newLastName: "")
+        
+      }
+    
     var finalUsersforGeneralPerformance = arrayOfUsers
     finalUsersforGeneralPerformance.insert(agencyUser, atIndex: 0)
     
@@ -369,15 +449,26 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   
   func requestToGetValuesFromAgency() {
     
-    UtilityManager.sharedInstance.showLoader()
+    if UserSession.session.role == "2" {
+      
+      UtilityManager.sharedInstance.showLoader()
+      
+      RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSumaryByAgency { (numberOfPitchesByAgencyForDashboardSumary, arrayOfUsers) in
+        
+        self.gralPerformanceCardView.updateData(numberOfPitchesByAgencyForDashboardSumary)
+        
+        UtilityManager.sharedInstance.hideLoader()
+        
+      }
+      
+    } else
+      if UserSession.session.role == "4" {
+        
+        
+        
+      }
     
-    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSumaryByAgency { (numberOfPitchesByAgencyForDashboardSumary, arrayOfUsers) in
-      
-      self.gralPerformanceCardView.updateData(numberOfPitchesByAgencyForDashboardSumary)
-      
-      UtilityManager.sharedInstance.hideLoader()
-      
-    }
+
     
   }
   

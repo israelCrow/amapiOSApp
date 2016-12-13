@@ -17,8 +17,9 @@ class ChangePasswordViewController: UIViewController, ChangePasswordRequestViewD
     private var lastFramePosition: CGRect! = nil
     private var alreadyAppearedKeyboard: Bool = false
     private var changePasswordView: ChangePasswordRequestView! = nil
-    
-    
+  
+    var textToShowInEMailTextField: String = ""
+  
     override func loadView() {
         
         self.addObserverToKeyboardNotification()
@@ -137,6 +138,7 @@ class ChangePasswordViewController: UIViewController, ChangePasswordRequestViewD
         
         changePasswordView = ChangePasswordRequestView.init(frame: frameForViewsOfCard)
         changePasswordView.delegate = self
+        changePasswordView.changeTextInEMailTextField(textToShowInEMailTextField)
         let blankView = UIView.init(frame:frameForViewsOfCard)
         
         flipCard = FlipCardView.init(frame: frameForFlipCard, viewOne: changePasswordView, viewTwo: blankView)

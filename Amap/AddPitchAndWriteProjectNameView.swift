@@ -315,7 +315,7 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
   private func filterCompaniesWithText(filterText: String) {
     
     arrayOfFilteredProjects = arrayOfAllProjects.filter({ (projectData) -> Bool in
-      return projectData.name.rangeOfString(filterText) != nil
+      return projectData.name.rangeOfString(filterText, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil
     })
 
     

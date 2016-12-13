@@ -387,6 +387,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
       if UserSession.session.role == "4" {
         
+        arrayOfViewControllers.append(self.createFirstBarItem())
         arrayOfViewControllers.append(self.createSecondBarItemForCompanyUser())
         arrayOfViewControllers.append(self.createThirdBarItemForCompanyUser())
         arrayOfViewControllers.append(self.createFourthBarItemForCompanyUser())
@@ -404,6 +405,8 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
 //          
 //        }
         
+        
+        mainTabBarController.selectedIndex = 1
         UtilityManager.sharedInstance.mainTabBarController = mainTabBarController
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -440,6 +443,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
     func forgotPasswordLabelInGoldenPtichLoginViewPressed(sender: AnyObject) {
         let changePasswordVC = ChangePasswordViewController()
+        changePasswordVC.textToShowInEMailTextField = loginGoldenPitchView.getTextFromEMailTextField()
         self.navigationController?.pushViewController(changePasswordVC, animated: true)
     }
   

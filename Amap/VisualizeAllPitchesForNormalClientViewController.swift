@@ -135,6 +135,7 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
     
     //ask to server for the info
     
+    UtilityManager.sharedInstance.showLoader()
     
     RequestToServerManager.sharedInstance.requestToGetAllPitchEvaluationByUser { (pitchEvaluationsByUser, pitchesForCompany) in
       
@@ -144,6 +145,27 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
         self.arrayOfPitchesByUserWithoutModifications = pitchesForCompany!
         
         self.createMainCarousel()
+        
+        if self.arrayOfPitchesByUser.count == 1 {
+          
+          if self.mainCarousel != nil {
+            
+            self.mainCarousel.scrollEnabled = false
+            
+          }
+          
+        } else
+          if self.arrayOfPitchesByUser.count > 1 {
+            
+            if self.mainCarousel != nil {
+              
+              self.mainCarousel.scrollEnabled = true
+              
+            }
+            
+          }
+        
+        UtilityManager.sharedInstance.hideLoader()
         
       }
       

@@ -11,7 +11,7 @@ import Foundation
 protocol LookForAgencyViewDelegate {
   
   func requestToServerToLookFor(params: [String: AnyObject])
-  func showInfoOfThisSelectedAgency(id: String)
+  func showInfoOfThisSelectedAgency(basicDataOfAgency: GenericAgencyData)
   
 }
 
@@ -194,7 +194,7 @@ class LookForAgencyView: UIView, UITableViewDelegate, UITableViewDataSource, UIT
   
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     
-    self.cellPressed(arrayOfFilteredAgencies[indexPath.row].id)
+    self.cellPressed(arrayOfFilteredAgencies[indexPath.row])
     
   }
   
@@ -202,6 +202,7 @@ class LookForAgencyView: UIView, UITableViewDelegate, UITableViewDataSource, UIT
     let cell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell!
     
     self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfFilteredAgencies[indexPath.row].name)
+    
     cell.selectionStyle = UITableViewCellSelectionStyle.None
     
     return cell
@@ -251,7 +252,7 @@ class LookForAgencyView: UIView, UITableViewDelegate, UITableViewDataSource, UIT
   private func filterCompaniesWithText(filterText: String) {
     
     arrayOfFilteredAgencies = arrayOfAllAgencies.filter({ (agencyData) -> Bool in
-      return agencyData.name.rangeOfString(filterText) != nil
+      return agencyData.name.rangeOfString(filterText, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil
     })
     
     
@@ -348,10 +349,9 @@ class LookForAgencyView: UIView, UITableViewDelegate, UITableViewDataSource, UIT
   //
   //  }
   
-  private func cellPressed(pitchIDToLookFor: String) {
+  private func cellPressed(basicDataOfAgency: GenericAgencyData) {
     
-    AgencyModel.Data.id = pitchIDToLookFor
-    self.delegate?.showInfoOfThisSelectedAgency(pitchIDToLookFor)
+    self.delegate?.showInfoOfThisSelectedAgency(basicDataOfAgency)
     
   }
   
@@ -406,6 +406,15 @@ class LookForAgencyView: UIView, UITableViewDelegate, UITableViewDataSource, UIT
   @objc private func cancelButtonPressed() {
     
     
+    
+  }
+  
+  func resetValues() {
+    
+    arrayOfAllAgencies.removeAll()
+    arrayOfFilteredAgencies.removeAll()
+    
+    mainTableView.reloadData()
     
   }
   

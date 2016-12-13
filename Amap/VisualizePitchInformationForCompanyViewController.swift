@@ -173,24 +173,38 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
   
   private func createEvaluationBreakDown() {
     
+    print(pitchData.breakDown)
+    
+    let deliverablesClear = (pitchData.breakDown["deliverables_clear"] as? Int != nil ? String(pitchData.breakDown["deliverables_clear"] as! Int) : "0")
+    
+    let marketingInvolved = (pitchData.breakDown["marketing_involved"] as? Int != nil ? String(pitchData.breakDown["marketing_involved"] as! Int) : "0")
+    
+    let objectivesClear = (pitchData.breakDown["objectives_clear"] as? Int != nil ? String(pitchData.breakDown["objectives_clear"] as! Int) : "0")
+    
+    let budgetKnown = (pitchData.breakDown["budget_known"] as? Int != nil ? String(pitchData.breakDown["budget_known"] as! Int) : "0")
+    
+    let selectionCriteria = (pitchData.breakDown["selection_criteria"] as? Int != nil ? String(pitchData.breakDown["selection_criteria"] as! Int) : "0")
+    
+    
+    
     let descriptionOne: [String: String] = ["description_text": "Agencias con objetivos claros",
-                                             "percentage_text": "45"
+                                             "percentage_text": objectivesClear
                                             ]
     
     let descriptionTwo: [String: String] = ["description_text": "Agencias que cuentan con budget definido",
-                                             "percentage_text": "33"
+                                             "percentage_text": budgetKnown
                                             ]
     
     let descriptionThree: [String: String] = ["description_text": "Agencias que saben los criterios de selección",
-                                            "percentage_text": "56"
+                                            "percentage_text": selectionCriteria
     ]
     
     let descriptionFour: [String: String] = ["description_text": "Agencias que tienen los entregables claros",
-                                            "percentage_text": "76"
+                                            "percentage_text": deliverablesClear
     ]
     
     let descriptionFive: [String: String] = ["description_text": "Agencias involucradas con alguien senior",
-                                            "percentage_text": "29"
+                                            "percentage_text": marketingInvolved
     ]
     
     let arrayOfDescriptions: Array<[String: String]> = [descriptionOne,

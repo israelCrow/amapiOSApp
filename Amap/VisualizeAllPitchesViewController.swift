@@ -321,7 +321,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   private func createAddPitchButton() {
     
     let frameForButton = CGRect.init(x: (self.view.frame.size.width / 2.0) - (28.0 * UtilityManager.sharedInstance.conversionWidth), //283.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 100.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     y: 78.0 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 56.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     

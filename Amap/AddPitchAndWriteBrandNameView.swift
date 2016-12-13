@@ -287,7 +287,7 @@ class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDat
   private func filterCompaniesWithText(filterText: String) {
     
     arrayOfFilteredBrands = companyData.brands.filter({ (brandData) -> Bool in
-      return brandData.name.rangeOfString(filterText) != nil
+      return brandData.name.rangeOfString(filterText, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil
     })
     
     mainTableView.reloadData()

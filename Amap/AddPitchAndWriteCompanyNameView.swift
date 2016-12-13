@@ -240,7 +240,7 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
 //    print("filteredAnimals:", filteredAnimals)
     
     arrayOfFilteredCompanies = arrayOfCompanies.filter({ (companyData) -> Bool in
-      return companyData.name.rangeOfString(filterText) != nil
+      return companyData.name.rangeOfString(filterText, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil
     })
   
     mainTableView.reloadData()

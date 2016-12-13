@@ -208,12 +208,12 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
         flipCard.flip()
     }
     
-  private func flipCardToFailedExistingAccount(showAlreadyExistingAgencyUser: Bool) {
+  private func flipCardToFailedExistingAccount(showAlreadyExistingAgencyUser: Bool, typeOfUser: Int?) {
         
         let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
         let heightOfCard = self.view.frame.size.height - (184.0 * UtilityManager.sharedInstance.conversionHeight)
         let frameForViewsOfCard = CGRect.init(x: 0.0, y: 0.0, width: widthOfCard, height: heightOfCard)
-        let existingAccView = ExistingAccountView.init(frame: frameForViewsOfCard, newShowAlreadyExistingAgencyUser: showAlreadyExistingAgencyUser)
+        let existingAccView = ExistingAccountView.init(frame: frameForViewsOfCard, newShowAlreadyExistingAgencyUser: showAlreadyExistingAgencyUser, newTypeOfUser: typeOfUser)
         existingAccView.hidden = true
         existingAccView.delegate = self
         
@@ -292,11 +292,11 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
 
                         if errorinString == "Ya existe una cuenta con ese email" {
                           
-                          self.flipCardToFailedExistingAccount(false)
+                          self.flipCardToFailedExistingAccount(false, typeOfUser: nil)
                           
                         } else if errorinString == "Ya existe un usuario de tu agencia registrado" {
                         
-                          self.flipCardToFailedExistingAccount(true)
+                          self.flipCardToFailedExistingAccount(true, typeOfUser: typeOfUser)
                           
                         }else
                           

@@ -714,6 +714,11 @@ class EditCompanyProfileViewController: UIViewController, UIImagePickerControlle
       alertController.addAction(okAction)
       self.presentViewController(alertController, animated: true, completion: nil)
       
+    } else {
+      
+      self.requestToShowTabBar()
+      self.navigationController?.popViewControllerAnimated(true)
+      
     }
     
   }

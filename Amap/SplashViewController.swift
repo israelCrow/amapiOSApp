@@ -229,6 +229,7 @@ class SplashViewController: UIViewController {
       
       if UserSession.session.role == "4" {
         
+        arrayOfViewControllers.append(self.createFirstBarItem())
         arrayOfViewControllers.append(self.createSecondBarItemForCompanyUser())
         arrayOfViewControllers.append(self.createThirdBarItemForCompanyUser())
         arrayOfViewControllers.append(self.createFourthBarItemForCompanyUser())
@@ -246,6 +247,7 @@ class SplashViewController: UIViewController {
         //
         //        }
         
+        mainTabBarController.selectedIndex = 1
         UtilityManager.sharedInstance.mainTabBarController = mainTabBarController
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate

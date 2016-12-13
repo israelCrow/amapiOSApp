@@ -35,7 +35,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   private var rightButton: UIButton! = nil
   
   private var favoriteButton: UIButton! = nil
-  private var isFavoriteAgency: Bool = false
+  var isFavoriteAgency: Bool = false
   
   private var actualPage: Int! = 0
   private var numberOfPageToMove: Int! = nil
@@ -110,10 +110,10 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     } else
       if UserSession.session.role == "4" {
         
-        let backButton = UIBarButtonItem(title: "",
+        let backButton = UIBarButtonItem(title: "Atrás",
                                          style: UIBarButtonItemStyle.Plain,
                                          target: self,
-                                         action: nil)
+                                         action: #selector(backButtonPressed))
         
         let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
                                         size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
@@ -226,7 +226,6 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     return GradientView.init(frame: frameForView, arrayOfcolors: colorsForBackground, typeOfInclination: GradientView.TypeOfInclination.leftToRightInclination)
     
   }
-  
   
   private func createAndAddFlipCard() {
     
@@ -394,13 +393,29 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
     
-    let stringWithFormat = NSMutableAttributedString(
-      string: "Agregar a favoritos              \u{2661}",
-      attributes:[NSFontAttributeName: font!,
-        NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color
-      ]
-    )
+    var stringWithFormat: NSMutableAttributedString
+    
+    if isFavoriteAgency == false {
+    
+      stringWithFormat = NSMutableAttributedString(
+        string: "Agregar a favoritos              \u{2661}",
+        attributes:[NSFontAttributeName: font!,
+          NSParagraphStyleAttributeName: style,
+          NSForegroundColorAttributeName: color
+        ]
+      )
+    
+    } else {
+      
+      stringWithFormat = NSMutableAttributedString(
+        string: "Agregar a favoritos              \u{2665}",
+        attributes:[NSFontAttributeName: font!,
+          NSParagraphStyleAttributeName: style,
+          NSForegroundColorAttributeName: color
+        ]
+      )
+      
+    }
     
     favoriteButton.setAttributedTitle(stringWithFormat, forState: .Normal)
     favoriteButton.backgroundColor = UIColor.clearColor()
@@ -425,39 +440,64 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     if isFavoriteAgency == false {
       
-      let font = UIFont(name: "SFUIText-Light",
-                        size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
-      let color = UIColor.blackColor()
-      let style = NSMutableParagraphStyle()
-      style.alignment = NSTextAlignment.Center
+      let params = ["auth_token": UserSession.session.auth_token,
+                    "agency_id": AgencyModel.Data.id
+                    ]
       
-      let stringWithFormat = NSMutableAttributedString(
-        string: "Agregar a favoritos              \u{2665}",
-        attributes:[NSFontAttributeName: font!,
-          NSParagraphStyleAttributeName: style,
-          NSForegroundColorAttributeName: color
-        ]
-      )
+      UtilityManager.sharedInstance.showLoader()
       
-      favoriteButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+      RequestToServerManager.sharedInstance.requestToSetAgencyToFavorite(params, actionsToMakeAfterSetAgencyToFavorite: {
+        
+        let font = UIFont(name: "SFUIText-Light",
+          size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+        let color = UIColor.blackColor()
+        let style = NSMutableParagraphStyle()
+        style.alignment = NSTextAlignment.Center
+        
+        let stringWithFormat = NSMutableAttributedString(
+          string: "Agregar a favoritos              \u{2665}",
+          attributes:[NSFontAttributeName: font!,
+            NSParagraphStyleAttributeName: style,
+            NSForegroundColorAttributeName: color
+          ]
+        )
+        
+        self.favoriteButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+        
+        UtilityManager.sharedInstance.hideLoader()
+        
+      })
+      
       
     } else {
       
-      let font = UIFont(name: "SFUIText-Light",
-                        size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
-      let color = UIColor.blackColor()
-      let style = NSMutableParagraphStyle()
-      style.alignment = NSTextAlignment.Center
+      let params = ["auth_token": UserSession.session.auth_token,
+                    "agency_id": AgencyModel.Data.id
+                   ]
       
-      let stringWithFormat = NSMutableAttributedString(
-        string: "Agregar a favoritos              \u{2661}",
-        attributes:[NSFontAttributeName: font!,
-          NSParagraphStyleAttributeName: style,
-          NSForegroundColorAttributeName: color
-        ]
-      )
+      UtilityManager.sharedInstance.showLoader()
       
-      favoriteButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+      RequestToServerManager.sharedInstance.requestToRemoveAgencyFromFavorite(params, actionsToMakeAfterRemoveAgencyFromFavorite: {
+        
+        let font = UIFont(name: "SFUIText-Light",
+          size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+        let color = UIColor.blackColor()
+        let style = NSMutableParagraphStyle()
+        style.alignment = NSTextAlignment.Center
+        
+        let stringWithFormat = NSMutableAttributedString(
+          string: "Agregar a favoritos              \u{2661}",
+          attributes:[NSFontAttributeName: font!,
+            NSParagraphStyleAttributeName: style,
+            NSForegroundColorAttributeName: color
+          ]
+        )
+        
+        self.favoriteButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+        
+        UtilityManager.sharedInstance.hideLoader()
+        
+      })
       
     }
     
@@ -527,7 +567,11 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
   }
   
-  
+  @objc private func backButtonPressed() {
+    
+    self.navigationController?.popViewControllerAnimated(true)
+    
+  }
   
   @objc private func pushEditAgencyProfile() {
     
