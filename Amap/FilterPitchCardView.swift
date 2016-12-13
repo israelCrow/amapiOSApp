@@ -24,11 +24,11 @@ class FilterPitchCardView: UIView {
   private var silverCriterion: CriterionWithImageView! = nil
   private var mediumCriterion: CriterionWithImageView! = nil
   private var highRiskCriterion: CriterionWithImageView! = nil
-  private var wonPitchCriterion: CriterionView! = nil
-  private var activePitchCriterion: CriterionView! = nil
-  private var archivedPitchCriterion: CriterionView! = nil
-  private var declinedPitchCriterion: CriterionView! = nil
-  private var canceledPitchCriterion: CriterionView! = nil
+  private var wonPitchCriterion: CriterionWithImageView! = nil
+  private var activePitchCriterion: CriterionWithImageView! = nil
+  private var archivedPitchCriterion: CriterionWithImageView! = nil
+  private var declinedPitchCriterion: CriterionWithImageView! = nil
+  private var canceledPitchCriterion: CriterionWithImageView! = nil
   
   private var optionsSelected: [String: AnyObject]! = nil
   private var finalParams = [String: AnyObject]()
@@ -158,7 +158,8 @@ class FilterPitchCardView: UIView {
     
     happitchCriterion = CriterionWithImageView.init(frame: frameForCriterion,
                                                 nameImage: "color_fill1",
-                                            valueOfSwitch: valueOfSwitch)
+                                            valueOfSwitch: valueOfSwitch,
+                                        newTextAfterImage: "Happitch")
     
     mainScrollView.addSubview(happitchCriterion)
     
@@ -181,7 +182,8 @@ class FilterPitchCardView: UIView {
     
     silverCriterion = CriterionWithImageView.init(frame: frameForCriterion,
                                                     nameImage: "color_fill3",
-                                                    valueOfSwitch: valueOfSwitch)
+                                                    valueOfSwitch: valueOfSwitch,
+                                                    newTextAfterImage: "Happy")
     mainScrollView.addSubview(silverCriterion)
     
   }
@@ -203,7 +205,8 @@ class FilterPitchCardView: UIView {
     
     mediumCriterion = CriterionWithImageView.init(frame: frameForCriterion,
                                                   nameImage: "color_fill5",
-                                                  valueOfSwitch: valueOfSwitch)
+                                                  valueOfSwitch: valueOfSwitch,
+                                                  newTextAfterImage: "OK")
     mainScrollView.addSubview(mediumCriterion)
     
   }
@@ -225,7 +228,8 @@ class FilterPitchCardView: UIView {
     
     highRiskCriterion = CriterionWithImageView.init(frame: frameForCriterion,
                                                   nameImage: "color_fill7",
-                                                  valueOfSwitch: valueOfSwitch)
+                                                  valueOfSwitch: valueOfSwitch,
+                                                  newTextAfterImage: "Unhappy")
     mainScrollView.addSubview(highRiskCriterion)
     
   }
@@ -245,10 +249,10 @@ class FilterPitchCardView: UIView {
       
     }
     
-    wonPitchCriterion = CriterionView.init(frame: frameForCriterion,
-                                       textLabel: VisualizePitchesConstants.FilterPitchCardView.wonCriterionText,
-                                   valueOfSwitch: valueOfSwitch)
-    wonPitchCriterion.adaptSize()
+    wonPitchCriterion = CriterionWithImageView.init(frame: frameForCriterion,
+                                                    nameImage: "thumbsUp",
+                                                    valueOfSwitch: valueOfSwitch,
+                                                    newTextAfterImage: "Ganado")
     mainScrollView.addSubview(wonPitchCriterion)
     
   }
@@ -268,10 +272,10 @@ class FilterPitchCardView: UIView {
       
     }
     
-    activePitchCriterion = CriterionView.init(frame: frameForCriterion,
-                                                textLabel: VisualizePitchesConstants.FilterPitchCardView.activeCriterionText,
-                                                valueOfSwitch: valueOfSwitch)
-    activePitchCriterion.adaptSize()
+    activePitchCriterion = CriterionWithImageView.init(frame: frameForCriterion,
+                                                       nameImage: "activeStatus",
+                                                       valueOfSwitch: valueOfSwitch,
+                                                       newTextAfterImage: "Activo")
     mainScrollView.addSubview(activePitchCriterion)
     
   }
@@ -291,10 +295,10 @@ class FilterPitchCardView: UIView {
       
     }
     
-    archivedPitchCriterion = CriterionView.init(frame: frameForCriterion,
-                                   textLabel: VisualizePitchesConstants.FilterPitchCardView.archivedCriterionText,
-                               valueOfSwitch: valueOfSwitch)
-    archivedPitchCriterion.adaptSize()
+    archivedPitchCriterion = CriterionWithImageView.init(frame: frameForCriterion,
+                                                         nameImage: "archivedIcon",
+                                                         valueOfSwitch: valueOfSwitch,
+                                                         newTextAfterImage: "Archivado")
     mainScrollView.addSubview(archivedPitchCriterion)
     
   }
@@ -314,10 +318,10 @@ class FilterPitchCardView: UIView {
       
     }
     
-    declinedPitchCriterion = CriterionView.init(frame: frameForCriterion,
-                                       textLabel: VisualizePitchesConstants.FilterPitchCardView.declinedCriterionText,
-                                       valueOfSwitch: valueOfSwitch)
-    declinedPitchCriterion.adaptSize()
+    declinedPitchCriterion = CriterionWithImageView.init(frame: frameForCriterion,
+                                                         nameImage: "declineIcon",
+                                                         valueOfSwitch: valueOfSwitch,
+                                                         newTextAfterImage: "Declinado")
     mainScrollView.addSubview(declinedPitchCriterion)
     
   }
@@ -337,10 +341,10 @@ class FilterPitchCardView: UIView {
       
     }
     
-    canceledPitchCriterion = CriterionView.init(frame: frameForCriterion,
-                                       textLabel: VisualizePitchesConstants.FilterPitchCardView.canceledCriterionText,
-                                       valueOfSwitch: valueOfSwitch)
-    canceledPitchCriterion.adaptSize()
+    canceledPitchCriterion = CriterionWithImageView.init(frame: frameForCriterion,
+                                                         nameImage: "cancelledIcon",
+                                                         valueOfSwitch: valueOfSwitch,
+                                                         newTextAfterImage: "Cancelado")
     mainScrollView.addSubview(canceledPitchCriterion)
     
   }

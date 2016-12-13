@@ -278,13 +278,13 @@ class PitchCardView: UIView {
     
     pitchEvaluationByUserData = newPitchByUserData
     self.createGraphPart()
-    self.createThumbsDownIcon()
+    self.createStatusIcon()
     self.createDetailedPart()
     self.createGestureTap()
     
   }
   
-  private func createThumbsDownIcon() {
+  private func createStatusIcon() {
     
     if pitchEvaluationByUserData.wasWon == false {
       
@@ -297,8 +297,62 @@ class PitchCardView: UIView {
       
       contentView.addSubview(thumbsDownIcon)
       
-    }
+    } else
     
+      if pitchEvaluationByUserData.pitchStatus == 1 { //Active
+        
+        let activeIcon = UIImageView.init(image: UIImage.init(named: "activeStatus"))
+        let canceledImageViewFrame = CGRect.init(x:(18.0 * UtilityManager.sharedInstance.conversionWidth  ),
+                                                 y: (10.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                 width: activeIcon.frame.size.width,
+                                                 height: activeIcon.frame.size.height)
+        activeIcon.frame = canceledImageViewFrame
+        activeIcon.alpha = 0.45
+        
+        contentView.addSubview(activeIcon)
+        
+      } else
+        
+        if pitchEvaluationByUserData.pitchStatus == 2 { //Cancelled
+          
+          let cancelledIcon = UIImageView.init(image: UIImage.init(named: "cancelledStatus"))
+          let canceledImageViewFrame = CGRect.init(x:(18.0 * UtilityManager.sharedInstance.conversionWidth  ),
+                                                   y: (10.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                   width: cancelledIcon.frame.size.width,
+                                                   height: cancelledIcon.frame.size.height)
+          cancelledIcon.frame = canceledImageViewFrame
+          
+          
+          contentView.addSubview(cancelledIcon)
+          
+        } else
+          
+        if pitchEvaluationByUserData.pitchStatus == 3 { //Declined
+            
+            let declinedIcon = UIImageView.init(image: UIImage.init(named: "declinedStatus"))
+            let canceledImageViewFrame = CGRect.init(x:(18.0 * UtilityManager.sharedInstance.conversionWidth  ),
+                                                     y: (10.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                     width: declinedIcon.frame.size.width,
+                                                     height: declinedIcon.frame.size.height)
+            declinedIcon.frame = canceledImageViewFrame
+            
+            contentView.addSubview(declinedIcon)
+            
+        } else
+            
+        if pitchEvaluationByUserData.pitchStatus == 4 { //Archived
+              
+              let archivedIcon = UIImageView.init(image: UIImage.init(named: "archivedStatus"))
+              let canceledImageViewFrame = CGRect.init(x:(18.0 * UtilityManager.sharedInstance.conversionWidth  ),
+                                                       y: (10.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                       width: archivedIcon.frame.size.width,
+                                                       height: archivedIcon.frame.size.height)
+              archivedIcon.frame = canceledImageViewFrame
+              
+              contentView.addSubview(archivedIcon)
+              
+        }
+
     
   }
   
