@@ -74,16 +74,25 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     //Checar si va aquí o va en otro lugar
     
-    let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+    if UserSession.session.role == "2" {
     
-    if savedPhotoAndSavedName == false {
+      let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+    
+      if savedPhotoAndSavedName == false {
       
-      UIApplication.sharedApplication().sendAction((self.navigationItem.leftBarButtonItem?.action)!,
+        UIApplication.sharedApplication().sendAction((self.navigationItem.leftBarButtonItem?.action)!,
                                                  to: self.navigationItem.leftBarButtonItem?.target,
                                                from: nil,
                                            forEvent: nil)
       
-    }
+      }
+      
+    } else
+      if UserSession.session.role == "4" {
+        
+        
+        
+      }
     
   }
   
