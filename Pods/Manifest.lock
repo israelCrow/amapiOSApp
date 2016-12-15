@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (3.4.1)
+  - CorePlot (2.1)
   - GoogleMaps (2.0.1):
     - GoogleMaps/Maps (= 2.0.1)
   - GoogleMaps/Base (2.0.1)
@@ -15,6 +16,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - CorePlot (= 2.1)
   - GoogleMaps
   - GooglePlacePicker
   - GooglePlaces
@@ -23,12 +25,13 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  CorePlot: ab9898c79b94999018e9634ab0aa4c21480c8552
   GoogleMaps: f09da64fc987c1aa29394567c3cab5a3df83c402
   GooglePlacePicker: e7b11b732e40dbe76e8ab4c5fc2f4a7c32b96578
   GooglePlaces: 72fab1d1651c6df0322f2aad245ffb15b80d3c56
   YouTubePlayer: 88713a96c356f2c88da8925eb61438eda88bcd57
   YTVimeoExtractor: fa329a7cc99fc3d0b4e1fa6fd9d1d5eab1835c7d
 
-PODFILE CHECKSUM: ea408a02a9e5cd400da17f1ea23d608f3ed3b0a5
+PODFILE CHECKSUM: c56214156fe108048f91dc3cd642102caa45e365
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1

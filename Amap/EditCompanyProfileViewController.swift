@@ -148,7 +148,8 @@ class EditCompanyProfileViewController: UIViewController, UIImagePickerControlle
     let blankView = UIView.init(frame:frameForViewsOfCard)
     
     flipCard = FlipCardView.init(frame: frameForFlipCard, viewOne: scrollViewFrontFlipCard, viewTwo: blankView)
-    self.createButtonsForFlipCard()
+    
+//    self.createButtonsForFlipCard()
     
     self.view.addSubview(flipCard )
     
@@ -171,14 +172,14 @@ class EditCompanyProfileViewController: UIViewController, UIImagePickerControlle
     
     editProfile = EditCompanyProfileView.init(frame: frameForCards)
     editProfile.delegate = self
-    
-    editConflicts = EditConflictsView.init(frame: CGRect.init(x: frameForCards.size.width,
-      y: 0.0 ,
-      width: frameForCards.size.width,
-      height: frameForCards.size.height))
-    
     scrollViewFrontFlipCard.addSubview(editProfile)
-    scrollViewFrontFlipCard.addSubview(editConflicts)
+    
+//    editConflicts = EditConflictsView.init(frame: CGRect.init(x: frameForCards.size.width,
+//      y: 0.0 ,
+//      width: frameForCards.size.width,
+//      height: frameForCards.size.height))
+//
+//    scrollViewFrontFlipCard.addSubview(editConflicts)
     
   }
   

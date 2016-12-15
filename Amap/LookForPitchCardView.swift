@@ -10,6 +10,7 @@ import UIKit
 
 protocol LookForPitchCardViewDelegate {
   
+  func lookForThisPitch(params: [String: AnyObject], sender: LookForPitchCardView)
   func lookForThisPitchID(pitchIDToLookFor: String)
   func doCancelLookForCard()
   
@@ -162,13 +163,14 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
   
   func setArrayOfAllProjectsPitches(newArrayOfAllProjectsPitches: [PitchEvaluationByUserModelData]) {
     
-//    if newArrayOfAllProjectsPitches.count == 0 {
-//      
-//      self.hideMainTableView()
-//      //      self.showAskPermissionLabel()
-//      //      self.showAddButton()
-//      
-//    } else {
+    if newArrayOfAllProjectsPitches.count == 0 {
+      
+      self.hideMainTableView()
+      self.showNoResultsLabel()
+      //      self.showAskPermissionLabel()
+      //      self.showAddButton()
+      
+    } else {
     
       self.showMainTableView()
       
@@ -176,7 +178,7 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
       arrayOfFilteredProjects = arrayOfAllProjects
       mainTableView.reloadData()
       
-//    }
+    }
     
   }
   
@@ -347,7 +349,7 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
   //  }
   
   private func cellPressed(pitchIDToLookFor: String) {
-    
+
     self.delegate?.lookForThisPitchID(pitchIDToLookFor)
     
   }
@@ -384,6 +386,13 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
     
     self.dismissKeyboard(textField)
     
+    let params = ["auth_token": UserSession.session.auth_token,
+                  "id": UserSession.session.id,
+                  "keyword": searchView.mainTextField.text!
+    ]
+  
+    self.delegate?.lookForThisPitch(params, sender: self)
+    
     return true
   }
   
@@ -398,6 +407,5 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
     self.delegate?.doCancelLookForCard()
     
   }
-
   
 }

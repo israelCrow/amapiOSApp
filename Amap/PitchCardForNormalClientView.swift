@@ -8,15 +8,19 @@
 
 import UIKit
 import Charts
+import CorePlot
 
-class PitchCardForNormalClientView: UIView {
+class PitchCardForNormalClientView: UIView, CPTPieChartDataSource {
   
   private var descriptionView: PitchCardForNormalClientDescriptionView! = nil
   
+  
+  private var chartHostView: CPTGraphHostingView! = nil
   private var circularView: PieChartView! = nil
   
   private var facesView: FacesEvaluationsView! = nil
   private var pitchData: PitchEvaluationByUserModelDataForCompany! = nil
+  private var dataForChart: [Double]! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -28,8 +32,20 @@ class PitchCardForNormalClientView: UIView {
     
     super.init(frame: frame)
     
+    self.setData()
     self.initInterface()
     
+  }
+  
+  private func setData() {
+    
+    let happitchPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["happitch"] as! Int) / 100.0)
+    let happyPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["happy"] as! Int) / 100.0)
+    let okPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["ok"] as! Int) / 100.0)
+    let sadPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["sad"] as! Int) / 100.0)
+    
+    dataForChart = [happitchPercentage, happyPercentage, okPercentage, sadPercentage]
+//    dataForChart = [0.25, 0.25, 0.25, 0.25]
   }
   
   private func initInterface() {
@@ -72,59 +88,121 @@ class PitchCardForNormalClientView: UIView {
   
   private func createCircularChart() {
     
-    let frameForChartView = CGRect.init(x: (self.frame.size.width / 2.0) - (90.5 * UtilityManager.sharedInstance.conversionWidth),
-                                        y: 135.0 * UtilityManager.sharedInstance.conversionHeight,
-                                        width: 181.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        height: 181.0 * UtilityManager.sharedInstance.conversionHeight)
+    let frameForChartView = CGRect.init(x: (self.frame.size.width / 2.0) - (105.5 * UtilityManager.sharedInstance.conversionWidth),
+                                        y: 105.0 * UtilityManager.sharedInstance.conversionHeight,
+                                        width: 211.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        height: 211.0 * UtilityManager.sharedInstance.conversionHeight)
+
     
-    let happitchPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["happitch"] as! Int) / 100.0)
-    let happyPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["happy"] as! Int) / 100.0)
-    let okPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["ok"] as! Int) / 100.0)
-    let sadPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["sad"] as! Int) / 100.0)
-    
-    circularView = PieChartView.init(frame: frameForChartView)
-    
-    let nameValues = ["","","",""]
-    let firstPercentage = BarChartDataEntry.init(value: happitchPercentage, xIndex: 0)
-    let secondPercentage = BarChartDataEntry.init(value: happyPercentage, xIndex: 1)
-    let thirdPercentage = BarChartDataEntry.init(value: okPercentage, xIndex: 2)
-    let fourthPercentage = BarChartDataEntry.init(value: sadPercentage, xIndex:3)
-    let percentageValues = [firstPercentage, secondPercentage, thirdPercentage, fourthPercentage]
-    
-    
-    let dataSetForPie = PieChartDataSet.init(yVals: percentageValues, label: nil)
-    dataSetForPie.sliceSpace = 0.0
-    
-    let colors = [UIColor.init(red: 238.0/255.0, green: 220.0/255.0, blue: 55.0/255.0, alpha: 1.0),
-                  UIColor.init(red: 219.0/255.0, green: 59.0/255.0, blue: 39.0/255.0, alpha: 1.0),
-                  UIColor.init(red: 111.0/255.0, green: 139.0/255.0, blue: 226.0/255.0, alpha: 1.0),
-                  UIColor.init(red: 49.0/255.0, green: 190.0/255.0, blue: 175.0/255.0, alpha: 1.0)]
-    dataSetForPie.colors = colors
-    
-    let dataPie: PieChartData = PieChartData.init(xVals: nameValues, dataSet: dataSetForPie)
-    let pieFormatter = NSNumberFormatter.init()
-    pieFormatter.numberStyle = .PercentStyle
-    pieFormatter.maximumFractionDigits = 2
-    pieFormatter.multiplier = 1.0
-    pieFormatter.percentSymbol = " %"
-    
-    dataPie.setValueFormatter(pieFormatter)
-    //    dataPie.setValueFont(UIFont.)
-    dataPie.setValueTextColor(UIColor.whiteColor())
-    
-    circularView.data = dataPie
-    circularView.userInteractionEnabled = false
-    circularView.transparentCircleRadiusPercent = 0.0
-    circularView.drawHoleEnabled = false
-    
-    circularView.animate(xAxisDuration: 0.7)
-    circularView.animate(yAxisDuration: 0.7)
-    circularView.legend.enabled = false
-    circularView.descriptionText = ""
-    
-    self.addSubview(circularView)
+    chartHostView = CPTGraphHostingView.init(frame: frameForChartView)
+
+    self.configureHostView()
+    self.configureGraph()
+    self.configureChart()
+//    self.configureLegend()
+
+    self.addSubview(chartHostView)
     
   }
+  
+  private func configureHostView() {
+    
+    chartHostView.allowPinchScaling = false
+    
+  }
+  
+  private func configureGraph() {
+    
+    // 1 - Create and configure the graph
+    let graph = CPTXYGraph(frame: chartHostView.bounds)
+    chartHostView.hostedGraph = graph
+    graph.paddingLeft = 0.0
+    graph.paddingTop = 0.0
+    graph.paddingRight = 0.0
+    graph.paddingBottom = 0.0
+    graph.axisSet = nil
+    
+    // 2 - Create text style
+    let textStyle: CPTMutableTextStyle = CPTMutableTextStyle()
+    textStyle.color = CPTColor.blackColor()
+    textStyle.fontName = "HelveticaNeue-Bold"
+    textStyle.fontSize = 16.0
+    textStyle.textAlignment = .Center
+    
+    // 3 - Set graph title and text style
+//    graph.title = "\(base.name) exchange rates\n\(rate.date)"
+    graph.titleTextStyle = textStyle
+    graph.titlePlotAreaFrameAnchor = CPTRectAnchor.Top
+    
+  }
+  
+  private func configureChart() {
+    
+    // 1 - Get a reference to the graph
+    let graph = chartHostView.hostedGraph!
+    
+    // 2 - Create the chart
+    let pieChart = CPTPieChart()
+    pieChart.delegate = self
+    pieChart.dataSource = self
+    pieChart.pieRadius = (min(chartHostView.bounds.size.width, chartHostView.bounds.size.height) * 0.7) / 2
+//    pieChart.identifier = NSString(string: graph.title!)
+    pieChart.startAngle = CGFloat(M_PI_2)
+    pieChart.sliceDirection = .CounterClockwise
+    pieChart.labelOffset = -0.6 * pieChart.pieRadius
+    
+    // 3 - Configure border style
+    let borderStyle = CPTMutableLineStyle()
+    borderStyle.lineColor = CPTColor.whiteColor()
+    borderStyle.lineWidth = 2.0
+    pieChart.borderLineStyle = borderStyle
+    
+    // 4 - Configure text style
+    let textStyle = CPTMutableTextStyle()
+    textStyle.color = CPTColor.whiteColor()
+    textStyle.textAlignment = .Center
+    
+    pieChart.showLabels = false
+    pieChart.labelTextStyle = textStyle
+    
+    // 5 - Add chart to graph
+    graph.addPlot(pieChart)
+    
+    CPTAnimation.animate(pieChart,
+                         property: "endAngle",
+                         from: CGFloat(M_PI_2),
+                         to: CGFloat(-3.0*M_PI_2),
+                         duration: 0.5)
+    
+  }
+  
+//  private func configureLegend() {
+//
+//    // 1 - Get graph instance
+//    guard let graph = chartHostView.hostedGraph else { return }
+//    
+//    // 2 - Create legend
+//    let theLegend = CPTLegend(graph: graph)
+//    
+//    // 3 - Configure legend
+//    theLegend.numberOfColumns = 1
+//    theLegend.fill = CPTFill(color: CPTColor.whiteColor())
+//    let textStyle = CPTMutableTextStyle()
+//    textStyle.fontSize = 18
+//    theLegend.textStyle = textStyle
+//    
+//    // 4 - Add legend to graph
+//    graph.legend = theLegend
+//    if view.bounds.width > view.bounds.height {
+//      graph.legendAnchor = .right
+//      graph.legendDisplacement = CGPoint(x: -20, y: 0.0)
+//      
+//    } else {
+//      graph.legendAnchor = .bottomRight
+//      graph.legendDisplacement = CGPoint(x: -8.0, y: 8.0)
+//    }
+//    
+//  }
   
   private func createFaces() {
     
@@ -136,16 +214,16 @@ class PitchCardForNormalClientView: UIView {
     }
     
     let facesToShow: [String: Int] = [
-      VisualizeDashboardConstants.Faces.kGold:   0,
-      VisualizeDashboardConstants.Faces.kSilver: 0,
-      VisualizeDashboardConstants.Faces.kMedium: 0,
-      VisualizeDashboardConstants.Faces.kBad:    0
+      VisualizeDashboardConstants.Faces.kGold:   pitchData.pitchTypesPercentage["happitch"] as! Int,
+      VisualizeDashboardConstants.Faces.kSilver: pitchData.pitchTypesPercentage["happy"] as! Int,
+      VisualizeDashboardConstants.Faces.kMedium: pitchData.pitchTypesPercentage["ok"] as! Int,
+      VisualizeDashboardConstants.Faces.kBad:    pitchData.pitchTypesPercentage["sad"] as! Int
     ]
     
     let frameForFacesView = CGRect.init(x: (self.frame.size.width / 2.0) - (110.0 * UtilityManager.sharedInstance.conversionWidth),
                                         y: 340.0 * UtilityManager.sharedInstance.conversionHeight,
                                     width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   height: 43.0 * UtilityManager.sharedInstance.conversionHeight)
+                                   height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
     
     facesView = FacesEvaluationsView.init(frame: frameForFacesView,
                                           facesToShow: facesToShow)
@@ -160,6 +238,92 @@ class PitchCardForNormalClientView: UIView {
     return pitchData
     
   }
+  
+  // MARK: - Plot Data Source Methods
+  
+  func numberOfRecordsForPlot(plot: CPTPlot) -> UInt
+  {
+    return UInt(self.dataForChart.count)
+  }
+  
+  func numberForPlot(plot: CPTPlot, field: UInt, recordIndex: UInt) -> AnyObject? {
+    
+    if Int(recordIndex) > self.dataForChart.count {
+      
+      return nil
+      
+    }
+      
+    else {
+      
+      switch CPTPieChartField(rawValue: Int(field))! {
+        
+      case .SliceWidth:
+        return (self.dataForChart)[Int(recordIndex)] as NSNumber
+        
+      default:
+        
+        return recordIndex as NSNumber
+        
+      }
+      
+    }
+    
+  }
+  
+  func dataLabelForPlot(plot: CPTPlot, recordIndex: UInt) -> CPTLayer? {
+    
+    let label = CPTTextLayer(text:"\(recordIndex)")
+    
+    if let textStyle = label.textStyle?.mutableCopy() as? CPTMutableTextStyle {
+      
+      textStyle.color = CPTColor.lightGrayColor()
+      label.textStyle = textStyle
+      
+    }
+    
+    return label
+    
+  }
+  
+  func sliceFillForPieChart(pieChart: CPTPieChart, recordIndex idx: UInt) -> CPTFill? {
+    
+    
+    let firstColorHappitch = CPTColor.init(componentRed: 237.0/255.0 , green: 237.0/255.0, blue: 24.0/255.0, alpha: 1.0)
+    let secondColorHappitch = CPTColor.init(componentRed: 255.0/255.0 , green: 85.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+    let gradientHappitch = CPTGradient.init(beginningColor: firstColorHappitch, endingColor: secondColorHappitch)
+
+    let happitchFill = CPTFill.init(gradient: gradientHappitch)
+    
+    let firstColorHappy = CPTColor.init(componentRed: 45.0/255.0 , green: 252.0/255.0, blue: 197.0/255.0, alpha: 1.0)
+    let secondColorHappy = CPTColor.init(componentRed: 21.0/255.0 , green: 91.0/255.0, blue: 138.0/255.0, alpha: 1.0)
+    let gradientHappy = CPTGradient.init(beginningColor: firstColorHappy, endingColor: secondColorHappy)
+    let happyFill = CPTFill.init(gradient: gradientHappy)
+
+    let firstColorOK = CPTColor.init(componentRed: 48.0/255.0 , green: 197.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+    let secondColorOK = CPTColor.init(componentRed: 243.0/255.0 , green: 9.0/255.0, blue: 173.0/255.0, alpha: 1.0)
+    let gradientOK = CPTGradient.init(beginningColor: firstColorOK, endingColor: secondColorOK)
+    let oKFill = CPTFill.init(gradient: gradientOK)
+
+    let firstColorUnhappy = CPTColor.init(componentRed: 190.0/255.0 , green: 80.0/255.0, blue: 238.0/255.0, alpha: 1.0)
+    let secondColorUnhappy = CPTColor.init(componentRed: 255.0/255.0 , green: 25.0/255.0, blue: 33.0/255.0, alpha: 1.0)
+    let gradientUnhappy = CPTGradient.init(beginningColor: firstColorUnhappy, endingColor: secondColorUnhappy)
+    let unhappyFill = CPTFill.init(gradient: gradientUnhappy)
+
+    
+    switch idx {
+
+    case 0:   return happitchFill
+    case 1:   return happyFill
+    case 2:   return oKFill
+    case 3:   return unhappyFill
+      
+    default:  return nil
+      
+    }
+    
+  }
 
   
 }
+

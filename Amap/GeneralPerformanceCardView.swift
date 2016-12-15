@@ -27,6 +27,10 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
   private var arrayOfAgencyUsersModelData = [AgencyUserModelData]()
   private var numberOfPitchesByAgency = [String: Int]()
   
+  //Company
+  private var arrayOfBrandsWithCompanyModelData = [BrandModelData]()
+  private var numberOfPitchesByCompany = [String: Int]()
+  
   var delegate: GeneralPerformanceCardViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
@@ -37,6 +41,19 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     
     arrayOfAgencyUsersModelData = newArrayOfUsers
     numberOfPitchesByAgency = newNumberOfPitchesByAgency
+    
+    super.init(frame: frame)
+    
+    self.addGestures()
+    self.initValues()
+    self.initInterface()
+    
+  }
+  
+  init(frame: CGRect, newArrayOfBrands: [BrandModelData], newNumberOfPitchesByCompany: [String: Int]) {
+    
+    arrayOfBrandsWithCompanyModelData = newArrayOfBrands
+    numberOfPitchesByCompany = newNumberOfPitchesByCompany
     
     super.init(frame: frame)
     
@@ -58,19 +75,40 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
   
   private func initValues() {
     
-    for user in arrayOfAgencyUsersModelData {
+    if UserSession.session.role == "2" {
       
-      if user.firstName != nil && user.firstName != "" {
+      for user in arrayOfAgencyUsersModelData {
         
-        optionsForSelector.append(user.firstName)
-        
-      } else {
-        
-        optionsForSelector.append("unknown user")
+        if user.firstName != nil && user.firstName != "" {
+          
+          optionsForSelector.append(user.firstName)
+          
+        } else {
+          
+          optionsForSelector.append("unknown user")
+          
+        }
         
       }
       
-    }
+    } else
+      if UserSession.session.role == "4" {
+        
+        for brand in arrayOfBrandsWithCompanyModelData {
+          
+          if brand.name != nil {
+            
+            optionsForSelector.append(brand.name)
+            
+          } else {
+            
+            optionsForSelector.append("unknown user")
+            
+          }
+          
+        }
+        
+      }
     
 //    optionsForSelector = ["Performance General", "Usuario 1", "Usuario 2"]
     
@@ -142,18 +180,42 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
       
     }
     
-    let numberOfHappitchesByAgency = (numberOfPitchesByAgency["happitch"] != nil ? numberOfPitchesByAgency["happitch"] : 0)
-    let numberOfHappiesByAgency = (numberOfPitchesByAgency["happy"] != nil ? numberOfPitchesByAgency["happy"] : 0)
-    let numberOfOksByAgency = (numberOfPitchesByAgency["ok"] != nil ? numberOfPitchesByAgency["ok"] : 0)
-    let numberOfUnhappiesByAgency = (numberOfPitchesByAgency["unhappy"] != nil ? numberOfPitchesByAgency["unhappy"] : 0)
+    var facesToShow = [String: Int]()
     
-    
-    let facesToShow: [String: Int] = [
+    if UserSession.session.role == "2" {
+      
+      let numberOfHappitchesByAgency = (numberOfPitchesByAgency["happitch"] != nil ? numberOfPitchesByAgency["happitch"] : 0)
+      let numberOfHappiesByAgency = (numberOfPitchesByAgency["happy"] != nil ? numberOfPitchesByAgency["happy"] : 0)
+      let numberOfOksByAgency = (numberOfPitchesByAgency["ok"] != nil ? numberOfPitchesByAgency["ok"] : 0)
+      let numberOfUnhappiesByAgency = (numberOfPitchesByAgency["unhappy"] != nil ? numberOfPitchesByAgency["unhappy"] : 0)
+      
+      
+      facesToShow = [
       VisualizeDashboardConstants.Faces.kGold:   numberOfHappitchesByAgency!,
       VisualizeDashboardConstants.Faces.kSilver: numberOfHappiesByAgency!,
       VisualizeDashboardConstants.Faces.kMedium: numberOfOksByAgency!,
       VisualizeDashboardConstants.Faces.kBad:    numberOfUnhappiesByAgency!
-    ]
+      ]
+      
+    } else
+      if UserSession.session.role == "4" {
+        
+        let numberOfHappitchesByCompany = (numberOfPitchesByCompany["happitch"] != nil ? numberOfPitchesByCompany["happitch"] : 0)
+        let numberOfHappiesByCompany = (numberOfPitchesByCompany["happy"] != nil ? numberOfPitchesByCompany["happy"] : 0)
+        let numberOfOksByCompany = (numberOfPitchesByCompany["ok"] != nil ? numberOfPitchesByCompany["ok"] : 0)
+        let numberOfUnhappiesByCompany = (numberOfPitchesByCompany["unhappy"] != nil ? numberOfPitchesByCompany["unhappy"] : 0)
+        
+        
+        facesToShow = [
+          VisualizeDashboardConstants.Faces.kGold:   numberOfHappitchesByCompany!,
+          VisualizeDashboardConstants.Faces.kSilver: numberOfHappiesByCompany!,
+          VisualizeDashboardConstants.Faces.kMedium: numberOfOksByCompany!,
+          VisualizeDashboardConstants.Faces.kBad:    numberOfUnhappiesByCompany!
+        ]
+        
+      }
+    
+
     
     let frameForFacesView = CGRect.init(x: 0.0,
                                         y: selectorOfInformationView.frame.origin.y + selectorOfInformationView.frame.size.height + (22.0 * UtilityManager.sharedInstance.conversionHeight),
@@ -176,10 +238,29 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
       
     }
     
-    let numberOfLostPitchesByAgency = (numberOfPitchesByAgency["lost"] != nil ? numberOfPitchesByAgency["lost"] : 0)
-    let numberOfWonPitchesByAgency = (numberOfPitchesByAgency["won"] != nil ? numberOfPitchesByAgency["won"] : 0)
+    var numberOfLostPitchesByAgency = 0
+    var numberOfWonPitchesByAgency = 0
     
-    let finalPercentage: CGFloat = CGFloat(CGFloat(numberOfWonPitchesByAgency!)) / CGFloat(numberOfLostPitchesByAgency! + numberOfWonPitchesByAgency!)
+    if UserSession.session.role == "2" {
+    
+      numberOfLostPitchesByAgency = (numberOfPitchesByAgency["lost"] != nil ? numberOfPitchesByAgency["lost"]! : 0)
+      numberOfWonPitchesByAgency = (numberOfPitchesByAgency["won"] != nil ? numberOfPitchesByAgency["won"]! : 0)
+      
+    } else
+      if UserSession.session.role == "4" {
+        
+        numberOfLostPitchesByAgency = (numberOfPitchesByCompany["lost"] != nil ? numberOfPitchesByCompany["lost"]! : 0)
+        numberOfWonPitchesByAgency = (numberOfPitchesByCompany["won"] != nil ? numberOfPitchesByCompany["won"]! : 0)
+        
+      }
+    
+    var finalPercentage: CGFloat = 0.0
+    
+    if numberOfWonPitchesByAgency != 0 && numberOfLostPitchesByAgency != 0 {
+      
+      finalPercentage = CGFloat(CGFloat(numberOfWonPitchesByAgency)) / CGFloat(numberOfLostPitchesByAgency + numberOfWonPitchesByAgency)
+      
+    }
     
 //    let stringNumber: String = String(format: "%.1f", Double(finalPercentage))
 //    finalPercentage = CGFloat((stringNumber as NSString).floatValue)

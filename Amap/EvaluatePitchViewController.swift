@@ -340,7 +340,7 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
             UtilityManager.sharedInstance.hideLoader()
             
             let alertController = UIAlertController(title: "ERROR",
-                                                  message: message,
+                                                  message: "Ya tenemos registrado un proyecto con la misma información para tu agencia, ve a editar a tus tarjetas de pitches o crea un nuevo proyecto",
                                            preferredStyle: UIAlertControllerStyle.Alert)
             
             let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in

@@ -1653,7 +1653,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   func declineEvaluationPitch(params: [String: AnyObject]) {
     
-    let alertController = UIAlertController(title: "Declinar Evaluación", message: "¿Deseas declinar la evaluación?", preferredStyle: UIAlertControllerStyle.Alert)
+    let alertController = UIAlertController(title: "Declinar Evaluación", message: "¿Estás seguro que vas a declinar este pitch?", preferredStyle: UIAlertControllerStyle.Alert)
     
     let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
       
@@ -1693,7 +1693,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   func cancelEvaluationPitch(params: [String: AnyObject]) {
     
-    let alertController = UIAlertController(title: "Cancelar Evaluación", message: "¿Deseas cancelar la evaluación?", preferredStyle: UIAlertControllerStyle.Alert)
+    let alertController = UIAlertController(title: "Cancelar Evaluación", message: "¿Estás seguro de que cancelaron este pitch?", preferredStyle: UIAlertControllerStyle.Alert)
     
     let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
       
@@ -2117,6 +2117,20 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
     self.onlyRemoveLookForCardView()
     self.showAddPitchButton()
+    
+  }
+  
+  func lookForThisPitch(params: [String : AnyObject], sender: LookForPitchCardView) {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToSearchPitch(params) { (allPitches) in
+    
+      sender.setArrayOfAllProjectsPitches(allPitches)
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+    }
     
   }
   

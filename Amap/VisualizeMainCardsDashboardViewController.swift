@@ -35,7 +35,9 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   private var graphAgencyVSIndustry: GraphOfAgencyVSIndustryView! = nil
   
   //For Company
-  private var gralCompanyPerformanceCardView: GeneralPerformanceCardView! = nil
+  private var gralOwnStatisticsPerformanceCardView: GeneralPerformanceCardView! = nil
+  private var numberOfPitchesByMyself = [String: Int]()
+  private var arrayOfOwnBrands = [BrandModelData]()
   //
   
   private var arrayOfUsers = [AgencyUserModelData]()
@@ -252,7 +254,19 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
           "won":      5
         ]
         
-        self.createCards()
+        UtilityManager.sharedInstance.showLoader()
+        
+        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSummaryByClient({ (numberOfPitchesByClientForDashboardSummary, arrayOfBrands) in
+          
+          self.arrayOfOwnBrands = arrayOfBrands
+          self.numberOfPitchesByMyself = numberOfPitchesByClientForDashboardSummary
+          
+          self.createCards()
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          
+        })
         
       }
     
@@ -454,39 +468,33 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     mainScrollView.addSubview(firstCard)
     mainScrollView.addSubview(thirdCard)
     
-    var agencyUser = AgencyUserModelData.init(newId: "-1",
-                                              newFirstName: "Void",
-                                              newLastName: "")
-    
-    if UserSession.session.role == "2" {
-      
-      agencyUser = AgencyUserModelData.init(newId: AgencyModel.Data.id,
-                                            newFirstName: AgencyModel.Data.name,
-                                            newLastName: "")
-      
-    } else
-      if UserSession.session.role == "4" {
-        
-        agencyUser = AgencyUserModelData.init(newId: MyCompanyModelData.Data.id,
+    let companyUser = AgencyUserModelData.init(newId: MyCompanyModelData.Data.id,
                                               newFirstName: MyCompanyModelData.Data.name,
                                               newLastName: "")
-        
-    }
+    
+    let myCompany = BrandModelData.init(newId: MyCompanyModelData.Data.id,
+                                          newName: MyCompanyModelData.Data.name,
+                                   newContactName: nil,
+                                  newContactEMail: nil,
+                               newContactPosition: nil,
+                            newProprietaryCompany: nil)
     
     var finalUsersforGeneralPerformance = arrayOfUsers
-    finalUsersforGeneralPerformance.insert(agencyUser, atIndex: 0)
+    finalUsersforGeneralPerformance.insert(companyUser, atIndex: 0)
+    
+    var finalUserForOwnStatistics = arrayOfOwnBrands
+    finalUserForOwnStatistics.insert(myCompany, atIndex: 0)
     
     gralPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForSecondCard, newArrayOfUsers: finalUsersforGeneralPerformance,
         newNumberOfPitchesByAgency: numberOfPitchesByAgency)
     gralPerformanceCardView.delegate = self
     mainScrollView.addSubview(gralPerformanceCardView)
     
-    gralCompanyPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForThirdCard,
-      newArrayOfUsers: finalUsersforGeneralPerformance,
-      newNumberOfPitchesByAgency: numberOfPitchesByAgency)
-    mainScrollView.addSubview(gralCompanyPerformanceCardView)
+    gralOwnStatisticsPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForThirdCard,
+      newArrayOfBrands: finalUserForOwnStatistics,
+      newNumberOfPitchesByCompany: numberOfPitchesByMyself)
     
-    
+    mainScrollView.addSubview(gralOwnStatisticsPerformanceCardView)
     
   }
   
@@ -804,11 +812,11 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
             }
             
             let newFramePosition = CGRect.init(x: newPositionInX,
-                                               y: gralCompanyPerformanceCardView.frame.origin.y,
-                                               width: gralCompanyPerformanceCardView.frame.size.width,
-                                               height: gralCompanyPerformanceCardView.frame.size.height)
+                                               y: gralOwnStatisticsPerformanceCardView.frame.origin.y,
+                                               width: gralOwnStatisticsPerformanceCardView.frame.size.width,
+                                               height: gralOwnStatisticsPerformanceCardView.frame.size.height)
             
-            gralCompanyPerformanceCardView.frame = newFramePosition
+            gralOwnStatisticsPerformanceCardView.frame = newFramePosition
             
             let newFramePositionForSecondCard = CGRect.init(x: newPositionInXForSecondCard,
                                                             y: gralPerformanceCardView.frame.origin.y,
@@ -850,11 +858,11 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
               thirdCard.frame = newFramePosition
               
               let newFramePositionForSecondCard = CGRect.init(x: newPositionInXForSecondCard,
-                                                              y: gralCompanyPerformanceCardView.frame.origin.y,
-                                                              width: gralCompanyPerformanceCardView.frame.size.width,
-                                                              height: gralCompanyPerformanceCardView.frame.size.height)
+                                                              y: gralOwnStatisticsPerformanceCardView.frame.origin.y,
+                                                              width: gralOwnStatisticsPerformanceCardView.frame.size.width,
+                                                              height: gralOwnStatisticsPerformanceCardView.frame.size.height)
               
-              gralCompanyPerformanceCardView.frame = newFramePositionForSecondCard
+              gralOwnStatisticsPerformanceCardView.frame = newFramePositionForSecondCard
               
         }
         

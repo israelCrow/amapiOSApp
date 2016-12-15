@@ -9,6 +9,7 @@ pod 'GooglePlacePicker'
 pod 'GoogleMaps'
 pod 'YouTubePlayer'
 pod 'YTVimeoExtractor'
+pod 'CorePlot', '2.1'
 
 end
 

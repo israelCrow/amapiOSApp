@@ -244,7 +244,7 @@ class CreateAddNewPitchAndWriteProjectNameViewController: UIViewController, AddP
             UtilityManager.sharedInstance.hideLoader()
             
             let alertController = UIAlertController(title: "ERROR",
-              message: errorMessage,
+              message: "Ya tenemos registrado un proyecto con la misma información para tu agencia, ve a editar a tus tarjetas de pitches o crea un nuevo proyecto",
               preferredStyle: UIAlertControllerStyle.Alert)
             
             let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in

@@ -199,60 +199,16 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
     
     //------------------------------------------SCREENS
     
-    let frameForScreensOfScrollView = CGRect.init(x: 0.0,
-                                                  y: 0.0,
-                                                  width: frameForCards.size.width,
-                                                  height: 316.0 * UtilityManager.sharedInstance.conversionHeight)
+//    let frameForScreensOfScrollView = CGRect.init(x: 0.0,
+//                                                  y: 0.0,
+//                                                  width: frameForCards.size.width,
+//                                                  height: 316.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let companyConflict = CompanyConflictsView.init(frame: frameForScreensOfScrollView)
-//    infoVisualize.delegate = self
-//    infoVisualize.backgroundColor = UIColor.clearColor()
-//    scrollViewFrontFlipCard.addSubview(infoVisualize)
-//    profilePicNameButtonsView.animateWhenInfoIsShowing()
+//    let companyConflict = CompanyConflictsView.init(frame: frameForScreensOfScrollView)
 //    
-//    let criteriaVisualize = VisualizeCriteriaView.init(frame: CGRect.init(x: frameForCards.size.width * 1,
-//      y: frameForScreensOfScrollView.origin.y,
-//      width: frameForScreensOfScrollView.size.width,
-//      height: frameForScreensOfScrollView.size.height))
-//    criteriaVisualize.backgroundColor = UIColor.clearColor()
-//    scrollViewFrontFlipCard.addSubview(criteriaVisualize)
-//    
-//    let exclusiveVisualize = VisualizeExclusiveView.init(frame: CGRect.init(x: frameForCards.size.width * 2,
-//      y: frameForScreensOfScrollView.origin.y,
-//      width: frameForScreensOfScrollView.size.width,
-//      height: frameForScreensOfScrollView.size.height))
-//    exclusiveVisualize.backgroundColor = UIColor.clearColor()
-//    scrollViewFrontFlipCard.addSubview(exclusiveVisualize)
-//    
-//    let participateInVisualize = VisualizeParticipateInView.init(frame: CGRect.init(x: frameForCards.size.width * 3,
-//      y: frameForScreensOfScrollView.origin.y,
-//      width: frameForScreensOfScrollView.size.width,
-//      height: frameForScreensOfScrollView.size.height))
-//    participateInVisualize.backgroundColor = UIColor.clearColor()
-//    scrollViewFrontFlipCard.addSubview(participateInVisualize)
-//    
-//    //    let numberEmployees = VisualizeNumberOfEmployeesView.init(frame: CGRect.init(x: frameForCards.size.width * 4,
-//    //      y: frameForScreensOfScrollView.origin.y,
-//    //      width: frameForScreensOfScrollView.size.width,
-//    //      height: frameForScreensOfScrollView.size.height))
-//    //    scrollViewFrontFlipCard.addSubview(numberEmployees)
-//    
-//    visualizeCases = VisualizeCasesView.init(frame: CGRect.init(x: frameForCards.size.width * 4,
-//      y: frameForScreensOfScrollView.origin.y,
-//      width: frameForScreensOfScrollView.size.width,
-//      height: frameForScreensOfScrollView.size.height))
-//    visualizeCases.justVisualizeDelegate = self
-//    scrollViewFrontFlipCard.addSubview(visualizeCases)
-//    
-//    skillsView = VisualizeSkillsView.init(frame: CGRect.init(x: frameForCards.size.width * 5,
-//      y: frameForScreensOfScrollView.origin.y,
-//      width: frameForScreensOfScrollView.size.width,
-//      height: frameForScreensOfScrollView.size.height))
-//    scrollViewFrontFlipCard.addSubview(skillsView)
-//    skillsView.getAllSkillsFromServer()
-//    skillsView.delegate = self
-//    
-    scrollViewFrontFlipCard.addSubview(companyConflict)
+//    scrollViewFrontFlipCard.addSubview(companyConflict)
+    
+    
     frontViewOfFlipCard.addSubview(scrollViewFrontFlipCard)
 //
 //    if numberOfPageToMove != nil {
