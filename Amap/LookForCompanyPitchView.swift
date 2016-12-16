@@ -51,7 +51,7 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
   }
   
   private func adaptMyself() {
-    self.backgroundColor = UIColor.clearColor()
+    self.backgroundColor = UIColor.redColor()
     self.layer.shadowColor = UIColor.blackColor().CGColor
     self.layer.shadowOpacity = 0.25
     self.layer.shadowOffset = CGSizeZero
@@ -88,8 +88,8 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
   
   private func createSearchView() {
     
-    let frameForSearchView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: 25.0 * UtilityManager.sharedInstance.conversionHeight,
+    let frameForSearchView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: 0.0 * UtilityManager.sharedInstance.conversionHeight,
                                          width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                          height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -133,7 +133,7 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
     )
     noResultsLabel.attributedText = stringWithFormat
     noResultsLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 45.0 * UtilityManager.sharedInstance.conversionWidth,
+    let newFrame = CGRect.init(x: 7.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 105.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: noResultsLabel.frame.size.width,
                                height: noResultsLabel.frame.size.height)
@@ -148,7 +148,7 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
   
   private func createMainTableView() {
     
-    let frameForTableView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+    let frameForTableView = CGRect.init(x: 7.0 * UtilityManager.sharedInstance.conversionWidth,
                                         y: 81.0 * UtilityManager.sharedInstance.conversionHeight,
                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 335.0 * UtilityManager.sharedInstance.conversionHeight)

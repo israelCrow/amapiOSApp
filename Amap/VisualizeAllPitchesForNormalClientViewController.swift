@@ -150,7 +150,7 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
 //    self.view.addSubview(searchView)
     
     
-    let frameForNewView = CGRect.init(x: (42.5 * UtilityManager.sharedInstance.conversionWidth),
+    let frameForNewView = CGRect.init(x: (self.view.frame.size.width / 2.0) - (110.0 * UtilityManager.sharedInstance.conversionWidth),
                                       y: 40.0 * UtilityManager.sharedInstance.conversionHeight,
                                       width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                       height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
