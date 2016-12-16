@@ -96,7 +96,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
       }
       
     } else
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
         for brand in arrayOfBrandsWithCompanyModelData {
           
@@ -156,7 +156,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     
     var textForselector = VisualizeDashboardConstants.GeneralPerformanceCardView.selectorLabelText
     
-    if UserSession.session.role == "4" && titleText != nil {
+    if (UserSession.session.role == "4" || UserSession.session.role == "5") && titleText != nil {
       
       self.createTitleLabel()
       
@@ -255,7 +255,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
       ]
       
     } else
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
         let numberOfHappitchesByCompany = (numberOfPitchesByCompany["happitch"] != nil ? numberOfPitchesByCompany["happitch"] : 0)
         let numberOfHappiesByCompany = (numberOfPitchesByCompany["happy"] != nil ? numberOfPitchesByCompany["happy"] : 0)
@@ -304,7 +304,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
       numberOfWonPitchesByAgency = (numberOfPitchesByAgency["won"] != nil ? numberOfPitchesByAgency["won"]! : 0)
       
     } else
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5"  {
         
         numberOfLostPitchesByAgency = (numberOfPitchesByCompany["lost"] != nil ? numberOfPitchesByCompany["lost"]! : 0)
         numberOfWonPitchesByAgency = (numberOfPitchesByCompany["won"] != nil ? numberOfPitchesByCompany["won"]! : 0)
@@ -371,7 +371,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
       
       
     }else
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5"  {
         
         
         

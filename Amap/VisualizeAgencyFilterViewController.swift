@@ -184,7 +184,7 @@ class VisualizeAgencyFilterViewController: UIViewController, LookForAgencyViewDe
     
     super.viewWillAppear(animated)
     
-    if UserSession.session.role == "4" {
+    if UserSession.session.role == "4" || UserSession.session.role == "5" {
       
       AgencyModel.Data.reset()
       lookForAgencyView.resetValues()

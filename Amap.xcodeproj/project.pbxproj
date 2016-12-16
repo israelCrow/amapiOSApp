@@ -43,6 +43,7 @@
 		AA0BD36C1DB54BAC0057387D /* DeclinedPitchEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0BD36B1DB54BAC0057387D /* DeclinedPitchEvaluationView.swift */; };
 		AA0BD36E1DB54CD40057387D /* DeletedPitchEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0BD36D1DB54CD40057387D /* DeletedPitchEvaluationView.swift */; };
 		AA0BD3701DB54F840057387D /* ArchivedPitchEvaluationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0BD36F1DB54F840057387D /* ArchivedPitchEvaluationView.swift */; };
+		AA0EE49A1E0455FC006F7057 /* LookForCompanyPitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0EE4991E0455FC006F7057 /* LookForCompanyPitchView.swift */; };
 		AA0FE9BE1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0FE9BD1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift */; };
 		AA0FE9C31D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0FE9C21D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift */; };
 		AA104AA01DFA6CBE00129935 /* VisualizePitchInformationForCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA104A9F1DFA6CBE00129935 /* VisualizePitchInformationForCompanyViewController.swift */; };
@@ -367,6 +368,7 @@
 		AA0BD36B1DB54BAC0057387D /* DeclinedPitchEvaluationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeclinedPitchEvaluationView.swift; sourceTree = "<group>"; };
 		AA0BD36D1DB54CD40057387D /* DeletedPitchEvaluationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletedPitchEvaluationView.swift; sourceTree = "<group>"; };
 		AA0BD36F1DB54F840057387D /* ArchivedPitchEvaluationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedPitchEvaluationView.swift; sourceTree = "<group>"; };
+		AA0EE4991E0455FC006F7057 /* LookForCompanyPitchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookForCompanyPitchView.swift; sourceTree = "<group>"; };
 		AA0FE9BD1D7609CD00ADCB63 /* VisualizeAgencyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeAgencyProfileViewController.swift; sourceTree = "<group>"; };
 		AA0FE9C21D76521400ADCB63 /* AgencyProfileVisualizeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgencyProfileVisualizeConstants.swift; sourceTree = "<group>"; };
 		AA104A9F1DFA6CBE00129935 /* VisualizePitchInformationForCompanyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizePitchInformationForCompanyViewController.swift; sourceTree = "<group>"; };
@@ -1292,6 +1294,7 @@
 		AAB974021DF8B08F0024B663 /* Visualize */ = {
 			isa = PBXGroup;
 			children = (
+				AA0EE4991E0455FC006F7057 /* LookForCompanyPitchView.swift */,
 				AA104AA31DFA7A8D00129935 /* PitchCardForCompany */,
 			);
 			name = Visualize;
@@ -1932,6 +1935,7 @@
 				AA4ADD5C1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift in Sources */,
 				AA2DB84C1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift in Sources */,
 				AAE2216D1DCBB1A0000361E7 /* EditPitchEvaluationView.swift in Sources */,
+				AA0EE49A1E0455FC006F7057 /* LookForCompanyPitchView.swift in Sources */,
 				AA13CDE61DFB5780002E1A4D /* VisualizeCompanyProfileViewController.swift in Sources */,
 				AA68D8EA1D834CB500DD1411 /* AddPitchAndWriteBrandNameView.swift in Sources */,
 				AA25D5DE1DC3AE6B00C9E59F /* GeneralPerformanceCardView.swift in Sources */,

@@ -130,7 +130,7 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     
     var barDescription = "Agencia"
     
-    if UserSession.session.role == "4" {
+    if UserSession.session.role == "4" || UserSession.session.role == "5"  {
       
       barDescription = MyCompanyModelData.Data.name
       

@@ -88,7 +88,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
       }
       
     } else
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
         
         
@@ -117,7 +117,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
       self.navigationItem.leftBarButtonItem = backButton
       
     } else
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
         let backButton = UIBarButtonItem(title: "Atrás",
                                          style: UIBarButtonItemStyle.Plain,
@@ -185,7 +185,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
       self.navigationItem.rightBarButtonItem = rightButton
       
     } else
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
         let rightButton = UIBarButtonItem(title: "",
                                           style: UIBarButtonItemStyle.Plain,
@@ -308,7 +308,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
                                              width: frameForCards.size.width,
                                              height: 315.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    if UserSession.session.role == "4" {
+    if UserSession.session.role == "4" || UserSession.session.role == "5" {
       
       realFrameForScrollView = CGRect.init(x: frameForCards.origin.x,
                                            y: 219.0 * UtilityManager.sharedInstance.conversionHeight,
@@ -534,7 +534,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
                                           height: sizeForButtons.height)
     
     
-    if UserSession.session.role == "4" {
+    if UserSession.session.role == "4" || UserSession.session.role == "5" {
       
       frameForLeftButton = CGRect.init(x: 23.0 * UtilityManager.sharedInstance.conversionWidth,
                                        y: 213.0 * UtilityManager.sharedInstance.conversionHeight,
@@ -857,7 +857,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
  
     } else
     
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
         //MakeSomething If necessary
         print()
  

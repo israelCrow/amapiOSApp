@@ -298,7 +298,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                     }
                     
                   }else
-                    if UserSession.session.role == "4" {
+                    if UserSession.session.role == "4" || UserSession.session.role == "5"  {
                       
                       RequestToServerManager.sharedInstance.requestForCompanyData({
                         
@@ -385,7 +385,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
       
     } else
     
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5"  {
         
         arrayOfViewControllers.append(self.createFirstBarItem())
         arrayOfViewControllers.append(self.createSecondBarItemForCompanyUser())

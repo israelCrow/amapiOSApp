@@ -42,7 +42,7 @@ class PitchCardForNormalClientView: UIView, CPTPieChartDataSource {
     let happitchPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["happitch"] as! Int) / 100.0)
     let happyPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["happy"] as! Int) / 100.0)
     let okPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["ok"] as! Int) / 100.0)
-    let sadPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["sad"] as! Int) / 100.0)
+    let sadPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["unhappy"] as! Int) / 100.0)
     
     dataForChart = [happitchPercentage, happyPercentage, okPercentage, sadPercentage]
 //    dataForChart = [0.25, 0.25, 0.25, 0.25]
@@ -217,7 +217,7 @@ class PitchCardForNormalClientView: UIView, CPTPieChartDataSource {
       VisualizeDashboardConstants.Faces.kGold:   pitchData.pitchTypesPercentage["happitch"] as! Int,
       VisualizeDashboardConstants.Faces.kSilver: pitchData.pitchTypesPercentage["happy"] as! Int,
       VisualizeDashboardConstants.Faces.kMedium: pitchData.pitchTypesPercentage["ok"] as! Int,
-      VisualizeDashboardConstants.Faces.kBad:    pitchData.pitchTypesPercentage["sad"] as! Int
+      VisualizeDashboardConstants.Faces.kBad:    pitchData.pitchTypesPercentage["unhappy"] as! Int
     ]
     
     let frameForFacesView = CGRect.init(x: (self.frame.size.width / 2.0) - (110.0 * UtilityManager.sharedInstance.conversionWidth),

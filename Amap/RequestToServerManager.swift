@@ -821,7 +821,7 @@ class RequestToServerManager: NSObject {
               
             } else
               
-              if UserSession.session.role == "4" {
+              if UserSession.session.role == "4" || UserSession.session.role == "5"  {
                 
                 var newArrayOfPitchesByUserForCompany = [PitchEvaluationByUserModelDataForCompany]()
                 
@@ -1186,7 +1186,7 @@ class RequestToServerManager: NSObject {
             
             } else
             
-              if UserSession.session.role == "4" {
+              if UserSession.session.role == "4" || UserSession.session.role == "5"  {
                 
                 var newArrayOfPitchesByUserForCompany = [PitchEvaluationByUserModelDataForCompany]()
                 

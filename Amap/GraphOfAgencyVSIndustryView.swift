@@ -104,7 +104,7 @@ class GraphOfAgencyVSIndustryView: UIView {
       ]
     )
     
-    if UserSession.session.role == "4" {
+    if UserSession.session.role == "4" || UserSession.session.role == "5" {
       
       stringWithFormat = NSMutableAttributedString(
         string: VisualizeDashboardConstants.GraphOfAgencyVSIndustry.companyPerformanceLabelText,
@@ -146,7 +146,7 @@ class GraphOfAgencyVSIndustryView: UIView {
       stringName = AgencyModel.Data.name
       
     } else
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
       
         stringName = MyCompanyModelData.Data.name
         

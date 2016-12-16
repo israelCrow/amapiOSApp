@@ -89,7 +89,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
       }
       
     } else
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
         
         
@@ -117,7 +117,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
       ]
     )
     
-    if UserSession.session.role == "4" {
+    if UserSession.session.role == "4" || UserSession.session.role == "5" {
       
       stringWithFormat = NSMutableAttributedString(
         string: VisualizeDashboardConstants.VisualizeMainCardsDashboardViewController.navigationBarTitleTextForCompany,
@@ -170,7 +170,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
                                               height: UIScreen.mainScreen().bounds.height)
       
     }else
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
         mainScrollView.contentSize = CGSize.init(width: UIScreen.mainScreen().bounds.width * CGFloat(kNumberOfCardsForCompany),
                                                  height: UIScreen.mainScreen().bounds.height)
@@ -222,7 +222,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
       }
       
     } else
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
         let userOne =  AgencyUserModelData.init(newId: "-1",
                                          newFirstName: "Usuario 1",
@@ -280,7 +280,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
       self.createGeneralPerformanceCard()
       
     } else
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
         self.createCardsForCompany()
         
@@ -374,7 +374,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
                                               newLastName: "")
     
     } else
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
         agencyUser = AgencyUserModelData.init(newId: MyCompanyModelData.Data.id,
                                               newFirstName: MyCompanyModelData.Data.name,
@@ -768,7 +768,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
       
     } else
       
-      if UserSession.session.role == "4" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
         if mainScrollView.contentOffset.x > 0.0 && mainScrollView.contentOffset.x < UIScreen.mainScreen().bounds.size.width {
           

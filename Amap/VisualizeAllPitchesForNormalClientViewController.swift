@@ -22,7 +22,10 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
   
   private var mainCarousel: iCarousel! = nil
   private var frontCard: PitchCardForNormalClientView! = nil
-  private var searchView: CustomTextFieldWithTitleView! = nil
+  
+  private var searchView: LookForCompanyPitchView! = nil
+  
+//  private var searchView: CustomTextFieldWithTitleView! = nil
   private var arrayOfPitchesByUser = [PitchEvaluationByUserModelDataForCompany]()
   private var arrayOfPitchesByUserWithoutModifications = [PitchEvaluationByUserModelDataForCompany]()
   
@@ -132,19 +135,31 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
   
   private func createSearchView() {
     
-    let frameForSearchView = CGRect.init(x: 78.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: 70.0 * UtilityManager.sharedInstance.conversionHeight,
-                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
+//    let frameForSearchView = CGRect.init(x: 78.0 * UtilityManager.sharedInstance.conversionWidth,
+//                                         y: 70.0 * UtilityManager.sharedInstance.conversionHeight,
+//                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+//                                         height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
+//    
+//    searchView = CustomTextFieldWithTitleView.init(frame: frameForSearchView,
+//                                                   title: nil,
+//                                                   image: "smallSearchIcon")
+//    searchView.backgroundColor = UIColor.clearColor()
+//    searchView.mainTextField.tag = -8888
+//    searchView.mainTextField.delegate = self
+//    
+//    self.view.addSubview(searchView)
     
-    searchView = CustomTextFieldWithTitleView.init(frame: frameForSearchView,
-                                                   title: nil,
-                                                   image: "smallSearchIcon")
-    searchView.backgroundColor = UIColor.clearColor()
-    searchView.mainTextField.tag = -8888
-    searchView.mainTextField.delegate = self
+    
+    let frameForNewView = CGRect.init(x: (42.5 * UtilityManager.sharedInstance.conversionWidth),
+                                      y: 40.0 * UtilityManager.sharedInstance.conversionHeight,
+                                      width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                      height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    searchView = LookForCompanyPitchView.init(frame: frameForNewView,
+                          newArrayOfPitchesToFilter: [PitchEvaluationByUserModelData]())
     
     self.view.addSubview(searchView)
+    
     
   }
   
