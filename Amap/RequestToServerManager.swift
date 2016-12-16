@@ -2586,6 +2586,55 @@ class RequestToServerManager: NSObject {
   }
   
   
+  func requestToGetPitchEvaluationsDashboardSummaryByBrand(params: [String: AnyObject], actionsToMakeAfterGettingInfoByBrand:(numberOfPitchesByBrandForDashboardSummary: [String: Int]) -> Void) {
+    
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/pitch_evaluations/dashboard_summary_by_brand"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<400)
+      .responseJSON{ response in
+        
+        //print(response)
+        
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          let numberOfHappitchesByCompany = (json["happitch"] as? Int != nil ? json["happitch"] as! Int : 0)
+          let numberOfHappiesByCompany = (json["happy"] as? Int != nil ? json["happy"] as! Int : 0)
+          let numberOfOksByCompany = (json["ok"] as? Int != nil ? json ["ok"] as! Int : 0)
+          let numberOfUnhappiesByCompany = (json["unhappy"] as? Int != nil ? json["unhappy"] as! Int : 0)
+          let numberOfLostPitchesByCompany = (json["lost"] as? Int != nil ? json["lost"] as! Int : 0)
+          let numberOfWonPitchesByCompany = (json["won"] as? Int != nil ? json["won"] as! Int : 0)
+          
+          let finalNumberOfPitchesByCompany = [
+            "happitch": numberOfHappitchesByCompany,
+            "happy":    numberOfHappiesByCompany,
+            "ok":       numberOfOksByCompany,
+            "unhappy":  numberOfUnhappiesByCompany,
+            "lost":     numberOfLostPitchesByCompany,
+            "won":      numberOfWonPitchesByCompany
+          ]
+          
+          actionsToMakeAfterGettingInfoByBrand(numberOfPitchesByBrandForDashboardSummary: finalNumberOfPitchesByCompany)
+          
+        }else{
+          
+          UtilityManager.sharedInstance.hideLoader()
+          print("ERROR GETTING SUMMARY BY USER")
+        }
+        
+    }
+    
+  }
+  
   
   
   func requestToGetPitchEvaluationsDashboardSumaryByAgency(actionsToMakeAfterGetingInfo: (numberOfPitchesByAgencyForDashboardSumary: [String: Int] , arrayOfUsers: [AgencyUserModelData]) -> Void) {

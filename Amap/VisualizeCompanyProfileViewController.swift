@@ -124,7 +124,7 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
   }
   
   private func initInterface() {
-      
+    
     self.createAndAddFlipCard()
     
   }
@@ -222,22 +222,22 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
   
   override func viewWillAppear(animated: Bool) {
     
-    super.viewWillAppear(animated)
-    
-    UtilityManager.sharedInstance.showLoader()
-    
-    RequestToServerManager.sharedInstance.requestForCompanyData({
-      
-      if self.topDetailCompanyView != nil {
-        
-        self.topDetailCompanyView.reloadDataToShow(self.logoURLBeforeChangeViewController != MyCompanyModelData.Data.logoURL)
-        
-      }
-      
-      UtilityManager.sharedInstance.hideLoader()
-      
-      
-    })
+//    super.viewWillAppear(animated)
+//    
+//    UtilityManager.sharedInstance.showLoader()
+//    
+//    RequestToServerManager.sharedInstance.requestForCompanyData({
+//      
+//      if self.topDetailCompanyView != nil {
+//        
+//        self.topDetailCompanyView.reloadDataToShow(self.logoURLBeforeChangeViewController != MyCompanyModelData.Data.logoURL)
+//        
+//      }
+//      
+//      UtilityManager.sharedInstance.hideLoader()
+//      
+//      
+//    })
     
   }
   
@@ -274,7 +274,7 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
   func mailIconPressedFromDetailedInfoView() {
     
     let mailComposeViewController = configuredMailComposeViewController()
-    mailComposeViewController.navigationBar.barTintColor = UIColor.init(white: 1.0, alpha: 1.0)
+    mailComposeViewController.navigationBar.barTintColor = UIColor.whiteColor()
     
     if MFMailComposeViewController.canSendMail() {
       
@@ -292,6 +292,7 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
     
     let mailComposerVC = MFMailComposeViewController()
     mailComposerVC.mailComposeDelegate = self
+    mailComposerVC.navigationBar.barTintColor = UIColor.init(white: 1.0, alpha: 1.0)
     
     mailComposerVC.setToRecipients([MyCompanyModelData.Data.contactEMail])
     mailComposerVC.setSubject("Contactado desde Happitch :)")
@@ -336,6 +337,25 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
   func requestToShowTabBarFromEditCompanyProfileViewControllerDelegate() {
     
     self.delegate?.requestToShowTabBarFromVisualizeCompanyProfileViewControllerDelegate()
+    
+  }
+  
+  func requestToReloadData() {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestForCompanyData({
+      
+      if self.topDetailCompanyView != nil {
+        
+        self.topDetailCompanyView.reloadDataToShow(self.logoURLBeforeChangeViewController != MyCompanyModelData.Data.logoURL)
+        
+      }
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+      
+    })
     
   }
 

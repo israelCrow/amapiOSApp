@@ -28,6 +28,8 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
   private var changeProfileImageButton: UIButton! = nil
   private var deleteProfileImageButton: UIButton! = nil
   
+  private var newImage: UIImage! = nil
+  
   private var companyNameView: CustomTextFieldWithTitleView! = nil
   private var companyEMailView: CustomTextFieldWithTitleView! = nil
   private var companyContactView: CustomTextFieldWithTitleView! = nil
@@ -150,7 +152,7 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
     if MyCompanyModelData.Data.logoURL != nil && MyCompanyModelData.Data.logoURL != "" {
       
       profileImageView.imageFromUrl(MyCompanyModelData.Data.logoURL)
-      
+
     }
     
     mainScrollView.addSubview(profileImageView)
@@ -394,6 +396,7 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
     
     thereAreChanges = true
     profileImageView.image = nil
+    newImage = nil
     
   }
   
@@ -401,6 +404,7 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
     
     thereAreChanges = true
     profileImageView.image = image
+    newImage = image
     
   }
   
@@ -409,7 +413,7 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
     
     var parameters: [String:AnyObject]
     
-    if profileImageView.image != nil {
+    if newImage != nil {
       
       var fileName: String = ""
       
@@ -423,7 +427,7 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
         
       }
       
-      let profileImage = profileImageView.image!
+      let profileImage = newImage
       let profileDataImage = UIImagePNGRepresentation(profileImage)
       
       parameters = [
@@ -442,10 +446,18 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
       
     } else {
       
+      var deleteImage = false
+      
+      if profileImageView.image == nil {
+        
+        deleteImage = true
+        
+      }
+      
       parameters = [
         "auth_token"       : UserSession.session.auth_token,
         "id"               : UserSession.session.company_id,
-        "delete_image"     : true,
+        "delete_image"     : deleteImage,
         "company"          :
           [
             "name"             : companyNameView.mainTextField.text!,

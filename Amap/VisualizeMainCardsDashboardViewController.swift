@@ -15,7 +15,7 @@ protocol VisualizeMainCardsDashboardViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewDelegate,  GrapAccordingToUserViewDelegate, FilterAccordingToUserAndAgencyViewDelegate, GraphOfAgencyVSIndustryViewDelegate, GeneralPerformanceCardViewDelegate {
+class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewDelegate,  GrapAccordingToUserViewDelegate, FilterAccordingToUserAndAgencyViewDelegate, GraphOfAgencyVSIndustryViewDelegate, GeneralPerformanceCardViewDelegate, GeneralPerformanceOwnStatisticsCardViewDelegate {
   
   enum ScrollDirection {
     case toLeft
@@ -35,7 +35,8 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   private var graphAgencyVSIndustry: GraphOfAgencyVSIndustryView! = nil
   
   //For Company
-  private var gralOwnStatisticsPerformanceCardView: GeneralPerformanceCardView! = nil
+  private var companyStatisticsPerformanceCardView: GeneralPerformanceOwnStatisticsCardView! = nil
+  private var gralOwnStatisticsPerformanceCardView: GeneralPerformanceOwnStatisticsCardView! = nil
   private var numberOfPitchesByMyself = [String: Int]()
   private var arrayOfOwnBrands = [BrandModelData]()
   //
@@ -259,7 +260,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
         RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSummaryByClient({ (numberOfPitchesByClientForDashboardSummary, arrayOfBrands) in
           
           self.arrayOfOwnBrands = arrayOfBrands
-          self.numberOfPitchesByMyself = numberOfPitchesByClientForDashboardSummary
+          self.numberOfPitchesByMyself = numberOfPitchesByClientForDashboardSummary //number Of pitches by company
           
           self.createCards()
           
@@ -485,14 +486,45 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     var finalUserForOwnStatistics = arrayOfOwnBrands
     finalUserForOwnStatistics.insert(myCompany, atIndex: 0)
     
-    gralPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForSecondCard, newArrayOfUsers: finalUsersforGeneralPerformance,
-        newNumberOfPitchesByAgency: numberOfPitchesByAgency)
-    gralPerformanceCardView.delegate = self
-    mainScrollView.addSubview(gralPerformanceCardView)
+    let exampleBrand = BrandModelData.init(newId: "-1",
+                                         newName: "Example One",
+                                  newContactName: nil,
+                                 newContactEMail: nil,
+                              newContactPosition: nil,
+                          newProprietaryCompany: nil)
     
-    gralOwnStatisticsPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForThirdCard,
+    let exampleBrandTwo = BrandModelData.init(newId: "-1",
+                                           newName: "Example Two",
+                                           newContactName: nil,
+                                           newContactEMail: nil,
+                                           newContactPosition: nil,
+                                           newProprietaryCompany: nil)
+    
+    let exampleBrandThree = BrandModelData.init(newId: "-1",
+                                           newName: "Example Three",
+                                           newContactName: nil,
+                                           newContactEMail: nil,
+                                           newContactPosition: nil,
+                                           newProprietaryCompany: nil)
+    
+    let arrayOfExampleBrands = [exampleBrand, exampleBrandTwo, exampleBrandThree]
+    
+    companyStatisticsPerformanceCardView = GeneralPerformanceOwnStatisticsCardView.init(frame: frameForSecondCard,
+      newArrayOfBrands: arrayOfExampleBrands,
+      newNumberOfPitchesByCompany: numberOfPitchesByMyself,
+      newTitleText: "Estadísticas de la compañía")
+    mainScrollView.addSubview(companyStatisticsPerformanceCardView)
+    
+//    gralPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForSecondCard, newArrayOfUsers: finalUsersforGeneralPerformance,
+//        newNumberOfPitchesByAgency: numberOfPitchesByAgency)
+//    gralPerformanceCardView.delegate = self
+//    mainScrollView.addSubview(gralPerformanceCardView)
+    
+    gralOwnStatisticsPerformanceCardView = GeneralPerformanceOwnStatisticsCardView.init(frame: frameForThirdCard,
       newArrayOfBrands: finalUserForOwnStatistics,
-      newNumberOfPitchesByCompany: numberOfPitchesByMyself)
+      newNumberOfPitchesByCompany: numberOfPitchesByMyself,
+      newTitleText: "Tus estadísticas")
+    gralOwnStatisticsPerformanceCardView.delegate = self
     
     mainScrollView.addSubview(gralOwnStatisticsPerformanceCardView)
     
@@ -598,26 +630,15 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   
   func requestToGetValuesFromAgency() {
     
-    if UserSession.session.role == "2" {
+    UtilityManager.sharedInstance.showLoader()
       
-      UtilityManager.sharedInstance.showLoader()
-      
-      RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSumaryByAgency { (numberOfPitchesByAgencyForDashboardSumary, arrayOfUsers) in
+    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSumaryByAgency { (numberOfPitchesByAgencyForDashboardSumary, arrayOfUsers) in
         
-        self.gralPerformanceCardView.updateData(numberOfPitchesByAgencyForDashboardSumary)
+      self.gralPerformanceCardView.updateData(numberOfPitchesByAgencyForDashboardSumary)
         
-        UtilityManager.sharedInstance.hideLoader()
+      UtilityManager.sharedInstance.hideLoader()
         
-      }
-      
-    } else
-      if UserSession.session.role == "4" {
-        
-        
-        
-      }
-    
-
+    }
     
   }
   
@@ -778,13 +799,13 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
                                              height: firstCard.frame.size.height)
           
           let newFramePositionForSecondCard = CGRect.init(x: newPositionInXForSecondCard,
-                                                          y: gralPerformanceCardView.frame.origin.y,
-                                                          width: gralPerformanceCardView.frame.size.width,
-                                                          height: gralPerformanceCardView.frame.size.height)
+                                                          y: companyStatisticsPerformanceCardView.frame.origin.y,
+                                                          width: companyStatisticsPerformanceCardView.frame.size.width,
+                                                          height: companyStatisticsPerformanceCardView.frame.size.height)
           
           firstCard.frame = newFramePosition
           
-          gralPerformanceCardView.frame = newFramePositionForSecondCard
+          companyStatisticsPerformanceCardView.frame = newFramePositionForSecondCard
           
         } else
           
@@ -819,11 +840,11 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
             gralOwnStatisticsPerformanceCardView.frame = newFramePosition
             
             let newFramePositionForSecondCard = CGRect.init(x: newPositionInXForSecondCard,
-                                                            y: gralPerformanceCardView.frame.origin.y,
-                                                            width: gralPerformanceCardView.frame.size.width,
-                                                            height: gralPerformanceCardView.frame.size.height)
+                                                            y: companyStatisticsPerformanceCardView.frame.origin.y,
+                                                            width: companyStatisticsPerformanceCardView.frame.size.width,
+                                                            height: companyStatisticsPerformanceCardView.frame.size.height)
             
-            gralPerformanceCardView.frame = newFramePositionForSecondCard
+            companyStatisticsPerformanceCardView.frame = newFramePositionForSecondCard
             
           } else
             
@@ -887,6 +908,37 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
 //    }
 //    
 //    lastOffSetOfMainScroll = mainScrollView.contentOffset
+    
+  }
+  
+  //MARK: - GeneralPerformanceOwnStatisticsCardViewDelegate
+  
+  func requestToGetValuesFromCompany() {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSummaryByClient { (numberOfPitchesByClientForDashboardSummary, arrayOfBrands) in
+      
+      self.gralOwnStatisticsPerformanceCardView.updateData(numberOfPitchesByClientForDashboardSummary)
+      
+       UtilityManager.sharedInstance.hideLoader()
+      
+    }
+  
+  }
+  
+  func requestToGetValuesByBrand(params: [String : AnyObject]) {
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSummaryByBrand(params) { (numberOfPitchesByBrandForDashboardSummary) in
+    
+      self.gralOwnStatisticsPerformanceCardView.updateData(numberOfPitchesByBrandForDashboardSummary)
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+    }
+    
     
   }
   

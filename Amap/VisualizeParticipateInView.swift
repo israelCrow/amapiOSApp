@@ -50,7 +50,7 @@ class VisualizeParticipateInView: UIView {
     
     //left top
     var frameForImageView = CGRect.init(x: 28.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        y: 56.0 * UtilityManager.sharedInstance.conversionHeight,
+                                        y: 47.0 * UtilityManager.sharedInstance.conversionHeight,
                                     width: 60.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -59,7 +59,7 @@ class VisualizeParticipateInView: UIView {
     //right top
     
     frameForImageView = CGRect.init(x: 139.0 * UtilityManager.sharedInstance.conversionWidth,
-                                    y: 56.0 * UtilityManager.sharedInstance.conversionHeight,
+                                    y: 47.0 * UtilityManager.sharedInstance.conversionHeight,
                                 width: 60.0 * UtilityManager.sharedInstance.conversionWidth,
                                height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -69,7 +69,7 @@ class VisualizeParticipateInView: UIView {
     //left bottom
     
     frameForImageView = CGRect.init(x: 28.0 * UtilityManager.sharedInstance.conversionWidth,
-                                    y: 167.0 * UtilityManager.sharedInstance.conversionHeight,
+                                    y: 159.0 * UtilityManager.sharedInstance.conversionHeight,
                                     width: 60.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -78,7 +78,7 @@ class VisualizeParticipateInView: UIView {
     //right bottom
     
     frameForImageView = CGRect.init(x: 139.0 * UtilityManager.sharedInstance.conversionWidth,
-                                    y: 167.0 * UtilityManager.sharedInstance.conversionHeight,
+                                    y: 159.0 * UtilityManager.sharedInstance.conversionHeight,
                                 width: 60.0 * UtilityManager.sharedInstance.conversionWidth,
                                height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
     

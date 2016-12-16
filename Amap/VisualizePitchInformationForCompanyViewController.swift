@@ -41,12 +41,24 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
   
   private func initInterface() {
     
+    self.addGestures()
     self.editNavigationController()
     self.createContainerView()
     self.createMainScrollView()
     self.createPitchCard()
     self.createEvaluationBreakDown()
     self.createRecommendations()
+    self.createSharePitch()
+    
+  }
+  
+  private func addGestures() {
+    
+    let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                              action: #selector(dismissKeyboard))
+    tapToDismissKeyboard.numberOfTapsRequired = 1
+    tapToDismissKeyboard.cancelsTouchesInView = false
+    self.view.addGestureRecognizer(tapToDismissKeyboard)
     
   }
   
@@ -136,7 +148,7 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
                                      height: containerView.frame.size.height)
     
     let sizeForContent = CGSize.init(width: frameForScroll.size.width,
-                                     height: frameForScroll.size.height + (600 * UtilityManager.sharedInstance.conversionHeight))
+                                     height: frameForScroll.size.height + (1180 * UtilityManager.sharedInstance.conversionHeight))
     
     mainScrollView = UIScrollView.init(frame: frameForScroll)
     mainScrollView.backgroundColor = UIColor.whiteColor()
@@ -172,8 +184,6 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
   }
   
   private func createEvaluationBreakDown() {
-    
-    print(pitchData.breakDown)
     
     let deliverablesClear = (pitchData.breakDown["deliverables_clear"] as? Int != nil ? String(pitchData.breakDown["deliverables_clear"] as! Int) : "0")
     
@@ -250,6 +260,37 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
                                            newRecommendations: [String:AnyObject]())
     
     mainScrollView.addSubview(recommendations)
+    
+    let border = CALayer()
+    let width = CGFloat(1)
+    border.borderColor = UIColor.grayColor().CGColor
+    border.borderWidth = width
+    border.frame = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: recommendations.frame.origin.y + recommendations.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                               width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                               height: 1.0 * UtilityManager.sharedInstance.conversionHeight)
+    mainScrollView.layer.addSublayer(border)
+    mainScrollView.layer.masksToBounds = false
+    
+  }
+  
+  private func createSharePitch() {
+    
+    let frameForView = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   y: (1320.0 * UtilityManager.sharedInstance.conversionHeight),
+                               width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                              height: 345.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let sharePitch = PitchCompanyshareView.init(frame: frameForView)
+//    sharePitch.delegate = self
+    
+    mainScrollView.addSubview(sharePitch)
+    
+  }
+  
+  @objc private func dismissKeyboard(sender:AnyObject) {
+    
+    self.view.endEditing(true)
     
   }
   

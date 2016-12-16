@@ -135,6 +135,12 @@ class CircleGraphView: UIView {
   }
   
   private func createGraph() {
+    
+    if percentageOfRate == 0.0 {
+      
+      percentageOfRate = -1.0
+      
+    }
   
     let circlePath = UIBezierPath(arcCenter: CGPoint(x: containerViewForGraph.frame.size.width / 2.0, y: containerViewForGraph.frame.size.height / 2.0),
                                   radius: (containerViewForGraph.frame.size.width - (10.0 * UtilityManager.sharedInstance.conversionWidth))/2,

@@ -41,6 +41,7 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
   private func initInterface() {
     
     self.view.addSubview(self.createGradientView())
+    self.addGestures()
     self.changeNavigationBarTitle()
     self.changeNavigationRigthButtonItem()
     self.createSearchView()
@@ -62,6 +63,22 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
 //      rootViewController.view.addSubview(tutorialPitches)
 //      
     }
+  
+  private func addGestures() {
+    
+    let tapToDismissKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                              action: #selector(dismissKeyboard))
+    tapToDismissKeyboard.numberOfTapsRequired = 1
+    tapToDismissKeyboard.cancelsTouchesInView = false
+    self.view.addGestureRecognizer(tapToDismissKeyboard)
+    
+  }
+  
+  @objc private func dismissKeyboard(sender:AnyObject) {
+    
+    self.view.endEditing(true)
+    
+  }
   
   private func changeNavigationBarTitle() {
     
@@ -361,6 +378,8 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
       self.navigationController?.pushViewController(detailViewController, animated: true)
       
     }
+    
+    self.dismissKeyboard(self)
     
   }
   

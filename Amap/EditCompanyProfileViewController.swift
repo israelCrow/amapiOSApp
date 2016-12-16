@@ -12,6 +12,7 @@ import Alamofire
 protocol EditCompanyProfileViewControllerDelegate {
   
   func requestToShowTabBarFromEditCompanyProfileViewControllerDelegate()
+  func requestToReloadData()
   
 }
 
@@ -24,7 +25,7 @@ class EditCompanyProfileViewController: UIViewController, UIImagePickerControlle
   private var rightButton: UIButton! = nil
   
   private var editProfile: EditCompanyProfileView! = nil
-  private var editConflicts: EditConflictsView! = nil
+//  private var editConflicts: EditConflictsView! = nil
   
   private var actualPage = 0
   
@@ -345,7 +346,7 @@ class EditCompanyProfileViewController: UIViewController, UIImagePickerControlle
     self.requestToEveryScreenToSave(){
       
     self.editProfile.thereAreChanges = false
-    self.editConflicts.thereAreChanges = false
+//    self.editConflicts.thereAreChanges = false
 //      self.criteriaView.thereAreChanges = false
 //      self.participateView.thereAreChanges = false
 //      self.exclusiveView.thereAreChanges = false
@@ -733,6 +734,12 @@ class EditCompanyProfileViewController: UIViewController, UIImagePickerControlle
   @objc private func dismissKeyboard() {
     
     self.view.endEditing(true)
+    
+  }
+  
+  override func viewDidDisappear(animated: Bool) {
+    
+    self.delegate?.requestToReloadData()
     
   }
   

@@ -55,6 +55,13 @@ class DetailedInfoCompanyContactView: UIView {
   
   private func createCompanyLogoView() {
     
+    if companyLogoView != nil {
+      
+      companyLogoView.removeFromSuperview()
+      companyLogoView = nil
+      
+    }
+    
     let frameForProfileImageView = CGRect.init(x: 0.0,
                                                y: 0.0,
                                                width: 48.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -240,12 +247,8 @@ class DetailedInfoCompanyContactView: UIView {
   
   func reloadDataToShow(reloadImage: Bool) {
     
-    if MyCompanyModelData.Data.logoURL != "" && companyLogoView != nil && reloadImage == true {
-      
-      companyLogoView.imageFromUrl(MyCompanyModelData.Data.logoURL!)
-      
-    }
-    
+
+    self.createCompanyLogoView()
     self.createCompanyNameLabel()
     self.createContactNameLabel()
     self.createContactPositionLabel()

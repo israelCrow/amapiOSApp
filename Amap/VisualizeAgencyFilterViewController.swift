@@ -163,6 +163,21 @@ class VisualizeAgencyFilterViewController: UIViewController, LookForAgencyViewDe
 //      
 //    }
     
+    let params = ["auth_token": UserSession.session.auth_token,
+                  "company_id": MyCompanyModelData.Data.id,
+                  "keyword": ""
+    ]
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToGetAgenciesBySearch(params) { (allAgencies) in
+      
+      self.lookForAgencyView.setArrayOfAllAgencies(allAgencies)
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+    }
+    
   }
   
   override func viewWillAppear(animated: Bool) {

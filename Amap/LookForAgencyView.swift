@@ -416,6 +416,13 @@ class LookForAgencyView: UIView, UITableViewDelegate, UITableViewDataSource, UIT
     
     mainTableView.reloadData()
     
+    let params = ["auth_token": UserSession.session.auth_token,
+                  "company_id": MyCompanyModelData.Data.id,
+                  "keyword": ""
+    ]
+    
+    self.delegate?.requestToServerToLookFor(params)
+    
   }
   
   

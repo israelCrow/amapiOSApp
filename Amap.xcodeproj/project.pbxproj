@@ -259,6 +259,9 @@
 		AAE7F2DA1D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7F2D91D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift */; };
 		AAECDF661D51472700CCDA85 /* GoldenPitchLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAECDF651D51472700CCDA85 /* GoldenPitchLoginView.swift */; };
 		AAF347AA1D7A4B0F00D386E5 /* VisualizeNumberOfEmployeesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF347A91D7A4B0F00D386E5 /* VisualizeNumberOfEmployeesView.swift */; };
+		AAFB06421E03BB120032249C /* GeneralPerformanceOwnStatisticsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFB06411E03BB120032249C /* GeneralPerformanceOwnStatisticsCardView.swift */; };
+		AAFB06471E03D1A00032249C /* PitchCompanyShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFB06461E03D1A00032249C /* PitchCompanyShareView.swift */; };
+		AAFB06491E03FDC00032249C /* PitchRecommendationImageLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFB06481E03FDC00032249C /* PitchRecommendationImageLabelView.swift */; };
 		AAFD0E1A1DDCDC620019EF03 /* PitchResultsModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFD0E191DDCDC620019EF03 /* PitchResultsModelData.swift */; };
 		AAFD0E1E1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */; };
 		C04FC772F5442066639C311A /* Pods_Amap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730B22C94A0E292BE5556150 /* Pods_Amap.framework */; };
@@ -537,6 +540,9 @@
 		AAE7F2D91D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCategorySkillCell.swift; sourceTree = "<group>"; };
 		AAECDF651D51472700CCDA85 /* GoldenPitchLoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoldenPitchLoginView.swift; sourceTree = "<group>"; };
 		AAF347A91D7A4B0F00D386E5 /* VisualizeNumberOfEmployeesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeNumberOfEmployeesView.swift; sourceTree = "<group>"; };
+		AAFB06411E03BB120032249C /* GeneralPerformanceOwnStatisticsCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPerformanceOwnStatisticsCardView.swift; sourceTree = "<group>"; };
+		AAFB06461E03D1A00032249C /* PitchCompanyShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchCompanyShareView.swift; sourceTree = "<group>"; };
+		AAFB06481E03FDC00032249C /* PitchRecommendationImageLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchRecommendationImageLabelView.swift; sourceTree = "<group>"; };
 		AAFD0E191DDCDC620019EF03 /* PitchResultsModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchResultsModelData.swift; sourceTree = "<group>"; };
 		AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterAccordingToUserAndAgencyView.swift; sourceTree = "<group>"; };
 		D32EBDE6D734E5F3142D1570 /* Pods-Amap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amap.release.xcconfig"; path = "Pods/Target Support Files/Pods-Amap/Pods-Amap.release.xcconfig"; sourceTree = "<group>"; };
@@ -825,6 +831,7 @@
 			children = (
 				AAB974031DF8B0C50024B663 /* PitchCardForNormalClientView.swift */,
 				AAB974051DF8B33A0024B663 /* PitchCardForNormalClientDescriptionView.swift */,
+				AA104AA51DFA7AB300129935 /* PitchInformation */,
 			);
 			name = PitchCardForCompany;
 			sourceTree = "<group>";
@@ -834,6 +841,7 @@
 			children = (
 				AAC05F901DFB070C0091ADF4 /* PitchRecommendations */,
 				AA104AA81DFA7B6000129935 /* EvaluationBreakDown */,
+				AAFB06451E03D1700032249C /* SharePitchCompany */,
 			);
 			name = PitchInformation;
 			sourceTree = "<group>";
@@ -1285,7 +1293,6 @@
 			isa = PBXGroup;
 			children = (
 				AA104AA31DFA7A8D00129935 /* PitchCardForCompany */,
-				AA104AA51DFA7AB300129935 /* PitchInformation */,
 			);
 			name = Visualize;
 			sourceTree = "<group>";
@@ -1336,6 +1343,7 @@
 			children = (
 				AAC05F931DFB0AC40091ADF4 /* PitchRecommendationsView.swift */,
 				AAC05F951DFB0AE80091ADF4 /* PitchRecommendationView.swift */,
+				AAFB06481E03FDC00032249C /* PitchRecommendationImageLabelView.swift */,
 			);
 			name = PitchRecommendations;
 			sourceTree = "<group>";
@@ -1466,6 +1474,7 @@
 			isa = PBXGroup;
 			children = (
 				AA25D5DD1DC3AE6B00C9E59F /* GeneralPerformanceCardView.swift */,
+				AAFB06411E03BB120032249C /* GeneralPerformanceOwnStatisticsCardView.swift */,
 				AA25D5E01DC3C11900C9E59F /* FacesEvaluationsView.swift */,
 				AA25D5E21DC3DED600C9E59F /* CircleGraphView.swift */,
 				AAD3EEC51DC47B6F00E37ACA /* RecommendationsDashboardView.swift */,
@@ -1481,6 +1490,14 @@
 				AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */,
 			);
 			name = SecondCard;
+			sourceTree = "<group>";
+		};
+		AAFB06451E03D1700032249C /* SharePitchCompany */ = {
+			isa = PBXGroup;
+			children = (
+				AAFB06461E03D1A00032249C /* PitchCompanyShareView.swift */,
+			);
+			name = SharePitchCompany;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1800,8 +1817,10 @@
 				AADC08C21D9C6E0300C5CBCD /* ExclusivityBrandModelData.swift in Sources */,
 				AADA935A1DC1016400CA5DBD /* DidProjectActivePitchSurveyView.swift in Sources */,
 				AA2DB84E1D53B0D900E9FB8A /* ExistingAccountView.swift in Sources */,
+				AAFB06491E03FDC00032249C /* PitchRecommendationImageLabelView.swift in Sources */,
 				AA09496A1D529A59000E76E1 /* CreateAccountConstants.swift in Sources */,
 				AA87B76D1D88723E00BCA3E6 /* DetailedNavigationEvaluatPitchView.swift in Sources */,
+				AAFB06471E03D1A00032249C /* PitchCompanyShareView.swift in Sources */,
 				AAB376921DAF3E0B00830523 /* SkillEvaluationCell.swift in Sources */,
 				AA2DB85C1D53C17400E9FB8A /* ChangePasswordViewController.swift in Sources */,
 				AACBE2871DDE9116007314C3 /* TutorialConstants.swift in Sources */,
@@ -1909,6 +1928,7 @@
 				AA92D60B1D50E7D300CE7D95 /* AppDelegate.swift in Sources */,
 				AAE7F2DA1D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift in Sources */,
 				AA896A471D9ADC3C0046CC26 /* PitchEvaluationModelData.swift in Sources */,
+				AAFB06421E03BB120032249C /* GeneralPerformanceOwnStatisticsCardView.swift in Sources */,
 				AA4ADD5C1DA6CFCF00A06642 /* VisualizeAgencyInfoView.swift in Sources */,
 				AA2DB84C1D539BD500E9FB8A /* SuccessfullyAskForAccountView.swift in Sources */,
 				AAE2216D1DCBB1A0000361E7 /* EditPitchEvaluationView.swift in Sources */,
