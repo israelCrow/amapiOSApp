@@ -875,7 +875,7 @@ class RequestToServerManager: NSObject {
             
             
             
-          }
+          }//
           
           
           
@@ -2832,7 +2832,75 @@ class RequestToServerManager: NSObject {
     
   }
   
-  
+  func requestToSearchCompanyPitch(params: [String: AnyObject], functionToMakeAfterSearching: (allPitches: [PitchEvaluationByUserModelDataForCompany]) -> Void) {
+    
+    //    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_evaluations/search"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          let arrayOfPitchForCompany = json as? Array<[String: AnyObject]>
+          
+          if arrayOfPitchForCompany != nil {
+            
+            var newArrayOfPitchesByUserForCompany = [PitchEvaluationByUserModelDataForCompany]()
+            
+            for pitchEvaluationForCompany in arrayOfPitchForCompany! {
+              
+              let newBrandName = (pitchEvaluationForCompany["brand"] as? String != nil ? pitchEvaluationForCompany["brand"] as! String : "No brand name")
+              let newBriefDate = (pitchEvaluationForCompany["brief_date"] as? String != nil ? pitchEvaluationForCompany["brief_date"] as! String : "01/01/1900")
+              let newBriefEmailContact = (pitchEvaluationForCompany["brief_email_contact"] as? String != nil ? pitchEvaluationForCompany["brief_email_contact"] as! String : "noBriefContact@mail.com")
+              let newCompanyName = (pitchEvaluationForCompany["company"] as? String != nil ? pitchEvaluationForCompany["company"] as! String : "No company name")
+              let newPitchID = (pitchEvaluationForCompany["pitch_id"] as? Int != nil ? String(pitchEvaluationForCompany["pitch_id"] as! Int) : "-1")
+              let newPitchName = (pitchEvaluationForCompany["pitch_name"] as? String != nil ? pitchEvaluationForCompany["pitch_name"] as! String : "No Pitch Name")
+              let newWinner = (pitchEvaluationForCompany["winner"] as? Int != nil ? String(pitchEvaluationForCompany["winner"] as! Int) : "-1")
+              
+              let newBreakDown = (pitchEvaluationForCompany["breakdown"] as? [String: AnyObject] != nil ? pitchEvaluationForCompany["breakdown"] as! [String: AnyObject] : [String: AnyObject]())
+              
+              let newPitchesTypesPercentage = (pitchEvaluationForCompany["pitch_types_percentage"] as? [String: AnyObject] != nil ? pitchEvaluationForCompany["pitch_types_percentage"] as! [String: AnyObject] : [String: AnyObject]())
+              
+              let newPitchEvaluationForCompany = PitchEvaluationByUserModelDataForCompany.init(newBrandName: newBrandName,
+                newBreakDown: newBreakDown,
+                newBriefDate: newBriefDate,
+                newBriefEmailContact: newBriefEmailContact,
+                newCompanyName: newCompanyName,
+                newPitchId: newPitchID,
+                newPitchName: newPitchName,
+                newPitchTypesPercentage: newPitchesTypesPercentage,
+                newWinner: newWinner)
+              
+              newArrayOfPitchesByUserForCompany.append(newPitchEvaluationForCompany)
+              
+            }
+            
+            print(newArrayOfPitchesByUserForCompany)
+            
+            functionToMakeAfterSearching(allPitches: newArrayOfPitchesByUserForCompany)
+            
+          }
+          
+        } else {
+          
+          print("ERROR")
+          UtilityManager.sharedInstance.hideLoader()
+          
+        }
+    }
+    
+  }
 
   
   

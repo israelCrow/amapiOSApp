@@ -18,16 +18,19 @@ protocol VisualizeAllPitchesForNormalClientViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeAllPitchesForNormalClientViewController: UIViewController, UITextFieldDelegate, iCarouselDelegate, iCarouselDataSource {
+class VisualizeAllPitchesForNormalClientViewController: UIViewController, UITextFieldDelegate, iCarouselDelegate, iCarouselDataSource, LookForCompanyPitchViewDelegate {
   
   private var mainCarousel: iCarousel! = nil
   private var frontCard: PitchCardForNormalClientView! = nil
   
   private var searchView: LookForCompanyPitchView! = nil
+  private var noPitchesAssignedView: NoPitchAssignedView! = nil
   
 //  private var searchView: CustomTextFieldWithTitleView! = nil
   private var arrayOfPitchesByUser = [PitchEvaluationByUserModelDataForCompany]()
   private var arrayOfPitchesByUserWithoutModifications = [PitchEvaluationByUserModelDataForCompany]()
+  
+  private var lastPositionOfSearchView: Int! = nil
   
   var delegateForShowAndHideTabBar: VisualizeAllPitchesForNormalClientViewControllerShowAndHideDelegate?
   
@@ -48,6 +51,7 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
     self.changeNavigationBarTitle()
     self.changeNavigationRigthButtonItem()
     self.createSearchView()
+    self.createMainCarousel()
     self.requestForAllPitchesAndTheirEvaluations()
     
 //    self.createFilterButton()
@@ -79,6 +83,8 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
   
   @objc private func dismissKeyboard(sender:AnyObject) {
     
+    
+    self.actionWhenClearTextField(self.searchView)
     self.view.endEditing(true)
     
   }
@@ -135,28 +141,14 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
   
   private func createSearchView() {
     
-//    let frameForSearchView = CGRect.init(x: 78.0 * UtilityManager.sharedInstance.conversionWidth,
-//                                         y: 70.0 * UtilityManager.sharedInstance.conversionHeight,
-//                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-//                                         height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
-//    
-//    searchView = CustomTextFieldWithTitleView.init(frame: frameForSearchView,
-//                                                   title: nil,
-//                                                   image: "smallSearchIcon")
-//    searchView.backgroundColor = UIColor.clearColor()
-//    searchView.mainTextField.tag = -8888
-//    searchView.mainTextField.delegate = self
-//    
-//    self.view.addSubview(searchView)
-    
-    
     let frameForNewView = CGRect.init(x: (self.view.frame.size.width / 2.0) - (110.0 * UtilityManager.sharedInstance.conversionWidth),
                                       y: 40.0 * UtilityManager.sharedInstance.conversionHeight,
                                       width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                       height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
     
     searchView = LookForCompanyPitchView.init(frame: frameForNewView,
-                          newArrayOfPitchesToFilter: [PitchEvaluationByUserModelData]())
+                          newArrayOfPitchesToFilter: arrayOfPitchesByUserWithoutModifications)
+    searchView.delegate = self
     
     self.view.addSubview(searchView)
     
@@ -176,32 +168,71 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
         self.arrayOfPitchesByUser = pitchesForCompany!
         self.arrayOfPitchesByUserWithoutModifications = pitchesForCompany!
         
-        self.createMainCarousel()
-        
-        if self.arrayOfPitchesByUser.count == 1 {
+        if self.arrayOfPitchesByUser.count == 0 {
           
           if self.mainCarousel != nil {
             
-            self.mainCarousel.scrollEnabled = false
-            
-          }
-          
-        } else
-          if self.arrayOfPitchesByUser.count > 1 {
-            
-            if self.mainCarousel != nil {
+            UIView.animateWithDuration(0.2){
               
-              self.mainCarousel.scrollEnabled = true
+              self.mainCarousel.alpha = 0.0
               
             }
             
           }
-        
-        UtilityManager.sharedInstance.hideLoader()
+          
+          self.createAndAddNoPitchesAssignedView()
+          
+        }else{
+          
+          self.hideNoPitchesView()
+          
+          if self.mainCarousel.alpha == 0.0 {
+            
+            UIView.animateWithDuration(0.2) {
+              
+              self.mainCarousel.alpha = 1.0
+              
+            }
+            
+          }
+          
+          if self.arrayOfPitchesByUser.count == 1 {
+            
+            self.mainCarousel.scrollEnabled = false
+            
+          }else{
+            
+            self.mainCarousel.scrollEnabled = true
+            
+          }
+          
+          self.mainCarousel.reloadData()
+          
+        }
         
       }
       
+      UtilityManager.sharedInstance.hideLoader()
+      
     }
+    
+  }
+  
+  private func createAndAddNoPitchesAssignedView() {
+    
+    if noPitchesAssignedView != nil {
+      
+      noPitchesAssignedView.removeFromSuperview()
+      noPitchesAssignedView = nil
+      
+    }
+    
+    let positionForNoPitchesView = CGPoint.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                y: 133.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    noPitchesAssignedView = NoPitchAssignedView.init(position: positionForNoPitchesView)
+
+    self.view.addSubview(noPitchesAssignedView)
     
   }
   
@@ -220,6 +251,20 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
     mainCarousel.dataSource = self
     mainCarousel.alpha = 1.0
     self.view.addSubview(mainCarousel)
+    
+  }
+  
+  private func hideNoPitchesView() {
+    
+    if noPitchesAssignedView != nil && noPitchesAssignedView.alpha != 0.0 {
+      
+      UIView.animateWithDuration(0.2) {
+        
+        self.noPitchesAssignedView.alpha = 0.0
+        
+      }
+      
+    }
     
   }
   
@@ -395,6 +440,51 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
     }
     
     self.dismissKeyboard(self)
+    
+  }
+  
+  //MARK: - LookForCompanyPitchViewDelegate
+  
+  func lookForThisPitchFromCompany(params: [String: AnyObject], sender: LookForCompanyPitchView) {
+   
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToSearchCompanyPitch(params) { (allPitches) in
+      
+      self.searchView.setArrayOfAllProjectsPitches(allPitches)
+      UtilityManager.sharedInstance.hideLoader()
+      
+    }
+    
+  }
+  
+  func lookForThisPitchID(pitchIDToLookFor: String) {
+    
+    for i in 0..<arrayOfPitchesByUserWithoutModifications.count {
+      
+      let pitchData = arrayOfPitchesByUserWithoutModifications[i]
+      if pitchData.pitchId == pitchIDToLookFor {
+        
+        mainCarousel.reloadData()
+        mainCarousel.scrollToItemAtIndex(i, animated: true)
+       
+        return
+        
+      }
+      
+    }
+    
+  }
+  
+  func actionWhenSelectTextField(sender: LookForCompanyPitchView) {
+    
+    self.view.exchangeSubviewAtIndex(self.view.subviews.indexOf(mainCarousel)!, withSubviewAtIndex: self.view.subviews.indexOf(searchView)!)
+    
+  }
+  
+  func actionWhenClearTextField(sender: LookForCompanyPitchView) {
+    
+        self.view.exchangeSubviewAtIndex(self.view.subviews.indexOf(mainCarousel)!, withSubviewAtIndex: self.view.subviews.indexOf(searchView)!)
     
   }
   

@@ -10,9 +10,12 @@ import UIKit
 
 protocol LookForCompanyPitchViewDelegate {
   
-  func lookForThisPitch(params: [String: AnyObject], sender: LookForCompanyPitchView)
+  func lookForThisPitchFromCompany(params: [String: AnyObject], sender: LookForCompanyPitchView)
   func lookForThisPitchID(pitchIDToLookFor: String)
-  func doCancelLookForCard()
+  func actionWhenSelectTextField(sender: LookForCompanyPitchView)
+  func actionWhenClearTextField(sender: LookForCompanyPitchView)
+  
+//  func doCancelLookForCard()
   
 }
 
@@ -22,9 +25,11 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
   private var searchView: CustomTextFieldWithTitleView! = nil
   private var noResultsLabel: UILabel! = nil
   private var mainTableView: UITableView! = nil
-  private var arrayOfFilteredProjects = Array<PitchEvaluationByUserModelData>()
+  private var arrayOfFilteredProjects = Array<PitchEvaluationByUserModelDataForCompany>()
   
-  private var arrayOfAllProjects = Array<PitchEvaluationByUserModelData>()
+  private var arrayOfAllProjects = Array<PitchEvaluationByUserModelDataForCompany>()
+  
+  private var isShowingBackground: Bool = false
   
   var delegate: LookForCompanyPitchViewDelegate?
   
@@ -32,7 +37,7 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(frame: CGRect, newArrayOfPitchesToFilter: [PitchEvaluationByUserModelData]) {
+  init(frame: CGRect, newArrayOfPitchesToFilter: [PitchEvaluationByUserModelDataForCompany]) {
     
     arrayOfAllProjects = newArrayOfPitchesToFilter
     super.init(frame: frame)
@@ -51,7 +56,10 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
   }
   
   private func adaptMyself() {
-    self.backgroundColor = UIColor.redColor()
+    
+    self.layer.cornerRadius = 5.0
+    
+    self.backgroundColor = UIColor.clearColor()
     self.layer.shadowColor = UIColor.blackColor().CGColor
     self.layer.shadowOpacity = 0.25
     self.layer.shadowOffset = CGSizeZero
@@ -133,12 +141,12 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
     )
     noResultsLabel.attributedText = stringWithFormat
     noResultsLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 7.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 105.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: 10.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: 65.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: noResultsLabel.frame.size.width,
                                height: noResultsLabel.frame.size.height)
     
-    noResultsLabel.backgroundColor = UIColor.whiteColor()
+    noResultsLabel.backgroundColor = UIColor.clearColor()
     noResultsLabel.frame = newFrame
     noResultsLabel.alpha = 0.0
     
@@ -148,9 +156,9 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
   
   private func createMainTableView() {
     
-    let frameForTableView = CGRect.init(x: 7.0 * UtilityManager.sharedInstance.conversionWidth,
+    let frameForTableView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
                                         y: 81.0 * UtilityManager.sharedInstance.conversionHeight,
-                                        width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        width: self.frame.size.width,
                                         height: 335.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainTableView = UITableView.init(frame: frameForTableView)
@@ -158,24 +166,22 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
     mainTableView.dataSource = self
     mainTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
     mainTableView.alpha = 0.0
-    mainTableView.reloadData()
     
     self.addSubview(mainTableView)
     
   }
   
-  func setArrayOfAllProjectsPitches(newArrayOfAllProjectsPitches: [PitchEvaluationByUserModelData]) {
+  func setArrayOfAllProjectsPitches(newArrayOfAllProjectsPitches: [PitchEvaluationByUserModelDataForCompany]) {
     
     if newArrayOfAllProjectsPitches.count == 0 {
       
       self.hideMainTableView()
       self.showBackground()
       self.showNoResultsLabel()
-      //      self.showAskPermissionLabel()
-      //      self.showAddButton()
       
     } else {
       
+      self.hideNoResultsLabel()
       self.showMainTableView()
       self.showBackground()
       arrayOfAllProjects = newArrayOfAllProjectsPitches
@@ -198,11 +204,7 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
   
   private func hideBackground() {
     
-    UIView.animateWithDuration(0.25){
-      
-      self.backgroundColor = UIColor.clearColor()
-      
-    }
+    self.backgroundColor = UIColor.clearColor()
     
   }
   
@@ -260,14 +262,32 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
       self.hideMainTableView()
       self.hideNoResultsLabel()
       self.hideBackground()
-      //      self.hideAddButton()
-      
       mainTableView.reloadData()
-      //      self.hideMainTableView()
+      
+      if isShowingBackground == true {
+      
+        isShowingBackground = false
+        self.delegate?.actionWhenClearTextField(self)
+        
+      }
       
     } else {
       
+      
+      if isShowingBackground == false {
+        
+        self.delegate?.actionWhenSelectTextField(self)
+        self.showBackground()
+        self.showMainTableView()
+        isShowingBackground = true
+        
+      }
+      
+      self.hideNoResultsLabel()
       self.filterCompaniesWithText(textField.text!)
+      self.showBackground()
+      self.showMainTableView()
+      
       
     }
     
@@ -286,13 +306,12 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
       
       self.hideMainTableView()
       self.showNoResultsLabel()
-      //      self.showAddButton()
       
     } else {
       
+      self.showBackground()
       self.showMainTableView()
       self.hideNoResultsLabel()
-      //      self.hideAddButton()
       
     }
     
@@ -310,11 +329,7 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
   
   private func hideMainTableView() {
     
-    UIView.animateWithDuration(0.25){
-      
-      self.mainTableView.alpha = 0.0
-      
-    }
+    self.mainTableView.alpha = 0.0
     
   }
   //
@@ -330,94 +345,41 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
   
   private func hideNoResultsLabel() {
     
-    UIView.animateWithDuration(0.25){
-      
-      self.noResultsLabel.alpha = 0.0
-      
-    }
+    self.noResultsLabel.alpha = 0.0
     
   }
-  //
-  //  private func showAddButton() {
-  //
-  //    UIView.animateWithDuration(0.25){
-  //
-  //      self.addButton.alpha = 1.0
-  //
-  //    }
-  //
-  //  }
-  //
-  //  private func hideAddButton() {
-  //
-  //    UIView.animateWithDuration(0.25){
-  //
-  //      self.addButton.alpha = 0.0
-  //
-  //    }
-  //
-  //  }
-  
-  
-  //  @objc private func addButtonPressed() {
-  //
-  //    let newProjectPitchData = ProjectPitchModelData(newName: searchView.mainTextField.text!,
-  //                                                    newBrandId: brandData.id,
-  //                                                    newBriefDate: "",
-  //                                                    newBrieEMailContact: "",
-  //                                                    newArrayOfPitchCategories: [PitchSkillCategory]())
-  //
-  //
-  //    self.delegate?.pushCreateAddNewPitchAndWhichCategoryIsViewController(newProjectPitchData,
-  //                                                                         selectedProjectPitchData: nil)
-  //
-  //  }
   
   private func cellPressed(pitchIDToLookFor: String) {
+    
+    if isShowingBackground == true {
+      
+      self.hideMainTableView()
+      self.hideBackground()
+      self.hideNoResultsLabel()
+      isShowingBackground = false
+      self.delegate?.actionWhenClearTextField(self)
+      
+    }
     
     self.delegate?.lookForThisPitchID(pitchIDToLookFor)
     
   }
   
-  //  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-  //    if arrayOfProjectNames.count >= 1 {
-  //
-  //      arrayOfProjectNames.removeLast()
-  //      mainTableView.reloadData()
-  //
-  //    } else {
-  //
-  //      UIView.animateWithDuration(0.25,
-  //                                 animations: {
-  //
-  //                                  self.mainTableView.alpha = 0.0
-  //                                  self.askPermissionLabel.alpha = 1.0
-  //                                  self.addButton.alpha = 1.0
-  //
-  //        }, completion: { (finished) in
-  //          if finished == true {
-  //
-  //            //DO SOMETHING
-  //
-  //          }
-  //      })
-  //
-  //    }
-  //
-  //    return true
-  //  }
-  
   func textFieldShouldClear(textField: UITextField) -> Bool {
     
+    if isShowingBackground == true {
+      
+      self.hideMainTableView()
+      self.hideBackground()
+      self.hideNoResultsLabel()
+      isShowingBackground = false
+      self.delegate?.actionWhenClearTextField(self)
+      
+    }
     
-    return false
-  }
-  
-  func textFieldDidEndEditing(textField: UITextField) {
+//    self.delegate?.actionWhenClearTextField(self)
     
-    self.hideBackground()
-    self.hideNoResultsLabel()
-    self.hideMainTableView()
+    return true
     
   }
   
@@ -430,7 +392,7 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
                   "keyword": searchView.mainTextField.text!
     ]
     
-    self.delegate?.lookForThisPitch(params, sender: self)
+    self.delegate?.lookForThisPitchFromCompany(params, sender: self)
     
     return true
   }
@@ -443,7 +405,7 @@ class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSourc
   
   @objc private func cancelButtonPressed() {
     
-    self.delegate?.doCancelLookForCard()
+    //self.delegate?.doCancelLookForCard()
     
   }
   
