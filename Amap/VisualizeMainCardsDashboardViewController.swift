@@ -35,7 +35,11 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   private var graphAgencyVSIndustry: GraphOfAgencyVSIndustryView! = nil
   
   //For Company
-  private var companyStatisticsPerformanceCardView: GeneralPerformanceOwnStatisticsCardView! = nil
+  private var secondCardFlipped: Bool = false
+  private var secondCard: FlipCardView! = nil
+  private var thirdFilterView: FilterAccordingToUserAndAgencyView! = nil
+  private var graphAccordingBrand: GraphAccordingToUserView! = nil
+//  private var companyStatisticsPerformanceCardView: GeneralPerformanceOwnStatisticsCardView! = nil
   private var gralOwnStatisticsPerformanceCardView: GeneralPerformanceOwnStatisticsCardView! = nil
   private var numberOfPitchesByMyself = [String: Int]()
   private var arrayOfOwnBrands = [BrandModelData]()
@@ -316,8 +320,11 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
                                     height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
     
     firstFilterView = FilterAccordingToUserAndAgencyView.init(frame: frameForFrontAndBack)
+    firstFilterView.tag = 1
     firstFilterView.delegate = self
+    
     secondFilterView = FilterAccordingToUserAndAgencyView.init(frame: frameForFrontAndBack)
+    secondFilterView.tag = 2
     secondFilterView.delegate = self
     
     graphAccordingUser = GraphAccordingToUserView.init(frame: frameForFrontAndBack, newArrayOfUsers: arrayOfUsers)
@@ -409,7 +416,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     let frameForSecondCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth) + (mainScrollView.frame.size.width * CGFloat(kNumberOfCardsForCompany - 3)),
                                          y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
                                          width: widthOfCard,
-                                         height: heightOfCard)
+                                         height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
     
     let frameForThirdCard = CGRect.init(x: (mainScrollView.frame.size.width * CGFloat(kNumberOfCardsForCompany - 2)) - (10.0 * UtilityManager.sharedInstance.conversionWidth),
                                          y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
@@ -422,16 +429,42 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
                                     height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
     
     firstFilterView = FilterAccordingToUserAndAgencyView.init(frame: frameForFrontAndBack)
+    firstFilterView.tag = 1
     firstFilterView.delegate = self
     secondFilterView = FilterAccordingToUserAndAgencyView.init(frame: frameForFrontAndBack)
+    secondFilterView.tag = 2
     secondFilterView.delegate = self
+    thirdFilterView = FilterAccordingToUserAndAgencyView.init(frame: frameForFrontAndBack)
+    thirdFilterView.tag = 3
+    thirdFilterView.delegate = self
     
     graphAccordingUser = GraphAccordingToUserView.init(frame: frameForFrontAndBack, newArrayOfUsers: arrayOfUsers)
+    graphAccordingUser.tag = 1
     graphAccordingUser.delegate = self
     graphAccordingUser.layer.shadowColor = UIColor.blackColor().CGColor
     graphAccordingUser.layer.shadowOpacity = 0.25
     graphAccordingUser.layer.shadowOffset = CGSizeZero
     graphAccordingUser.layer.shadowRadius = 5
+    
+    
+    
+    
+    let brandOne = AgencyUserModelData.init(newId: "-1",
+                                            newFirstName: "Marca 1",
+                                            newLastName: "One")
+    let brandTwo = AgencyUserModelData.init(newId: "-2",
+                                            newFirstName: "Marca 2",
+                                            newLastName: "Two")
+    
+    let arrayOfBrands = [brandOne, brandTwo]
+    
+    graphAccordingBrand = GraphAccordingToUserView.init(frame: frameForFrontAndBack, newArrayOfUsers: arrayOfBrands, newDropDownTitleText: "Elige la marca a visualizar")
+    graphAccordingBrand.tag = 2
+    graphAccordingBrand.delegate = self
+    graphAccordingBrand.layer.shadowColor = UIColor.blackColor().CGColor
+    graphAccordingBrand.layer.shadowOpacity = 0.25
+    graphAccordingBrand.layer.shadowOffset = CGSizeZero
+    graphAccordingBrand.layer.shadowRadius = 5
     
     //third card
     
@@ -459,14 +492,20 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
                                   viewOne: graphAccordingUser,
                                   viewTwo: firstFilterView)
     
+    //ADDED
+    secondCard = FlipCardView.init(frame: frameForSecondCard,
+                                 viewOne: graphAccordingBrand,
+                                 viewTwo: secondFilterView)
+    
     //Third card will be the fourth card
     thirdCard = FlipCardView.init(frame: frameForFourthCard,
                                   viewOne: graphAgencyVSIndustry,
-                                  viewTwo: secondFilterView)
+                                  viewTwo: thirdFilterView)
     
     
     
     mainScrollView.addSubview(firstCard)
+    mainScrollView.addSubview(secondCard)
     mainScrollView.addSubview(thirdCard)
     
     let companyUser = AgencyUserModelData.init(newId: MyCompanyModelData.Data.id,
@@ -486,34 +525,34 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     var finalUserForOwnStatistics = arrayOfOwnBrands
     finalUserForOwnStatistics.insert(myCompany, atIndex: 0)
     
-    let exampleBrand = BrandModelData.init(newId: "-1",
-                                         newName: "Example One",
-                                  newContactName: nil,
-                                 newContactEMail: nil,
-                              newContactPosition: nil,
-                          newProprietaryCompany: nil)
+//    let exampleBrand = BrandModelData.init(newId: "-1",
+//                                         newName: "Example One",
+//                                  newContactName: nil,
+//                                 newContactEMail: nil,
+//                              newContactPosition: nil,
+//                          newProprietaryCompany: nil)
+//    
+//    let exampleBrandTwo = BrandModelData.init(newId: "-1",
+//                                           newName: "Example Two",
+//                                           newContactName: nil,
+//                                           newContactEMail: nil,
+//                                           newContactPosition: nil,
+//                                           newProprietaryCompany: nil)
+//    
+//    let exampleBrandThree = BrandModelData.init(newId: "-1",
+//                                           newName: "Example Three",
+//                                           newContactName: nil,
+//                                           newContactEMail: nil,
+//                                           newContactPosition: nil,
+//                                           newProprietaryCompany: nil)
     
-    let exampleBrandTwo = BrandModelData.init(newId: "-1",
-                                           newName: "Example Two",
-                                           newContactName: nil,
-                                           newContactEMail: nil,
-                                           newContactPosition: nil,
-                                           newProprietaryCompany: nil)
+//    let arrayOfExampleBrands = [exampleBrand, exampleBrandTwo, exampleBrandThree]
     
-    let exampleBrandThree = BrandModelData.init(newId: "-1",
-                                           newName: "Example Three",
-                                           newContactName: nil,
-                                           newContactEMail: nil,
-                                           newContactPosition: nil,
-                                           newProprietaryCompany: nil)
-    
-    let arrayOfExampleBrands = [exampleBrand, exampleBrandTwo, exampleBrandThree]
-    
-    companyStatisticsPerformanceCardView = GeneralPerformanceOwnStatisticsCardView.init(frame: frameForSecondCard,
-      newArrayOfBrands: arrayOfExampleBrands,
-      newNumberOfPitchesByCompany: numberOfPitchesByMyself,
-      newTitleText: "Estadísticas de la compañía")
-    mainScrollView.addSubview(companyStatisticsPerformanceCardView)
+//    companyStatisticsPerformanceCardView = GeneralPerformanceOwnStatisticsCardView.init(frame: frameForSecondCard,
+//      newArrayOfBrands: arrayOfExampleBrands,
+//      newNumberOfPitchesByCompany: numberOfPitchesByMyself,
+//      newTitleText: "Estadísticas de la compañía")
+//    mainScrollView.addSubview(companyStatisticsPerformanceCardView)
     
 //    gralPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForSecondCard, newArrayOfUsers: finalUsersforGeneralPerformance,
 //        newNumberOfPitchesByAgency: numberOfPitchesByAgency)
@@ -573,28 +612,74 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     
   }
   
-  func flipCardToShowFilterOfGraphAccordingToUser() {
+  func flipCardToShowFilterOfGraphAccordingToUser(sender: GraphAccordingToUserView) {
     
-    nextTimeFlipFirstCard = true
+    if UserSession.session.role == "2" {
     
-    self.firstCard.flip()
+      nextTimeFlipFirstCard = true
+    
+      self.firstCard.flip()
+      
+    }else
+    
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
+      
+        if sender.tag == 1 {
+          
+          self.firstCard.flip()
+          self.nextTimeFlipFirstCard = true
+          
+        } else
+        if sender.tag == 2 {
+            
+          self.secondCard.flip()
+          self.secondCardFlipped = true
+            
+        }
+      
+      }
     
   }
   
   //MARK: - FilterAccordingToUserAndAgencyViewDelegate
   
-  func cancelFilterButtonPressed() {
-   
-    if nextTimeFlipFirstCard == true {
+  func cancelFilterButtonPressed(sender: FilterAccordingToUserAndAgencyView) {
+    
+    if UserSession.session.role == "2" {
       
-      self.firstCard.flip()
-      nextTimeFlipFirstCard = false
+      if nextTimeFlipFirstCard == true {
+        
+        self.firstCard.flip()
+        nextTimeFlipFirstCard = false
+        
+      } else {
+        
+        self.thirdCard.flip()
+        
+      }
       
-    } else {
-      
-      self.thirdCard.flip()
-      
+    }else
+    if UserSession.session.role == "4" || UserSession.session.role == "5" {
+        
+      if sender.tag == 1 {
+        
+        firstCard.flip()
+        
+      }else
+      if sender.tag == 2 {
+        
+        secondCard.flip()
+        
+      }else
+      if sender.tag == 3 {
+          
+        thirdCard.flip()
+          
+      }
+        
     }
+   
+
     
   }
   
@@ -799,13 +884,13 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
                                              height: firstCard.frame.size.height)
           
           let newFramePositionForSecondCard = CGRect.init(x: newPositionInXForSecondCard,
-                                                          y: companyStatisticsPerformanceCardView.frame.origin.y,
-                                                          width: companyStatisticsPerformanceCardView.frame.size.width,
-                                                          height: companyStatisticsPerformanceCardView.frame.size.height)
+                                                          y: secondCard.frame.origin.y,
+                                                          width: secondCard.frame.size.width,
+                                                          height: secondCard.frame.size.height)
           
           firstCard.frame = newFramePosition
           
-          companyStatisticsPerformanceCardView.frame = newFramePositionForSecondCard
+          secondCard.frame = newFramePositionForSecondCard
           
         } else
           
@@ -840,11 +925,11 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
             gralOwnStatisticsPerformanceCardView.frame = newFramePosition
             
             let newFramePositionForSecondCard = CGRect.init(x: newPositionInXForSecondCard,
-                                                            y: companyStatisticsPerformanceCardView.frame.origin.y,
-                                                            width: companyStatisticsPerformanceCardView.frame.size.width,
-                                                            height: companyStatisticsPerformanceCardView.frame.size.height)
+                                                            y: secondCard.frame.origin.y,
+                                                            width: secondCard.frame.size.width,
+                                                            height: secondCard.frame.size.height)
             
-            companyStatisticsPerformanceCardView.frame = newFramePositionForSecondCard
+            secondCard.frame = newFramePositionForSecondCard
             
           } else
             

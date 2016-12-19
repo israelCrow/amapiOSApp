@@ -11,7 +11,7 @@ import UIKit
 protocol GrapAccordingToUserViewDelegate {
   
   func getEvaluationsAveragePerMonth(params: [String: AnyObject])
-  func flipCardToShowFilterOfGraphAccordingToUser()
+  func flipCardToShowFilterOfGraphAccordingToUser(sender: GraphAccordingToUserView)
   
 }
 
@@ -23,6 +23,8 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
   private var optionsForSelector = [String]()
   private var arrayOfAgencyUsersModelData = [AgencyUserModelData]()
   private var numberOfUserSelected = 0
+  
+  private var dropDownTitleText: String = ""
   
   var delegate: GrapAccordingToUserViewDelegate?
   
@@ -39,6 +41,19 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     self.addGestures()
     self.initValues()
     self.initInterface()
+    
+  }
+  
+  init(frame: CGRect, newArrayOfUsers: [AgencyUserModelData], newDropDownTitleText: String) {
+    
+    dropDownTitleText = newDropDownTitleText
+    arrayOfAgencyUsersModelData = newArrayOfUsers
+    
+    super.init(frame: frame)
+    
+    self.addGestures()
+    self.initValues()
+    self.initInterfaceForCompany()
     
   }
   
@@ -82,6 +97,17 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
 
     
   }
+  
+  private func initInterfaceForCompany() {
+    
+    self.backgroundColor = UIColor.whiteColor()
+    self.createFilterButton()
+    self.createSelectorOfInformationViewWithTitle()
+    
+    self.createGraphic()
+    
+    
+  }
     
   private func createFilterButton() {
     
@@ -111,6 +137,27 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
                                                                            textLabel: VisualizeDashboardConstants.GeneralPerformanceCardView.selectorLabelText,
                                                                            nameOfImage: "dropdown",
                                                                            newOptionsOfPicker: optionsForSelector)
+    
+    selectorOfInformationView.tag = 1
+    selectorOfInformationView.delegate = self
+    //    selectorOfInformationView.mainTextField.addTarget(self,
+    //                                              action: #selector(howManyDaysToShowEdited),
+    //                                              forControlEvents: .AllEditingEvents)
+    self.addSubview(selectorOfInformationView)
+    
+  }
+  
+  private func createSelectorOfInformationViewWithTitle() {
+    
+    let frameForView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   y: 40.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    selectorOfInformationView = CustomTextFieldWithTitleAndPickerForDashboardView.init(frame: frameForView,
+                                                                                       textLabel: dropDownTitleText,
+                                                                                       nameOfImage: "dropdown",
+                                                                                       newOptionsOfPicker: optionsForSelector)
     
     selectorOfInformationView.tag = 1
     selectorOfInformationView.delegate = self
@@ -194,7 +241,7 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
   
   @objc private func filterButtonPressed() {
     
-    self.delegate?.flipCardToShowFilterOfGraphAccordingToUser()
+    self.delegate?.flipCardToShowFilterOfGraphAccordingToUser(self)
     
   }
   

@@ -11,7 +11,7 @@ import UIKit
 protocol FilterAccordingToUserAndAgencyViewDelegate {
   
   func applyFilterButtonPressedFromFilterAccordingToUserAndAgencyView()
-  func cancelFilterButtonPressed()
+  func cancelFilterButtonPressed(sender: FilterAccordingToUserAndAgencyView)
   
 }
 
@@ -490,7 +490,7 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
   
   @objc private func cancelFilterButtonPressed() {
   
-    self.delegate?.cancelFilterButtonPressed()
+    self.delegate?.cancelFilterButtonPressed(self)
   
   }
   
