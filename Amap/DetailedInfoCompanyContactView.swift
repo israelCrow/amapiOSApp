@@ -41,7 +41,17 @@ class DetailedInfoCompanyContactView: UIView {
     self.createCompanyLogoView()
     self.createCompanyNameLabel()
     
-    if MyCompanyModelData.Data.contactEMail != nil && UtilityManager.sharedInstance.isValidEmail(MyCompanyModelData.Data.contactEMail) == true {
+    var finalMail = ""
+    
+    if MyCompanyModelData.Data.contactEMail != nil {
+      
+      finalMail = MyCompanyModelData.Data.contactEMail!
+      let whiteSpace = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+      finalMail = finalMail.stringByTrimmingCharactersInSet(whiteSpace)
+      
+    }
+    
+    if MyCompanyModelData.Data.contactEMail != nil && UtilityManager.sharedInstance.isValidEmail(finalMail) == true {
       
       self.createLetterButton()
       
