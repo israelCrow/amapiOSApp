@@ -16,6 +16,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate, Visu
     
     super.viewDidLoad()
 
+    print("TABBAR HEIGHT: \(self.tabBar.frame.size.height)")
     
   }
   

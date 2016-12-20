@@ -85,7 +85,7 @@ class VisualizePitchesConstants {
   
   enum PreEvaluatePitchView {
     
-    static let descriptionWriteNameLabel =  "Escribe el mail del contacto que te brifeó"
+    static let descriptionWriteNameLabel =  "Escribe el e-mail del contacto que te brifeó"
     static let descriptionWriteDateLabel = "¿Qué día te dieron el brief?"
     static let nextButtonText = "Listo"
     

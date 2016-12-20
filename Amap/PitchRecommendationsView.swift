@@ -12,13 +12,14 @@ class PitchRecommendationsView: UIView {
   
   private var titleLabel: UILabel! = nil
   private var framesForRecommendations = Array<CGRect>()
-  private var recommendations: [String: AnyObject]
+  private var recommendations: [RecommendationModelData]! = nil
+  private var recommendationsView = [UIView]()
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(frame: CGRect, newRecommendations: [String: AnyObject]) {
+  init(frame: CGRect, newRecommendations: [RecommendationModelData]) {
     
     recommendations = newRecommendations
     
@@ -142,35 +143,54 @@ class PitchRecommendationsView: UIView {
   
   private func createRecommendations() {
     
-    let firstRecommendation = PitchRecommendationImageLabelView.init(frame: framesForRecommendations[0],
-        newIconName: "communication",
-        newRecommendationText: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis nat")
+    var recommendationsFrame = framesForRecommendations[0]
     
-    self.addSubview(firstRecommendation)
+    for recommendation in recommendations {
+      
+      let recommendationView = PitchRecommendationImageLabelView.init(frame: recommendationsFrame,
+        newIconName: recommendation.iconName,
+        newRecommendationText: recommendation.body)
+      
+      self.addSubview(recommendationView)
+      self.recommendationsView.append(recommendationView)
+      
+      recommendationsFrame = CGRect.init(x: recommendationsFrame.origin.x,
+                                         y: recommendationView.frame.origin.y + recommendationView.frame.size.height + (8.0 * UtilityManager.sharedInstance.conversionHeight) ,
+                                     width: recommendationsFrame.size.width,
+                                    height: recommendationsFrame.size.height)
+      
+    }
     
-    let secondRecommendation = PitchRecommendationImageLabelView.init(frame: framesForRecommendations[1],
-        newIconName: "list",
-        newRecommendationText: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis nat")
     
-    self.addSubview(secondRecommendation)
-    
-    let thirdRecommendation = PitchRecommendationImageLabelView.init(frame: framesForRecommendations[2],
-        newIconName: "budget",
-        newRecommendationText: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis nat")
-    
-    self.addSubview(thirdRecommendation)
-    
-    let fourthRecommendation = PitchRecommendationImageLabelView.init(frame: framesForRecommendations[3],
-        newIconName: "criteria",
-        newRecommendationText: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis nat")
-    
-    self.addSubview(fourthRecommendation)
-    
-    let fifthRecommendation = PitchRecommendationImageLabelView.init(frame: framesForRecommendations[4],
-        newIconName: "moreTime",
-        newRecommendationText: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis nat")
-    
-    self.addSubview(fifthRecommendation)
+//    let firstRecommendation = PitchRecommendationImageLabelView.init(frame: framesForRecommendations[0],
+//        newIconName: "communication",
+//        newRecommendationText: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis nat")
+//    
+//    self.addSubview(firstRecommendation)
+//    
+//    let secondRecommendation = PitchRecommendationImageLabelView.init(frame: framesForRecommendations[1],
+//        newIconName: "list",
+//        newRecommendationText: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis nat")
+//    
+//    self.addSubview(secondRecommendation)
+//    
+//    let thirdRecommendation = PitchRecommendationImageLabelView.init(frame: framesForRecommendations[2],
+//        newIconName: "budget",
+//        newRecommendationText: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis nat")
+//    
+//    self.addSubview(thirdRecommendation)
+//    
+//    let fourthRecommendation = PitchRecommendationImageLabelView.init(frame: framesForRecommendations[3],
+//        newIconName: "criteria",
+//        newRecommendationText: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis nat")
+//    
+//    self.addSubview(fourthRecommendation)
+//    
+//    let fifthRecommendation = PitchRecommendationImageLabelView.init(frame: framesForRecommendations[4],
+//        newIconName: "moreTime",
+//        newRecommendationText: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis nat")
+//    
+//    self.addSubview(fifthRecommendation)
     
 //    let firstRecommendation = PitchRecommendationView.init(frame: framesForRecommendations[0],
 //                                                      imageName: "group",
@@ -207,6 +227,20 @@ class PitchRecommendationsView: UIView {
 //                                                           textLabel: "De preferencia paga el pitch a las agencias por su trabajo")
 //    
 //    self.addSubview(sixthRecommendation)
+    
+  }
+  
+  func getFinalHeight() -> CGFloat {
+    
+    var finalHeight: CGFloat = titleLabel.frame.origin.y + titleLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    for recommendationView in recommendationsView {
+      
+      finalHeight = finalHeight + recommendationView.frame.size.height + (8.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+    }
+    
+    return finalHeight
     
   }
   

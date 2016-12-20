@@ -258,6 +258,7 @@
 		AAE7F2D11D7E1CD80045AE8E /* VisualizeCasesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7F2D01D7E1CD80045AE8E /* VisualizeCasesView.swift */; };
 		AAE7F2D61D7E27CB0045AE8E /* VisualizeSkillsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7F2D51D7E27CB0045AE8E /* VisualizeSkillsView.swift */; };
 		AAE7F2DA1D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE7F2D91D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift */; };
+		AAEA2EC11E086101007949A4 /* RecommendationModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEA2EC01E086101007949A4 /* RecommendationModelData.swift */; };
 		AAECDF661D51472700CCDA85 /* GoldenPitchLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAECDF651D51472700CCDA85 /* GoldenPitchLoginView.swift */; };
 		AAF347AA1D7A4B0F00D386E5 /* VisualizeNumberOfEmployeesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF347A91D7A4B0F00D386E5 /* VisualizeNumberOfEmployeesView.swift */; };
 		AAFB06421E03BB120032249C /* GeneralPerformanceOwnStatisticsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFB06411E03BB120032249C /* GeneralPerformanceOwnStatisticsCardView.swift */; };
@@ -540,6 +541,7 @@
 		AAE7F2D01D7E1CD80045AE8E /* VisualizeCasesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCasesView.swift; sourceTree = "<group>"; };
 		AAE7F2D51D7E27CB0045AE8E /* VisualizeSkillsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeSkillsView.swift; sourceTree = "<group>"; };
 		AAE7F2D91D7E2DAF0045AE8E /* VisualizeCategorySkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeCategorySkillCell.swift; sourceTree = "<group>"; };
+		AAEA2EC01E086101007949A4 /* RecommendationModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendationModelData.swift; sourceTree = "<group>"; };
 		AAECDF651D51472700CCDA85 /* GoldenPitchLoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoldenPitchLoginView.swift; sourceTree = "<group>"; };
 		AAF347A91D7A4B0F00D386E5 /* VisualizeNumberOfEmployeesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizeNumberOfEmployeesView.swift; sourceTree = "<group>"; };
 		AAFB06411E03BB120032249C /* GeneralPerformanceOwnStatisticsCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPerformanceOwnStatisticsCardView.swift; sourceTree = "<group>"; };
@@ -659,6 +661,7 @@
 				AA80C2721D917B3D00087DC0 /* CriteriaModelData.swift */,
 				AACBE27B1DDE08C6007314C3 /* AgencyUserModelData.swift */,
 				AACBE27F1DDE0DCE007314C3 /* PitchEvaluationAveragePerMonthModelData.swift */,
+				AAEA2EC01E086101007949A4 /* RecommendationModelData.swift */,
 			);
 			name = ModelData;
 			sourceTree = "<group>";
@@ -1267,6 +1270,7 @@
 		AAB973FD1DF896DA0024B663 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AAEA2EC41E08EA3E007949A4 /* Visualize_Dashboard */,
 				AA04AC871DFDDF37000BF566 /* Visualize_Directory */,
 				AA13CDE91DFB6C53002E1A4D /* Edit/Visualize_Company */,
 				AAB974011DF8B0890024B663 /* Pitches */,
@@ -1447,6 +1451,13 @@
 				AACBDE951D7FD74700F8F9EF /* SkillLevelView.swift */,
 			);
 			name = Skills;
+			sourceTree = "<group>";
+		};
+		AAEA2EC41E08EA3E007949A4 /* Visualize_Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Visualize_Dashboard;
 			sourceTree = "<group>";
 		};
 		AAECDF631D51461700CCDA85 /* Login */ = {
@@ -1887,6 +1898,7 @@
 				AA13CDEE1DFB7FEA002E1A4D /* CompanyConflictsView.swift in Sources */,
 				AABF34911DFBCEE8003EC7B6 /* EditCompanyProfileView.swift in Sources */,
 				AACBE2801DDE0DCE007314C3 /* PitchEvaluationAveragePerMonthModelData.swift in Sources */,
+				AAEA2EC11E086101007949A4 /* RecommendationModelData.swift in Sources */,
 				AA084F311DDA7D8100B76649 /* GraphOfAgencyVSIndustryView.swift in Sources */,
 				AA4EAED41DD0FD0000AA305B /* InfoPitchesViewController.swift in Sources */,
 				04AB393E1D5D1808009B1D5C /* AgencyProfileEditConstants.swift in Sources */,

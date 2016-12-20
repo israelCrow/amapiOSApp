@@ -1653,7 +1653,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   func declineEvaluationPitch(params: [String: AnyObject]) {
     
-    let alertController = UIAlertController(title: "Declinar Evaluación", message: "¿Estás seguro que vas a declinar este pitch?", preferredStyle: UIAlertControllerStyle.Alert)
+    let alertController = UIAlertController(title: "Declinar Evaluación", message: "¿Estás seguro de que vas a declinar este pitch?", preferredStyle: UIAlertControllerStyle.Alert)
     
     let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
       

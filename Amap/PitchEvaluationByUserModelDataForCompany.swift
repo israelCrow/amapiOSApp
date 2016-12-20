@@ -19,6 +19,7 @@ class PitchEvaluationByUserModelDataForCompany {
   var pitchName: String! = nil
   var pitchTypesPercentage: [String: AnyObject]! = nil
   var winner: String! = nil
+  var recommendations = [RecommendationModelData]()
   
   init(newBrandName: String,
        newBreakDown: [String: AnyObject],

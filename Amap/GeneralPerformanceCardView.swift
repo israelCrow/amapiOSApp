@@ -22,7 +22,10 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
   private var optionsForSelector = [String]()
   private var facesView: FacesEvaluationsView! = nil
   private var circleGraph: CircleGraphView! = nil
-  private var recommendationsView: RecommendationsDashboardsView! = nil
+  private var recommendations: RecommendationsDashboardsView! = nil
+  private var recommendationsData = [RecommendationModelData]()
+  private var borderAfterRecommendations: CALayer! = nil
+//  private var recommendationsView: RecommendationsDashboardsView! = nil
   
   private var arrayOfAgencyUsersModelData = [AgencyUserModelData]()
   private var numberOfPitchesByAgency = [String: Int]()
@@ -40,8 +43,9 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(frame: CGRect, newArrayOfUsers: [AgencyUserModelData], newNumberOfPitchesByAgency: [String: Int]) {
+  init(frame: CGRect, newArrayOfUsers: [AgencyUserModelData], newNumberOfPitchesByAgency: [String: Int], newRecommendationsData: [RecommendationModelData]) {
     
+    recommendationsData = newRecommendationsData
     arrayOfAgencyUsersModelData = newArrayOfUsers
     numberOfPitchesByAgency = newNumberOfPitchesByAgency
     
@@ -126,6 +130,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     self.createFaces()
     self.createCircleGraph()
 //    self.createRecommendationsView()
+    self.createRecommendations()
     
   }
   
@@ -343,24 +348,69 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     
   }
   
-  private func createRecommendationsView() {
+//  private func createRecommendationsView() {
+//    
+//    let frameForRecommendations = CGRect.init(x: 0.0,
+//                        y: circleGraph.frame.origin.y + circleGraph.frame.size.height + (15.0 * UtilityManager.sharedInstance.conversionHeight),
+//                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+//                   height: 230.0 * UtilityManager.sharedInstance.conversionHeight)
+//    
+//    recommendationsView = RecommendationsDashboardsView.init(frame: frameForRecommendations,
+//      newArrayOfRecommendations: [RecommendationModelData]())
+//    
+//    mainScrollView.addSubview(recommendationsView)
+//  
+//  }
+  
+  private func createRecommendations() {
+    
+    if recommendations != nil {
+      
+      let newContentSize = CGSize.init(width: mainScrollView.contentSize.width,
+                                       height: mainScrollView.contentSize.height - recommendations.frame.size.height)
+      
+      mainScrollView.contentSize = newContentSize
+      
+      recommendations.removeFromSuperview()
+      recommendations = nil
+      
+    }
     
     let frameForRecommendations = CGRect.init(x: 0.0,
-                        y: circleGraph.frame.origin.y + circleGraph.frame.size.height + (15.0 * UtilityManager.sharedInstance.conversionHeight),
-                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                   height: 230.0 * UtilityManager.sharedInstance.conversionHeight)
-  
-    let arrayOfRecommendations = ["No aceptes pitches con más de 5 agencias involucradas",
-                                  "No aceptes pitches con más de 5 agencias involucradas",
-                                  "No aceptes pitches con más de 5 agencias involucradas"
-                                 ]
+                                              y: circleGraph.frame.origin.y + circleGraph.frame.size.height + (15.0 * UtilityManager.sharedInstance.conversionHeight),
+                                              width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                              height: 230.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    recommendationsView = RecommendationsDashboardsView.init(frame: frameForRecommendations,
-      newArrayOfRecommendations: arrayOfRecommendations)
+    recommendations = RecommendationsDashboardsView.init(frame: frameForRecommendations,
+                                                         newArrayOfRecommendations: self.recommendationsData)
     
-    mainScrollView.addSubview(recommendationsView)
-  
+    mainScrollView.addSubview(recommendations)
+    
+    if borderAfterRecommendations != nil {
+      
+      borderAfterRecommendations.removeFromSuperlayer()
+      borderAfterRecommendations = nil
+      
+    }
+    
+    borderAfterRecommendations = CALayer()
+    let width = CGFloat(1)
+    borderAfterRecommendations.borderColor = UIColor.grayColor().CGColor
+    borderAfterRecommendations.borderWidth = width
+    borderAfterRecommendations.frame = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                   y: recommendations.frame.origin.y + recommendations.getFinalHeight() + (22.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                   width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                   height: 1.0 * UtilityManager.sharedInstance.conversionHeight)
+    mainScrollView.layer.addSublayer(borderAfterRecommendations)
+    //    mainScrollView.layer.masksToBounds = false
+    
+    let newContentSize = CGSize.init(width: mainScrollView.contentSize.width,
+                                     height: mainScrollView.contentSize.height + recommendations.frame.size.height + (40.0 * UtilityManager.sharedInstance.conversionHeight))
+    
+    mainScrollView.contentSize = newContentSize
+    
   }
+
   
   //MARK: - CustomTextFieldWithTitleAndPickerForDashboardViewDelegate
   

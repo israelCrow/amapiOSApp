@@ -14,7 +14,7 @@ class CreateAccountConstants {
   
     static let createAccountText = "Crea tu perfil"
     static let amapText = "AMAP"
-    static let writeNameDescriptionText = "Escribe el nombre de la agencia o marca"
+    static let writeNameDescriptionText = "Escribe el nombre de la agencia o compañía"
     static let nameText = "Nombre"
     static let writeEMailDescriptioText = "Escribe tu mail"
     static let emailText = "Email"

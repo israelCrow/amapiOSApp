@@ -239,7 +239,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   private func createAndAddFlipCard() {
     
     let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
-    let heightOfCard = self.view.frame.size.height - (168.0 * UtilityManager.sharedInstance.conversionHeight)
+    let heightOfCard = self.view.frame.size.height - (157.0 * UtilityManager.sharedInstance.conversionHeight)
     
     let frameForFlipCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth),
                                        y: (108.0 * UtilityManager.sharedInstance.conversionHeight),

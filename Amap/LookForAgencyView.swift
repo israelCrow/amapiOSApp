@@ -201,6 +201,58 @@ class LookForAgencyView: UIView, UITableViewDelegate, UITableViewDataSource, UIT
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell!
     
+    cell.contentView.viewWithTag(666)?.removeFromSuperview()
+    
+    var finalText = arrayOfFilteredAgencies[indexPath.row].name
+    
+    if arrayOfFilteredAgencies[indexPath.row].isFavorite == true {
+      
+      let frameForLabel = CGRect.init(x: 0.0,
+                                      y: 0.0,
+                                      width: 30.0 * UtilityManager.sharedInstance.conversionWidth,
+                                      height: CGFloat.max)
+      
+      let heartLabel = UILabel.init(frame: frameForLabel)
+      heartLabel.numberOfLines = 0
+      heartLabel.lineBreakMode = .ByWordWrapping
+      
+      let font = UIFont(name: "SFUIDisplay-Ultralight",
+                        size: 18.0 * UtilityManager.sharedInstance.conversionWidth)
+      let color = UIColor.blackColor()
+      let style = NSMutableParagraphStyle()
+      style.alignment = NSTextAlignment.Center
+      
+      let stringWithFormat = NSMutableAttributedString(
+        string: "\u{2665}",
+        attributes:[NSFontAttributeName: font!,
+          NSParagraphStyleAttributeName: style,
+          NSForegroundColorAttributeName: color
+        ]
+      )
+      heartLabel.attributedText = stringWithFormat
+      heartLabel.sizeToFit()
+      let newFrame = CGRect.init(x: (cell.frame.size.width) - (heartLabel.frame.size.width + (3.0 * UtilityManager.sharedInstance.conversionWidth)),
+                                 y: (cell.frame.size.height / 2.0) - (heartLabel.frame.size.height / 2.0),
+                                 width: heartLabel.frame.size.width,
+                                 height: heartLabel.frame.size.height)
+      
+      heartLabel.tag = 666
+      heartLabel.frame = newFrame
+      
+      cell.contentView.addSubview(heartLabel)
+      
+      if finalText.characters.count >= 40 {
+        
+        finalText.insert(".", atIndex: finalText.startIndex.advancedBy(25))
+        finalText.insert(".", atIndex: finalText.startIndex.advancedBy(26))
+        finalText.insert(".", atIndex: finalText.startIndex.advancedBy(27))
+        finalText.insert(" ", atIndex: finalText.startIndex.advancedBy(28))
+        finalText.insert(" ", atIndex: finalText.startIndex.advancedBy(29))
+        
+      }
+      
+    }
+    
     self.changeAttributedTextOfNormalCell(cell, subSkillText: arrayOfFilteredAgencies[indexPath.row].name)
     
     cell.selectionStyle = UITableViewCellSelectionStyle.None

@@ -22,7 +22,10 @@ class GeneralPerformanceOwnStatisticsCardView: UIView, CustomTextFieldWithTitleA
   private var optionsForSelector = [String]()
   private var facesView: FacesEvaluationsView! = nil
   private var circleGraph: CircleGraphView! = nil
+  private var recommendations: RecommendationsDashboardsView! = nil
+  private var recommendationsData = [RecommendationModelData]()
   private var recommendationsView: RecommendationsDashboardsView! = nil
+  private var borderAfterRecommendations: CALayer! = nil
   
   //Company
   
@@ -37,11 +40,12 @@ class GeneralPerformanceOwnStatisticsCardView: UIView, CustomTextFieldWithTitleA
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(frame: CGRect, newArrayOfBrands: [BrandModelData], newNumberOfPitchesByCompany: [String: Int], newTitleText: String) {
+  init(frame: CGRect, newArrayOfBrands: [BrandModelData], newNumberOfPitchesByCompany: [String: Int], newTitleText: String, newRecommendationsData: [RecommendationModelData]) {
     
     titleText = newTitleText
     arrayOfBrandsWithCompanyModelData = newArrayOfBrands
     numberOfPitchesByCompany = newNumberOfPitchesByCompany
+    recommendationsData = newRecommendationsData
     
     super.init(frame: frame)
     
@@ -87,7 +91,7 @@ class GeneralPerformanceOwnStatisticsCardView: UIView, CustomTextFieldWithTitleA
     self.createSelectorOfInformationView()
     self.createFaces()
     self.createCircleGraph()
-    //    self.createRecommendationsView()
+    self.createRecommendations()
     
   }
   
@@ -251,31 +255,63 @@ class GeneralPerformanceOwnStatisticsCardView: UIView, CustomTextFieldWithTitleA
     
   }
   
-  func updateData(newNumberOfPitchesByCompany: [String: Int]) {
+  func updateData(newNumberOfPitchesByCompany: [String: Int], newRecommendations: [RecommendationModelData]) {
     
     numberOfPitchesByCompany = newNumberOfPitchesByCompany
+    recommendationsData = newRecommendations
     
     self.createFaces()
     self.createCircleGraph()
+    self.createRecommendations()
     
   }
   
-  private func createRecommendationsView() {
+  private func createRecommendations() {
+    
+    if recommendations != nil {
+      
+      let newContentSize = CGSize.init(width: mainScrollView.contentSize.width,
+                                       height: mainScrollView.contentSize.height - recommendations.frame.size.height)
+      
+      mainScrollView.contentSize = newContentSize
+      
+      recommendations.removeFromSuperview()
+      recommendations = nil
+      
+    }
     
     let frameForRecommendations = CGRect.init(x: 0.0,
                                               y: circleGraph.frame.origin.y + circleGraph.frame.size.height + (15.0 * UtilityManager.sharedInstance.conversionHeight),
                                               width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                               height: 230.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let arrayOfRecommendations = ["No aceptes pitches con más de 5 agencias involucradas",
-                                  "No aceptes pitches con más de 5 agencias involucradas",
-                                  "No aceptes pitches con más de 5 agencias involucradas"
-    ]
+    recommendations = RecommendationsDashboardsView.init(frame: frameForRecommendations,
+                                     newArrayOfRecommendations: self.recommendationsData)
+      
+    mainScrollView.addSubview(recommendations)
     
-    recommendationsView = RecommendationsDashboardsView.init(frame: frameForRecommendations,
-                                                             newArrayOfRecommendations: arrayOfRecommendations)
+    if borderAfterRecommendations != nil {
+      
+      borderAfterRecommendations.removeFromSuperlayer()
+      borderAfterRecommendations = nil
+      
+    }
     
-    mainScrollView.addSubview(recommendationsView)
+    borderAfterRecommendations = CALayer()
+    let width = CGFloat(1)
+    borderAfterRecommendations.borderColor = UIColor.grayColor().CGColor
+    borderAfterRecommendations.borderWidth = width
+    borderAfterRecommendations.frame = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: recommendations.frame.origin.y + recommendations.getFinalHeight() + (22.0 * UtilityManager.sharedInstance.conversionHeight),
+                               width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                               height: 1.0 * UtilityManager.sharedInstance.conversionHeight)
+    mainScrollView.layer.addSublayer(borderAfterRecommendations)
+//    mainScrollView.layer.masksToBounds = false
+    
+    let newContentSize = CGSize.init(width: mainScrollView.contentSize.width,
+                                    height: mainScrollView.contentSize.height + recommendations.frame.size.height)
+    
+    mainScrollView.contentSize = newContentSize
     
   }
   

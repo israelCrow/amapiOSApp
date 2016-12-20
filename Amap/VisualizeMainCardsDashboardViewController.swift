@@ -43,6 +43,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   private var gralOwnStatisticsPerformanceCardView: GeneralPerformanceOwnStatisticsCardView! = nil
   private var numberOfPitchesByMyself = [String: Int]()
   private var arrayOfOwnBrands = [BrandModelData]()
+  private var recommendations = [RecommendationModelData]()
   //
   
   private var arrayOfUsers = [AgencyUserModelData]()
@@ -209,10 +210,10 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
           
           self.arrayOfScoresByIndustry = arrayOfScoresPerMonthOfIndustry
           
-          RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSumaryByAgency({ (numberOfPitchesByAgencyForDashboardSumary, arrayOfUsers) in
+          RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSumaryByAgency({ (numberOfPitchesByAgencyForDashboardSumary, arrayOfUsers, recommendations) in
             
             self.numberOfPitchesByAgency = numberOfPitchesByAgencyForDashboardSumary
-            
+            self.recommendations = recommendations
             
             UtilityManager.sharedInstance.hideLoader()
             
@@ -261,15 +262,16 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
         
         UtilityManager.sharedInstance.showLoader()
         
-        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSummaryByClient({ (numberOfPitchesByClientForDashboardSummary, arrayOfBrands) in
+        
+        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSummaryByClient({ (numberOfPitchesByClientForDashboardSummary, arrayOfBrands, recommendations) in
           
           self.arrayOfOwnBrands = arrayOfBrands
           self.numberOfPitchesByMyself = numberOfPitchesByClientForDashboardSummary //number Of pitches by company
+          self.recommendations = recommendations
           
           self.createCards()
           
           UtilityManager.sharedInstance.hideLoader()
-          
           
         })
         
@@ -297,7 +299,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   private func createGeneralPerformanceCard() {
     
     let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
-    let heightOfCard = self.view.frame.size.height - (168.0 * UtilityManager.sharedInstance.conversionHeight)
+    let heightOfCard = self.view.frame.size.height - (157.0 * UtilityManager.sharedInstance.conversionHeight)
     
     let frameForFirstCard = CGRect.init(x: (90.0 * UtilityManager.sharedInstance.conversionWidth),
                                         y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
@@ -370,29 +372,16 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     mainScrollView.addSubview(firstCard)
     mainScrollView.addSubview(thirdCard)
     
-    var agencyUser = AgencyUserModelData.init(newId: "-1",
-                                       newFirstName: "Void",
-                                       newLastName: "")
-    
-    if UserSession.session.role == "2" {
-    
-      agencyUser = AgencyUserModelData.init(newId: AgencyModel.Data.id,
+    let agencyUser = AgencyUserModelData.init(newId: AgencyModel.Data.id,
                                               newFirstName: AgencyModel.Data.name,
                                               newLastName: "")
-    
-    } else
-      if UserSession.session.role == "4" || UserSession.session.role == "5" {
-        
-        agencyUser = AgencyUserModelData.init(newId: MyCompanyModelData.Data.id,
-                                              newFirstName: MyCompanyModelData.Data.name,
-                                              newLastName: "")
-        
-      }
     
     var finalUsersforGeneralPerformance = arrayOfUsers
     finalUsersforGeneralPerformance.insert(agencyUser, atIndex: 0)
     
-    gralPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForSecondCard, newArrayOfUsers: finalUsersforGeneralPerformance, newNumberOfPitchesByAgency: numberOfPitchesByAgency)
+    gralPerformanceCardView = GeneralPerformanceCardView.init(frame: frameForSecondCard, newArrayOfUsers: finalUsersforGeneralPerformance,
+        newNumberOfPitchesByAgency: numberOfPitchesByAgency,
+        newRecommendationsData: recommendations)
     gralPerformanceCardView.delegate = self
     mainScrollView.addSubview(gralPerformanceCardView)
     
@@ -562,10 +551,16 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     gralOwnStatisticsPerformanceCardView = GeneralPerformanceOwnStatisticsCardView.init(frame: frameForThirdCard,
       newArrayOfBrands: finalUserForOwnStatistics,
       newNumberOfPitchesByCompany: numberOfPitchesByMyself,
-      newTitleText: "Tus estadísticas")
+      newTitleText: "Tus estadísticas",
+      newRecommendationsData: self.recommendations)
     gralOwnStatisticsPerformanceCardView.delegate = self
     
     mainScrollView.addSubview(gralOwnStatisticsPerformanceCardView)
+    
+    let thirdPagePoint = CGPoint.init(x: UIScreen.mainScreen().bounds.width * 2.0,
+                                      y: 0.0)
+    
+    mainScrollView.setContentOffset(thirdPagePoint, animated: true)
     
   }
   
@@ -717,7 +712,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     
     UtilityManager.sharedInstance.showLoader()
       
-    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSumaryByAgency { (numberOfPitchesByAgencyForDashboardSumary, arrayOfUsers) in
+    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSumaryByAgency { (numberOfPitchesByAgencyForDashboardSumary, arrayOfUsers, recommendations) in
         
       self.gralPerformanceCardView.updateData(numberOfPitchesByAgencyForDashboardSumary)
         
@@ -1002,11 +997,13 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     
     UtilityManager.sharedInstance.showLoader()
     
-    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSummaryByClient { (numberOfPitchesByClientForDashboardSummary, arrayOfBrands) in
+    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSummaryByClient { (numberOfPitchesByClientForDashboardSummary, arrayOfBrands, recommendations) in
       
-      self.gralOwnStatisticsPerformanceCardView.updateData(numberOfPitchesByClientForDashboardSummary)
+      self.recommendations = recommendations
       
-       UtilityManager.sharedInstance.hideLoader()
+      self.gralOwnStatisticsPerformanceCardView.updateData(numberOfPitchesByClientForDashboardSummary, newRecommendations: self.recommendations)
+      
+      UtilityManager.sharedInstance.hideLoader()
       
     }
   
@@ -1018,7 +1015,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     
     RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSummaryByBrand(params) { (numberOfPitchesByBrandForDashboardSummary) in
     
-      self.gralOwnStatisticsPerformanceCardView.updateData(numberOfPitchesByBrandForDashboardSummary)
+      self.gralOwnStatisticsPerformanceCardView.updateData(numberOfPitchesByBrandForDashboardSummary, newRecommendations: self.recommendations)
       
       UtilityManager.sharedInstance.hideLoader()
       

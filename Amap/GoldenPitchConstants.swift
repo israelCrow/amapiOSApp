@@ -14,7 +14,7 @@ class GoldenPitchConstants {
   static let amapText = "AMAP"
   static let writeNameDescriptionText = "Escribe tu email"
   static let nameText = "Email"
-  static let writeEMailDescriptioText = "Escribe tu password"
+  static let writeEMailDescriptioText = "Escribe tu contraseña"
   static let emailText = "Password"
   static let forgotPasswordText = "¿Olvidaste tu contraseña?\nAquí te ayudamos"
   static let invalidUserText = "¡Oops, el usuario no es valido!"

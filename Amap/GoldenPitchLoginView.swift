@@ -585,7 +585,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         style.alignment = NSTextAlignment.Center
         
         let stringWithFormat = NSMutableAttributedString(
-            string: "¡Wooo! ¡Este usuario no es válido!",
+            string: "¡Woo el usuario y/o contraseña no son válidos!",
             attributes:[NSFontAttributeName:font!,
                 NSParagraphStyleAttributeName:style,
                 NSForegroundColorAttributeName:color

@@ -12,6 +12,7 @@ class FacesEvaluationsView: UIView {
 
   private var valuesToShow: [String: Int]! = nil
   private var arrayOfFrames: [CGRect]! = nil
+  private var showPercentageSymbol: Bool = false
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -19,6 +20,17 @@ class FacesEvaluationsView: UIView {
   
   init(frame: CGRect, facesToShow: [String: Int]) {
     
+    valuesToShow = facesToShow
+    
+    super.init(frame: frame)
+    
+    self.initInterface()
+    
+  }
+  
+  init(frame: CGRect, facesToShow: [String: Int], withPercentage: Bool) {
+    
+    showPercentageSymbol = withPercentage
     valuesToShow = facesToShow
     
     super.init(frame: frame)
@@ -157,6 +169,14 @@ class FacesEvaluationsView: UIView {
     valueLabel.numberOfLines = 0
     valueLabel.lineBreakMode = .ByWordWrapping
     
+    var finalString = String(valueToShow)
+    
+    if showPercentageSymbol == true {
+      
+      finalString = finalString + "%"
+      
+    }
+    
     let font = UIFont(name: "SFUIText-Regular",
                       size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
@@ -164,7 +184,7 @@ class FacesEvaluationsView: UIView {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: String(valueToShow),
+      string: finalString,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color

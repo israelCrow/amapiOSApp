@@ -188,7 +188,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
       style.alignment = NSTextAlignment.Center
       
       let stringWithFormat = NSMutableAttributedString(
-        string: "Marca",
+        string: "Compañía",
         attributes:[NSFontAttributeName:font!,
           NSParagraphStyleAttributeName:style,
           NSForegroundColorAttributeName:color
@@ -196,7 +196,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
       )
       brandLabel.attributedText = stringWithFormat
       brandLabel.sizeToFit()
-      let newFrame = CGRect.init(x: 186.0 * UtilityManager.sharedInstance.conversionWidth,
+      let newFrame = CGRect.init(x: 171.0 * UtilityManager.sharedInstance.conversionWidth,
                                  y: 136.0 * UtilityManager.sharedInstance.conversionHeight,
                                  width: brandLabel.frame.size.width,
                                  height: brandLabel.frame.size.height)
@@ -277,7 +277,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         nameTextField = UITextField.init(frame: frameForTextField)
         nameTextField.tag = 1
         nameTextField.delegate = self
-        nameTextField.placeholder = "Agencia/Marca"
+        nameTextField.placeholder = "Agencia/Compañía"
         nameTextField.clearButtonMode = .WhileEditing
 //        nameTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
       
@@ -593,8 +593,8 @@ class CreateAccountView: UIView, UITextFieldDelegate {
           
           self.delegate?.requestCreateAccount(eMailTextField.text!.lowercaseString, agency: nameTextField.text!, typeOfUser: valueOfUserTypeSelected){
             
+            self.askPasswordButton.userInteractionEnabled = true
             UtilityManager.sharedInstance.hideLoader()
-            
             
           }
         } else

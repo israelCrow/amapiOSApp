@@ -209,6 +209,8 @@ class CriteriaAgencyProfileEditView: UIView, CriterionViewDelegate {
       
       for criterion in criteria {
         
+        let valueOfSwitch = self.selectedCriterion(criterion.id)
+        
         let frameForNewCriterion = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
           y: 14.0 * UtilityManager.sharedInstance.conversionHeight,
           width: 220 * UtilityManager.sharedInstance.conversionWidth,
@@ -216,7 +218,7 @@ class CriteriaAgencyProfileEditView: UIView, CriterionViewDelegate {
         
         let criterionView = CriterionView.init(frame: frameForNewCriterion,
           textLabel: criterion.name,
-          valueOfSwitch: false) //change this in future
+          valueOfSwitch: valueOfSwitch) //change this in future
         
         criterionView.adaptSize()
         criterionView.criterionId = criterion.id
@@ -231,6 +233,26 @@ class CriteriaAgencyProfileEditView: UIView, CriterionViewDelegate {
       self.addAllLabels()
       
     }
+    
+  }
+  
+  private func selectedCriterion(criterionID: String) -> Bool {
+    
+    if AgencyModel.Data.criteria != nil {
+      
+      for criterion in AgencyModel.Data.criteria! {
+        
+        if criterion.id == criterionID {
+          
+          return true
+          
+        }
+        
+      }
+      
+    }
+    
+    return false
     
   }
   

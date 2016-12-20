@@ -178,7 +178,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     let segmentsArray = ["Sí", "", "No"]
     
     clearObjectivesView = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                   title: "¿Te quedaron claro los objetivos?",
+                                                                   title: "¿Te quedaron claros los objetivos?",
                                                                    image: nil,
                                                                    segmentsText: segmentsArray)
     let originalSegmentControlFrame = clearObjectivesView.mainSegmentedControl.frame
@@ -663,7 +663,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     let segmentsArray = ["Sí", "", "No"]
     
     clearDeliverable = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                title: "Los entregables del pitch ¿quedaron claros?",
+                                                                title: "¿Los entregables del pitch quedaron claros?",
                                                                 image: nil,
                                                                 segmentsText: segmentsArray)
     

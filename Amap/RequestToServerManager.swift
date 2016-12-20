@@ -1206,6 +1206,130 @@ class RequestToServerManager: NSObject {
                   
                   let newPitchesTypesPercentage = (pitchEvaluationForCompany["pitch_types_percentage"] as? [String: AnyObject] != nil ? pitchEvaluationForCompany["pitch_types_percentage"] as! [String: AnyObject] : [String: AnyObject]())
                   
+                  var arrayOfRecommendations = [RecommendationModelData]()
+                  
+                  let recommendationsFromServer = (pitchEvaluationForCompany["recommendations"] as? Array<[String: AnyObject]> != nil ? pitchEvaluationForCompany["recommendations"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
+                  
+                  for recommendation in recommendationsFromServer {
+                    
+                    let newBody = (recommendation["body"] as? String != nil ? recommendation["body"] as! String : "")
+                    let newRecoId = (recommendation["reco_id"] as? String != nil ? recommendation["reco_id"] as! String : "")
+                    
+                    var nameOfIcon = ""
+                    if newRecoId != "" {
+                      
+                      if newRecoId == "client_objective_25" {
+                        
+                        nameOfIcon = "communication"
+                        
+                      }else
+                      
+                      if newRecoId == "client_objective_50" {
+                          
+                        nameOfIcon = "communication"
+                          
+                      }else
+                      
+                      if newRecoId == "client_objective_75" {
+                            
+                        nameOfIcon = "list"
+                            
+                      }else
+                      
+                      if newRecoId == "client_budget_25" {
+                          
+                        nameOfIcon = "budget"
+                          
+                      }else
+                        
+                      if newRecoId == "client_budget_50" {
+                              
+                        nameOfIcon = "budget"
+                              
+                      }else
+                        
+                      if newRecoId == "client_budget_75" {
+                          
+                        nameOfIcon = "budget"
+                          
+                      }else
+                      
+                      if newRecoId == "client_budget_100" {
+                          
+                        nameOfIcon = "budget"
+                          
+                      }else
+                        
+                      if newRecoId == "client_criteria" {
+                          
+                        nameOfIcon = "criteria"
+                          
+                      }else
+                          
+                      if newRecoId == "client_number_5" {
+                            
+                        nameOfIcon = "eye"
+                            
+                      }else
+                            
+                      if newRecoId == "client_number_7" {
+                              
+                        nameOfIcon = "number"
+                              
+                      }else
+                              
+                      if newRecoId == "client_time" {
+                                
+                        nameOfIcon = "time"
+                                
+                      }else
+                        
+                      if newRecoId == "client_more_time" {
+                          
+                        nameOfIcon = "more_time"
+                          
+                      }else
+                          
+                      if newRecoId == "client_property" {
+                            
+                        nameOfIcon = "property"
+                            
+                      }else
+                            
+                      if newRecoId == "client_deliverable_25" {
+                              
+                        nameOfIcon = "deliverable"
+                              
+                      }else
+                      
+                      if newRecoId == "client_deliverable_50" {
+                          
+                        nameOfIcon = "deliverable"
+                          
+                      }else
+                        
+                      if newRecoId == "client_deliverable_75" {
+                          
+                        nameOfIcon = "deliverable"
+                          
+                      }else
+                          
+                      if newRecoId == "client_deliverable_100" {
+                            
+                        nameOfIcon = "deliverable"
+                            
+                      }
+                    
+                    }
+                    
+                    let newRecommendation = RecommendationModelData.init(newBody: newBody,
+                      newRecoId: newRecoId)
+                    newRecommendation.iconName = nameOfIcon
+                    
+                    arrayOfRecommendations.append(newRecommendation)
+                    
+                  }
+                  
                   let newPitchEvaluationForCompany = PitchEvaluationByUserModelDataForCompany.init(newBrandName: newBrandName,
                     newBreakDown: newBreakDown,
                     newBriefDate: newBriefDate,
@@ -1215,6 +1339,7 @@ class RequestToServerManager: NSObject {
                     newPitchName: newPitchName,
                     newPitchTypesPercentage: newPitchesTypesPercentage,
                     newWinner: newWinner)
+                  newPitchEvaluationForCompany.recommendations = arrayOfRecommendations
                   
                   newArrayOfPitchesByUserForCompany.append(newPitchEvaluationForCompany)
             
@@ -2504,7 +2629,7 @@ class RequestToServerManager: NSObject {
     
   }
   
-  func requestToGetPitchEvaluationsDashboardSummaryByClient(actionsToMakeAfterGettingInfo:(numberOfPitchesByClientForDashboardSummary: [String: Int], arrayOfBrands: [BrandModelData]) -> Void) {
+  func requestToGetPitchEvaluationsDashboardSummaryByClient(actionsToMakeAfterGettingInfo:(numberOfPitchesByClientForDashboardSummary: [String: Int], arrayOfBrands: [BrandModelData], recommendations: [RecommendationModelData]) -> Void) {
     
     let urlToRequest = "http://amap-dev.herokuapp.com/api/pitch_evaluations/dashboard_summary_by_client"
     
@@ -2573,7 +2698,131 @@ class RequestToServerManager: NSObject {
             
           }
           
-          actionsToMakeAfterGettingInfo(numberOfPitchesByClientForDashboardSummary: finalNumberOfPitchesByClient, arrayOfBrands: arrayOfBrandsModelData)
+          var arrayOfRecommendations = [RecommendationModelData]()
+          
+          let recommendationsFromServer = (json["recommendations"] as? Array<[String: AnyObject]> != nil ? json["recommendations"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
+          
+          for recommendation in recommendationsFromServer {
+            
+            let newBody = (recommendation["body"] as? String != nil ? recommendation["body"] as! String : "")
+            let newRecoId = (recommendation["reco_id"] as? String != nil ? recommendation["reco_id"] as! String : "")
+            
+            var nameOfIcon = ""
+            if newRecoId != "" {
+              
+              if newRecoId == "client_objective_25" {
+                
+                nameOfIcon = "communication"
+                
+              }else
+                
+              if newRecoId == "client_objective_50" {
+                  
+                nameOfIcon = "communication"
+                  
+              }else
+                  
+              if newRecoId == "client_objective_75" {
+                    
+                nameOfIcon = "list"
+                    
+              }else
+                    
+              if newRecoId == "client_budget_25" {
+                      
+                nameOfIcon = "budget"
+                      
+              }else
+                      
+              if newRecoId == "client_budget_50" {
+                        
+                nameOfIcon = "budget"
+                        
+              }else
+                        
+              if newRecoId == "client_budget_75" {
+                          
+                nameOfIcon = "budget"
+                          
+              }else
+                          
+              if newRecoId == "client_budget_100" {
+                            
+                nameOfIcon = "budget"
+                            
+              }else
+                            
+              if newRecoId == "client_criteria" {
+                              
+                nameOfIcon = "criteria"
+                              
+              }else
+                              
+              if newRecoId == "client_number_5" {
+                                
+                nameOfIcon = "eye"
+                                
+              }else
+                                
+              if newRecoId == "client_number_7" {
+                                  
+                nameOfIcon = "number"
+                                  
+              }else
+                                  
+              if newRecoId == "client_time" {
+                                    
+                nameOfIcon = "time"
+                                    
+              }else
+                                    
+              if newRecoId == "client_more_time" {
+                                      
+                nameOfIcon = "more_time"
+                                      
+              }else
+                                      
+              if newRecoId == "client_property" {
+                                        
+                nameOfIcon = "property"
+                                        
+              }else
+                                        
+              if newRecoId == "client_deliverable_25" {
+                                          
+                nameOfIcon = "deliverable"
+                                          
+              }else
+                                          
+              if newRecoId == "client_deliverable_50" {
+                                            
+                nameOfIcon = "deliverable"
+                                            
+              }else
+                                            
+              if newRecoId == "client_deliverable_75" {
+                
+                nameOfIcon = "deliverable"
+                                              
+              }else
+                                              
+              if newRecoId == "client_deliverable_100" {
+                                                
+                nameOfIcon = "deliverable"
+                                                
+              }
+              
+            }
+            
+            let newRecommendation = RecommendationModelData.init(newBody: newBody,
+              newRecoId: newRecoId)
+            newRecommendation.iconName = nameOfIcon
+            
+            arrayOfRecommendations.append(newRecommendation)
+            
+          }
+
+          actionsToMakeAfterGettingInfo(numberOfPitchesByClientForDashboardSummary: finalNumberOfPitchesByClient, arrayOfBrands: arrayOfBrandsModelData, recommendations: arrayOfRecommendations)
           
         }else{
           
@@ -2637,7 +2886,7 @@ class RequestToServerManager: NSObject {
   
   
   
-  func requestToGetPitchEvaluationsDashboardSumaryByAgency(actionsToMakeAfterGetingInfo: (numberOfPitchesByAgencyForDashboardSumary: [String: Int] , arrayOfUsers: [AgencyUserModelData]) -> Void) {
+  func requestToGetPitchEvaluationsDashboardSumaryByAgency(actionsToMakeAfterGetingInfo: (numberOfPitchesByAgencyForDashboardSumary: [String: Int] , arrayOfUsers: [AgencyUserModelData], recommendations: [RecommendationModelData]) -> Void) {
     
     let urlToRequest = "http://amap-dev.herokuapp.com/api/pitch_evaluations/dashboard_summary_by_agency"
     
@@ -2703,7 +2952,109 @@ class RequestToServerManager: NSObject {
             
           }
           
-          actionsToMakeAfterGetingInfo(numberOfPitchesByAgencyForDashboardSumary: finalNumberOfPitchesByAgency, arrayOfUsers: arrayOfUsersModelData)
+          var arrayOfRecommendations = [RecommendationModelData]()
+          
+          let recommendationsFromServer = (json["recommendations"] as? Array<[String: AnyObject]> != nil ? json["recommendations"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
+          
+          for recommendation in recommendationsFromServer {
+            
+            let newBody = (recommendation["body"] as? String != nil ? recommendation["body"] as! String : "")
+            let newRecoId = (recommendation["reco_id"] as? String != nil ? recommendation["reco_id"] as! String : "")
+            
+            var nameOfIcon = ""
+            if newRecoId != "" {
+              
+              if newRecoId == "agency_communication" {
+                
+                nameOfIcon = "communication"
+                
+              }else
+                
+              if newRecoId == "agency_list" {
+                  
+                nameOfIcon = "communication"
+                  
+              }else
+                  
+              if newRecoId == "agency_budget_1" {
+                    
+                nameOfIcon = "list"
+                    
+              }else
+                    
+              if newRecoId == "agency_budget_3" {
+                      
+                nameOfIcon = "budget"
+                      
+              }else
+                      
+              if newRecoId == "agency_sharing" {
+                        
+                nameOfIcon = "budget"
+                        
+              }else
+                        
+              if newRecoId == "agency_number_5" {
+                          
+                nameOfIcon = "budget"
+                          
+              }else
+                          
+              if newRecoId == "agency_number_7" {
+                            
+                nameOfIcon = "budget"
+                            
+              }else
+                            
+              if newRecoId == "agency_time" {
+                              
+                nameOfIcon = "criteria"
+                              
+              }else
+                              
+              if newRecoId == "agency_property" {
+                                
+                nameOfIcon = "eye"
+                                
+              }else
+                                
+              if newRecoId == "agency_deliverable" {
+                                  
+                nameOfIcon = "number"
+                                  
+              }else
+                                  
+              if newRecoId == "agency_careful" {
+                                    
+                nameOfIcon = "time"
+                                    
+              }else
+                                    
+              if newRecoId == "agency_speak" {
+                                      
+                nameOfIcon = "more_time"
+                                      
+              }else
+                                      
+              if newRecoId == "agency_alert" {
+                                        
+                nameOfIcon = "property"
+                                        
+              }
+              
+            }
+            
+            let newRecommendation = RecommendationModelData.init(newBody: newBody,
+              newRecoId: newRecoId)
+            newRecommendation.iconName = nameOfIcon
+            
+            arrayOfRecommendations.append(newRecommendation)
+            
+          }
+          
+          
+          
+          actionsToMakeAfterGetingInfo(numberOfPitchesByAgencyForDashboardSumary: finalNumberOfPitchesByAgency, arrayOfUsers: arrayOfUsersModelData, recommendations: arrayOfRecommendations)
           
         }else{
           

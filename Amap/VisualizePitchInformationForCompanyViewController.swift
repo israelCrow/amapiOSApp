@@ -12,6 +12,7 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
   
   private var pitchData: PitchEvaluationByUserModelDataForCompany! = nil
   private var descriptionsBreakDownView: EvaluationBreakDownView! = nil
+  private var recommendations: PitchRecommendationsView! = nil
   
   private var containerView: UIView! = nil
   private var mainScrollView: UIScrollView! = nil
@@ -256,8 +257,8 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
                                width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                               height: 285.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let recommendations = PitchRecommendationsView.init(frame: frameForView,
-                                           newRecommendations: [String:AnyObject]())
+    recommendations = PitchRecommendationsView.init(frame: frameForView,
+                                           newRecommendations: pitchData.recommendations)
     
     mainScrollView.addSubview(recommendations)
     
@@ -266,7 +267,7 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
     border.borderColor = UIColor.grayColor().CGColor
     border.borderWidth = width
     border.frame = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: recommendations.frame.origin.y + recommendations.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                               y: recommendations.frame.origin.y + recommendations.getFinalHeight() + (22.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                                height: 1.0 * UtilityManager.sharedInstance.conversionHeight)
     mainScrollView.layer.addSublayer(border)
@@ -277,7 +278,7 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
   private func createSharePitch() {
     
     let frameForView = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   y: (1320.0 * UtilityManager.sharedInstance.conversionHeight),
+                                   y: recommendations.frame.origin.y + recommendations.frame.size.height - (10.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                               height: 345.0 * UtilityManager.sharedInstance.conversionHeight)
     

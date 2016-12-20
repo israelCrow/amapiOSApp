@@ -39,10 +39,10 @@ class PitchCardForNormalClientView: UIView, CPTPieChartDataSource {
   
   private func setData() {
     
-    let happitchPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["happitch"] as! Int) / 100.0)
-    let happyPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["happy"] as! Int) / 100.0)
-    let okPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["ok"] as! Int) / 100.0)
-    let sadPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["unhappy"] as! Int) / 100.0)
+    let happitchPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["happitch"] as? Int != nil ? CGFloat(pitchData.pitchTypesPercentage["happitch"] as! Int) / 100.0 : 0.0))
+    let happyPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["happy"] as? Int != nil ? CGFloat(pitchData.pitchTypesPercentage["happy"] as! Int) / 100.0 : 0.0))
+    let okPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["ok"] as? Int != nil ? CGFloat(pitchData.pitchTypesPercentage["ok"] as! Int) / 100.0 : 0.0))
+    let sadPercentage = Double(CGFloat(pitchData.pitchTypesPercentage["unhappy"] as? Int != nil ? CGFloat(pitchData.pitchTypesPercentage["unhappy"] as! Int) / 100.0 : 0.0))
     
     dataForChart = [happitchPercentage, happyPercentage, okPercentage, sadPercentage]
 //    dataForChart = [0.25, 0.25, 0.25, 0.25]
@@ -88,26 +88,85 @@ class PitchCardForNormalClientView: UIView, CPTPieChartDataSource {
   
   private func createCircularChart() {
     
-    let frameForChartView = CGRect.init(x: (self.frame.size.width / 2.0) - (105.5 * UtilityManager.sharedInstance.conversionWidth),
-                                        y: 105.0 * UtilityManager.sharedInstance.conversionHeight,
-                                        width: 211.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        height: 211.0 * UtilityManager.sharedInstance.conversionHeight)
-
+    var noValues = true
     
-    chartHostView = CPTGraphHostingView.init(frame: frameForChartView)
-
-    self.configureHostView()
-    self.configureGraph()
-    self.configureChart()
-//    self.configureLegend()
-
-    self.addSubview(chartHostView)
+    for anyData in dataForChart {
+      
+      if anyData != 0.0 {
+        
+        noValues = false
+        
+      }
+      
+    }
+    
+    if noValues == false {
+    
+      let frameForChartView = CGRect.init(x: (self.frame.size.width / 2.0) - (105.5 * UtilityManager.sharedInstance.conversionWidth),
+                                          y: 105.0 * UtilityManager.sharedInstance.conversionHeight,
+                                          width: 211.0 * UtilityManager.sharedInstance.conversionWidth,
+                                          height: 211.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+      
+      chartHostView = CPTGraphHostingView.init(frame: frameForChartView)
+      
+      self.configureHostView()
+      self.configureGraph()
+      self.configureChart()
+      //    self.configureLegend()
+      
+      self.addSubview(chartHostView)
+    
+    } else {
+      
+      self.createNoValuesLabel()
+      
+    }
+    
+  }
+  
+  private func createNoValuesLabel() {
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 255.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    let genericLabel = UILabel.init(frame: frameForLabel)
+    genericLabel.numberOfLines = 0
+    genericLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIDisplay-Ultralight",
+                      size: 26.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Ninguna agencia\nha evaluado este pitch",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSKernAttributeName: CGFloat(2.0),
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    genericLabel.attributedText = stringWithFormat
+    genericLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (genericLabel.frame.size.width / 2.0),
+                               y: descriptionView.frame.origin.y + descriptionView.frame.size.height + (65.0 * UtilityManager.sharedInstance.conversionHeight),
+                               width: genericLabel.frame.size.width,
+                               height: genericLabel.frame.size.height)
+    
+    genericLabel.frame = newFrame
+    
+    self.addSubview(genericLabel)
     
   }
   
   private func configureHostView() {
     
     chartHostView.allowPinchScaling = false
+    chartHostView.userInteractionEnabled = false
     
   }
   
@@ -213,11 +272,16 @@ class PitchCardForNormalClientView: UIView, CPTPieChartDataSource {
       
     }
     
+    let happitchValue = (pitchData.pitchTypesPercentage["happitch"] as? Int != nil ? pitchData.pitchTypesPercentage["happitch"] as! Int : 0)
+    let happyValue = (pitchData.pitchTypesPercentage["happy"] as? Int != nil ? pitchData.pitchTypesPercentage["happy"] as! Int : 0)
+    let okValue = (pitchData.pitchTypesPercentage["ok"] as? Int != nil ? pitchData.pitchTypesPercentage["ok"] as! Int : 0)
+    let sadValue = (pitchData.pitchTypesPercentage["unhappy"] as? Int != nil ? pitchData.pitchTypesPercentage["unhappy"] as! Int : 0)
+    
     let facesToShow: [String: Int] = [
-      VisualizeDashboardConstants.Faces.kGold:   pitchData.pitchTypesPercentage["happitch"] as! Int,
-      VisualizeDashboardConstants.Faces.kSilver: pitchData.pitchTypesPercentage["happy"] as! Int,
-      VisualizeDashboardConstants.Faces.kMedium: pitchData.pitchTypesPercentage["ok"] as! Int,
-      VisualizeDashboardConstants.Faces.kBad:    pitchData.pitchTypesPercentage["unhappy"] as! Int
+      VisualizeDashboardConstants.Faces.kGold:   happitchValue,
+      VisualizeDashboardConstants.Faces.kSilver: happyValue,
+      VisualizeDashboardConstants.Faces.kMedium: okValue,
+      VisualizeDashboardConstants.Faces.kBad:    sadValue
     ]
     
     let frameForFacesView = CGRect.init(x: (self.frame.size.width / 2.0) - (110.0 * UtilityManager.sharedInstance.conversionWidth),
@@ -226,7 +290,8 @@ class PitchCardForNormalClientView: UIView, CPTPieChartDataSource {
                                    height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
     
     facesView = FacesEvaluationsView.init(frame: frameForFacesView,
-                                          facesToShow: facesToShow)
+                                          facesToShow: facesToShow,
+                                          withPercentage: true)
     facesView.clipsToBounds = true
     
     self.addSubview(facesView)

@@ -11,7 +11,8 @@ import UIKit
 class RecommendationsDashboardsView: UIView {
   
   private var recommentationsLabel: UILabel! = nil
-  private var arrayOfRecommendations: [String]! = nil
+  private var arrayOfRecommendations = [RecommendationModelData]()
+  private var recommendationsView = [UIView]()
   
   required init?(coder aDecoder: NSCoder) {
    
@@ -19,7 +20,7 @@ class RecommendationsDashboardsView: UIView {
     
   }
   
-  init(frame: CGRect, newArrayOfRecommendations: [String]) {
+  init(frame: CGRect, newArrayOfRecommendations: [RecommendationModelData]) {
     
     arrayOfRecommendations = newArrayOfRecommendations
     
@@ -32,7 +33,7 @@ class RecommendationsDashboardsView: UIView {
   private func initInterface() {
     
     self.createReccomendationsLabel()
-    self.createRecommendationsView()
+    self.createRecommendations()
     
   }
   
@@ -73,30 +74,68 @@ class RecommendationsDashboardsView: UIView {
     
   }
   
-  private func createRecommendationsView() {
+//  private func createRecommendationsView() {
+//    
+//    var frameForRecommendations = CGRect.init(x: 0.0,
+//              y: recommentationsLabel.frame.origin.y + recommentationsLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
+//          width: 193.0 * UtilityManager.sharedInstance.conversionWidth,
+//         height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
+//    
+//    for recommendation in arrayOfRecommendations {
+//      
+//      let newRecommendation = SimpleIconLabelView.init(frame: frameForRecommendations,
+//                                              newTextOfLabel: recommendation,
+//                                               newNameOfIcon: "smallGroup")
+//      
+//      self.addSubview(newRecommendation)
+//      
+//      frameForRecommendations = CGRect.init(x: 0.0,
+//             y: newRecommendation.frame.origin.y + newRecommendation.frame.size.height + (3.0 * UtilityManager.sharedInstance.conversionHeight),
+//         width: frameForRecommendations.size.width,
+//        height: frameForRecommendations.size.height)
+//      
+//    }
+//    
+//  }
+  
+  private func createRecommendations() {
     
-    var frameForRecommendations = CGRect.init(x: 0.0,
-              y: recommentationsLabel.frame.origin.y + recommentationsLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
-          width: 193.0 * UtilityManager.sharedInstance.conversionWidth,
-         height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
+    var recommendationsFrame = CGRect.init(x: 0.0,
+                                           y: recommentationsLabel.frame.origin.y + recommentationsLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
+                                       width: 193.0 * UtilityManager.sharedInstance.conversionWidth,
+                                      height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
     
     for recommendation in arrayOfRecommendations {
       
-      let newRecommendation = SimpleIconLabelView.init(frame: frameForRecommendations,
-                                              newTextOfLabel: recommendation,
-                                               newNameOfIcon: "smallGroup")
+      let recommendationView = PitchRecommendationImageLabelView.init(frame: recommendationsFrame,
+                                                                newIconName: recommendation.iconName,
+                                                                      newRecommendationText: recommendation.body,
+                                                      newCreateForDashboard: true)
       
-      self.addSubview(newRecommendation)
+      self.addSubview(recommendationView)
+      self.recommendationsView.append(recommendationView)
       
-      frameForRecommendations = CGRect.init(x: 0.0,
-             y: newRecommendation.frame.origin.y + newRecommendation.frame.size.height + (3.0 * UtilityManager.sharedInstance.conversionHeight),
-         width: frameForRecommendations.size.width,
-        height: frameForRecommendations.size.height)
+      recommendationsFrame = CGRect.init(x: recommendationsFrame.origin.x,
+                                         y: recommendationView.frame.origin.y + recommendationView.frame.size.height + (8.0 * UtilityManager.sharedInstance.conversionHeight) ,
+                                         width: recommendationsFrame.size.width,
+                                         height: recommendationsFrame.size.height)
       
     }
     
   }
   
-
+  func getFinalHeight() -> CGFloat {
+    
+    var finalHeight: CGFloat = recommentationsLabel.frame.origin.y + recommentationsLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    for recommendationView in recommendationsView {
+      
+      finalHeight = finalHeight + recommendationView.frame.size.height + (8.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+    }
+    
+    return finalHeight
+    
+  }
   
 }

@@ -84,7 +84,7 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
   @objc private func dismissKeyboard(sender:AnyObject) {
     
     
-    self.actionWhenClearTextField(self.searchView)
+ //   self.actionWhenClearTextField(self.searchView)
     self.view.endEditing(true)
     
   }
@@ -142,7 +142,7 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
   private func createSearchView() {
     
     let frameForNewView = CGRect.init(x: (self.view.frame.size.width / 2.0) - (110.0 * UtilityManager.sharedInstance.conversionWidth),
-                                      y: 40.0 * UtilityManager.sharedInstance.conversionHeight,
+                                      y: 60.0 * UtilityManager.sharedInstance.conversionHeight,
                                       width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                       height: 454.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -251,6 +251,14 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
     mainCarousel.dataSource = self
     mainCarousel.alpha = 1.0
     self.view.addSubview(mainCarousel)
+    
+  }
+  
+  override func viewWillAppear(animated: Bool) {
+    
+    super.viewWillAppear(animated)
+    
+    self.requestForAllPitchesAndTheirEvaluations()
     
   }
   
