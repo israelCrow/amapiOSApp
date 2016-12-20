@@ -257,7 +257,7 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
                                      width: self.frame.size.width,
                                     height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    companyEMailView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: "Escribe tus datos de contacto", image: "iconMailBlack")
+    companyEMailView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: "Escribe tus datos de contacto", image: "iconMailClient")
     companyEMailView.mainTextField.placeholder = "mail@mail.com"
     companyEMailView.mainTextField.tag = 2
     companyEMailView.mainTextField.delegate = self
@@ -282,7 +282,7 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
                                      width: self.frame.size.width,
                                     height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    companyContactView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: nil, image: "iconMailBlack")
+    companyContactView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: nil, image: "iconUser")
     companyContactView.mainTextField.placeholder = "Nombre"
     companyContactView.mainTextField.tag = 3
     companyContactView.mainTextField.delegate = self
@@ -307,7 +307,7 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
                                          width: self.frame.size.width,
                                          height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    companyPositionView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: nil, image: "iconMailBlack")
+    companyPositionView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: nil, image: "icon-briefcase")
     companyPositionView.mainTextField.placeholder = "Puesto"
     companyPositionView.mainTextField.tag = 4
     companyPositionView.mainTextField.delegate = self
