@@ -290,7 +290,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     caseDescriptionTextView.backgroundColor = UIColor.whiteColor()
     caseDescriptionTextView.font = UIFont(name:"SFUIText-Regular",
                                         size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
-    caseDescriptionTextView.text = "Descripción del caso"
+    caseDescriptionTextView.text = "Descripción del caso   "
     caseDescriptionTextView.textColor = UIColor.lightGrayColor()
     caseDescriptionTextView.delegate = self
 
@@ -881,7 +881,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
     if textView.tag == 1 {
       
       self.setPlaceHolderOfTextView(textView)
-      if textView.text != "Descripción del caso" {
+      if textView.text != "Descripción del caso   " {
       
         self.showClearButton()
         
@@ -903,7 +903,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
   
   private func removePlaceHolderOfTextView(textView: UITextView) {
     
-    if textView.text == "Descripción del caso" {
+    if textView.text == "Descripción del caso   " {
       
       textView.text = ""
       textView.textColor = UIColor.blackColor()
@@ -915,7 +915,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
    
     if textView.text == "" {
       
-      textView.text = "Descripción del caso"
+      textView.text = "Descripción del caso   "
       textView.textColor = UIColor.lightGrayColor()
       self.hideClearButton()
       
@@ -1012,7 +1012,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
     
     var isDescriptionOk: Bool = false
     
-    if caseDescriptionTextView.text != "Descripción del caso" && caseDescriptionTextView.text != ""{
+    if caseDescriptionTextView.text != "Descripción del caso   " && caseDescriptionTextView.text != ""{
       
       isDescriptionOk = UtilityManager.sharedInstance.isValidText(caseDescriptionTextView.text)
       
@@ -1025,15 +1025,17 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
       doesExistImage = false
     }
     
-    if previewVideoPlayerVimeoYoutube.imageForCaseImageView.image == nil {
-      
+    if previewVideoPlayerVimeoYoutube.imageForCaseImageView?.image == nil {
+        
       deleteImage = true
-      
+        
     } else {
-      
+        
       deleteImage = false
-      
+        
     }
+    
+
     
 //    if isNameOk == true && isDescriptionOk == true && (urlIsFromYoutube == true || urlIsFromVimeo == true) {
 //      
@@ -1142,7 +1144,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
             
           } else
             
-            if previewVideoPlayerVimeoYoutube.imageForCaseImageView.image != nil {
+            if previewVideoPlayerVimeoYoutube.imageForCaseImageView?.image != nil {
               
               dataImage = UIImagePNGRepresentation(previewVideoPlayerVimeoYoutube.imageForCaseImageView.image!)!
               
@@ -1322,7 +1324,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
     let isNameOk = UtilityManager.sharedInstance.isValidText(caseNameView.mainTextField.text!)
     var isDescriptionOk: Bool = false
     
-    if caseDescriptionTextView.text != "Descripción del caso" && caseDescriptionTextView.text != "" {
+    if caseDescriptionTextView.text != "Descripción del caso   " && caseDescriptionTextView.text != "" {
       
       isDescriptionOk = UtilityManager.sharedInstance.isValidText(caseDescriptionTextView.text)
       

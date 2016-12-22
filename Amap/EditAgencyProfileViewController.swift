@@ -1039,6 +1039,9 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
                 
               }
               
+              self.pageToShow = 4
+              self.moveScrollViewToPageToShow()
+              
               self.flipCard.flip()
               self.createButtonsForFlipCard()
               self.createSaveChangesButton()
@@ -1179,6 +1182,9 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
               
               UtilityManager.sharedInstance.hideLoader()
               
+              self.pageToShow = 4
+              self.moveScrollViewToPageToShow()
+              
               self.flipCard.flip()
               self.createButtonsForFlipCard()
               self.createSaveChangesButton()
@@ -1233,6 +1239,9 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     let blankView = UIView.init(frame:frameForViewsOfCard)
     blankView.hidden = true
     flipCard.setSecondView(blankView)
+    
+    pageToShow = 4
+    self.moveScrollViewToPageToShow()
     self.createButtonsForFlipCard()
     self.createSaveChangesButton()
     

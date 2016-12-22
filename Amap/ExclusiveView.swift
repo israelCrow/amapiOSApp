@@ -505,7 +505,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
         
         let brandTextField = textField as! BasicCustomTextField
       
-        if UtilityManager.sharedInstance.isValidText(brandTextField.text!) == true && brandTextField.getExclusiveBrandData().id == "-1" {
+        if UtilityManager.sharedInstance.isValidText(brandTextField.text!) { //== true && brandTextField.getExclusiveBrandData().id == "-1" {
         
           arrayOfBrandsToCreate.append(textField.text!)
       
