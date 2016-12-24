@@ -270,7 +270,7 @@ class CircleGraphView: UIView {
   
   private func createElements() {
   
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
     
       self.createCircles()
       self.createLabelsOfElements()

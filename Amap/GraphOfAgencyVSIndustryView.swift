@@ -141,7 +141,7 @@ class GraphOfAgencyVSIndustryView: UIView {
     
     var stringName = ""
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
       stringName = AgencyModel.Data.name
       

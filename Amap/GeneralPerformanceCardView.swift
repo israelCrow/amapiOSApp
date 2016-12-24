@@ -83,7 +83,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
   
   private func initValues() {
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
       for user in arrayOfAgencyUsersModelData {
         
@@ -191,6 +191,16 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
 //    selectorOfInformationView.mainTextField.addTarget(self,
 //                                              action: #selector(howManyDaysToShowEdited),
 //                                              forControlEvents: .AllEditingEvents)
+    
+    if UserSession.session.role == "3" {
+      
+      selectorOfInformationView.mainTextField.text = (UserSession.session.first_name != nil ? UserSession.session.first_name! : "My User")
+      selectorOfInformationView.alpha = 1.0
+      selectorOfInformationView.userInteractionEnabled = false
+      
+    }
+    
+    
     mainScrollView.addSubview(selectorOfInformationView)
 
   }
@@ -244,7 +254,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     
     var facesToShow = [String: Int]()
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
       let numberOfHappitchesByAgency = (numberOfPitchesByAgency["happitch"] != nil ? numberOfPitchesByAgency["happitch"] : 0)
       let numberOfHappiesByAgency = (numberOfPitchesByAgency["happy"] != nil ? numberOfPitchesByAgency["happy"] : 0)
@@ -303,7 +313,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     var numberOfLostPitchesByAgency = 0
     var numberOfWonPitchesByAgency = 0
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
     
       numberOfLostPitchesByAgency = (numberOfPitchesByAgency["lost"] != nil ? numberOfPitchesByAgency["lost"]! : 0)
       numberOfWonPitchesByAgency = (numberOfPitchesByAgency["won"] != nil ? numberOfPitchesByAgency["won"]! : 0)
@@ -409,6 +419,16 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     
     mainScrollView.contentSize = newContentSize
     
+    
+    if UserSession.session.role == "3" {
+      
+      let params: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
+                                         "id": UserSession.session.id]
+      
+      self.delegate?.requestToGetValuesByUser(params)
+      
+    }
+    
   }
 
   
@@ -416,7 +436,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
   
   func userSelected(numberOfElementInArrayOfUsers: Int) {
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
       
       

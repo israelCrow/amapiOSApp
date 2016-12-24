@@ -273,7 +273,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                   UserSession.session.last_name = last_name
                   UserSession.session.role = role_string
                   
-                  if UserSession.session.role == "2" {
+                  if UserSession.session.role == "2" || UserSession.session.role == "3" {
                     
                     RequestToServerManager.sharedInstance.requestForAgencyData(){
                       
@@ -350,7 +350,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
     var arrayOfViewControllers = [UINavigationController]()
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
       arrayOfViewControllers.append(self.createFirstBarItem())
       arrayOfViewControllers.append(self.createSecondBarItem())

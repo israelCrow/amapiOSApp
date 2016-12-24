@@ -117,6 +117,27 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
       self.navigationItem.leftBarButtonItem = backButton
       
     } else
+      
+      if UserSession.session.role == "3" {
+        
+        let backButton = UIBarButtonItem(title: "",
+                                         style: UIBarButtonItemStyle.Plain,
+                                         target: self,
+                                         action: nil)
+        
+        let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
+                                        size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+        
+        let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
+                                                  NSForegroundColorAttributeName: UIColor.whiteColor()
+        ]
+        
+        backButton.setTitleTextAttributes(attributesDict, forState: .Normal)
+        
+        self.navigationItem.leftBarButtonItem = backButton
+        
+      }else
+      
       if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
         let backButton = UIBarButtonItem(title: "Atrás",
@@ -166,7 +187,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
   
   private func changeRigthButtonItem() {
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
       let rightButton = UIBarButtonItem(title: AgencyProfileVisualizeConstants.VisualizeAgencyProfileViewController.rightButtonText,
                                         style: UIBarButtonItemStyle.Plain,
@@ -829,7 +850,7 @@ class VisualizeAgencyProfileViewController: UIViewController, VisualizeCasesDele
     
     UIView.setAnimationsEnabled(true)
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
       let notToShowProfileTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowProfileTutorial + UserSession.session.email)
       

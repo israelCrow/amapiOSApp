@@ -81,7 +81,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     
     self.getInfoFromServer()
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
       let notToShowDashboardTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowDashboardTutorial + UserSession.session.email)
       
@@ -169,7 +169,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     mainScrollView = UIScrollView.init(frame: UIScreen.mainScreen().bounds)
     mainScrollView.backgroundColor = UIColor.clearColor()
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
     
       mainScrollView.contentSize = CGSize.init(width: UIScreen.mainScreen().bounds.width * CGFloat(kNumberOfCards),
                                               height: UIScreen.mainScreen().bounds.height)
@@ -192,7 +192,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   
   private func getInfoFromServer() {
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
      
       UtilityManager.sharedInstance.showLoader()
       
@@ -281,7 +281,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   
   private func createCards() {
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
       self.createGeneralPerformanceCard()
       
@@ -609,7 +609,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   
   func flipCardToShowFilterOfGraphAccordingToUser(sender: GraphAccordingToUserView) {
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
     
       nextTimeFlipFirstCard = true
     
@@ -640,7 +640,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   
   func cancelFilterButtonPressed(sender: FilterAccordingToUserAndAgencyView) {
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
       if nextTimeFlipFirstCard == true {
         
@@ -766,7 +766,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
         
       }
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
       if mainScrollView.contentOffset.x > 0.0 && mainScrollView.contentOffset.x < UIScreen.mainScreen().bounds.size.width {
         

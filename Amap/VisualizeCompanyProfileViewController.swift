@@ -62,10 +62,21 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
   
   private func changeBackButtonItem() {
     
-    let backButton = UIBarButtonItem(title: AgencyProfileVisualizeConstants.VisualizeAgencyProfileViewController.backButtonText,
-                                     style: UIBarButtonItemStyle.Plain,
-                                     target: self,
-                                     action: #selector(pushEditCompanyProfile))
+    var backButton = UIBarButtonItem(title: AgencyProfileVisualizeConstants.VisualizeAgencyProfileViewController.backButtonText,
+                                   style: UIBarButtonItemStyle.Plain,
+                                   target: self,
+                                   action: #selector(pushEditCompanyProfile))
+      
+    if UserSession.session.role == "5" {
+        
+      backButton = UIBarButtonItem(title: "",
+                                   style: UIBarButtonItemStyle.Plain,
+                                   target: self,
+                                   action: nil)
+      
+    }
+    
+
     
     let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
                                     size: 16.0 * UtilityManager.sharedInstance.conversionWidth)

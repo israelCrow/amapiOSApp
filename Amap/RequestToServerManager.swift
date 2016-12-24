@@ -750,7 +750,7 @@ class RequestToServerManager: NSObject {
           
           if arrayOfPitchEvaluationByUserModelData != nil {
             
-            if UserSession.session.role == "2" {
+            if UserSession.session.role == "2" || UserSession.session.role == "3" {
               
               var newArrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
               
@@ -1117,7 +1117,7 @@ class RequestToServerManager: NSObject {
           
           if arrayOfPitchEvaluationByUserModelData != nil {
             
-            if UserSession.session.role == "2" {
+            if UserSession.session.role == "2" || UserSession.session.role == "3" {
             
               var newArrayOfPitchesByUser = [PitchEvaluationByUserModelData]()
               

@@ -143,7 +143,7 @@ class SplashViewController: UIViewController {
 //
 //          }
           
-          if UserSession.session.role == "2" {
+          if UserSession.session.role == "2" || UserSession.session.role == "3" {
             
             RequestToServerManager.sharedInstance.requestForAgencyData(){
               
@@ -192,7 +192,7 @@ class SplashViewController: UIViewController {
     
     var arrayOfViewControllers = [UINavigationController]()
     
-    if UserSession.session.role == "2" {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
       arrayOfViewControllers.append(self.createFirstBarItem())
       arrayOfViewControllers.append(self.createSecondBarItem())
