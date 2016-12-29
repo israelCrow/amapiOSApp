@@ -294,7 +294,7 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
                           
                           self.flipCardToFailedExistingAccount(false, typeOfUser: nil)
                           
-                        } else if errorinString == "Ya existe un usuario de tu agencia registrado" || errorinString == "Ya existe un usuario de tu compañía registrado"{
+                        } else if errorinString == "Ya existe un usuario de tu agencia registrado" || errorinString == "Ya existe un usuario de tu compañía registrado"{ //check if this not change from server
                         
                           self.flipCardToFailedExistingAccount(true, typeOfUser: typeOfUser)
                           

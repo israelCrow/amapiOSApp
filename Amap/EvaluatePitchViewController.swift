@@ -135,7 +135,7 @@ class EvaluatePitchViewController: UIViewController, EvaluatePitchViewDelegate {
     detailedNavigation = DetailedNavigationEvaluatPitchView.init(frame: frameForDetailedNav,
       newProjectName: pitchData.name,
       newBrandName: (pitchData.brandData != nil ? pitchData.brandData!.name : "Marca"),
-      newCompanyName: (pitchData.companyData != nil ? pitchData.companyData!.name : "Compañía"),
+      newCompanyName: (pitchData.companyData != nil ? pitchData.companyData!.name : "Anunciante"),
       newDateString: pitchData.briefDate)
     
     detailedNavigation.alpha = 0.0

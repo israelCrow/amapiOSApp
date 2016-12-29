@@ -338,7 +338,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     agencyPhoneView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                         title: AgencyProfileEditConstants.ProfileView.agencyPhoneTitleText,
                                                         image: "iconPhone")
-    agencyPhoneView.mainTextField.placeholder = "00 00000000"
+    agencyPhoneView.mainTextField.placeholder = ""
     agencyPhoneView.mainTextField.tag = 2
     
     if AgencyModel.Data.phone != nil {

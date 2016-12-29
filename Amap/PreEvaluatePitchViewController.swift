@@ -129,7 +129,7 @@ class PreEvaluatePitchViewController: UIViewController, PreEvaluatePitchViewDele
     detailedNavigation = DetailedNavigationEvaluatPitchView.init(frame: frameForDetailedNav,
       newProjectName: pitchData.name,
       newBrandName: (pitchData.brandData != nil ? pitchData.brandData!.name : "Marca"),
-      newCompanyName: (pitchData.companyData != nil ? pitchData.companyData!.name : "Compañía"),
+      newCompanyName: (pitchData.companyData != nil ? pitchData.companyData!.name : "Anunciante"),
       newDateString: nil)
     
     detailedNavigation.alpha = 0.0

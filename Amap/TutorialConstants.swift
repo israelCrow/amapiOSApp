@@ -19,7 +19,7 @@ class TutorialConstants {
   
   enum PitchesTutorial {
     
-    static let leftTopLabelText = "Busca por nombre, compañía o marca"
+    static let leftTopLabelText = "Busca por nombre, anunciante o marca"
     static let rightTopLabelText = "Usa los filtros para encontrar un pitch"
     static let bottomLabelText = "Aquí está la selección de pitches"
     static let bottomPitchesLabelText = "Pitches"

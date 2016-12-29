@@ -11,7 +11,7 @@ class VisualizeDashboardConstants {
   enum VisualizeMainCardsDashboardViewController {
     
     static let navigationBarTitleText = "Dashboard de Agencia"
-    static let navigationBarTitleTextForCompany = "Dashboard de Compañía"
+    static let navigationBarTitleTextForCompany = "Dashboard de Anunciante"
     
   }
   
@@ -33,7 +33,7 @@ class VisualizeDashboardConstants {
   enum GraphOfAgencyVSIndustry {
     
     static let agencyPerformanceLabelText = "Performance de tu agencia"
-    static let companyPerformanceLabelText = "Performance de tu compañía"
+    static let companyPerformanceLabelText = "Performance del anunciante" //Performance de tu compañía
     
   }
 

@@ -184,7 +184,7 @@ class InfoPitchesView: UIView {
     faceOneLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIText-Light",
-                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 12.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Left
@@ -235,7 +235,7 @@ class InfoPitchesView: UIView {
     faceTwoLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIText-Light",
-                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 12.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Left
@@ -286,7 +286,7 @@ class InfoPitchesView: UIView {
     faceThreeLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIText-Light",
-                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 12.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Left
@@ -337,7 +337,7 @@ class InfoPitchesView: UIView {
     faceFourLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIText-Light",
-                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 12.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Left

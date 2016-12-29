@@ -41,8 +41,8 @@ class VisualizePitchesConstants {
   
   enum AddPitchAndWriteCompanyNameView {
     
-    static let writeCompanyNameLabelText = "Escribe el nombre de la compañía"
-    static let askPermissionLabelText = "No hay ninguna compañía registrada con ese nombre\n\n¿Desea agregarla?"
+    static let writeCompanyNameLabelText = "Escribe el nombre del anunciante" //escribe el nombre de la compañía
+    static let askPermissionLabelText = "No hay ningún anunciante registrado con ese nombre\n\n¿Desea agregarlo?" 
     static let addButtonText = "Agregar"
     
   }
@@ -138,10 +138,10 @@ class VisualizePitchesConstants {
     static let rightButtonItemText = "Cerrar"
     
     static let evaluationLabelText = "Evaluación"
-    static let faceOneLabelText = "70 - 100\n puntos"
-    static let faceTwoLabelText = "59 - 69\n puntos"
-    static let faceThreeLabelText = "45 - 58\n puntos"
-    static let faceFourLabelText = "0 - 44\n puntos"
+    static let faceOneLabelText = "70 - 100\n Happitch"
+    static let faceTwoLabelText = "59 - 69\n Happy"
+    static let faceThreeLabelText = "45 - 58\n OK"
+    static let faceFourLabelText = "0 - 44\n Unhappy"
     
     static let statisticsLabelText = "Estadísticas"
     static let descriptionStatisticsLabelText = "Lorem ipsum dolor sit amet,consectetur adipiscing elit. Vivamus vestibulum velit nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Interdum et malesuada fames ac ante ipsum primis in faucibus."

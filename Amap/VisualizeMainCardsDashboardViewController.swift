@@ -383,6 +383,13 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
         newNumberOfPitchesByAgency: numberOfPitchesByAgency,
         newRecommendationsData: recommendations)
     gralPerformanceCardView.delegate = self
+    
+    if UserSession.session.role == "3" {
+      
+      gralPerformanceCardView.actionToMakeWhenUserRoleThree()
+      
+    }
+    
     mainScrollView.addSubview(gralPerformanceCardView)
     
   }
@@ -554,6 +561,12 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
       newTitleText: "Tus estadísticas",
       newRecommendationsData: self.recommendations)
     gralOwnStatisticsPerformanceCardView.delegate = self
+    
+    if UserSession.session.role == "5" {
+      
+      gralOwnStatisticsPerformanceCardView.actionToMakeWhenUserRoleIsFive()
+      
+    }
     
     mainScrollView.addSubview(gralOwnStatisticsPerformanceCardView)
     

@@ -170,7 +170,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
                                  width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                  height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
       
-      textForselector = "Elige a la compañía que quieres visualizar"
+      textForselector = "Elige al anunciante que quieres visualizar"
       
     }
     
@@ -192,9 +192,9 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
 //                                              action: #selector(howManyDaysToShowEdited),
 //                                              forControlEvents: .AllEditingEvents)
     
-    if UserSession.session.role == "3" {
+    if UserSession.session.role == "3" || UserSession.session.role == "5" {
       
-      selectorOfInformationView.mainTextField.text = (UserSession.session.first_name != nil ? UserSession.session.first_name! : "My User")
+      selectorOfInformationView.mainTextField.text = (UserSession.session.first_name != nil && UserSession.session.first_name != "" ? UserSession.session.first_name! : "Usuario actual")
       selectorOfInformationView.alpha = 1.0
       selectorOfInformationView.userInteractionEnabled = false
       
@@ -419,6 +419,9 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     
     mainScrollView.contentSize = newContentSize
     
+  }
+  
+  func actionToMakeWhenUserRoleThree() {
     
     if UserSession.session.role == "3" {
       

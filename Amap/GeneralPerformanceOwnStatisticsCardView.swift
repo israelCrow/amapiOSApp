@@ -334,6 +334,19 @@ class GeneralPerformanceOwnStatisticsCardView: UIView, CustomTextFieldWithTitleA
     
   }
   
+  func actionToMakeWhenUserRoleIsFive() {
+    
+    if UserSession.session.role == "5" {
+  
+      let params: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
+                                         "id": UserSession.session.id]
+      
+      self.delegate?.requestToGetValuesByBrand(params)
+  
+    }
+
+  }
+  
   @objc private func dismissKeyboard(sender:AnyObject) {
     
     self.endEditing(true)

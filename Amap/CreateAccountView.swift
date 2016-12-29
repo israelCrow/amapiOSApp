@@ -188,7 +188,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
       style.alignment = NSTextAlignment.Center
       
       let stringWithFormat = NSMutableAttributedString(
-        string: "Compañía",
+        string: "Anunciante",
         attributes:[NSFontAttributeName:font!,
           NSParagraphStyleAttributeName:style,
           NSForegroundColorAttributeName:color
@@ -196,7 +196,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
       )
       brandLabel.attributedText = stringWithFormat
       brandLabel.sizeToFit()
-      let newFrame = CGRect.init(x: 171.0 * UtilityManager.sharedInstance.conversionWidth,
+      let newFrame = CGRect.init(x: 168.0 * UtilityManager.sharedInstance.conversionWidth,
                                  y: 136.0 * UtilityManager.sharedInstance.conversionHeight,
                                  width: brandLabel.frame.size.width,
                                  height: brandLabel.frame.size.height)
@@ -277,7 +277,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         nameTextField = UITextField.init(frame: frameForTextField)
         nameTextField.tag = 1
         nameTextField.delegate = self
-        nameTextField.placeholder = "Agencia/Compañía"
+        nameTextField.placeholder = "Agencia/Anunciante"
         nameTextField.clearButtonMode = .WhileEditing
 //        nameTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
       

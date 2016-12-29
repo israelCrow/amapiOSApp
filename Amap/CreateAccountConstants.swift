@@ -14,7 +14,7 @@ class CreateAccountConstants {
   
     static let createAccountText = "Crea tu perfil"
     static let amapText = "AMAP"
-    static let writeNameDescriptionText = "Escribe el nombre de la agencia o compañía"
+    static let writeNameDescriptionText = "Escribe el nombre de la agencia o anunciante"
     static let nameText = "Nombre"
     static let writeEMailDescriptioText = "Escribe tu mail"
     static let emailText = "Email"
@@ -37,7 +37,7 @@ class CreateAccountConstants {
     
     static let oopsText = "¡Ouuh!"
     static let alreadyExistAgencyUser = "Ya existe un usuario\nde tu agencia registrado"
-    static let alreadyExistCompanyUser = "Ya existe un usuario\nde tu compañía registrado"
+    static let alreadyExistCompanyUser = "Ya existe un usuario\ndel anunciante registrado"
     static let alreadyHaveAnAccount = "Al parecer ya tienes una cuenta"
     static let recommendationText = "Te recomendamos contactar al responsable para tener acceso"
     static let nextButtonText = "Ok"

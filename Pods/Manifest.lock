@@ -15,13 +15,13 @@ PODS:
   - YTVimeoExtractor (1.0.0)
 
 DEPENDENCIES:
-  - Alamofire
+  - Alamofire (= 3.4.1)
   - CorePlot (= 2.1)
-  - GoogleMaps
-  - GooglePlacePicker
-  - GooglePlaces
-  - YouTubePlayer
-  - YTVimeoExtractor
+  - GoogleMaps (= 2.0.1)
+  - GooglePlacePicker (= 2.0.1)
+  - GooglePlaces (= 2.0.1)
+  - YouTubePlayer (= 0.3.0)
+  - YTVimeoExtractor (= 1.0.0)
 
 SPEC CHECKSUMS:
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
@@ -32,6 +32,6 @@ SPEC CHECKSUMS:
   YouTubePlayer: 88713a96c356f2c88da8925eb61438eda88bcd57
   YTVimeoExtractor: fa329a7cc99fc3d0b4e1fa6fd9d1d5eab1835c7d
 
-PODFILE CHECKSUM: c56214156fe108048f91dc3cd642102caa45e365
+PODFILE CHECKSUM: e3a5d3dc8015b5adf73b666cf878b9e25b9a28bc
 
 COCOAPODS: 1.1.1
