@@ -207,8 +207,15 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator,
                                                newExclusiveData: fictitiousBrandForCreator)
       creatorOfBrandTextField.tag = -1234567890
-      creatorOfBrandTextField.placeholder = "Ejemplo de marca"
+      creatorOfBrandTextField.placeholder = "Agrega presionando Aceptar"
       creatorOfBrandTextField.delegate = self
+      creatorOfBrandTextField.returnKeyType = .Done
+      
+      let attributes = [
+        NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.35),
+        NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 14.0 * UtilityManager.sharedInstance.conversionWidth)!
+      ]
+      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Agrega presionando Aceptar", attributes: attributes)
       
       self.mainScrollView.addSubview(creatorOfBrandTextField)
       mainScrollView.showsVerticalScrollIndicator = true
@@ -257,8 +264,15 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator,
                                                           newExclusiveData: fictitiousBrandForCreator)
       creatorOfBrandTextField.tag = -1234567890
-      creatorOfBrandTextField.placeholder = "Ejemplo de marca"
+      creatorOfBrandTextField.placeholder = "Agrega presionando Aceptar"
       creatorOfBrandTextField.delegate = self
+      creatorOfBrandTextField.returnKeyType = .Done
+      
+      let attributes = [
+        NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.35),
+        NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 14.0 * UtilityManager.sharedInstance.conversionWidth)!
+      ]
+      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Agrega presionando Aceptar", attributes: attributes)
       
       self.mainScrollView.addSubview(creatorOfBrandTextField)
       mainScrollView.showsVerticalScrollIndicator = true

@@ -568,36 +568,36 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
       
       if time_to_know_decision == "2s" {
         
-        howManyDaysTheyGiveTheRuling.mainTextField.text! = segmentsArray[0]
+        howManyDaysTheyGiveTheRuling.mainTextField.text! = segmentsArray[1]
         
       } else
         if time_to_know_decision == "3s" {
           
-          howManyDaysTheyGiveTheRuling.mainTextField.text! = segmentsArray[1]
+          howManyDaysTheyGiveTheRuling.mainTextField.text! = segmentsArray[2]
           
       } else
           
         if time_to_know_decision == "4s" {
             
-          howManyDaysTheyGiveTheRuling.mainTextField.text! = segmentsArray[2]
+          howManyDaysTheyGiveTheRuling.mainTextField.text! = segmentsArray[3]
             
       } else
           
         if time_to_know_decision == "5s" {
             
-          howManyDaysTheyGiveTheRuling.mainTextField.text! = segmentsArray[3]
+          howManyDaysTheyGiveTheRuling.mainTextField.text! = segmentsArray[4]
             
       } else
             
         if time_to_know_decision == ">5" {
               
-          howManyDaysTheyGiveTheRuling.mainTextField.text! = segmentsArray[4]
+          howManyDaysTheyGiveTheRuling.mainTextField.text! = segmentsArray[5]
               
       } else
           
         if time_to_know_decision == "NA" {
             
-          howManyDaysTheyGiveTheRuling.mainTextField.text! = segmentsArray[5]
+          howManyDaysTheyGiveTheRuling.mainTextField.text! = segmentsArray[0]
             
       }
       

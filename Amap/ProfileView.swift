@@ -662,23 +662,23 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
         
       }
       
-      if textField.text!.characters.count == 4 {
-        
-        textField.text = textField.text! + "("
-        
-      }
-      
-      if textField.text!.characters.count == 7 {
-        
-        textField.text = textField.text! + ") "
-        
-      }
-      
-      if textField.text!.characters.count == 13 {
-        
-        textField.text = textField.text! + "."
-        
-      }
+//      if textField.text!.characters.count == 4 {
+//        
+//        textField.text = textField.text! + "("
+//        
+//      }
+//      
+//      if textField.text!.characters.count == 7 {
+//        
+//        textField.text = textField.text! + ") "
+//        
+//      }
+//      
+//      if textField.text!.characters.count == 13 {
+//        
+//        textField.text = textField.text! + "."
+//        
+//      }
       
       if textField.text!.characters.count > 17 {
         
