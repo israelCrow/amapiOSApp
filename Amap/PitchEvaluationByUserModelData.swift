@@ -25,6 +25,7 @@ class PitchEvaluationByUserModelData {
   var hasResults: Bool! = nil       //to know if the questionnaire "add results" has been done
   var hasPitchWinnerSurvey: Bool! = nil //to know if the questionnaire "winner survey" has been done
   var pitchResultsId: String! = nil
+  var arrayOfRecommendations: [RecommendationModelData]! = nil
   
   init( newPitchEvaluationId: String, newPitchId: String, newPitchName: String, newBriefDate: String, newScore: Int, newBrandName: String, newCompanyName: String, newOtherScores: [Int], newArrayOfEvaluationPitchSkillCategory: [EvaluationPitchSkillCategoryModelData], newWasWon: Bool?, newPitchStatus: Int, newEvaluationStatus: Bool, newHasResults: Bool, newHasPitchWinnerSurvey: Bool, newPitchResultsId: String) {
     

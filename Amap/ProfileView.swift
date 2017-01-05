@@ -650,17 +650,17 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
         return true
       }
       
-      if textField.text!.characters.count == 1 {
-        
-        textField.text = "+" + textField.text!
-        
-      }
-      
-      if textField.text!.characters.count == 3 {
-        
-        textField.text = textField.text! + " "
-        
-      }
+//      if textField.text!.characters.count == 1 {
+//        
+//        textField.text = "+" + textField.text!
+//        
+//      }
+//      
+//      if textField.text!.characters.count == 3 {
+//        
+//        textField.text = textField.text! + " "
+//        
+//      }
       
 //      if textField.text!.characters.count == 4 {
 //        
@@ -680,7 +680,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
 //        
 //      }
       
-      if textField.text!.characters.count > 17 {
+      if textField.text!.characters.count > 13 {
         
         return false
         

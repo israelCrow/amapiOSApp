@@ -17,10 +17,16 @@ protocol DetailedInfoCompanyContactViewDelegate {
 class DetailedInfoCompanyContactView: UIView {
   
   private var companyLogoView: UIImageView! = nil
-  private var mailIconButton: UIButton! = nil
   private var companyNameLabel: UILabel! = nil
+  
   private var contactNameLabel: UILabel! = nil
   private var contactPositionLabel: UILabel! = nil
+  private var mailLabel: UILabel! = nil
+  private var mailIconButton: UIButton! = nil
+  private var toolBoxCompanyButton: UIButton! = nil
+  private var faceCompanyButton: UIButton! = nil
+  
+  private var arrayOfButtons = [UIButton]()
   
   var delegate: DetailedInfoCompanyContactViewDelegate?
   
@@ -41,6 +47,22 @@ class DetailedInfoCompanyContactView: UIView {
     self.createCompanyLogoView()
     self.createCompanyNameLabel()
     
+    arrayOfButtons.removeAll()
+    
+    if MyCompanyModelData.Data.contactName != nil && MyCompanyModelData.Data.contactName != "" {
+      
+      self.createFaceCompanyButton()
+      self.createContactNameLabel()
+      
+    }
+    
+    if MyCompanyModelData.Data.contactPosition != nil && MyCompanyModelData.Data.contactPosition != "" {
+      
+      self.createToolBoxButton()
+      self.createContactPositionLabel()
+      
+    }
+    
     var finalMail = ""
     
     if MyCompanyModelData.Data.contactEMail != nil {
@@ -54,12 +76,9 @@ class DetailedInfoCompanyContactView: UIView {
     if MyCompanyModelData.Data.contactEMail != nil && UtilityManager.sharedInstance.isValidEmail(finalMail) == true {
       
       self.createLetterButton()
+      self.createMailLabel()
       
     }
-    
-    
-    self.createContactNameLabel()
-    self.createContactPositionLabel()
     
   }
   
@@ -72,10 +91,10 @@ class DetailedInfoCompanyContactView: UIView {
       
     }
     
-    let frameForProfileImageView = CGRect.init(x: 0.0,
+    let frameForProfileImageView = CGRect.init(x: 88.0 * UtilityManager.sharedInstance.conversionWidth,
                                                y: 0.0,
-                                               width: 48.0 * UtilityManager.sharedInstance.conversionWidth,
-                                               height: 48.0 * UtilityManager.sharedInstance.conversionHeight)
+                                               width: 70.0 * UtilityManager.sharedInstance.conversionWidth,
+                                               height: 70.0 * UtilityManager.sharedInstance.conversionHeight)
     
     companyLogoView = UIImageView.init(frame: frameForProfileImageView)
     companyLogoView.backgroundColor = UIColor.lightGrayColor()
@@ -116,7 +135,7 @@ class DetailedInfoCompanyContactView: UIView {
     companyNameLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIDisplay-Light",
-                      size: 22.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -130,8 +149,8 @@ class DetailedInfoCompanyContactView: UIView {
     )
     companyNameLabel.attributedText = stringWithFormat
     companyNameLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 63.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 9.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (companyNameLabel.frame.size.width / 2.0),
+                               y: companyLogoView.frame.origin.y + companyLogoView.frame.size.height + (10.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: companyNameLabel.frame.size.width,
                                height: companyNameLabel.frame.size.height)
     
@@ -139,6 +158,47 @@ class DetailedInfoCompanyContactView: UIView {
     
     self.addSubview(companyNameLabel)
     
+    let border = CALayer()
+    let width = CGFloat(1)
+    border.borderColor = UIColor.darkGrayColor().CGColor
+    border.borderWidth = width
+    border.frame = CGRect.init(x: 12.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: companyNameLabel.frame.origin.y + companyNameLabel.frame.size.height + (6.0 * UtilityManager.sharedInstance.conversionHeight),
+                               width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                               height: 1.0)
+    self.layer.addSublayer(border)
+    
+  }
+  
+  private func createFaceCompanyButton() {
+  
+    var frameForButton = CGRect.init(x: 0.0,
+                                     y: companyLogoView.frame.origin.y + companyLogoView.frame.size.height + (83.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    if arrayOfButtons.last != nil {
+      
+      frameForButton = CGRect.init(x: 0.0,
+                                   y: arrayOfButtons.last!.frame.origin.y + arrayOfButtons.last!.frame.size.height + (32.0 * UtilityManager.sharedInstance.conversionHeight),
+                                  width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
+                                  height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+    }
+    
+    faceCompanyButton = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "faceCompany") as UIImage?
+    faceCompanyButton.setImage(image, forState: .Normal)
+    
+    faceCompanyButton.backgroundColor = UIColor.clearColor()
+    faceCompanyButton.tag = 1
+    faceCompanyButton.addTarget(self, action:nil, forControlEvents:.TouchUpInside)
+    
+    //containerView.addSubview(mailIconButton)
+    self.addSubview(faceCompanyButton)
+    
+    arrayOfButtons.append(faceCompanyButton)
+  
   }
   
   private func createContactNameLabel() {
@@ -150,9 +210,9 @@ class DetailedInfoCompanyContactView: UIView {
       
     }
     
-    let frameForLabel = CGRect.init(x: 0.0,
-                                    y: 0.0,
-                                    width: 165.0 * UtilityManager.sharedInstance.conversionWidth,
+    let frameForLabel = CGRect.init(x: faceCompanyButton.frame.origin.x + faceCompanyButton.frame.size.width + (18.5 * UtilityManager.sharedInstance.conversionWidth),
+                                    y: faceCompanyButton.frame.origin.y + (1.0 * UtilityManager.sharedInstance.conversionHeight),
+                                    width: self.frame.size.width - (50.0 * UtilityManager.sharedInstance.conversionWidth),
                                     height: CGFloat.max)
     
     contactNameLabel = UILabel.init(frame: frameForLabel)
@@ -174,14 +234,45 @@ class DetailedInfoCompanyContactView: UIView {
     )
     contactNameLabel.attributedText = stringWithFormat
     contactNameLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 44.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 78.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: faceCompanyButton.frame.origin.x + faceCompanyButton.frame.size.width + (18.5 * UtilityManager.sharedInstance.conversionWidth),
+                               y: faceCompanyButton.frame.origin.y + (1.0 * UtilityManager.sharedInstance.conversionHeight),
                            width: contactNameLabel.frame.size.width,
                           height: contactNameLabel.frame.size.height)
     
     contactNameLabel.frame = newFrame
     
     self.addSubview(contactNameLabel)
+    
+  }
+  
+  private func createToolBoxButton() {
+    
+    var frameForButton = CGRect.init(x: 0.0,
+                                     y: companyLogoView.frame.origin.y + companyLogoView.frame.size.height + (83.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    if arrayOfButtons.last != nil {
+      
+      frameForButton = CGRect.init(x: 0.0,
+                                   y: arrayOfButtons.last!.frame.origin.y + arrayOfButtons.last!.frame.size.height + (32.0 * UtilityManager.sharedInstance.conversionHeight),
+                                   width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+    }
+    
+    toolBoxCompanyButton = UIButton.init(frame: frameForButton)
+    let image = UIImage(named: "toolBoxCompany") as UIImage?
+    toolBoxCompanyButton.setImage(image, forState: .Normal)
+    
+    toolBoxCompanyButton.backgroundColor = UIColor.clearColor()
+    toolBoxCompanyButton.tag = 2
+    toolBoxCompanyButton.addTarget(self, action:nil, forControlEvents:.TouchUpInside)
+    
+    //containerView.addSubview(mailIconButton)
+    self.addSubview(toolBoxCompanyButton)
+    
+    arrayOfButtons.append(toolBoxCompanyButton)
     
   }
   
@@ -218,8 +309,8 @@ class DetailedInfoCompanyContactView: UIView {
     )
     contactPositionLabel.attributedText = stringWithFormat
     contactPositionLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 44.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 111.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: toolBoxCompanyButton.frame.origin.x + toolBoxCompanyButton.frame.size.width + (18.5 * UtilityManager.sharedInstance.conversionWidth),
+                               y: toolBoxCompanyButton.frame.origin.y + (5.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: contactPositionLabel.frame.size.width,
                                height: contactPositionLabel.frame.size.height)
     
@@ -231,10 +322,19 @@ class DetailedInfoCompanyContactView: UIView {
   
   private func createLetterButton() {
     
-    let frameForButton = CGRect.init(x: 0.0,
-                                     y: 82.0 * UtilityManager.sharedInstance.conversionHeight,
-                                 width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
-                                height: 16.0 * UtilityManager.sharedInstance.conversionHeight)
+    var frameForButton = CGRect.init(x: 0.0,
+                                     y: companyLogoView.frame.origin.y + companyLogoView.frame.size.height + (83.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    if arrayOfButtons.last != nil {
+      
+      frameForButton = CGRect.init(x: 0.0,
+                                   y: arrayOfButtons.last!.frame.origin.y + arrayOfButtons.last!.frame.size.height + (32.0 * UtilityManager.sharedInstance.conversionHeight),
+                                   width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+    }
     
     mailIconButton = UIButton.init(frame: frameForButton)
     let image = UIImage(named: "iconMailBlack") as UIImage?
@@ -247,6 +347,52 @@ class DetailedInfoCompanyContactView: UIView {
     //containerView.addSubview(mailIconButton)
     self.addSubview(mailIconButton)
     
+    arrayOfButtons.append(mailIconButton)
+    
+  }
+  
+  private func createMailLabel() {
+    
+    if mailLabel != nil {
+      
+      mailLabel.removeFromSuperview()
+      mailLabel = nil
+      
+    }
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 165.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    mailLabel = UILabel.init(frame: frameForLabel)
+    mailLabel.numberOfLines = 2
+    mailLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: MyCompanyModelData.Data.contactEMail,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    mailLabel.attributedText = stringWithFormat
+    mailLabel.sizeToFit()
+    let newFrame = CGRect.init(x: mailIconButton.frame.origin.x + mailIconButton.frame.size.width + (18.5 * UtilityManager.sharedInstance.conversionWidth),
+                               y: mailIconButton.frame.origin.y + (3.0 * UtilityManager.sharedInstance.conversionHeight),
+                               width: mailLabel.frame.size.width,
+                               height: mailLabel.frame.size.height)
+    
+    mailLabel.frame = newFrame
+    
+    self.addSubview(mailLabel)
+    
   }
   
   @objc private func mailIconPressed() {
@@ -257,7 +403,6 @@ class DetailedInfoCompanyContactView: UIView {
   
   func reloadDataToShow(reloadImage: Bool) {
     
-
     self.createCompanyLogoView()
     self.createCompanyNameLabel()
     self.createContactNameLabel()

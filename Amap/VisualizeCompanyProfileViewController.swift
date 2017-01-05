@@ -143,7 +143,7 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
   private func createAndAddFlipCard() {
     
     let widthOfCard = self.view.frame.size.width - (80.0 * UtilityManager.sharedInstance.conversionWidth)
-    let heightOfCard = self.view.frame.size.height - (168.0 * UtilityManager.sharedInstance.conversionHeight)
+    let heightOfCard = self.view.frame.size.height - (267.0 * UtilityManager.sharedInstance.conversionHeight)
     
     let frameForFlipCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth),
                                        y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
@@ -169,16 +169,16 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
     frontViewOfFlipCard.backgroundColor = UIColor.whiteColor()
     
     self.createDetailedCompanyInfo()
-    self.createMainScrollView(frameForCards)
+    //self.createMainScrollView(frameForCards)
     
   }
   
   private func createDetailedCompanyInfo() {
     
-    let frameForView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+    let frameForView = CGRect.init(x: 25.0 * UtilityManager.sharedInstance.conversionWidth,
                                    y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
-                               width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                              height: 147.0 * UtilityManager.sharedInstance.conversionHeight)
+                               width: 245.0 * UtilityManager.sharedInstance.conversionWidth,
+                              height: 400.0 * UtilityManager.sharedInstance.conversionHeight)
     
     topDetailCompanyView = DetailedInfoCompanyContactView.init(frame: frameForView)
     topDetailCompanyView.delegate = self

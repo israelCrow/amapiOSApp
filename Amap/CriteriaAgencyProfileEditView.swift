@@ -14,6 +14,7 @@ class CriteriaAgencyProfileEditView: UIView, CriterionViewDelegate {
   private var arrayOfLabels: [CriterionView]! = nil
   
   private var criteriaLabel: UILabel! = nil
+  private var descriptionLabel: UILabel! = nil
   private var presentationTimeCriterion: CriterionView! = nil
   private var minimumBudgetCriterion: CriterionView! = nil
   private var deliverIntelectualPropertyCriterion: CriterionView! = nil
@@ -42,6 +43,7 @@ class CriteriaAgencyProfileEditView: UIView, CriterionViewDelegate {
     self.backgroundColor = UIColor.whiteColor()
     
     self.createCriteriaLabel()
+    self.createCriteriaDescription()
     self.createMainScrollView()
 //    self.createPresentationTimeCriterion()
 //    self.createMinimumBudgetCriterion()
@@ -56,14 +58,15 @@ class CriteriaAgencyProfileEditView: UIView, CriterionViewDelegate {
   private func createMainScrollView() {
     
     let frameForMainScrollView = CGRect.init(x: 34.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        y: 106.0 * UtilityManager.sharedInstance.conversionHeight,
+                                        y: 170.0 * UtilityManager.sharedInstance.conversionHeight,
                                     width: 235.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   height: 355.0 * UtilityManager.sharedInstance.conversionHeight)
+                                   height: 290.0 * UtilityManager.sharedInstance.conversionHeight)
     
     //Change the value of the next 'size' to make scrollViewAnimate
-    let sizeOfScrollViewContent = CGSize.init(width: frameForMainScrollView.size.width, height: frameForMainScrollView.size.height + 130.0)
+    let sizeOfScrollViewContent = CGSize.init(width: frameForMainScrollView.size.width, height: frameForMainScrollView.size.height + 0.0)
    
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
+    mainScrollView.backgroundColor = UIColor.clearColor()
     mainScrollView.contentSize = sizeOfScrollViewContent
     mainScrollView.showsVerticalScrollIndicator = true
     
@@ -98,6 +101,44 @@ class CriteriaAgencyProfileEditView: UIView, CriterionViewDelegate {
     criteriaLabel.frame = newFrame
     
     self.addSubview(criteriaLabel)
+    
+  }
+  
+  private func createCriteriaDescription() {
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    descriptionLabel = UILabel.init(frame: frameForLabel)
+    descriptionLabel.numberOfLines = 0
+    descriptionLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: AgencyProfileEditConstants.CriteriaView.criteriaDescriptionText,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    descriptionLabel.attributedText = stringWithFormat
+    descriptionLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (descriptionLabel.frame.size.width / 2.0),
+                               y: 96.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: descriptionLabel.frame.size.width,
+                               height: descriptionLabel.frame.size.height)
+    
+    descriptionLabel.frame = newFrame
+    
+    self.addSubview(descriptionLabel)
+    
   }
   
   private func createPresentationTimeCriterion() {
@@ -185,10 +226,13 @@ class CriteriaAgencyProfileEditView: UIView, CriterionViewDelegate {
   
   private func addAllLabels() {
     
+    var contentHeight: CGFloat = 0.0
+    
     let firstElement = arrayOfLabels.first
     mainScrollView.addSubview(firstElement!)
     
     for i in 1 ..< arrayOfLabels.count {
+      
       let lastCriterion = arrayOfLabels[i-1]
       let nextCriterion = arrayOfLabels[i]
       let newFrame = CGRect.init(x: nextCriterion.frame.origin.x,
@@ -197,7 +241,15 @@ class CriteriaAgencyProfileEditView: UIView, CriterionViewDelegate {
                             height: nextCriterion.frame.size.height)
       nextCriterion.frame = newFrame
       mainScrollView.addSubview(nextCriterion)
+      
+      contentHeight = contentHeight + nextCriterion.frame.size.height + (0.0 * UtilityManager.sharedInstance.conversionHeight)
+      
     }
+    
+    let newContentSizeForScroll = CGSize.init(width: mainScrollView.contentSize.width,
+                                             height: mainScrollView.contentSize.height + contentHeight)
+    
+    mainScrollView.contentSize = newContentSizeForScroll
     
   }
   

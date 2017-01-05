@@ -28,6 +28,8 @@
 		04AB393A1D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AB39391D5D0FBA009B1D5C /* CriteriaAgencyProfileEditView.swift */; };
 		04AB393E1D5D1808009B1D5C /* AgencyProfileEditConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AB393D1D5D1808009B1D5C /* AgencyProfileEditConstants.swift */; };
 		04D458A71D6607440036FFFF /* CreateCaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D458A61D6607440036FFFF /* CreateCaseView.swift */; };
+		58B98F101E14994F0065285A /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAA115991DD3F60D00DA6B21 /* Charts.framework */; };
+		58B98F111E14994F0065285A /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AAA115991DD3F60D00DA6B21 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AA02375C1D81FF100014915C /* NoPitchAssignedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA02375B1D81FF100014915C /* NoPitchAssignedView.swift */; };
 		AA02375E1D8210D90014915C /* VisualizeAllPitchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA02375D1D8210D90014915C /* VisualizeAllPitchesViewController.swift */; };
 		AA0237621D821F420014915C /* VisualizePitchesConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0237611D821F420014915C /* VisualizePitchesConstants.swift */; };
@@ -194,8 +196,6 @@
 		AA9A6CF91D87680A00B85C17 /* PitchCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9A6CF81D87680A00B85C17 /* PitchCardView.swift */; };
 		AA9A6CFB1D87691000B85C17 /* DetailedPartPitchCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9A6CFA1D87691000B85C17 /* DetailedPartPitchCardView.swift */; };
 		AA9A6CFF1D87757800B85C17 /* GraphPartPitchCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9A6CFE1D87757800B85C17 /* GraphPartPitchCardView.swift */; };
-		AAA1159E1DD3F61E00DA6B21 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAA115991DD3F60D00DA6B21 /* Charts.framework */; };
-		AAA1159F1DD3F61E00DA6B21 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AAA115991DD3F60D00DA6B21 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AAA115A41DD3F6A800DA6B21 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAA115A31DD3F6A800DA6B21 /* Realm.framework */; };
 		AAA115A51DD3F6A800DA6B21 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AAA115A31DD3F6A800DA6B21 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AAA837DB1D590DBD00A47376 /* BlankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA837DA1D590DBD00A47376 /* BlankViewController.swift */; };
@@ -270,6 +270,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		58B98F161E14A06B0065285A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AAA115921DD3F60D00DA6B21 /* Charts.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
+			remoteInfo = "Charts-iOS";
+		};
 		AA92D61C1D50E7D300CE7D95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AA92D5FF1D50E7D300CE7D95 /* Project object */;
@@ -305,13 +312,6 @@
 			remoteGlobalIDString = 06AEE7A21BDC3F8B009875AE;
 			remoteInfo = ChartsTests;
 		};
-		AAA115A01DD3F61E00DA6B21 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAA115921DD3F60D00DA6B21 /* Charts.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
-			remoteInfo = "Charts-iOS";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -322,7 +322,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				AAA115A51DD3F6A800DA6B21 /* Realm.framework in Embed Frameworks */,
-				AAA1159F1DD3F61E00DA6B21 /* Charts.framework in Embed Frameworks */,
+				58B98F111E14994F0065285A /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -557,9 +557,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58B98F101E14994F0065285A /* Charts.framework in Frameworks */,
 				AAA115A41DD3F6A800DA6B21 /* Realm.framework in Frameworks */,
 				C04FC772F5442066639C311A /* Pods_Amap.framework in Frameworks */,
-				AAA1159E1DD3F61E00DA6B21 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1532,7 +1532,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AAA115A11DD3F61E00DA6B21 /* PBXTargetDependency */,
+				58B98F171E14A06B0065285A /* PBXTargetDependency */,
 			);
 			name = Amap;
 			productName = Amap;
@@ -2001,6 +2001,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		58B98F171E14A06B0065285A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Charts-iOS";
+			targetProxy = 58B98F161E14A06B0065285A /* PBXContainerItemProxy */;
+		};
 		AA92D61D1D50E7D300CE7D95 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AA92D6061D50E7D300CE7D95 /* Amap */;
@@ -2010,11 +2015,6 @@
 			isa = PBXTargetDependency;
 			target = AA92D6061D50E7D300CE7D95 /* Amap */;
 			targetProxy = AA92D6271D50E7D300CE7D95 /* PBXContainerItemProxy */;
-		};
-		AAA115A11DD3F61E00DA6B21 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Charts-iOS";
-			targetProxy = AAA115A01DD3F61E00DA6B21 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2130,14 +2130,16 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Amap/Charts/ThirdParty/Realm/ios",
+					"$(PROJECT_DIR)/Amap/Charts/build/Debug-iphonesimulator",
 				);
 				INFOPLIST_FILE = Amap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks ($SRCROOT)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2187,6 +2189,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pequenocuervo.Amap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Amap/Amap-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2202,14 +2205,16 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Amap/Charts/ThirdParty/Realm/ios",
+					"$(PROJECT_DIR)/Amap/Charts/build/Debug-iphonesimulator",
 				);
 				INFOPLIST_FILE = Amap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks ($SRCROOT)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2259,6 +2264,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pequenocuervo.Amap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Amap/Amap-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

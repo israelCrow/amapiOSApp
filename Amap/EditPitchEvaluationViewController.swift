@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol EditPitchEvaluationViewControllerDelegate {
+  
+  func updatedDetailInfoOfPitchEvaluation(newPitchData: PitchEvaluationByUserModelData)
+  
+}
+
 class EditPitchEvaluationViewController: UIViewController, EditPitchEvaluationViewDelegate {
   
   private var flipCard: FlipCardView! = nil
@@ -20,6 +26,8 @@ class EditPitchEvaluationViewController: UIViewController, EditPitchEvaluationVi
   
   private var evaluationData: [String: AnyObject]! = nil
   private var pitchEvaluationData: PitchEvaluationByUserModelData! = nil
+  
+  var delegate: EditPitchEvaluationViewControllerDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -271,14 +279,20 @@ class EditPitchEvaluationViewController: UIViewController, EditPitchEvaluationVi
     "pitch_evaluation" : params
     ]
     
+    UtilityManager.sharedInstance.showLoader()
+    
     RequestToServerManager.sharedInstance.requestToUpdateEvaluationOfProjectPitch(finalParamsToUpdate as! [String : AnyObject]) {
       
       newEvaluationPitchCreated in
       
-      UtilityManager.sharedInstance.hideLoader()
-      self.dismissDetailedNavigation()
-      
-      self.navigationController?.popToRootViewControllerAnimated(true)
+//      UtilityManager.sharedInstance.hideLoader()
+    
+        UtilityManager.sharedInstance.hideLoader()
+        
+        self.dismissDetailedNavigation()
+        
+        self.navigationController?.popToRootViewControllerAnimated(true)
+        
       
     }
     

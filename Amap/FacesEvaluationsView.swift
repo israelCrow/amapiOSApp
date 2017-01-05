@@ -121,7 +121,7 @@ class FacesEvaluationsView: UIView {
     
     self.addSubview(face)
     
-    self.createValueLabel(newFrame, valueToShow: withValue)
+    self.createValueLabel(newFrame, valueToShow: "Happitch\n" + String(withValue))
     
   }
   
@@ -132,7 +132,7 @@ class FacesEvaluationsView: UIView {
     
     self.addSubview(face)
     
-    self.createValueLabel(newFrame, valueToShow: withValue)
+    self.createValueLabel(newFrame, valueToShow: "Happy\n" + String(withValue))
     
   }
   
@@ -143,7 +143,7 @@ class FacesEvaluationsView: UIView {
     
     self.addSubview(face)
     
-    self.createValueLabel(newFrame, valueToShow: withValue)
+    self.createValueLabel(newFrame, valueToShow: "OK\n" + String(withValue))
     
   }
   
@@ -154,19 +154,19 @@ class FacesEvaluationsView: UIView {
     
     self.addSubview(face)
     
-    self.createValueLabel(newFrame, valueToShow: withValue)
+    self.createValueLabel(newFrame, valueToShow: "Unhappy\n" + String(withValue))
     
   }
   
-  private func createValueLabel(baseFrame: CGRect, valueToShow: Int) {
+  private func createValueLabel(baseFrame: CGRect, valueToShow: String) {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: baseFrame.size.width,
+                                    width: baseFrame.size.width + (5.0 * UtilityManager.sharedInstance.conversionWidth),
                                     height: CGFloat.max)
     
     let valueLabel = UILabel.init(frame: frameForLabel)
-    valueLabel.numberOfLines = 0
+    valueLabel.numberOfLines = 2
     valueLabel.lineBreakMode = .ByWordWrapping
     
     var finalString = String(valueToShow)

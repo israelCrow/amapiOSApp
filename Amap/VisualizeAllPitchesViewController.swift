@@ -18,7 +18,7 @@ protocol VisualizeAllPitchesViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate, DetailPitchViewDelegate, CanceledPitchEvaluationViewDelegate, ArchivedPitchEvaluationViewDelegate, DeletedPitchEvaluationViewDelegate, DeclinedPitchEvaluationViewDelegate, LookForPitchCardViewDelegate, FilterPitchCardViewDelegate, PendingEvaluationCardViewDelegate, YouWonThisPitchViewDelegate, AddResultViewControllerDelegate {
+class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate, DetailPitchViewDelegate, CanceledPitchEvaluationViewDelegate, ArchivedPitchEvaluationViewDelegate, DeletedPitchEvaluationViewDelegate, DeclinedPitchEvaluationViewDelegate, LookForPitchCardViewDelegate, FilterPitchCardViewDelegate, PendingEvaluationCardViewDelegate, YouWonThisPitchViewDelegate, AddResultViewControllerDelegate, EditPitchEvaluationViewControllerDelegate {
   
   private let kNotificationCenterForLookingForPitchEvaluation = "LookForThisPitchEvaluation"
   
@@ -47,6 +47,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   private var isComingFromEditPitchEvaluationController: Bool = false
   
   private var indexOfArchivedButton: Int! = nil
+  private var lastPitchEvaluationIdToEdit: String = "-1"
   
   private var paramsForFilterPitchEvaluations: [String: AnyObject] = ["auth_token": UserSession.session.auth_token,
                                                                       "happitch": 1,
@@ -605,7 +606,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   }
   
   override func viewWillAppear(animated: Bool) {
-    super.viewWillAppear(true)
+    super.viewWillAppear(animated)
+    
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(lookForPitchEvaluation) , name: kNotificationCenterForLookingForPitchEvaluation, object: nil)
   
     if mainCarousel != nil {
       
@@ -620,8 +623,6 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       }
     
     }
-    
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(lookForPitchEvaluation) , name: kNotificationCenterForLookingForPitchEvaluation, object: nil)
     
     if isComingFromAddResultsController == true || isComingFromEditPitchEvaluationController == true {
     
@@ -653,6 +654,15 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       if isShowingAMessageCard == false {
        
         self.requestForAllPitchesAndTheirEvaluations()
+        
+//        if lastPitchEvaluationIdToEdit != "-1" {
+//          
+//          self.lookForThisPitchID(lastPitchEvaluationIdToEdit)
+//          self.hideDetailPitchView()
+//          self.createAndShowDetailedPitchView()
+//          lastPitchEvaluationIdToEdit = "-1"
+//          
+//        }
         
         //self.requestFilteringPitches()
         
@@ -1044,6 +1054,56 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     let createAddNewPitch = CreateAddNewPitchAndWriteCompanyNameViewController()
     createAddNewPitch.delegateForShowTabBar = self
     self.navigationController?.pushViewController(createAddNewPitch, animated: true)
+    
+  }
+  
+  private func createAndShowDetailedPitchView(pitchEvaluationData: PitchEvaluationByUserModelData) {
+    
+    if frontCard == nil {
+      
+      return
+      
+    }
+    
+    self.navigationItem.rightBarButtonItem?.enabled = false
+    mainCarousel.userInteractionEnabled = false
+    frontCard.userInteractionEnabled = false
+    let copyGraphInUse = self.makeACopyOfActualGraph()
+    copyGraphInUse.animateGraph()
+    copyGraphInUse.alpha = 0.0
+    
+    self.createDetailNavigationBar()
+    
+    if mainDetailPitchView == nil {
+      
+      let frameForMainDetailPitchView = UIScreen.mainScreen().bounds
+      mainDetailPitchView = DetailPitchView.init(frame: frameForMainDetailPitchView,
+                                                 newPitchData: pitchEvaluationData,
+                                                 newGraphPart: copyGraphInUse)
+      
+      let heightOfDetailNavigationBar = (self.navigationController?.navigationBar.frame.size.height)! + (103.0 * UtilityManager.sharedInstance.conversionHeight) + UIApplication.sharedApplication().statusBarFrame.size.height
+      
+      mainDetailPitchView.changeFrameOfContainerView(heightOfDetailNavigationBar)
+      mainDetailPitchView.backgroundColor = UIColor.clearColor()
+      mainDetailPitchView.userInteractionEnabled = true
+      mainDetailPitchView.delegate = self
+      self.view.addSubview(mainDetailPitchView)
+      
+    } else {
+      
+      mainDetailPitchView.alpha = 1.0
+      mainDetailPitchView.reloadDataAndInterface(pitchEvaluationData,
+                                                 newGraphPart: copyGraphInUse)
+      mainDetailPitchView.backgroundColor = UIColor.clearColor()
+      mainDetailPitchView.userInteractionEnabled = true
+      
+    }
+    
+    self.delegateForShowAndHideTabBar?.requestToDisolveTabBarFromVisualizeAllPitchesViewControllerDelegate()
+    mainDetailPitchView.animateShowPitchEvaluationDetail()
+    self.animateShowingDetailPitchView()
+    NSTimer.scheduledTimerWithTimeInterval(0.75, target: self, selector: #selector(changeRightButtonOfNavigationBarWhenDetailPitchViewIsShown), userInfo: nil, repeats: false)
+
     
   }
   
@@ -1599,6 +1659,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   func editPitchEvaluation(pitchEvaluationData: PitchEvaluationByUserModelData) {
     
     isComingFromEditPitchEvaluationController = true
+    lastPitchEvaluationIdToEdit = pitchEvaluationData.pitchEvaluationId
     
     UtilityManager.sharedInstance.showLoader()
   
@@ -1609,11 +1670,23 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       let editPitchEvaluation = EditPitchEvaluationViewController.init(newPitchEvaluationData: pitchEvaluationData,
                                                                        newEvaluationData: evaluationData)
+      editPitchEvaluation.delegate = self
       self.navigationController?.pushViewController(editPitchEvaluation, animated: true)
       
     }
     
   }
+  
+  //EditPitchEvaluationViewControllerDelegate
+  
+  func updatedDetailInfoOfPitchEvaluation(newPitchData: PitchEvaluationByUserModelData) {
+    
+    self.createAndShowDetailedPitchView(newPitchData)
+    
+  }
+  
+  
+  
   
   func pushAddResultsViewController(pitchaEvaluationData: PitchEvaluationByUserModelData) {
     

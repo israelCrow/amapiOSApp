@@ -122,6 +122,11 @@ class RecommendationsDashboardsView: UIView {
       
     }
     
+    self.frame = CGRect.init(x: self.frame.origin.x,
+                             y: self.frame.origin.y,
+                         width: self.frame.size.width,
+                        height: self.getFinalHeight())
+    
   }
   
   func getFinalHeight() -> CGFloat {

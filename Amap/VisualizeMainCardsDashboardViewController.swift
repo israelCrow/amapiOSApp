@@ -46,6 +46,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   private var recommendations = [RecommendationModelData]()
   //
   
+  private var secondTimeShowing: Bool = false
   private var arrayOfUsers = [AgencyUserModelData]()
   private var arrayOfScoresByAgency = [PitchEvaluationAveragePerMonthModelData]()
   private var arrayOfScoresByIndustry = [PitchEvaluationAveragePerMonthModelData]()
@@ -60,6 +61,8 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
                                                              y: 0.0)
   private var directionOfScroll: ScrollDirection! = nil
 
+  
+  
   var delegateForShowAndHideTabBar: VisualizeAllPitchesViewControllerShowAndHideDelegate?
   
   override func loadView() {
@@ -320,6 +323,69 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
                                          y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
                                      width: widthOfCard,
                                     height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
+    if firstFilterView != nil {
+      
+      firstFilterView.removeFromSuperview()
+      firstFilterView = nil
+      
+    }
+    
+    if secondFilterView != nil {
+      
+      secondFilterView.removeFromSuperview()
+      secondFilterView = nil
+      
+    }
+    
+    if graphAccordingUser != nil {
+      
+      graphAccordingUser.removeFromSuperview()
+      graphAccordingUser = nil
+      
+    }
+    
+    if graphAccordingUser != nil {
+      
+      graphAccordingUser.removeFromSuperview()
+      graphAccordingUser = nil
+      
+    }
+    
+    if graphAgencyVSIndustry != nil {
+      
+      graphAgencyVSIndustry.removeFromSuperview()
+      graphAgencyVSIndustry = nil
+      
+    }
+    
+    if firstCard != nil {
+      
+      firstCard.removeFromSuperview()
+      firstCard = nil
+      
+    }
+    
+    if secondCard != nil {
+      
+      secondCard.removeFromSuperview()
+      secondCard = nil
+      
+    }
+    
+    if thirdCard != nil {
+      
+      thirdCard.removeFromSuperview()
+      thirdCard = nil
+      
+    }
+    
+    if gralPerformanceCardView != nil {
+      
+      gralPerformanceCardView.removeFromSuperview()
+      gralPerformanceCardView = nil
+      
+    }
+    
     
     firstFilterView = FilterAccordingToUserAndAgencyView.init(frame: frameForFrontAndBack)
     firstFilterView.tag = 1
@@ -423,6 +489,91 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
                                          y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
                                      width: widthOfCard,
                                     height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
+    
+    if firstFilterView != nil {
+      
+      firstFilterView.removeFromSuperview()
+      firstFilterView = nil
+      
+    }
+    
+    if secondFilterView != nil {
+      
+      secondFilterView.removeFromSuperview()
+      secondFilterView = nil
+      
+    }
+    
+    if graphAccordingUser != nil {
+      
+      graphAccordingUser.removeFromSuperview()
+      graphAccordingUser = nil
+      
+    }
+    
+    if graphAccordingUser != nil {
+      
+      graphAccordingUser.removeFromSuperview()
+      graphAccordingUser = nil
+      
+    }
+    
+    if graphAgencyVSIndustry != nil {
+      
+      graphAgencyVSIndustry.removeFromSuperview()
+      graphAgencyVSIndustry = nil
+      
+    }
+    
+    if graphAccordingUser != nil {
+      
+      graphAccordingUser.removeFromSuperview()
+      graphAccordingUser = nil
+      
+    }
+    
+    if graphAccordingBrand != nil {
+      
+      graphAccordingBrand.removeFromSuperview()
+      graphAccordingBrand = nil
+      
+    }
+    
+    if graphAgencyVSIndustry != nil {
+      
+      graphAgencyVSIndustry.removeFromSuperview()
+      graphAgencyVSIndustry = nil
+      
+    }
+    
+    if gralOwnStatisticsPerformanceCardView != nil {
+      
+      gralOwnStatisticsPerformanceCardView.removeFromSuperview()
+      gralOwnStatisticsPerformanceCardView = nil
+      
+    }
+    
+    if firstCard != nil {
+      
+      firstCard.removeFromSuperview()
+      firstCard = nil
+      
+    }
+    
+    if secondCard != nil {
+      
+      secondCard.removeFromSuperview()
+      secondCard = nil
+      
+    }
+    
+    if thirdCard != nil {
+      
+      thirdCard.removeFromSuperview()
+      thirdCard = nil
+      
+    }
+
     
     firstFilterView = FilterAccordingToUserAndAgencyView.init(frame: frameForFrontAndBack)
     firstFilterView.tag = 1
@@ -1031,6 +1182,22 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
       self.gralOwnStatisticsPerformanceCardView.updateData(numberOfPitchesByBrandForDashboardSummary, newRecommendations: self.recommendations)
       
       UtilityManager.sharedInstance.hideLoader()
+      
+    }
+
+  }
+  
+  override func viewWillAppear(animated: Bool) {
+    
+    super.viewWillAppear(animated)
+    
+    if secondTimeShowing == false {
+      
+      secondTimeShowing = true
+      
+    } else {
+      
+      self.getInfoFromServer()
       
     }
     

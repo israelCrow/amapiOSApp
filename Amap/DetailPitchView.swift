@@ -28,10 +28,13 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   private var mainScrollView: UIScrollView! = nil
   private var graphPitchView: GraphPartPitchCardView! = nil
   private var bottomContainerView: UIView! = nil
+  private var recommendations: PitchRecommendationsView! = nil
   private var pitchSkillsView: DetailPitchSkillsEvaluationView! = nil
   private var fillSurveyView: DetailPitchAddResultsView! = nil
   private var cancelDeclinButtonsView: DetailPitchCanceledDeclinedButtons! = nil
   private var tabBarForPitchDetail: TabBarArchiveEditDeletePitchView! = nil
+  
+  private var borderAfterRecommendations: CALayer! = nil
   
   var delegate: DetailPitchViewDelegate?
   
@@ -66,6 +69,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     
     self.createMainScrollView()
     self.createBottomContainerView()
+    self.createRecommendations()
 //    self.createPitchSkillsView()
     self.createFillSurveyView()
     self.createCancelEditButtonsView()
@@ -107,6 +111,72 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     
   }
   
+  private func createRecommendations() {
+    
+    if recommendations != nil {
+      
+      let newContentSize = CGSize.init(width: mainScrollView.contentSize.width,
+                                       height: mainScrollView.contentSize.height - recommendations.frame.size.height)
+      
+      mainScrollView.contentSize = newContentSize
+      
+      let newFrameForContainer = CGRect.init(x: bottomContainerView.frame.origin.x,
+                                             y: bottomContainerView.frame.origin.y,
+                                         width: bottomContainerView.frame.size.width,
+                                        height: bottomContainerView.frame.size.height - recommendations.getFinalHeight())
+      
+      bottomContainerView.frame = newFrameForContainer
+      
+      recommendations.removeFromSuperview()
+      recommendations = nil
+      
+    }
+    
+    let frameForRecommendations = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
+                                              y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
+                                          width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         height: 135.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    recommendations = PitchRecommendationsView.init(frame: frameForRecommendations,
+                                       newRecommendations: pitchEvaluationData.arrayOfRecommendations)
+    
+    recommendations.backgroundColor = UIColor.clearColor()
+    
+    bottomContainerView.addSubview(recommendations)
+    
+    if borderAfterRecommendations != nil {
+      
+      borderAfterRecommendations.removeFromSuperlayer()
+      borderAfterRecommendations = nil
+      
+    }
+    
+    borderAfterRecommendations = CALayer()
+    let width = CGFloat(1)
+    borderAfterRecommendations.borderColor = UIColor.grayColor().CGColor
+    borderAfterRecommendations.borderWidth = width
+    borderAfterRecommendations.frame = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                   y: recommendations.frame.origin.y + recommendations.getFinalHeight() + (22.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                   width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                                   height: 1.0 * UtilityManager.sharedInstance.conversionHeight)
+    bottomContainerView.layer.addSublayer(borderAfterRecommendations)
+    //    mainScrollView.layer.masksToBounds = false
+    
+    let newContentSize = CGSize.init(width: mainScrollView.contentSize.width,
+                                     height: mainScrollView.contentSize.height + recommendations.getFinalHeight() + (40.0 * UtilityManager.sharedInstance.conversionHeight))
+    
+    let newFrameForContainer = CGRect.init(x: bottomContainerView.frame.origin.x,
+                                           y: bottomContainerView.frame.origin.y,
+                                       width: bottomContainerView.frame.size.width,
+                                      height: bottomContainerView.frame.size.height + recommendations.getFinalHeight())
+    
+    bottomContainerView.frame = newFrameForContainer
+
+    mainScrollView.contentSize = newContentSize
+    
+  }
+
+  
   private func createPitchSkillsView() {
     
     let frameForView = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -130,7 +200,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     }
     
     let frameForView = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: borderAfterRecommendations.frame.origin.y + (40.0 * UtilityManager.sharedInstance.conversionHeight),
 //                                   y: pitchSkillsView.frame.origin.y + pitchSkillsView.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                               height: 185.0 * UtilityManager.sharedInstance.conversionHeight)
@@ -194,6 +264,12 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     if pitchSkillsView != nil {
       
       pitchSkillsView.setArrayOfEvaluationPitchSkillCategories(pitchEvaluationData.arrayOfEvaluationPitchSkillCategory)
+      
+    }
+    
+    if recommendations != nil {
+      
+      self.createRecommendations()
       
     }
     

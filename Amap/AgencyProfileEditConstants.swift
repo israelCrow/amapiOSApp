@@ -18,6 +18,7 @@ class AgencyProfileEditConstants {
   enum CriteriaView {
     
     static let criteriaLabelText = "Criterios"
+    static let criteriaDescriptionText = "Selecciona los criterios con los que aceptas participar en un pitch"
     static let presentationTimeLabelText = "Más de 2 semanas para presentar"
     static let minimumBudgetLabelText = "Budget mínimo de 35K"
     static let deliverIntelectualPropertyLabelText = "No entregó la propiedad intelectual"
