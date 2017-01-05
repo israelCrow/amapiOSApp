@@ -287,7 +287,7 @@ class PitchCardForNormalClientView: UIView, CPTPieChartDataSource {
     let frameForFacesView = CGRect.init(x: (self.frame.size.width / 2.0) - (110.0 * UtilityManager.sharedInstance.conversionWidth),
                                         y: 340.0 * UtilityManager.sharedInstance.conversionHeight,
                                     width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
+                                   height: 70.0 * UtilityManager.sharedInstance.conversionHeight)
     
     facesView = FacesEvaluationsView.init(frame: frameForFacesView,
                                           facesToShow: facesToShow,

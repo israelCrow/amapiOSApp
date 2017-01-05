@@ -278,7 +278,7 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
   private func createSharePitch() {
     
     let frameForView = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   y: recommendations.frame.origin.y + recommendations.frame.size.height - (10.0 * UtilityManager.sharedInstance.conversionHeight),
+                                   y: recommendations.frame.origin.y + recommendations.getFinalHeight() + (40.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                               height: 345.0 * UtilityManager.sharedInstance.conversionHeight)
     
