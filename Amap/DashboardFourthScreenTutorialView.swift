@@ -117,7 +117,7 @@ class DashboardFourthScreenTutorialView: UIView {
     rateLabel.attributedText = stringWithFormat
     rateLabel.sizeToFit()
     let newFrame = CGRect.init(x: 136.5 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 420.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 429.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: rateLabel.frame.size.width,
                                height: rateLabel.frame.size.height)
     
@@ -153,8 +153,8 @@ class DashboardFourthScreenTutorialView: UIView {
     )
     percentageLabel.attributedText = stringWithFormat
     percentageLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 207.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 379.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: 198.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: 388.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: percentageLabel.frame.size.width,
                                height: percentageLabel.frame.size.height)
     
@@ -205,7 +205,7 @@ class DashboardFourthScreenTutorialView: UIView {
     
     circleImageView = UIImageView.init(image: UIImage.init(named: "oval3"))
     let imageViewFrame = CGRect.init(x: 98.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 319.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     y: 327.0 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 181.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 181.0 * UtilityManager.sharedInstance.conversionHeight)
     circleImageView.frame = imageViewFrame

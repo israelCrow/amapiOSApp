@@ -111,7 +111,7 @@ class DashboardThirdScreenTutorialView: UIView {
     happitchLabel.numberOfLines = 0
     happitchLabel.lineBreakMode = .ByWordWrapping
     
-    let font = UIFont(name: "SFUIText-Light",
+    let font = UIFont(name: "SFUIText-Regular",
                       size: 9.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.whiteColor()
     let style = NSMutableParagraphStyle()
@@ -148,7 +148,7 @@ class DashboardThirdScreenTutorialView: UIView {
     happyLabel.numberOfLines = 0
     happyLabel.lineBreakMode = .ByWordWrapping
     
-    let font = UIFont(name: "SFUIText-Light",
+    let font = UIFont(name: "SFUIText-Regular",
                       size: 9.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.whiteColor()
     let style = NSMutableParagraphStyle()
@@ -186,7 +186,7 @@ class DashboardThirdScreenTutorialView: UIView {
     okLabel.numberOfLines = 0
     okLabel.lineBreakMode = .ByWordWrapping
     
-    let font = UIFont(name: "SFUIText-Light",
+    let font = UIFont(name: "SFUIText-Regular",
                       size: 9.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.whiteColor()
     let style = NSMutableParagraphStyle()
@@ -201,7 +201,7 @@ class DashboardThirdScreenTutorialView: UIView {
     )
     okLabel.attributedText = stringWithFormat
     okLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 204.0 * UtilityManager.sharedInstance.conversionWidth,
+    let newFrame = CGRect.init(x: 208.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 282.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: okLabel.frame.size.width,
                                height: okLabel.frame.size.height)
@@ -223,7 +223,7 @@ class DashboardThirdScreenTutorialView: UIView {
     unHappyLabel.numberOfLines = 0
     unHappyLabel.lineBreakMode = .ByWordWrapping
     
-    let font = UIFont(name: "SFUIText-Light",
+    let font = UIFont(name: "SFUIText-Regular",
                       size: 9.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.whiteColor()
     let style = NSMutableParagraphStyle()
@@ -238,7 +238,7 @@ class DashboardThirdScreenTutorialView: UIView {
     )
     unHappyLabel.attributedText = stringWithFormat
     unHappyLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 254.0 * UtilityManager.sharedInstance.conversionWidth,
+    let newFrame = CGRect.init(x: 258.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 282.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: unHappyLabel.frame.size.width,
                                height: unHappyLabel.frame.size.height)

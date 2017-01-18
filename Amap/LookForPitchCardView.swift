@@ -159,6 +159,8 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
     
     self.addSubview(mainTableView)
     
+    searchView.mainTextField.becomeFirstResponder()
+    
   }
   
   func setArrayOfAllProjectsPitches(newArrayOfAllProjectsPitches: [PitchEvaluationByUserModelData]) {

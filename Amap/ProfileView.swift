@@ -34,7 +34,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
   private var agencyLatitude: String?
   private var agencyLongitude: String?
   
-  private var optionsOfPicker = ["1 - 74", "75 - 150", "+ de 150"]
+  private var optionsOfPicker = ["0 - 40", "41 - 90", "91+"]
   private var pickerView: UIPickerView! = nil
   private var containerViewForPicker: UIView! = nil
   
@@ -314,6 +314,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     agencyNameView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: nil, image: nil)
     agencyNameView.mainTextField.placeholder = "Nombre de la agencia"
     agencyNameView.mainTextField.tag = 1
+    agencyNameView.mainTextField.userInteractionEnabled = false
     
     if AgencyModel.Data.name != nil {
       
@@ -471,18 +472,18 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
       
       if AgencyModel.Data.num_employees == "Chica" {
         
-        agencyNumberOfEmployees.mainTextField.text = "1 - 74"
+        agencyNumberOfEmployees.mainTextField.text = "0 - 40"
         
       } else
       
       if AgencyModel.Data.num_employees == "Mediana" {
           
-        agencyNumberOfEmployees.mainTextField.text = "75 - 150"
+        agencyNumberOfEmployees.mainTextField.text = "41 - 90"
           
       } else
       if AgencyModel.Data.num_employees == "Grande" {
           
-        agencyNumberOfEmployees.mainTextField.text = "+ de 150"
+        agencyNumberOfEmployees.mainTextField.text = "91+"
           
       }
       
@@ -796,17 +797,17 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     
     var finalNumberOfEmployees = ""
     
-    if agencyNumberOfEmployees.mainTextField.text! == "1 - 74" {
+    if agencyNumberOfEmployees.mainTextField.text! == "0 - 40" {
       
       finalNumberOfEmployees = "1"
       
     }else
-      if agencyNumberOfEmployees.mainTextField.text! == "75 - 150" {
+      if agencyNumberOfEmployees.mainTextField.text! == "41 - 90" {
         
         finalNumberOfEmployees = "2"
         
     }else
-        if agencyNumberOfEmployees.mainTextField.text! == "+ de 150" {
+        if agencyNumberOfEmployees.mainTextField.text! == "91+" {
           
           finalNumberOfEmployees = "3"
           

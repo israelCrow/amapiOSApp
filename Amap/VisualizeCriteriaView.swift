@@ -114,7 +114,7 @@ class VisualizeCriteriaView: UIView {
     for eachCriteria in arrayOfCriteriaString {
       
       let newCriterionLabel = UILabel.init(frame: frameForLabels)
-      newCriterionLabel.numberOfLines = 3
+      newCriterionLabel.numberOfLines = 0
       
       let font = UIFont(name: "SFUIText-Light",
                         size: 14.0 * UtilityManager.sharedInstance.conversionWidth)

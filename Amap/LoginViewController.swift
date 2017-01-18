@@ -82,7 +82,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
         createAccountLabel = UILabel.init(frame: CGRectZero)
         
         let font = UIFont(name: "SFUIDisplay-Semibold",
-                          size: 11.0 * UtilityManager.sharedInstance.conversionWidth)
+                          size: 12.5 * UtilityManager.sharedInstance.conversionWidth)
         let color = UIColor.init(red: 0.0/255.0, green: 64.0/255.0, blue: 89.0/255.0, alpha: 1.0)
         let style = NSMutableParagraphStyle()
         style.alignment = NSTextAlignment.Center

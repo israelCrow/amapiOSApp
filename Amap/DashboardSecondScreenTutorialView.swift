@@ -123,7 +123,7 @@ class DashboardSeconScreenTutorialView: UIView {
     
     downImageView = UIImageView.init(image: UIImage.init(named: "whiteDropdown"))
     let imageViewFrame = CGRect.init(x: 276.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 190.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     y: 196.0 * UtilityManager.sharedInstance.conversionHeight,
                                  width: 14.0 * UtilityManager.sharedInstance.conversionWidth,
                                 height: 14.0 * UtilityManager.sharedInstance.conversionHeight)
     downImageView.frame = imageViewFrame
@@ -136,7 +136,7 @@ class DashboardSeconScreenTutorialView: UIView {
     
     lineImageView = UIImageView.init(image: UIImage.init(named: "imputLine"))
     let imageViewFrame = CGRect.init(x: 78.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 220.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     y: 226.0 * UtilityManager.sharedInstance.conversionHeight,
                                  width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                 height: 1.0 * UtilityManager.sharedInstance.conversionHeight)
     lineImageView.frame = imageViewFrame

@@ -12,6 +12,8 @@ class VisualizeAgencyInfoView: UIView {
   
   private var infoLabel: UILabel! = nil
   
+  private var mainScrollView: UIScrollView! = nil
+  
   private var mailIconButton: UIButton! = nil
   private var telephoneIconButton: UIButton! = nil
   private var websiteIconButton: UIButton! = nil
@@ -42,6 +44,7 @@ class VisualizeAgencyInfoView: UIView {
   private func initInterface() {
     
     self.createInfoLabel()
+    self.createMainScrollView()
     
     if AgencyModel.Data.contact_email != nil && UtilityManager.sharedInstance.isValidEmail(AgencyModel.Data.contact_email!){
       
@@ -110,6 +113,25 @@ class VisualizeAgencyInfoView: UIView {
     infoLabel.frame = newFrame
     
     self.addSubview(infoLabel)
+    
+  }
+  
+  private func createMainScrollView() {
+    
+    let frameForMainScrollView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                             y: 61.0 * UtilityManager.sharedInstance.conversionHeight,
+                                         width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                        height: 374.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
+    
+    let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
+                                               height: frameForMainScrollView.size.height + (50.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
+    
+    mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
+    mainScrollView.backgroundColor = UIColor.clearColor()
+    mainScrollView.contentSize = sizeForContentScrollView
+    mainScrollView.scrollEnabled = true
+    mainScrollView.showsVerticalScrollIndicator = true
+    self.addSubview(mainScrollView)
     
   }
   
@@ -443,12 +465,12 @@ class VisualizeAgencyInfoView: UIView {
   private func addAllExistingButtons() {
     
     var frameForButton = CGRect.init(x: 0.0,
-                                     y: 61.0,
+                                     y: 3.0,
                                      width: 0.0,
                                      height: 0.0)
     
     var frameForLabel = CGRect.init(x: 0.0,
-                                    y: 58.0,
+                                    y: 0.0,
                                     width: 0.0,
                                     height: 0.0)
     
@@ -475,8 +497,8 @@ class VisualizeAgencyInfoView: UIView {
         actualButton.frame = frameForButton
         actualLabel.frame = frameForLabel
         
-        self.addSubview(actualButton)
-        self.addSubview(actualLabel)
+        self.mainScrollView.addSubview(actualButton)
+        self.mainScrollView.addSubview(actualLabel)
         
         frameForLabel = CGRect.init(x: 0.0,
                                     y: frameForButton.origin.y + actualButton.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
@@ -516,8 +538,8 @@ class VisualizeAgencyInfoView: UIView {
       actualButton.frame = frameForButton
       actualLabel.frame = frameForLabel
       
-      self.addSubview(actualButton)
-      self.addSubview(actualLabel)
+      self.mainScrollView.addSubview(actualButton)
+      self.mainScrollView.addSubview(actualLabel)
       
     }
     

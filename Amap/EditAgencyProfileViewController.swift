@@ -804,7 +804,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
           if NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email) == false {
             
             let alertController = UIAlertController(title: "AVISO",
-                                                    message: "Antes de usar la aplicación salva una foto de perfil y un nombre de agencia :)",
+                                                    message: "¡Necesitas subir tu logo para continuar!",
                                                     preferredStyle: UIAlertControllerStyle.Alert)
             
             let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
@@ -830,7 +830,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
           if self.profileView.isAgencyNameAndAgencyImageWithInfo() == false {
             
             let alertController = UIAlertController(title: "AVISO",
-                                                    message: "Antes de usar la aplicación salva una foto de perfil y un nombre de agencia :)",
+                                                    message: "¡Necesitas subir tu logo para continuar!",
                                                     preferredStyle: UIAlertControllerStyle.Alert)
             
             let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
@@ -870,7 +870,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         if NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email) == false {
           
           let alertController = UIAlertController(title: "AVISO",
-                                                  message: "Antes de usar la aplicación salva una foto de perfil y un nombre de agencia :)",
+                                                  message: "¡Necesitas subir tu logo para continuar!",
                                                   preferredStyle: UIAlertControllerStyle.Alert)
           
           let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
@@ -1275,7 +1275,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   func showMessageOfMandatoryInfo() {
     
     let alertController = UIAlertController(title: "AVISO",
-                                            message: "Antes de usar la aplicación salva una foto de perfil y un nombre de agencia :)",
+                                            message: "¡Necesitas subir tu logo para continuar!",
                                             preferredStyle: UIAlertControllerStyle.Alert)
     
     let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in

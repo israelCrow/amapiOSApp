@@ -134,7 +134,7 @@ class DetailedInfoCompanyContactView: UIView {
     companyNameLabel.numberOfLines = 2
     companyNameLabel.lineBreakMode = .ByWordWrapping
     
-    let font = UIFont(name: "SFUIDisplay-Light",
+    let font = UIFont(name: "SFUIDisplay-Ultralight",
                       size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
@@ -173,7 +173,7 @@ class DetailedInfoCompanyContactView: UIView {
   private func createFaceCompanyButton() {
   
     var frameForButton = CGRect.init(x: 0.0,
-                                     y: companyLogoView.frame.origin.y + companyLogoView.frame.size.height + (83.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     y: companyNameLabel.frame.origin.y + companyNameLabel.frame.size.height + (37.0 * UtilityManager.sharedInstance.conversionHeight),
                                      width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -248,7 +248,7 @@ class DetailedInfoCompanyContactView: UIView {
   private func createToolBoxButton() {
     
     var frameForButton = CGRect.init(x: 0.0,
-                                     y: companyLogoView.frame.origin.y + companyLogoView.frame.size.height + (83.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     y: companyNameLabel.frame.origin.y + companyNameLabel.frame.size.height + (37.0 * UtilityManager.sharedInstance.conversionHeight),
                                      width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -323,7 +323,7 @@ class DetailedInfoCompanyContactView: UIView {
   private func createLetterButton() {
     
     var frameForButton = CGRect.init(x: 0.0,
-                                     y: companyLogoView.frame.origin.y + companyLogoView.frame.size.height + (83.0 * UtilityManager.sharedInstance.conversionHeight),
+                                     y: companyNameLabel.frame.origin.y + companyNameLabel.frame.size.height + (37.0 * UtilityManager.sharedInstance.conversionHeight),
                                      width: 24.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 26.0 * UtilityManager.sharedInstance.conversionHeight)
     

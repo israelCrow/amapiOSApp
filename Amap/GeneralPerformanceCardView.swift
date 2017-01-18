@@ -192,13 +192,19 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
 //                                              action: #selector(howManyDaysToShowEdited),
 //                                              forControlEvents: .AllEditingEvents)
     
-    if UserSession.session.role == "3" || UserSession.session.role == "5" {
+    if UserSession.session.role == "2" {
       
-      selectorOfInformationView.mainTextField.text = (UserSession.session.first_name != nil && UserSession.session.first_name != "" ? UserSession.session.first_name! : "Usuario actual")
-      selectorOfInformationView.alpha = 1.0
-      selectorOfInformationView.userInteractionEnabled = false
+      selectorOfInformationView.mainTextField.text = (AgencyModel.Data.name != nil && AgencyModel.Data.name != "" ? AgencyModel.Data.name! : "Agencia Actual")
       
-    }
+    }else
+    
+      if UserSession.session.role == "3" || UserSession.session.role == "5" {
+      
+        selectorOfInformationView.mainTextField.text = (UserSession.session.first_name != nil && UserSession.session.first_name != "" ? UserSession.session.first_name! : "Usuario actual")
+        selectorOfInformationView.alpha = 1.0
+        selectorOfInformationView.userInteractionEnabled = false
+      
+      }
     
     
     mainScrollView.addSubview(selectorOfInformationView)

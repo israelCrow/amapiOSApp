@@ -1134,7 +1134,6 @@
 			isa = PBXGroup;
 			children = (
 				AA28B8FB1D80DEC4007E22E3 /* MainTabBarController */,
-				04AB392F1D5D0539009B1D5C /* Login/Account/Password */,
 				AA14418C1DC3295C00EB013E /* Create/Edit/Visualize_Dashboard */,
 				AA28B8FA1D80DE69007E22E3 /* Create/Edit/Visualize_Pitches */,
 				04AB39301D5D0567009B1D5C /* Create/Edit/Visualize_Agency */,
@@ -1242,6 +1241,7 @@
 		AAB973F81DF8968B0024B663 /* Agency */ = {
 			isa = PBXGroup;
 			children = (
+				04AB392F1D5D0539009B1D5C /* Login/Account/Password */,
 				AA92D6381D50EA2100CE7D95 /* ViewControllers */,
 				AA92D6391D50EA2B00CE7D95 /* Views */,
 			);
