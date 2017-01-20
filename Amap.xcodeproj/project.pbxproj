@@ -267,6 +267,7 @@
 		AAFD0E1A1DDCDC620019EF03 /* PitchResultsModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFD0E191DDCDC620019EF03 /* PitchResultsModelData.swift */; };
 		AAFD0E1E1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */; };
 		C04FC772F5442066639C311A /* Pods_Amap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730B22C94A0E292BE5556150 /* Pods_Amap.framework */; };
+		FC6CD6501E32026300855438 /* CaseCardInfoToEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6CD64F1E32026300855438 /* CaseCardInfoToEditView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -550,6 +551,7 @@
 		AAFD0E191DDCDC620019EF03 /* PitchResultsModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchResultsModelData.swift; sourceTree = "<group>"; };
 		AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterAccordingToUserAndAgencyView.swift; sourceTree = "<group>"; };
 		D32EBDE6D734E5F3142D1570 /* Pods-Amap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amap.release.xcconfig"; path = "Pods/Target Support Files/Pods-Amap/Pods-Amap.release.xcconfig"; sourceTree = "<group>"; };
+		FC6CD64F1E32026300855438 /* CaseCardInfoToEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaseCardInfoToEditView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -633,6 +635,7 @@
 				045F5C271D650CE100F0C077 /* CasesView.swift */,
 				04D458A61D6607440036FFFF /* CreateCaseView.swift */,
 				041DA48B1D6636A400BAE262 /* CaseCardInfo.swift */,
+				FC6CD64F1E32026300855438 /* CaseCardInfoToEditView.swift */,
 				041DA48F1D6653E200BAE262 /* VideoPlayerVimeoYoutubeView.swift */,
 				045267841D6BD5840031B6C7 /* PreviewVimeoYoutubeView.swift */,
 			);
@@ -1835,6 +1838,7 @@
 				AA09496A1D529A59000E76E1 /* CreateAccountConstants.swift in Sources */,
 				AA87B76D1D88723E00BCA3E6 /* DetailedNavigationEvaluatPitchView.swift in Sources */,
 				AAFB06471E03D1A00032249C /* PitchCompanyShareView.swift in Sources */,
+				FC6CD6501E32026300855438 /* CaseCardInfoToEditView.swift in Sources */,
 				AAB376921DAF3E0B00830523 /* SkillEvaluationCell.swift in Sources */,
 				AA2DB85C1D53C17400E9FB8A /* ChangePasswordViewController.swift in Sources */,
 				AACBE2871DDE9116007314C3 /* TutorialConstants.swift in Sources */,

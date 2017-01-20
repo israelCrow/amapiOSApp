@@ -136,7 +136,7 @@ class GenericDashboardGraphic: UIView {
     chartView.data = combinedData
     chartView.userInteractionEnabled = false
     chartView.drawBordersEnabled = false
-    chartView.legend.yOffset = 10.0
+    chartView.legend.yOffset = 10.0 * UtilityManager.sharedInstance.conversionHeight
     chartView.legend.form = .Circle
     chartView.legend.formSize = 14.0 * UtilityManager.sharedInstance.conversionWidth
     chartView.legend.xEntrySpace = 53.0 * UtilityManager.sharedInstance.conversionWidth
@@ -157,7 +157,7 @@ class GenericDashboardGraphic: UIView {
     chartView.animate(yAxisDuration: 1.0)
     chartView.backgroundColor = UIColor.whiteColor()
     
-    chartView.noDataText = "No hay datos disponibles"
+    chartView.noDataText = "Aún no tenemos información para mostrarte, entre más pitches agregues mejor información verás aquí."
     
     self.addSubview(chartView)
     
@@ -177,12 +177,12 @@ class GenericDashboardGraphic: UIView {
     
     let lineChartSet = LineChartDataSet.init(yVals: entries, label: descriptionLineGraph)
     lineChartSet.setColor(UIColor.init(red: 51.0/255.0, green: 166.0/255.0, blue: 233.0/255.0, alpha: 1.0))
-    lineChartSet.lineWidth = 4.0
+    lineChartSet.lineWidth = 4.0  * UtilityManager.sharedInstance.conversionWidth
     lineChartSet.fillColor = UIColor.init(red: 51.0/255.0, green: 166.0/255.0, blue: 233.0/255.0, alpha: 1.0)
     lineChartSet.drawCubicEnabled = false
     lineChartSet.drawValuesEnabled = false
     lineChartSet.drawCirclesEnabled = true
-    lineChartSet.circleRadius = 4.0
+    lineChartSet.circleRadius = 4.0 * UtilityManager.sharedInstance.conversionWidth
     
     lineChartSet.axisDependency = .Left
     
@@ -207,7 +207,7 @@ class GenericDashboardGraphic: UIView {
     let barSet = BarChartDataSet.init(yVals: entries, label: descriptionBarGraph)
     barSet.setColor(UIColor.init(red: 0.0/255.0, green: 246.0/255.0, blue: 143.0/255.0, alpha: 0.75))
     barSet.axisDependency = .Left
-    barSet.barSpace = 0.6
+    barSet.barSpace = 0.6  * UtilityManager.sharedInstance.conversionWidth
     barSet.drawValuesEnabled = false
     
     barData.addDataSet(barSet)
@@ -260,7 +260,7 @@ class GenericDashboardGraphic: UIView {
     border4.borderColor = UIColor.darkGrayColor().CGColor
     border4.borderWidth = width
     border4.frame = CGRect.init(x: 0.0,
-                                y: 214.5 * UtilityManager.sharedInstance.conversionHeight,
+                                y: 210.5 * UtilityManager.sharedInstance.conversionHeight,
                             width: 283.0 * UtilityManager.sharedInstance.conversionWidth,
                            height: 0.5 * UtilityManager.sharedInstance.conversionHeight)
     self.layer.addSublayer(border4)

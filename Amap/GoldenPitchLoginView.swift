@@ -226,6 +226,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         nameTextField.delegate = self
         nameTextField.placeholder = "email"
         nameTextField.clearButtonMode = .WhileEditing
+        nameTextField.autocapitalizationType = .None
 //        nameTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
       
         let border = CALayer()

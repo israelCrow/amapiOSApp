@@ -165,7 +165,12 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     let lastExclusiveBrand = arrayOfExclusivesBrandTextFields?.last
     if lastExclusiveBrand == nil {
       
-      descriptionLabel = UILabel.init(frame: CGRectZero)
+      let frameForLabel = CGRect.init(x: 0.0,
+                                      y: 0.0,
+                                      width: 90.0 * UtilityManager.sharedInstance.conversionWidth,
+                                      height: CGFloat.max)
+      
+      descriptionLabel = UILabel.init(frame: frameForLabel)
       descriptionLabel.numberOfLines = 2
       
       let font = UIFont(name: "SFUIText-Medium",
@@ -207,7 +212,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator,
                                                newExclusiveData: fictitiousBrandForCreator)
       creatorOfBrandTextField.tag = -1234567890
-      creatorOfBrandTextField.placeholder = "Agrega presionando Aceptar"
+      creatorOfBrandTextField.placeholder = ""
       creatorOfBrandTextField.delegate = self
       creatorOfBrandTextField.returnKeyType = .Done
       
@@ -215,14 +220,19 @@ class ExclusiveView: UIView, UITextFieldDelegate {
         NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.35),
         NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 14.0 * UtilityManager.sharedInstance.conversionWidth)!
       ]
-      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Agrega presionando Aceptar", attributes: attributes)
+      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "", attributes: attributes)
       
       self.mainScrollView.addSubview(creatorOfBrandTextField)
       mainScrollView.showsVerticalScrollIndicator = true
       
     } else {
       
-      descriptionLabel = UILabel.init(frame: CGRectZero)
+      let frameForLabel = CGRect.init(x: 0.0,
+                                      y: 0.0,
+                                      width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                      height: CGFloat.max)
+      
+      descriptionLabel = UILabel.init(frame: frameForLabel)
       descriptionLabel.numberOfLines = 2
       
       let font = UIFont(name: "SFUIText-Medium",
@@ -264,7 +274,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator,
                                                           newExclusiveData: fictitiousBrandForCreator)
       creatorOfBrandTextField.tag = -1234567890
-      creatorOfBrandTextField.placeholder = "Agrega presionando Aceptar"
+      creatorOfBrandTextField.placeholder = ""
       creatorOfBrandTextField.delegate = self
       creatorOfBrandTextField.returnKeyType = .Done
       
@@ -272,7 +282,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
         NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.35),
         NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 14.0 * UtilityManager.sharedInstance.conversionWidth)!
       ]
-      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Agrega presionando Aceptar", attributes: attributes)
+      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "", attributes: attributes) //"Agrega presionando Aceptar"
       
       self.mainScrollView.addSubview(creatorOfBrandTextField)
       mainScrollView.showsVerticalScrollIndicator = true

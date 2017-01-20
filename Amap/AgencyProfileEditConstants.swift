@@ -40,7 +40,7 @@ class AgencyProfileEditConstants {
   enum ExclusiveView {
     
     static let exclusiveLabelText = "Exclusividad"
-    static let descriptionLabelText = "Escribe la nueva marca"
+    static let descriptionLabelText = "Escribe el nombre del anunciante y presiona aceptar"
     
   }
   

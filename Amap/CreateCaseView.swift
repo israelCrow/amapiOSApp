@@ -34,6 +34,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
   private var onlyCaseVideoPlayerVimeoYoutube: VideoPlayerVimeoYoutubeView! = nil
   private var previewVideoPlayerVimeoYoutube: PreviewVimeoYoutubeView! = nil
   private var caseWebLinkView: CustomTextFieldWithTitleView! = nil
+  private var caseVideoLinkView: CustomTextFieldWithTitleView! = nil
   private var errorInFieldsLabel: UILabel! = nil
   private var isDownContentView: Bool = false
   
@@ -95,6 +96,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     self.createAddImageLabel()
     self.createCaseVideoPlayerVimeoYoutubeWithoutURL()
     self.createCaseWebLinkView()
+    self.createCaseVideoLinkView()
     self.createErrorInFieldsLabel()
     
   }
@@ -112,7 +114,8 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     self.createAddImageLabelForPreview()
     self.createPreviewVideoPlayerVimeoYoutube(nil)
     self.createCaseWebLinkViewForPreview()
-    self.createCaseVideoPlayerVimeoYoutube(caseDataForPreview.url)
+    self.createCaseVideoLinkViewForPreview()
+//    self.createCaseVideoPlayerVimeoYoutube(caseDataForPreview.url)
     self.createErrorInFieldsLabel()
     
   }
@@ -222,7 +225,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
                                         height: 419.0 * UtilityManager.sharedInstance.conversionHeight)
     
     let newContentSize = CGSize.init(width: frameForMainScrollView.size.width,
-                                    height: frameForMainScrollView.size.height + (165.0 * UtilityManager.sharedInstance.conversionHeight))
+                                    height: frameForMainScrollView.size.height + (80.0 * UtilityManager.sharedInstance.conversionHeight))
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.showsVerticalScrollIndicator = true
@@ -290,7 +293,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     caseDescriptionTextView.backgroundColor = UIColor.whiteColor()
     caseDescriptionTextView.font = UIFont(name:"SFUIText-Regular",
                                         size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
-    caseDescriptionTextView.text = "Descripción del caso   "
+    caseDescriptionTextView.text = "Describe el caso en menos de 200 caracteres.            "
     caseDescriptionTextView.textColor = UIColor.lightGrayColor()
     caseDescriptionTextView.delegate = self
 
@@ -403,7 +406,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     style.alignment = NSTextAlignment.Left
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "Imagen/Video del caso",
+      string: "Agrega una imagen para el caso",
       attributes:[NSFontAttributeName:font!,
         NSParagraphStyleAttributeName:style,
         NSForegroundColorAttributeName:color
@@ -440,18 +443,36 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
   private func createCaseWebLinkView() {
     
     let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: 322.0 * UtilityManager.sharedInstance.conversionHeight,
+                                         y: 300.0 * UtilityManager.sharedInstance.conversionHeight,
                                          width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                          height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
     caseWebLinkView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
-                                                        title: AgencyProfileEditConstants.CreateCaseView.caseWebLinkLabelText,
+                                                        title: "",
                                                         image: nil)
-    caseWebLinkView.mainTextField.placeholder = "http://www.ejemplo.com"
+    caseWebLinkView.mainTextField.placeholder = "Agrega un link"
     caseWebLinkView.backgroundColor = UIColor.clearColor()
     caseWebLinkView.mainTextField.delegate = self
     caseWebLinkView.mainTextField.tag = 8
     self.containerView.addSubview(caseWebLinkView)
+    
+  }
+  
+  private func createCaseVideoLinkView() {
+    
+    let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: 363.0 * UtilityManager.sharedInstance.conversionHeight,
+                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    caseVideoLinkView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
+                                                        title: "",
+                                                        image: nil)
+    caseVideoLinkView.mainTextField.placeholder = "Agrega un link de video"
+    caseVideoLinkView.backgroundColor = UIColor.clearColor()
+    caseVideoLinkView.mainTextField.delegate = self
+    caseVideoLinkView.mainTextField.tag = 88
+    self.containerView.addSubview(caseVideoLinkView)
     
   }
   
@@ -463,14 +484,35 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
                                          height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
     
     caseWebLinkView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
-                                                        title: "Link del caso",
+                                                        title: "",
                                                         image: nil)
     caseWebLinkView.mainTextField.text = (caseDataForPreview.url != nil ? caseDataForPreview.url! : nil)
     caseWebLinkView.mainTextField.userInteractionEnabled = true
+    caseWebLinkView.mainTextField.placeholder = "Agrega un link"
     caseWebLinkView.backgroundColor = UIColor.clearColor()
     caseWebLinkView.mainTextField.delegate = self
     caseWebLinkView.mainTextField.tag = 8
     self.containerView.addSubview(caseWebLinkView)
+    
+  }
+  
+  private func createCaseVideoLinkViewForPreview() {
+    
+    let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: 385.0 * UtilityManager.sharedInstance.conversionHeight,
+                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    caseVideoLinkView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
+                                                        title: "",
+                                                        image: nil)
+    caseVideoLinkView.mainTextField.text = (caseDataForPreview.url != nil ? caseDataForPreview.url! : nil)
+    caseVideoLinkView.mainTextField.userInteractionEnabled = true
+    caseVideoLinkView.mainTextField.placeholder = "Agrega un link de video"
+    caseVideoLinkView.backgroundColor = UIColor.clearColor()
+    caseVideoLinkView.mainTextField.delegate = self
+    caseVideoLinkView.mainTextField.tag = 88
+    self.containerView.addSubview(caseVideoLinkView)
     
   }
 
@@ -486,7 +528,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "Nombre, descripción y link obligatorios",
+      string: "Nombre, descripción e imagen obligatorios",
       attributes:[NSFontAttributeName:font!,
         NSParagraphStyleAttributeName:style,
         NSForegroundColorAttributeName:color
@@ -496,7 +538,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     errorInFieldsLabel.attributedText = stringWithFormat
     errorInFieldsLabel.sizeToFit()
     let newFrame = CGRect.init(x: (containerView.frame.size.width / 2.0) - (errorInFieldsLabel.frame.size.width / 2.0),
-                               y: mainScrollView.contentSize.height - (errorInFieldsLabel.frame.size.height + 5.0 * UtilityManager.sharedInstance.conversionHeight),
+                               y: mainScrollView.contentSize.height - (errorInFieldsLabel.frame.size.height + 30.0 * UtilityManager.sharedInstance.conversionHeight),
                            width: errorInFieldsLabel.frame.size.width,
                           height: errorInFieldsLabel.frame.size.height)
     
@@ -712,41 +754,41 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
 
-    if textField.tag == 8 {
-      
-      let textChecked = textField.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-      
-      if textChecked != nil && textChecked != "" {
-        
-        if isShowingEditCase == true {
-          
-//          deleteImage = true
-          self.createCaseVideoPlayerVimeoYoutube(textChecked!)
-          
-        } else {
-          
-          self.createCaseVideoPlayerVimeoYoutube(textChecked!)
-          
-        }
-        
-        
-      } else {
-        
-        if isShowingEditCase == true {
-          
-          //self.createPreviewVideoPlayerVimeoYoutube("clean")
-          self.createCaseVideoPlayerVimeoYoutube("")
-          
-        } else {
-          
-          self.createCaseVideoPlayerVimeoYoutube("")
-          //self.createCaseVideoPlayerVimeoYoutubeWithoutURL()
-          
-        }
-        
-      }
-      
-    }
+//    if textField.tag == 8 {
+//      
+//      let textChecked = textField.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+//      
+//      if textChecked != nil && textChecked != "" {
+//        
+//        if isShowingEditCase == true {
+//          
+////          deleteImage = true
+//          self.createCaseVideoPlayerVimeoYoutube(textChecked!)
+//          
+//        } else {
+//          
+//          self.createCaseVideoPlayerVimeoYoutube(textChecked!)
+//          
+//        }
+//        
+//        
+//      } else {
+//        
+//        if isShowingEditCase == true {
+//          
+//          //self.createPreviewVideoPlayerVimeoYoutube("clean")
+//          self.createCaseVideoPlayerVimeoYoutube("")
+//          
+//        } else {
+//          
+//          self.createCaseVideoPlayerVimeoYoutube("")
+//          //self.createCaseVideoPlayerVimeoYoutubeWithoutURL()
+//          
+//        }
+//        
+//      }
+//      
+//    }
     
     return true
     
@@ -754,46 +796,49 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
   
   func textFieldShouldEndEditing(textField: UITextField) -> Bool {
     
-    if textField.tag == 8 {
-      
-      let textChecked = textField.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-      
-      if textChecked != nil && textChecked != "" {
-        
-        if isShowingEditCase == true {
-          
-//          deleteImage = true
-          //self.createPreviewVideoPlayerVimeoYoutube(textChecked!)
-          
-        } else {
-          
-          self.createCaseVideoPlayerVimeoYoutube(textChecked!)
-          
-        }
-        
-      } else {
-        
-        if isShowingEditCase == true {
-          
-          //self.createPreviewVideoPlayerVimeoYoutube(textChecked!)
-          
-        } else {
-          
-          self.createCaseVideoPlayerVimeoYoutubeWithoutURL()
-          
-        }
-      
-      }
-      
-    }
+//    if textField.tag == 8 {
+//      
+//      let textChecked = textField.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+//      
+//      if textChecked != nil && textChecked != "" {
+//        
+//        if isShowingEditCase == true {
+//          
+////          deleteImage = true
+//          //self.createPreviewVideoPlayerVimeoYoutube(textChecked!)
+//          
+//        } else {
+//          
+//          self.createCaseVideoPlayerVimeoYoutube(textChecked!)
+//          
+//        }
+//        
+//      } else {
+//        
+//        if isShowingEditCase == true {
+//          
+//          //self.createPreviewVideoPlayerVimeoYoutube(textChecked!)
+//          
+//        } else {
+//          
+//          self.createCaseVideoPlayerVimeoYoutubeWithoutURL()
+//          
+//        }
+//      
+//      }
+//      
+//    }
     
     return true
     
   }
   
   private func showErrorInFieldsLabel() {
-  
+    
     if errorInFieldsLabel.alpha == 0.0 {
+    
+      self.moveToBottomOfScrollView()
+      
       UIView.animateWithDuration(0.35){
         self.errorInFieldsLabel.alpha = 1.0
       }
@@ -835,6 +880,18 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
     
     caseDescriptionTextView.text = ""
     self.hideClearButton()
+    
+  }
+  
+  private func moveToBottomOfScrollView() {
+    
+    if mainScrollView != nil {
+      
+      let offsetPoint = CGPoint.init(x: 0.0, y: mainScrollView.contentSize.height - mainScrollView.bounds.size.height)
+      
+      mainScrollView.setContentOffset(offsetPoint, animated: true)
+      
+    }
     
   }
   
@@ -881,7 +938,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
     if textView.tag == 1 {
       
       self.setPlaceHolderOfTextView(textView)
-      if textView.text != "Descripción del caso   " {
+      if textView.text != "Describe el caso en menos de 200 caracteres.            " {
       
         self.showClearButton()
         
@@ -903,7 +960,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
   
   private func removePlaceHolderOfTextView(textView: UITextView) {
     
-    if textView.text == "Descripción del caso   " {
+    if textView.text == "Describe el caso en menos de 200 caracteres.            " {
       
       textView.text = ""
       textView.textColor = UIColor.blackColor()
@@ -915,7 +972,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
    
     if textView.text == "" {
       
-      textView.text = "Descripción del caso   "
+      textView.text = "Describe el caso en menos de 200 caracteres.            "
       textView.textColor = UIColor.lightGrayColor()
       self.hideClearButton()
       
@@ -1002,19 +1059,28 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
   
   @objc private func requestSaveEditCase() {
 
-    let finalUrl = self.transformURL()
+    let finalUrl = self.transformURL(caseWebLinkView.mainTextField.text!)
+    let finalVideoUrl = self.transformURL(caseVideoLinkView.mainTextField.text!)
     //    let isURLOk = UIApplication.sharedApplication().canOpenURL(NSURL.init(string: finalUrl)!)
     
-    let urlIsFromYoutube = UtilityManager.sharedInstance.validateIfLinkIsYoutube(finalUrl)
-    let urlIsFromVimeo = UtilityManager.sharedInstance.validateIfLinkIsVimeo(finalUrl)
+    let urlIsFromYoutube = UtilityManager.sharedInstance.validateIfLinkIsYoutube(finalVideoUrl)
+    let urlIsFromVimeo = UtilityManager.sharedInstance.validateIfLinkIsVimeo(finalVideoUrl)
     
     let isNameOk = UtilityManager.sharedInstance.isValidText(caseNameView.mainTextField.text!)
     
     var isDescriptionOk: Bool = false
     
-    if caseDescriptionTextView.text != "Descripción del caso   " && caseDescriptionTextView.text != ""{
+    if caseDescriptionTextView.text != "Describe el caso en menos de 200 caracteres.            " && caseDescriptionTextView.text != ""{
       
       isDescriptionOk = UtilityManager.sharedInstance.isValidText(caseDescriptionTextView.text)
+      
+    }
+    
+    var isValidLink: Bool = false
+    
+    if caseWebLinkView.mainTextField.text != "" && UIApplication.sharedApplication().canOpenURL(NSURL.init(string: finalUrl)!) {
+      
+      isValidLink = true
       
     }
     
@@ -1172,7 +1238,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
         
       else
         
-      if isNameOk == true && isDescriptionOk == true && (urlIsFromYoutube == true || urlIsFromVimeo == true) {
+      if isNameOk == true && isDescriptionOk == true && (urlIsFromYoutube == true || urlIsFromVimeo == true || isValidLink == true) {
         
         //correct
         UtilityManager.sharedInstance.showLoader()
@@ -1315,20 +1381,31 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
   
   @objc private func requestCreateCase() {
     
-    let finalUrl = self.transformURL()
-//    let isURLOk = UIApplication.sharedApplication().canOpenURL(NSURL.init(string: finalUrl)!)
+    let finalUrl = self.transformURL(caseWebLinkView.mainTextField.text!)
+    let finalVideoUrl = self.transformURL(caseVideoLinkView.mainTextField.text!)
+    //    let isURLOk = UIApplication.sharedApplication().canOpenURL(NSURL.init(string: finalUrl)!)
     
-    let urlIsFromYoutube = UtilityManager.sharedInstance.validateIfLinkIsYoutube(finalUrl)
-    let urlIsFromVimeo = UtilityManager.sharedInstance.validateIfLinkIsVimeo(finalUrl)
+    let urlIsFromYoutube = UtilityManager.sharedInstance.validateIfLinkIsYoutube(finalVideoUrl)
+    let urlIsFromVimeo = UtilityManager.sharedInstance.validateIfLinkIsVimeo(finalVideoUrl)
     
     let isNameOk = UtilityManager.sharedInstance.isValidText(caseNameView.mainTextField.text!)
+    
     var isDescriptionOk: Bool = false
     
-    if caseDescriptionTextView.text != "Descripción del caso   " && caseDescriptionTextView.text != "" {
+    if caseDescriptionTextView.text != "Describe el caso en menos de 200 caracteres.            " && caseDescriptionTextView.text != ""{
       
       isDescriptionOk = UtilityManager.sharedInstance.isValidText(caseDescriptionTextView.text)
       
     }
+    
+    var isValidLink: Bool = false
+    
+    if caseWebLinkView.mainTextField.text != "" && UIApplication.sharedApplication().canOpenURL(NSURL.init(string: finalUrl)!) {
+      
+      isValidLink = true
+      
+    }
+    
     let doesExistImage: Bool
     if caseImage != nil {
       doesExistImage = true
@@ -1338,7 +1415,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
     
     
     
-    if isNameOk == true && isDescriptionOk == true && (urlIsFromYoutube == true || urlIsFromVimeo == true) {
+    if isNameOk == true && isDescriptionOk == true && (urlIsFromYoutube == true || urlIsFromVimeo == true || isValidLink == true) {
       
       //correct
       UtilityManager.sharedInstance.showLoader()
@@ -1491,11 +1568,11 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
 //    }
   }
   
-  private func transformURL() -> String {
+  private func transformURL(url: String) -> String {
     
-    let isURLOk = UIApplication.sharedApplication().canOpenURL(NSURL.init(string: caseWebLinkView.mainTextField.text!)!)
+    let isURLOk = UIApplication.sharedApplication().canOpenURL(NSURL.init(string: url)!)
     
-    var finalURL = caseWebLinkView.mainTextField.text!
+    var finalURL = url
     let isValidText = UtilityManager.sharedInstance.isValidText(finalURL)
     
     if isURLOk == false && isValidText == true {

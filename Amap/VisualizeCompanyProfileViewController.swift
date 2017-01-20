@@ -102,7 +102,7 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "Perfil Marca",
+      string: "Perfil Anunciante",
       attributes:[NSFontAttributeName:font!,
         NSParagraphStyleAttributeName:style,
         NSForegroundColorAttributeName:color

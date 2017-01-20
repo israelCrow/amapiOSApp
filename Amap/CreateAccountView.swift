@@ -388,6 +388,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         eMailTextField.placeholder = "email"
         eMailTextField.delegate = self
         eMailTextField.clearButtonMode = .WhileEditing
+        eMailTextField.autocapitalizationType = .None
 //        eMailTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
       
         let border = CALayer()

@@ -184,8 +184,8 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     }
     
     genericGraph = GenericDashboardGraphic.init(frame: frameForGraph,
-                                  newDataForLineChart: [5.0, 10.0, 20.0, 18.0, 13.0],
-                                   newDataForBarChart: [13.0, 18.0, 20.0, 10.0, 5.0],
+                                  newDataForLineChart: [Double](),
+                                   newDataForBarChart: [Double](),
                                      newValuesOfXAxis: nil,
                                newDescriptionBarGraph: barDescription,
                               newDescriptionLineGraph: nil)

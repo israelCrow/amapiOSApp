@@ -538,7 +538,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
     let visualizeAgencyFilterController = VisualizeAgencyFilterViewController()
 //    visualizeAgencyFilterController.delegate = mainTabBarController
-    let tabThirdBarItem = UITabBarItem.init(title: "Directorio",
+    let tabThirdBarItem = UITabBarItem.init(title: "Directorio de Agencias",
                                              image: imageAgencyProfileNonSelected,
                                              selectedImage: imageAgencyProfileSelected)
     
@@ -559,7 +559,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
     let visualizeCompanyProfileController = VisualizeCompanyProfileViewController()
     visualizeCompanyProfileController.delegate = mainTabBarController
-    let tabFourthBarItem = UITabBarItem.init(title: "Perfil Marca",
+    let tabFourthBarItem = UITabBarItem.init(title: "Perfil Anunciante",
                                              image: imageAgencyProfileNonSelected,
                                              selectedImage: imageAgencyProfileSelected)
     

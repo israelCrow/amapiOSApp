@@ -49,7 +49,7 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
     self.createPitchCard()
     self.createEvaluationBreakDown()
     self.createRecommendations()
-    self.createSharePitch()
+//    self.createSharePitch()
     
   }
   

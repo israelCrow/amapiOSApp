@@ -236,6 +236,7 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
     companyNameView.mainTextField.placeholder = "Nombre"
     companyNameView.mainTextField.tag = 1
     companyNameView.mainTextField.delegate = self
+    companyNameView.mainTextField.userInteractionEnabled = false
     
     if MyCompanyModelData.Data.name != nil {
       

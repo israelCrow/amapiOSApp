@@ -238,6 +238,7 @@ class ChangePasswordRequestView: UIView, UITextFieldDelegate {
         eMailTextField.tag = 1
         eMailTextField.delegate = self
         eMailTextField.clearButtonMode = .WhileEditing
+        eMailTextField.autocapitalizationType = .None
 //        eMailTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
       
         let border = CALayer()

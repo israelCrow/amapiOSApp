@@ -903,9 +903,12 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   func deleteCaseSelectedFromPreviewVimeoYoutubePlayer(caseData: Case) {
     
-    RequestToServerManager.sharedInstance.requestForDeleteAgencyCase(caseData) { 
+    RequestToServerManager.sharedInstance.requestForDeleteAgencyCase(caseData) {
+      
       self.casesView.createAgainAllCasesCardInfo()
+      
     }
+    
   }
   
   //MARK: - CreateCaseViewDelegate
@@ -1211,7 +1214,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   func askingForDeleteCaseImage() {
     
-    let alertController = UIAlertController(title: "Borrar imagen de caso", message: "¿Estás seguro que deseas eleminar la imagen para este caso?", preferredStyle: UIAlertControllerStyle.Alert)
+    let alertController = UIAlertController(title: "Borrar imagen de caso", message: "¿Estás seguro que deseas eliminar la imagen para este caso?", preferredStyle: UIAlertControllerStyle.Alert)
     
     let cancelAction = UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
       
@@ -1331,7 +1334,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   func asKForDeleteProfileImage() {
     
-    let alertController = UIAlertController(title: "Borrar Foto de Perfil", message: "¿Estás seguro que deseas eleminar la imagen de perfil?", preferredStyle: UIAlertControllerStyle.Alert)
+    let alertController = UIAlertController(title: "Borrar Foto de Perfil", message: "¿Estás seguro que deseas eliminar la imagen de perfil?", preferredStyle: UIAlertControllerStyle.Alert)
     
     let cancelAction = UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
 

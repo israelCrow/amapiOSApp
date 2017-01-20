@@ -18,7 +18,7 @@ protocol CasesViewDelegate {
   func deleteCaseSelectedFromPreviewVimeoYoutubePlayer(caseData: Case)
 }
 
-class CasesView: UIView, CaseCardInfoViewDelegate {
+class CasesView: UIView, CaseCardInfoToEditViewDelegate {
   
   let kLimitOfCases = 4
   
@@ -26,7 +26,7 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
   private var mainScrollView: UIScrollView! = nil
   private var creatorOfCasesView: UIView! = nil
   private var arrayOfCases: [Case]! = nil
-  private var arrayOfCasesCards: [CaseCardInfoView]! = nil
+  private var arrayOfCasesCards: [CaseCardInfoToEditView]! = nil
   
   
   var delegate: CasesViewDelegate?
@@ -160,7 +160,9 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
       
       for caseInArray in arrayOfCases {
         
-        let caseCardInfo = CaseCardInfoView.init(frame: frameForCaseCard, dataFromCase: caseInArray)
+        //new kind of cases card
+        
+        let caseCardInfo = CaseCardInfoToEditView.init(frame: frameForCaseCard, dataFromCase: caseInArray)
         caseCardInfo.delegate = self
         
         frameForCaseCard = CGRect.init(x: 0.0,
@@ -270,18 +272,33 @@ class CasesView: UIView, CaseCardInfoViewDelegate {
     
   }
   
-  //MARK: - CaseCardInfoDelegate
+  //MARK: - CaseCardInfoToEditViewDelegate
   
-  func flipCardAndShowPreviewCase(caseData: Case) {
+  func flipCardAndShowPreviewCaseFromCaseCardInfoToEdit(caseData: Case) {
     
     self.delegate?.flipCardAndShowPreviewOfCase(caseData)
     
   }
   
-  func deleteCaseFromPreviewPlayer(caseData: Case) {
-    self.delegate?.deleteCaseSelectedFromPreviewVimeoYoutubePlayer(caseData)
+  func deleteCaseFromPreviewPlayerFromCaseCardInfoToEdit(dataCase: Case) {
+    
+    self.delegate?.deleteCaseSelectedFromPreviewVimeoYoutubePlayer(dataCase)
+    
   }
   
+  
+  //MARK: - CaseCardInfoDelegate
+  
+//  func flipCardAndShowPreviewCase(caseData: Case) {
+//    
+//    self.delegate?.flipCardAndShowPreviewOfCase(caseData)
+//    
+//  }
+//  
+//  func deleteCaseFromPreviewPlayer(caseData: Case) {
+//    self.delegate?.deleteCaseSelectedFromPreviewVimeoYoutubePlayer(caseData)
+//  }
+//  
   func createAgainAllCasesCardInfo() {
     
     self.createCaseCardsInfo()
