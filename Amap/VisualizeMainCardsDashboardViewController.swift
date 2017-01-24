@@ -193,6 +193,22 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     
   }
   
+  private func moveToSecondPage() {
+    
+    let secondPagePoint = CGPoint.init(x: UIScreen.mainScreen().bounds.width,
+                                      y: 0.0)
+    mainScrollView.setContentOffset(secondPagePoint, animated: true)
+    
+  }
+  
+  private func moveToThirdPage() {
+    
+    let thirdPagePoint = CGPoint.init(x: UIScreen.mainScreen().bounds.width * 2.0,
+                                      y: 0.0)
+    mainScrollView.setContentOffset(thirdPagePoint, animated: true)
+    
+  }
+  
   private func getInfoFromServer() {
     
     if UserSession.session.role == "2" || UserSession.session.role == "3" {
@@ -286,12 +302,56 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     
     if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
-      self.createGeneralPerformanceCard()
+      UIView.animateWithDuration(0.15,
+        animations: {
+          
+          self.mainScrollView.alpha = 0.0
+          
+        }, completion: { finished in
+          
+          if finished == true {
+            
+            self.createGeneralPerformanceCard()
+            self.moveToSecondPage()
+            self.moveToThirdPage()
+            self.moveToSecondPage()
+            
+            UIView.animateWithDuration(0.15) {
+              
+              self.mainScrollView.alpha = 1.0
+              
+            }
+            
+          }
+          
+      })
       
     } else
       if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
-        self.createCardsForCompany()
+        UIView.animateWithDuration(0.15,
+                                   animations: {
+                                    
+                                    self.mainScrollView.alpha = 0.0
+                                    
+          }, completion: { finished in
+            
+            if finished == true {
+              
+              self.createCardsForCompany()
+              
+              self.moveToSecondPage()
+              self.moveToThirdPage()
+              
+              UIView.animateWithDuration(0.15) {
+                
+                self.mainScrollView.alpha = 1.0
+                
+              }
+              
+            }
+            
+        })
         
       }
     
@@ -475,12 +535,12 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
                                         width: widthOfCard,
                                         height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
     
-    let frameForSecondCard = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth) + (mainScrollView.frame.size.width * CGFloat(kNumberOfCardsForCompany - 3)),
+    let frameForSecondCard = CGRect.init(x: (90.0 * UtilityManager.sharedInstance.conversionWidth) + (mainScrollView.frame.size.width * CGFloat(kNumberOfCardsForCompany - 3)),
                                          y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
                                          width: widthOfCard,
                                          height: heightOfCard - (51.0 * UtilityManager.sharedInstance.conversionHeight))
     
-    let frameForThirdCard = CGRect.init(x: (mainScrollView.frame.size.width * CGFloat(kNumberOfCardsForCompany - 2)) - (10.0 * UtilityManager.sharedInstance.conversionWidth),
+    let frameForThirdCard = CGRect.init(x: (mainScrollView.frame.size.width * CGFloat(kNumberOfCardsForCompany - 2)) + (40.0 * UtilityManager.sharedInstance.conversionWidth),
                                          y: (108.0 * UtilityManager.sharedInstance.conversionHeight),
                                          width: widthOfCard,
                                          height: heightOfCard)

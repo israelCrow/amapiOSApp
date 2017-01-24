@@ -18,6 +18,7 @@ class GraphOfAgencyVSIndustryView: UIView {
   
   private var filterButton: UIButton! = nil
   private var agencyPerformanceLabel: UILabel! = nil
+  private var noEnoughInfoLabel: UILabel! = nil
   private var genericGraph: GenericDashboardGraphic! = nil
   private var optionsForSelector: [String]! = nil
   
@@ -55,11 +56,17 @@ class GraphOfAgencyVSIndustryView: UIView {
     self.createFilterButton()
     self.createGraphOfAgencyVSIndustryLabel()
     
-    self.createGraphic()
+    if arrayOfPitchesAverageByAgency.count > 0 && arrayOfPitchesAvergaeByIndustry.count > 0 {
+      
+      self.createGraphic()
+      
+    } else {
+      
+      self.createLabelNoEnoughInfo()
+      
+    }
     
   }
-  
-  
   
   private func createFilterButton() {
     
@@ -127,6 +134,44 @@ class GraphOfAgencyVSIndustryView: UIView {
     agencyPerformanceLabel.frame = newFrame
     
     self.addSubview(agencyPerformanceLabel)
+    
+  }
+  
+  private func createLabelNoEnoughInfo() {
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 218.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    noEnoughInfoLabel = UILabel.init(frame: frameForLabel)
+    noEnoughInfoLabel.numberOfLines = 0
+    noEnoughInfoLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: VisualizeDashboardConstants.GraphOfAgencyVSIndustry.noEnoughInfoLabelText,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    
+    noEnoughInfoLabel.attributedText = stringWithFormat
+    noEnoughInfoLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (noEnoughInfoLabel.frame.size.width / 2.0),
+                               y: 182.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: noEnoughInfoLabel.frame.size.width,
+                               height: noEnoughInfoLabel.frame.size.height)
+    
+    noEnoughInfoLabel.frame = newFrame
+    
+    self.addSubview(noEnoughInfoLabel)
     
   }
   

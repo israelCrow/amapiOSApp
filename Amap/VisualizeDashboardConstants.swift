@@ -34,6 +34,7 @@ class VisualizeDashboardConstants {
     
     static let agencyPerformanceLabelText = "Performance de tu agencia"
     static let companyPerformanceLabelText = "Performance del anunciante" //Performance de tu compañía
+    static let noEnoughInfoLabelText = "Aún no tenemos información para mostrarte, entre más pitches agregues mejor información verás aquí"
     
   }
 

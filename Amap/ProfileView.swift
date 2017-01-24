@@ -257,9 +257,9 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     stringWithFormat.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSMakeRange(0, AgencyProfileEditConstants.ProfileView.changeProfilePictureButtonText.characters.count))
     
     
-    let frameForButton = CGRect.init(x: 78.0 * UtilityManager.sharedInstance.conversionWidth,
+    let frameForButton = CGRect.init(x: 72.0 * UtilityManager.sharedInstance.conversionWidth,
                                      y: 0.0,
-                                 width: 116.0 * UtilityManager.sharedInstance.conversionWidth,
+                                 width: 148.0 * UtilityManager.sharedInstance.conversionWidth,
                                 height: ((13.0 + 4.0) * UtilityManager.sharedInstance.conversionHeight))
     changeProfileImageButton = UIButton.init(frame: frameForButton)
     changeProfileImageButton.addTarget(self,
@@ -290,9 +290,9 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     stringWithFormat.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSMakeRange(0, AgencyProfileEditConstants.ProfileView.deleteProfilePictureButtonText.characters.count))
     
     
-    let frameForButton = CGRect.init(x: 78.0 * UtilityManager.sharedInstance.conversionWidth,
+    let frameForButton = CGRect.init(x: 66.0 * UtilityManager.sharedInstance.conversionWidth,
                                      y: changeProfileImageButton.frame.origin.y + changeProfileImageButton.frame.size.height + (16.0 * UtilityManager.sharedInstance.conversionHeight),
-                                     width: 116.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     width: 148.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: ((13.0 + 4.0) * UtilityManager.sharedInstance.conversionHeight))
     deleteProfileImageButton = UIButton.init(frame: frameForButton)
     deleteProfileImageButton.addTarget(self,

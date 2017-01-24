@@ -53,8 +53,8 @@ class AgencyProfileEditConstants {
   enum ProfileView {
     
     static let profileLabelText = "Perfil"
-    static let changeProfilePictureButtonText = "Cambiar Foto de Perfil"
-    static let deleteProfilePictureButtonText = "Borrar Foto de Perfil"
+    static let changeProfilePictureButtonText = "Cambiar logo de la empresa"
+    static let deleteProfilePictureButtonText = "Borrar logo de la empresa"
     static let agencyPhoneTitleText = "Escribe tu teléfono ej. +52 55 5555 5555"
     static let agencyMailContactTitleText = "Escribe tu mail"
     static let agencyContactTitleText = "Escribe un nombre de contacto"

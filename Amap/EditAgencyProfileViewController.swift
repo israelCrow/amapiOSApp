@@ -718,14 +718,14 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   @objc private func requestToEveryScreenToSave(actionsToMakeAfterExecuting: () -> Void) {
     //this for every screen
     
-    let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+//    let savedPhotoAndSavedName = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
+//    
+//    if savedPhotoAndSavedName == false && profileView.isAgencyNameAndAgencyImageWithInfo() == false {
+//      
+//      self.showMessageOfMandatoryInfo()
+//      
+//    } else {
     
-    if savedPhotoAndSavedName == false && profileView.isAgencyNameAndAgencyImageWithInfo() == false {
-      
-      self.showMessageOfMandatoryInfo()
-      
-    } else {
-      
       self.criteriaView.saveCriterionsSelected()
       
       self.exclusiveView.requestToSaveNewBrands()
@@ -742,7 +742,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       
 //      self.profileView.saveChangesOfAgencyProfile(valuesFromParticipateView, actionsToMakeAfterExecution: actionsToMakeAfterExecuting)
       
-    }
+//    }  //if saved photo and saved name end 
     
 //    //Skills Data
 //    let paramsFromSkills = self.skillsView.getParamsToSaveDataOfSkills()
