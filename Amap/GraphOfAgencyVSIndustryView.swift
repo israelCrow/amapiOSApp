@@ -10,7 +10,7 @@ import UIKit
 
 protocol GraphOfAgencyVSIndustryViewDelegate {
   
-  func filterFromGraphOfAgencyVSIndustryPressed()
+  func filterFromGraphOfAgencyVSIndustryPressed(sender: GraphOfAgencyVSIndustryView)
   
 }
 
@@ -93,7 +93,7 @@ class GraphOfAgencyVSIndustryView: UIView {
                                     height: CGFloat.max)
     
     agencyPerformanceLabel = UILabel.init(frame: frameForLabel)
-    agencyPerformanceLabel.numberOfLines = 0
+    agencyPerformanceLabel.numberOfLines = 2
     agencyPerformanceLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIDisplay-Ultralight",
@@ -224,12 +224,25 @@ class GraphOfAgencyVSIndustryView: UIView {
     
   }
   
-  @objc private func changeData() {
+  func changeData(newNameUser: String, newXValues: [String]?, newLineGraphData: [Double], newBarGraphData: [Double]) {
+
+    var xValues = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
     
-    genericGraph.changeValuesOfGraph("usuario 666",
-                                     newXValues: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-                                     newLineGraphData: [1,2,3,4,5,6,7,8,9,10,11,12],
-                                     newBarGraphData: [12,11,10,9,8,7,6,5,4,3,2,1])
+    if newXValues != nil {
+      
+      xValues = newXValues!
+      
+    }
+    
+    genericGraph.changeValuesOfGraph(newNameUser,
+                                     newXValues: xValues,
+                                     newLineGraphData: newLineGraphData,
+                                     newBarGraphData: newBarGraphData)
+    
+//    genericGraph.changeValuesOfGraph("usuario 666",
+//                                     newXValues: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+//                                     newLineGraphData: [1,2,3,4,5,6,7,8,9,10,11,12],
+//                                     newBarGraphData: [12,11,10,9,8,7,6,5,4,3,2,1])
     
   }
   
@@ -267,7 +280,7 @@ class GraphOfAgencyVSIndustryView: UIView {
   
   @objc private func filterButtonPressed() {
     
-    self.delegate?.filterFromGraphOfAgencyVSIndustryPressed()
+    self.delegate?.filterFromGraphOfAgencyVSIndustryPressed(self)
     
   }
   

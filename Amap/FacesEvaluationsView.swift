@@ -143,7 +143,7 @@ class FacesEvaluationsView: UIView {
     
     self.addSubview(face)
     
-    self.createValueLabel(newFrame, valueToShow: "OK\n" + String(withValue))
+    self.createValueLabel(newFrame, valueToShow: "Unhappy\n" + String(withValue))
     
   }
   
@@ -154,7 +154,7 @@ class FacesEvaluationsView: UIView {
     
     self.addSubview(face)
     
-    self.createValueLabel(newFrame, valueToShow: "Unhappy\n" + String(withValue))
+    self.createValueLabel(newFrame, valueToShow: "Badpitch\n" + String(withValue))
     
   }
   

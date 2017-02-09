@@ -224,7 +224,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         nameTextField = UITextField.init(frame: frameForTextField)
         nameTextField.tag = 1
         nameTextField.delegate = self
-        nameTextField.placeholder = "email"
+        nameTextField.placeholder = "e-mail"
         nameTextField.clearButtonMode = .WhileEditing
         nameTextField.autocapitalizationType = .None
 //        nameTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
@@ -335,7 +335,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         eMailTextField.tag = 2
         eMailTextField.delegate = self
         eMailTextField.secureTextEntry = true
-        eMailTextField.placeholder = "Contraseña"
+        eMailTextField.placeholder = "password"
         eMailTextField.clearButtonMode = .WhileEditing
 //        eMailTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
       
@@ -493,7 +493,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         style.alignment = NSTextAlignment.Center
         
         let stringWithFormat = NSMutableAttributedString(
-            string: "Formato de mail incorrecto",
+            string: "¡Oops, el usuario o el password no son válidos!",//"Formato de mail incorrecto",
             attributes:[NSFontAttributeName:font!,
                 NSParagraphStyleAttributeName:style,
                 NSForegroundColorAttributeName:color

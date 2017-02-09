@@ -11,7 +11,7 @@ import Alamofire
 
 class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, SuccessfullyAskForAccountViewDelegate, ExistingAccountViewDelegate, CreateAccountProcessAlreadyBegunViewDelegate {
     
-    let kCreateAccount = "Crear Cuenta"
+    let kCreateAccount = "Crea tu cuenta"
     
     private var flipCard:FlipCardView! = nil
     private var lastFramePosition: CGRect! = nil

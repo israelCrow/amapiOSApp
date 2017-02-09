@@ -11,16 +11,16 @@ class ChangePasswordRequestConstants {
   enum ChangePasswordRequestView {
     static let goldenPitchTitleText = "GOLDEN PITCH"
     static let amapText = "AMAP"
-    static let messageText = "Puedes cambiar tu contraseña o resetearla sólo ingresa tu E-mail y se enviará un link con las instrucciones."
-    static let writeEMailDescriptioText = "Escribe tu mail"
-    static let emailText = "Email"
-    static let nextButtonText = "Enviar"
+    static let messageText = "Para cambiar o resetear tu password, solo ingresa tu e-mail y te enviaremos un link con instrucciones."
+    static let writeEMailDescriptioText = "Escribe tu e-mail"
+    static let emailText = "e-mail"
+    static let nextButtonText = "enviar"
   }
   
   enum SuccessfullyAskForChangePasswordView {
     static let readyText = "¡Listo!"
-    static let successfullyMessageText = "Se ha enviado un link a tu E-Mail para reestablecer tu contraseña."
-    static let nextButtonText = "Ok"
+    static let successfullyMessageText = "Te enviamos un link a tu e-mail para reestablecer tu contraseña."
+    static let nextButtonText = "ok"
   }
   
 }

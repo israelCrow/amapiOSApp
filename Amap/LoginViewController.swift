@@ -11,7 +11,7 @@ import Alamofire
 
 class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
-  let kCreateAccountText = "¿Cómo? ¿No estás registrado? Crea una cuenta ahora"
+  let kCreateAccountText = "¿No estás registrado? Crea una cuenta ahora"
     
   private var flipCard:FlipCardView! = nil
   private var createAccountLabel: UILabel! = nil
@@ -94,7 +94,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
                 NSForegroundColorAttributeName: color,
             ]
         )
-        stringWithFormat.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSMakeRange(29, 21))
+        stringWithFormat.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSMakeRange(22, 21))
         createAccountLabel.attributedText = stringWithFormat
         createAccountLabel.sizeToFit()
         let newFrame = CGRect.init(x: (self.view.frame.size.width / 2.0) - (createAccountLabel.frame.size.width / 2.0),

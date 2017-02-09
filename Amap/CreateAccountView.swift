@@ -93,7 +93,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         
         let font = UIFont(name: "SFUIDisplay-Ultralight",
                           size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
-        let color = UIColor.init(red: 0.0/255.0, green: 64.0/255.0, blue: 89.0/255.0, alpha: 1.0)
+        let color = UIColor.blackColor()
         let style = NSMutableParagraphStyle()
         style.alignment = NSTextAlignment.Center
         
@@ -277,7 +277,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         nameTextField = UITextField.init(frame: frameForTextField)
         nameTextField.tag = 1
         nameTextField.delegate = self
-        nameTextField.placeholder = "Agencia/Anunciante"
+        nameTextField.placeholder = "Agencia / anunciante"
         nameTextField.clearButtonMode = .WhileEditing
 //        nameTextField.addTarget(self, action: #selector(animateCancelButton), forControlEvents: .EditingChanged)
       
@@ -385,7 +385,7 @@ class CreateAccountView: UIView, UITextFieldDelegate {
         
         eMailTextField = UITextField.init(frame: frameForTextField)
         eMailTextField.tag = 2
-        eMailTextField.placeholder = "email"
+        eMailTextField.placeholder = "e-mail"
         eMailTextField.delegate = self
         eMailTextField.clearButtonMode = .WhileEditing
         eMailTextField.autocapitalizationType = .None

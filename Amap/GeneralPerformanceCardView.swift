@@ -87,13 +87,13 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
       
       for user in arrayOfAgencyUsersModelData {
         
-        if user.firstName != nil && user.firstName != "" {
+        if user.email != nil && user.email != "" {
           
-          optionsForSelector.append(user.firstName)
+          optionsForSelector.append(user.email)
           
         } else {
           
-          optionsForSelector.append("unknown user")
+          optionsForSelector.append("user without email")
           
         }
         
@@ -142,7 +142,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
                                         height: self.frame.size.height)
     
     let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
-                                              height: frameForMainScrollView.size.height + (200.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
+                                              height: frameForMainScrollView.size.height + (50.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.backgroundColor = UIColor.clearColor()
@@ -195,12 +195,14 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     if UserSession.session.role == "2" {
       
       selectorOfInformationView.mainTextField.text = (AgencyModel.Data.name != nil && AgencyModel.Data.name != "" ? AgencyModel.Data.name! : "Agencia Actual")
+      selectorOfInformationView.alpha = 0.0
+      self.createTitleLabel()
       
     }else
     
-      if UserSession.session.role == "3" || UserSession.session.role == "5" {
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
       
-        selectorOfInformationView.mainTextField.text = (UserSession.session.first_name != nil && UserSession.session.first_name != "" ? UserSession.session.first_name! : "Usuario actual")
+        selectorOfInformationView.mainTextField.text = (MyCompanyModelData.Data.name != nil && MyCompanyModelData.Data.name != "" ? MyCompanyModelData.Data.name! : "Compañía actual")
         selectorOfInformationView.alpha = 1.0
         selectorOfInformationView.userInteractionEnabled = false
       
@@ -227,6 +229,12 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
+    
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
+      
+      titleText = "Desempeño de la agencia"
+      
+    }
     
     let stringWithFormat = NSMutableAttributedString(
       string: titleText,
@@ -421,7 +429,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
     //    mainScrollView.layer.masksToBounds = false
     
     let newContentSize = CGSize.init(width: mainScrollView.contentSize.width,
-                                     height: mainScrollView.contentSize.height + recommendations.frame.size.height + (40.0 * UtilityManager.sharedInstance.conversionHeight))
+                                     height: mainScrollView.contentSize.height + recommendations.frame.size.height)
     
     mainScrollView.contentSize = newContentSize
     

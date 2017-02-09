@@ -44,7 +44,6 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   private var numberOfPitchesByMyself = [String: Int]()
   private var arrayOfOwnBrands = [BrandModelData]()
   private var recommendations = [RecommendationModelData]()
-  //
   
   private var secondTimeShowing: Bool = false
   private var arrayOfUsers = [AgencyUserModelData]()
@@ -54,6 +53,9 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   
   private var firstFilterView: FilterAccordingToUserAndAgencyView! = nil
   private var secondFilterView: FilterAccordingToUserAndAgencyView! = nil
+  
+  private var lastUserSelectedInfo: [String: AnyObject]! = nil
+  private var lastBrandSelectecInfo: [String: AnyObject]! = nil
   
   private var nextTimeFlipFirstCard: Bool! = false
   private var actualPage: Int = 1
@@ -195,27 +197,38 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   
   private func moveToSecondPage() {
     
-    let secondPagePoint = CGPoint.init(x: UIScreen.mainScreen().bounds.width,
-                                      y: 0.0)
-    mainScrollView.setContentOffset(secondPagePoint, animated: true)
-    
+    if mainScrollView != nil {
+      
+      let secondPagePoint = CGPoint.init(x: UIScreen.mainScreen().bounds.width,
+                                         y: 0.0)
+      mainScrollView.setContentOffset(secondPagePoint, animated: true)
+      
+    }
+  
   }
   
   private func moveToThirdPage() {
     
-    let thirdPagePoint = CGPoint.init(x: UIScreen.mainScreen().bounds.width * 2.0,
-                                      y: 0.0)
-    mainScrollView.setContentOffset(thirdPagePoint, animated: true)
+    if mainScrollView != nil {
+      
+      let thirdPagePoint = CGPoint.init(x: UIScreen.mainScreen().bounds.width * 2.0,
+                                        y: 0.0)
+      mainScrollView.setContentOffset(thirdPagePoint, animated: true)
+      
+    }
     
   }
   
   private func getInfoFromServer() {
     
+    lastBrandSelectecInfo = nil
+    lastUserSelectedInfo = nil
+    
     if UserSession.session.role == "2" || UserSession.session.role == "3" {
      
       UtilityManager.sharedInstance.showLoader()
       
-      RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByAgency { (arrayOfScoresPerMonthOfAgency, arrayOfUsers) in
+      RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByAgency(nil) { (arrayOfScoresPerMonthOfAgency, arrayOfUsers) in
         
         
         print(arrayOfUsers)
@@ -225,7 +238,8 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
         self.arrayOfScoresByAgency = arrayOfScoresPerMonthOfAgency
         
         
-        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByIndustry({ (arrayOfScoresPerMonthOfIndustry) in
+        
+        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByIndustry(nil, actionsToMakeAfterGetingInfo: { (arrayOfScoresPerMonthOfIndustry) in
           
           self.arrayOfScoresByIndustry = arrayOfScoresPerMonthOfIndustry
           
@@ -288,9 +302,14 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
           self.numberOfPitchesByMyself = numberOfPitchesByClientForDashboardSummary //number Of pitches by company
           self.recommendations = recommendations
           
-          self.createCards()
-          
-          UtilityManager.sharedInstance.hideLoader()
+          RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByIndustry(nil, actionsToMakeAfterGetingInfo: { (arrayOfScoresPerMonthOfIndustry) in
+            
+            self.arrayOfScoresByIndustry = arrayOfScoresPerMonthOfIndustry
+            self.createCards()
+            
+            UtilityManager.sharedInstance.hideLoader()
+            
+          })
           
         })
         
@@ -394,13 +413,6 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
       
       secondFilterView.removeFromSuperview()
       secondFilterView = nil
-      
-    }
-    
-    if graphAccordingUser != nil {
-      
-      graphAccordingUser.removeFromSuperview()
-      graphAccordingUser = nil
       
     }
     
@@ -571,24 +583,10 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
       
     }
     
-    if graphAccordingUser != nil {
-      
-      graphAccordingUser.removeFromSuperview()
-      graphAccordingUser = nil
-      
-    }
-    
     if graphAgencyVSIndustry != nil {
       
       graphAgencyVSIndustry.removeFromSuperview()
       graphAgencyVSIndustry = nil
-      
-    }
-    
-    if graphAccordingUser != nil {
-      
-      graphAccordingUser.removeFromSuperview()
-      graphAccordingUser = nil
       
     }
     
@@ -653,17 +651,18 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     graphAccordingUser.layer.shadowOffset = CGSizeZero
     graphAccordingUser.layer.shadowRadius = 5
     
+    //Despite the model is AgencyUserModelData, the info is about the Brands of the Company
+    var arrayOfBrands = [AgencyUserModelData]()
     
-    
-    
-    let brandOne = AgencyUserModelData.init(newId: "-1",
-                                            newFirstName: "Marca 1",
-                                            newLastName: "One")
-    let brandTwo = AgencyUserModelData.init(newId: "-2",
-                                            newFirstName: "Marca 2",
-                                            newLastName: "Two")
-    
-    let arrayOfBrands = [brandOne, brandTwo]
+    for brand in arrayOfOwnBrands {
+      
+      let newBrand = AgencyUserModelData.init(newId: brand.id,
+                                       newFirstName: brand.name,
+                                        newLastName: "")
+      
+      arrayOfBrands.append(newBrand)
+      
+    }
     
     graphAccordingBrand = GraphAccordingToUserView.init(frame: frameForFrontAndBack, newArrayOfUsers: arrayOfBrands, newDropDownTitleText: "Elige la marca a visualizar")
     graphAccordingBrand.tag = 2
@@ -802,57 +801,188 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   
   //MARK: - GrapAccordingToUserViewDelegate
   
-  func getEvaluationsAveragePerMonth(params: [String : AnyObject]) {
+  func getEvaluationsAveragePerMonth(params: [String : AnyObject], sender: GraphAccordingToUserView) {
     
-    UtilityManager.sharedInstance.showLoader()
-    
-    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByUser(params) { (arrayOfScoresPerMonthByUser) in
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
-      var arrayOfScoresInDouble = [Double]()
-      var arrayOfScoresInDoubleByAgency = [Double]()
+      lastUserSelectedInfo = params
       
-      for score in arrayOfScoresPerMonthByUser {
-       
-        arrayOfScoresInDouble.append(Double(score.score)!)
+      UtilityManager.sharedInstance.showLoader()
+      
+      RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByUser(params) { (arrayOfScoresPerMonthByUser) in
+        
+        var arrayOfScoresInDouble = [Double]()
+        var arrayOfScoresInDoubleByAgency = [Double]()
+        
+        for score in arrayOfScoresPerMonthByUser {
+          
+          arrayOfScoresInDouble.append(Double(score.score)!)
+          
+        }
+        
+        for score in self.arrayOfScoresByAgency {
+          
+          arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
+          
+        }
+        
+        sender.changeData(arrayOfScoresInDouble, newValuesForAgency: arrayOfScoresInDoubleByAgency)
+        
+        UtilityManager.sharedInstance.hideLoader()
         
       }
       
-      for score in self.arrayOfScoresByAgency {
+    } else
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
-        arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
+        if sender == graphAccordingUser { //This is when the app is for company and user select inside graphAccordingUser (the first card)
+          
+          lastUserSelectedInfo = params
+          
+          UtilityManager.sharedInstance.showLoader()
+          
+          RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByUser(params) { (arrayOfScoresPerMonthByUser) in
+            
+            var arrayOfScoresInDouble = [Double]()
+            var arrayOfScoresInDoubleByAgency = [Double]()
+            
+            for score in arrayOfScoresPerMonthByUser {
+              
+              arrayOfScoresInDouble.append(Double(score.score)!)
+              
+            }
+            
+            for score in self.arrayOfScoresByAgency {
+              
+              arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
+              
+            }
+            
+            sender.changeData(arrayOfScoresInDouble, newValuesForAgency: arrayOfScoresInDoubleByAgency)
+            
+            UtilityManager.sharedInstance.hideLoader()
+            
+          }
+          
+        } else
+        
+          if sender == graphAccordingBrand { //This is when the app is for company and user select inside graphAccordingBrand (the second card)
+            
+            lastBrandSelectecInfo = params
+            
+            UtilityManager.sharedInstance.showLoader()
+            
+            RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByBrand(params) { (arrayOfScoresPerMonthByUser) in
+              
+              var arrayOfScoresInDouble = [Double]()
+              var arrayOfScoresInDoubleByAgency = [Double]()
+              
+              for score in arrayOfScoresPerMonthByUser {
+                
+                arrayOfScoresInDouble.append(Double(score.score)!)
+                
+              }
+              
+              for score in self.arrayOfScoresByAgency {
+                
+                arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
+                
+              }
+              
+              sender.changeData(arrayOfScoresInDouble, newValuesForAgency: arrayOfScoresInDoubleByAgency)
+              
+              UtilityManager.sharedInstance.hideLoader()
+              
+            }
+            
+          }
         
       }
-      
-      self.graphAccordingUser.changeData(arrayOfScoresInDouble, newValuesForAgency: arrayOfScoresInDoubleByAgency)
-      
-      UtilityManager.sharedInstance.hideLoader()
-      
-    }
     
   }
   
   func flipCardToShowFilterOfGraphAccordingToUser(sender: GraphAccordingToUserView) {
     
     if UserSession.session.role == "2" || UserSession.session.role == "3" {
-    
-      nextTimeFlipFirstCard = true
-    
-      self.firstCard.flip()
-      
-    }else
+        
+      if lastUserSelectedInfo == nil {
+          
+        let alertController = UIAlertController(title: "AVISO",
+                                                  message: "Selecciona primero un usuario",
+                                                  preferredStyle: UIAlertControllerStyle.Alert)
+          
+        let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+            
+          return
+            
+        }
+          
+        alertController.addAction(cancelAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+          
+      } else {
+          
+        nextTimeFlipFirstCard = true
+        self.firstFilterView.changeParamsToFilter(lastUserSelectedInfo)
+        self.firstCard.flip()
+          
+      }
+        
+    } else
     
       if UserSession.session.role == "4" || UserSession.session.role == "5" {
       
         if sender.tag == 1 {
           
-          self.firstCard.flip()
-          self.nextTimeFlipFirstCard = true
+          if lastUserSelectedInfo == nil {
+           
+            let alertController = UIAlertController(title: "AVISO",
+                                                    message: "Selecciona primero un usuario",
+                                                    preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+              
+              return
+              
+            }
+            
+            alertController.addAction(cancelAction)
+            self.presentViewController(alertController, animated: true, completion: nil)
+            
+          } else {
+            
+            self.firstFilterView.changeParamsToFilter(lastUserSelectedInfo)
+            self.firstCard.flip()
+            self.nextTimeFlipFirstCard = true
+            
+          }
           
         } else
+          
         if sender.tag == 2 {
+          
+          if lastBrandSelectecInfo == nil {
             
-          self.secondCard.flip()
-          self.secondCardFlipped = true
+            let alertController = UIAlertController(title: "AVISO",
+                                                    message: "Selecciona primero un usuario",
+                                                    preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+              
+              return
+              
+            }
+            
+            alertController.addAction(cancelAction)
+            self.presentViewController(alertController, animated: true, completion: nil)
+            
+          } else {
+            
+            self.secondFilterView.changeParamsToFilter(lastBrandSelectecInfo)
+            self.secondCard.flip()
+            self.secondCardFlipped = true
+            
+          }
             
         }
       
@@ -902,16 +1032,166 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     
   }
   
-  func applyFilterButtonPressedFromFilterAccordingToUserAndAgencyView() {
+  func applyFilterButtonPressedFromFilterAccordingToUserAndAgencyView(sender: FilterAccordingToUserAndAgencyView, params: [String : AnyObject]) {
     
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
+      
+      if sender == firstFilterView {
+        
+        self.firstCard.flip()
+        self.getEvaluationsAveragePerMonth(params, sender: graphAccordingUser)
+        
+      } else
+      
+        if sender == secondFilterView { //when tapped filter from agency versus industry
+          
+          self.thirdCard.flip()
+          self.updateValuesOfAgencyVersusIndustry(params)
+          
+        }
+      
+    } else
+    
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
+        
+        if sender == firstFilterView {
+          //graphAccordingUser
+          self.firstCard.flip()
+          self.getEvaluationsAveragePerMonth(params, sender: graphAccordingUser)
+          
+        } else
+        
+          if sender == secondFilterView {
+            //graphAccordingBrand
+            self.secondCard.flip()
+            self.getEvaluationsAveragePerMonth(params, sender: graphAccordingBrand)
+            
+          } else
+        
+          if sender == thirdFilterView {
+            //graphAgency
+            self.thirdCard.flip()
+            self.updateValuesOfAgencyVersusIndustry(params)
+            
+            print()
+            
+          }
+        
+      }
+    
+    
+  }
+  
+  private func updateValuesOfAgencyVersusIndustry(params: [String: AnyObject]) {
+    
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
+      
+      UtilityManager.sharedInstance.showLoader()
+      
+      RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByAgency(params) { (arrayOfScoresPerMonthOfAgency, arrayOfUsers) in
+        
+        self.arrayOfScoresByAgency = arrayOfScoresPerMonthOfAgency
+        
+        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByIndustry(params, actionsToMakeAfterGetingInfo: { (arrayOfScoresPerMonthOfIndustry) in
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          self.arrayOfScoresByIndustry = arrayOfScoresPerMonthOfIndustry
+          
+          var arrayScoresAgency = [Double]()
+          var arrayScoresIdustry = [Double]()
+          
+          for score in self.arrayOfScoresByAgency {
+            
+            arrayScoresAgency.append(Double(score.score)!)
+            
+          }
+          
+          for scoreIndustry in self.arrayOfScoresByIndustry {
+            
+            arrayScoresIdustry.append(Double(scoreIndustry.score)!)
+            
+          }
+          
+          self.graphAgencyVSIndustry.changeData(AgencyModel.Data.name,
+            newXValues: nil,
+            newLineGraphData: arrayScoresAgency,
+            newBarGraphData: arrayScoresIdustry)
+          
+        })
+        
+      }
+      
+    } else
+    
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
+        
+        UtilityManager.sharedInstance.showLoader()
+        
+        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByIndustry(nil, actionsToMakeAfterGetingInfo: { (arrayOfScoresPerMonthOfIndustry) in
+          
+          self.arrayOfScoresByIndustry = arrayOfScoresPerMonthOfIndustry
+          
+          var arrayScoresAgency = [Double]()
+          var arrayScoresIdustry = [Double]()
+          
+          for score in self.arrayOfScoresByAgency {
+            
+            arrayScoresAgency.append(Double(score.score)!)
+            
+          }
+          
+          for scoreIndustry in self.arrayOfScoresByIndustry {
+            
+            arrayScoresIdustry.append(Double(scoreIndustry.score)!)
+            
+          }
+          
+          self.graphAgencyVSIndustry.changeData(MyCompanyModelData.Data.name,
+            newXValues: nil,
+            newLineGraphData: arrayScoresAgency,
+            newBarGraphData: arrayScoresIdustry)
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+        })
+        
+      }
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
     
     
   }
   
   //MARK: - GraphOfAgencyVSIndustryViewDelegate
   
-  func filterFromGraphOfAgencyVSIndustryPressed() {
-
+  func filterFromGraphOfAgencyVSIndustryPressed(sender: GraphOfAgencyVSIndustryView) {
+    
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
+      
+      self.secondFilterView.changeParamsToFilter([String: AnyObject]())
+      
+    } else
+    
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
+        
+        self.thirdFilterView.changeParamsToFilter([String: AnyObject]())
+        
+      }
+    
     self.thirdCard.flip()
     
   }

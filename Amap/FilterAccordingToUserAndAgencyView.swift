@@ -10,7 +10,7 @@ import UIKit
 
 protocol FilterAccordingToUserAndAgencyViewDelegate {
   
-  func applyFilterButtonPressedFromFilterAccordingToUserAndAgencyView()
+  func applyFilterButtonPressedFromFilterAccordingToUserAndAgencyView(sender: FilterAccordingToUserAndAgencyView, params: [String: AnyObject])
   func cancelFilterButtonPressed(sender: FilterAccordingToUserAndAgencyView)
   
 }
@@ -26,6 +26,7 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
   private var rankTimeLabel: UILabel! = nil
   private var monthsSegmentedControl: UISegmentedControl! = nil
   private var applyFilterButton: UIButton! = nil
+  private var paramsToFilter: [String: AnyObject]! = nil
   
   private var textFieldToWriteDown: Int = -1
   
@@ -203,7 +204,7 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: 90.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    width: 115.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
     filterLabel = UILabel.init(frame: frameForLabel)
@@ -217,7 +218,7 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "Filtros",
+      string: "Periodo",
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSKernAttributeName: CGFloat(2.0),
@@ -249,7 +250,7 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
                                                                      image: "iconImputCalendar")
     
     fromDateView.mainTextField.tag = 1
-    fromDateView.mainTextField.placeholder = "dd/mm/aa"
+    fromDateView.mainTextField.placeholder = "aa/mm/dd"
     fromDateView.mainTextField.inputView = containerViewForPicker
     fromDateView.mainTextField.delegate = self
       
@@ -269,7 +270,7 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
                                                      image: "iconImputCalendar")
     
     toDateView.mainTextField.tag = 2
-    toDateView.mainTextField.placeholder = "dd/mm/aa"
+    toDateView.mainTextField.placeholder = "aa/mm/dd"
     toDateView.mainTextField.inputView = containerViewForPicker
     toDateView.mainTextField.delegate = self
     
@@ -484,7 +485,27 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
   
   @objc private func applyFilterButtonPressed() {
     
-    self.delegate?.applyFilterButtonPressedFromFilterAccordingToUserAndAgencyView()
+    if fromDateView.mainTextField.text == "" || toDateView.mainTextField.text! == "" {
+      
+      let frontViewController = UtilityManager.sharedInstance.currentViewController()
+      
+      let alertController = UIAlertController(title: "AVISO",
+                                              message: "Selecciona una fecha de inicio y una fecha de término",
+                                              preferredStyle: UIAlertControllerStyle.Alert)
+      
+      let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in}
+      
+      alertController.addAction(cancelAction)
+      frontViewController.presentViewController(alertController, animated: true, completion: nil)
+      
+    } else {
+    
+      paramsToFilter["start_date"] = fromDateView.mainTextField.text!
+      paramsToFilter["end_date"]   = toDateView.mainTextField.text!
+      
+      self.delegate?.applyFilterButtonPressedFromFilterAccordingToUserAndAgencyView(self, params: paramsToFilter)
+      
+    }
     
   }
   
@@ -492,6 +513,12 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
   
     self.delegate?.cancelFilterButtonPressed(self)
   
+  }
+  
+  func changeParamsToFilter(newParamsToFilter: [String: AnyObject]) {
+    
+    paramsToFilter = newParamsToFilter
+    
   }
   
 }

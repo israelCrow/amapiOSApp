@@ -72,7 +72,7 @@ class EditCompanyProfileViewController: UIViewController, UIImagePickerControlle
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "Editar Perfil Marca",
+      string: "Editar perfil de marca",
       attributes:[NSFontAttributeName:font!,
         NSParagraphStyleAttributeName:style,
         NSForegroundColorAttributeName:color
@@ -570,18 +570,18 @@ class EditCompanyProfileViewController: UIViewController, UIImagePickerControlle
   
   func showMessageOfMandatoryInfo() {
     
-    let alertController = UIAlertController(title: "AVISO",
-                                            message: "¡Necesitas subir tu logo para continuar!",
-                                            preferredStyle: UIAlertControllerStyle.Alert)
-    
-    let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
-      
-      
-      
-    }
-    
-    alertController.addAction(okAction)
-    self.presentViewController(alertController, animated: true, completion: nil)
+//    let alertController = UIAlertController(title: "AVISO",
+//                                            message: "¡Necesitas subir tu logo para continuar!",
+//                                            preferredStyle: UIAlertControllerStyle.Alert)
+//    
+//    let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+//      
+//      
+//      
+//    }
+//    
+//    alertController.addAction(okAction)
+//    self.presentViewController(alertController, animated: true, completion: nil)
     
   }
   

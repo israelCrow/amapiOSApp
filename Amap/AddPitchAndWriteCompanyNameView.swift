@@ -118,6 +118,7 @@ class AddPitchAndWriteCompanyNameView: UIView, UITableViewDelegate, UITableViewD
     searchView.mainTextField.addTarget(self,
                                        action: #selector(textDidChange),
                              forControlEvents: UIControlEvents.EditingChanged)
+    searchView.mainTextField.placeholder = "Anunciante"
     self.addSubview(searchView)
     
   }

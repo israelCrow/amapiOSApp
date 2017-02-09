@@ -45,7 +45,7 @@ class NoPitchAssignedView: UIView {
     self.adaptMyself()
     self.createGradient()
 //    self.createAddPitchButton()
-    self.createWarningImageView()
+//    self.createWarningImageView()
     self.createNoPitchAssignedLabel()
     
   }
@@ -131,7 +131,7 @@ class NoPitchAssignedView: UIView {
     noPitchAssignedLabel.attributedText = stringWithFormat
     noPitchAssignedLabel.sizeToFit()
     let newFrame = CGRect.init(x: 20.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 238.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 140.0 * UtilityManager.sharedInstance.conversionHeight, //before was 238.0 pixels
                                width: noPitchAssignedLabel.frame.size.width,
                                height: noPitchAssignedLabel.frame.size.height)
     

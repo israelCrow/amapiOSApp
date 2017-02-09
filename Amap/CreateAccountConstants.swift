@@ -12,13 +12,13 @@ class CreateAccountConstants {
   
   enum CreateAccountView{
   
-    static let createAccountText = "Crea tu perfil"
+    static let createAccountText = "Crea tu cuenta"
     static let amapText = "AMAP"
     static let writeNameDescriptionText = "Escribe el nombre de la agencia o anunciante"
     static let nameText = "Nombre"
-    static let writeEMailDescriptioText = "Escribe tu mail"
+    static let writeEMailDescriptioText = "Escribe tu e-mail"
     static let emailText = "Email"
-    static let nextButtonText = "Pide tu contraseña"
+    static let nextButtonText = "pide tu password"
   
     static let separationBetweenGoldenPitchStarAndGoldenPitchLabel = 10.0
     static let separationBetweenGoldenPitchStarAndAmap = 36.0
@@ -28,27 +28,27 @@ class CreateAccountConstants {
   enum  SuccessfullyAskForAccountView {
     
     static let readyText = "¡Bravo!"
-    static let successfullyMessageText = "Si tus datos son aprobados, en las próximas 48 horas recibirás tu password"
-    static let nextButtonText = "Ok"
+    static let successfullyMessageText = "Si tus datos son aprobados, dentro de las próximas 48 horas recibirás tu password."
+    static let nextButtonText = "ok"
     
   }
   
   enum ExistingAccountView {
     
-    static let oopsText = "¡Ouuh!"
+    static let oopsText = "¡Oops!"
     static let alreadyExistAgencyUser = "Ya existe un usuario\nde tu agencia registrado"
     static let alreadyExistCompanyUser = "Ya existe un usuario\ndel anunciante registrado"
-    static let alreadyHaveAnAccount = "Al parecer ya tienes una cuenta"
-    static let recommendationText = "Te recomendamos contactar al responsable para tener acceso"
-    static let nextButtonText = "Ok"
+    static let alreadyHaveAnAccount =  "Ya existe una cuenta creada\ncon este e-mail." //"Al parecer ya tienes una cuenta"
+    static let recommendationText = "Reestablece tu password." //"Te recomendamos contactar al responsable para tener acceso"
+    static let nextButtonText = "ok"
     
   }
   
   enum CreateAccountProcessAlreadyBegunView {
     
-    static let oopsText = "¡Ouuh!"
-    static let alreadyBegunProcessText = "Ya existe una solicitud de creación de cuenta en proceso con este E-mail"
-    static let nextButtonText = "Ok"
+    static let oopsText = "¡Oops!"
+    static let alreadyBegunProcessText = "Ya existe una solicitud en proceso con este e-mail."//"Ya existe una solicitud de creación de cuenta en proceso con este E-mail"
+    static let nextButtonText = "ok"
     
   }
   

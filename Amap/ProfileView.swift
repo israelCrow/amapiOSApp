@@ -34,7 +34,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
   private var agencyLatitude: String?
   private var agencyLongitude: String?
   
-  private var optionsOfPicker = ["0 - 40", "41 - 90", "91+"]
+  private var optionsOfPicker = ["0 - 40 chica", "41 - 90 mediana", "91+ grande"]
   private var pickerView: UIPickerView! = nil
   private var containerViewForPicker: UIView! = nil
   
@@ -472,18 +472,18 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
       
       if AgencyModel.Data.num_employees == "Chica" {
         
-        agencyNumberOfEmployees.mainTextField.text = "0 - 40"
+        agencyNumberOfEmployees.mainTextField.text = "0 - 40 chica"
         
       } else
       
       if AgencyModel.Data.num_employees == "Mediana" {
           
-        agencyNumberOfEmployees.mainTextField.text = "41 - 90"
+        agencyNumberOfEmployees.mainTextField.text = "41 - 90 mediana"
           
       } else
       if AgencyModel.Data.num_employees == "Grande" {
           
-        agencyNumberOfEmployees.mainTextField.text = "91+"
+        agencyNumberOfEmployees.mainTextField.text = "91+ grande"
           
       }
       
@@ -797,17 +797,17 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     
     var finalNumberOfEmployees = ""
     
-    if agencyNumberOfEmployees.mainTextField.text! == "0 - 40" {
+    if agencyNumberOfEmployees.mainTextField.text! == "0 - 40 chica" {
       
       finalNumberOfEmployees = "1"
       
     }else
-      if agencyNumberOfEmployees.mainTextField.text! == "41 - 90" {
+      if agencyNumberOfEmployees.mainTextField.text! == "41 - 90 mediana" {
         
         finalNumberOfEmployees = "2"
         
     }else
-        if agencyNumberOfEmployees.mainTextField.text! == "91+" {
+        if agencyNumberOfEmployees.mainTextField.text! == "91+ grande" {
           
           finalNumberOfEmployees = "3"
           

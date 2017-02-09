@@ -18,7 +18,7 @@ protocol EditAgencyProfileViewControllerDelegate {
 
 class EditAgencyProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CasesViewDelegate, CreateCaseViewDelegate, ProfileViewDelegate {
     
-  private let kEditAgencyProfile = "Editar Perfil Agencia"
+  private let kEditAgencyProfile = "Editar perfil de agencia"
   private let kNumberOfCardsInScrollViewMinusOne = 4
   
   private var flipCard: FlipCardView! = nil
@@ -605,6 +605,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         var newCaseImageUrl: String! = nil
         var newCaseImageUrlThumb: String! = nil
         var newCaseAgencyId: String! = nil
+        var newCaseVideoUrl: String! = nil
         
         if rawCase["id"] as? String != nil {
           newCaseId = rawCase["id"] as! String
@@ -627,6 +628,11 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         if rawCase["agency_id"] as? String != nil {
           newCaseAgencyId = rawCase["agency_id"] as! String
         }
+        if rawCase["video_url"] as? String != nil {
+          newCaseVideoUrl = rawCase["video_url"] as! String
+        }else{
+          newCaseVideoUrl = ""
+        }
         
         let newCase = Case(id: newCaseId,
                          name: newCaseName,
@@ -635,6 +641,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
                case_image_url: newCaseImageUrl,
              case_image_thumb: newCaseImageUrlThumb,
                    case_image: nil,
+               case_video_url: newCaseVideoUrl,
                     agency_id: newCaseAgencyId)
         
         allCases.append(newCase)
@@ -801,24 +808,24 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
         let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
           
-          if NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email) == false {
-            
-            let alertController = UIAlertController(title: "AVISO",
-                                                    message: "¡Necesitas subir tu logo para continuar!",
-                                                    preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
-              
-              
-              
-            }
-            
-            alertController.addAction(okAction)
-            self.presentViewController(alertController, animated: true, completion: nil)
-            
-            return
-            
-          }
+//          if NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email) == false {
+//            
+//            let alertController = UIAlertController(title: "AVISO",
+//                                                    message: "¡Necesitas subir tu logo para continuar!",
+//                                                    preferredStyle: UIAlertControllerStyle.Alert)
+//            
+//            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+//              
+//              
+//              
+//            }
+//            
+//            alertController.addAction(okAction)
+//            self.presentViewController(alertController, animated: true, completion: nil)
+//            
+//            return
+//            
+//          }
           
           self.requestToShowTabBar()
           self.navigationController?.popViewControllerAnimated(true)
@@ -827,22 +834,22 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
         let okAction = UIAlertAction(title: "Sí", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
         
-          if self.profileView.isAgencyNameAndAgencyImageWithInfo() == false {
-            
-            let alertController = UIAlertController(title: "AVISO",
-                                                    message: "¡Necesitas subir tu logo para continuar!",
-                                                    preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
-              
-            }
-            
-            alertController.addAction(okAction)
-            self.presentViewController(alertController, animated: true, completion: nil)
-            
-            return
-            
-          } else {
+//          if self.profileView.isAgencyNameAndAgencyImageWithInfo() == false {
+//            
+//            let alertController = UIAlertController(title: "AVISO",
+//                                                    message: "¡Necesitas subir tu logo para continuar!",
+//                                                    preferredStyle: UIAlertControllerStyle.Alert)
+//            
+//            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+//              
+//            }
+//            
+//            alertController.addAction(okAction)
+//            self.presentViewController(alertController, animated: true, completion: nil)
+//            
+//            return
+//            
+//          } else {
           
             self.requestToEveryScreenToSave(){
             
@@ -851,7 +858,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
             
             }
  
-          }
+//          }
             
         }
       
@@ -865,28 +872,30 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email)
         
-      } else {
-        
-        if NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email) == false {
-          
-          let alertController = UIAlertController(title: "AVISO",
-                                                  message: "¡Necesitas subir tu logo para continuar!",
-                                                  preferredStyle: UIAlertControllerStyle.Alert)
-          
-          let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
-            
-            
-            
-          }
-          
-          alertController.addAction(okAction)
-          self.presentViewController(alertController, animated: true, completion: nil)
-          
-          return
-          
-        }
-        
       }
+      
+//      else {
+//        
+//        if NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kSavedPhotoAndSavedName + UserSession.session.email) == false {
+//          
+//          let alertController = UIAlertController(title: "AVISO",
+//                                                  message: "¡Necesitas subir tu logo para continuar!",
+//                                                  preferredStyle: UIAlertControllerStyle.Alert)
+//          
+//          let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+//            
+//            
+//            
+//          }
+//          
+//          alertController.addAction(okAction)
+//          self.presentViewController(alertController, animated: true, completion: nil)
+//          
+//          return
+//          
+//        }
+//        
+//      }
       
       self.requestToShowTabBar()
       self.navigationController?.popViewControllerAnimated(true)
@@ -946,6 +955,10 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     let agency_id_string = params[keyAgency_id] as! String
     params.removeValueForKey(keyAgency_id)
     
+    let keyVideo_url = "video_url"
+    let video_url_string = params[keyVideo_url] as! String
+    params.removeValueForKey(keyVideo_url)
+    
     //    var caseName = newParamters["name"]
     //    var caseDescription = newParamters["description"]
     //    var caseURL = newParamters["url"]
@@ -954,6 +967,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     let caseName = params["name"]
     let caseDescription = params["description"]
     let caseURL = params["url"]
+    let caseVideoURL = params["video_url"]
     
     
     
@@ -991,6 +1005,9 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       multipartFormData.appendBodyPart(data: agency_id_string.dataUsingEncoding(NSUTF8StringEncoding)!,
         name: "success_case[agency_id]")
       
+      multipartFormData.appendBodyPart(data: video_url_string.dataUsingEncoding(NSUTF8StringEncoding)!,
+        name: "success_case[video_url]")
+      
       }, encodingCompletion:{ encodingResult in
         
         switch encodingResult {
@@ -1018,6 +1035,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
                   case_image_url: nil,
                   case_image_thumb: nil,
                   case_image: imageCase,
+                  case_video_url: caseVideoURL as? String,
                   agency_id: AgencyModel.Data.id)
                 
                 
@@ -1034,6 +1052,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
                   case_image_url: nil,
                   case_image_thumb: nil,
                   case_image: nil,
+                  case_video_url: caseVideoURL as? String,
                   agency_id: AgencyModel.Data.id)
                 
                 //                let newCaseData = Case(caseName: caseName as! String, caseDescription: caseDescription as! String, caseWebLink: caseURL as? String, caseImage: nil)
@@ -1095,6 +1114,10 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     let agency_id_string = params[keyAgency_id] as! String
     params.removeValueForKey(keyAgency_id)
     
+    let keyVideo_url = "video_url"
+    let video_url_string = params[keyVideo_url] as! String
+    params.removeValueForKey(keyVideo_url)
+    
 //    var caseName = newParamters["name"]
 //    var caseDescription = newParamters["description"]
 //    var caseURL = newParamters["url"]
@@ -1103,7 +1126,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     let caseName = params["name"]
     let caseDescription = params["description"]
     let caseURL = params["url"]
-    
+    let caseVideoURL = params["video_url"]
     
     
     Alamofire.upload(.POST, urlToRequest, headers: headers, multipartFormData:{
@@ -1132,6 +1155,9 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
       multipartFormData.appendBodyPart(data: agency_id_string.dataUsingEncoding(NSUTF8StringEncoding)!,
       name: "success_case[agency_id]")
       
+      multipartFormData.appendBodyPart(data: video_url_string.dataUsingEncoding(NSUTF8StringEncoding)!,
+        name: "success_case[video_url]")
+      
       }, encodingCompletion:{ encodingResult in
         
         switch encodingResult {
@@ -1159,6 +1185,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
                   case_image_url: nil,
                   case_image_thumb: nil,
                   case_image: imageCase,
+                  case_video_url: caseVideoURL as? String,
                   agency_id: AgencyModel.Data.id)
                 
                 
@@ -1175,6 +1202,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
                            case_image_url: nil,
                          case_image_thumb: nil,
                                case_image: nil,
+                           case_video_url: caseVideoURL as? String,
                                 agency_id: AgencyModel.Data.id)
                 
 //                let newCaseData = Case(caseName: caseName as! String, caseDescription: caseDescription as! String, caseWebLink: caseURL as? String, caseImage: nil)
@@ -1277,18 +1305,18 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   func showMessageOfMandatoryInfo() {
     
-    let alertController = UIAlertController(title: "AVISO",
-                                            message: "¡Necesitas subir tu logo para continuar!",
-                                            preferredStyle: UIAlertControllerStyle.Alert)
-    
-    let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
-      
-      
-      
-    }
-    
-    alertController.addAction(okAction)
-    self.presentViewController(alertController, animated: true, completion: nil)
+//    let alertController = UIAlertController(title: "AVISO",
+//                                            message: "¡Necesitas subir tu logo para continuar!",
+//                                            preferredStyle: UIAlertControllerStyle.Alert)
+//    
+//    let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+//      
+//      
+//      
+//    }
+//    
+//    alertController.addAction(okAction)
+//    self.presentViewController(alertController, animated: true, completion: nil)
     
   }
   

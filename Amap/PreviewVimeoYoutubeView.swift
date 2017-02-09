@@ -53,7 +53,7 @@ class PreviewVimeoYoutubeView: UIView {
     
     if caseData.url != nil {
       
-      videoURLString = caseData.url
+      videoURLString = caseData.case_video_url
       videoURLNSURL = NSURL.init(string: videoURLString!)
       
     } else {

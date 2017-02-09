@@ -239,7 +239,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
                                      height: 148.0 * UtilityManager.sharedInstance.conversionHeight)
     
     playerVimeoYoutube = VideoPlayerVimeoYoutubeView.init(frame: frameForPlayer,
-                                                            url: caseData.url,
+                                                            url: caseData.case_video_url,
                                                        urlImage: nil)
     if playerVimeoYoutube.changeCaseImageButton != nil && playerVimeoYoutube.deleteCaseImageButton != nil {
     
@@ -294,7 +294,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
   
   private func createLinkLabel() {
     
-    if caseData.url != "" {
+    if caseData.case_video_url != "" {
       
       let frameForLabel = CGRect.init(x: 0.0,
                                       y: 0.0,
@@ -312,7 +312,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
       style.alignment = NSTextAlignment.Left
       
       let stringWithFormat = NSMutableAttributedString(
-        string: caseData.url,
+        string: caseData.case_video_url!,
         attributes:[NSFontAttributeName: font!,
           NSParagraphStyleAttributeName: style,
           NSForegroundColorAttributeName: color
@@ -470,7 +470,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
       
       UIView.animateWithDuration(0.35) {
         
-        if self.linkLabel != nil && (UtilityManager.sharedInstance.validateIfLinkIsYoutube(self.caseData.url) == true || UtilityManager.sharedInstance.validateIfLinkIsVimeo(self.caseData.url) == true) {
+        if self.linkLabel != nil && (UtilityManager.sharedInstance.validateIfLinkIsYoutube(self.caseData.case_video_url) == true || UtilityManager.sharedInstance.validateIfLinkIsVimeo(self.caseData.case_video_url) == true) {
         
           self.playerVimeoYoutube.frame = CGRect.init(
             x: self.playerVimeoYoutube.frame.origin.x,
@@ -491,7 +491,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
           
         } else
         
-          if self.linkLabel == nil && (UtilityManager.sharedInstance.validateIfLinkIsYoutube(self.caseData.url) == true || UtilityManager.sharedInstance.validateIfLinkIsVimeo(self.caseData.url) == true) {
+          if self.linkLabel == nil && (UtilityManager.sharedInstance.validateIfLinkIsYoutube(self.caseData.case_video_url) == true || UtilityManager.sharedInstance.validateIfLinkIsVimeo(self.caseData.case_video_url) == true) {
             
             self.playerVimeoYoutube.frame = CGRect.init(
               x: self.playerVimeoYoutube.frame.origin.x,
@@ -572,7 +572,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
   
   @objc private func mailIconPressed() {
     
-    if UtilityManager.sharedInstance.validateIfLinkIsYoutube(caseData.url) || UtilityManager.sharedInstance.validateIfLinkIsVimeo(caseData.url) {
+    if UtilityManager.sharedInstance.validateIfLinkIsYoutube(caseData.case_video_url) || UtilityManager.sharedInstance.validateIfLinkIsVimeo(caseData.case_video_url) {
       
       self.shareURLViaMail()
       

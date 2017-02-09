@@ -10,7 +10,7 @@ import UIKit
 
 protocol GrapAccordingToUserViewDelegate {
   
-  func getEvaluationsAveragePerMonth(params: [String: AnyObject])
+  func getEvaluationsAveragePerMonth(params: [String: AnyObject], sender: GraphAccordingToUserView)
   func flipCardToShowFilterOfGraphAccordingToUser(sender: GraphAccordingToUserView)
   
 }
@@ -44,6 +44,7 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     
   }
   
+  //Despite the model is AgencyUserModelData, the info is about the Brands of the Company
   init(frame: CGRect, newArrayOfUsers: [AgencyUserModelData], newDropDownTitleText: String) {
     
     dropDownTitleText = newDropDownTitleText
@@ -71,13 +72,13 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     
     for user in arrayOfAgencyUsersModelData {
       
-      if user.firstName != "" {
+      if user.email != "" {
       
-        optionsForSelector.append(user.firstName)
+        optionsForSelector.append(user.email)
       
       } else {
         
-        optionsForSelector.append("unknown user")
+        optionsForSelector.append("user without email")
         
       }
       
@@ -258,7 +259,7 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
         "auth_token": UserSession.session.auth_token
       ]
       
-      self.delegate?.getEvaluationsAveragePerMonth(params)
+      self.delegate?.getEvaluationsAveragePerMonth(params, sender: self)
       
     }
     

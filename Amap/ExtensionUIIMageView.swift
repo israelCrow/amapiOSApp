@@ -11,32 +11,85 @@ import UIKit
 extension UIImageView {
   public func imageFromUrl(urlString: String) {
     
-    let frameForActivity = CGRect.init(x: 0.0,
-                                       y: 0.0,
-                                   width: 25.0 * UtilityManager.sharedInstance.conversionWidth,
-                                  height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+//    let frameForActivity = CGRect.init(x: 0.0,
+//                                       y: 0.0,
+//                                   width: 25.0 * UtilityManager.sharedInstance.conversionWidth,
+//                                  height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let activity = UIActivityIndicatorView.init(frame: frameForActivity)
-    activity.center = self.center
-    self.addSubview(activity)
-    activity.startAnimating()
+//    let activity = UIActivityIndicatorView.init(frame: frameForActivity)
+//    activity.center = self.center
+//    self.addSubview(activity)
+//    activity.startAnimating()
     
-    let url = NSURL(string: urlString)
+//    let url = NSURL(string: urlString)
+//    
+//    var pathReplaced = urlString.stringByReplacingOccurrencesOfString("/", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+//    pathReplaced = urlString.stringByReplacingOccurrencesOfString(".", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+//    pathReplaced = urlString.stringByReplacingOccurrencesOfString(":", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
     
-    dispatch_async(dispatch_get_main_queue()) {
-      let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap
-      activity.stopAnimating()
-      activity.removeFromSuperview()
-      
-      dispatch_async(dispatch_get_main_queue(), {
+    let destinationPath = UtilityManager.sharedInstance.kcache + urlString
+    
+    
+    if NSFileManager.defaultManager().fileExistsAtPath(destinationPath){
+      //            Log.log( "File already Found!")
+      let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+      dispatch_async(dispatch_get_global_queue(priority, 0)) {
         
-        if data != nil {
-        
-          self.image = UIImage(data: data!)
-        
+        if urlString != "" {
+          
+          let image: UIImage = UIImage(contentsOfFile: destinationPath)!
+          
+          dispatch_async(dispatch_get_main_queue()) {
+            
+            self.image = image
+            //          activity.stopAnimating()
+            //          activity.removeFromSuperview()
+          }
+          
+        } else {
+          
+          //
+          
         }
-      })
-    }//dispatch_async
+        
+
+      }
+    }
+    else {
+      getDishPicImage(urlString, destinationPath: destinationPath)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//    dispatch_async(dispatch_get_main_queue()) {
+//      let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap
+//      activity.stopAnimating()
+//      activity.removeFromSuperview()
+//      
+//      dispatch_async(dispatch_get_main_queue(), {
+//        
+//        if data != nil {
+//        
+//          self.image = UIImage(data: data!)
+//        
+//        }
+//      })
+//    }//dispatch_async
+    
+    
+    
+    
+    
+    
+    
     
 //    if let url = NSURL(string: urlString) {
 //      let request = NSURLRequest(URL: url)
@@ -54,6 +107,40 @@ extension UIImageView {
 //      })
 //      task.resume()
 //    }
+  }
+  
+  func getDishPicImage (path: String, destinationPath: String){
+    let imageURL = NSURL(string:path)
+    let request: NSURLRequest = NSURLRequest(URL: imageURL!)
+    
+    
+    
+    let downloadSession = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
+      
+      if error == nil {
+        // Convert the downloaded data in to a UIImage object
+        let image = UIImage(data: data!)
+        if image != nil {
+          
+          do {
+            try NSFileManager.defaultManager().createDirectoryAtPath((destinationPath as NSString).stringByDeletingLastPathComponent, withIntermediateDirectories: true, attributes: nil)
+          } catch _ {
+          }
+          let success = UIImagePNGRepresentation(image!)!.writeToFile( destinationPath , atomically: true)
+          print("Saved: \(success)")
+          
+          dispatch_async(dispatch_get_main_queue(), {
+            self.image = image
+          })
+        }
+      }
+      else {
+        print( "Error: \(error!.localizedDescription)")
+      }
+    }
+    
+    downloadSession.resume()
+  
   }
   
   public func imageFromUrlAndAdaptToSize(urlString: String) {

@@ -131,7 +131,7 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
                                                                    title: VisualizePitchesConstants.PreEvaluatePitchView.descriptionWriteNameLabel,
                                                                    image: nil)
     
-    writeNameAgencyOrBrandView.mainTextField.placeholder = "Correo"
+    writeNameAgencyOrBrandView.mainTextField.placeholder = "e-mail"
     writeNameAgencyOrBrandView.mainTextField.delegate = self
     
     self.addSubview(writeNameAgencyOrBrandView)
@@ -149,7 +149,7 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
                                                                    title: VisualizePitchesConstants.PreEvaluatePitchView.descriptionWriteDateLabel,
                                                                    image: "iconImputCalendar")
     
-    writeDateOfCreationOfPitchView.mainTextField.placeholder = "dd/mm/aa"
+    writeDateOfCreationOfPitchView.mainTextField.placeholder = "aa/mm/dd"
     writeDateOfCreationOfPitchView.mainTextField.inputView = containerViewForPicker
     writeDateOfCreationOfPitchView.mainTextField.delegate = self
     

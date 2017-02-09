@@ -17,6 +17,7 @@ struct Case {
   var case_image_url: String?
   var case_image_thumb: String?
   var case_image:UIImage?
+  var case_video_url: String?
   
   var agency_id: String! = nil
   

@@ -97,7 +97,7 @@ class FilterPitchCardView: UIView {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "Aplica el filtro",
+      string: "aplicar filtro de búsqueda",
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color

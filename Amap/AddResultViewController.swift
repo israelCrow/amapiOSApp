@@ -1469,6 +1469,9 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       
     }
     
+    
+    //Checar antes InfoSelectedBefore.pitchResultsId check if is nil
+    
     let finalParams = [
       "auth_token"  : UserSession.session.auth_token,
       "id": infoSelectedBefore.pitchResultsId!,

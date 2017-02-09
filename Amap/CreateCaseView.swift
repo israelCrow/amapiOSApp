@@ -146,7 +146,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
     
-    let stringForSaveButton = "Crea caso"
+    let stringForSaveButton = "crea caso"
     
     let stringWithFormat = NSMutableAttributedString(
       string: stringForSaveButton ,
@@ -186,7 +186,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
     
-    let stringForSaveButton = "Salvar cambios"
+    let stringForSaveButton = "guardar cambios"
     
     let stringWithFormat = NSMutableAttributedString(
       string: stringForSaveButton ,
@@ -293,7 +293,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     caseDescriptionTextView.backgroundColor = UIColor.whiteColor()
     caseDescriptionTextView.font = UIFont(name:"SFUIText-Regular",
                                         size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
-    caseDescriptionTextView.text = "Describe el caso en menos de 200 caracteres.            "
+    caseDescriptionTextView.text = "Describe el caso en menos de 200 caracteres            "
     caseDescriptionTextView.textColor = UIColor.lightGrayColor()
     caseDescriptionTextView.delegate = self
 
@@ -450,7 +450,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     caseWebLinkView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                         title: "",
                                                         image: nil)
-    caseWebLinkView.mainTextField.placeholder = "Agrega un link"
+    caseWebLinkView.mainTextField.placeholder = "Agrega un link del caso"
     caseWebLinkView.backgroundColor = UIColor.clearColor()
     caseWebLinkView.mainTextField.delegate = self
     caseWebLinkView.mainTextField.tag = 8
@@ -938,7 +938,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
     if textView.tag == 1 {
       
       self.setPlaceHolderOfTextView(textView)
-      if textView.text != "Describe el caso en menos de 200 caracteres.            " {
+      if textView.text != "Describe el caso en menos de 200 caracteres            " {
       
         self.showClearButton()
         
@@ -960,7 +960,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
   
   private func removePlaceHolderOfTextView(textView: UITextView) {
     
-    if textView.text == "Describe el caso en menos de 200 caracteres.            " {
+    if textView.text == "Describe el caso en menos de 200 caracteres            " {
       
       textView.text = ""
       textView.textColor = UIColor.blackColor()
@@ -972,7 +972,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
    
     if textView.text == "" {
       
-      textView.text = "Describe el caso en menos de 200 caracteres.            "
+      textView.text = "Describe el caso en menos de 200 caracteres            "
       textView.textColor = UIColor.lightGrayColor()
       self.hideClearButton()
       
@@ -1070,7 +1070,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
     
     var isDescriptionOk: Bool = false
     
-    if caseDescriptionTextView.text != "Describe el caso en menos de 200 caracteres.            " && caseDescriptionTextView.text != ""{
+    if caseDescriptionTextView.text != "Describe el caso en menos de 200 caracteres            " && caseDescriptionTextView.text != ""{
       
       isDescriptionOk = UtilityManager.sharedInstance.isValidText(caseDescriptionTextView.text)
       
@@ -1197,6 +1197,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
               ["name" : caseName,
                 "description" : caseDescription,
                 "url" : caseWebLink,
+                "video_url": finalVideoUrl,
                 "agency_id" : UserSession.session.agency_id
             ]
           ]
@@ -1226,6 +1227,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
                 "name" : caseName,
                 "description" : caseDescription,
                 "url" : caseWebLink,
+                "video_url": finalVideoUrl,
                 "agency_id" : UserSession.session.agency_id
             ]
           ]
@@ -1258,6 +1260,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
             ["name" : caseName,
               "description" : caseDescription,
               "url" : caseWebLink,
+              "video_url": finalVideoUrl,
               "agency_id" : UserSession.session.agency_id
           ]
         ]
@@ -1392,7 +1395,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
     
     var isDescriptionOk: Bool = false
     
-    if caseDescriptionTextView.text != "Describe el caso en menos de 200 caracteres.            " && caseDescriptionTextView.text != ""{
+    if caseDescriptionTextView.text != "Describe el caso en menos de 200 caracteres            " && caseDescriptionTextView.text != ""{
       
       isDescriptionOk = UtilityManager.sharedInstance.isValidText(caseDescriptionTextView.text)
       
@@ -1436,6 +1439,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
             ["name" : caseName,
               "description" : caseDescription,
               "url" : caseWebLink,
+              "video_url": finalVideoUrl,
               "agency_id" : UserSession.session.agency_id
           ]
         ]
@@ -1452,6 +1456,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
               "name" : caseName,
               "description" : caseDescription,
               "url" : caseWebLink,
+              "video_url": finalVideoUrl,
               "agency_id" : UserSession.session.agency_id
           ]
         ]
@@ -1483,6 +1488,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
               ["name" : caseName,
                 "description" : caseDescription,
                 "url" : caseWebLink,
+                "video_url": finalVideoUrl,
                 "agency_id" : UserSession.session.agency_id
             ]
           ]
@@ -1499,6 +1505,7 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
                 "name" : caseName,
                 "description" : caseDescription,
                 "url" : caseWebLink,
+                "video_url": finalVideoUrl,
                 "agency_id" : UserSession.session.agency_id
             ]
           ]

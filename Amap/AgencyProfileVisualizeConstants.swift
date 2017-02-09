@@ -11,14 +11,14 @@ class AgencyProfileVisualizeConstants {
   enum VisualizeAgencyProfileViewController {
     
     static let backButtonText = "Editar"
-    static let navigationBarText = "Perfil Agencia"
+    static let navigationBarText = "Perfil agencia"
     static let rightButtonText = "Log Out"
     
   }
   
   enum VisualizeCaseViewController {
     
-    static let navigationBarText = "Perfil Agencia"
+    static let navigationBarText = "Perfil agencia"
     static let rightButtonText = "Cerrar"
     
   }
@@ -63,7 +63,7 @@ class AgencyProfileVisualizeConstants {
     
     static let dashBoardButtonText = "Dashboard"
     static let pitchesButtonText = "Pitches"
-    static let agencyProfileButtonText = "Perfil Agencia"
+    static let agencyProfileButtonText = "Perfil agencia"
     
   }
   

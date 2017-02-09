@@ -13,12 +13,12 @@ class GoldenPitchConstants {
   static let goldenPitchTitleText = "GOLDEN PITCH"
   static let amapText = "AMAP"
   static let writeNameDescriptionText = "Escribe tu e-mail"
-  static let nameText = "Email"
-  static let writeEMailDescriptioText = "Escribe tu contraseña"
+  static let nameText = "E-mail"
+  static let writeEMailDescriptioText = "Escribe tu password"
   static let emailText = "Password"
-  static let forgotPasswordText = "¿Olvidaste tu contraseña?\nAquí te ayudamos"
-  static let invalidUserText = "¡Oops, el usuario no es valido!"
-  static let nextButtonText = "Siguiente"
+  static let forgotPasswordText = "¿Olvidaste tu password?\nAquí te ayudamos"
+  static let invalidUserText = "¡Oops, el usuario o el password no son válidos!"
+  static let nextButtonText = "siguiente"
   
   static let separationBetweenGoldenPitchStarAndGoldenPitchLabel = 10.0
   static let separationBetweenGoldenPitchStarAndAmap = 1.0

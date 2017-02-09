@@ -197,6 +197,7 @@ class RequestToServerManager: NSObject {
         var newCaseImageUrl: String! = nil
         var newCaseImageUrlThumb: String! = nil
         var newCaseAgencyId: String! = nil
+        var newCaseVideoUrl: String! = nil
         
 //        print("Case: \(rawCase)")
         
@@ -222,6 +223,11 @@ class RequestToServerManager: NSObject {
         if rawCase["agency_id"] as? String != nil {
           newCaseAgencyId = rawCase["agency_id"] as! String
         }
+        if rawCase["video_url"] as? String != nil {
+          newCaseVideoUrl = rawCase["video_url"] as! String
+        }else{
+          newCaseVideoUrl = ""
+        }
         
         let newCase = Case(id: newCaseId,
                            name: newCaseName,
@@ -230,6 +236,7 @@ class RequestToServerManager: NSObject {
                            case_image_url: newCaseImageUrl,
                            case_image_thumb: newCaseImageUrlThumb,
                            case_image: nil,
+                           case_video_url: newCaseVideoUrl,
                            agency_id: newCaseAgencyId)
         
         allCases.append(newCase)
@@ -2552,7 +2559,7 @@ class RequestToServerManager: NSObject {
     
   }
   
-  func requestToGetPitchEvaluationsAveragePerMonthByAgency(actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthOfAgency:[PitchEvaluationAveragePerMonthModelData] , arrayOfUsers: [AgencyUserModelData]) -> Void) {
+  func requestToGetPitchEvaluationsAveragePerMonthByAgency(extraParams: [String: AnyObject]?,actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthOfAgency:[PitchEvaluationAveragePerMonthModelData] , arrayOfUsers: [AgencyUserModelData]) -> Void) {
     
     let urlToRequest = "http://amap-dev.herokuapp.com/api/pitch_evaluations/average_per_month_by_agency"
     
@@ -2563,9 +2570,16 @@ class RequestToServerManager: NSObject {
     
     //print(caseData)
     
-    let params = ["id" : AgencyModel.Data.id,
+    var params = ["id" : AgencyModel.Data.id,
                   "auth_token" : UserSession.session.auth_token
                   ]
+    
+    if extraParams != nil {
+      
+      params["start_date"] = (extraParams!["start_date"] as? String != nil ? extraParams!["start_date"] as! String : "2016-1-1")
+      params["end_date"] = (extraParams!["end_date"] as? String != nil ? extraParams!["end_date"] as! String : "2017-1-1")
+      
+    }
     
     requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
     
@@ -2593,10 +2607,12 @@ class RequestToServerManager: NSObject {
               let newId = (user["id"] as? Int != nil ? String(user["id"] as! Int) : "-1")
               let newFirstName = (user["first_name"] as? String != nil ? user["first_name"] as! String : "")
               let newLastName = (user["last_name"] as? String != nil ? user["last_name"] as! String : "")
+              let newMail = (user["email"] as? String != nil ? user["email"] as! String : "")
               
               let newUser = AgencyUserModelData.init(newId: newId,
                 newFirstName: newFirstName,
                 newLastName: newLastName)
+              newUser.email = newMail
               
               arrayOfUsersModelData.append(newUser)
               
@@ -2691,8 +2707,63 @@ class RequestToServerManager: NSObject {
     }
     
   }
+  
+  func requestToGetPitchEvaluationsAveragePerMonthByBrand(params: [String: AnyObject],actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthByUser:[PitchEvaluationAveragePerMonthModelData]) -> Void) {
+    
+    let urlToRequest = "http://amap-dev.herokuapp.com/api/pitch_evaluations/average_per_month_by_brand"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<400)
+      .responseJSON{ response in
+        
+        //print(response)
+        
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          let arrayOfScores = json as? Array<[String: AnyObject]>
+          
+          var arrayOfScoresModelData = [PitchEvaluationAveragePerMonthModelData]()
+          
+          if arrayOfScores != nil {
+            
+            for score in arrayOfScores! {
+              
+              let newId: String? = (score["id"] as? Int != nil ? String(score["id"] as! Int) : nil)
+              let newMonthYear = (score["month_year"] as? String != nil ? score["month_year"] as! String : "")
+              let newScore = (score["score"] as? Int != nil ? String(score["score"] as! Int) : "")
+              
+              let newScoreModelData = PitchEvaluationAveragePerMonthModelData.init(newId: newId,
+                newMonthYear: newMonthYear,
+                newScore: newScore)
+              
+              arrayOfScoresModelData.append(newScoreModelData)
+              
+            }
+            
+          }
+          
+          actionsToMakeAfterGetingInfo(arrayOfScoresPerMonthByUser: arrayOfScoresModelData)
+          
+        }else{
+          
+          UtilityManager.sharedInstance.hideLoader()
+          print("ERROR GETTING AVERAGE BY USER")
+        }
+        
+    }
+    
+  }
 
-  func requestToGetPitchEvaluationsAveragePerMonthByIndustry(actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthOfIndustry:[PitchEvaluationAveragePerMonthModelData]) -> Void) {
+  func requestToGetPitchEvaluationsAveragePerMonthByIndustry(extraParams: [String: AnyObject]?, actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthOfIndustry:[PitchEvaluationAveragePerMonthModelData]) -> Void) {
     
     let urlToRequest = "http://amap-dev.herokuapp.com/api/pitch_evaluations/average_per_month_industry"
     
@@ -2703,9 +2774,16 @@ class RequestToServerManager: NSObject {
     
     //print(caseData)
     
-    let params = [
+    var params = [
                   "auth_token" : UserSession.session.auth_token
                  ]
+    
+    if extraParams != nil {
+      
+      params["start_date"] = (extraParams!["start_date"] as? String != nil ? extraParams!["start_date"] as! String : "2016-1-1")
+      params["end_date"] = (extraParams!["end_date"] as? String != nil ? extraParams!["end_date"] as! String : "2017-1-1")
+      
+    }
     
     requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
     
@@ -3065,10 +3143,12 @@ class RequestToServerManager: NSObject {
               let newId = (user["id"] as? Int != nil ? String(user["id"] as! Int) : "-1")
               let newFirstName = (user["first_name"] as? String != nil ? user["first_name"] as! String : "")
               let newLastName = (user["last_name"] as? String != nil ? user["last_name"] as! String : "")
+              let newMail = (user["email"] as? String != nil ? user["email"] as! String : "")
               
               let newUser = AgencyUserModelData.init(newId: newId,
                 newFirstName: newFirstName,
                 newLastName: newLastName)
+              newUser.email = newMail
               
               arrayOfUsersModelData.append(newUser)
               

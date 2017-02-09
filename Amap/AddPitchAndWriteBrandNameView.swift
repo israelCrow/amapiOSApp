@@ -130,6 +130,7 @@ class AddPitchAndWriteBrandNameView: UIView, UITableViewDelegate, UITableViewDat
     searchView.mainTextField.addTarget(self,
                                        action: #selector(textDidChange),
                                        forControlEvents: UIControlEvents.EditingChanged)
+    searchView.mainTextField.placeholder = "Marca"
     
     self.addSubview(searchView)
     

@@ -178,7 +178,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     let segmentsArray = ["Sí", "", "No"]
     
     clearObjectivesView = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                   title: "¿Te quedaron claros los objetivos?",
+                                                                   title: "¿Te dieron objetivos claros?",//"¿Te quedaron claros los objetivos?",
                                                                    image: nil,
                                                                    segmentsText: segmentsArray)
     let originalSegmentControlFrame = clearObjectivesView.mainSegmentedControl.frame
@@ -223,7 +223,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     let segmentsArray = ["Sí", "", "No"]
     
     youKnowTheProjectBudget = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                       title: "¿Sabes el presupuesto del proyecto?",
+                                                                       title: "¿Te dieron el presupuesto del proyecto?",
                                                                        image: nil,
                                                                        segmentsText: segmentsArray)
     let originalSegmentControlFrame = youKnowTheProjectBudget.mainSegmentedControl.frame
@@ -268,7 +268,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     let segmentsArray = ["Sí", "", "No"]
     
     youKnowTheSelectionCriteria = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                           title: "¿Sabes el criterio de selección?",
+                                                                           title: "¿Te informaron el criterio de selección?",
                                                                            image: nil,
                                                                            segmentsText: segmentsArray)
     
@@ -313,7 +313,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     let segmentsArray = ["Sí", "No sé", "No"]
     
     involvementOfMarketing = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                      title: "¿Hay involucramiento de Senior Marketing en el proceso?",
+                                                                      title: "¿Hay involucramiento de senior marketing en el proceso?",
                                                                       image: nil,
                                                                       segmentsText: segmentsArray)
     involvementOfMarketing.tag = 4
@@ -355,10 +355,10 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     
     let widthOfSegments = CGFloat((210.0 * UtilityManager.sharedInstance.conversionWidth) / 4.0)
     
-    let segmentsArray = ["2 - 4", "5 - 7", "+ de 7", "No sé"]
+    let segmentsArray = ["2 a 4", "4 a 6", "+ de 7", "No sé"]
     
     howManyAgenciesParticipate = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                          title: "¿Cuántas agencias están participando en el pitch?",
+                                                                          title: "¿Te informaron cuántas agencias están participando en el pitch?",
                                                                           image: nil,
                                                                           segmentsText: segmentsArray)
     howManyAgenciesParticipate.delegate = self
@@ -390,7 +390,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
         howManyAgenciesParticipate.mainSegmentedControl.selectedSegmentIndex = 0
         
       } else
-        if number_of_agencies == "5 - 7" {
+        if number_of_agencies == "4 - 6" {
           
           howManyAgenciesParticipate.mainSegmentedControl.selectedSegmentIndex = 1
           
@@ -492,7 +492,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 300.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["1 ronda", "2 rondas", "3 rondas", "4 rondas"]
+    let segmentsArray = ["1", "2", "3", "4"] //["1 ronda", "2 rondas", "3 rondas", "4 rondas"]
     
     howMany = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
                                                          textLabel: "¿Cuántas?",
@@ -554,7 +554,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    let segmentsArray = ["No sé", "2 semanas", "3 semanas", "4 semanas", "5 semanas", "Más de 5"]
+    let segmentsArray = ["No sé", "2", "3", "4", "5", "+ de 5"]
     
     howManyDaysTheyGiveTheRuling = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
                                                                               textLabel: "¿En cuántas semanas te darán el resultado?",
@@ -619,7 +619,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     let segmentsArray = ["Sí", "No sé", "No"]
     
     deliverIntelectualPropertyJustToPitch = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                                     title: "¿Entregarás la propiedad intelectual de tu trabajo solo para el pitch?",
+                                                                                     title: "¿Entregarás la propiedad intelectual de tu trabajo sólo por pitchear?",
                                                                                      image: nil,
                                                                                      segmentsText: segmentsArray)
     deliverIntelectualPropertyJustToPitch.delegate = self
@@ -663,7 +663,7 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     let segmentsArray = ["Sí", "", "No"]
     
     clearDeliverable = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                title: "¿Los entregables del pitch quedaron claros?",
+                                                                title: "¿Sabes cuáles son los entregables del pitch?",
                                                                 image: nil,
                                                                 segmentsText: segmentsArray)
     
@@ -821,11 +821,17 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     }
     
     var howManyAgenciesResult:String = howManyAgenciesParticipate.returnValueSelectedFromSegmentControl()
-    if howManyAgenciesResult == "No sé" {
-      howManyAgenciesResult = "no se"
+    if howManyAgenciesResult == "2 a 4" {
+      howManyAgenciesResult = "2 - 4"
     }else
-    if howManyAgenciesResult == "+ de 7" {
-      howManyAgenciesResult = "+7"
+      if howManyAgenciesResult == "4 a 6" {
+        howManyAgenciesResult = "4 - 6"
+      }else
+        if howManyAgenciesResult == "No sé" {
+          howManyAgenciesResult = "no se"
+        }else
+          if howManyAgenciesResult == "+ de 7" {
+            howManyAgenciesResult = "+7"
     }
     //    if howManyAgenciesParticipate.returnValueSelectedFromSegmentControl() == "- de 4" {
     //
@@ -872,27 +878,84 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     
     var howManyRoundsResult = "no"
     
-    if howManyRounds != "" {
+    if howManyRounds == "1" {
       
-      let howManyRoundsWithoutSpaces = howManyRounds.stringByReplacingOccurrencesOfString(" ", withString: "")
-      howManyRoundsResult = howManyRoundsWithoutSpaces.substringWithRange(howManyRoundsWithoutSpaces.startIndex..<howManyRoundsWithoutSpaces.startIndex.advancedBy(2))
-      
-    }
-    
-    let howManyWeeksRuling = (UtilityManager.sharedInstance.isValidText(howManyDaysTheyGiveTheRuling.mainTextField.text!) == true ? howManyDaysTheyGiveTheRuling.mainTextField.text! : "2s")
-    let howManyRulingWeeksWithoutSpaces = howManyWeeksRuling.stringByReplacingOccurrencesOfString(" ", withString: "")
-    var howManyWeeksTheRulingResult = howManyRulingWeeksWithoutSpaces.substringWithRange(howManyRulingWeeksWithoutSpaces.startIndex..<howManyRulingWeeksWithoutSpaces.startIndex.advancedBy(2))
-    
-    if howManyWeeksTheRulingResult == "Má" {
-      
-      howManyWeeksTheRulingResult = ">5"
+      howManyRoundsResult = "1r"
       
     }else
-      if howManyWeeksTheRulingResult == "No" {
+      if howManyRounds == "2" {
         
-        howManyWeeksTheRulingResult = "NA" //Checar, puede que sea "no se"
+        howManyRoundsResult = "2r"
         
-    }
+      }else
+        if howManyRounds == "3" {
+          
+          howManyRoundsResult = "3r"
+          
+        }else
+          if howManyRounds == "4" {
+            
+            howManyRoundsResult = "4r"
+            
+          }
+    
+//    if howManyRounds != "" {
+//      
+//      let howManyRoundsWithoutSpaces = howManyRounds.stringByReplacingOccurrencesOfString(" ", withString: "")
+//      howManyRoundsResult = howManyRoundsWithoutSpaces.substringWithRange(howManyRoundsWithoutSpaces.startIndex..<howManyRoundsWithoutSpaces.startIndex.advancedBy(2))
+//      
+//    }
+    
+    var howManyWeeksTheRulingResult = ""
+    
+    howManyWeeksTheRulingResult = howManyDaysTheyGiveTheRuling.mainTextField.text!
+    
+    if howManyWeeksTheRulingResult == "No sé" {
+      
+      howManyWeeksTheRulingResult = "NA"
+      
+    } else
+      if howManyWeeksTheRulingResult == "+ de 5" {
+        
+        howManyWeeksTheRulingResult = ">5"
+        
+      } else
+        if howManyWeeksTheRulingResult == "2" {
+          
+          howManyWeeksTheRulingResult = "2s"
+          
+        } else
+          if howManyWeeksTheRulingResult == "3" {
+            
+            howManyWeeksTheRulingResult = "3s"
+            
+          } else
+            if howManyWeeksTheRulingResult == "4" {
+              
+              howManyWeeksTheRulingResult = "4s"
+              
+            } else
+              if howManyWeeksTheRulingResult == "5" {
+                
+                howManyWeeksTheRulingResult = "5s"
+                
+              }
+    
+    
+//    let howManyWeeksRuling = (UtilityManager.sharedInstance.isValidText(howManyDaysTheyGiveTheRuling.mainTextField.text!) == true ? howManyDaysTheyGiveTheRuling.mainTextField.text! : "2s")
+//    let howManyRulingWeeksWithoutSpaces = howManyWeeksRuling.stringByReplacingOccurrencesOfString(" ", withString: "")
+//    var howManyWeeksTheRulingResult = howManyRulingWeeksWithoutSpaces.substringWithRange(howManyRulingWeeksWithoutSpaces.startIndex..<howManyRulingWeeksWithoutSpaces.startIndex.advancedBy(2))
+//    
+//    if howManyWeeksTheRulingResult == "Má" {
+//      
+//      howManyWeeksTheRulingResult = ">5"
+//      
+//    }else
+//      if howManyWeeksTheRulingResult == "No" {
+//        
+//        howManyWeeksTheRulingResult = "NA" //Checar, puede que sea "no se"
+//        
+//    }
     
     //    let howManyDaysTheyRulingResult = (UtilityManager.sharedInstance.isValidText(howManyDaysTheyGiveTheRuling.mainTextField.text!) == true ? howManyDaysTheyGiveTheRuling.mainTextField.text! : "1")
     

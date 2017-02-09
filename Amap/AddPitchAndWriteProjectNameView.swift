@@ -128,6 +128,7 @@ class AddPitchAndWriteProjectNameView: UIView, UITableViewDelegate, UITableViewD
                                        action: #selector(textDidChange),
                                        forControlEvents: UIControlEvents.EditingChanged)
     searchView.mainTextField.delegate = self
+    searchView.mainTextField.placeholder = "Proyecto"
     
     self.addSubview(searchView)
     

@@ -13,6 +13,7 @@ class AgencyUserModelData {
   var id: String! = nil
   var firstName: String! = nil
   var lastName: String! = nil
+  var email: String! = nil
   
   init(newId: String, newFirstName: String, newLastName: String) {
     

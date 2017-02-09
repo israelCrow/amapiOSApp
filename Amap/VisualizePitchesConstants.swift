@@ -16,8 +16,8 @@ class VisualizePitchesConstants {
   
   enum NoPitchesAssignedView {
     
-    static let warningNoPitchesText = "¡Oops!\nNo tienes ningún\n pitch asignado"
-    static let navigationBarText = "Perfil Agencia"
+    static let warningNoPitchesText = "No tienes pitches\ncreados"
+    static let navigationBarText = "Perfil agencia"
     static let rightButtonText = "Log Out"
   
   }
@@ -42,24 +42,24 @@ class VisualizePitchesConstants {
   enum AddPitchAndWriteCompanyNameView {
     
     static let writeCompanyNameLabelText = "Escribe el nombre del anunciante" //escribe el nombre de la compañía
-    static let askPermissionLabelText = "No hay ningún anunciante registrado con ese nombre\n\n¿Desea agregarlo?" 
-    static let addButtonText = "Agregar"
+    static let askPermissionLabelText = "Ningún anunciante registrado con ese nombre" //"No hay ningún anunciante registrado con ese nombre\n\n¿Desea agregarlo?"
+    static let addButtonText = "agregar"
     
   }
   
   enum AddPitchAndWriteBrandNameView {
     
     static let writeBrandNameLabelText = "Escribe el nombre de la marca"
-    static let askPermissionLabelText = "No hay ninguna marca registrada con ese nombre\n\n¿Desea agregarla?"
-    static let addButtonText = "Agregar"
+    static let askPermissionLabelText = "Ninguna marca registrada con ese nombre" //"No hay ninguna marca registrada con ese nombre\n\n¿Desea agregarla?"
+    static let addButtonText = "agregar"
     
   }
   
   enum AddPitchAndWriteProjectNameView {
     
     static let writeProjectNameLabelText = "Escribe el nombre del proyecto"
-    static let askPermissionLabelText = "No hay ningún proyecto registrado con ese nombre\n\n¿Desea agregarla?"
-    static let addButtonText = "Agregar"
+    static let askPermissionLabelText = "Ningún proyecto está registrado con ese nombre" //"No hay ningún proyecto registrado con ese nombre\n\n¿Desea agregarla?"
+    static let addButtonText = "agregar"
     
   }
   
@@ -67,13 +67,19 @@ class VisualizePitchesConstants {
     
     static let writeWhichCategoryIsLabelText = "Escribe qué tipo\nde categoría es:"
 //    static let askPermissionLabelText = "No hay ningún proyecto registrado con ese nombre\n\n¿Desea agregarla?"
-    static let addButtonText = "Agregar pitch"
+    static let addButtonText = "agregar pitch"
     
   }
   
   enum PreEvaluatePitchViewController {
     
-    static let navigationBarTitleText = "Evaluar Pitch "
+    static let navigationBarTitleText = "Agregar Pitch "
+    
+  }
+  
+  enum EvaluatePitchViewController {
+    
+    static let navigationBarTitleText = "Editar Pitch"
     
   }
   
@@ -87,7 +93,7 @@ class VisualizePitchesConstants {
     
     static let descriptionWriteNameLabel =  "Escribe el e-mail del contacto que te brifeó"
     static let descriptionWriteDateLabel = "¿Qué día te dieron el brief?"
-    static let nextButtonText = "Listo"
+    static let nextButtonText = "agregar"
     
   }
   
@@ -95,7 +101,7 @@ class VisualizePitchesConstants {
     
     static let readyLabelText = "¡Felicidades!"
     static let descriptionLabelText = "Tu pitch se ha dado de alta con éxito"
-    static let nextButtonText = "Evaluar pitch"
+    static let nextButtonText = "evaluar pitch"
     
   }
   

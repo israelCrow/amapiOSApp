@@ -139,6 +139,9 @@ class GeneralPerformanceOwnStatisticsCardView: UIView, CustomTextFieldWithTitleA
     //    selectorOfInformationView.mainTextField.addTarget(self,
     //                                              action: #selector(howManyDaysToShowEdited),
     //                                              forControlEvents: .AllEditingEvents)
+    
+    selectorOfInformationView.mainTextField.text = (MyCompanyModelData.Data.name != nil ? MyCompanyModelData.Data.name! : "Anunciante")
+    
     mainScrollView.addSubview(selectorOfInformationView)
     
   }
