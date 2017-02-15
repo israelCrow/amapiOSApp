@@ -44,6 +44,8 @@ class DetailedInfoCompanyContactView: UIView {
   
   private func initInterface() {
     
+    self.deleteAllElements()
+    
     self.createCompanyLogoView()
     self.createCompanyNameLabel()
     
@@ -402,11 +404,106 @@ class DetailedInfoCompanyContactView: UIView {
   }
   
   func reloadDataToShow(reloadImage: Bool) {
+
+    self.initInterface()
     
-    self.createCompanyLogoView()
-    self.createCompanyNameLabel()
-    self.createContactNameLabel()
-    self.createContactPositionLabel()
+//    if MyCompanyModelData.Data.contactName != nil && MyCompanyModelData.Data.contactName != "" {
+//      
+//      self.createFaceCompanyButton()
+//      self.createContactNameLabel()
+//      
+//    }
+//    
+//    if MyCompanyModelData.Data.contactPosition != nil && MyCompanyModelData.Data.contactPosition != "" {
+//      
+//      self.createToolBoxButton()
+//      self.createContactPositionLabel()
+//      
+//    }
+//    
+//    var finalMail = ""
+//    
+//    if MyCompanyModelData.Data.contactEMail != nil && MyCompanyModelData.Data.contactEMail != "" {
+//      
+//      finalMail = MyCompanyModelData.Data.contactEMail!
+//      let whiteSpace = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+//      finalMail = finalMail.stringByTrimmingCharactersInSet(whiteSpace)
+//      
+//    }
+//    
+//    if MyCompanyModelData.Data.contactEMail != nil  {
+//      
+//      self.createLetterButton()
+//      self.createMailLabel()
+//      
+//    }
+    
+    
+//    self.createCompanyLogoView()
+//    self.createCompanyNameLabel()
+//    self.createContactNameLabel()
+//    self.createContactPositionLabel()
+    
+  }
+  
+  private func deleteAllElements() {
+    
+    if companyLogoView != nil {
+      
+      companyLogoView.removeFromSuperview()
+      companyLogoView = nil
+      
+    }
+    
+    if companyNameLabel != nil {
+      
+      companyNameLabel.removeFromSuperview()
+      companyNameLabel = nil
+      
+    }
+    
+    if contactNameLabel != nil {
+      
+      contactNameLabel.removeFromSuperview()
+      contactNameLabel = nil
+      
+    }
+
+    if contactPositionLabel != nil {
+      
+      contactPositionLabel.removeFromSuperview()
+      contactPositionLabel = nil
+      
+    }
+
+    if mailLabel != nil {
+      
+      mailLabel.removeFromSuperview()
+      mailLabel = nil
+      
+    }
+
+    if mailIconButton != nil {
+      
+      mailIconButton.removeFromSuperview()
+      mailIconButton = nil
+      
+    }
+
+    
+    if toolBoxCompanyButton != nil {
+      
+      toolBoxCompanyButton.removeFromSuperview()
+      toolBoxCompanyButton = nil
+      
+    }
+
+    if faceCompanyButton != nil {
+      
+      faceCompanyButton.removeFromSuperview()
+      faceCompanyButton = nil
+      
+    }
     
   }
   

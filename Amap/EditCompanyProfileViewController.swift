@@ -345,6 +345,14 @@ class EditCompanyProfileViewController: UIViewController, UIImagePickerControlle
     
     self.requestToEveryScreenToSave(){
       
+    UtilityManager.sharedInstance.showLoader()
+      
+    RequestToServerManager.sharedInstance.requestForCompanyData({
+    
+      UtilityManager.sharedInstance.hideLoader()
+      
+    })
+      
     self.editProfile.thereAreChanges = false
 //    self.editConflicts.thereAreChanges = false
 //      self.criteriaView.thereAreChanges = false
@@ -705,8 +713,18 @@ class EditCompanyProfileViewController: UIViewController, UIImagePickerControlle
         
         self.editProfile.saveChangesOfCompanyProfile({ 
           
-          self.requestToShowTabBar()
-          self.navigationController?.popViewControllerAnimated(true)
+          UtilityManager.sharedInstance.showLoader()
+          
+          RequestToServerManager.sharedInstance.requestForCompanyData({ 
+            
+            self.requestToShowTabBar()
+            self.navigationController?.popViewControllerAnimated(true)
+            UtilityManager.sharedInstance.hideLoader()
+            
+          })
+          
+//          self.requestToShowTabBar()
+//          self.navigationController?.popViewControllerAnimated(true)
           
         })
         
