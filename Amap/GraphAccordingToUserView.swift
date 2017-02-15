@@ -24,6 +24,8 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
   private var arrayOfAgencyUsersModelData = [AgencyUserModelData]()
   private var numberOfUserSelected = 0
   
+  private var viewForNoAmapUser: UIView! = nil
+  
   private var dropDownTitleText: String = ""
   
   var delegate: GrapAccordingToUserViewDelegate?
@@ -72,7 +74,7 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     
     for user in arrayOfAgencyUsersModelData {
       
-      if user.email != "" {
+      if user.email != "" && user.email != nil {
       
         optionsForSelector.append(user.email)
       
@@ -96,6 +98,13 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     
     self.createGraphic()
 
+    if UserSession.session.is_member_amap == false {
+      
+      self.createViewForNoAmapUser()
+      self.createMessageForNonAmapUser()
+      self.createGetContactButton()
+      
+    }
     
   }
   
@@ -268,6 +277,98 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
   @objc private func dismissKeyboard(sender:AnyObject) {
     
     self.endEditing(true)
+    
+  }
+  
+  private func createViewForNoAmapUser() {
+    
+    let frameForView = CGRect.init(x: 0.0,
+                                   y: 0.0,
+                                   width: self.frame.size.width,
+                                   height: self.frame.size.height)
+    
+    viewForNoAmapUser = UIView.init(frame: frameForView)
+    viewForNoAmapUser.backgroundColor = UIColor.init(white: 1.0, alpha: 0.9)
+    viewForNoAmapUser.alpha = 0.9
+    self.addSubview(viewForNoAmapUser)
+    
+  }
+  
+  private func createMessageForNonAmapUser() {
+    
+    let frameForLabel = CGRect.init(x: 31.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    y: 74.0 * UtilityManager.sharedInstance.conversionHeight,
+                                    width: 209.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: 110.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let messageLabel = UILabel.init(frame: frameForLabel)
+    messageLabel.numberOfLines = 0
+    messageLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "¿Quieres saber con cuántas agencias participas y cuál es su pitch-score? Afíliate a la AMAP",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    messageLabel.attributedText = stringWithFormat
+    messageLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (viewForNoAmapUser.frame.size.width / 2.0) - (messageLabel.frame.size.width / 2.0),
+                               y: (viewForNoAmapUser.frame.size.height / 2.0) - (messageLabel.frame.size.height / 2.0),
+                               width: messageLabel.frame.size.width,
+                               height: messageLabel.frame.size.height)
+    
+    messageLabel.frame = newFrame
+    
+    viewForNoAmapUser.addSubview(messageLabel)
+    
+  }
+  
+  private func createGetContactButton() {
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.whiteColor()
+    //let colorWhenPressed = UIColor.greenColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Contacta a la AMAP",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    
+    let stringWithFormatWhenpressed = NSMutableAttributedString(
+      string: "Contacta a la AMAP",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color //colorWhenPressed
+      ]
+    )
+    
+    let frameForButton = CGRect.init(x: (viewForNoAmapUser.frame.size.width / 2.0) - (78.5),
+                                     y: 273.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: 157.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 30.0 * UtilityManager.sharedInstance.conversionHeight)
+    let contactButton = UIButton.init(frame: frameForButton)
+    contactButton.addTarget(self,
+                            action: nil,
+                            forControlEvents: .TouchUpInside)
+    contactButton.backgroundColor = UIColor.blackColor()
+    contactButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+    contactButton.setAttributedTitle(stringWithFormatWhenpressed, forState: .Highlighted)
+    
+    viewForNoAmapUser.addSubview(contactButton)
     
   }
   

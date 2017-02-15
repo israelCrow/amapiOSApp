@@ -135,7 +135,7 @@ class WhenGonnaToShowPitchView: UIView, UITextFieldDelegate {
     titleLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIDisplay-Ultralight",
-                      size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -172,7 +172,7 @@ class WhenGonnaToShowPitchView: UIView, UITextFieldDelegate {
                                                                    title: "¿Cuándo vas a presentar?",
                                                                    image: "iconImputCalendar")
     
-    whenGonnaToShowPitchView.mainTextField.placeholder = "dd/mm/aa"
+    whenGonnaToShowPitchView.mainTextField.placeholder = "aa/mm/dd"
     whenGonnaToShowPitchView.mainTextField.inputView = containerViewForPicker
     whenGonnaToShowPitchView.mainTextField.delegate = self
     

@@ -339,7 +339,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     agencyPhoneView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                         title: AgencyProfileEditConstants.ProfileView.agencyPhoneTitleText,
                                                         image: "iconPhone")
-    agencyPhoneView.mainTextField.placeholder = ""
+    agencyPhoneView.mainTextField.placeholder = "+52 55 5555 5555"
     agencyPhoneView.mainTextField.tag = 2
     
     if AgencyModel.Data.phone != nil {
@@ -389,7 +389,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     agencyEMailView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                           title: AgencyProfileEditConstants.ProfileView.agencyMailContactTitleText,
                                                           image: "iconMail")
-    agencyEMailView.mainTextField.placeholder = "Email de contacto"
+    agencyEMailView.mainTextField.placeholder = "mail@mail.com"
     agencyEMailView.mainTextField.tag = 3
     
     if AgencyModel.Data.contact_email != nil {
@@ -414,7 +414,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     agencyAddressView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                         title: AgencyProfileEditConstants.ProfileView.agencyAddressTitleText,
                                                         image: "iconLocation")
-    agencyAddressView.mainTextField.placeholder = "Dirección de contacto"
+    agencyAddressView.mainTextField.placeholder = "Dirección"
     agencyAddressView.mainTextField.tag = 4
     
     if AgencyModel.Data.address != nil {
@@ -439,7 +439,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     agencyWebsiteView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                           title: AgencyProfileEditConstants.ProfileView.agencyWebSiteTitleText,
                                                           image: "iconWebsite")
-    agencyWebsiteView.mainTextField.placeholder = "http://www.ejemplo.com"
+    agencyWebsiteView.mainTextField.placeholder = "website.com"
     agencyWebsiteView.mainTextField.tag = 5
     
     if AgencyModel.Data.website_url != nil {
@@ -748,7 +748,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
   
   func isAgencyNameAndAgencyImageWithInfo() -> Bool {
     
-    if agencyNameView.mainTextField.text != "" && profileImageView.image != nil {
+    if agencyNameView.mainTextField.text != "" {//&& profileImageView.image != nil {
       
       return true
       

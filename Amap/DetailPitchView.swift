@@ -208,7 +208,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
     var stringForButton = ""
     if pitchEvaluationData.hasResults == true {
       
-      stringForButton = "editar resultado"
+      stringForButton = "editar encuesta"
       
     } else {
       

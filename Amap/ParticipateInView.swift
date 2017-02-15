@@ -15,6 +15,7 @@ class ParticipateInView: UIView, CriterionWithImageViewDelegate {
   private var arrayOfLabels: [CriterionWithImageView]! = nil
   
   private var participateInLabel: UILabel! = nil
+  private var explantionLabel: UILabel! = nil
   private var goldenPitchCriterion: CriterionWithImageView! = nil
   private var silverPitchCriterion: CriterionWithImageView! = nil
   private var mediumRiskPitchCriterion: CriterionWithImageView! = nil
@@ -55,7 +56,7 @@ class ParticipateInView: UIView, CriterionWithImageViewDelegate {
   private func createMainScrollView() {
     
     let frameForMainScrollView = CGRect.init(x: 34.0 * UtilityManager.sharedInstance.conversionWidth,
-                                             y: 106.0 * UtilityManager.sharedInstance.conversionHeight,
+                                             y: 116.0 * UtilityManager.sharedInstance.conversionHeight,
                                              width: 235.0 * UtilityManager.sharedInstance.conversionWidth,
                                              height: 355.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -97,6 +98,43 @@ class ParticipateInView: UIView, CriterionWithImageViewDelegate {
     participateInLabel.frame = newFrame
     
     self.addSubview(participateInLabel)
+    
+  }
+  
+  private func createExplanationLabel() {
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    explantionLabel = UILabel.init(frame: frameForLabel)
+    explantionLabel.numberOfLines = 0
+    explantionLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: AgencyProfileEditConstants.ParticipateInView.explanationLabelText,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    explantionLabel.attributedText = stringWithFormat
+    explantionLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (explantionLabel.frame.size.width / 2.0),
+                               y: 75.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: explantionLabel.frame.size.width,
+                               height: explantionLabel.frame.size.height)
+    
+    explantionLabel.frame = newFrame
+    
+    self.addSubview(explantionLabel)
   }
   
   private func createGoldenPitchCriterion() {
@@ -145,7 +183,7 @@ class ParticipateInView: UIView, CriterionWithImageViewDelegate {
     mediumRiskPitchCriterion = CriterionWithImageView.init(frame: frameForNewCriterion,
                                                            nameImage: "color_fill5",
                                                            valueOfSwitch: AgencyModel.Data.medium_risk_pitch!,
-                                                           newTextAfterImage: "OK")
+                                                           newTextAfterImage: "Unhappy") //Ok
     mediumRiskPitchCriterion.delegate = self
     
     arrayOfLabels.append(mediumRiskPitchCriterion)
@@ -162,7 +200,7 @@ class ParticipateInView: UIView, CriterionWithImageViewDelegate {
     highRiskPitchCriterion = CriterionWithImageView.init(frame: frameForNewCriterion,
                                                          nameImage: "color_fill7",
                                                          valueOfSwitch: AgencyModel.Data.high_risk_pitch!,
-                                                         newTextAfterImage: "Unhappy")
+                                                         newTextAfterImage: "Badpitch") //Unhappy
     highRiskPitchCriterion.delegate = self
     
     arrayOfLabels.append(highRiskPitchCriterion)

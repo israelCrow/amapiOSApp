@@ -30,6 +30,7 @@ class AgencyProfileEditConstants {
   enum ParticipateInView {
     
     static let participateInLabelText = "Participa en"
+    static let explanationLabelText = "Selecciona el tipo de pitches en los que tu agencia participa"
     static let goldenPitchLabelText = "Golden Pitch"
     static let silverPitchLabelText = "Silver Pitch"
     static let mRiskPitchLabelText = "M. Risk Pitch"
@@ -40,6 +41,7 @@ class AgencyProfileEditConstants {
   enum ExclusiveView {
     
     static let exclusiveLabelText = "Exclusividad"
+    static let explainingLabelText = "Indica con qué marcas tienes exclusividad"
     static let descriptionLabelText = "Escribe el nombre del anunciante y presiona aceptar"
     
   }

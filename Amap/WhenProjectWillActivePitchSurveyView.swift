@@ -188,7 +188,7 @@ class WhenProjectWillActivePitchSurveyView: UIView, UITextFieldDelegate {
                                                                        title: "¿Cuándo se activará?",
                                                                        image: "iconImputCalendar")
     
-    whenProjectWillActiveView.mainTextField.placeholder = "dd/mm/aa"
+    whenProjectWillActiveView.mainTextField.placeholder = "aa/mm/dd"
     whenProjectWillActiveView.mainTextField.inputView = containerViewForPicker
     whenProjectWillActiveView.mainTextField.delegate = self
     

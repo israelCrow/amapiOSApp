@@ -188,7 +188,7 @@ class WhenYouWillSignTheContractPitchSurveyView: UIView, UITextFieldDelegate {
                                                                  title: "¿Cuándo lo firmarás?",
                                                                  image: "iconImputCalendar")
     
-    whenYouWillSignTheContractView.mainTextField.placeholder = "dd/mm/aa"
+    whenYouWillSignTheContractView.mainTextField.placeholder = "aa/mm/dd"
     whenYouWillSignTheContractView.mainTextField.inputView = containerViewForPicker
     whenYouWillSignTheContractView.mainTextField.delegate = self
     

@@ -126,7 +126,7 @@ class VisualizePitchesConstants {
   enum PendingEvaluationCardView {
     
     static let pendingEvaluationLabelText = "¡Evaluación Pendiente!"
-    static let nextButtonText = "Encuesta"
+    static let nextButtonText = "encuesta"
     
   }
   
@@ -134,7 +134,7 @@ class VisualizePitchesConstants {
     
     static let youWonThisPitchLabelText = "¡Ganaste este pitch!"
     static let detailedLabelText = "Queremos saber si tu proyecto se activo. Dale seguimiento llenando la encuesta"
-    static let nextButtonText = "Encuesta"
+    static let nextButtonText = "encuesta"
     
   }
   
@@ -146,8 +146,8 @@ class VisualizePitchesConstants {
     static let evaluationLabelText = "Evaluación"
     static let faceOneLabelText = "70 - 100\n Happitch"
     static let faceTwoLabelText = "59 - 69\n Happy"
-    static let faceThreeLabelText = "45 - 58\n OK"
-    static let faceFourLabelText = "0 - 44\n Unhappy"
+    static let faceThreeLabelText = "45 - 58\n Unhappy"  //Ok
+    static let faceFourLabelText = "0 - 44\n Badpitch"  //Unhappy
     
     static let statisticsLabelText = "Estadísticas"
     static let descriptionStatisticsLabelText = "Lorem ipsum dolor sit amet,consectetur adipiscing elit. Vivamus vestibulum velit nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Interdum et malesuada fames ac ante ipsum primis in faucibus."

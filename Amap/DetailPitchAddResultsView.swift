@@ -47,7 +47,7 @@ class DetailPitchAddResultsView: UIView {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: 260.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    width: 270.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
     fillTheSurveyLabel = UILabel.init(frame: frameForLabel)
@@ -55,7 +55,7 @@ class DetailPitchAddResultsView: UIView {
     fillTheSurveyLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIDisplay-Ultralight",
-                      size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 17.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -64,14 +64,13 @@ class DetailPitchAddResultsView: UIView {
       string: EditPitchesConstants.DetailPitchAddResultsView.fillTheSurveyLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color,
-        NSKernAttributeName: CGFloat(2.0)
+        NSForegroundColorAttributeName: color
       ]
     )
     fillTheSurveyLabel.attributedText = stringWithFormat
     fillTheSurveyLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (fillTheSurveyLabel.frame.size.width / 2.0),
-                               y: 0.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: -20.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: fillTheSurveyLabel.frame.size.width,
                                height: fillTheSurveyLabel.frame.size.height)
     
@@ -108,7 +107,7 @@ class DetailPitchAddResultsView: UIView {
     addResultsButton.sizeToFit()
     
     let frameForButton = CGRect.init(x: 0.0,
-                                     y: 92.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     y: 90.0 * UtilityManager.sharedInstance.conversionHeight,
                                  width: self.frame.size.width,
                                 height: 70.0 * UtilityManager.sharedInstance.conversionHeight)
     

@@ -40,6 +40,12 @@ class GraphPartPitchCardView: UIView {
     self.createLinesOfGraph()
     self.createGraphs()
     
+    if UserSession.session.is_member_amap == false {
+      
+      self.createBlurEffect()
+      
+    }
+    
   }
   
   private func changeValuesOfQualifications() {
@@ -392,17 +398,34 @@ class GraphPartPitchCardView: UIView {
   
   func animateGraph() {
     
-    for graphView in arrayOfBarGraphic {
+    for i in 0..<arrayOfBarGraphic.count {
       
-      UIView.animateWithDuration(0.15) {
+      let element = arrayOfBarGraphic[i]
+      if i != 0 && UserSession.session.is_member_amap == false {
         
-        graphView.alpha = 1.0
+        element.alpha = 0.0
+        
+      } else {
+        
+        element.alpha = 1.0
         
       }
       
-      graphView.animateBar()
+      element.animateBar()
       
     }
+    
+    //    for graphView in arrayOfBarGraphic {
+    //
+    //      UIView.animateWithDuration(0.15) {
+    //
+    //        graphView.alpha = 1.0
+    //
+    //      }
+    //
+    //      graphView.animateBar()
+    //      
+    //    }
     
   }
   
@@ -422,6 +445,104 @@ class GraphPartPitchCardView: UIView {
           
         }
     }
+    
+  }
+  
+  private func createBlurEffect() {
+    
+    //    let frameForBlur = CGRect.init(x: 31.0 * UtilityManager.sharedInstance.conversionWidth,
+    //                                   y: 74.0 * UtilityManager.sharedInstance.conversionHeight,
+    //                               width: 224.0 * UtilityManager.sharedInstance.conversionWidth,
+    //                              height: 272.0 * UtilityManager.sharedInstance.conversionHeight)
+    //
+    //    let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)
+    //    let blurEffectView = UIVisualEffectView(effect: blurEffect)
+    //    blurEffectView.layer.cornerRadius = 10.0
+    //    blurEffectView.clipsToBounds = true
+    //    blurEffectView.alpha = 0.95
+    //    blurEffectView.frame = frameForBlur
+    //    self.addSubview(blurEffectView)
+    
+    self.createMessageForNonAmapUser()
+    self.createGetContactButton()
+    
+  }
+  
+  private func createMessageForNonAmapUser() {
+    
+    let frameForLabel = CGRect.init(x: 31.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    y: 74.0 * UtilityManager.sharedInstance.conversionHeight,
+                                    width: 209.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: 110.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    let messageLabel = UILabel.init(frame: frameForLabel)
+    messageLabel.numberOfLines = 0
+    messageLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.whiteColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "¿Quieres saber con cuántas agencias participas y cuál es su pitch-score? Afíliate a la AMAP",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    messageLabel.attributedText = stringWithFormat
+    messageLabel.sizeToFit()
+    let newFrame = CGRect.init(x: 70.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: 120.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: messageLabel.frame.size.width,
+                               height: messageLabel.frame.size.height)
+    
+    messageLabel.frame = newFrame
+    
+    self.addSubview(messageLabel)
+    
+  }
+  
+  private func createGetContactButton() {
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.whiteColor()
+    //let colorWhenPressed = UIColor.greenColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Contacta a la AMAP",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    
+    let stringWithFormatWhenpressed = NSMutableAttributedString(
+      string: "Contacta a la AMAP",
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color //colorWhenPressed
+      ]
+    )
+    
+    let frameForButton = CGRect.init(x: 96.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 228.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: 157.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 30.0 * UtilityManager.sharedInstance.conversionHeight)
+    let contactButton = UIButton.init(frame: frameForButton)
+    contactButton.addTarget(self,
+                            action: nil,
+                            forControlEvents: .TouchUpInside)
+    contactButton.backgroundColor = UIColor.blackColor()
+    contactButton.setAttributedTitle(stringWithFormat, forState: .Normal)
+    contactButton.setAttributedTitle(stringWithFormatWhenpressed, forState: .Highlighted)
+    
+    self.addSubview(contactButton)
     
   }
   

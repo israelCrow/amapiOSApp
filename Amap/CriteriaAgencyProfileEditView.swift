@@ -131,7 +131,7 @@ class CriteriaAgencyProfileEditView: UIView, CriterionViewDelegate {
     descriptionLabel.attributedText = stringWithFormat
     descriptionLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (descriptionLabel.frame.size.width / 2.0),
-                               y: 96.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 86.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: descriptionLabel.frame.size.width,
                                height: descriptionLabel.frame.size.height)
     

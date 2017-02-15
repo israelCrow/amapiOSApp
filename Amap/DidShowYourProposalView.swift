@@ -74,7 +74,7 @@ class DidYouShowYourProposalView: UIView, CustomSegmentedControlWithTitleViewDel
     titleLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIDisplay-Ultralight",
-                      size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center

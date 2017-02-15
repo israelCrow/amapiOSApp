@@ -252,7 +252,7 @@ class GenericDashboardGraphic: UIView {
                                 width: 283.0 * UtilityManager.sharedInstance.conversionWidth,
                                 height: 0.5 * UtilityManager.sharedInstance.conversionHeight)
     self.layer.addSublayer(border3)
-    labelOK = self.createLabel(CGPoint.init(x: 31.0 * UtilityManager.sharedInstance.conversionWidth, y: 118.0 * UtilityManager.sharedInstance.conversionHeight), text: "OK")
+    labelOK = self.createLabel(CGPoint.init(x: 5.0 * UtilityManager.sharedInstance.conversionWidth, y: 118.0 * UtilityManager.sharedInstance.conversionHeight), text: "Unhappy") //Ok
     self.addSubview(labelOK)
     
     //
@@ -264,7 +264,7 @@ class GenericDashboardGraphic: UIView {
                             width: 283.0 * UtilityManager.sharedInstance.conversionWidth,
                            height: 0.5 * UtilityManager.sharedInstance.conversionHeight)
     self.layer.addSublayer(border4)
-    labelUnHappy = self.createLabel(CGPoint.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth, y: 198.0 * UtilityManager.sharedInstance.conversionHeight), text: "Unhappy")
+    labelUnHappy = self.createLabel(CGPoint.init(x: 6.0 * UtilityManager.sharedInstance.conversionWidth, y: 198.0 * UtilityManager.sharedInstance.conversionHeight), text: "Badpitch") //Unhappy
     self.addSubview(labelUnHappy)
     
   }

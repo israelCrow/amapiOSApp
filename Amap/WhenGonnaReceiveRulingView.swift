@@ -135,7 +135,7 @@ class WhenGonnaReceiveRulingView: UIView, UITextFieldDelegate {
     titleLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIDisplay-Ultralight",
-                      size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -172,7 +172,7 @@ class WhenGonnaReceiveRulingView: UIView, UITextFieldDelegate {
                                                                    title: "¿Cuándo recibirás fallo?",
                                                                    image: "iconImputCalendar")
     
-    whenGonnaReceiveRulingView.mainTextField.placeholder = "dd/mm/aa"
+    whenGonnaReceiveRulingView.mainTextField.placeholder = "aa/mm/dd"
     whenGonnaReceiveRulingView.mainTextField.inputView = containerViewForPicker
     whenGonnaReceiveRulingView.mainTextField.delegate = self
     

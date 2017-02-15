@@ -101,14 +101,8 @@ class SplashViewController: UIViewController {
           let first_name = (json["first_name"] as? String != nil ? json["first_name"] as! String : "")
           let id_user_int = (json["id"] as? Int != nil ? json["id"] as! Int : -1)
           let id_user_string = String(id_user_int)
-          let is_member_amap = (json["is_member_amap"] as? String != nil ? json["is_member_amap"] as! String : "0")
-          
-          var is_member_amap_bool: Bool
-          if is_member_amap == "0" {
-            is_member_amap_bool = false
-          }else{
-            is_member_amap_bool = true
-          }
+          let is_member_amap = (json["is_member_amap"] as? Bool != nil ? json["is_member_amap"] as! Bool : false)
+
           
           let last_name = (json["last_name"] as? String != nil ? json["last_name"] as! String : "")
           let role_int = (json["role"] as? Int != nil ? json["role"] as! Int : -1)
@@ -131,7 +125,7 @@ class SplashViewController: UIViewController {
           UserSession.session.email = email
           UserSession.session.first_name = first_name
           UserSession.session.id = id_user_string
-          UserSession.session.is_member_amap = is_member_amap_bool
+          UserSession.session.is_member_amap = is_member_amap
           UserSession.session.last_name = last_name
           UserSession.session.role = role_string
           
@@ -374,7 +368,7 @@ class SplashViewController: UIViewController {
     
     let visualizeAgencyFilterController = VisualizeAgencyFilterViewController()
     //    visualizeAgencyFilterController.delegate = mainTabBarController
-    let tabThirdBarItem = UITabBarItem.init(title: "Directorio de Agencias",
+    let tabThirdBarItem = UITabBarItem.init(title: "Directorio de agencias",
                                             image: imageAgencyProfileNonSelected,
                                             selectedImage: imageAgencyProfileSelected)
     
@@ -395,7 +389,7 @@ class SplashViewController: UIViewController {
     
     let visualizeCompanyProfileController = VisualizeCompanyProfileViewController()
     visualizeCompanyProfileController.delegate = mainTabBarController
-    let tabFourthBarItem = UITabBarItem.init(title: "Perfil Anunciante",
+    let tabFourthBarItem = UITabBarItem.init(title: "Perfil anunciante",
                                             image: imageAgencyProfileNonSelected,
                                             selectedImage: imageAgencyProfileSelected)
     

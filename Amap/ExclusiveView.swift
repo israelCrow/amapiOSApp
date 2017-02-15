@@ -12,10 +12,11 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   
   private var mainScrollView: UIScrollView! = nil
   private var exclusiveLabel: UILabel! = nil
+  private var explainingLabel: UILabel! = nil
+  private var descriptionLabel: UILabel! = nil
   private var arrayOfExclusivesBrandToDelete = [ExclusivityBrandModelData]()
   private var arrayOfExclusivesBrandNames: [ExclusivityBrandModelData]! = nil
   private var arrayOfExclusivesBrandTextFields: [UITextField]! = nil
-  private var descriptionLabel: UILabel! = nil
   private var creatorOfBrandTextField: UITextField! = nil
   
   var thereAreChanges: Bool = false
@@ -58,6 +59,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     self.backgroundColor = UIColor.whiteColor()
     self.initMainScrollView()
     self.createExclusiveLabel()
+    self.createExplainingLabel()
     self.createTextFields()
     
   }
@@ -66,9 +68,9 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     
     
     let frameForMainScrollView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        y: 86.0 * UtilityManager.sharedInstance.conversionHeight,
+                                        y: 115.0 * UtilityManager.sharedInstance.conversionHeight,
                                     width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   height: 374.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
+                                   height: 364.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
     let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
                                               height: frameForMainScrollView.size.height)
     
@@ -83,6 +85,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   }
   
   private func createExclusiveLabel() {
+    
     exclusiveLabel = UILabel.init(frame: CGRectZero)
     
     let font = UIFont(name: "SFUIDisplay-Ultralight",
@@ -109,6 +112,44 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     exclusiveLabel.frame = newFrame
     
     self.addSubview(exclusiveLabel)
+    
+  }
+  
+  private func createExplainingLabel() {
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    explainingLabel = UILabel.init(frame: frameForLabel)
+    explainingLabel.numberOfLines = 0
+    explainingLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: AgencyProfileEditConstants.ExclusiveView.explainingLabelText,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    explainingLabel.attributedText = stringWithFormat
+    explainingLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (explainingLabel.frame.size.width / 2.0),
+                               y: 90.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: explainingLabel.frame.size.width,
+                               height: explainingLabel.frame.size.height)
+    
+    explainingLabel.frame = newFrame
+    
+    self.addSubview(explainingLabel)
+
   }
   
   private func createTextFields() {
@@ -180,7 +221,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       style.alignment = NSTextAlignment.Left
       
       let stringWithFormat = NSMutableAttributedString(
-        string: AgencyProfileEditConstants.ExclusiveView.descriptionLabelText,
+        string: "",//AgencyProfileEditConstants.ExclusiveView.descriptionLabelText,
         attributes:[NSFontAttributeName: font!,
           NSParagraphStyleAttributeName: style,
           NSForegroundColorAttributeName: color
@@ -212,15 +253,15 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator,
                                                newExclusiveData: fictitiousBrandForCreator)
       creatorOfBrandTextField.tag = -1234567890
-      creatorOfBrandTextField.placeholder = ""
+      creatorOfBrandTextField.placeholder = "Escribe el nombre del anunciante y presiona aceptar"
       creatorOfBrandTextField.delegate = self
       creatorOfBrandTextField.returnKeyType = .Done
       
       let attributes = [
         NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.35),
-        NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 14.0 * UtilityManager.sharedInstance.conversionWidth)!
+        NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 8.5 * UtilityManager.sharedInstance.conversionWidth)!
       ]
-      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "", attributes: attributes)
+      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Escribe el nombre del anunciante y presiona aceptar", attributes: attributes)
       
       self.mainScrollView.addSubview(creatorOfBrandTextField)
       mainScrollView.showsVerticalScrollIndicator = true
@@ -438,6 +479,12 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   func textFieldShouldReturn(textField: UITextField) -> Bool {
     
     thereAreChanges = true
+    
+    let attributes = [
+      NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.35),
+      NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 10.0 * UtilityManager.sharedInstance.conversionWidth)!
+    ]
+    creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Escribe el nombre de la marca que falta", attributes: attributes)
     
     if textField.tag == -1234567890 {//when texted in the creatorBrandTextField
       

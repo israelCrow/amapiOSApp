@@ -16,15 +16,15 @@ class EditPitchesConstants {
   
   enum DetailPitchAddResultsView {
     
-    static let fillTheSurveyLabelText = "Llena la encuesta de resultados"
-    static let addResultsButtonText = "Agregar resultado"
+    static let fillTheSurveyLabelText = "Es importante conocer el proceso post-pitch para cerrar los proyectos de forma correcta. Ayúdanos con la encuesta de seguimiento"
+    static let addResultsButtonText = "encuesta de seguimiento"
     
   }
   
   enum DetailPitchCanceledDeclinedButtones {
     
-    static let pitchCanceledButtonText = "Pitch Cancelado"
-    static let pitchDeclinedButtonText = "Pitch Declinado"
+    static let pitchCanceledButtonText = "Pitch cancelado"
+    static let pitchDeclinedButtonText = "Pitch declinado"
     
   }
   
@@ -40,7 +40,7 @@ class EditPitchesConstants {
     
     static let canceledMessageLabelText = "Este pitch se ha cancelado"
     static let detailedMessageLabelText = ""//"Podrás verlo en tus pitches archivados"
-    static let nextButtonText = "Okey"
+    static let nextButtonText = "ok"
     
   }
   
@@ -48,7 +48,7 @@ class EditPitchesConstants {
     
     static let canceledMessageLabelText = "Este pitch se ha declinado"
     static let detailedMessageLabelText = ""//"Podrás verlo en tus pitches archivados"
-    static let nextButtonText = "Okey"
+    static let nextButtonText = "ok"
     
   }
   
@@ -56,7 +56,7 @@ class EditPitchesConstants {
     
     static let canceledMessageLabelText = "Se ha eliminado este pitch"
     static let detailedMessageLabelText = ""
-    static let nextButtonText = "Okey"
+    static let nextButtonText = "ok"
     
   }
   
@@ -64,14 +64,14 @@ class EditPitchesConstants {
     
     static let canceledMessageLabelText = "Se ha archivado este pitch"
     static let detailedMessageLabelText = ""//"Podrás verlo en tus pitches archivados"
-    static let nextButtonText = "Okey"
+    static let nextButtonText = "ok"
     
   }
   
   enum DidYouShowYourProposalView {
     
-    static let titleLabelText = "Agregar resultado"
-    static let nextButtonText = "Responder pregunta"
+    static let titleLabelText = "Es importante conocer el proceso post-pitch para cerrar los proyectos de forma correcta. Ayúdanos con la encuesta de seguimiento"
+    static let nextButtonText = "responder"
     
   }
   
@@ -85,9 +85,9 @@ class EditPitchesConstants {
   
   enum RecommendationView {
     
-    static let titleLabelText = "Te recomendamos contactar a la marca"
-    static let messageLabelText = "Ha pasado mucho tiempo sin noticias"
-    static let nextButtonText = "Ok"
+    static let titleLabelText = "¡Ojo! Ha pasado mucho tiempo sin noticias"
+    static let messageLabelText = "Te sugerimos contactar a la marca"
+    static let nextButtonText = "ok"
     
   }
   

@@ -488,7 +488,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
                                                         image: nil)
     caseWebLinkView.mainTextField.text = (caseDataForPreview.url != nil ? caseDataForPreview.url! : nil)
     caseWebLinkView.mainTextField.userInteractionEnabled = true
-    caseWebLinkView.mainTextField.placeholder = "Agrega un link"
+    caseWebLinkView.mainTextField.placeholder = "Agrega un link del caso"
     caseWebLinkView.backgroundColor = UIColor.clearColor()
     caseWebLinkView.mainTextField.delegate = self
     caseWebLinkView.mainTextField.tag = 8
@@ -506,7 +506,7 @@ class CreateCaseView: UIView, UITextFieldDelegate, UITextViewDelegate, VideoPlay
     caseVideoLinkView = CustomTextFieldWithTitleView.init(frame: frameForCustomView,
                                                         title: "",
                                                         image: nil)
-    caseVideoLinkView.mainTextField.text = (caseDataForPreview.url != nil ? caseDataForPreview.url! : nil)
+    caseVideoLinkView.mainTextField.text = (caseDataForPreview.case_video_url != nil ? caseDataForPreview.case_video_url! : nil)
     caseVideoLinkView.mainTextField.userInteractionEnabled = true
     caseVideoLinkView.mainTextField.placeholder = "Agrega un link de video"
     caseVideoLinkView.backgroundColor = UIColor.clearColor()

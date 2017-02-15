@@ -205,7 +205,7 @@ class VisualizeParticipateInView: UIView {
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)
     
-    mainScrollView.addSubview(self.createLabel("ok", frameToBase: arrayOfFrames[actualFrame]))
+    mainScrollView.addSubview(self.createLabel("unhappy", frameToBase: arrayOfFrames[actualFrame])) //ok
     
   }
   
@@ -218,7 +218,7 @@ class VisualizeParticipateInView: UIView {
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)
     
-    mainScrollView.addSubview(self.createLabel("unhappy", frameToBase: arrayOfFrames[actualFrame]))
+    mainScrollView.addSubview(self.createLabel("badpitch", frameToBase: arrayOfFrames[actualFrame])) //unhappy
     
   }
   
