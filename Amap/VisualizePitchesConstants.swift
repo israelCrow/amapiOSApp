@@ -133,7 +133,7 @@ class VisualizePitchesConstants {
   enum YouWonThisPitchView {
     
     static let youWonThisPitchLabelText = "¡Ganaste este pitch!"
-    static let detailedLabelText = "Queremos saber si tu proyecto se activo. Dale seguimiento llenando la encuesta"
+    static let detailedLabelText = "Queremos saber si tu proyecto se activó. Dale seguimiento llenando la encuesta"
     static let nextButtonText = "encuesta"
     
   }

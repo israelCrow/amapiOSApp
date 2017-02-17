@@ -106,8 +106,8 @@ class GraphOfAgencyVSIndustryView: UIView {
     agencyPerformanceLabel.numberOfLines = 2
     agencyPerformanceLabel.lineBreakMode = .ByWordWrapping
     
-    let font = UIFont(name: "SFUIDisplay-Ultralight",
-                      size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
+    var font = UIFont(name: "SFUIDisplay-Ultralight",
+                      size: 20.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -116,12 +116,15 @@ class GraphOfAgencyVSIndustryView: UIView {
       string: VisualizeDashboardConstants.GraphOfAgencyVSIndustry.agencyPerformanceLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
-        NSKernAttributeName: CGFloat(2.0),
+        NSKernAttributeName: CGFloat(1.4),
         NSForegroundColorAttributeName: color
       ]
     )
     
     if UserSession.session.role == "4" || UserSession.session.role == "5" {
+      
+      font = UIFont(name: "SFUIDisplay-Ultralight",
+                    size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
       
       stringWithFormat = NSMutableAttributedString(
         string: VisualizeDashboardConstants.GraphOfAgencyVSIndustry.companyPerformanceLabelText,
@@ -137,7 +140,7 @@ class GraphOfAgencyVSIndustryView: UIView {
     agencyPerformanceLabel.attributedText = stringWithFormat
     agencyPerformanceLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (agencyPerformanceLabel.frame.size.width / 2.0),
-                               y: 20.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: agencyPerformanceLabel.frame.size.width,
                                height: agencyPerformanceLabel.frame.size.height)
     
@@ -236,7 +239,7 @@ class GraphOfAgencyVSIndustryView: UIView {
   
   func changeData(newNameUser: String, newXValues: [String]?, newLineGraphData: [Double], newBarGraphData: [Double]) {
 
-    var xValues = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+    var xValues = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
     
     if newXValues != nil {
       

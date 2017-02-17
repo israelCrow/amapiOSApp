@@ -14,7 +14,7 @@ class GenericDashboardGraphic: UIView {
   private var chartView: CombinedChartView! = nil
   private var dataForLineChart: [Double]! = nil
   private var dataForBarChart: [Double]! = nil
-  private var valuesOfXAxis = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+  private var valuesOfXAxis = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
   private var descriptionBarGraph: String! = nil
   private var descriptionLineGraph: String! = nil
   
@@ -147,6 +147,9 @@ class GenericDashboardGraphic: UIView {
     
     chartView.xAxis.labelPosition = .Top
     chartView.xAxis.axisLineWidth = 0.0
+    chartView.xAxis.labelRotationAngle = -90
+    chartView.xAxis.labelRotatedHeight = 17.5 * UtilityManager.sharedInstance.conversionHeight
+    chartView.xAxis.setLabelsToSkip(0)
     
     chartView.rightAxis.enabled = false
     chartView.leftAxis.enabled = false
@@ -225,7 +228,7 @@ class GenericDashboardGraphic: UIView {
     border1.borderWidth = width
     border1.frame = CGRect.init(x: 0.0,
                                y: 47.0 * UtilityManager.sharedInstance.conversionHeight,
-                           width: 283.0 * UtilityManager.sharedInstance.conversionWidth,
+                           width: 263.0 * UtilityManager.sharedInstance.conversionWidth,
                           height: 0.5 * UtilityManager.sharedInstance.conversionHeight)
     self.layer.addSublayer(border1)
     labelHappitch = self.createLabel(CGPoint.init(x: 6.0 * UtilityManager.sharedInstance.conversionWidth, y: 35.0 * UtilityManager.sharedInstance.conversionHeight), text: "Happitch")
@@ -237,7 +240,7 @@ class GenericDashboardGraphic: UIView {
     border2.borderWidth = width
     border2.frame = CGRect.init(x: 0.0,
                                 y: 95.0 * UtilityManager.sharedInstance.conversionHeight,
-                            width: 283.0 * UtilityManager.sharedInstance.conversionWidth,
+                            width: 263.0 * UtilityManager.sharedInstance.conversionWidth,
                            height: 0.5 * UtilityManager.sharedInstance.conversionHeight)
     self.layer.addSublayer(border2)
     labelHappy = self.createLabel(CGPoint.init(x: 17.0 * UtilityManager.sharedInstance.conversionWidth, y: 80.0 * UtilityManager.sharedInstance.conversionHeight), text: "Happy")
@@ -249,7 +252,7 @@ class GenericDashboardGraphic: UIView {
     border3.borderWidth = width
     border3.frame = CGRect.init(x: 0.0,
                                 y: 133.0 * UtilityManager.sharedInstance.conversionHeight,
-                                width: 283.0 * UtilityManager.sharedInstance.conversionWidth,
+                                width: 263.0 * UtilityManager.sharedInstance.conversionWidth,
                                 height: 0.5 * UtilityManager.sharedInstance.conversionHeight)
     self.layer.addSublayer(border3)
     labelOK = self.createLabel(CGPoint.init(x: 5.0 * UtilityManager.sharedInstance.conversionWidth, y: 118.0 * UtilityManager.sharedInstance.conversionHeight), text: "Unhappy") //Ok
@@ -260,8 +263,8 @@ class GenericDashboardGraphic: UIView {
     border4.borderColor = UIColor.darkGrayColor().CGColor
     border4.borderWidth = width
     border4.frame = CGRect.init(x: 0.0,
-                                y: 210.5 * UtilityManager.sharedInstance.conversionHeight,
-                            width: 283.0 * UtilityManager.sharedInstance.conversionWidth,
+                                y: 212.5 * UtilityManager.sharedInstance.conversionHeight,
+                            width: 263.0 * UtilityManager.sharedInstance.conversionWidth,
                            height: 0.5 * UtilityManager.sharedInstance.conversionHeight)
     self.layer.addSublayer(border4)
     labelUnHappy = self.createLabel(CGPoint.init(x: 6.0 * UtilityManager.sharedInstance.conversionWidth, y: 198.0 * UtilityManager.sharedInstance.conversionHeight), text: "Badpitch") //Unhappy

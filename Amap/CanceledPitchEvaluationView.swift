@@ -48,7 +48,7 @@ class CanceledPitchEvaluationView: UIView {
     
     canceledImageView = UIImageView.init(image: UIImage.init(named: "archivarIcon"))
     let canceledImageViewFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (canceledImageView.frame.size.width / 2.0),
-                                           y: (40.0 * UtilityManager.sharedInstance.conversionHeight),
+                                           y: (103.0 * UtilityManager.sharedInstance.conversionHeight),
                                            width: canceledImageView.frame.size.width,
                                            height: canceledImageView.frame.size.height)
     canceledImageView.frame = canceledImageViewFrame
@@ -85,7 +85,7 @@ class CanceledPitchEvaluationView: UIView {
     messageLabel.attributedText = stringWithFormat
     messageLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (messageLabel.frame.size.width / 2.0),
-                               y: 147.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 210.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: messageLabel.frame.size.width,
                                height: messageLabel.frame.size.height)
     

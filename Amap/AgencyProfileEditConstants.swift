@@ -10,7 +10,7 @@ class AgencyProfileEditConstants {
   
   enum EditAgencyProfileViewController {
     
-    static let saveChangesButtonText = "Guardar cambios"
+    static let saveChangesButtonText = "guardar cambios"
     static let navigationRightButtonText = "Cerrar"
     
   }

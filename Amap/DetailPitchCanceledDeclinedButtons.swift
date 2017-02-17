@@ -88,7 +88,8 @@ class DetailPitchCanceledDeclinedButtons: UIView {
       string: EditPitchesConstants.DetailPitchCanceledDeclinedButtones.pitchCanceledButtonText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color
+        NSForegroundColorAttributeName: color,
+        NSUnderlineStyleAttributeName: 1
       ]
     )
     
@@ -107,7 +108,7 @@ class DetailPitchCanceledDeclinedButtons: UIView {
     
     canceledPitchButton.frame = frameForButton
     canceledPitchButton.layer.borderColor = UIColor.blackColor().CGColor
-    canceledPitchButton.layer.borderWidth = 2.0 * UtilityManager.sharedInstance.conversionWidth
+    canceledPitchButton.layer.borderWidth = 0.0 * UtilityManager.sharedInstance.conversionWidth //2
     
     self.addSubview(canceledPitchButton)
     
@@ -127,7 +128,8 @@ class DetailPitchCanceledDeclinedButtons: UIView {
       string: EditPitchesConstants.DetailPitchCanceledDeclinedButtones.pitchDeclinedButtonText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color
+        NSForegroundColorAttributeName: color,
+        NSUnderlineStyleAttributeName: 1
       ]
     )
     
@@ -147,7 +149,7 @@ class DetailPitchCanceledDeclinedButtons: UIView {
     declinedPitchButton.frame = frameForButton
     
     declinedPitchButton.layer.borderColor = UIColor.blackColor().CGColor
-    declinedPitchButton.layer.borderWidth = 2.0 * UtilityManager.sharedInstance.conversionWidth
+    declinedPitchButton.layer.borderWidth = 0.0 * UtilityManager.sharedInstance.conversionWidth //2
     
     self.addSubview(declinedPitchButton)
     

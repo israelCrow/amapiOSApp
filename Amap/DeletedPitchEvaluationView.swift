@@ -48,7 +48,7 @@ class DeletedPitchEvaluationView: UIView {
     
     declinedImageView = UIImageView.init(image: UIImage.init(named: "eliminarIcon"))
     let canceledImageViewFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (declinedImageView.frame.size.width / 2.0),
-                                             y: (40.0 * UtilityManager.sharedInstance.conversionHeight),
+                                             y: (102.0 * UtilityManager.sharedInstance.conversionHeight),
                                              width: declinedImageView.frame.size.width,
                                              height: declinedImageView.frame.size.height)
     declinedImageView.frame = canceledImageViewFrame
@@ -85,7 +85,7 @@ class DeletedPitchEvaluationView: UIView {
     messageLabel.attributedText = stringWithFormat
     messageLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (messageLabel.frame.size.width / 2.0),
-                               y: 147.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 209.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: messageLabel.frame.size.width,
                                height: messageLabel.frame.size.height)
     

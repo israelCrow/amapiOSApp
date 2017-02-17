@@ -61,15 +61,15 @@ class DidWinPitchView: UIView, CustomSegmentedControlWithTitleViewDelegate {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: 247.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
     titleLabel = UILabel.init(frame: frameForLabel)
     titleLabel.numberOfLines = 0
     titleLabel.lineBreakMode = .ByWordWrapping
     
-    let font = UIFont(name: "SFUIDisplay-Ultralight",
-                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -78,14 +78,13 @@ class DidWinPitchView: UIView, CustomSegmentedControlWithTitleViewDelegate {
       string: EditPitchesConstants.DidYouShowYourProposalView.titleLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
-        NSKernAttributeName: CGFloat(2.0),
         NSForegroundColorAttributeName: color
       ]
     )
     titleLabel.attributedText = stringWithFormat
     titleLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (titleLabel.frame.size.width / 2.0),
-                               y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 27.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: titleLabel.frame.size.width,
                                height: titleLabel.frame.size.height)
     

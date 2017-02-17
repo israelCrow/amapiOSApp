@@ -109,10 +109,10 @@ class DetailPitchAddResultsView: UIView {
     let frameForButton = CGRect.init(x: 0.0,
                                      y: 90.0 * UtilityManager.sharedInstance.conversionHeight,
                                  width: self.frame.size.width,
-                                height: 70.0 * UtilityManager.sharedInstance.conversionHeight)
+                                height: 40.0 * UtilityManager.sharedInstance.conversionHeight)
     
     addResultsButton.frame = frameForButton
-    addResultsButton.layer.cornerRadius = 5.0
+//    addResultsButton.layer.cornerRadius = 5.0
     
     self.addSubview(addResultsButton)
     

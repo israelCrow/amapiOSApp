@@ -71,7 +71,7 @@ class PendingEvaluationCardView: UIView {
     
     cautionImageView = UIImageView.init(image: UIImage.init(named: "combinedShape"))
     let canceledImageViewFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (cautionImageView.frame.size.width / 2.0),
-                                             y: (40.0 * UtilityManager.sharedInstance.conversionHeight),
+                                             y: (65.0 * UtilityManager.sharedInstance.conversionHeight),
                                              width: cautionImageView.frame.size.width,
                                              height: cautionImageView.frame.size.height)
     cautionImageView.frame = canceledImageViewFrame
@@ -84,7 +84,7 @@ class PendingEvaluationCardView: UIView {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: 255.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    width: 278.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
     pendingEvaluationLabel = UILabel.init(frame: frameForLabel)
@@ -92,7 +92,7 @@ class PendingEvaluationCardView: UIView {
     pendingEvaluationLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIDisplay-Ultralight",
-                      size: 38.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 25.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.whiteColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -101,13 +101,14 @@ class PendingEvaluationCardView: UIView {
       string: VisualizePitchesConstants.PendingEvaluationCardView.pendingEvaluationLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color
+        NSForegroundColorAttributeName: color,
+        NSKernAttributeName: CGFloat(1.7)
       ]
     )
     pendingEvaluationLabel.attributedText = stringWithFormat
     pendingEvaluationLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (pendingEvaluationLabel.frame.size.width / 2.0),
-                               y: 147.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 182.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: pendingEvaluationLabel.frame.size.width,
                                height: pendingEvaluationLabel.frame.size.height)
     

@@ -250,7 +250,7 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
                                                                      image: "iconImputCalendar")
     
     fromDateView.mainTextField.tag = 1
-    fromDateView.mainTextField.placeholder = "aa/mm/dd"
+    fromDateView.mainTextField.placeholder = "dd/mm/aa"
     fromDateView.mainTextField.inputView = containerViewForPicker
     fromDateView.mainTextField.delegate = self
       
@@ -270,7 +270,7 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
                                                      image: "iconImputCalendar")
     
     toDateView.mainTextField.tag = 2
-    toDateView.mainTextField.placeholder = "aa/mm/dd"
+    toDateView.mainTextField.placeholder = "dd/mm/aa"
     toDateView.mainTextField.inputView = containerViewForPicker
     toDateView.mainTextField.delegate = self
     

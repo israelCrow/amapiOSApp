@@ -211,7 +211,7 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     let nameUser = optionsForSelector[numberOfUserSelected]
     
     genericGraph.changeValuesOfGraph(nameUser,
-                                     newXValues: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+                                     newXValues: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
                                newLineGraphData: newValuesForUser,
                                 newBarGraphData: newValuesForAgency)
     

@@ -149,7 +149,7 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
                                                                    title: VisualizePitchesConstants.PreEvaluatePitchView.descriptionWriteDateLabel,
                                                                    image: "iconImputCalendar")
     
-    writeDateOfCreationOfPitchView.mainTextField.placeholder = "aa/mm/dd"
+    writeDateOfCreationOfPitchView.mainTextField.placeholder = "dd/mm/aa"
     writeDateOfCreationOfPitchView.mainTextField.inputView = containerViewForPicker
     writeDateOfCreationOfPitchView.mainTextField.delegate = self
     
