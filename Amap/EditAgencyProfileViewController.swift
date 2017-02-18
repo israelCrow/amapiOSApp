@@ -710,14 +710,31 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   @objc private func saveChangesButtonPressed() {
     
-    self.requestToEveryScreenToSave(){
-    
-      self.criteriaView.thereAreChanges = false
-      self.participateView.thereAreChanges = false
-      self.exclusiveView.thereAreChanges = false
-      self.skillsView.thereAreChanges = false
-      self.profileView.thereAreChanges = false
-
+    if self.profileView.isPossibletoSaveData == true {
+      
+      self.requestToEveryScreenToSave(){
+        
+        self.criteriaView.thereAreChanges = false
+        self.participateView.thereAreChanges = false
+        self.exclusiveView.thereAreChanges = false
+        self.skillsView.thereAreChanges = false
+        self.profileView.thereAreChanges = false
+        
+      }
+      
+    } else {
+      
+      let alertController = UIAlertController(title: "AVISO",
+                                              message: "Por favor escribe un mail correcto para tu perfil",
+                                              preferredStyle: UIAlertControllerStyle.Alert)
+      
+      let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+        
+      }
+      
+      alertController.addAction(okAction)
+      self.presentViewController(alertController, animated: true, completion: nil)
+      
     }
     
   }
@@ -833,6 +850,31 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         }
     
         let okAction = UIAlertAction(title: "Sí", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+          
+          if self.profileView.isPossibletoSaveData == true {
+            
+            self.requestToEveryScreenToSave(){
+              
+              self.requestToShowTabBar()
+              self.navigationController?.popViewControllerAnimated(true)
+              
+            }
+            
+          } else {
+            
+            let alertController = UIAlertController(title: "AVISO",
+                                                  message: "Por favor escribe un mail correcto para tu perfil",
+                                           preferredStyle: UIAlertControllerStyle.Alert)
+            
+            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+            
+            }
+            
+            alertController.addAction(okAction)
+            self.presentViewController(alertController, animated: true, completion: nil)
+            
+          }
+          
         
 //          if self.profileView.isAgencyNameAndAgencyImageWithInfo() == false {
 //            
@@ -851,12 +893,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
 //            
 //          } else {
           
-            self.requestToEveryScreenToSave(){
-            
-              self.requestToShowTabBar()
-              self.navigationController?.popViewControllerAnimated(true)
-            
-            }
+
  
 //          }
             

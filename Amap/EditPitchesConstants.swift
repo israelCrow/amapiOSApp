@@ -79,7 +79,7 @@ class EditPitchesConstants {
     
     static let titleLabelText = "¡Felicidades campeón!"
     static let messageLabelText = "Ganaste el pitch, ahora cuéntanos ¿qué se siente ser ganador?"
-    static let nextButtonText = "encuesta de Seguimiento"
+    static let nextButtonText = "encuesta de seguimiento"
     
   }
   

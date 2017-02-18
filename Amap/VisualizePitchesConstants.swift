@@ -153,8 +153,8 @@ class VisualizePitchesConstants {
     static let descriptionStatisticsLabelText = "Lorem ipsum dolor sit amet,consectetur adipiscing elit. Vivamus vestibulum velit nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Interdum et malesuada fames ac ante ipsum primis in faucibus."
     
     static let contactLabelText = "Contacto"
-    static let mailLabelText = "mail@amap.com.mx"
-    static let phoneLabelText = "(55) 3124 6578"
+    static let mailLabelText = "amap@amap.com.mx"
+    static let phoneLabelText = "+52 (55) 26230561"
     static let webSiteLabelText = "www.amap.com.mx"
     
     

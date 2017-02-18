@@ -114,6 +114,14 @@ class DetailPitchAddResultsView: UIView {
     addResultsButton.frame = frameForButton
 //    addResultsButton.layer.cornerRadius = 5.0
     
+    if stringForButton == "encuesta ya realizada" {
+      
+      addResultsButton.backgroundColor = UIColor.lightGrayColor()
+      addResultsButton.enabled = false
+      addResultsButton.userInteractionEnabled = false
+      
+    }
+    
     self.addSubview(addResultsButton)
     
     //Creation of the separation line

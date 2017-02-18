@@ -198,6 +198,26 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
   }
   
+  private func changeNavigationRigthButtonItemToNothing() {
+    
+    let rightButton = UIBarButtonItem(title: "",
+                                      style: UIBarButtonItemStyle.Plain,
+                                      target: self,
+                                      action: nil)
+    
+    let fontForButtonItem =  UIFont(name: "SFUIText-Regular",
+                                    size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    
+    let attributesDict: [String:AnyObject] = [NSFontAttributeName: fontForButtonItem!,
+                                              NSForegroundColorAttributeName: UIColor.whiteColor()
+    ]
+    
+    rightButton.setTitleTextAttributes(attributesDict, forState: .Normal)
+    
+    self.navigationItem.rightBarButtonItem = rightButton
+    
+  }
+  
   private func addDetailNavigationController() {
     
     let frameForDetailedNav = CGRect.init(x: 0.0,
@@ -220,6 +240,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     if showDirectlyPitchSurvey != nil && showDirectlyPitchSurvey == true {
       
+      self.changeNavigationRigthButtonItemToNothing()
       self.createDidSignContractView()
       self.moveDidSignContractView(.center)
       self.createDidProjectActiveView()
@@ -1318,11 +1339,9 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     self.moveYouWinPitchTo(.left)
     
-    
     UtilityManager.sharedInstance.showLoader()
     
-    
-    if pitchEvaluationData.hasResults == true {
+    if pitchEvaluationData.hasResults == true {  //After changes supposedly this never happen, 'cause we can answer the quiz after the first time.
       
       /////////CHECK UPDATE OF RESULTS!!!
       
@@ -1342,6 +1361,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       
       RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
         
+        self.changeNavigationRigthButtonItemToNothing()
         UtilityManager.sharedInstance.hideLoader()
         self.delegate?.doActionsWhenDisappear()
         self.moveDidSignContractView(.center)

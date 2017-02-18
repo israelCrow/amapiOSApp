@@ -92,8 +92,9 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
     private func createGoldenPitchStar() {
         goldenPitchStarImageView = UIImageView.init(image: UIImage.init(named: "logo"))
         let goldenPitchStarFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (52.0 * UtilityManager.sharedInstance.conversionWidth),
-                                               y: 30.0 * UtilityManager.sharedInstance.conversionHeight,                                               width: 104.0 * UtilityManager.sharedInstance.conversionWidth,
-                                               height: 139.0 * UtilityManager.sharedInstance.conversionHeight)
+                                               y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
+                                           width: 104.0 * UtilityManager.sharedInstance.conversionWidth,
+                                          height: 139.0 * UtilityManager.sharedInstance.conversionHeight)
         goldenPitchStarImageView.frame = goldenPitchStarFrame
         
         self.addSubview(goldenPitchStarImageView)

@@ -34,12 +34,15 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
   private var agencyLatitude: String?
   private var agencyLongitude: String?
   
+  private var invalidMailLabel: UILabel! = nil
+  
   private var optionsOfPicker = ["0 - 40 chica", "41 - 90 mediana", "91+ grande"]
   private var pickerView: UIPickerView! = nil
   private var containerViewForPicker: UIView! = nil
   
   private var deleteImage: Bool = false
   var thereAreChanges: Bool = false
+  var isPossibletoSaveData: Bool = true
   var delegate: ProfileViewDelegate?
   
   //Google places
@@ -83,6 +86,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     self.createAgencyPhoneView()
 //    self.createAgencyContactView()
     self.createAgencyEMailView()
+    self.createInvalidMailLabel()
     self.createAgencyAddressView()
     self.createAgencyWebsiteView()
     self.createNumberOfEmployeView()
@@ -404,6 +408,37 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     
   }
   
+  private func createInvalidMailLabel() {
+    
+    invalidMailLabel = UILabel.init(frame: CGRectZero)
+    
+    let font = UIFont(name: "SFUIText-Regular",
+                      size: 11.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.redColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: "Ingresa un mail correcto",
+      attributes:[NSFontAttributeName:font!,
+        NSParagraphStyleAttributeName:style,
+        NSForegroundColorAttributeName:color
+      ]
+    )
+    invalidMailLabel.attributedText = stringWithFormat
+    invalidMailLabel.sizeToFit()
+    let newFrame = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: agencyEMailView.frame.origin.y + agencyEMailView.frame.size.height - (4.0 * UtilityManager.sharedInstance.conversionHeight),
+                               width: invalidMailLabel.frame.size.width,
+                               height: invalidMailLabel.frame.size.height)
+    
+    invalidMailLabel.frame = newFrame
+    invalidMailLabel.alpha = 0.0
+    
+    self.mainScrollView.addSubview(invalidMailLabel)
+    
+  }
+  
   private func createAgencyAddressView() {
     
     let frameForCustomView = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -582,6 +617,34 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     
   }
   
+  private func showInvalidMailLabel() {
+    
+    if invalidMailLabel.alpha != 1.0 {
+      
+      UIView.animateWithDuration(0.35){
+        
+        self.invalidMailLabel.alpha = 1.0
+        
+      }
+      
+    }
+    
+  }
+  
+  private func hideInvalidMailLabel() {
+    
+    if invalidMailLabel.alpha != 0.0 {
+      
+      UIView.animateWithDuration(0.35){
+        
+        self.invalidMailLabel.alpha = 0.0
+        
+      }
+      
+    }
+    
+  }
+  
   @objc private func selectDirectionFromGoogle() {
    
     agencyAddressView.mainTextField.text = resultText?.text
@@ -689,6 +752,23 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
       
     }
     
+    if textField.tag == 3 {
+      
+      if UtilityManager.sharedInstance.isValidEmail(agencyEMailView.mainTextField.text!) != true {
+        
+        isPossibletoSaveData = false
+        showInvalidMailLabel()
+        
+      } else {
+        
+        isPossibletoSaveData = true
+        hideInvalidMailLabel()
+        
+      }
+      
+    }
+    
+    
     return true
     
   }
@@ -705,11 +785,48 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
       // Not found, so remove keyboard.
       self.dismissKeyboard(textField)
     }
+    
+    if textField.tag == 3 {
+      
+      if UtilityManager.sharedInstance.isValidEmail(textField.text!) != true {
+        
+        isPossibletoSaveData = false
+        showInvalidMailLabel()
+        
+      } else {
+        
+        isPossibletoSaveData = true
+        hideInvalidMailLabel()
+        
+      }
+      
+    }
+    
     return false
     
   }
   
   func textFieldDidBeginEditing(textField: UITextField) {
+    
+    if textField.tag != 3 {
+      
+      if UtilityManager.sharedInstance.isValidEmail(agencyEMailView.mainTextField.text!) != true {
+        
+        isPossibletoSaveData = false
+        showInvalidMailLabel()
+        
+      } else {
+        
+        isPossibletoSaveData = true
+        hideInvalidMailLabel()
+        
+      }
+      
+    } else {
+      
+      hideInvalidMailLabel()
+      
+    }
     
     thereAreChanges = true
     
