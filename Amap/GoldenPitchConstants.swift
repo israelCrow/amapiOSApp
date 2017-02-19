@@ -16,7 +16,7 @@ class GoldenPitchConstants {
   static let nameText = "E-mail"
   static let writeEMailDescriptioText = "Escribe tu password"
   static let emailText = "Password"
-  static let forgotPasswordText = "¿Olvidaste tu password?\nAquí te ayudamos"
+  static let forgotPasswordText = "¿Olvidaste o quieres cambiar\ntu password?"
   static let invalidUserText = "¡Oops, el usuario o el password no son válidos!"
   static let nextButtonText = "siguiente"
   

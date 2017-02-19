@@ -18,8 +18,8 @@ class ChangePasswordRequestConstants {
   }
   
   enum SuccessfullyAskForChangePasswordView {
-    static let readyText = "¡Listo!"
-    static let successfullyMessageText = "Te enviamos un link a tu e-mail para reestablecer tu contraseña."
+    static let readyText = "¡Despreocúpate!"
+    static let successfullyMessageText = "Te acabamos de enviar un link a tu e-mail para que puedas reestablecer tu password"
     static let nextButtonText = "ok"
   }
   

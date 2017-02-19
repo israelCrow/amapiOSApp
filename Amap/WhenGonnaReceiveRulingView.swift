@@ -168,7 +168,7 @@ class WhenGonnaReceiveRulingView: UIView, UITextFieldDelegate {
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
     whenGonnaReceiveRulingView = CustomTextFieldWithTitleView.init(frame: frameForView,
-                                                                   title: "¿Cuándo recibirás fallo?",
+                                                                   title: "¿Cuándo recibes el fallo?",
                                                                    image: "iconImputCalendar")
     
     whenGonnaReceiveRulingView.mainTextField.placeholder = "dd/mm/aa"

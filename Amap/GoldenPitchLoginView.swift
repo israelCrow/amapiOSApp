@@ -384,7 +384,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
                           size: 11.0 * UtilityManager.sharedInstance.conversionWidth)
         let color = UIColor.blackColor()
         let style = NSMutableParagraphStyle()
-        style.alignment = NSTextAlignment.Left
+        style.alignment = NSTextAlignment.Center
         
         let stringWithFormat = NSMutableAttributedString(
             string: GoldenPitchConstants.forgotPasswordText,
@@ -398,7 +398,7 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         forgotPasswordLabel.numberOfLines = 2
         forgotPasswordLabel.attributedText = stringWithFormat
         forgotPasswordLabel.sizeToFit()
-        let newFrame = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+        let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (forgotPasswordLabel.frame.size.width / 2.0),
                                    y: eMailTextField.frame.origin.y + eMailTextField.frame.size.height + (10.0 * UtilityManager.sharedInstance.conversionHeight),
                                    width: forgotPasswordLabel.frame.size.width,
                                    height: forgotPasswordLabel.frame.size.height)

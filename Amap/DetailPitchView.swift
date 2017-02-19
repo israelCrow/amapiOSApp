@@ -137,8 +137,16 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
                                           width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                                          height: 135.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    var finalRecommendations = pitchEvaluationData.arrayOfRecommendations
+    
+    if pitchEvaluationData.arrayOfRecommendations == nil {
+      
+      finalRecommendations = [RecommendationModelData]()
+      
+    }
+    
     recommendations = PitchRecommendationsView.init(frame: frameForRecommendations,
-                                       newRecommendations: pitchEvaluationData.arrayOfRecommendations)
+                                       newRecommendations: finalRecommendations)
     
     recommendations.backgroundColor = UIColor.clearColor()
     

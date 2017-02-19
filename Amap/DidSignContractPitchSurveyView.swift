@@ -90,7 +90,7 @@ class DidSignContractPitchSurveyView: UIView, CustomSegmentedControlWithTitleVie
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "¡Felicidades, ganaste! pero antes...",
+      string: "¡Felicidades!\nGran trabajo",
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSKernAttributeName: CGFloat(2.0),

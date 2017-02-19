@@ -1435,61 +1435,138 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
   }
   
-  func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat
-  {
+  func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
    
-    
-    if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 5 {
+    if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 3 {
       
       mainCarousel.scrollSpeed = 0.2
       
-    }else{
+    }else
+      if arrayOfPitchesByUser.count > 2 && arrayOfPitchesByUser.count < 6 {
       
-      mainCarousel.scrollSpeed = 0.5
+        mainCarousel.scrollSpeed = 0.35
+        
+      } else {
       
-    }
+        mainCarousel.scrollSpeed = 0.5
+        
+      }
     
     if option == .Spacing {
       
-      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 5 {
+      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 3 {
         
         return 1.55 * value
         
-      }else{
+      }else
+        if arrayOfPitchesByUser.count == 3 {
+          
+          return 0.95 * value
+          
+        }else
+        if arrayOfPitchesByUser.count == 4 {
+            
+          return 1.25 * value
+            
+        }else
+        if arrayOfPitchesByUser.count == 5 {
+              
+          return 1.15 * value
+              
+        } else {
+              
+          return 1.05 * value
+              
+        }
       
-        return 1.05 * value
-      
-      }
+//      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 5 {
+//        
+//        return 1.55 * value
+//        
+//      }else{
+//      
+//        return 1.05 * value
+//      
+//      }
       
     }
     
     if option == .Radius {
       
-      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 5 {
+      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 3 {
         
         return 1.51 * value
         
-      }else{
-        
-        return 1.1 * value
-        
-      }
+      }else
+        if arrayOfPitchesByUser.count == 3 {
+          
+          return 1.51 * value
+          
+        }else
+        if arrayOfPitchesByUser.count == 4 {
+            
+          return 1.45 * value
+            
+        }else
+        if arrayOfPitchesByUser.count == 5 {
+              
+          return 1.12 * value
+              
+        } else {
+              
+          return 1.1 * value
+              
+        }
+      
+      
+//      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 5 {
+//        
+//        return 1.51 * value
+//        
+//      }else{
+//        
+//        return 1.1 * value
+//        
+//      }
       
     }
     
     if option == .Arc {
       
-      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 5 {
+      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 3 {
         
-        return 0.65 * value
+        return 0.85 * value
         
-      }else{
-        
-        return 0.65 * value
-        
-      }
+      }else
+        if arrayOfPitchesByUser.count == 3 {
+          
+          return 0.85 * value
+          
+        }else
+        if arrayOfPitchesByUser.count == 4 {
+            
+          return 0.8 * value
+            
+        }else
+        if arrayOfPitchesByUser.count == 5 {
+              
+          return 0.7 * value
+              
+        } else {
+              
+          return 0.65 * value
+              
+        }
       
-      
+//      if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 5 {
+//        
+//        return 0.65 * value
+//        
+//      }else{
+//        
+//        return 0.65 * value
+//        
+//      }
       
     }
     

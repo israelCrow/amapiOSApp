@@ -10,6 +10,7 @@ import UIKit
 
 protocol ExistingAccountViewDelegate {
   func nextButtonPressedExistingAccountView()
+  func changePasswordLabelPressed()
 }
 
 class ExistingAccountView: UIView {
@@ -147,7 +148,7 @@ class ExistingAccountView: UIView {
     recommendationLabel.adjustsFontSizeToFitWidth = true
     recommendationLabel.numberOfLines = 5
     let font = UIFont(name: "SFUIText-Light",
-                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 11.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -159,6 +160,9 @@ class ExistingAccountView: UIView {
         NSForegroundColorAttributeName: color
       ]
     )
+    
+    stringWithFormat.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.StyleSingle.rawValue, range: NSMakeRange(0, CreateAccountConstants.ExistingAccountView.recommendationText.characters.count))
+    
     recommendationLabel.attributedText = stringWithFormat
     recommendationLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (recommendationLabel.frame.size.width / 2.0),
@@ -167,6 +171,13 @@ class ExistingAccountView: UIView {
                                height: recommendationLabel.frame.size.height)
     
     recommendationLabel.frame = newFrame
+    
+    recommendationLabel.userInteractionEnabled = true
+    
+    let tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(changePasswordLabelPressed))
+    tapGesture.numberOfTapsRequired = 1
+    
+    recommendationLabel.addGestureRecognizer(tapGesture)
     
     self.addSubview(recommendationLabel)
     
@@ -215,6 +226,12 @@ class ExistingAccountView: UIView {
   @objc private func nextButtonWasPressed() {
     
     self.delegate?.nextButtonPressedExistingAccountView()
+    
+  }
+  
+  @objc private func changePasswordLabelPressed() {
+    
+    self.delegate?.changePasswordLabelPressed()
     
   }
   

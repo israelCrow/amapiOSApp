@@ -2524,6 +2524,130 @@ class RequestToServerManager: NSObject {
                 
               }
               
+              var arrayOfRecommendations = [RecommendationModelData]()
+              
+              let recommendationsFromServer = (pitchEvaluationByUser["recommendations"] as? Array<[String: AnyObject]> != nil ? pitchEvaluationByUser["recommendations"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
+              
+              for recommendation in recommendationsFromServer {
+                
+                let newBody = (recommendation["body"] as? String != nil ? recommendation["body"] as! String : "")
+                let newRecoId = (recommendation["reco_id"] as? String != nil ? recommendation["reco_id"] as! String : "")
+                
+                var nameOfIcon = ""
+                if newRecoId != "" {
+                  
+                  if newRecoId == "client_objective_25" {
+                    
+                    nameOfIcon = "communication"
+                    
+                  }else
+                    
+                    if newRecoId == "client_objective_50" {
+                      
+                      nameOfIcon = "communication"
+                      
+                    }else
+                      
+                      if newRecoId == "client_objective_75" {
+                        
+                        nameOfIcon = "list"
+                        
+                      }else
+                        
+                        if newRecoId == "client_budget_25" {
+                          
+                          nameOfIcon = "budget"
+                          
+                        }else
+                          
+                          if newRecoId == "client_budget_50" {
+                            
+                            nameOfIcon = "budget"
+                            
+                          }else
+                            
+                            if newRecoId == "client_budget_75" {
+                              
+                              nameOfIcon = "budget"
+                              
+                            }else
+                              
+                              if newRecoId == "client_budget_100" {
+                                
+                                nameOfIcon = "budget"
+                                
+                              }else
+                                
+                                if newRecoId == "client_criteria" {
+                                  
+                                  nameOfIcon = "criteria"
+                                  
+                                }else
+                                  
+                                  if newRecoId == "client_number_5" {
+                                    
+                                    nameOfIcon = "eye"
+                                    
+                                  }else
+                                    
+                                    if newRecoId == "client_number_7" {
+                                      
+                                      nameOfIcon = "number"
+                                      
+                                    }else
+                                      
+                                      if newRecoId == "client_time" {
+                                        
+                                        nameOfIcon = "time"
+                                        
+                                      }else
+                                        
+                                        if newRecoId == "client_more_time" {
+                                          
+                                          nameOfIcon = "more_time"
+                                          
+                                        }else
+                                          
+                                          if newRecoId == "client_property" {
+                                            
+                                            nameOfIcon = "property"
+                                            
+                                          }else
+                                            
+                                            if newRecoId == "client_deliverable_25" {
+                                              
+                                              nameOfIcon = "deliverable"
+                                              
+                                            }else
+                                              
+                                              if newRecoId == "client_deliverable_50" {
+                                                
+                                                nameOfIcon = "deliverable"
+                                                
+                                              }else
+                                                
+                                                if newRecoId == "client_deliverable_75" {
+                                                  
+                                                  nameOfIcon = "deliverable"
+                                                  
+                                                }else
+                                                  
+                                                  if newRecoId == "client_deliverable_100" {
+                                                    
+                                                    nameOfIcon = "deliverable"
+                                                    
+                  }
+                  
+                }
+                
+                let newRecommendation = RecommendationModelData.init(newBody: newBody,
+                  newRecoId: newRecoId)
+                newRecommendation.iconName = nameOfIcon
+                
+                arrayOfRecommendations.append(newRecommendation)
+                
+              }
+              
               let newPitchEvaluationByUser = PitchEvaluationByUserModelData.init(
                 newPitchEvaluationId: newPitchEvaluationId,
                 newPitchId: newPitchId,
@@ -2540,6 +2664,8 @@ class RequestToServerManager: NSObject {
                 newHasResults: newHasResults,
                 newHasPitchWinnerSurvey: newHasPitchWinnerSurvey,
                 newPitchResultsId: newPitchsResultsId)
+              
+              newPitchEvaluationByUser.arrayOfRecommendations = arrayOfRecommendations
               
               newArrayOfPitchesByUser.append(newPitchEvaluationByUser)
               

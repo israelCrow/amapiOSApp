@@ -11,7 +11,7 @@ import Alamofire
 
 class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
-  let kCreateAccountText = "¿No estás registrado? Crea una cuenta ahora"
+  let kCreateAccountText = "¿No estás registrado?\nCrea una cuenta ahora"
     
   private var flipCard:FlipCardView! = nil
   private var createAccountLabel: UILabel! = nil
@@ -80,9 +80,10 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
     
     private func addCreateAccountLabel() {
         createAccountLabel = UILabel.init(frame: CGRectZero)
+      createAccountLabel.numberOfLines = 2
         
         let font = UIFont(name: "SFUIDisplay-Semibold",
-                          size: 12.5 * UtilityManager.sharedInstance.conversionWidth)
+                          size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
         let color = UIColor.init(red: 0.0/255.0, green: 64.0/255.0, blue: 89.0/255.0, alpha: 1.0)
         let style = NSMutableParagraphStyle()
         style.alignment = NSTextAlignment.Center
@@ -98,9 +99,9 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
         createAccountLabel.attributedText = stringWithFormat
         createAccountLabel.sizeToFit()
         let newFrame = CGRect.init(x: (self.view.frame.size.width / 2.0) - (createAccountLabel.frame.size.width / 2.0),
-                                   y: self.loginGoldenPitchView.frame.origin.y + self.loginGoldenPitchView.frame.size.height + (17.0  * UtilityManager.sharedInstance.conversionHeight),
+                                   y: self.loginGoldenPitchView.frame.origin.y + self.loginGoldenPitchView.frame.size.height - (5.0  * UtilityManager.sharedInstance.conversionHeight),
                                    width: createAccountLabel.frame.size.width,
-                                   height: createAccountLabel.frame.size.height + (22.0 * UtilityManager.sharedInstance.conversionHeight))
+                                   height: createAccountLabel.frame.size.height + (42.0 * UtilityManager.sharedInstance.conversionHeight))
         
         createAccountLabel.frame = newFrame
         let tapToCreateAccount = UITapGestureRecognizer.init(target: self, action: #selector(pushCreateAccount))

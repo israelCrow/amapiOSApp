@@ -10,7 +10,7 @@ class VisualizePitchesConstants {
 
   enum NoFilterResultsView {
     
-    static let warningNoPitchesText = "¡Oops!\nNo tenemos filtros\nque mostrarte"
+    static let warningNoPitchesText = "No tenemos filtros\nque mostrarte"
     
   }
   
@@ -132,8 +132,8 @@ class VisualizePitchesConstants {
   
   enum YouWonThisPitchView {
     
-    static let youWonThisPitchLabelText = "¡Ganaste este pitch!"
-    static let detailedLabelText = "Queremos saber si tu proyecto se activó. Dale seguimiento llenando la encuesta"
+    static let youWonThisPitchLabelText = "¡Ganaste!"
+    static let detailedLabelText = "Queremos saber si tu proyecto se activó. Llena la siguiente encuesta para darle seguimiento."
     static let nextButtonText = "encuesta"
     
   }

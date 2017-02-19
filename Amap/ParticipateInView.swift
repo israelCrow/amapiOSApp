@@ -43,6 +43,7 @@ class ParticipateInView: UIView, CriterionWithImageViewDelegate {
     self.backgroundColor = UIColor.whiteColor()
     
     self.createParticipateLabel()
+    self.createExplanationLabel()
     self.createMainScrollView()
     self.createGoldenPitchCriterion()
     self.createSilverPitchCriterion()
@@ -56,7 +57,7 @@ class ParticipateInView: UIView, CriterionWithImageViewDelegate {
   private func createMainScrollView() {
     
     let frameForMainScrollView = CGRect.init(x: 34.0 * UtilityManager.sharedInstance.conversionWidth,
-                                             y: 116.0 * UtilityManager.sharedInstance.conversionHeight,
+                                             y: 180.0 * UtilityManager.sharedInstance.conversionHeight,
                                              width: 235.0 * UtilityManager.sharedInstance.conversionWidth,
                                              height: 355.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -128,7 +129,7 @@ class ParticipateInView: UIView, CriterionWithImageViewDelegate {
     explantionLabel.attributedText = stringWithFormat
     explantionLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (explantionLabel.frame.size.width / 2.0),
-                               y: 75.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 95.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: explantionLabel.frame.size.width,
                                height: explantionLabel.frame.size.height)
     

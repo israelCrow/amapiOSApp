@@ -162,7 +162,7 @@ class CaseCardInfoToEditView: UIView {
                               forControlEvents: .TouchUpInside)
     
     frameForButton = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
-                                 y: 106.0 * UtilityManager.sharedInstance.conversionHeight,
+                                 y: descriptionLabel.frame.origin.y + descriptionLabel.frame.size.height + (8.0 * UtilityManager.sharedInstance.conversionHeight),
                              width: editButton.frame.size.width,
                             height: editButton.frame.size.height)
     
@@ -204,7 +204,7 @@ class CaseCardInfoToEditView: UIView {
                          forControlEvents: .TouchUpInside)
     
     frameForButton = CGRect.init(x: 115.0 * UtilityManager.sharedInstance.conversionWidth,
-                                 y: 106.0 * UtilityManager.sharedInstance.conversionHeight,
+                                 y: descriptionLabel.frame.origin.y + descriptionLabel.frame.size.height + (8.0 * UtilityManager.sharedInstance.conversionHeight),
                              width: deleteButton.frame.size.width,
                             height: deleteButton.frame.size.height)
     
@@ -227,6 +227,20 @@ class CaseCardInfoToEditView: UIView {
 
     self.delegate?.flipCardAndShowPreviewCaseFromCaseCardInfoToEdit(self.caseData)
   
+  }
+  
+  func getFinalHeight() -> CGFloat {
+    
+    if deleteButton != nil {
+      
+      return deleteButton.frame.origin.y + deleteButton.frame.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+    } else {
+      
+      return 0.0
+      
+    }
+    
   }
   
   

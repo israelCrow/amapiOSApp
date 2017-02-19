@@ -114,7 +114,7 @@ class YouWonThisPitchView: UIView {
     youWonThisPitchLabel.attributedText = stringWithFormat
     youWonThisPitchLabel.sizeToFit()
     let newFrame = CGRect.init(x: 123.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 64.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 87.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: youWonThisPitchLabel.frame.size.width,
                                height: youWonThisPitchLabel.frame.size.height)
     

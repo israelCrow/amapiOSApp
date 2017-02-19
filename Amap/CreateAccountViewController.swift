@@ -316,19 +316,29 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
            }
     }
     
-    //MARK: - SuccessfullyAskForAccountViewDelegate
-    func nextButtonPressedSuccessfullyAskForAccountView() {
-        self.popThisViewController()
-    }
+  //MARK: - SuccessfullyAskForAccountViewDelegate
+  func nextButtonPressedSuccessfullyAskForAccountView() {
+      self.popThisViewController()
+  }
     
-    //MARK: - ExistingAccountViewDelegate
-    func nextButtonPressedExistingAccountView() {
-        self.popThisViewController()
-    }
+  //MARK: - ExistingAccountViewDelegate
+  func nextButtonPressedExistingAccountView() {
+      self.popThisViewController()
+  }
+  
+  func changePasswordLabelPressed() {
     
-    //MARK: - CreateAccountProcessAlreadyBegunViewDelegate
-    func nextButtonPressedCreateAccountProcessAlreadyBegun() {
-        self.popThisViewController()
-    }
+    let changePasswordVC = ChangePasswordViewController()
+    changePasswordVC.textToShowInEMailTextField = ""
+    self.navigationController?.pushViewController(changePasswordVC, animated: true)
+    
+  }
+  
+  //MARK: - CreateAccountProcessAlreadyBegunViewDelegate
+  func nextButtonPressedCreateAccountProcessAlreadyBegun() {
+    
+    self.popThisViewController()
+      
+  }
     
 }

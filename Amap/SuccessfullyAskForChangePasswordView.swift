@@ -54,7 +54,7 @@ class SuccessfullyAskForChangePasswordView: UIView {
     readyLabel = UILabel.init(frame: CGRectZero)
     
     let font = UIFont(name: "SFUIDisplay-Ultralight",
-                      size: 53.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 34.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center

@@ -37,7 +37,7 @@ class NoFilterResultsView: UIView {
     self.adaptMyself()
     self.createGradient()
     //    self.createAddPitchButton()
-    self.createWarningImageView()
+//    self.createWarningImageView()
     self.createNoPitchAssignedLabel()
     
   }
@@ -123,7 +123,7 @@ class NoFilterResultsView: UIView {
     noPitchAssignedLabel.attributedText = stringWithFormat
     noPitchAssignedLabel.sizeToFit()
     let newFrame = CGRect.init(x: (gradienteView.frame.size.width / 2.0) - ( noPitchAssignedLabel.frame.size.width / 2.0),
-                               y: 255.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 150.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: noPitchAssignedLabel.frame.size.width,
                                height: noPitchAssignedLabel.frame.size.height)
     
