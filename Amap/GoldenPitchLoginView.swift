@@ -581,13 +581,13 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         errorFromLoginControllerLabel = UILabel.init(frame: CGRectZero)
         
         let font = UIFont(name: "SFUIText-Regular",
-                          size: 11.0 * UtilityManager.sharedInstance.conversionWidth)
+                          size: 12.0 * UtilityManager.sharedInstance.conversionWidth)
         let color = UIColor.redColor()
         let style = NSMutableParagraphStyle()
         style.alignment = NSTextAlignment.Center
         
         let stringWithFormat = NSMutableAttributedString(
-            string: "¡Woo el usuario y/o contraseña no son válidos!",
+            string: "¡Oops, el usuario o la contraseña no son válidos!",
             attributes:[NSFontAttributeName:font!,
                 NSParagraphStyleAttributeName:style,
                 NSForegroundColorAttributeName:color
