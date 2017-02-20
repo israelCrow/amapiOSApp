@@ -201,7 +201,7 @@ class DashboardThirdScreenTutorialView: UIView {
     )
     okLabel.attributedText = stringWithFormat
     okLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 208.0 * UtilityManager.sharedInstance.conversionWidth,
+    let newFrame = CGRect.init(x: 197.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 282.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: okLabel.frame.size.width,
                                height: okLabel.frame.size.height)

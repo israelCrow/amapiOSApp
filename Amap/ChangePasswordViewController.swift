@@ -234,31 +234,90 @@ class ChangePasswordViewController: UIViewController, ChangePasswordRequestViewD
             ////            print (json)
             ////          }
             .responseJSON{ response in
-                let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
-
-                let answer = json["success"] as? String
-                //        let error = json["errors"] as? String
-                if answer == "Se ha enviado un correo con instrucciones para restablecer contraseña" {
+              
+              if response.data != nil {
                 
+                do {
+                
+                  let json = try NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+                
+                  let answer = json["success"] as? String
+                  //        let error = json["errors"] as? String
+                  if answer == "Se ha enviado un correo con instrucciones para restablecer contraseña" {
+                    
                     UtilityManager.sharedInstance.hideLoader()
                     self.flipCardToSuccess()
-                  
-                } else {
-                  
+                    
+                  } else {
+                    
                     let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
                     let error = json["errors"] as? [String:AnyObject]
                     let stringError = error!["email"] as? [AnyObject]
                     let errorinString = stringError![0] as? String
-                  
+                    
                     if errorinString == "No existe ningún usuario con ese email" {
-                        self.changePasswordView.showErrorFromServerNotExistingUserLabel()
+                      self.changePasswordView.showErrorFromServerNotExistingUserLabel()
                     }
-                  
+                    
                     actionToMakeWhenFailed()
                     UtilityManager.sharedInstance.hideLoader()
+                    
+                  }
+                  
+                }	catch(_) {
+                  
+                  UtilityManager.sharedInstance.hideLoader()
+                  
+                  let alertController = UIAlertController(title: "ERROR",
+                    message: "Error de conexión con el servidor, favor de intentar más tarde",
+                    preferredStyle: UIAlertControllerStyle.Alert)
+                  
+                  let cancelAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+                    
+                    actionToMakeWhenFailed()
+                    
+                  }
+                  
+                  alertController.addAction(cancelAction)
+                  self.presentViewController(alertController, animated: true, completion: nil)
+                  
+//                  actionToMakeWhenFailed()
+//                  UtilityManager.sharedInstance.hideLoader()
                   
                 }
                 
+              } else {
+                
+                actionToMakeWhenFailed()
+                UtilityManager.sharedInstance.hideLoader()
+                
+              }
+              
+//                let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+//
+//                let answer = json["success"] as? String
+//                //        let error = json["errors"] as? String
+//                if answer == "Se ha enviado un correo con instrucciones para restablecer contraseña" {
+//                
+//                    UtilityManager.sharedInstance.hideLoader()
+//                    self.flipCardToSuccess()
+//                  
+//                } else {
+//                  
+//                    let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+//                    let error = json["errors"] as? [String:AnyObject]
+//                    let stringError = error!["email"] as? [AnyObject]
+//                    let errorinString = stringError![0] as? String
+//                  
+//                    if errorinString == "No existe ningún usuario con ese email" {
+//                        self.changePasswordView.showErrorFromServerNotExistingUserLabel()
+//                    }
+//                  
+//                    actionToMakeWhenFailed()
+//                    UtilityManager.sharedInstance.hideLoader()
+//                  
+//                }
+              
         }
      }
     

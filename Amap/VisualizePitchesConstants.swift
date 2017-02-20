@@ -144,10 +144,10 @@ class VisualizePitchesConstants {
     static let rightButtonItemText = "Cerrar"
     
     static let evaluationLabelText = "Evaluación"
-    static let faceOneLabelText = "70 - 100\n Happitch"
-    static let faceTwoLabelText = "59 - 69\n Happy"
-    static let faceThreeLabelText = "45 - 58\n Unhappy"  //Ok
-    static let faceFourLabelText = "0 - 44\n Badpitch"  //Unhappy
+    static let faceOneLabelText = "70 - 100\nHappitch"
+    static let faceTwoLabelText = "59 - 69\nHappy"
+    static let faceThreeLabelText = "45 - 58\nUnhappy"  //Ok
+    static let faceFourLabelText = "0 - 44\nBadpitch"  //Unhappy
     
     static let statisticsLabelText = "Estadísticas"
     static let descriptionStatisticsLabelText = "Lorem ipsum dolor sit amet,consectetur adipiscing elit. Vivamus vestibulum velit nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Interdum et malesuada fames ac ante ipsum primis in faucibus."

@@ -206,7 +206,7 @@ class FilterPitchCardView: UIView {
     mediumCriterion = CriterionWithImageView.init(frame: frameForCriterion,
                                                   nameImage: "color_fill5",
                                                   valueOfSwitch: valueOfSwitch,
-                                                  newTextAfterImage: "OK")
+                                                  newTextAfterImage: "Unhappy") //Ok
     mainScrollView.addSubview(mediumCriterion)
     
   }
@@ -229,7 +229,7 @@ class FilterPitchCardView: UIView {
     highRiskCriterion = CriterionWithImageView.init(frame: frameForCriterion,
                                                   nameImage: "color_fill7",
                                                   valueOfSwitch: valueOfSwitch,
-                                                  newTextAfterImage: "Unhappy")
+                                                  newTextAfterImage: "Badpitch") //Unhappy
     mainScrollView.addSubview(highRiskCriterion)
     
   }

@@ -42,7 +42,7 @@ class AgencyProfileEditConstants {
     
     static let exclusiveLabelText = "Exclusividad"
     static let explainingLabelText = "Indica con qué marcas tienes exclusividades"
-    static let descriptionLabelText = "Escribe el nombre de la marca que falta"
+    static let descriptionLabelText = "Escribe el nombre del anunciante y presiona aceptar"
     
   }
   

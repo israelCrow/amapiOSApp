@@ -278,7 +278,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       
       let font = UIFont(name: "SFUIText-Medium",
                         size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
-      let color = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+      let color = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.25)
       let style = NSMutableParagraphStyle()
       style.alignment = NSTextAlignment.Left
       
@@ -304,7 +304,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       mainScrollView.showsVerticalScrollIndicator = true
       
       let frameForTextFieldCreator = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
-                                                 y: lastExclusiveBrand!.frame.origin.y + lastExclusiveBrand!.frame.size.height + (24.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                 y: lastExclusiveBrand!.frame.origin.y + lastExclusiveBrand!.frame.size.height + (28.0 * UtilityManager.sharedInstance.conversionHeight),
                                              width: mainScrollView.frame.size.width - (4.0 * UtilityManager.sharedInstance.conversionWidth),
                                             height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
       
@@ -315,15 +315,15 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator,
                                                           newExclusiveData: fictitiousBrandForCreator)
       creatorOfBrandTextField.tag = -1234567890
-      creatorOfBrandTextField.placeholder = "Marca"
+      creatorOfBrandTextField.placeholder = "Anunciante"
       creatorOfBrandTextField.delegate = self
       creatorOfBrandTextField.returnKeyType = .Done
       
       let attributes = [
         NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.25),
-        NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 14.0 * UtilityManager.sharedInstance.conversionWidth)!
+        NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 11.5 * UtilityManager.sharedInstance.conversionWidth)!
       ]
-      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Marca", attributes: attributes) //"Agrega presionando Aceptar"
+      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Anunciante", attributes: attributes) //"Agrega presionando Aceptar"
       
       self.mainScrollView.addSubview(creatorOfBrandTextField)
       mainScrollView.showsVerticalScrollIndicator = true
