@@ -14,7 +14,7 @@ class GenericDashboardGraphic: UIView {
   private var chartView: CombinedChartView! = nil
   private var dataForLineChart: [Double]! = nil
   private var dataForBarChart: [Double]! = nil
-  private var valuesOfXAxis = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+  private var valuesOfXAxis = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" , " "]
   private var descriptionBarGraph: String! = nil
   private var descriptionLineGraph: String! = nil
   
@@ -148,7 +148,7 @@ class GenericDashboardGraphic: UIView {
     chartView.xAxis.labelPosition = .Top
     chartView.xAxis.axisLineWidth = 0.0
     chartView.xAxis.labelRotationAngle = -90
-    chartView.xAxis.labelRotatedHeight = 17.5 * UtilityManager.sharedInstance.conversionHeight
+    chartView.xAxis.labelRotatedHeight = 18.5 * UtilityManager.sharedInstance.conversionHeight
     chartView.xAxis.setLabelsToSkip(0)
     
     chartView.rightAxis.enabled = false
@@ -178,7 +178,11 @@ class GenericDashboardGraphic: UIView {
       
     }
     
-    let lineChartSet = LineChartDataSet.init(yVals: entries, label: descriptionLineGraph)
+    var finalDescriptionLineGraph = descriptionLineGraph
+    
+    finalDescriptionLineGraph = self.trunc(finalDescriptionLineGraph, length: 9)
+    
+    let lineChartSet = LineChartDataSet.init(yVals: entries, label: finalDescriptionLineGraph)
     lineChartSet.setColor(UIColor.init(red: 51.0/255.0, green: 166.0/255.0, blue: 233.0/255.0, alpha: 1.0))
     lineChartSet.lineWidth = 4.0  * UtilityManager.sharedInstance.conversionWidth
     lineChartSet.fillColor = UIColor.init(red: 51.0/255.0, green: 166.0/255.0, blue: 233.0/255.0, alpha: 1.0)
@@ -320,6 +324,20 @@ class GenericDashboardGraphic: UIView {
     self.layer.addSublayer(border2)
     self.layer.addSublayer(border3)
     self.layer.addSublayer(border4)
+    
+  }
+  
+  private func trunc(string: String, length: Int, trailing: String? = "...") -> String {
+    
+    if string.characters.count > length {
+      
+      return string.substringToIndex(string.startIndex.advancedBy(length)) + (trailing ?? "")
+      
+    } else {
+      
+      return string
+      
+    }
     
   }
   

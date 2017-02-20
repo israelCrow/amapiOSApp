@@ -18,6 +18,7 @@ protocol GrapAccordingToUserViewDelegate {
 class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDashboardViewDelegate {
 
   private var filterButton: UIButton! = nil
+  private var titleLabel: UILabel! = nil
   private var selectorOfInformationView: CustomTextFieldWithTitleAndPickerForDashboardView! = nil
   private var genericGraph: GenericDashboardGraphic! = nil
   private var optionsForSelector = [String]()
@@ -94,6 +95,7 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     
     self.backgroundColor = UIColor.whiteColor()
     self.createFilterButton()
+    self.createTitleLabel()
     self.createSelectorOfInformationView()
     
     self.createGraphic()
@@ -118,6 +120,50 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     
     
   }
+  
+  private func createTitleLabel() {
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0 * UtilityManager.sharedInstance.conversionHeight,
+                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    titleLabel = UILabel.init(frame: frameForLabel)
+    titleLabel.numberOfLines = 0
+    titleLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIDisplay-Ultralight",
+                      size: 20.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Center
+    
+//    if UserSession.session.role == "2" || UserSession.session.role == "3" {
+//      
+//      titleText = "Desempeño de la agencia"
+//      
+//    }
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: VisualizeDashboardConstants.GeneralPerformanceCardView.selectorLabelText,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSKernAttributeName: CGFloat(1.4),
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    titleLabel.attributedText = stringWithFormat
+    titleLabel.sizeToFit()
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (titleLabel.frame.size.width / 2.0),
+                               y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: titleLabel.frame.size.width,
+                               height: titleLabel.frame.size.height)
+    
+    titleLabel.frame = newFrame
+    
+    self.addSubview(titleLabel)
+    
+  }
     
   private func createFilterButton() {
     
@@ -139,17 +185,18 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
   private func createSelectorOfInformationView() {
     
     let frameForView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   y: 40.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 80.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
     selectorOfInformationView = CustomTextFieldWithTitleAndPickerForDashboardView.init(frame: frameForView,
-                                                                           textLabel: VisualizeDashboardConstants.GeneralPerformanceCardView.selectorLabelText,
+                                                                           textLabel: "",//VisualizeDashboardConstants.GeneralPerformanceCardView.selectorLabelText,
                                                                            nameOfImage: "dropdown",
                                                                            newOptionsOfPicker: optionsForSelector)
     
     selectorOfInformationView.tag = 1
     selectorOfInformationView.delegate = self
+    selectorOfInformationView.mainTextField.placeholder = "Elegir persona"
     //    selectorOfInformationView.mainTextField.addTarget(self,
     //                                              action: #selector(howManyDaysToShowEdited),
     //                                              forControlEvents: .AllEditingEvents)
@@ -160,7 +207,7 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
   private func createSelectorOfInformationViewWithTitle() {
     
     let frameForView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   y: 40.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 80.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -181,7 +228,7 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
   private func createGraphic() {
     
     let frameForGraph = CGRect.init(x: 12.0 * UtilityManager.sharedInstance.conversionWidth,
-                                    y: 145.0 * UtilityManager.sharedInstance.conversionHeight,
+                                    y: 175.0 * UtilityManager.sharedInstance.conversionHeight,
                                 width: 285.0 * UtilityManager.sharedInstance.conversionWidth,
                                height: 260.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -211,7 +258,7 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     let nameUser = optionsForSelector[numberOfUserSelected]
     
     genericGraph.changeValuesOfGraph(nameUser,
-                                     newXValues: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+                                     newXValues: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", " "],
                                newLineGraphData: newValuesForUser,
                                 newBarGraphData: newValuesForAgency)
     

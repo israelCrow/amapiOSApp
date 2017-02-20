@@ -239,7 +239,7 @@ class GraphOfAgencyVSIndustryView: UIView {
   
   func changeData(newNameUser: String, newXValues: [String]?, newLineGraphData: [Double], newBarGraphData: [Double]) {
 
-    var xValues = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+    var xValues = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic", " "]
     
     if newXValues != nil {
       
