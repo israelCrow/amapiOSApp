@@ -30,9 +30,9 @@ class EditPitchesConstants {
   
   enum TabBarArchiveEditDeletePitchView {
     
-    static let archivePitchButtonText = "Archivar Pitch"
-    static let editPitchButtonText = "Editar Pitch"
-    static let deletePitchButtonText = "Eliminar Pitch"
+    static let archivePitchButtonText = "Archivar pitch"
+    static let editPitchButtonText = "Editar pitch"
+    static let deletePitchButtonText = "Eliminar pitch"
     
   }
   
@@ -77,9 +77,9 @@ class EditPitchesConstants {
   
   enum YouWinPitchView {
     
-    static let titleLabelText = "¡Felicidades campeón!"
-    static let messageLabelText = "Ganaste el pitch, ahora cuéntanos ¿qué se siente ser ganador?"
-    static let nextButtonText = "encuesta de seguimiento"
+    static let titleLabelText = "¡Felicidades!\nGran trabajo"
+    static let messageLabelText = "Antes de terminar, responde la encuesta de cierre de proyecto"
+    static let nextButtonText = "comenzar"
     
   }
   

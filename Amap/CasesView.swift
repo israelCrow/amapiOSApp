@@ -103,7 +103,7 @@ class CasesView: UIView, CaseCardInfoToEditViewDelegate {
     let frameForMainScrollView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                              y: 86.0 * UtilityManager.sharedInstance.conversionHeight,
                                              width: 235.0 * UtilityManager.sharedInstance.conversionWidth,
-                                             height: 374.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
+                                             height: 414.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
     let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
                                                height: frameForMainScrollView.size.height + (150.0 * UtilityManager.sharedInstance.conversionHeight))//Value that i considered
     

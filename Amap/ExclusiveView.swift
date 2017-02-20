@@ -68,9 +68,9 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     
     
     let frameForMainScrollView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        y: 115.0 * UtilityManager.sharedInstance.conversionHeight,
+                                        y: 135.0 * UtilityManager.sharedInstance.conversionHeight,
                                     width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   height: 364.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
+                                   height: 344.0 * UtilityManager.sharedInstance.conversionHeight)//Value that I considered
     let sizeForContentScrollView = CGSize.init(width: frameForMainScrollView.size.width,
                                               height: frameForMainScrollView.size.height)
     
@@ -242,7 +242,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       mainScrollView.showsVerticalScrollIndicator = true
       
       let frameForTextFieldCreator = CGRect.init(x: 4.0 * UtilityManager.sharedInstance.conversionWidth,
-                                               y: descriptionLabel.frame.origin.y + descriptionLabel.frame.size.height + 10.0 * UtilityManager.sharedInstance.conversionHeight,
+                                               y: descriptionLabel.frame.origin.y + descriptionLabel.frame.size.height + 15.0 * UtilityManager.sharedInstance.conversionHeight,
                                            width: mainScrollView.frame.size.width - (4.0 * UtilityManager.sharedInstance.conversionWidth),
                                           height: 56.0 * UtilityManager.sharedInstance.conversionHeight)
       
@@ -278,7 +278,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       
       let font = UIFont(name: "SFUIText-Medium",
                         size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
-      let color = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.25)
+      let color = UIColor.init(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
       let style = NSMutableParagraphStyle()
       style.alignment = NSTextAlignment.Left
       
@@ -294,7 +294,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       descriptionLabel.sizeToFit()
       
       let newFrame = CGRect.init(x: 0.0 * UtilityManager.sharedInstance.conversionWidth,
-                                 y: lastExclusiveBrand!.frame.origin.y + lastExclusiveBrand!.frame.size.height + (5.0 * UtilityManager.sharedInstance.conversionHeight),
+                                 y: lastExclusiveBrand!.frame.origin.y + lastExclusiveBrand!.frame.size.height + (15.0 * UtilityManager.sharedInstance.conversionHeight),
                              width: descriptionLabel.frame.size.width,
                             height: descriptionLabel.frame.size.height)
       
@@ -315,15 +315,15 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator,
                                                           newExclusiveData: fictitiousBrandForCreator)
       creatorOfBrandTextField.tag = -1234567890
-      creatorOfBrandTextField.placeholder = ""
+      creatorOfBrandTextField.placeholder = "Marca"
       creatorOfBrandTextField.delegate = self
       creatorOfBrandTextField.returnKeyType = .Done
       
       let attributes = [
-        NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.35),
+        NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.25),
         NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 14.0 * UtilityManager.sharedInstance.conversionWidth)!
       ]
-      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "", attributes: attributes) //"Agrega presionando Aceptar"
+      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Marca", attributes: attributes) //"Agrega presionando Aceptar"
       
       self.mainScrollView.addSubview(creatorOfBrandTextField)
       mainScrollView.showsVerticalScrollIndicator = true

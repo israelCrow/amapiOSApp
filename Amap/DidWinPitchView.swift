@@ -68,23 +68,24 @@ class DidWinPitchView: UIView, CustomSegmentedControlWithTitleViewDelegate {
     titleLabel.numberOfLines = 0
     titleLabel.lineBreakMode = .ByWordWrapping
     
-    let font = UIFont(name: "SFUIText-Regular",
-                      size: 14.0 * UtilityManager.sharedInstance.conversionWidth)
+    let font = UIFont(name: "SFUIDisplay-Ultralight",
+                      size: 20.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: EditPitchesConstants.DidYouShowYourProposalView.titleLabelText,
+      string: "¿Ganaste el pitch?", //EditPitchesConstants.DidYouShowYourProposalView.titleLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
-        NSForegroundColorAttributeName: color
+        NSForegroundColorAttributeName: color,
+        NSKernAttributeName: CGFloat(1.4)
       ]
     )
     titleLabel.attributedText = stringWithFormat
     titleLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (titleLabel.frame.size.width / 2.0),
-                               y: 27.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 100.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: titleLabel.frame.size.width,
                                height: titleLabel.frame.size.height)
     
@@ -97,14 +98,14 @@ class DidWinPitchView: UIView, CustomSegmentedControlWithTitleViewDelegate {
   private func createDidYouShowYourProposalView() {
     
     let frameForView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   y: 128.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 148.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
     let segmentsArray = ["Sí", "", "No"]
     
     didYouReceiveRulingView = CustomSegmentedControlWithTitleView.init(frame: frameForView,
-                                                                       title: "¿Ganaste el pitch?",
+                                                                       title: "", //"¿Ganaste el pitch?",
                                                                        image: nil,
                                                                        segmentsText: segmentsArray)
     let originalSegmentControlFrame = didYouReceiveRulingView.mainSegmentedControl.frame

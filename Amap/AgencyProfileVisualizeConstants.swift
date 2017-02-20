@@ -12,7 +12,7 @@ class AgencyProfileVisualizeConstants {
     
     static let backButtonText = "Editar"
     static let navigationBarText = "Perfil agencia"
-    static let rightButtonText = "Log Out"
+    static let rightButtonText = "Log out"
     
   }
   

@@ -425,7 +425,7 @@ class GeneralPerformanceCardView: UIView, CustomTextFieldWithTitleAndPickerForDa
                                                    y: recommendations.frame.origin.y + recommendations.getFinalHeight() + (22.0 * UtilityManager.sharedInstance.conversionHeight),
                                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                                    height: 1.0 * UtilityManager.sharedInstance.conversionHeight)
-    mainScrollView.layer.addSublayer(borderAfterRecommendations)
+    //    mainScrollView.layer.addSublayer(borderAfterRecommendations)
     //    mainScrollView.layer.masksToBounds = false
     
     let newContentSize = CGSize.init(width: mainScrollView.contentSize.width,

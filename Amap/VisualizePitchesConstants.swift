@@ -18,7 +18,7 @@ class VisualizePitchesConstants {
     
     static let warningNoPitchesText = "No tienes pitches\ncreados"
     static let navigationBarText = "Perfil agencia"
-    static let rightButtonText = "Log Out"
+    static let rightButtonText = "Log out"
   
   }
   
@@ -140,7 +140,7 @@ class VisualizePitchesConstants {
   
   enum InfoPitchesViewAndViewController {
     
-    static let navigationBarTitleText = "Info"
+    static let navigationBarTitleText = "Info Happitch"
     static let rightButtonItemText = "Cerrar"
     
     static let evaluationLabelText = "Evaluación"

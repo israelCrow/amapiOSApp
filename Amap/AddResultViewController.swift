@@ -1359,14 +1359,30 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       
       let params = self.createParamsToSave()
       
-      RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
-        
-        self.changeNavigationRigthButtonItemToNothing()
-        UtilityManager.sharedInstance.hideLoader()
-        self.delegate?.doActionsWhenDisappear()
-        self.moveDidSignContractView(.center)
-        
-      }
+      RequestToServerManager.sharedInstance.requestToSaveAddResults(params,
+        actionsToMakeAfterSuccesfullyAddResults: { 
+          
+          self.changeNavigationRigthButtonItemToNothing()
+          UtilityManager.sharedInstance.hideLoader()
+          self.delegate?.doActionsWhenDisappear()
+          self.moveDidSignContractView(.center)
+          
+        }, actionsToMakeAfterError: { 
+          
+          self.delegate?.doActionsWhenDisappear()
+          
+      })
+      
+      
+      
+//      RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
+//        
+//        self.changeNavigationRigthButtonItemToNothing()
+//        UtilityManager.sharedInstance.hideLoader()
+//        self.delegate?.doActionsWhenDisappear()
+//        self.moveDidSignContractView(.center)
+//        
+//      }
       
     }
    
@@ -1442,13 +1458,31 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       
     } else {
       
-      RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
-        
-        UtilityManager.sharedInstance.hideLoader()
-        self.delegate?.doActionsWhenDisappear()
-        self.navigationController?.popToRootViewControllerAnimated(true)
-        
-      }
+      
+      
+      RequestToServerManager.sharedInstance.requestToSaveAddResults(params,
+        actionsToMakeAfterSuccesfullyAddResults: { 
+          
+          UtilityManager.sharedInstance.hideLoader()
+          self.delegate?.doActionsWhenDisappear()
+          self.navigationController?.popToRootViewControllerAnimated(true)
+          
+        }, actionsToMakeAfterError: { 
+          
+          self.delegate?.doActionsWhenDisappear()
+          self.navigationController?.popToRootViewControllerAnimated(true)
+          
+      })
+      
+      
+      
+//      RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
+//        
+//        UtilityManager.sharedInstance.hideLoader()
+//        self.delegate?.doActionsWhenDisappear()
+//        self.navigationController?.popToRootViewControllerAnimated(true)
+//        
+//      }
       
     }
     
@@ -1619,13 +1653,27 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     UtilityManager.sharedInstance.showLoader()
     
-    RequestToServerManager.sharedInstance.requestToSavePitchSurvey(paramsForPitchSurvey) { 
+    RequestToServerManager.sharedInstance.requestToSavePitchSurvey(paramsForPitchSurvey,
+      actionsToMakeAfterSuccesfullyPitchSurveySaved: { 
+       
+        UtilityManager.sharedInstance.hideLoader()
+        self.dismissDetailedNavigation()
+        self.navigationController?.popToRootViewControllerAnimated(true)
+        
+      }, actionsToMakeWhenError: {
+        
+        self.dismissDetailedNavigation()
+        self.navigationController?.popToRootViewControllerAnimated(true)
+        
+    })
     
-      UtilityManager.sharedInstance.hideLoader()
-      self.dismissDetailedNavigation()
-      self.navigationController?.popToRootViewControllerAnimated(true)
-      
-    }
+//    RequestToServerManager.sharedInstance.requestToSavePitchSurvey(paramsForPitchSurvey) { 
+//    
+//      UtilityManager.sharedInstance.hideLoader()
+//      self.dismissDetailedNavigation()
+//      self.navigationController?.popToRootViewControllerAnimated(true)
+//      
+//    }
     
   }
   

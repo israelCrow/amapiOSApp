@@ -394,6 +394,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
                                                           title: AgencyProfileEditConstants.ProfileView.agencyMailContactTitleText,
                                                           image: "iconMail")
     agencyEMailView.mainTextField.placeholder = "mail@mail.com"
+    agencyEMailView.mainTextField.autocapitalizationType = .None
     agencyEMailView.mainTextField.tag = 3
     
     if AgencyModel.Data.contact_email != nil {
@@ -419,7 +420,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "Ingresa un mail correcto",
+      string: "Ingresae un e-mail correcto",
       attributes:[NSFontAttributeName:font!,
         NSParagraphStyleAttributeName:style,
         NSForegroundColorAttributeName:color

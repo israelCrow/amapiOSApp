@@ -207,7 +207,7 @@ class EditConflictsView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator,
                                                           newExclusiveData: fictitiousBrandForCreator)
       creatorOfBrandTextField.tag = -1234567890
-      creatorOfBrandTextField.placeholder = "Ejemplo de marca"
+      creatorOfBrandTextField.placeholder = "Marca"
       creatorOfBrandTextField.delegate = self
       
       self.mainScrollView.addSubview(creatorOfBrandTextField)
@@ -257,7 +257,7 @@ class EditConflictsView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField = BasicCustomTextField.init(frame: frameForTextFieldCreator,
                                                           newExclusiveData: fictitiousBrandForCreator)
       creatorOfBrandTextField.tag = -1234567890
-      creatorOfBrandTextField.placeholder = "Ejemplo de marca"
+      creatorOfBrandTextField.placeholder = "Marca"
       creatorOfBrandTextField.delegate = self
       
       self.mainScrollView.addSubview(creatorOfBrandTextField)

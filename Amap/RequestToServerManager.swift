@@ -2268,7 +2268,7 @@ class RequestToServerManager: NSObject {
     }
   }
   
-  func requestToSaveAddResults(params: [String: AnyObject], actionsToMakeAfterSuccesfullyAddResults: ()-> Void) {
+  func requestToSaveAddResults(params: [String: AnyObject], actionsToMakeAfterSuccesfullyAddResults: ()-> Void, actionsToMakeAfterError: ()-> Void) {
     
     let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_results"
     
@@ -2288,6 +2288,8 @@ class RequestToServerManager: NSObject {
           
         }else {
           
+          actionsToMakeAfterError()
+          
           UtilityManager.sharedInstance.hideLoader()
           
           print("ERROR")
@@ -2296,7 +2298,7 @@ class RequestToServerManager: NSObject {
     }
   }
   
-  func requestToSavePitchSurvey(params: [String: AnyObject], actionsToMakeAfterSuccesfullyPitchSurveySaved: ()-> Void) {
+  func requestToSavePitchSurvey(params: [String: AnyObject], actionsToMakeAfterSuccesfullyPitchSurveySaved: ()-> Void, actionsToMakeWhenError: ()-> Void) {
     
     let urlToRequest = "https://amap-dev.herokuapp.com/api/pitch_winner_surveys"
     
@@ -2317,6 +2319,8 @@ class RequestToServerManager: NSObject {
         }else {
           
           UtilityManager.sharedInstance.hideLoader()
+          
+          actionsToMakeWhenError()
           
           print("ERROR")
           

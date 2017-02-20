@@ -61,9 +61,9 @@ class WhenYouWillSignTheContractPitchSurveyView: UIView, UITextFieldDelegate {
   
   private func createThumbsUpImageView() {
     
-    thumbsUpImageView = UIImageView.init(image: UIImage.init(named: "thumbsUp")!)
-    let iconImageViewFrame = CGRect.init(x: 18.0 * UtilityManager.sharedInstance.conversionWidth,
-                                         y: 10.0 * UtilityManager.sharedInstance.conversionHeight,
+    thumbsUpImageView = UIImageView.init(image: UIImage.init(named: "bigThumbsUp")!)
+    let iconImageViewFrame = CGRect.init(x: 123.0 * UtilityManager.sharedInstance.conversionWidth,
+                                         y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
                                          width: thumbsUpImageView!.frame.size.width,
                                          height: thumbsUpImageView!.frame.size.height)
     
@@ -143,7 +143,7 @@ class WhenYouWillSignTheContractPitchSurveyView: UIView, UITextFieldDelegate {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: 247.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
     titleLabel = UILabel.init(frame: frameForLabel)
@@ -151,23 +151,23 @@ class WhenYouWillSignTheContractPitchSurveyView: UIView, UITextFieldDelegate {
     titleLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIDisplay-Ultralight",
-                      size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 20.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.blackColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: EditPitchesConstants.DidSignContactPitchSurveyView.titleLabelText,
+      string: "¿Sabes cuándo lo firmas?", //EditPitchesConstants.DidSignContactPitchSurveyView.titleLabelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
-        NSKernAttributeName: CGFloat(2.0),
+        NSKernAttributeName: CGFloat(1.4),
         NSForegroundColorAttributeName: color
       ]
     )
     titleLabel.attributedText = stringWithFormat
     titleLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (titleLabel.frame.size.width / 2.0),
-                               y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 128.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: titleLabel.frame.size.width,
                                height: titleLabel.frame.size.height)
     
@@ -185,7 +185,7 @@ class WhenYouWillSignTheContractPitchSurveyView: UIView, UITextFieldDelegate {
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
     whenYouWillSignTheContractView = CustomTextFieldWithTitleView.init(frame: frameForView,
-                                                                 title: "¿Sabes cuándo lo firmas?",
+                                                                 title: "", //"¿Sabes cuándo lo firmas?",
                                                                  image: "iconImputCalendar")
     
     whenYouWillSignTheContractView.mainTextField.placeholder = "dd/mm/aa"
