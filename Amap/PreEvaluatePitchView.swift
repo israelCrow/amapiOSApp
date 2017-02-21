@@ -151,6 +151,7 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     
     writeDateOfCreationOfPitchView.mainTextField.placeholder = "dd/mm/aa"
     writeDateOfCreationOfPitchView.mainTextField.inputView = containerViewForPicker
+    writeDateOfCreationOfPitchView.mainTextField.autocapitalizationType = .None
     writeDateOfCreationOfPitchView.mainTextField.delegate = self
     
     self.addSubview(writeDateOfCreationOfPitchView)

@@ -67,7 +67,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     self.createCaseNameLabel()
     self.createCaseDescriptionLabel()
     self.createPlayerVimeoYoutube()
-    self.createLinkLabel()
+ //   self.createLinkLabel()
     self.createShareThisInfo()
     
   }

@@ -420,7 +420,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "Ingresae un e-mail correcto",
+      string: "Ingrese un e-mail correcto",
       attributes:[NSFontAttributeName:font!,
         NSParagraphStyleAttributeName:style,
         NSForegroundColorAttributeName:color
@@ -476,6 +476,7 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
                                                           title: AgencyProfileEditConstants.ProfileView.agencyWebSiteTitleText,
                                                           image: "iconWebsite")
     agencyWebsiteView.mainTextField.placeholder = "website.com"
+    agencyWebsiteView.mainTextField.autocapitalizationType = .None
     agencyWebsiteView.mainTextField.tag = 5
     
     if AgencyModel.Data.website_url != nil {

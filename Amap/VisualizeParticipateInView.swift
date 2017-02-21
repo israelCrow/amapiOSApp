@@ -178,7 +178,7 @@ class VisualizeParticipateInView: UIView {
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)
     
-    mainScrollView.addSubview(self.createLabel("happitch", frameToBase: arrayOfFrames[actualFrame]))
+    mainScrollView.addSubview(self.createLabel("Happitch", frameToBase: arrayOfFrames[actualFrame]))
     
     
   }
@@ -192,7 +192,7 @@ class VisualizeParticipateInView: UIView {
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)
     
-    mainScrollView.addSubview(self.createLabel("happy", frameToBase: arrayOfFrames[actualFrame]))
+    mainScrollView.addSubview(self.createLabel("Happy", frameToBase: arrayOfFrames[actualFrame]))
     
   }
   
@@ -205,7 +205,7 @@ class VisualizeParticipateInView: UIView {
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)
     
-    mainScrollView.addSubview(self.createLabel("unhappy", frameToBase: arrayOfFrames[actualFrame])) //ok
+    mainScrollView.addSubview(self.createLabel("Unhappy", frameToBase: arrayOfFrames[actualFrame])) //ok
     
   }
   
@@ -218,7 +218,7 @@ class VisualizeParticipateInView: UIView {
     arrayOfImageViews.append(imageView)
     mainScrollView.addSubview(imageView)
     
-    mainScrollView.addSubview(self.createLabel("badpitch", frameToBase: arrayOfFrames[actualFrame])) //unhappy
+    mainScrollView.addSubview(self.createLabel("Badpitch", frameToBase: arrayOfFrames[actualFrame])) //unhappy
     
   }
   

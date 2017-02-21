@@ -11,6 +11,7 @@ import UIKit
 class BasicCustomTextField: UITextField {
   
   private var exclusiveBrandData: ExclusivityBrandModelData! = nil
+  var borderLayer: CALayer! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -30,15 +31,15 @@ class BasicCustomTextField: UITextField {
     
     self.clearButtonMode = .WhileEditing
     
-    let border = CALayer()
+    borderLayer = CALayer()
     let width = CGFloat(1)
-    border.borderColor = UIColor.darkGrayColor().CGColor
-    border.borderWidth = width
-    border.frame = CGRect.init(x: -4.0 * UtilityManager.sharedInstance.conversionWidth,
+    borderLayer.borderColor = UIColor.darkGrayColor().CGColor
+    borderLayer.borderWidth = width
+    borderLayer.frame = CGRect.init(x: -4.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: self.frame.size.height - (2.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: self.frame.size.width + (4.0 * UtilityManager.sharedInstance.conversionWidth),
                                height: 1.0)
-    self.layer.addSublayer(border)
+    self.layer.addSublayer(borderLayer)
     self.layer.masksToBounds = false
     
   }

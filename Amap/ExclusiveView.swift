@@ -17,7 +17,7 @@ class ExclusiveView: UIView, UITextFieldDelegate {
   private var arrayOfExclusivesBrandToDelete = [ExclusivityBrandModelData]()
   private var arrayOfExclusivesBrandNames: [ExclusivityBrandModelData]! = nil
   private var arrayOfExclusivesBrandTextFields: [UITextField]! = nil
-  private var creatorOfBrandTextField: UITextField! = nil
+  private var creatorOfBrandTextField: BasicCustomTextField! = nil
   
   var thereAreChanges: Bool = false
 
@@ -257,6 +257,13 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField.delegate = self
       creatorOfBrandTextField.returnKeyType = .Done
       
+      let newFrameForBorderLine = CGRect.init(x: creatorOfBrandTextField.borderLayer.frame.origin.x,
+                                              y: creatorOfBrandTextField.borderLayer.frame.origin.y - (8.0 * UtilityManager.sharedInstance.conversionHeight),
+                                          width: creatorOfBrandTextField.borderLayer.frame.size.width,
+                                         height: creatorOfBrandTextField.borderLayer.frame.size.height)
+      
+      creatorOfBrandTextField.borderLayer.frame = newFrameForBorderLine
+      
       let attributes = [
         NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.35),
         NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 8.5 * UtilityManager.sharedInstance.conversionWidth)!
@@ -318,6 +325,13 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField.placeholder = "Anunciante"
       creatorOfBrandTextField.delegate = self
       creatorOfBrandTextField.returnKeyType = .Done
+      
+      let newFrameForBorderLine = CGRect.init(x: creatorOfBrandTextField.borderLayer.frame.origin.x,
+                                              y: creatorOfBrandTextField.borderLayer.frame.origin.y - (8.0 * UtilityManager.sharedInstance.conversionHeight),
+                                              width: creatorOfBrandTextField.borderLayer.frame.size.width,
+                                              height: creatorOfBrandTextField.borderLayer.frame.size.height)
+      
+      creatorOfBrandTextField.borderLayer.frame = newFrameForBorderLine
       
       let attributes = [
         NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.25),
