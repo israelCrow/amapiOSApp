@@ -185,6 +185,12 @@ class CasesView: UIView, CaseCardInfoToEditViewDelegate {
     mainScrollView.contentSize = newContentSize
     self.createCreatorOfCasesView(frameForCreatorOfCases)
     
+    if creatorOfCasesView != nil {
+      
+      self.bringSubviewToFront(self.creatorOfCasesView)
+      
+    }
+    
   }
   
   private func createCreatorOfCasesView(frameForCreatorOfCases: CGRect) {

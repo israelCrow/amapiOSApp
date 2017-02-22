@@ -230,7 +230,6 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
       
       RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByAgency(nil) { (arrayOfScoresPerMonthOfAgency, arrayOfUsers) in
         
-        
         print(arrayOfUsers)
         print(arrayOfScoresPerMonthOfAgency)
         
@@ -479,18 +478,9 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     
     var scoresAgency = [Double]()
     var scoresIndustry = [Double]()
-    
-    for scoreAgency in arrayOfScoresByAgency {
-      
-      scoresAgency.append(Double(scoreAgency.score)!)
-      
-    }
-    
-    for scoreIndustry in arrayOfScoresByIndustry {
-      
-      scoresIndustry.append(Double(scoreIndustry.score)!)
-      
-    }
+        
+    scoresAgency = self.orderScoresPerMonth(arrayOfScoresByAgency)
+    scoresIndustry = self.orderScoresPerMonth(arrayOfScoresByIndustry)
     
     graphAgencyVSIndustry = GraphOfAgencyVSIndustryView.init(frame: frameForFrontAndBack, newArrayByAgency: scoresAgency, newArrayByIndustry: scoresIndustry)
     graphAgencyVSIndustry.delegate = self
@@ -803,91 +793,70 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   
   func getEvaluationsAveragePerMonth(params: [String : AnyObject], sender: GraphAccordingToUserView) {
     
-    if UserSession.session.role == "2" || UserSession.session.role == "3" {
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByAgency(params) { (arrayOfScoresPerMonthOfAgency, arrayOfUsers) in
+    
+      self.arrayOfScoresByAgency = arrayOfScoresPerMonthOfAgency
       
-      lastUserSelectedInfo = params
-      
-      UtilityManager.sharedInstance.showLoader()
-      
-      RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByUser(params) { (arrayOfScoresPerMonthByUser) in
+      if UserSession.session.role == "2" || UserSession.session.role == "3" {
         
-        var arrayOfScoresInDouble = [Double]()
-        var arrayOfScoresInDoubleByAgency = [Double]()
+        self.lastUserSelectedInfo = params
         
-        for score in arrayOfScoresPerMonthByUser {
+        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByUser(params) { (arrayOfScoresPerMonthByUser) in
           
-          arrayOfScoresInDouble.append(Double(score.score)!)
+          var arrayOfScoresInDouble = [Double]()
+          var arrayOfScoresInDoubleByAgency = [Double]()
+          
+          //        for score in arrayOfScoresPerMonthByUser {
+          //
+          //          arrayOfScoresInDouble.append(Double(score.score)!)
+          //
+          //        }
+          //
+          //        for score in self.arrayOfScoresByAgency {
+          //
+          //          arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
+          //
+          //        }
+          
+          arrayOfScoresInDouble = self.orderScoresPerMonth(arrayOfScoresPerMonthByUser)
+          arrayOfScoresInDoubleByAgency = self.orderScoresPerMonth(self.arrayOfScoresByAgency)
+          
+          sender.changeData(arrayOfScoresInDouble, newValuesForAgency: arrayOfScoresInDoubleByAgency)
+          
+          UtilityManager.sharedInstance.hideLoader()
           
         }
         
-        for score in self.arrayOfScoresByAgency {
+      } else
+        if UserSession.session.role == "4" || UserSession.session.role == "5" {
           
-          arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
-          
-        }
-        
-        sender.changeData(arrayOfScoresInDouble, newValuesForAgency: arrayOfScoresInDoubleByAgency)
-        
-        UtilityManager.sharedInstance.hideLoader()
-        
-      }
-      
-    } else
-      if UserSession.session.role == "4" || UserSession.session.role == "5" {
-        
-        if sender == graphAccordingUser { //This is when the app is for company and user select inside graphAccordingUser (the first card)
-          
-          lastUserSelectedInfo = params
-          
-          UtilityManager.sharedInstance.showLoader()
-          
-          RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByUser(params) { (arrayOfScoresPerMonthByUser) in
+          if sender == self.graphAccordingUser { //This is when the app is for company and user select inside graphAccordingUser (the first card)
             
-            var arrayOfScoresInDouble = [Double]()
-            var arrayOfScoresInDoubleByAgency = [Double]()
+            self.lastUserSelectedInfo = params
             
-            for score in arrayOfScoresPerMonthByUser {
-              
-              arrayOfScoresInDouble.append(Double(score.score)!)
-              
-            }
+            //UtilityManager.sharedInstance.showLoader()
             
-            for score in self.arrayOfScoresByAgency {
-              
-              arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
-              
-            }
-            
-            sender.changeData(arrayOfScoresInDouble, newValuesForAgency: arrayOfScoresInDoubleByAgency)
-            
-            UtilityManager.sharedInstance.hideLoader()
-            
-          }
-          
-        } else
-        
-          if sender == graphAccordingBrand { //This is when the app is for company and user select inside graphAccordingBrand (the second card)
-            
-            lastBrandSelectecInfo = params
-            
-            UtilityManager.sharedInstance.showLoader()
-            
-            RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByBrand(params) { (arrayOfScoresPerMonthByUser) in
+            RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByUser(params) { (arrayOfScoresPerMonthByUser) in
               
               var arrayOfScoresInDouble = [Double]()
               var arrayOfScoresInDoubleByAgency = [Double]()
               
-              for score in arrayOfScoresPerMonthByUser {
-                
-                arrayOfScoresInDouble.append(Double(score.score)!)
-                
-              }
+              //            for score in arrayOfScoresPerMonthByUser {
+              //
+              //              arrayOfScoresInDouble.append(Double(score.score)!)
+              //
+              //            }
               
-              for score in self.arrayOfScoresByAgency {
-                
-                arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
-                
-              }
+              //            for score in self.arrayOfScoresByAgency {
+              //
+              //              arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
+              //
+              //            }
+              
+              arrayOfScoresInDouble = self.orderScoresPerMonth(arrayOfScoresPerMonthByUser)
+              arrayOfScoresInDoubleByAgency = self.orderScoresPerMonth(self.arrayOfScoresByAgency)
               
               sender.changeData(arrayOfScoresInDouble, newValuesForAgency: arrayOfScoresInDoubleByAgency)
               
@@ -895,9 +864,224 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
               
             }
             
+          } else
+            
+            if sender == self.graphAccordingBrand { //This is when the app is for company and user select inside graphAccordingBrand (the second card)
+              
+              self.lastBrandSelectecInfo = params
+              
+              //UtilityManager.sharedInstance.showLoader()
+              
+              RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByBrand(params) { (arrayOfScoresPerMonthByUser) in
+                
+                var arrayOfScoresInDouble = [Double]()
+                var arrayOfScoresInDoubleByAgency = [Double]()
+                
+                //              for score in arrayOfScoresPerMonthByUser {
+                //
+                //                arrayOfScoresInDouble.append(Double(score.score)!)
+                //
+                //              }
+                //
+                //              for score in self.arrayOfScoresByAgency {
+                //
+                //                arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
+                //                
+                //              }
+                
+                arrayOfScoresInDouble = self.orderScoresPerMonth(arrayOfScoresPerMonthByUser)
+                arrayOfScoresInDoubleByAgency = self.orderScoresPerMonth(self.arrayOfScoresByAgency)
+                
+                sender.changeData(arrayOfScoresInDouble, newValuesForAgency: arrayOfScoresInDoubleByAgency)
+                
+                UtilityManager.sharedInstance.hideLoader()
+                
+              }
+              
           }
+          
+      }
+    
+    }
+    
+    
+//    if UserSession.session.role == "2" || UserSession.session.role == "3" {
+//      
+//      lastUserSelectedInfo = params
+//      
+//      UtilityManager.sharedInstance.showLoader()
+//      
+//      RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByUser(params) { (arrayOfScoresPerMonthByUser) in
+//        
+//        var arrayOfScoresInDouble = [Double]()
+//        var arrayOfScoresInDoubleByAgency = [Double]()
+//        
+////        for score in arrayOfScoresPerMonthByUser {
+////          
+////          arrayOfScoresInDouble.append(Double(score.score)!)
+////          
+////        }
+////        
+////        for score in self.arrayOfScoresByAgency {
+////          
+////          arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
+////          
+////        }
+//        
+//        arrayOfScoresInDouble = self.orderScoresPerMonth(arrayOfScoresPerMonthByUser)
+//        arrayOfScoresInDoubleByAgency = self.orderScoresPerMonth(self.arrayOfScoresByAgency)
+//        
+//        sender.changeData(arrayOfScoresInDouble, newValuesForAgency: arrayOfScoresInDoubleByAgency)
+//        
+//        UtilityManager.sharedInstance.hideLoader()
+//        
+//      }
+//      
+//    } else
+//      if UserSession.session.role == "4" || UserSession.session.role == "5" {
+//        
+//        if sender == graphAccordingUser { //This is when the app is for company and user select inside graphAccordingUser (the first card)
+//          
+//          lastUserSelectedInfo = params
+//          
+//          UtilityManager.sharedInstance.showLoader()
+//          
+//          RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByUser(params) { (arrayOfScoresPerMonthByUser) in
+//            
+//            var arrayOfScoresInDouble = [Double]()
+//            var arrayOfScoresInDoubleByAgency = [Double]()
+//            
+////            for score in arrayOfScoresPerMonthByUser {
+////              
+////              arrayOfScoresInDouble.append(Double(score.score)!)
+////              
+////            }
+//            
+////            for score in self.arrayOfScoresByAgency {
+////              
+////              arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
+////              
+////            }
+//            
+//            arrayOfScoresInDouble = self.orderScoresPerMonth(arrayOfScoresPerMonthByUser)
+//            arrayOfScoresInDoubleByAgency = self.orderScoresPerMonth(self.arrayOfScoresByAgency)
+//            
+//            sender.changeData(arrayOfScoresInDouble, newValuesForAgency: arrayOfScoresInDoubleByAgency)
+//            
+//            UtilityManager.sharedInstance.hideLoader()
+//            
+//          }
+//          
+//        } else
+//        
+//          if sender == graphAccordingBrand { //This is when the app is for company and user select inside graphAccordingBrand (the second card)
+//            
+//            lastBrandSelectecInfo = params
+//            
+//            UtilityManager.sharedInstance.showLoader()
+//            
+//            RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByBrand(params) { (arrayOfScoresPerMonthByUser) in
+//              
+//              var arrayOfScoresInDouble = [Double]()
+//              var arrayOfScoresInDoubleByAgency = [Double]()
+//              
+////              for score in arrayOfScoresPerMonthByUser {
+////                
+////                arrayOfScoresInDouble.append(Double(score.score)!)
+////                
+////              }
+////              
+////              for score in self.arrayOfScoresByAgency {
+////                
+////                arrayOfScoresInDoubleByAgency.append(Double(score.score)!)
+////                
+////              }
+//
+//              arrayOfScoresInDouble = self.orderScoresPerMonth(arrayOfScoresPerMonthByUser)
+//              arrayOfScoresInDoubleByAgency = self.orderScoresPerMonth(self.arrayOfScoresByAgency)
+//              
+//              sender.changeData(arrayOfScoresInDouble, newValuesForAgency: arrayOfScoresInDoubleByAgency)
+//              
+//              UtilityManager.sharedInstance.hideLoader()
+//              
+//            }
+//            
+//          }
+//        
+//      }
+    
+  }
+  
+  private func orderScoresPerMonth(arrayOfSscoresToOrder: [PitchEvaluationAveragePerMonthModelData]) -> [Double] {
+    
+    var finalArrayOfScores = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    
+    for score in arrayOfSscoresToOrder {
+      
+      if score.monthYear != nil {
+      
+        var numberMonth = score.monthYear
+        numberMonth = numberMonth.substringWithRange(numberMonth.startIndex..<numberMonth.startIndex.advancedBy(2))
+        
+        switch numberMonth {
+        case "01":
+          finalArrayOfScores.insert(Double(score.score)!, atIndex: 0)
+          break
+          
+        case "02":
+          finalArrayOfScores.insert(Double(score.score)!, atIndex: 1)
+          break
+          
+        case "03":
+          finalArrayOfScores.insert(Double(score.score)!, atIndex: 2)
+          break
+          
+        case "04":
+          finalArrayOfScores.insert(Double(score.score)!, atIndex: 3)
+          break
+          
+        case "05":
+          finalArrayOfScores.insert(Double(score.score)!, atIndex: 4)
+          break
+          
+        case "06":
+          finalArrayOfScores.insert(Double(score.score)!, atIndex: 5)
+          break
+          
+        case "07":
+          finalArrayOfScores.insert(Double(score.score)!, atIndex: 6)
+          break
+          
+        case "08":
+          finalArrayOfScores.insert(Double(score.score)!, atIndex: 7)
+          break
+          
+        case "09":
+          finalArrayOfScores.insert(Double(score.score)!, atIndex: 8)
+          break
+          
+        case "10":
+          finalArrayOfScores.insert(Double(score.score)!, atIndex: 9)
+          break
+          
+        case "11":
+          finalArrayOfScores.insert(Double(score.score)!, atIndex: 10)
+          break
+          
+        case "12":
+          finalArrayOfScores.insert(Double(score.score)!, atIndex: 11)
+          break
+          
+        default:
+          break
+          
+        }
         
       }
+      
+    }
+    
+    return finalArrayOfScores
     
   }
   
@@ -1101,17 +1285,20 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
           var arrayScoresAgency = [Double]()
           var arrayScoresIdustry = [Double]()
           
-          for score in self.arrayOfScoresByAgency {
-            
-            arrayScoresAgency.append(Double(score.score)!)
-            
-          }
-          
-          for scoreIndustry in self.arrayOfScoresByIndustry {
-            
-            arrayScoresIdustry.append(Double(scoreIndustry.score)!)
-            
-          }
+//          for score in self.arrayOfScoresByAgency {
+//            
+//            arrayScoresAgency.append(Double(score.score)!)
+//            
+//          }
+//          
+//          for scoreIndustry in self.arrayOfScoresByIndustry {
+//            
+//            arrayScoresIdustry.append(Double(scoreIndustry.score)!)
+//            
+//          }
+
+          arrayScoresAgency = self.orderScoresPerMonth(self.arrayOfScoresByAgency)
+          arrayScoresIdustry = self.orderScoresPerMonth(self.arrayOfScoresByIndustry)
           
           self.graphAgencyVSIndustry.changeData(AgencyModel.Data.name,
             newXValues: nil,
@@ -1135,17 +1322,20 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
           var arrayScoresAgency = [Double]()
           var arrayScoresIdustry = [Double]()
           
-          for score in self.arrayOfScoresByAgency {
-            
-            arrayScoresAgency.append(Double(score.score)!)
-            
-          }
-          
-          for scoreIndustry in self.arrayOfScoresByIndustry {
-            
-            arrayScoresIdustry.append(Double(scoreIndustry.score)!)
-            
-          }
+//          for score in self.arrayOfScoresByAgency {
+//            
+//            arrayScoresAgency.append(Double(score.score)!)
+//            
+//          }
+//          
+//          for scoreIndustry in self.arrayOfScoresByIndustry {
+//            
+//            arrayScoresIdustry.append(Double(scoreIndustry.score)!)
+//            
+//          }
+
+          arrayScoresAgency = self.orderScoresPerMonth(self.arrayOfScoresByAgency)
+          arrayScoresIdustry = self.orderScoresPerMonth(self.arrayOfScoresByIndustry)
           
           self.graphAgencyVSIndustry.changeData(MyCompanyModelData.Data.name,
             newXValues: nil,
@@ -1157,22 +1347,6 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
         })
         
       }
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
     
   }
   

@@ -174,7 +174,11 @@ class GenericDashboardGraphic: UIView {
     
     for i in 0..<newValues.count {
       
-      entries.append(BarChartDataEntry.init(value: newValues[i], xIndex: i))
+      if newValues[i] != 0.0 {
+        
+        entries.append(BarChartDataEntry.init(value: newValues[i], xIndex: i))
+        
+      }
       
     }
     
@@ -207,7 +211,11 @@ class GenericDashboardGraphic: UIView {
     
     for i in 0..<newValues.count {
       
-      entries.append(BarChartDataEntry.init(value: newValues[i], xIndex: i))
+      if newValues[i] != 0.0 {
+        
+        entries.append(BarChartDataEntry.init(value: newValues[i], xIndex: i))
+        
+      }
       
     }
     

@@ -710,6 +710,8 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
   
   @objc private func saveChangesButtonPressed() {
     
+    self.profileView.checkIfMailIsCorrect()
+    
     if self.profileView.isPossibletoSaveData == true {
       
       self.requestToEveryScreenToSave(){
@@ -850,6 +852,8 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
         }
     
         let okAction = UIAlertAction(title: "Sí", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+          
+          self.profileView.checkIfMailIsCorrect()
           
           if self.profileView.isPossibletoSaveData == true {
             

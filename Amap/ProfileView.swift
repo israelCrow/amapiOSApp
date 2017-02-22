@@ -754,21 +754,21 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
       
     }
     
-    if textField.tag == 3 {
-      
-      if UtilityManager.sharedInstance.isValidEmail(agencyEMailView.mainTextField.text!) != true {
-        
-        isPossibletoSaveData = false
-        showInvalidMailLabel()
-        
-      } else {
-        
-        isPossibletoSaveData = true
-        hideInvalidMailLabel()
-        
-      }
-      
-    }
+//    if textField.tag == 3 {
+//      
+//      if UtilityManager.sharedInstance.isValidEmail(agencyEMailView.mainTextField.text!) != true {
+//        
+//        isPossibletoSaveData = false
+//        showInvalidMailLabel()
+//        
+//      } else {
+//        
+//        isPossibletoSaveData = true
+//        hideInvalidMailLabel()
+//        
+//      }
+//      
+//    }
     
     
     return true
@@ -788,21 +788,21 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
       self.dismissKeyboard(textField)
     }
     
-    if textField.tag == 3 {
-      
-      if UtilityManager.sharedInstance.isValidEmail(textField.text!) != true {
-        
-        isPossibletoSaveData = false
-        showInvalidMailLabel()
-        
-      } else {
-        
-        isPossibletoSaveData = true
-        hideInvalidMailLabel()
-        
-      }
-      
-    }
+//    if textField.tag == 3 {
+//      
+//      if UtilityManager.sharedInstance.isValidEmail(textField.text!) != true {
+//        
+//        isPossibletoSaveData = false
+//        showInvalidMailLabel()
+//        
+//      } else {
+//        
+//        isPossibletoSaveData = true
+//        hideInvalidMailLabel()
+//        
+//      }
+//      
+//    }
     
     return false
     
@@ -810,23 +810,29 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
   
   func textFieldDidBeginEditing(textField: UITextField) {
     
+//    if textField.tag != 3 {
+//      
+//      if UtilityManager.sharedInstance.isValidEmail(agencyEMailView.mainTextField.text!) != true {
+//        
+//        isPossibletoSaveData = false
+//        showInvalidMailLabel()
+//        
+//      } else {
+//        
+//        isPossibletoSaveData = true
+//        hideInvalidMailLabel()
+//        
+//      }
+//      
+//    } else {
+//      
+//      hideInvalidMailLabel()
+//      
+//    }
+    
     if textField.tag != 3 {
-      
-      if UtilityManager.sharedInstance.isValidEmail(agencyEMailView.mainTextField.text!) != true {
-        
-        isPossibletoSaveData = false
-        showInvalidMailLabel()
-        
-      } else {
-        
-        isPossibletoSaveData = true
-        hideInvalidMailLabel()
-        
-      }
-      
-    } else {
-      
-      hideInvalidMailLabel()
+    
+      self.hideInvalidMailLabel()
       
     }
     
@@ -875,6 +881,22 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
       
       return false
       
+    }
+    
+  }
+  
+  func checkIfMailIsCorrect() {
+    
+    if UtilityManager.sharedInstance.isValidEmail(agencyEMailView.mainTextField.text!) != true {
+    
+      isPossibletoSaveData = false
+      self.showInvalidMailLabel()
+    
+    } else {
+    
+      isPossibletoSaveData = true
+      self.hideInvalidMailLabel()
+            
     }
     
   }

@@ -2786,8 +2786,8 @@ class RequestToServerManager: NSObject {
     
     if extraParams != nil {
       
-      params["start_date"] = (extraParams!["start_date"] as? String != nil ? extraParams!["start_date"] as! String : "2016-1-1")
-      params["end_date"] = (extraParams!["end_date"] as? String != nil ? extraParams!["end_date"] as! String : "2017-1-1")
+      params["start_date"] = (extraParams!["start_date"] as? String != nil ? extraParams!["start_date"] as! String : "2017-1-1")
+      params["end_date"] = (extraParams!["end_date"] as? String != nil ? extraParams!["end_date"] as! String : "2017-12-12")
       
     }
     

@@ -258,17 +258,17 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField.returnKeyType = .Done
       
       let newFrameForBorderLine = CGRect.init(x: creatorOfBrandTextField.borderLayer.frame.origin.x,
-                                              y: creatorOfBrandTextField.borderLayer.frame.origin.y - (8.0 * UtilityManager.sharedInstance.conversionHeight),
+                                              y: creatorOfBrandTextField.borderLayer.frame.origin.y - (15.0 * UtilityManager.sharedInstance.conversionHeight),
                                           width: creatorOfBrandTextField.borderLayer.frame.size.width,
                                          height: creatorOfBrandTextField.borderLayer.frame.size.height)
       
       creatorOfBrandTextField.borderLayer.frame = newFrameForBorderLine
       
-      let attributes = [
-        NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.35),
-        NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 8.5 * UtilityManager.sharedInstance.conversionWidth)!
-      ]
-      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Escribe el nombre del anunciante y presiona aceptar", attributes: attributes)
+//      let attributes = [
+//        NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.35),
+//        NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 8.5 * UtilityManager.sharedInstance.conversionWidth)!
+//      ]
+//      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Escribe el nombre del anunciante y presiona aceptar", attributes: attributes)
       
       self.mainScrollView.addSubview(creatorOfBrandTextField)
       mainScrollView.showsVerticalScrollIndicator = true
@@ -327,17 +327,17 @@ class ExclusiveView: UIView, UITextFieldDelegate {
       creatorOfBrandTextField.returnKeyType = .Done
       
       let newFrameForBorderLine = CGRect.init(x: creatorOfBrandTextField.borderLayer.frame.origin.x,
-                                              y: creatorOfBrandTextField.borderLayer.frame.origin.y - (8.0 * UtilityManager.sharedInstance.conversionHeight),
+                                              y: creatorOfBrandTextField.borderLayer.frame.origin.y - (15.0 * UtilityManager.sharedInstance.conversionHeight),
                                               width: creatorOfBrandTextField.borderLayer.frame.size.width,
                                               height: creatorOfBrandTextField.borderLayer.frame.size.height)
       
       creatorOfBrandTextField.borderLayer.frame = newFrameForBorderLine
       
-      let attributes = [
-        NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.25),
-        NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 11.5 * UtilityManager.sharedInstance.conversionWidth)!
-      ]
-      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Anunciante", attributes: attributes) //"Agrega presionando Aceptar"
+//      let attributes = [
+//        NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.25),
+//        NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 11.5 * UtilityManager.sharedInstance.conversionWidth)!
+//      ]
+//      creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Anunciante", attributes: attributes) //"Agrega presionando Aceptar"
       
       self.mainScrollView.addSubview(creatorOfBrandTextField)
       mainScrollView.showsVerticalScrollIndicator = true
@@ -494,11 +494,13 @@ class ExclusiveView: UIView, UITextFieldDelegate {
     
     thereAreChanges = true
     
-    let attributes = [
-      NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.35),
-      NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 10.0 * UtilityManager.sharedInstance.conversionWidth)!
-    ]
-    creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Escribe el nombre de la marca que falta", attributes: attributes)
+    creatorOfBrandTextField.placeholder = "Escribe el nombre de la marca que falta"
+    
+//    let attributes = [
+//      NSForegroundColorAttributeName: UIColor.init(white: 0.0, alpha: 0.35),
+//      NSFontAttributeName : UIFont(name: "SFUIText-Medium", size: 10.0 * UtilityManager.sharedInstance.conversionWidth)!
+//    ]
+//    creatorOfBrandTextField.attributedPlaceholder = NSAttributedString(string: "Escribe el nombre de la marca que falta", attributes: attributes)
     
     if textField.tag == -1234567890 {//when texted in the creatorBrandTextField
       
