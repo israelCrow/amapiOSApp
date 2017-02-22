@@ -389,6 +389,8 @@ class RequestToServerManager: NSObject {
             
           }
           
+          arrayOfCriterion = self.orderCriteria(arrayOfCriterion)
+          
           functionToMakeWhenFinished(criteria: arrayOfCriterion)
           
         } else {
@@ -398,6 +400,28 @@ class RequestToServerManager: NSObject {
           
         }
     }
+  }
+  
+  private func orderCriteria(arrayToOrder: [CriteriaModelData]) -> [CriteriaModelData] {
+    
+    var orderedArray = [CriteriaModelData]()
+    
+    for i in 1...arrayToOrder.count {
+      
+      for j in 1...arrayToOrder.count {
+      
+        if arrayToOrder[j - 1].id == String(i) {
+        
+          orderedArray.append(arrayToOrder[j - 1])
+        
+        }
+        
+      }
+      
+    }
+    
+    return orderedArray
+    
   }
   
   func requestToSaveDataFromSkills(params: [String:AnyObject], actionsToMakeAfterFinished: () -> Void) {
@@ -2990,8 +3014,8 @@ class RequestToServerManager: NSObject {
     
     if extraParams != nil {
       
-      params["start_date"] = (extraParams!["start_date"] as? String != nil ? extraParams!["start_date"] as! String : "2016-1-1")
-      params["end_date"] = (extraParams!["end_date"] as? String != nil ? extraParams!["end_date"] as! String : "2017-1-1")
+      params["start_date"] = (extraParams!["start_date"] as? String != nil ? extraParams!["start_date"] as! String : "2017-1-1")
+      params["end_date"] = (extraParams!["end_date"] as? String != nil ? extraParams!["end_date"] as! String : "2017-12-12")
       
     }
     

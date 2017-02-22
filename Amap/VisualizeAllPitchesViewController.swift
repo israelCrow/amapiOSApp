@@ -347,9 +347,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
         
         self.arrayOfPitchesByUser = pitchEvaluationsByUser!
         self.arrayOfPitchesByUserWithoutModifications = pitchEvaluationsByUser!
-        
-        
-        
+
         if self.arrayOfPitchesByUser.count == 0 {
           
           self.searchButton.userInteractionEnabled = false
@@ -815,7 +813,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       let pitchEvaluationIDToLookFor = notification.userInfo?["pitchEvaluationToLookFor"] as! String
       
-      self.lookForThisPitchID(pitchEvaluationIDToLookFor)
+      pitchEvaluationIDToLookForAfterCreated = pitchEvaluationIDToLookFor
+      
+//      self.lookForThisPitchID(pitchEvaluationIDToLookFor)
       
     }
     
@@ -1160,9 +1160,9 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   private func makeACopyOfActualGraph() -> GraphPartPitchCardView {
   
-    let globalPoint = frontCard.getGraphPart().convertPoint(frontCard.getGraphPart().frame.origin, toView: UIApplication.sharedApplication().delegate!.window!)
+    //let globalPoint = frontCard.getGraphPart().convertPoint(frontCard.getGraphPart().frame.origin, toView: UIApplication.sharedApplication().delegate!.window!)
     
-    let frameForGraphPart = CGRect.init(x: globalPoint.x,
+    let frameForGraphPart = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth), //globalPoint.x
                                         y: 0.0,
                                     width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 347.0 * UtilityManager.sharedInstance.conversionHeight)
