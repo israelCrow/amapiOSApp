@@ -27,6 +27,8 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
   private var monthsSegmentedControl: UISegmentedControl! = nil
   private var applyFilterButton: UIButton! = nil
   private var paramsToFilter: [String: AnyObject]! = nil
+  private var finalFromDateForServer: String! = ""
+  private var finalToDateForServer: String! = ""
   
   private var textFieldToWriteDown: Int = -1
   
@@ -125,18 +127,20 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
     
-    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
+    let stringDate = "\(components.day)-\(components.month)-\(components.year)"
     
     if textFieldToWriteDown == 1 {
       
       fromDateView.mainTextField.text = stringDate
+      finalFromDateForServer = "\(components.year)-\(components.month)-\(components.day)"
       
     } else
       if textFieldToWriteDown == 2 {
         
         toDateView.mainTextField.text = stringDate
+        finalToDateForServer = "\(components.year)-\(components.month)-\(components.day)"
         
-    }
+      }
     
   }
   
@@ -183,16 +187,18 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
     
-    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
+    let stringDate = "\(components.day)-\(components.month)-\(components.year)"
     
     if textFieldToWriteDown == 1 {
       
       fromDateView.mainTextField.text = stringDate
+      finalFromDateForServer = "\(components.year)-\(components.month)-\(components.day)"
       
     } else
       if textFieldToWriteDown == 2 {
         
         toDateView.mainTextField.text = stringDate
+        finalToDateForServer = "\(components.year)-\(components.month)-\(components.day)"
         
     }
     
@@ -440,6 +446,24 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
     
   }
   
+  func textFieldShouldClear(textField: UITextField) -> Bool {
+    
+    if textField.tag == 1 {
+      
+      finalFromDateForServer = ""
+      
+    } else
+    
+      if textField.tag == 2 {
+        
+        finalToDateForServer = ""
+        
+      }
+    
+    return true
+    
+  }
+  
   private func createApplyFilterButton() {
     
     let font = UIFont(name: "SFUIDisplay-Light",
@@ -500,8 +524,8 @@ class FilterAccordingToUserAndAgencyView: UIView, UITextFieldDelegate {
       
     } else {
     
-      paramsToFilter["start_date"] = fromDateView.mainTextField.text!
-      paramsToFilter["end_date"]   = toDateView.mainTextField.text!
+      paramsToFilter["start_date"] = finalFromDateForServer //fromDateView.mainTextField.text!
+      paramsToFilter["end_date"]   = finalToDateForServer //toDateView.mainTextField.text!
       
       self.delegate?.applyFilterButtonPressedFromFilterAccordingToUserAndAgencyView(self, params: paramsToFilter)
       
