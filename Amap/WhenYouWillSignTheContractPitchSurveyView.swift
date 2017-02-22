@@ -22,6 +22,7 @@ class WhenYouWillSignTheContractPitchSurveyView: UIView, UITextFieldDelegate {
   private var nextButton: UIButton! = nil
   private var containerViewForPicker: UIView! = nil
   private var mainDatePicker: UIDatePicker! = nil
+  private var finalDateForServer: String! = ""
   var regionPosition: PositionOfCardsAddResults! = nil
   
   var delegate: WhenYouWillSignTheContractPitchSurveyViewDelegate?
@@ -189,6 +190,7 @@ class WhenYouWillSignTheContractPitchSurveyView: UIView, UITextFieldDelegate {
                                                                  image: "iconImputCalendar")
     
     whenYouWillSignTheContractView.mainTextField.placeholder = "dd/mm/aa"
+    whenYouWillSignTheContractView.mainTextField.tag = 1
     whenYouWillSignTheContractView.mainTextField.inputView = containerViewForPicker
     whenYouWillSignTheContractView.mainTextField.delegate = self
     
@@ -240,7 +242,9 @@ class WhenYouWillSignTheContractPitchSurveyView: UIView, UITextFieldDelegate {
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
     
-    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
+    finalDateForServer = "\(components.year)-\(components.month)-\(components.day)"
+    let stringDate = "\(components.day)-\(components.month)-\(components.year)"
+    
     whenYouWillSignTheContractView.mainTextField.text = stringDate
     
     self.changeNextButtonToEnabled()
@@ -249,7 +253,7 @@ class WhenYouWillSignTheContractPitchSurveyView: UIView, UITextFieldDelegate {
   
   @objc private func nextButtonPressed() {
     
-    self.delegate?.whenYouWillSignTheContractNextButtonPressed(whenYouWillSignTheContractView.mainTextField.text!)
+    self.delegate?.whenYouWillSignTheContractNextButtonPressed(finalDateForServer)
     
   }
   
@@ -259,10 +263,10 @@ class WhenYouWillSignTheContractPitchSurveyView: UIView, UITextFieldDelegate {
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
     
-    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
+    finalDateForServer = "\(components.year)-\(components.month)-\(components.day)"
+    let stringDate = "\(components.day)-\(components.month)-\(components.year)"
+    
     whenYouWillSignTheContractView.mainTextField.text = stringDate
-    
-    
     
     self.dismissKeyboard()
     
@@ -304,9 +308,14 @@ class WhenYouWillSignTheContractPitchSurveyView: UIView, UITextFieldDelegate {
   
   func textFieldShouldClear(textField: UITextField) -> Bool {
     
-    
+    if textField.tag == 1 {
+      
+      finalDateForServer = ""
+      
+    }
     
     return true
+    
   }
   
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {

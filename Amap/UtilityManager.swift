@@ -212,7 +212,7 @@ class UtilityManager: NSObject {
   
   func validateIfLinkIsYoutube(url: String?) -> Bool {
     
-    if url != nil {
+    if url != nil && url != "" {
 
       let path = NSURL.fileURLWithPath(url!)
       if path.pathComponents?.count >= 3 {
@@ -245,7 +245,7 @@ class UtilityManager: NSObject {
   
   func validateIfLinkIsVimeo(url: String?) -> Bool {
     
-    if url != nil {
+    if url != nil && url != "" {
       
       let path = NSURL.fileURLWithPath(url!)
       if path.pathComponents?.count >= 3 {

@@ -260,6 +260,7 @@ class EditCompanyProfileView: UIView, UITextFieldDelegate {
     
     companyEMailView = CustomTextFieldWithTitleView.init(frame: frameForCustomView, title: "Escribe tus datos de contacto", image: "iconMailClient")
     companyEMailView.mainTextField.placeholder = "mail@mail.com"
+    companyEMailView.mainTextField.autocapitalizationType = .None
     companyEMailView.mainTextField.tag = 2
     companyEMailView.mainTextField.delegate = self
     

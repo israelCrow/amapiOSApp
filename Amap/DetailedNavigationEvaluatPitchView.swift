@@ -39,10 +39,12 @@ class DetailedNavigationEvaluatPitchView: UIView {
 
   private func initInterface() {
     
-    self.backgroundColor = UIColor.init(red: 23.0/255.0,
-                                      green: 21.0/255.0,
-                                       blue: 23.0/255.0,
-                                      alpha: 0.998)
+//    self.backgroundColor = UIColor.init(red: 23.0/255.0,
+//                                      green: 21.0/255.0,
+//                                       blue: 23.0/255.0,
+//                                      alpha: 0.998)
+
+    self.backgroundColor = UIColor.blackColor()
     
     self.layer.borderWidth = 0.0
     

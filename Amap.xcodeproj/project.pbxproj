@@ -267,9 +267,7 @@
 		AAFD0E1E1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */; };
 		C04FC772F5442066639C311A /* Pods_Amap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730B22C94A0E292BE5556150 /* Pods_Amap.framework */; };
 		FC6CD6501E32026300855438 /* CaseCardInfoToEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6CD64F1E32026300855438 /* CaseCardInfoToEditView.swift */; };
-		FCA774F31E576F2900FC3C40 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCA774F21E576F2900FC3C40 /* Images.xcassets */; };
 		FCA774F61E577CB600FC3C40 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCA774F41E577CB600FC3C40 /* LaunchScreen.storyboard */; };
-		FCA774F81E577EB100FC3C40 /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCA774F71E577EB100FC3C40 /* Images-2.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -553,9 +551,7 @@
 		AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterAccordingToUserAndAgencyView.swift; sourceTree = "<group>"; };
 		D32EBDE6D734E5F3142D1570 /* Pods-Amap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amap.release.xcconfig"; path = "Pods/Target Support Files/Pods-Amap/Pods-Amap.release.xcconfig"; sourceTree = "<group>"; };
 		FC6CD64F1E32026300855438 /* CaseCardInfoToEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaseCardInfoToEditView.swift; sourceTree = "<group>"; };
-		FCA774F21E576F2900FC3C40 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FCA774F51E577CB600FC3C40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		FCA774F71E577EB100FC3C40 /* Images-2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Images-2.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1115,8 +1111,6 @@
 				AA92D6111D50E7D300CE7D95 /* Assets.xcassets */,
 				FCA774F41E577CB600FC3C40 /* LaunchScreen.storyboard */,
 				AA92D6161D50E7D300CE7D95 /* Info.plist */,
-				FCA774F21E576F2900FC3C40 /* Images.xcassets */,
-				FCA774F71E577EB100FC3C40 /* Images-2.xcassets */,
 			);
 			path = Amap;
 			sourceTree = "<group>";
@@ -1665,7 +1659,6 @@
 			files = (
 				FCA774F61E577CB600FC3C40 /* LaunchScreen.storyboard in Resources */,
 				AA7AC7861D52654D007522FB /* SF-UI-Display-Heavy.otf in Resources */,
-				FCA774F81E577EB100FC3C40 /* Images-2.xcassets in Resources */,
 				AA7AC7921D52654D007522FB /* SF-UI-Display-Semibold.otf in Resources */,
 				AA7AC7A11D52654D007522FB /* SF-UI-Text-Heavy.otf in Resources */,
 				AA7AC78F1D52654D007522FB /* SF-UI-Display-Regular.otf in Resources */,
@@ -1673,7 +1666,6 @@
 				AA7AC79B1D52654D007522FB /* SF-UI-Text-Bold.otf in Resources */,
 				AA7AC7891D52654D007522FB /* SF-UI-Display-Light.otf in Resources */,
 				AA7AC7A41D52654D007522FB /* SF-UI-Text-HeavyItalic.otf in Resources */,
-				FCA774F31E576F2900FC3C40 /* Images.xcassets in Resources */,
 				AA7AC7B01D52654D007522FB /* SF-UI-Text-MediumItalic.otf in Resources */,
 				AA7AC7831D52654D007522FB /* SF-UI-Display-Bold.otf in Resources */,
 				AA7AC78C1D52654D007522FB /* SF-UI-Display-Medium.otf in Resources */,

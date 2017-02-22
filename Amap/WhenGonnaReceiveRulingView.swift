@@ -21,6 +21,7 @@ class WhenGonnaReceiveRulingView: UIView, UITextFieldDelegate {
   private var nextButton: UIButton! = nil
   private var containerViewForPicker: UIView! = nil
   private var mainDatePicker: UIDatePicker! = nil
+  private var finalDateForServer: String! = ""
   var regionPosition: PositionOfCardsAddResults! = nil
   
   var delegate: WhenGonnaReceiveRulingViewDelegate?
@@ -173,6 +174,7 @@ class WhenGonnaReceiveRulingView: UIView, UITextFieldDelegate {
                                                                    image: "iconImputCalendar")
     
     whenGonnaReceiveRulingView.mainTextField.placeholder = "dd/mm/aa"
+    whenGonnaReceiveRulingView.mainTextField.tag = 1
     whenGonnaReceiveRulingView.mainTextField.inputView = containerViewForPicker
     whenGonnaReceiveRulingView.mainTextField.delegate = self
     
@@ -223,8 +225,10 @@ class WhenGonnaReceiveRulingView: UIView, UITextFieldDelegate {
     let dateFromPicker = mainDatePicker.date
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
+
+    finalDateForServer = "\(components.year)-\(components.month)-\(components.day)"
+    let stringDate = "\(components.day)-\(components.month)-\(components.year)"
     
-    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
     whenGonnaReceiveRulingView.mainTextField.text = stringDate
     
     self.changeNextButtonToEnabled()
@@ -233,7 +237,7 @@ class WhenGonnaReceiveRulingView: UIView, UITextFieldDelegate {
   
   @objc private func nextButtonPressed() {
     
-    self.delegate?.whenGonnaReceiveRulingNextButtonPressed(whenGonnaReceiveRulingView.mainTextField.text!)
+    self.delegate?.whenGonnaReceiveRulingNextButtonPressed(finalDateForServer)
     
   }
   
@@ -243,10 +247,10 @@ class WhenGonnaReceiveRulingView: UIView, UITextFieldDelegate {
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
     
-    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
+    finalDateForServer = "\(components.year)-\(components.month)-\(components.day)"
+    let stringDate = "\(components.day)-\(components.month)-\(components.year)"
+    
     whenGonnaReceiveRulingView.mainTextField.text = stringDate
-    
-    
     
     self.dismissKeyboard()
     
@@ -288,9 +292,14 @@ class WhenGonnaReceiveRulingView: UIView, UITextFieldDelegate {
   
   func textFieldShouldClear(textField: UITextField) -> Bool {
     
-    
+    if textField.tag == 1 {
+      
+      finalDateForServer = ""
+      
+    }
     
     return true
+    
   }
   
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {

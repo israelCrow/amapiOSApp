@@ -73,11 +73,23 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
 //    self.createPitchSkillsView()
     self.createFillSurveyView()
     self.createCancelEditButtonsView()
-    self.createTabBarForPitchDetail()
+    
+    if tabBarForPitchDetail == nil {
+    
+      self.createTabBarForPitchDetail()
+      
+    }
     
   }
   
   private func createMainScrollView() {
+    
+    if mainScrollView != nil {
+      
+      mainScrollView.removeFromSuperview()
+      mainScrollView = nil
+      
+    }
     
     let frameForMainScrollView = CGRect.init(x: 0.0,
                                              y: 180.0 * UtilityManager.sharedInstance.conversionHeight,
@@ -98,6 +110,13 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   }
   
   private func createBottomContainerView() {
+    
+    if bottomContainerView != nil {
+      
+      bottomContainerView.removeFromSuperview()
+      bottomContainerView = nil
+      
+    }
     
     let frameForView = CGRect.init(x: 0.0,
                                    y: UIScreen.mainScreen().bounds.size.height + (50.0 * UtilityManager.sharedInstance.conversionHeight),
@@ -239,6 +258,13 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   
   private func createCancelEditButtonsView() {
     
+    if cancelDeclinButtonsView != nil {
+      
+      cancelDeclinButtonsView.removeFromSuperview()
+      cancelDeclinButtonsView = nil
+      
+    }
+    
     let frameForView = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
                                    y: fillSurveyView.frame.origin.y + fillSurveyView.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
                                width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
@@ -286,6 +312,22 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
       self.createFillSurveyView()
       
     }
+    
+    if cancelDeclinButtonsView != nil {
+      
+      self.createCancelEditButtonsView()
+      
+    }
+    
+//    graphPitchView.backgroundColor = UIColor.greenColor()
+//    recommendations.backgroundColor = UIColor.redColor()
+//    fillSurveyView.backgroundColor = UIColor.purpleColor()
+//    cancelDeclinButtonsView.backgroundColor = UIColor.brownColor()
+    
+    let sizeForContentScrollView = CGSize.init(width: mainScrollView.contentSize.width,
+                                              height: graphPitchView.frame.size.height + recommendations.getFinalHeight() + fillSurveyView.frame.size.height + cancelDeclinButtonsView.frame.size.height + (265.0 * UtilityManager.sharedInstance.conversionHeight))
+
+    mainScrollView.contentSize = sizeForContentScrollView
     
   }
   

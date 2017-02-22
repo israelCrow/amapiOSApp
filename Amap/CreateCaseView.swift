@@ -937,6 +937,14 @@ caseInfo: caseDataForPreview, showButtonsOfEdition: true, newURLVideo: urlChecke
     
   }
   
+  func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+   
+    let newText = (textView.text as NSString).stringByReplacingCharactersInRange(range, withString: text)
+    let numberOfChars = newText.characters.count // for Swift use count(newText)
+    return numberOfChars < 200
+    
+  }
+  
   func textViewDidEndEditing(textView: UITextView) {
     
     if textView.tag == 1 {

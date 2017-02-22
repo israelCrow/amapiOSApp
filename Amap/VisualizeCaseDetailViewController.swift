@@ -283,10 +283,10 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     
     mainScrollView.addSubview(playerVimeoYoutube)
     
-    if playerVimeoYoutube.frame.origin.y + playerVimeoYoutube.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight) >= mainScrollView.frame.size.height {
+    if playerVimeoYoutube.frame.origin.y + playerVimeoYoutube.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight) >= mainScrollView.frame.size.height {
       
       mainScrollView.contentSize = CGSize.init(width: mainScrollView.frame.size.width,
-                                              height: mainScrollView.frame.size.height + (mainScrollView.frame.size.height - (playerVimeoYoutube.frame.origin.y + playerVimeoYoutube.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight))))
+                                              height: mainScrollView.frame.size.height + (playerVimeoYoutube.frame.origin.y + playerVimeoYoutube.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight)))
       
     }
     
@@ -531,8 +531,27 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
         
       }
       
-      mainScrollView.contentSize = CGSize.init(width: mainScrollView.contentSize.width,
-                                              height: mainScrollView.contentSize.height + sizeInPixels.height)
+      if ( UtilityManager.sharedInstance.validateIfLinkIsYoutube(caseData.case_video_url) == true || UtilityManager.sharedInstance.validateIfLinkIsVimeo(caseData.case_video_url) == true ) == false{
+        
+        if caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + (75.0 * UtilityManager.sharedInstance.conversionHeight) >= mainScrollView.frame.size.height {
+          
+          mainScrollView.contentSize = CGSize.init(width: mainScrollView.contentSize.width,
+                                                   height: caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + ( (78.0 + 70.0) * UtilityManager.sharedInstance.conversionHeight))
+          
+        }
+
+      } else {
+        
+        if caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + playerVimeoYoutube.frame.size.height + (100.0 * UtilityManager.sharedInstance.conversionHeight) >= mainScrollView.frame.size.height {
+          
+          mainScrollView.contentSize = CGSize.init(width: mainScrollView.contentSize.width,
+                                                   height: caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + playerVimeoYoutube.frame.size.height  + ( (78.0 + 100.0) * UtilityManager.sharedInstance.conversionHeight))
+          
+        }
+        
+      }
+      
+
       
     } else
       if notification.userInfo?["image"] as? String != nil {
@@ -617,7 +636,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
   
   @objc private func whatsAppButtonPressed() {
     
-    if UtilityManager.sharedInstance.validateIfLinkIsYoutube(caseData.url) || UtilityManager.sharedInstance.validateIfLinkIsVimeo(caseData.url) {
+    if UtilityManager.sharedInstance.validateIfLinkIsYoutube(caseData.case_video_url) || UtilityManager.sharedInstance.validateIfLinkIsVimeo(caseData.case_video_url) {
       
       self.shareURLViaWhatsapp()
       
@@ -628,13 +647,13 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
         
         self.shareImageViaWhatsapp()
         
-    }
+      }
     
   }
   
   private func shareURLViaWhatsapp() {
     
-    let textToShare = "Conoce el caso \(caseData.name) de \(AgencyModel.Data.name):\n\(caseData.url).\n\nDescarga Android\nDescarga iOS"
+    let textToShare = "Conoce el caso \(caseData.name) de \(AgencyModel.Data.name):\n\(caseData.url)\n\nDescarga Android\nDescarga iOS"
     
     let activityItems: [AnyObject] = [textToShare]
     
@@ -659,7 +678,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     if playerVimeoYoutube.imageForCaseImageView.image != nil {
       
       
-      let textToShare = "Descarga Happitch y conoce el caso \(caseData.name) de \(AgencyModel.Data.name).\n\nDescarga Android\nDescarga iOS"
+      let textToShare = "Descarga Happitch y conoce el caso \(caseData.name) de \(AgencyModel.Data.name)\n\nDescarga Android\nDescarga iOS"
       
       let activityItems: [AnyObject] = [textToShare, playerVimeoYoutube.imageForCaseImageView.image!]
       

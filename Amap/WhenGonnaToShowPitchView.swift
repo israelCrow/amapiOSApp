@@ -21,6 +21,7 @@ class WhenGonnaToShowPitchView: UIView, UITextFieldDelegate {
   private var nextButton: UIButton! = nil
   private var containerViewForPicker: UIView! = nil
   private var mainDatePicker: UIDatePicker! = nil
+  private var finalDateForServer: String! = ""
   var regionPosition: PositionOfCardsAddResults! = nil
   
   var delegate: WhenGonnaToShowPitchViewDelegate?
@@ -173,6 +174,7 @@ class WhenGonnaToShowPitchView: UIView, UITextFieldDelegate {
                                                                    image: "iconImputCalendar")
     
     whenGonnaToShowPitchView.mainTextField.placeholder = "dd/mm/aa"
+    whenGonnaToShowPitchView.mainTextField.tag = 1
     whenGonnaToShowPitchView.mainTextField.inputView = containerViewForPicker
     whenGonnaToShowPitchView.mainTextField.delegate = self
     
@@ -224,7 +226,9 @@ class WhenGonnaToShowPitchView: UIView, UITextFieldDelegate {
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
     
-    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
+    finalDateForServer = "\(components.year)-\(components.month)-\(components.day)"
+    let stringDate = "\(components.day)-\(components.month)-\(components.year)"
+    
     whenGonnaToShowPitchView.mainTextField.text = stringDate
     
     self.changeNextButtonToEnabled()
@@ -233,7 +237,7 @@ class WhenGonnaToShowPitchView: UIView, UITextFieldDelegate {
   
   @objc private func nextButtonPressed() {
     
-    self.delegate?.whenGonnaToShowPitchNextButtonPressed(whenGonnaToShowPitchView.mainTextField.text!)
+    self.delegate?.whenGonnaToShowPitchNextButtonPressed(finalDateForServer)
     
   }
   
@@ -243,10 +247,10 @@ class WhenGonnaToShowPitchView: UIView, UITextFieldDelegate {
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
     
-    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
+    finalDateForServer = "\(components.year)-\(components.month)-\(components.day)"
+    let stringDate = "\(components.day)-\(components.month)-\(components.year)"
+    
     whenGonnaToShowPitchView.mainTextField.text = stringDate
-    
-    
     
     self.dismissKeyboard()
     
@@ -288,9 +292,14 @@ class WhenGonnaToShowPitchView: UIView, UITextFieldDelegate {
   
     func textFieldShouldClear(textField: UITextField) -> Bool {
   
-  
+      if textField.tag == 1 {
+        
+        finalDateForServer = ""
+        
+      }
   
       return true
+      
     }
   
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {

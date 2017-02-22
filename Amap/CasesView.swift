@@ -166,7 +166,7 @@ class CasesView: UIView, CaseCardInfoToEditViewDelegate {
         caseCardInfo.delegate = self
         
         frameForCaseCard = CGRect.init(x: 0.0,
-                                       y: frameForCaseCard.origin.y + (160.0 * UtilityManager.sharedInstance.conversionHeight),
+                                       y: frameForCaseCard.origin.y + caseCardInfo.getFinalHeight() + (15.0 * UtilityManager.sharedInstance.conversionHeight), // (160.0 * UtilityManager.sharedInstance.conversionHeight),
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                   height: 140.0 * UtilityManager.sharedInstance.conversionHeight)
         self.mainScrollView.addSubview(caseCardInfo)

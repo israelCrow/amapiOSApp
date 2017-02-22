@@ -1456,7 +1456,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 3 {
         
-        return 1.55 * value
+        return 1.15 * value
         
       }else
         if arrayOfPitchesByUser.count == 3 {
@@ -1535,7 +1535,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       if arrayOfPitchesByUser.count > 0 && arrayOfPitchesByUser.count < 3 {
         
-        return 0.85 * value
+        return 0.6 * value
         
       }else
         if arrayOfPitchesByUser.count == 3 {

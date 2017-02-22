@@ -22,6 +22,7 @@ class WhenProjectWillActivePitchSurveyView: UIView, UITextFieldDelegate {
   private var nextButton: UIButton! = nil
   private var containerViewForPicker: UIView! = nil
   private var mainDatePicker: UIDatePicker! = nil
+  private var finalDateForServer: String! = ""
   var regionPosition: PositionOfCardsAddResults! = nil
   
   var delegate: WhenProjectWillActivePitchSurveyViewDelegate?
@@ -189,6 +190,7 @@ class WhenProjectWillActivePitchSurveyView: UIView, UITextFieldDelegate {
                                                                        image: "iconImputCalendar")
     
     whenProjectWillActiveView.mainTextField.placeholder = "dd/mm/aa"
+    whenProjectWillActiveView.mainTextField.tag = 1
     whenProjectWillActiveView.mainTextField.inputView = containerViewForPicker
     whenProjectWillActiveView.mainTextField.delegate = self
     
@@ -240,7 +242,9 @@ class WhenProjectWillActivePitchSurveyView: UIView, UITextFieldDelegate {
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
     
-    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
+    finalDateForServer = "\(components.year)-\(components.month)-\(components.day)"
+    let stringDate = "\(components.day)-\(components.month)-\(components.year)"
+    
     whenProjectWillActiveView.mainTextField.text = stringDate
     
     self.changeNextButtonToEnabled()
@@ -249,7 +253,7 @@ class WhenProjectWillActivePitchSurveyView: UIView, UITextFieldDelegate {
   
   @objc private func nextButtonPressed() {
     
-    self.delegate?.whenProjectWillActiveNextButtonPressed(whenProjectWillActiveView.mainTextField.text!)
+    self.delegate?.whenProjectWillActiveNextButtonPressed(finalDateForServer)
     
   }
   
@@ -259,10 +263,10 @@ class WhenProjectWillActivePitchSurveyView: UIView, UITextFieldDelegate {
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
     
-    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
+    finalDateForServer = "\(components.year)-\(components.month)-\(components.day)"
+    let stringDate = "\(components.day)-\(components.month)-\(components.year)"
+    
     whenProjectWillActiveView.mainTextField.text = stringDate
-    
-    
     
     self.dismissKeyboard()
     
@@ -304,9 +308,14 @@ class WhenProjectWillActivePitchSurveyView: UIView, UITextFieldDelegate {
   
   func textFieldShouldClear(textField: UITextField) -> Bool {
     
-    
+    if textField.tag == 1 {
+      
+      finalDateForServer = ""
+      
+    }
     
     return true
+    
   }
   
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {

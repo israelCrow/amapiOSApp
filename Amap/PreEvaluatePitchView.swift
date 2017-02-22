@@ -21,7 +21,8 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
   private var nextButton: UIButton! = nil
   private var containerViewForPicker: UIView! = nil
   private var mainDatePicker: UIDatePicker! = nil
-  
+
+  private var finalDateForServer: String! = ""
   private var errorEMailLabel: UILabel! = nil
   private var sameEmailErrorLabel: UILabel! = nil
   
@@ -132,6 +133,7 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
                                                                    image: nil)
     
     writeNameAgencyOrBrandView.mainTextField.placeholder = "e-mail"
+    writeNameAgencyOrBrandView.mainTextField.autocapitalizationType = .None
     writeNameAgencyOrBrandView.mainTextField.delegate = self
     
     self.addSubview(writeNameAgencyOrBrandView)
@@ -153,6 +155,7 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     writeDateOfCreationOfPitchView.mainTextField.inputView = containerViewForPicker
     writeDateOfCreationOfPitchView.mainTextField.autocapitalizationType = .None
     writeDateOfCreationOfPitchView.mainTextField.delegate = self
+    writeDateOfCreationOfPitchView.mainTextField.tag == 2
     
     self.addSubview(writeDateOfCreationOfPitchView)
     
@@ -265,7 +268,9 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
     
-    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
+    finalDateForServer = "\(components.year)-\(components.month)-\(components.day)"
+    let stringDate = "\(components.day)-\(components.month)-\(components.year)"
+    
     writeDateOfCreationOfPitchView.mainTextField.text = stringDate
     
   }
@@ -273,14 +278,14 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
   @objc private func nextButtonPressed() {
     
     let isValidEmail = UtilityManager.sharedInstance.isValidEmail(writeNameAgencyOrBrandView.mainTextField.text!)
-    let isValidDate = UtilityManager.sharedInstance.isValidText(writeDateOfCreationOfPitchView.mainTextField.text!)
+    let isValidDate = UtilityManager.sharedInstance.isValidText(finalDateForServer)
     
     if writeNameAgencyOrBrandView.mainTextField.text!.lowercaseString != UserSession.session.email.lowercaseString {
       
       if isValidEmail == true && isValidDate == true{
         
         self.delegate?.savePitchAndFlipCard(writeNameAgencyOrBrandView.mainTextField.text!,
-                                            briefDate: writeDateOfCreationOfPitchView.mainTextField.text!)
+                                            briefDate: finalDateForServer)
         
       } else {
         
@@ -304,7 +309,9 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
     let calendar = NSCalendar.currentCalendar()
     let components = calendar.components([.Day, .Month, .Year], fromDate: dateFromPicker)
     
-    let stringDate = "\(components.year)-\(components.month)-\(components.day)"
+    finalDateForServer = "\(components.year)-\(components.month)-\(components.day)"
+    let stringDate = "\(components.day)-\(components.month)-\(components.year)"
+    
     writeDateOfCreationOfPitchView.mainTextField.text = stringDate
     
     self.dismissKeyboard()
@@ -383,6 +390,12 @@ class PreEvaluatePitchView: UIView, UITextFieldDelegate {
   
   
   func textFieldShouldClear(textField: UITextField) -> Bool {
+    
+    if textField.tag == 2 {
+      
+      finalDateForServer = ""
+      
+    }
     
     self.hideErrorMailLabel()
     self.hideSameMailLabel()
