@@ -13,7 +13,7 @@ class RequestToServerManager: NSObject {
 
   static let sharedInstance = RequestToServerManager()
   
-  let developmentServer = "http://amap-de.herokuapp.com/api"
+  let developmentServer = "http://amap-de.herokuapp.com/api" //es dev.herokuapp
   let productionServer = "https://amap-prod.herokuapp.com/api"
   
   func requestForAgencyData(functionToMakeWhenBringInfo: ()-> Void) {
