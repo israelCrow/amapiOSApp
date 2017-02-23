@@ -197,7 +197,7 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
       
       UtilityManager.sharedInstance.showLoader()
         
-        let urlToRequest = "https://amap-prod.herokuapp.com/api/sessions"
+        let urlToRequest = "\(RequestToServerManager.sharedInstance.typeOfServer)/sessions"
         
         let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
         requestConnection.HTTPMethod = "POST"

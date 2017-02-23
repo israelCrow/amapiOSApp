@@ -175,19 +175,25 @@ class CasesView: UIView, CaseCardInfoToEditViewDelegate {
         
       }
       
+      if creatorOfCasesView != nil {
+        
+        self.mainScrollView.bringSubviewToFront(self.creatorOfCasesView)
+        
+      }
+      
     }
     
   let frameForCreatorOfCases = frameForCaseCard
     
     let newContentSize = CGSize.init(width: mainScrollView.contentSize.width,
-                                    height: frameForCreatorOfCases.origin.y + frameForCreatorOfCases.size.height + (35.0 * UtilityManager.sharedInstance.conversionHeight))
+                                    height: frameForCreatorOfCases.origin.y + frameForCreatorOfCases.size.height + (55.0 * UtilityManager.sharedInstance.conversionHeight))
     
     mainScrollView.contentSize = newContentSize
     self.createCreatorOfCasesView(frameForCreatorOfCases)
     
     if creatorOfCasesView != nil {
       
-      self.bringSubviewToFront(self.creatorOfCasesView)
+      self.mainScrollView.bringSubviewToFront(self.creatorOfCasesView)
       
     }
     
@@ -214,6 +220,12 @@ class CasesView: UIView, CaseCardInfoToEditViewDelegate {
       UIView.animateWithDuration(0.35){
         
         self.creatorOfCasesView.frame = frameForCreatorOfCases
+        
+      }
+      
+      if creatorOfCasesView != nil {
+        
+        self.mainScrollView.bringSubviewToFront(self.creatorOfCasesView)
         
       }
       

@@ -244,7 +244,7 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate, 
     
     //MARK: - CreateAccountViewDelegate
   func requestCreateAccount(email: String, agency: String, typeOfUser: Int, actionToMakeWhenFinished: () -> Void) {
-        let urlToRequest2 = "https://amap-prod.herokuapp.com/api/new_user_requests"
+        let urlToRequest2 = "\(RequestToServerManager.sharedInstance.typeOfServer)/new_user_requests"
         
         let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest2)!)
         requestConnection.HTTPMethod = "POST"

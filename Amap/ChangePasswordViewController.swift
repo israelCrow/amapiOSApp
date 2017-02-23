@@ -214,7 +214,7 @@ class ChangePasswordViewController: UIViewController, ChangePasswordRequestViewD
     
         UtilityManager.sharedInstance.showLoader()
     
-        let urlToRequest = "https://amap-prod.herokuapp.com/api/users/send_password_reset"
+        let urlToRequest = "\(RequestToServerManager.sharedInstance.typeOfServer)/users/send_password_reset"
         
         let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
         requestConnection.HTTPMethod = "POST"

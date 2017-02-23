@@ -452,7 +452,7 @@ class EditCompanyProfileViewController: UIViewController, UIImagePickerControlle
     
     var newParameters = parameters
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/companies/update"
+    let urlToRequest = "\(RequestToServerManager.sharedInstance.typeOfServer)/companies/update"
     
     let headers = [
       "Content-Type" : "application/json",

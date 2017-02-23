@@ -967,7 +967,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     var newParameters = parameters
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/success_cases/update"
+    let urlToRequest = "\(RequestToServerManager.sharedInstance.typeOfServer)/success_cases/update"
     
     let headers = [
       "Content-Type" : "application/json",
@@ -1133,7 +1133,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     var newParameters = parameters
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/success_cases"
+    let urlToRequest = "\(RequestToServerManager.sharedInstance.typeOfServer)/success_cases"
     
     let headers = [
       "Content-Type" : "application/json",
@@ -1442,7 +1442,7 @@ class EditAgencyProfileViewController: UIViewController, UIImagePickerController
     
     var newParameters = parameters
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/agencies/update"
+    let urlToRequest = "\(RequestToServerManager.sharedInstance.typeOfServer)/agencies/update"
     
     let headers = [
       "Content-Type" : "application/json",

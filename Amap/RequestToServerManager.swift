@@ -13,12 +13,13 @@ class RequestToServerManager: NSObject {
 
   static let sharedInstance = RequestToServerManager()
   
-  let developmentServer = "http://amap-dev.herokuapp.com/api" //es http:// amap-dev.herokuapp
-  let productionServer = "https://amap-prod.herokuapp.com/api"  //es https:// amap-prod.herokuapp
+  static let developmentServer = "http://amap-dev.herokuapp.com/api"       // http:// amap-dev.herokuapp. com/ api
+  static let productionServer = "https://amap-prod.herokuapp.com/api"     // https:// amap-prod.herokuapp. com/ api
+  let typeOfServer = developmentServer
   
   func requestForAgencyData(functionToMakeWhenBringInfo: ()-> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/agencies/\(AgencyModel.Data.id!)"
+    let urlToRequest = "\(typeOfServer)/agencies/\(AgencyModel.Data.id!)"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "GET"
@@ -255,7 +256,7 @@ class RequestToServerManager: NSObject {
 
   func requestForDeleteAgencyCase(caseData: Case, actionToMakeAfterDelete: () -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/success_cases/destroy"
+    let urlToRequest = "\(typeOfServer)/success_cases/destroy"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -293,7 +294,7 @@ class RequestToServerManager: NSObject {
     
 //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/skill_categories"
+    let urlToRequest = "\(typeOfServer)/skill_categories"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "GET"
@@ -321,7 +322,7 @@ class RequestToServerManager: NSObject {
   
   func requestToSaveDataFromCriterions(params: [String:AnyObject], actionsToMakeAfterFinished: () -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/agencies/add_criteria"
+    let urlToRequest = "\(typeOfServer)/agencies/add_criteria"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -361,7 +362,7 @@ class RequestToServerManager: NSObject {
     
 //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/criteria"
+    let urlToRequest = "\(typeOfServer)/criteria"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "GET"
@@ -429,7 +430,7 @@ class RequestToServerManager: NSObject {
   
   func requestToSaveDataFromSkills(params: [String:AnyObject], actionsToMakeAfterFinished: () -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/agencies/add_skills"
+    let urlToRequest = "\(typeOfServer)/agencies/add_skills"
     
 //    print(params)
 //    
@@ -497,7 +498,7 @@ class RequestToServerManager: NSObject {
     
     //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/companies/" + UserSession.session.company_id
+    let urlToRequest = "\(typeOfServer)/companies/" + UserSession.session.company_id
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "GET"
@@ -548,7 +549,7 @@ class RequestToServerManager: NSObject {
     
 //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/companies"
+    let urlToRequest = "\(typeOfServer)/companies"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "GET"
@@ -647,7 +648,7 @@ class RequestToServerManager: NSObject {
     
     //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/agencies"
+    let urlToRequest = "\(typeOfServer)/agencies"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "GET"
@@ -704,7 +705,7 @@ class RequestToServerManager: NSObject {
     
     //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/agencies/search"
+    let urlToRequest = "\(typeOfServer)/agencies/search"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -763,7 +764,7 @@ class RequestToServerManager: NSObject {
     
     //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/search"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/search"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -939,7 +940,7 @@ class RequestToServerManager: NSObject {
     
 //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitches/by_brand/\(byBrandId)"
+    let urlToRequest = "\(typeOfServer)/pitches/by_brand/\(byBrandId)"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "GET"
@@ -1040,7 +1041,7 @@ class RequestToServerManager: NSObject {
   
   func requestToSaveExclusiveBrands(params: [String: AnyObject], actionsToMakeAfterSuccesfullCreateNewBrand: (jsonSentFromServerWhenSaveExclusiveData: AnyObject)-> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/agencies/add_exclusivity_brands"
+    let urlToRequest = "\(typeOfServer)/agencies/add_exclusivity_brands"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -1082,7 +1083,7 @@ class RequestToServerManager: NSObject {
   
   func requestToDeleteExclusiveBrands(params: [String: AnyObject], actionsToMakeAfterSuccesfullDeleteBrands: (jsonSentFromServerWhenDeleteExclusiveBrandsData: AnyObject)-> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/agencies/remove_exclusivity_brands"
+    let urlToRequest = "\(typeOfServer)/agencies/remove_exclusivity_brands"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -1115,7 +1116,7 @@ class RequestToServerManager: NSObject {
     
     //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/by_user"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/by_user"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -1527,7 +1528,7 @@ class RequestToServerManager: NSObject {
     
 //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/companies"
+    let urlToRequest = "\(typeOfServer)/companies"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -1585,7 +1586,7 @@ class RequestToServerManager: NSObject {
     
 //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/brands"
+    let urlToRequest = "\(typeOfServer)/brands"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -1648,7 +1649,7 @@ class RequestToServerManager: NSObject {
     
 //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitches"
+    let urlToRequest = "\(typeOfServer)/pitches"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -1777,7 +1778,7 @@ class RequestToServerManager: NSObject {
   
   func requestToCreateAVoidEvaluationOfProjectPitch(params: [String: AnyObject], actionsToMakeAfterSuccessfullyCreateAVoidPitchEvaluation: (newIdOfVoidPitchEvaluation: String) -> Void, actionsToMakeWhenPitchEvaluationAlreadyCreated: (errorMessage: String) -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -1830,7 +1831,7 @@ class RequestToServerManager: NSObject {
   
   func requestToCreateEvaluationOfProjectPitch(params: [String: AnyObject], actionsToMakeAfterSuccesfullCreateNewEvaluationPitch: (newEvaluationPitchCreated: PitchEvaluationModelData)-> Void, actionsToMakeWhenPitchEvaluationAlreadyCreated: (errorMessage: String) -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -1986,7 +1987,7 @@ class RequestToServerManager: NSObject {
   
   func requestToGetPitchEvaluationByPitchID(idOfPitchEvaluation: String, actionsToMakeAfterGetSuccesfullyPitchEvaluation: (evaluationData: [String: AnyObject]) -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/" + idOfPitchEvaluation
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/" + idOfPitchEvaluation
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "GET"
@@ -2015,7 +2016,7 @@ class RequestToServerManager: NSObject {
 
   func requestToUpdateEvaluationOfProjectPitch(params: [String: AnyObject], actionsToMakeAfterSuccesfullUpdateNewEvaluationPitch: (newEvaluationPitchCreated: PitchEvaluationModelData)-> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/update"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/update"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -2157,7 +2158,7 @@ class RequestToServerManager: NSObject {
     
     //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/cancel"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/cancel"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -2191,7 +2192,7 @@ class RequestToServerManager: NSObject {
     
     //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/decline"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/decline"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -2226,7 +2227,7 @@ class RequestToServerManager: NSObject {
     
     //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/archive"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/archive"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -2258,7 +2259,7 @@ class RequestToServerManager: NSObject {
   
   func requestToDestroyPitchEvaluation(params: [String: AnyObject], actionsToMakeAfterSuccesfullyDestroyedPitchEvaluation: ()-> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/destroy"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/destroy"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -2286,7 +2287,7 @@ class RequestToServerManager: NSObject {
   
   func requestToSaveAddResults(params: [String: AnyObject], actionsToMakeAfterSuccesfullyAddResults: ()-> Void, actionsToMakeAfterError: ()-> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_results"
+    let urlToRequest = "\(typeOfServer)/pitch_results"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -2316,7 +2317,7 @@ class RequestToServerManager: NSObject {
   
   func requestToSavePitchSurvey(params: [String: AnyObject], actionsToMakeAfterSuccesfullyPitchSurveySaved: ()-> Void, actionsToMakeWhenError: ()-> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_winner_surveys"
+    let urlToRequest = "\(typeOfServer)/pitch_winner_surveys"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -2346,7 +2347,7 @@ class RequestToServerManager: NSObject {
   
   func requestToUpdatePitchResults(params: [String: AnyObject], actionsToMakeAfterSuccesfullyPitchResultsSaved: ()-> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_results/update"
+    let urlToRequest = "\(typeOfServer)/pitch_results/update"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -2376,7 +2377,7 @@ class RequestToServerManager: NSObject {
     
     //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_results/" + pitchId
+    let urlToRequest = "\(typeOfServer)/pitch_results/" + pitchId
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "GET"
@@ -2471,7 +2472,7 @@ class RequestToServerManager: NSObject {
   
   func requestToFilterPitchEvaluations(params: [String: AnyObject], actionsToMakeWhenReceiveElements:(arrayFiltered: [PitchEvaluationByUserModelData]) -> Void ) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/filter"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/filter"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -2798,7 +2799,7 @@ class RequestToServerManager: NSObject {
   
   func requestToGetPitchEvaluationsAveragePerMonthByAgency(extraParams: [String: AnyObject]?,actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthOfAgency:[PitchEvaluationAveragePerMonthModelData] , arrayOfUsers: [AgencyUserModelData]) -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/average_per_month_by_agency"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/average_per_month_by_agency"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -2892,7 +2893,7 @@ class RequestToServerManager: NSObject {
 
   func requestToGetPitchEvaluationsAveragePerMonthByUser(params: [String: AnyObject],actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthByUser:[PitchEvaluationAveragePerMonthModelData]) -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/average_per_month_by_user"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/average_per_month_by_user"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -2947,7 +2948,7 @@ class RequestToServerManager: NSObject {
   
   func requestToGetPitchEvaluationsAveragePerMonthByBrand(params: [String: AnyObject],actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthByUser:[PitchEvaluationAveragePerMonthModelData]) -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/average_per_month_by_brand"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/average_per_month_by_brand"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -3002,7 +3003,7 @@ class RequestToServerManager: NSObject {
 
   func requestToGetPitchEvaluationsAveragePerMonthByIndustry(extraParams: [String: AnyObject]?, actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthOfIndustry:[PitchEvaluationAveragePerMonthModelData]) -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/average_per_month_industry"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/average_per_month_industry"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -3070,7 +3071,7 @@ class RequestToServerManager: NSObject {
   
   func requestToGetPitchEvaluationsDashboardSummaryByClient(actionsToMakeAfterGettingInfo:(numberOfPitchesByClientForDashboardSummary: [String: Int], arrayOfBrands: [BrandModelData], recommendations: [RecommendationModelData]) -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/dashboard_summary_by_client"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/dashboard_summary_by_client"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -3276,7 +3277,7 @@ class RequestToServerManager: NSObject {
   
   func requestToGetPitchEvaluationsDashboardSummaryByBrand(params: [String: AnyObject], actionsToMakeAfterGettingInfoByBrand:(numberOfPitchesByBrandForDashboardSummary: [String: Int]) -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/dashboard_summary_by_brand"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/dashboard_summary_by_brand"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -3327,7 +3328,7 @@ class RequestToServerManager: NSObject {
   
   func requestToGetPitchEvaluationsDashboardSumaryByAgency(actionsToMakeAfterGetingInfo: (numberOfPitchesByAgencyForDashboardSumary: [String: Int] , arrayOfUsers: [AgencyUserModelData], recommendations: [RecommendationModelData]) -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/dashboard_summary_by_agency"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/dashboard_summary_by_agency"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -3509,7 +3510,7 @@ class RequestToServerManager: NSObject {
   
   func requestToGetPitchEvaluationsDashboardSummaryByUser(params: [String: AnyObject],actionsToMakeAfterGetingInfo: (numberOfPitchesByAgencyForDashboardSumary: [String: Int]) -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/dashboard_summary_by_user"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/dashboard_summary_by_user"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -3558,7 +3559,7 @@ class RequestToServerManager: NSObject {
   
   func requestToSetAgencyToFavorite(params: [String: AnyObject],actionsToMakeAfterSetAgencyToFavorite: () -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/companies/add_favorite_agency"
+    let urlToRequest = "\(typeOfServer)/companies/add_favorite_agency"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -3592,7 +3593,7 @@ class RequestToServerManager: NSObject {
   
   func requestToRemoveAgencyFromFavorite(params: [String: AnyObject],actionsToMakeAfterRemoveAgencyFromFavorite: () -> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/companies/remove_favorite_agency"
+    let urlToRequest = "\(typeOfServer)/companies/remove_favorite_agency"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -3628,7 +3629,7 @@ class RequestToServerManager: NSObject {
     
     //    UtilityManager.sharedInstance.showLoader()
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/pitch_evaluations/search"
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/search"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
@@ -3732,7 +3733,7 @@ class RequestToServerManager: NSObject {
   
   func logOut(actionsToMakeAfterSuccesfullLogOut: ()-> Void) {
     
-    let urlToRequest = "https://amap-prod.herokuapp.com/api/sessions/destroy"
+    let urlToRequest = "\(typeOfServer)/sessions/destroy"
     
     let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
     requestConnection.HTTPMethod = "POST"
