@@ -151,6 +151,10 @@ class GenericDashboardGraphic: UIView {
     chartView.xAxis.labelRotatedHeight = 18.5 * UtilityManager.sharedInstance.conversionHeight
     chartView.xAxis.setLabelsToSkip(0)
     
+    chartView.rightAxis.startAtZeroEnabled = false
+    chartView.rightAxis.customAxisMin = 0.0
+    chartView.rightAxis.customAxisMax = 100.0
+
     chartView.rightAxis.enabled = false
     chartView.leftAxis.enabled = false
     chartView.dragEnabled = false

@@ -229,24 +229,27 @@ class LookForPitchCardView: UIView, UITableViewDelegate, UITableViewDataSource, 
   }
   
   @objc private func textDidChange(textField: UITextField) {
+
     
-    if textField.text! == "" || textField.text == nil || textField.text! == " " {
-      
-      //CHANGE ARRAY OF ALL PROJECTS
-      arrayOfFilteredProjects = arrayOfAllProjects
-      
-      self.showMainTableView()
-      self.hideNoResultsLabel()
-      //      self.hideAddButton()
-      
-      mainTableView.reloadData()
-      //      self.hideMainTableView()
-      
-    } else {
-      
-      self.filterCompaniesWithText(textField.text!)
-      
-    }
+    
+    //JUST UNCOMMENT TO FILTER THE SHOWING PITCHES 
+//    if textField.text! == "" || textField.text == nil || textField.text! == " " {
+//      
+//      //CHANGE ARRAY OF ALL PROJECTS
+//      arrayOfFilteredProjects = arrayOfAllProjects
+//      
+//      self.showMainTableView()
+//      self.hideNoResultsLabel()
+//      //      self.hideAddButton()
+//      
+//      mainTableView.reloadData()
+//      //      self.hideMainTableView()
+//      
+//    } else {
+//      
+//      self.filterCompaniesWithText(textField.text!)
+//      
+//    }
     
   }
   

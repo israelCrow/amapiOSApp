@@ -591,14 +591,14 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
   
   @objc private func mailIconPressed() {
     
-    if UtilityManager.sharedInstance.validateIfLinkIsYoutube(caseData.case_video_url) || UtilityManager.sharedInstance.validateIfLinkIsVimeo(caseData.case_video_url) {
+    if UtilityManager.sharedInstance.validateIfLinkIsYoutube(caseData.case_video_url) || UtilityManager.sharedInstance.validateIfLinkIsVimeo(caseData.case_video_url)  || (caseData.url != nil && caseData.url != "") {
       
       self.shareURLViaMail()
       
       
     } else
       
-      if playerVimeoYoutube.existsImage == true {
+    if imageCase.image != nil {
         
         self.shareImageViaMail()
         
@@ -612,8 +612,22 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     mailComposeVC.mailComposeDelegate = self
       
     mailComposeVC.setSubject("Caso \(caseData.name)")
+    
+    var finalText = ""
+    
+    if caseData.url != nil && caseData.url != "" {
       
-    mailComposeVC.setMessageBody("Conoce el caso \(caseData.name) de \(AgencyModel.Data.name):\n\(caseData.url).\n\nDescarga Android\nDescarga iOS", isHTML: false)
+      finalText = caseData.url
+      
+    } else
+    
+      if caseData.case_video_url != nil && caseData.case_video_url != "" {
+        
+        finalText = caseData.case_video_url!
+        
+      }
+      
+    mailComposeVC.setMessageBody("Conoce el caso \(caseData.name) de \(AgencyModel.Data.name):\n\(finalText).\n\nDescarga Android\nDescarga iOS", isHTML: false)
       
     self.presentViewController(mailComposeVC, animated: true, completion: nil)
     
@@ -624,7 +638,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     let mailComposeVC = MFMailComposeViewController()
     mailComposeVC.mailComposeDelegate = self
       
-    mailComposeVC.addAttachmentData(UIImageJPEGRepresentation(playerVimeoYoutube.imageForCaseImageView.image!, CGFloat(1.0))!, mimeType: "image/jpeg", fileName:"caso_\(caseData.name).jpeg")
+    mailComposeVC.addAttachmentData(UIImageJPEGRepresentation(imageCase.image!, CGFloat(1.0))!, mimeType: "image/jpeg", fileName:"caso_\(caseData.name).jpeg")
       
     mailComposeVC.setSubject("Caso \(caseData.name)")
       
@@ -636,14 +650,14 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
   
   @objc private func whatsAppButtonPressed() {
     
-    if UtilityManager.sharedInstance.validateIfLinkIsYoutube(caseData.case_video_url) || UtilityManager.sharedInstance.validateIfLinkIsVimeo(caseData.case_video_url) {
+    if UtilityManager.sharedInstance.validateIfLinkIsYoutube(caseData.case_video_url) || UtilityManager.sharedInstance.validateIfLinkIsVimeo(caseData.case_video_url)  || (caseData.url != nil && caseData.url != "") {
       
       self.shareURLViaWhatsapp()
       
       
     } else
       
-      if playerVimeoYoutube.existsImage == true {
+      if imageCase.image != nil {
         
         self.shareImageViaWhatsapp()
         
@@ -653,7 +667,21 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
   
   private func shareURLViaWhatsapp() {
     
-    let textToShare = "Conoce el caso \(caseData.name) de \(AgencyModel.Data.name):\n\(caseData.url)\n\nDescarga Android\nDescarga iOS"
+    var finalText = ""
+    
+    if caseData.url != nil && caseData.url != "" {
+      
+      finalText = caseData.url
+      
+    } else
+      
+      if caseData.case_video_url != nil && caseData.case_video_url != "" {
+        
+        finalText = caseData.case_video_url!
+        
+    }
+    
+    let textToShare = "Conoce el caso \(caseData.name) de \(AgencyModel.Data.name):\n\(finalText)\n\nDescarga Android\nDescarga iOS"
     
     let activityItems: [AnyObject] = [textToShare]
     
@@ -675,12 +703,12 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
   
   private func shareImageViaWhatsapp() {
     
-    if playerVimeoYoutube.imageForCaseImageView.image != nil {
+    if imageCase.image != nil {
       
       
       let textToShare = "Descarga Happitch y conoce el caso \(caseData.name) de \(AgencyModel.Data.name)\n\nDescarga Android\nDescarga iOS"
       
-      let activityItems: [AnyObject] = [textToShare, playerVimeoYoutube.imageForCaseImageView.image!]
+      let activityItems: [AnyObject] = [textToShare, imageCase.image!]
       
       let activityController = UIActivityViewController.init(activityItems: activityItems,
                                                      applicationActivities: nil)

@@ -303,8 +303,12 @@ class LookForAgencyView: UIView, UITableViewDelegate, UITableViewDataSource, UIT
   
   private func filterCompaniesWithText(filterText: String) {
     
-    arrayOfFilteredAgencies = arrayOfAllAgencies.filter({ (agencyData) -> Bool in
-      return agencyData.name.rangeOfString(filterText, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil
+//    arrayOfFilteredAgencies = arrayOfAllAgencies.filter({ (agencyData) -> Bool in
+//      return agencyData.name.rangeOfString(filterText, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil
+//    })
+    
+    arrayOfFilteredAgencies = arrayOfAllAgencies.filter({ (agency) -> Bool in
+      return agency.name.hasPrefix(filterText)
     })
     
     
