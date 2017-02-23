@@ -364,7 +364,7 @@
 		AA084F291DDA1BEC00B76649 /* GenericDashboardGraphic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericDashboardGraphic.swift; sourceTree = "<group>"; };
 		AA084F2B1DDA2B6300B76649 /* GraphAccordingToUserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphAccordingToUserView.swift; sourceTree = "<group>"; };
 		AA084F301DDA7D8100B76649 /* GraphOfAgencyVSIndustryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphOfAgencyVSIndustryView.swift; sourceTree = "<group>"; };
-		AA0949621D528A01000E76E1 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		AA0949621D528A01000E76E1 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CreateAccountViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA0949671D52955E000E76E1 /* CreateAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 		AA0949691D529A59000E76E1 /* CreateAccountConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountConstants.swift; sourceTree = "<group>"; };
 		AA0BD36B1DB54BAC0057387D /* DeclinedPitchEvaluationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeclinedPitchEvaluationView.swift; sourceTree = "<group>"; };
@@ -391,7 +391,7 @@
 		AA2DB8531D53B6C800E9FB8A /* CreateAccountProcessAlreadyBegunView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountProcessAlreadyBegunView.swift; sourceTree = "<group>"; };
 		AA2DB8571D53B97D00E9FB8A /* ChangePasswordRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordRequestView.swift; sourceTree = "<group>"; };
 		AA2DB8591D53BB8100E9FB8A /* ChangePasswordRequestConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordRequestConstants.swift; sourceTree = "<group>"; };
-		AA2DB85B1D53C17400E9FB8A /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		AA2DB85B1D53C17400E9FB8A /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ChangePasswordViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA39775E1DB5E554009A41C2 /* LookForPitchCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookForPitchCardView.swift; sourceTree = "<group>"; };
 		AA3E6EB01D74EFCD007D5736 /* SkillCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillCategory.swift; sourceTree = "<group>"; };
 		AA3E6EB21D7507C1007D5736 /* Skill.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Skill.swift; sourceTree = "<group>"; };
@@ -467,8 +467,8 @@
 		AA92D6261D50E7D300CE7D95 /* AmapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA92D62A1D50E7D300CE7D95 /* AmapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmapUITests.swift; sourceTree = "<group>"; };
 		AA92D62C1D50E7D300CE7D95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AA92D63B1D50EE0F00CE7D95 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
-		AA92D63F1D50EF7400CE7D95 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		AA92D63B1D50EE0F00CE7D95 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SplashViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA92D63F1D50EF7400CE7D95 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = LoginViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA92D6411D50F05300CE7D95 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		AA9A6CEA1D87156700B85C17 /* AddPitchAndWriteProjectNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPitchAndWriteProjectNameView.swift; sourceTree = "<group>"; };
 		AA9A6CEC1D871B2A00B85C17 /* CreateAddNewPitchAndWriteProjectNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAddNewPitchAndWriteProjectNameViewController.swift; sourceTree = "<group>"; };

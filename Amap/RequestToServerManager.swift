@@ -13,6 +13,9 @@ class RequestToServerManager: NSObject {
 
   static let sharedInstance = RequestToServerManager()
   
+  let developmentServer = "http://amap-de.herokuapp.com/api"
+  let productionServer = "https://amap-prod.herokuapp.com/api"
+  
   func requestForAgencyData(functionToMakeWhenBringInfo: ()-> Void) {
     
     let urlToRequest = "http://amap-dev.herokuapp.com/api/agencies/\(AgencyModel.Data.id!)"

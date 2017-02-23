@@ -99,14 +99,14 @@ class GraphPartPitchCardView: UIView {
             
             firstColor = UIColor.init(red: 48.0/255.0, green: 196.0/255.0, blue: 255.0/255.0, alpha: 1.0)
             secondColor = UIColor.init(red: 242.0/255.0, green: 10.0/255.0, blue: 172.0/255.0, alpha: 1.0)
-            titleLabel = self.createTitleLabel("OK")
+            titleLabel = self.createTitleLabel("UNHAPPY")//OK
           
         }else
         if myQualification <= 44 {
             
             firstColor = UIColor.init(red: 190.0/255.0, green: 81.0/255.0, blue: 237.0/255.0, alpha: 1.0)
             secondColor = UIColor.init(red: 255.0/255.0, green: 25.0/255.0, blue: 33.0/255.0, alpha: 1.0)
-            titleLabel = self.createTitleLabel("UNHAPPY")
+            titleLabel = self.createTitleLabel("BADPITCH") //
           
         }
   
