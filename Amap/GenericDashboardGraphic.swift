@@ -15,6 +15,7 @@ class GenericDashboardGraphic: UIView {
   private var dataForLineChart: [Double]! = nil
   private var dataForBarChart: [Double]! = nil
   private var valuesOfXAxis = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" , " "]
+  private let valuesLimitForGraph = [87.0, 87.0, 87.0, 87.0, 87.0, 87.0, 87.0, 87.0, 87.0, 87.0, 87.0, 87.0, 87.0]
   private var descriptionBarGraph: String! = nil
   private var descriptionLineGraph: String! = nil
   
@@ -132,6 +133,7 @@ class GenericDashboardGraphic: UIView {
     
     combinedData.lineData = self.generateLineData(dataForLineChart)
     combinedData.barData = self.generateBarData(dataForBarChart)
+    combinedData.bubbleData = self.generateBubbleData(valuesLimitForGraph)
     
     chartView.data = combinedData
     chartView.userInteractionEnabled = false
@@ -151,9 +153,9 @@ class GenericDashboardGraphic: UIView {
     chartView.xAxis.labelRotatedHeight = 18.5 * UtilityManager.sharedInstance.conversionHeight
     chartView.xAxis.setLabelsToSkip(0)
     
-    chartView.rightAxis.startAtZeroEnabled = false
-    chartView.rightAxis.customAxisMin = 0.0
-    chartView.rightAxis.customAxisMax = 100.0
+    chartView.leftAxis.startAtZeroEnabled = false
+    chartView.leftAxis.customAxisMin = 0.0
+    chartView.leftAxis.customAxisMax = 100.0
 
     chartView.rightAxis.enabled = false
     chartView.leftAxis.enabled = false
@@ -232,6 +234,31 @@ class GenericDashboardGraphic: UIView {
     barData.addDataSet(barSet)
     
     return barData
+    
+  }
+  
+  private func generateBubbleData(newValues: [Double]) -> BubbleChartData {
+    
+    let bd = BubbleChartData.init()
+    
+    var arrayOfEntries = [BubbleChartDataEntry]()
+    
+    for i in 0..<newValues.count {
+      
+      if newValues[i] != 0.0 {
+        
+        arrayOfEntries.append(BubbleChartDataEntry.init(xIndex: i, value: newValues[i], size: 0.0))
+        
+      }
+      
+    }
+    
+    let set = BubbleChartDataSet.init(yVals: arrayOfEntries, label: nil)
+    set.setColor(UIColor.clearColor(), alpha: 0.0)
+    
+    bd.addDataSet(set)
+    
+    return bd
     
   }
   

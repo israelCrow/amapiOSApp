@@ -775,6 +775,19 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
     
   }
   
+  func textFieldShouldClear(textField: UITextField) -> Bool {
+    
+    if textField.tag == 3 {
+      
+      isPossibletoSaveData = true
+      self.hideInvalidMailLabel()
+      
+    }
+    
+    return true
+    
+  }
+  
   func textFieldShouldReturn(textField: UITextField) -> Bool {
     
     let nextTag: NSInteger = textField.tag + 1;
@@ -887,16 +900,20 @@ class ProfileView: UIView, UITextFieldDelegate, GMSAutocompleteFetcherDelegate, 
   
   func checkIfMailIsCorrect() {
     
-    if UtilityManager.sharedInstance.isValidEmail(agencyEMailView.mainTextField.text!) != true {
-    
-      isPossibletoSaveData = false
-      self.showInvalidMailLabel()
-    
-    } else {
-    
-      isPossibletoSaveData = true
-      self.hideInvalidMailLabel()
-            
+    if agencyEMailView.mainTextField.text != "" {
+      
+      if UtilityManager.sharedInstance.isValidEmail(agencyEMailView.mainTextField.text!) != true {
+        
+        isPossibletoSaveData = false
+        self.showInvalidMailLabel()
+        
+      } else {
+        
+        isPossibletoSaveData = true
+        self.hideInvalidMailLabel()
+        
+      }
+      
     }
     
   }
