@@ -10,7 +10,7 @@ import UIKit
 
 protocol AddResultViewControllerDelegate {
   
-  func doActionsWhenDisappear()
+  func doActionsWhenDisappear(newPitchResult: PitchResultsModelData?)
   
 }
 
@@ -1300,7 +1300,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     self.moveDidReceiveRulingTo(.left)
     
-    if pitchEvaluationData.wasWon == true {
+    if infoSelectedBefore != nil && infoSelectedBefore.hasSomeoneElseWon == true {
       
       self.moveRecommendationTo(.center)
       
@@ -1316,16 +1316,15 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   
   func didWinPitchNextButtonPressedSoShowScreenWithTag(valueSelected: String, nextScreenToShowWithTag: Int) {
     
-    self.moveDidWinPitchTo(.left)
-    
     if nextScreenToShowWithTag == 4 {
       
       didWinPitchSelectedValue = 1
-      self.moveYouWinPitchTo(.center)
+      self.actionsToDoWhenUserWonPitch()
       
     }else
       if nextScreenToShowWithTag == 5 {
         
+        self.moveDidWinPitchTo(.left)
         didWinPitchSelectedValue = 0
         self.moveGetFeedBackTo(.center)
         
@@ -1333,25 +1332,22 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
   }
   
-  //MARK: - YouWinPitchViewDelegate
-  
-  func youWinPitchNextButtonPressed() {
-    
-    self.moveYouWinPitchTo(.left)
+  private func actionsToDoWhenUserWonPitch() {
     
     UtilityManager.sharedInstance.showLoader()
     
-    if pitchEvaluationData.hasResults == true {  //After changes supposedly this never happen, 'cause we can answer the quiz after the first time.
-      
-      /////////CHECK UPDATE OF RESULTS!!!
+    if pitchEvaluationData.hasResults == true {
       
       let paramsForUpdate = self.createParamsToUpdate()
       
-      RequestToServerManager.sharedInstance.requestToUpdatePitchResults(paramsForUpdate, actionsToMakeAfterSuccesfullyPitchResultsSaved: { 
+      RequestToServerManager.sharedInstance.requestToUpdatePitchResults(paramsForUpdate, actionsToMakeAfterSuccesfullyPitchResultsSaved: {
+        (pitchResultsUpdated) in
         
+        self.moveDidWinPitchTo(.left)
+        self.changeNavigationRigthButtonItemToNothing()
+        self.delegate?.doActionsWhenDisappear(pitchResultsUpdated)
         UtilityManager.sharedInstance.hideLoader()
-        self.delegate?.doActionsWhenDisappear()
-        self.moveDidSignContractView(.center)
+        self.moveYouWinPitchTo(.center)
         
       })
       
@@ -1360,31 +1356,91 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       let params = self.createParamsToSave()
       
       RequestToServerManager.sharedInstance.requestToSaveAddResults(params,
-        actionsToMakeAfterSuccesfullyAddResults: { 
+                                                                    actionsToMakeAfterSuccesfullyAddResults: { (newPitchResultDataCreated) in
+                                                                      
+                                                                      self.moveDidWinPitchTo(.left)
+                                                                      self.changeNavigationRigthButtonItemToNothing()
+                                                                      self.delegate?.doActionsWhenDisappear(newPitchResultDataCreated)
+                                                                      UtilityManager.sharedInstance.hideLoader()
+                                                                      self.moveYouWinPitchTo(.center)
+                                                                      
+        }, actionsToMakeAfterError: {
           
-          self.changeNavigationRigthButtonItemToNothing()
-          UtilityManager.sharedInstance.hideLoader()
-          self.delegate?.doActionsWhenDisappear()
-          self.moveDidSignContractView(.center)
+          let alertController = UIAlertController(title: "ERROR DE CONEXIÓN CON EL SERVIDOR",
+            message: "¿Deseas intentar de nuevo?",
+            preferredStyle: UIAlertControllerStyle.Alert)
           
-        }, actionsToMakeAfterError: { 
+          let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+            
+            self.actionsToDoWhenUserWonPitch()
+            
+          }
           
-          self.delegate?.doActionsWhenDisappear()
+          let cancelAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in }
+          
+          alertController.addAction(okAction)
+          alertController.addAction(cancelAction)
+          self.presentViewController(alertController, animated: true, completion: nil)
           
       })
       
-      
-      
-//      RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
+    }
+    
+  }
+  
+  //MARK: - YouWinPitchViewDelegate
+  
+  func youWinPitchNextButtonPressed() {
+    
+    self.moveYouWinPitchTo(.left)
+    self.moveDidSignContractView(.center)
+    
+//    UtilityManager.sharedInstance.showLoader()
+//    
+//    if pitchEvaluationData.hasResults == true {  //After changes supposedly this never happen, 'cause we can answer the quiz after the first time.
+//      
+//      /////////CHECK UPDATE OF RESULTS!!!
+//      
+//      let paramsForUpdate = self.createParamsToUpdate()
+//      
+//      RequestToServerManager.sharedInstance.requestToUpdatePitchResults(paramsForUpdate, actionsToMakeAfterSuccesfullyPitchResultsSaved: { 
 //        
-//        self.changeNavigationRigthButtonItemToNothing()
 //        UtilityManager.sharedInstance.hideLoader()
 //        self.delegate?.doActionsWhenDisappear()
 //        self.moveDidSignContractView(.center)
 //        
-//      }
-      
-    }
+//      })
+//      
+//    } else {
+//      
+//      let params = self.createParamsToSave()
+//      
+//      RequestToServerManager.sharedInstance.requestToSaveAddResults(params,
+//        actionsToMakeAfterSuccesfullyAddResults: { 
+//          
+//          self.changeNavigationRigthButtonItemToNothing()
+//          UtilityManager.sharedInstance.hideLoader()
+//          self.delegate?.doActionsWhenDisappear()
+//          self.moveDidSignContractView(.center)
+//          
+//        }, actionsToMakeAfterError: { 
+//          
+//          self.delegate?.doActionsWhenDisappear()
+//          
+//      })
+//      
+//      
+//      
+////      RequestToServerManager.sharedInstance.requestToSaveAddResults(params) {
+////        
+////        self.changeNavigationRigthButtonItemToNothing()
+////        UtilityManager.sharedInstance.hideLoader()
+////        self.delegate?.doActionsWhenDisappear()
+////        self.moveDidSignContractView(.center)
+////        
+////      }
+//      
+//    }
    
   }
   
@@ -1449,27 +1505,26 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       let paramsForUpdate = self.createParamsToUpdate()
       
       RequestToServerManager.sharedInstance.requestToUpdatePitchResults(paramsForUpdate, actionsToMakeAfterSuccesfullyPitchResultsSaved: {
+        (pitchResultsUpdated) in
         
         UtilityManager.sharedInstance.hideLoader()
-        self.delegate?.doActionsWhenDisappear()
+        self.delegate?.doActionsWhenDisappear(pitchResultsUpdated)
         self.navigationController?.popToRootViewControllerAnimated(true)
         
       })
       
     } else {
       
-      
-      
       RequestToServerManager.sharedInstance.requestToSaveAddResults(params,
-        actionsToMakeAfterSuccesfullyAddResults: { 
+        actionsToMakeAfterSuccesfullyAddResults: { (newPitchResultDataCreated) in
           
           UtilityManager.sharedInstance.hideLoader()
-          self.delegate?.doActionsWhenDisappear()
+          self.delegate?.doActionsWhenDisappear(newPitchResultDataCreated)
           self.navigationController?.popToRootViewControllerAnimated(true)
           
         }, actionsToMakeAfterError: { 
           
-          self.delegate?.doActionsWhenDisappear()
+          self.delegate?.doActionsWhenDisappear(nil)
           self.navigationController?.popToRootViewControllerAnimated(true)
           
       })
@@ -1489,6 +1544,22 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   }
   
   private func createParamsToUpdate() -> [String: AnyObject] {
+    
+//    UtilityManager.sharedInstance.showLoader()
+//    
+//    RequestToServerManager.sharedInstance.requestToGetPitchResults(self.pitchEvaluationData.pitchResultsId,
+//                                                                   functionToMakeWhenThereIsPitchResultCreated: { (pitchResult) in
+//                                                                    
+//                                                                    self.infoSelectedBefore = pitchResult
+//                                                                    
+//      },
+//                                                                   
+//                                                                   functionToMakeWhenThereIsNotPitchResultCreated: {
+//                                                                    
+//                                                                    UtilityManager.sharedInstance.hideLoader()
+//                                                                    
+//      }
+//    )
     
     var pitchResult = [String:AnyObject]()
     

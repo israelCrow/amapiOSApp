@@ -33,6 +33,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   private var fillSurveyView: DetailPitchAddResultsView! = nil
   private var cancelDeclinButtonsView: DetailPitchCanceledDeclinedButtons! = nil
   private var tabBarForPitchDetail: TabBarArchiveEditDeletePitchView! = nil
+  var pastInfoFromAddResults: PitchResultsModelData! = nil
   
   private var borderAfterRecommendations: CALayer! = nil
   
@@ -233,7 +234,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
                               height: 185.0 * UtilityManager.sharedInstance.conversionHeight)
     
     var stringForButton = ""
-    if pitchEvaluationData.hasResults == true {
+    if pastInfoFromAddResults != nil && pastInfoFromAddResults.wasPitchWon != nil && (pastInfoFromAddResults.wasPitchWon == true || pastInfoFromAddResults.wasPitchWon == false) {
       
       stringForButton = "encuesta ya realizada"
       
@@ -333,6 +334,8 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   
   func animateShowPitchEvaluationDetail() {
     
+    self.lookForAddResultsData()
+    
     self.enableMainScrollView()
     self.enableTabBarForPitchDetail()
 
@@ -351,13 +354,64 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
           self.graphPitchView.containerAndGradientView.transform = CGAffineTransformMakeScale(1.27, 0.99)
       }) { (completed:Bool) -> Void in
         
-      
+        if completed == true {
+          
+//          if self.pitchEvaluationData != nil && self.pitchEvaluationData.hasResults {
+//            
+//            UtilityManager.sharedInstance.showLoader()
+//            
+//            RequestToServerManager.sharedInstance.requestToGetPitchResults(self.pitchEvaluationData.pitchResultsId,
+//              functionToMakeWhenThereIsPitchResultCreated: { (pitchResult) in
+//                
+//                self.pastInfoFromAddResults = pitchResult
+//                self.reloadOnlyFillSurveyView()
+//                UtilityManager.sharedInstance.hideLoader()
+//                
+//              },
+//              
+//              functionToMakeWhenThereIsNotPitchResultCreated: {
+//                
+//                self.pastInfoFromAddResults = nil
+//                self.reloadOnlyFillSurveyView()
+//                UtilityManager.sharedInstance.hideLoader()
+//                
+//              }
+//            )
+//            
+//          }
+          
+        }
+        
       }
 
     }
     
     self.animateShowBottomContainerView()
     
+  }
+  
+  func lookForAddResultsData() {
+      
+    UtilityManager.sharedInstance.showLoader()
+      
+    RequestToServerManager.sharedInstance.requestToGetPitchResults(self.pitchEvaluationData.pitchResultsId,
+                                                                    functionToMakeWhenThereIsPitchResultCreated: { (pitchResult) in
+                                                                      
+                                                                    self.pastInfoFromAddResults = pitchResult
+                                                                    self.reloadOnlyFillSurveyView()
+                                                                    UtilityManager.sharedInstance.hideLoader()
+                                                                  
+      },
+                                                                     
+                                                                    functionToMakeWhenThereIsNotPitchResultCreated: {
+                                                                      
+                                                                    self.pastInfoFromAddResults = nil
+                                                                    self.reloadOnlyFillSurveyView()
+                                                                    UtilityManager.sharedInstance.hideLoader()
+                                                                      
+      }
+    )
+
   }
   
   private func enableMainScrollView() {
@@ -410,6 +464,8 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
   }
   
   func animateHiddingPitchEvaluationDetail() {
+    
+    pastInfoFromAddResults = nil
     
     self.disableTabBarForPitchDetail()
     

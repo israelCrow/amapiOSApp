@@ -1762,9 +1762,6 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
   }
   
-  
-  
-  
   func pushAddResultsViewController(pitchaEvaluationData: PitchEvaluationByUserModelData) {
     
     isComingFromAddResultsController = true
@@ -1785,8 +1782,6 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       UtilityManager.sharedInstance.hideLoader()
       
       self.navigationController?.pushViewController(addResultsController, animated: true)
-      
-      
       
       }) { 
         
@@ -2565,12 +2560,30 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   //MARK: - AddResultViewControllerDelegate
   
-  func doActionsWhenDisappear() {
+  func doActionsWhenDisappear(newPitchResult: PitchResultsModelData?) {
     
-    mainDetailPitchView.pitchEvaluationData.hasResults = true
-    mainDetailPitchView.reloadOnlyFillSurveyView()
-  
-    //self.hideDetailPitchView()
+    if newPitchResult != nil {
+      
+      mainDetailPitchView.pastInfoFromAddResults = newPitchResult!
+      mainDetailPitchView.pitchEvaluationData.hasResults = true
+      mainDetailPitchView.pitchEvaluationData.pitchResultsId = newPitchResult!.pitchResultsId
+      self.mainDetailPitchView.lookForAddResultsData()
+      
+    } else {
+      
+      let alertController = UIAlertController(title: "ERROR DE CONEXIÓN CON EL SERVIDOR",
+                                              message: "Error al salvar tu encuesta, inténtalo nuevamente",
+                                              preferredStyle: UIAlertControllerStyle.Alert)
+      
+      let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+        
+      }
+      
+      alertController.addAction(okAction)
+      self.presentViewController(alertController, animated: true, completion: nil)
+
+      
+    }
     
   }
   

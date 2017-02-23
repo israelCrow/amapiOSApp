@@ -15,7 +15,10 @@ class RequestToServerManager: NSObject {
   
   static let developmentServer = "http://amap-dev.herokuapp.com/api"       // http:// amap-dev.herokuapp. com/ api
   static let productionServer = "https://amap-prod.herokuapp.com/api"     // https:// amap-prod.herokuapp. com/ api
+  
+  //Change this for development or production
   let typeOfServer = developmentServer
+  //
   
   func requestForAgencyData(functionToMakeWhenBringInfo: ()-> Void) {
     
@@ -2285,7 +2288,7 @@ class RequestToServerManager: NSObject {
     }
   }
   
-  func requestToSaveAddResults(params: [String: AnyObject], actionsToMakeAfterSuccesfullyAddResults: ()-> Void, actionsToMakeAfterError: ()-> Void) {
+  func requestToSaveAddResults(params: [String: AnyObject], actionsToMakeAfterSuccesfullyAddResults: (newPitchResultDataCreated: PitchResultsModelData)-> Void, actionsToMakeAfterError: ()-> Void) {
     
     let urlToRequest = "\(typeOfServer)/pitch_results"
     
@@ -2301,7 +2304,74 @@ class RequestToServerManager: NSObject {
       .responseJSON{ response in
         if response.response?.statusCode == 201 {
           
-          actionsToMakeAfterSuccesfullyAddResults()
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          let newId = (json["id"] as? Int != nil ? String(json["id"] as! Int) : "-1")
+          let newAgencyId = (json["agency_id"] as? Int != nil ? String(json["agency_id"] as! Int) : "")
+          let newPitchId = (json["pitch_id"] as? Int != nil ? String(json["pitch_id"] as! Int) : "")
+          
+          var newGotFeedBack: Bool! = nil
+          let newGotFeedbackInt = (json["got_feedback"] as? Int != nil ? json["got_feedback"] as! Int : -1)
+          if newGotFeedbackInt == 1 {
+            newGotFeedBack = true
+          }else
+            if newGotFeedbackInt == 0{
+              newGotFeedBack = false
+          }
+          
+          var newGotResponse: Bool! = nil
+          let newGotResponseInt = (json["got_response"] as? Int != nil ? json["got_response"] as! Int : -1)
+          if newGotResponseInt == 1 {
+            newGotResponse = true
+          }else
+            if newGotResponseInt == 0{
+              newGotResponse = false
+          }
+          
+          var newHasSomeoneElseWon: Bool! = nil
+          let newHasSomeoneElseWonInt = (json["has_someone_else_won"] as? Int != nil ? json["has_someone_else_won"] as! Int : -1)
+          if newHasSomeoneElseWonInt == 1 {
+            newHasSomeoneElseWon = true
+          }else
+            if newHasSomeoneElseWonInt == 0{
+              newHasSomeoneElseWon = false
+          }
+          
+          var newWasPitchWon: Bool! = nil
+          let newWasPitchWonInt = (json["was_pitch_won"] as? Int != nil ? json["was_pitch_won"] as! Int : -1)
+          if newWasPitchWonInt == 1 {
+            newWasPitchWon = true
+          }else
+            if newWasPitchWonInt == 0 {
+              newWasPitchWon = false
+          }
+          
+          var newWasProposalPresented: Bool! = nil
+          let newWasProposalPresentedInt = (json["was_proposal_presented"] as? Int != nil ? json["was_proposal_presented"] as! Int : -1)
+          if newWasProposalPresentedInt == 1 {
+            newWasProposalPresented = true
+          }else
+            if newWasProposalPresentedInt == 0{
+              newWasProposalPresented = false
+          }
+          
+          let newWhenAreYouPresenting = (json["when_are_you_presenting"] as? String != nil ? json["when_are_you_presenting"] as! String : "")
+          let newWhenWillYouGetResponse = (json["when_will_you_get_response"] as? String != nil ? json["when_will_you_get_response"] as! String : "")
+          
+          
+          let newPitchResult = PitchResultsModelData.init(newPitchResultsId: newId,
+            newAgencyId: newAgencyId,
+            newGotFeedback: newGotFeedBack,
+            newGotResponse: newGotResponse,
+            newHasSomeoneElseWon: newHasSomeoneElseWon,
+            newPitchId: newPitchId,
+            newWasPitchWon: newWasPitchWon,
+            newWasProposalPresented: newWasProposalPresented,
+            newWhenAreYouPresenting: newWhenAreYouPresenting,
+            newWhenWillYouGetResponse: newWhenWillYouGetResponse)
+
+          
+          actionsToMakeAfterSuccesfullyAddResults(newPitchResultDataCreated: newPitchResult)
           
         }else {
           
@@ -2345,7 +2415,7 @@ class RequestToServerManager: NSObject {
     }
   }
   
-  func requestToUpdatePitchResults(params: [String: AnyObject], actionsToMakeAfterSuccesfullyPitchResultsSaved: ()-> Void) {
+  func requestToUpdatePitchResults(params: [String: AnyObject], actionsToMakeAfterSuccesfullyPitchResultsSaved: (pitchResultsUpdated: PitchResultsModelData)-> Void) {
     
     let urlToRequest = "\(typeOfServer)/pitch_results/update"
     
@@ -2361,7 +2431,73 @@ class RequestToServerManager: NSObject {
       .responseJSON{ response in
         if response.response?.statusCode == 200 {
           
-          actionsToMakeAfterSuccesfullyPitchResultsSaved()
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          let newId = (json["id"] as? Int != nil ? String(json["id"] as! Int) : "-1")
+          let newAgencyId = (json["agency_id"] as? Int != nil ? String(json["agency_id"] as! Int) : "")
+          let newPitchId = (json["pitch_id"] as? Int != nil ? String(json["pitch_id"] as! Int) : "")
+          
+          var newGotFeedBack: Bool! = nil
+          let newGotFeedbackInt = (json["got_feedback"] as? Int != nil ? json["got_feedback"] as! Int : -1)
+          if newGotFeedbackInt == 1 {
+            newGotFeedBack = true
+          }else
+            if newGotFeedbackInt == 0{
+              newGotFeedBack = false
+          }
+          
+          var newGotResponse: Bool! = nil
+          let newGotResponseInt = (json["got_response"] as? Int != nil ? json["got_response"] as! Int : -1)
+          if newGotResponseInt == 1 {
+            newGotResponse = true
+          }else
+            if newGotResponseInt == 0{
+              newGotResponse = false
+          }
+          
+          var newHasSomeoneElseWon: Bool! = nil
+          let newHasSomeoneElseWonInt = (json["has_someone_else_won"] as? Int != nil ? json["has_someone_else_won"] as! Int : -1)
+          if newHasSomeoneElseWonInt == 1 {
+            newHasSomeoneElseWon = true
+          }else
+            if newHasSomeoneElseWonInt == 0{
+              newHasSomeoneElseWon = false
+          }
+          
+          var newWasPitchWon: Bool! = nil
+          let newWasPitchWonInt = (json["was_pitch_won"] as? Int != nil ? json["was_pitch_won"] as! Int : -1)
+          if newWasPitchWonInt == 1 {
+            newWasPitchWon = true
+          }else
+            if newWasPitchWonInt == 0 {
+              newWasPitchWon = false
+          }
+          
+          var newWasProposalPresented: Bool! = nil
+          let newWasProposalPresentedInt = (json["was_proposal_presented"] as? Int != nil ? json["was_proposal_presented"] as! Int : -1)
+          if newWasProposalPresentedInt == 1 {
+            newWasProposalPresented = true
+          }else
+            if newWasProposalPresentedInt == 0{
+              newWasProposalPresented = false
+          }
+          
+          let newWhenAreYouPresenting = (json["when_are_you_presenting"] as? String != nil ? json["when_are_you_presenting"] as! String : "")
+          let newWhenWillYouGetResponse = (json["when_will_you_get_response"] as? String != nil ? json["when_will_you_get_response"] as! String : "")
+          
+          
+          let newPitchResult = PitchResultsModelData.init(newPitchResultsId: newId,
+            newAgencyId: newAgencyId,
+            newGotFeedback: newGotFeedBack,
+            newGotResponse: newGotResponse,
+            newHasSomeoneElseWon: newHasSomeoneElseWon,
+            newPitchId: newPitchId,
+            newWasPitchWon: newWasPitchWon,
+            newWasProposalPresented: newWasProposalPresented,
+            newWhenAreYouPresenting: newWhenAreYouPresenting,
+            newWhenWillYouGetResponse: newWhenWillYouGetResponse)
+
+          actionsToMakeAfterSuccesfullyPitchResultsSaved(pitchResultsUpdated: newPitchResult)
           
         }else {
           
