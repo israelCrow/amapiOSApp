@@ -1099,6 +1099,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
     }
     
+    pitchEvaluationIDToLookForAfterCreated = mainDetailPitchView.pitchEvaluationData.pitchEvaluationId
     self.delegateForShowAndHideTabBar?.requestToDisolveTabBarFromVisualizeAllPitchesViewControllerDelegate()
     mainDetailPitchView.animateShowPitchEvaluationDetail()
     self.animateShowingDetailPitchView()
@@ -1151,6 +1152,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
     }
     
+    pitchEvaluationIDToLookForAfterCreated = mainDetailPitchView.pitchEvaluationData.pitchEvaluationId
     self.delegateForShowAndHideTabBar?.requestToDisolveTabBarFromVisualizeAllPitchesViewControllerDelegate()
     mainDetailPitchView.animateShowPitchEvaluationDetail()
     self.animateShowingDetailPitchView()

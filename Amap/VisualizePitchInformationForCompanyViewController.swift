@@ -49,6 +49,7 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
     self.createPitchCard()
     self.createEvaluationBreakDown()
     self.createRecommendations()
+    self.adaptContentSizeOfMainScrollView()
 //    self.createSharePitch()
     
   }
@@ -149,7 +150,7 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
                                      height: containerView.frame.size.height)
     
     let sizeForContent = CGSize.init(width: frameForScroll.size.width,
-                                     height: frameForScroll.size.height + (1180 * UtilityManager.sharedInstance.conversionHeight))
+                                     height: frameForScroll.size.height + (50 * UtilityManager.sharedInstance.conversionHeight))
     
     mainScrollView = UIScrollView.init(frame: frameForScroll)
     mainScrollView.backgroundColor = UIColor.whiteColor()
@@ -286,6 +287,42 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
 //    sharePitch.delegate = self
     
     mainScrollView.addSubview(sharePitch)
+    
+  }
+  
+  private func adaptContentSizeOfMainScrollView() {
+    
+    var finalHeight: CGFloat = 0.0
+    
+    if mainScrollView != nil {
+      
+      if pitchCard != nil {
+        
+        finalHeight += pitchCard.frame.size.height
+        
+      }
+      
+      if descriptionsBreakDownView != nil {
+        
+        finalHeight += descriptionsBreakDownView.frame.size.height
+        
+      }
+      
+      if recommendations != nil {
+        
+        finalHeight += recommendations.frame.size.height
+        
+      }
+      
+      finalHeight += 140
+      
+      let newContentSize = CGSize.init(width: mainScrollView.contentSize.width,
+                                      height: finalHeight)
+      mainScrollView.contentSize = newContentSize
+      
+      
+    }
+    
     
   }
   

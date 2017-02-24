@@ -234,6 +234,12 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     
     var barDescription = "Agencia"
     
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
+      
+      barDescription = AgencyModel.Data.name
+      
+    } else
+    
     if UserSession.session.role == "4" || UserSession.session.role == "5"  {
       
       barDescription = MyCompanyModelData.Data.name

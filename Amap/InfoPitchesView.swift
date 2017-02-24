@@ -442,8 +442,22 @@ class InfoPitchesView: UIView {
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
     
+    var finalString = ""
+    
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
+      
+      finalString = VisualizePitchesConstants.InfoPitchesViewAndViewController.descriptionStatisticsLabelTextForAgency
+      
+    } else
+    
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
+      
+        finalString = VisualizePitchesConstants.InfoPitchesViewAndViewController.descriptionStatisticsLabelTextForCompany
+        
+      }
+    
     let stringWithFormat = NSMutableAttributedString(
-      string: VisualizePitchesConstants.InfoPitchesViewAndViewController.descriptionStatisticsLabelText,
+      string: finalString,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color

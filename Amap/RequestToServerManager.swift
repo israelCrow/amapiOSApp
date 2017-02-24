@@ -1351,7 +1351,7 @@ class RequestToServerManager: NSObject {
                   let newCompanyName = (pitchEvaluationForCompany["company"] as? String != nil ? pitchEvaluationForCompany["company"] as! String : "No company name")
                   let newPitchID = (pitchEvaluationForCompany["pitch_id"] as? Int != nil ? String(pitchEvaluationForCompany["pitch_id"] as! Int) : "-1")
                   let newPitchName = (pitchEvaluationForCompany["pitch_name"] as? String != nil ? pitchEvaluationForCompany["pitch_name"] as! String : "No Pitch Name")
-                  let newWinner = (pitchEvaluationForCompany["winner"] as? Int != nil ? String(pitchEvaluationForCompany["winner"] as! Int) : "-1")
+                  let newWinner = (pitchEvaluationForCompany["winner"] as? String != nil ? String(pitchEvaluationForCompany["winner"] as! String) : "")
                   
                   let newBreakDown = (pitchEvaluationForCompany["breakdown"] as? [String: AnyObject] != nil ? pitchEvaluationForCompany["breakdown"] as! [String: AnyObject] : [String: AnyObject]())
                   
@@ -2944,7 +2944,19 @@ class RequestToServerManager: NSObject {
     
     //print(caseData)
     
-    var params = ["id" : AgencyModel.Data.id,
+    var finalId = ""
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
+      
+      finalId = AgencyModel.Data.id
+      
+    }else
+      if UserSession.session.role == "4" || UserSession.session.role == "5" {
+        
+        finalId = MyCompanyModelData.Data.id
+        
+      }
+    
+    var params = ["id" : finalId,
                   "auth_token" : UserSession.session.auth_token
                   ]
     

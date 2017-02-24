@@ -142,9 +142,9 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
   private func createMainScrollView() {
     
     let frameForMainScrollView = CGRect.init(x: 40.0 * UtilityManager.sharedInstance.conversionWidth,
-                                             y: 100.0 * UtilityManager.sharedInstance.conversionHeight,
+                                             y: 70.0 * UtilityManager.sharedInstance.conversionHeight,
                                          width: 310.0 * UtilityManager.sharedInstance.conversionWidth,
-                                        height: 510.0 * UtilityManager.sharedInstance.conversionHeight)
+                                        height: 540.0 * UtilityManager.sharedInstance.conversionHeight)
     
     mainScrollView = UIScrollView.init(frame: frameForMainScrollView)
     mainScrollView.contentSize = CGSize.init(width: mainScrollView.frame.size.width,
@@ -183,7 +183,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     caseNameLabel.attributedText = stringWithFormat
     caseNameLabel.sizeToFit()
     let newFrame = CGRect.init(x: 0.0,
-                               y: 0.0,
+                               y: 5.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: caseNameLabel.frame.size.width,
                                height: caseNameLabel.frame.size.height)
     
@@ -485,7 +485,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
        height: self.linkLabel.frame.size.height)
           
           self.shareThisInfo.frame = CGRect.init(x: self.shareThisInfo.frame.origin.x,
-                                                 y: self.linkLabel.frame.origin.y + self.linkLabel.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                 y: self.linkLabel.frame.origin.y + self.linkLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
                                              width: self.shareThisInfo.frame.size.width,
                                             height: self.shareThisInfo.frame.size.height)
           
@@ -500,7 +500,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
               height: self.playerVimeoYoutube.frame.size.height)
             
             self.shareThisInfo.frame = CGRect.init(x: self.shareThisInfo.frame.origin.x,
-                                                   y: self.playerVimeoYoutube.frame.origin.y + self.playerVimeoYoutube.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                   y: self.playerVimeoYoutube.frame.origin.y + self.playerVimeoYoutube.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
                                                    width: self.shareThisInfo.frame.size.width,
                                                    height: self.shareThisInfo.frame.size.height)
             
@@ -516,14 +516,14 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
          height: self.linkLabel.frame.size.height)
             
             self.shareThisInfo.frame = CGRect.init(x: self.shareThisInfo.frame.origin.x,
-                                                   y: self.linkLabel.frame.origin.y + self.linkLabel.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                   y: self.linkLabel.frame.origin.y + self.linkLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
                                                width: self.shareThisInfo.frame.size.width,
                                               height: self.shareThisInfo.frame.size.height)
               
           } else {
           
           self.shareThisInfo.frame = CGRect.init(x: self.shareThisInfo.frame.origin.x,
-                                                 y: self.imageCase.frame.origin.y + self.imageCase.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                                 y: self.imageCase.frame.origin.y + self.imageCase.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
                                              width: self.shareThisInfo.frame.size.width,
                                             height: self.shareThisInfo.frame.size.height)
         
@@ -536,16 +536,16 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
         if caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + (75.0 * UtilityManager.sharedInstance.conversionHeight) >= mainScrollView.frame.size.height {
           
           mainScrollView.contentSize = CGSize.init(width: mainScrollView.contentSize.width,
-                                                   height: caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + ( (78.0 + 70.0) * UtilityManager.sharedInstance.conversionHeight))
+                                                   height: caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + ( (78.0 + 180.0) * UtilityManager.sharedInstance.conversionHeight))
           
         }
 
       } else {
         
-        if caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + playerVimeoYoutube.frame.size.height + (100.0 * UtilityManager.sharedInstance.conversionHeight) >= mainScrollView.frame.size.height {
+        if caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + playerVimeoYoutube.frame.size.height + (130.0 * UtilityManager.sharedInstance.conversionHeight) >= mainScrollView.frame.size.height {
           
           mainScrollView.contentSize = CGSize.init(width: mainScrollView.contentSize.width,
-                                                   height: caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + playerVimeoYoutube.frame.size.height  + ( (78.0 + 100.0) * UtilityManager.sharedInstance.conversionHeight))
+                                                   height: caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + playerVimeoYoutube.frame.size.height  + ( (78.0 + 210.0) * UtilityManager.sharedInstance.conversionHeight))
           
         }
         

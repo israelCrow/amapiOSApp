@@ -240,7 +240,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     if showDirectlyPitchSurvey != nil && showDirectlyPitchSurvey == true {
       
-      self.changeNavigationRigthButtonItemToNothing()
+//      self.changeNavigationRigthButtonItemToNothing()
       self.createDidSignContractView()
       self.moveDidSignContractView(.center)
       self.createDidProjectActiveView()
@@ -1344,7 +1344,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
         (pitchResultsUpdated) in
         
         self.moveDidWinPitchTo(.left)
-        self.changeNavigationRigthButtonItemToNothing()
+//        self.changeNavigationRigthButtonItemToNothing()
         self.delegate?.doActionsWhenDisappear(pitchResultsUpdated)
         UtilityManager.sharedInstance.hideLoader()
         self.moveYouWinPitchTo(.center)
@@ -1359,7 +1359,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
                                                                     actionsToMakeAfterSuccesfullyAddResults: { (newPitchResultDataCreated) in
                                                                       
                                                                       self.moveDidWinPitchTo(.left)
-                                                                      self.changeNavigationRigthButtonItemToNothing()
+//                                                                      self.changeNavigationRigthButtonItemToNothing()
                                                                       self.delegate?.doActionsWhenDisappear(newPitchResultDataCreated)
                                                                       UtilityManager.sharedInstance.hideLoader()
                                                                       self.moveYouWinPitchTo(.center)
@@ -1452,14 +1452,24 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       
       getFeedBackSelectedValue = 1
       
+      self.saveDataToServer()
+      self.dismissDetailedNavigation()
+      
     }else{
       
       getFeedBackSelectedValue = 0
+      self.moveGetFeedBackTo(.left)
+      
+      self.saveDataToServerWithoutPopViewcontroller()
+      
+      self.moveRecommendationTo(.center)
+      
+//      self.saveDataToServer()
+//      self.dismissDetailedNavigation()
       
     }
     
-    self.saveDataToServer()
-    self.dismissDetailedNavigation()
+
     
   }
   
@@ -1467,8 +1477,8 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   
   func recommendationNextButtonPressed() {
     
-    self.saveDataToServer()
     self.dismissDetailedNavigation()
+    self.navigationController?.popViewControllerAnimated(true)
     
   }
   
@@ -1524,8 +1534,18 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
           
         }, actionsToMakeAfterError: { 
           
-          self.delegate?.doActionsWhenDisappear(nil)
-          self.navigationController?.popToRootViewControllerAnimated(true)
+          let alertController = UIAlertController(title: "ERROR DE CONEXIÓN CON EL SERVIDOR",
+            message: "Inténtalo de nuevo más tarde",
+            preferredStyle: UIAlertControllerStyle.Alert)
+          
+          let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (result : UIAlertAction) -> Void in
+            
+            self.navigationController?.popToRootViewControllerAnimated(true)
+            
+          }
+          
+          alertController.addAction(okAction)
+          self.presentViewController(alertController, animated: true, completion: nil)
           
       })
       
@@ -1542,6 +1562,46 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     }
     
   }
+  
+  private func saveDataToServerWithoutPopViewcontroller() {
+    
+    let params = self.createParamsToSave()
+    UtilityManager.sharedInstance.showLoader()
+    
+    if pitchEvaluationData.hasResults == true {
+      
+      /////////CHECK UPDATE OF RESULTS!!!
+      
+      let paramsForUpdate = self.createParamsToUpdate()
+      
+      RequestToServerManager.sharedInstance.requestToUpdatePitchResults(paramsForUpdate, actionsToMakeAfterSuccesfullyPitchResultsSaved: {
+        (pitchResultsUpdated) in
+        
+        UtilityManager.sharedInstance.hideLoader()
+        self.delegate?.doActionsWhenDisappear(pitchResultsUpdated)
+        
+      })
+      
+    } else {
+      
+      RequestToServerManager.sharedInstance.requestToSaveAddResults(params,
+                                                                    actionsToMakeAfterSuccesfullyAddResults: { (newPitchResultDataCreated) in
+                                                                      
+                                                                      UtilityManager.sharedInstance.hideLoader()
+                                                                      self.delegate?.doActionsWhenDisappear(newPitchResultDataCreated)
+                                                                      
+        }, actionsToMakeAfterError: {
+          
+          UtilityManager.sharedInstance.hideLoader()
+          self.delegate?.doActionsWhenDisappear(nil)
+          
+      })
+      
+    }
+    
+  }
+  
+  
   
   private func createParamsToUpdate() -> [String: AnyObject] {
     
@@ -1669,7 +1729,9 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       if nextScreenToShowWithTag == 13 {
         
         didSignContractSelectedValue = 0
-        self.moveWhenYouWillSignView(.center)
+        self.moveDidProjectActiveView(.center)
+        
+//        self.moveWhenYouWillSignView(.center)   //originally
         
     }
     
@@ -1681,16 +1743,30 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     if nextScreenToShowWithTag == -1 {
       
-      didProjectActiveSelectedValue = 1
-      self.saveDataForPitchSurvey()
+      if didSignContractSelectedValue == 1 {
+      
+        didProjectActiveSelectedValue = 1
+        self.saveDataForPitchSurvey()
+        
+      } else {
+        
+        self.dismissDetailedNavigation()
+        self.navigationController?.popToRootViewControllerAnimated(true)
+        
+      }
       
     }else
-      if nextScreenToShowWithTag == 12 {
+      if nextScreenToShowWithTag == 12 { //is 12 and means that you press "no"
         
-        self.moveDidProjectActiveView(.left)
+        self.dismissDetailedNavigation()
+        self.navigationController?.popToRootViewControllerAnimated(true)
+ 
+        //originally
         
-        didProjectActiveSelectedValue = 0
-        self.moveWhenProjectWillActiveView(.center)
+//        self.moveDidProjectActiveView(.left)
+//        
+//        didProjectActiveSelectedValue = 0
+//        self.moveWhenProjectWillActiveView(.center)
         
       }
 

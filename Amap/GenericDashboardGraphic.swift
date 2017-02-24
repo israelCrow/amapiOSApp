@@ -225,6 +225,8 @@ class GenericDashboardGraphic: UIView {
       
     }
     
+    descriptionBarGraph = self.trunc(descriptionBarGraph, length: 8)
+    
     let barSet = BarChartDataSet.init(yVals: entries, label: descriptionBarGraph)
     barSet.setColor(UIColor.init(red: 0.0/255.0, green: 246.0/255.0, blue: 143.0/255.0, alpha: 0.75))
     barSet.axisDependency = .Left

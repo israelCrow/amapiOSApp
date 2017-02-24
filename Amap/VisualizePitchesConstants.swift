@@ -150,7 +150,9 @@ class VisualizePitchesConstants {
     static let faceFourLabelText = "0 - 44\nBadpitch"  //Unhappy
     
     static let statisticsLabelText = "Estadísticas"
-    static let descriptionStatisticsLabelText = "Lorem ipsum dolor sit amet,consectetur adipiscing elit. Vivamus vestibulum velit nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Interdum et malesuada fames ac ante ipsum primis in faucibus."
+    static let descriptionStatisticsLabelTextForAgency = "HAPPITCH® es una herramienta que te permite visualizar tu rate de bateo, compararte con las demás agencias y contra la industria; evaluando tu desempeño en la participación de pitches."
+    
+    static let descriptionStatisticsLabelTextForCompany = "HAAPITCH® es una herramienta que te permite visualizar cómo las agencias que participan en tus diferentes pitches te evalúan, dejando ver lo que ellos necesitan vs. lo que están recibiendo."
     
     static let contactLabelText = "Contacto"
     static let mailLabelText = "amap@amap.com.mx"

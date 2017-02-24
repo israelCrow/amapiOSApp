@@ -85,7 +85,7 @@ class EditPitchesConstants {
   
   enum RecommendationView {
     
-    static let titleLabelText = "¡Ojo! Ha pasado mucho tiempo sin noticias"
+    static let titleLabelText = "¡Ojo!\nHa pasado mucho tiempo sin noticias"
     static let messageLabelText = "Te sugerimos contactar a la marca"
     static let nextButtonText = "ok"
     
