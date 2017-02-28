@@ -10,7 +10,7 @@ import UIKit
 
 protocol EditPitchEvaluationViewControllerDelegate {
   
-  func updatedDetailInfoOfPitchEvaluation(newPitchData: PitchEvaluationByUserModelData)
+  func updatedDetailInfoOfPitchEvaluation(newPitchData: PitchEvaluationByUserModelData?)
   
 }
 
@@ -286,13 +286,48 @@ class EditPitchEvaluationViewController: UIViewController, EditPitchEvaluationVi
       newEvaluationPitchCreated in
       
 //      UtilityManager.sharedInstance.hideLoader()
-    
-        UtilityManager.sharedInstance.hideLoader()
+      
+      RequestToServerManager.sharedInstance.requestToGetAllPitchEvaluationByUser({ (pitchEvaluationsByUser, pitchesForCompany) in
+        
+        var pitchEvaluationReloaded: PitchEvaluationByUserModelData! = nil
+        
+        if pitchEvaluationsByUser != nil {
+          
+          for pitchFromServer in pitchEvaluationsByUser! {
+            
+            if pitchFromServer.pitchId == newEvaluationPitchCreated.pitchId {
+              
+              pitchEvaluationReloaded = pitchFromServer
+              
+              break
+            }
+            
+          }
+          
+        }
         
         self.dismissDetailedNavigation()
         
         self.navigationController?.popToRootViewControllerAnimated(true)
         
+        self.delegate?.updatedDetailInfoOfPitchEvaluation(pitchEvaluationReloaded)
+        
+        UtilityManager.sharedInstance.hideLoader()
+        
+        
+        
+        
+        
+      })
+    
+//        UtilityManager.sharedInstance.hideLoader()
+//        
+//        self.dismissDetailedNavigation()
+//        
+//        self.navigationController?.popToRootViewControllerAnimated(true)
+//      
+//        self.delegate?.updatedDetailInfoOfPitchEvaluation(self.pitchEvaluationData)
+      
       
     }
     

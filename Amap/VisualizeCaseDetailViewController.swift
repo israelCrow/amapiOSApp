@@ -67,7 +67,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     self.createCaseNameLabel()
     self.createCaseDescriptionLabel()
     self.createPlayerVimeoYoutube()
- //   self.createLinkLabel()
+    self.createLinkLabel()
     self.createShareThisInfo()
     
   }
@@ -249,7 +249,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     }
     
     
-    if caseData.case_image_url != nil && UIApplication.sharedApplication().canOpenURL(NSURL.init(string: caseData.case_image_url!)!) == true{
+    if caseData.case_image_url != nil && UIApplication.sharedApplication().canOpenURL(NSURL.init(string: caseData.case_image_url!)!) == true {
 //      let frameForImageView = CGRect.init(x: 0.0,
 //                                          y: 0.0,
 //                                      width: playerVimeoYoutube.frame.size.width,
@@ -294,42 +294,46 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
   
   private func createLinkLabel() {
     
-    if caseData.case_video_url != "" {
+    var finalURL = ""
+    
+    if caseData.url != nil && caseData.url != "" {
       
-      let frameForLabel = CGRect.init(x: 0.0,
-                                      y: 0.0,
-                                      width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
-                                      height: CGFloat.max)
-      
-      linkLabel = UILabel.init(frame: frameForLabel)
-      linkLabel.numberOfLines = 0
-      linkLabel.lineBreakMode = .ByWordWrapping
-      
-      let font = UIFont(name: "SFUIText-Light",
-                        size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
-      let color = UIColor.blackColor()
-      let style = NSMutableParagraphStyle()
-      style.alignment = NSTextAlignment.Left
-      
-      let stringWithFormat = NSMutableAttributedString(
-        string: caseData.case_video_url!,
-        attributes:[NSFontAttributeName: font!,
-          NSParagraphStyleAttributeName: style,
-          NSForegroundColorAttributeName: color
-        ]
-      )
-      linkLabel.attributedText = stringWithFormat
-      linkLabel.sizeToFit()
-      let newFrame = CGRect.init(x: 0.0,
-                                 y: 295.0 * UtilityManager.sharedInstance.conversionHeight,
-                                 width: linkLabel.frame.size.width,
-                                 height: linkLabel.frame.size.height)
-      
-      linkLabel.frame = newFrame
-      
-      mainScrollView.addSubview(linkLabel)
+      finalURL = caseData.url
       
     }
+    
+    let frameForLabel = CGRect.init(x: 0.0,
+                                    y: 0.0,
+                                    width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    height: CGFloat.max)
+    
+    linkLabel = UILabel.init(frame: frameForLabel)
+    linkLabel.numberOfLines = 0
+    linkLabel.lineBreakMode = .ByWordWrapping
+    
+    let font = UIFont(name: "SFUIText-Light",
+                      size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    let color = UIColor.blackColor()
+    let style = NSMutableParagraphStyle()
+    style.alignment = NSTextAlignment.Left
+    
+    let stringWithFormat = NSMutableAttributedString(
+      string: finalURL,
+      attributes:[NSFontAttributeName: font!,
+        NSParagraphStyleAttributeName: style,
+        NSForegroundColorAttributeName: color
+      ]
+    )
+    linkLabel.attributedText = stringWithFormat
+    linkLabel.sizeToFit()
+    let newFrame = CGRect.init(x: 0.0,
+                               y: playerVimeoYoutube.frame.origin.y + playerVimeoYoutube.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),    //295.0 * UtilityManager.sharedInstance.conversionHeight,
+                               width: linkLabel.frame.size.width,
+                               height: linkLabel.frame.size.height)
+    
+    linkLabel.frame = newFrame
+    
+    mainScrollView.addSubview(linkLabel)
     
   }
   
@@ -340,7 +344,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     if linkLabel != nil {
       
       frameForShareView = CGRect.init(x: 0.0,
-                                      y: linkLabel.frame.origin.y + linkLabel.frame.size.height + (30.0 * UtilityManager.sharedInstance.conversionHeight),
+                                      y: linkLabel.frame.origin.y + linkLabel.frame.size.height + (20.0 * UtilityManager.sharedInstance.conversionHeight),
                                   width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
                                  height: 78.0 * UtilityManager.sharedInstance.conversionHeight)
       
@@ -435,8 +439,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     whatsAppIconButton.tag = 2
     whatsAppIconButton.addTarget(self, action: #selector(whatsAppButtonPressed), forControlEvents:.TouchUpInside)
     shareThisInfo.addSubview(whatsAppIconButton)
-    
-    
+ 
   }
   
   override func viewDidLoad() {
@@ -490,6 +493,8 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
                                             height: self.shareThisInfo.frame.size.height)
           
         } else
+          
+          //when linllabek != nil  && (UtilityManager.sharedInstance.validateIfLinkIsYoutube(self.caseData.case_video_url) == false || UtilityManager.sharedInstance.validateIfLinkIsVimeo(self.caseData.case_video_url) == false)
         
           if self.linkLabel == nil && (UtilityManager.sharedInstance.validateIfLinkIsYoutube(self.caseData.case_video_url) == true || UtilityManager.sharedInstance.validateIfLinkIsVimeo(self.caseData.case_video_url) == true) {
             
@@ -536,7 +541,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
         if caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + (75.0 * UtilityManager.sharedInstance.conversionHeight) >= mainScrollView.frame.size.height {
           
           mainScrollView.contentSize = CGSize.init(width: mainScrollView.contentSize.width,
-                                                   height: caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + ( (78.0 + 180.0) * UtilityManager.sharedInstance.conversionHeight))
+                                                   height: caseNameLabel.frame.size.height + linkLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + ( (78.0 + 180.0) * UtilityManager.sharedInstance.conversionHeight))
           
         }
 
@@ -623,11 +628,11 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     
       if caseData.case_video_url != nil && caseData.case_video_url != "" {
         
-        finalText = caseData.case_video_url!
+        finalText = finalText + "\n" + caseData.case_video_url!
         
       }
       
-    mailComposeVC.setMessageBody("Conoce el caso \(caseData.name) de \(AgencyModel.Data.name):\n\(finalText).\n\nDescarga Android\nDescarga iOS", isHTML: false)
+    mailComposeVC.setMessageBody("Conoce el caso \(caseData.name) de \(AgencyModel.Data.name). \n\(finalText)\n\nDescarga Android\nDescarga iOS", isHTML: false)
       
     self.presentViewController(mailComposeVC, animated: true, completion: nil)
     
@@ -637,12 +642,26 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
       
     let mailComposeVC = MFMailComposeViewController()
     mailComposeVC.mailComposeDelegate = self
+    
+    var finalText = ""
+    
+    if caseData.url != nil && caseData.url != "" {
       
+      finalText = caseData.url
+      
+    } else
+      
+      if caseData.case_video_url != nil && caseData.case_video_url != "" {
+        
+        finalText = finalText + "\n" + caseData.case_video_url!
+        
+    }
+    
     mailComposeVC.addAttachmentData(UIImageJPEGRepresentation(imageCase.image!, CGFloat(1.0))!, mimeType: "image/jpeg", fileName:"caso_\(caseData.name).jpeg")
       
     mailComposeVC.setSubject("Caso \(caseData.name)")
       
-    mailComposeVC.setMessageBody("Descarga Happitch y conoce el caso \(caseData.name) de \(AgencyModel.Data.name).\n\nDescarga Android\nDescarga iOS", isHTML: false)
+    mailComposeVC.setMessageBody("Descarga Happitch y conoce el caso \(caseData.name) de \(AgencyModel.Data.name). \n\(finalText)\n\nDescarga Android\nDescarga iOS", isHTML: false)
       
     self.presentViewController(mailComposeVC, animated: true, completion: nil)
     

@@ -140,9 +140,14 @@ class DashboardFirstScreenTutorialView: UIView {
     
     self.removeFromSuperview()
     
-    let tutorialSecondScreenDashboard = DashboardSeconScreenTutorialView.init(frame: CGRect.init())
+//    let tutorialSecondScreenDashboard = DashboardSeconScreenTutorialView.init(frame: CGRect.init())
+//    let rootViewController = UtilityManager.sharedInstance.currentViewController()
+//    rootViewController.view.addSubview(tutorialSecondScreenDashboard)
+    
+    let tutorialThirdScreenDashboard = DashboardThirdScreenTutorialView.init(frame: CGRect.init())
     let rootViewController = UtilityManager.sharedInstance.currentViewController()
-    rootViewController.view.addSubview(tutorialSecondScreenDashboard)
+    rootViewController.view.addSubview(tutorialThirdScreenDashboard)
+
     
   }
   

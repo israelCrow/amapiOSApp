@@ -1057,7 +1057,10 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     
   }
   
-  private func createAndShowDetailedPitchView(pitchEvaluationData: PitchEvaluationByUserModelData) {
+  @objc private func createAndShowDetailedPitchViewWithValuesUpdated(value: NSTimer) {
+    
+    let pitchEvaluationDataUpdated = (value.userInfo as? PitchEvaluationByUserModelData != nil ? value.userInfo as! PitchEvaluationByUserModelData : self.frontCard.getPitchEvaluationByUserData())
+    
     
     if frontCard == nil {
       
@@ -1068,7 +1071,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     self.navigationItem.rightBarButtonItem?.enabled = false
     mainCarousel.userInteractionEnabled = false
     frontCard.userInteractionEnabled = false
-    let copyGraphInUse = self.makeACopyOfActualGraph()
+    let copyGraphInUse = self.createUpdatedGraph(pitchEvaluationDataUpdated)
     copyGraphInUse.animateGraph()
     copyGraphInUse.alpha = 0.0
     
@@ -1078,7 +1081,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
       
       let frameForMainDetailPitchView = UIScreen.mainScreen().bounds
       mainDetailPitchView = DetailPitchView.init(frame: frameForMainDetailPitchView,
-                                                 newPitchData: pitchEvaluationData,
+                                                 newPitchData: pitchEvaluationDataUpdated,
                                                  newGraphPart: copyGraphInUse)
       
       let heightOfDetailNavigationBar = (self.navigationController?.navigationBar.frame.size.height)! + (103.0 * UtilityManager.sharedInstance.conversionHeight) + UIApplication.sharedApplication().statusBarFrame.size.height
@@ -1092,7 +1095,7 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     } else {
       
       mainDetailPitchView.alpha = 1.0
-      mainDetailPitchView.reloadDataAndInterface(pitchEvaluationData,
+      mainDetailPitchView.reloadDataAndInterface(pitchEvaluationDataUpdated,
                                                  newGraphPart: copyGraphInUse)
       mainDetailPitchView.backgroundColor = UIColor.clearColor()
       mainDetailPitchView.userInteractionEnabled = true
@@ -1158,6 +1161,23 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     self.animateShowingDetailPitchView()
     NSTimer.scheduledTimerWithTimeInterval(0.75, target: self, selector: #selector(changeRightButtonOfNavigationBarWhenDetailPitchViewIsShown), userInfo: nil, repeats: false)
     
+  }
+  
+  private func createUpdatedGraph(updatedPitchEvaluationDataByUser: PitchEvaluationByUserModelData) -> GraphPartPitchCardView {
+    
+    let frameForGraphPart = CGRect.init(x: (40.0 * UtilityManager.sharedInstance.conversionWidth), //globalPoint.x
+      y: 0.0,
+      width: 295.0 * UtilityManager.sharedInstance.conversionWidth,
+      height: 347.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    var arrayOfQualifications: [Int] = updatedPitchEvaluationDataByUser.otherScores
+    arrayOfQualifications.insert(updatedPitchEvaluationDataByUser.score, atIndex: 0)
+    let arrayOfAgencyNames: [String] = [AgencyModel.Data.name]
+    
+    return GraphPartPitchCardView.init(frame: frameForGraphPart,
+                                       newArrayOfQualifications: arrayOfQualifications,
+                                       newArrayOfAgencyNames: arrayOfAgencyNames)
+   
   }
   
   private func makeACopyOfActualGraph() -> GraphPartPitchCardView {
@@ -1758,9 +1778,20 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   //EditPitchEvaluationViewControllerDelegate
   
-  func updatedDetailInfoOfPitchEvaluation(newPitchData: PitchEvaluationByUserModelData) {
+  func updatedDetailInfoOfPitchEvaluation(newPitchData: PitchEvaluationByUserModelData?) {
     
-    self.createAndShowDetailedPitchView(newPitchData)
+    self.hideDetailPitchView()
+    
+    
+    //If they don't want this, just comment the next if
+    
+    if newPitchData != nil {
+      
+      NSTimer.scheduledTimerWithTimeInterval(1.2, target: self, selector: #selector(createAndShowDetailedPitchViewWithValuesUpdated), userInfo: newPitchData!, repeats: false)
+           
+    //  self.createAndShowDetailedPitchViewWithValuesUpdated(newPitchData!)
+      
+    }
     
   }
   

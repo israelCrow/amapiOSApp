@@ -421,17 +421,16 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-    var segmentsArray = [String]()
     
-    for i in 1...30 {
-      
-      segmentsArray.append(String(i))
-      
-    }
+    let segmentsArray = ["1 a 5", "6 a 10", "11 a 14", "+ de 15"]
     
-    //    CustomTextFieldWithTitleView.init(frame: frameForView,
-    //                                      title: "¿Cuántas semanas les dieron para presentar?",
-    //                                      image: nil)
+//    var segmentsArray = [String]()
+//    
+//    for i in 1...30 {
+//      
+//      segmentsArray.append(String(i))
+//      
+//    }
     
     howManyDaysToShow = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
                                                                    textLabel: "¿Cuántos días te dieron para presentar?",
@@ -443,10 +442,31 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     howManyDaysToShow.mainTextField.addTarget(self,
                                               action: #selector(howManyDaysToShowEdited),
                                               forControlEvents: .AllEditingEvents)
-    
+
     if pitchEvaluationInfoFromServer["time_to_present"] as? String != nil {
       
-      let time_to_present = pitchEvaluationInfoFromServer["time_to_present"] as! String
+      var time_to_present = pitchEvaluationInfoFromServer["time_to_present"] as! String
+      
+      if time_to_present == "1 - 5" {
+        
+        time_to_present = "1 a 5"
+        
+      } else
+        if time_to_present == "6 - 10" {
+          
+          time_to_present = "6 a 10"
+          
+        } else
+        if time_to_present == "11 - 14" {
+            
+          time_to_present = "11 a 14"
+            
+        }else
+        if time_to_present == "+15" {
+              
+          time_to_present = "+ de 15"
+              
+        }
       
       howManyDaysToShow.mainTextField.text = time_to_present
       
@@ -849,7 +869,27 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     //
     //    }
     
-    let howManyDaysToPresent = howManyDaysToShow.mainTextField.text!
+    var howManyDaysToPresent = howManyDaysToShow.mainTextField.text!
+    if howManyDaysToPresent == "1 a 5" {
+      
+      howManyDaysToPresent = "1 - 5"
+      
+    } else
+      if howManyDaysToPresent == "6 a 10" {
+        
+        howManyDaysToPresent = "6 - 10"
+        
+      } else
+        if howManyDaysToPresent == "11 a 14" {
+          
+          howManyDaysToPresent = "11 - 14"
+          
+        }else
+          if howManyDaysToPresent == "+ de 15" {
+            
+            howManyDaysToPresent = "+15"
+            
+    }
     
     //    let howManyWeeks = (UtilityManager.sharedInstance.isValidText(howManyDaysToShow.mainTextField.text!) == true ? howManyDaysToShow.mainTextField.text! : "1s")
     //    let howManyWeeksWithoutSpaces = howManyWeeks.stringByReplacingOccurrencesOfString(" ", withString: "")

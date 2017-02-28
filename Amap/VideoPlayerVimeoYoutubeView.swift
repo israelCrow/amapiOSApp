@@ -35,6 +35,7 @@ class VideoPlayerVimeoYoutubeView:UIView {
   private var videoPlayerVimeoAVPlayer: AVPlayer! = nil
   private var isPlayingVidePlayerVimeoPlayer: Bool = false
   private var videoPlayerLayerVimeoAVPlayerLayer: AVPlayerLayer! = nil
+  private var avPlayerFullScreen: AVPlayerViewController! = nil
   
   private var imageURL: String! = nil
   
@@ -367,14 +368,33 @@ class VideoPlayerVimeoYoutubeView:UIView {
   
   @objc private func playOrPauseVideoPlayerVimeo() {
     
+    if avPlayerFullScreen != nil {
+      
+      avPlayerFullScreen = AVPlayerViewController.init()
+      avPlayerFullScreen.showsPlaybackControls = true
+      avPlayerFullScreen.shouldAutorotate()
+      
+    }
+    
     if isPlayingVidePlayerVimeoPlayer != true {
       
-      videoPlayerVimeoAVPlayer.play()
+      avPlayerFullScreen = nil
+      avPlayerFullScreen = AVPlayerViewController.init()
+      avPlayerFullScreen.showsPlaybackControls = true
+      avPlayerFullScreen.shouldAutorotate()
+      
+      let actualViewController = UtilityManager.sharedInstance.currentViewController()
+      
+      actualViewController.presentViewController(avPlayerFullScreen, animated: true, completion: nil)
+      
+      avPlayerFullScreen.player = videoPlayerVimeoAVPlayer
+      avPlayerFullScreen.player!.play()
       isPlayingVidePlayerVimeoPlayer = true
       
     }else{
       
-      videoPlayerVimeoAVPlayer.pause()
+      //videoPlayerVimeoAVPlayer.pause()
+      //avPlayerFullScreen.player!.pause()
       isPlayingVidePlayerVimeoPlayer = false
       
     }
