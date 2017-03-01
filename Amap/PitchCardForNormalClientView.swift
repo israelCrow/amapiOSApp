@@ -197,6 +197,34 @@ class PitchCardForNormalClientView: UIView, CPTPieChartDataSource {
   
   private func configureChart() {
     
+//    
+//    CPTGradient *overlayGradient = [[CPTGradient alloc] init];
+//    overlayGradient.gradientType = CPTGradientTypeRadial;
+//    overlayGradient              = [overlayGradient addColorStop:[[CPTColor blackColor] colorWithAlphaComponent:CPTFloat(0.0)] atPosition:CPTFloat(0.0)];
+//    overlayGradient              = [overlayGradient addColorStop:[[CPTColor blackColor] colorWithAlphaComponent:CPTFloat(0.3)] atPosition:CPTFloat(0.9)];
+//    overlayGradient              = [overlayGradient addColorStop:[[CPTColor blackColor] colorWithAlphaComponent:CPTFloat(0.7)] atPosition:CPTFloat(1.0)];
+//    
+    
+    var overlayGradient = CPTGradient.init()
+    overlayGradient.gradientType = .Radial
+    
+    overlayGradient = overlayGradient.addColorStop(CPTColor.whiteColor().colorWithAlphaComponent(2.0), atPosition: 0.0)
+    
+
+//    overlayGradient = overlayGradient.addColorStop(CPTColor.whiteColor().colorWithAlphaComponent(0.0), atPosition: 0.2)
+    overlayGradient = overlayGradient.addColorStop(CPTColor.grayColor().colorWithAlphaComponent(0.05), atPosition: 1.1)
+    overlayGradient = overlayGradient.gradientWithAlphaComponent(0.5)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // 1 - Get a reference to the graph
     let graph = chartHostView.hostedGraph!
     
@@ -209,6 +237,8 @@ class PitchCardForNormalClientView: UIView, CPTPieChartDataSource {
     pieChart.startAngle = CGFloat(M_PI_2)
     pieChart.sliceDirection = .CounterClockwise
     pieChart.labelOffset = -0.6 * pieChart.pieRadius
+    pieChart.overlayFill = CPTFill.init(gradient: overlayGradient)
+    
     
     // 3 - Configure border style
     let borderStyle = CPTMutableLineStyle()
@@ -227,11 +257,11 @@ class PitchCardForNormalClientView: UIView, CPTPieChartDataSource {
     // 5 - Add chart to graph
     graph.addPlot(pieChart)
     
-    CPTAnimation.animate(pieChart,
-                         property: "endAngle",
-                         from: CGFloat(M_PI_2),
-                         to: CGFloat(-3.0*M_PI_2),
-                         duration: 0.5)
+//    CPTAnimation.animate(pieChart,
+//                         property: "endAngle",
+//                         from: CGFloat(M_PI_2),
+//                         to: CGFloat(-3.0*M_PI_2),
+//                         duration: 0.5)
     
   }
   
@@ -354,7 +384,7 @@ class PitchCardForNormalClientView: UIView, CPTPieChartDataSource {
   func sliceFillForPieChart(pieChart: CPTPieChart, recordIndex idx: UInt) -> CPTFill? {
     
     
-    let firstColorHappitch = CPTColor.init(componentRed: 237.0/255.0 , green: 237.0/255.0, blue: 24.0/255.0, alpha: 1.0)
+    let firstColorHappitch = CPTColor.init(componentRed: 242.0/255.0 , green: 165.0/255.0, blue: 18.0/255.0, alpha: 1.0)
     let secondColorHappitch = CPTColor.init(componentRed: 255.0/255.0 , green: 85.0/255.0, blue: 0.0/255.0, alpha: 1.0)
     let gradientHappitch = CPTGradient.init(beginningColor: firstColorHappitch, endingColor: secondColorHappitch)
 
