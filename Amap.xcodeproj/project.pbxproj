@@ -266,6 +266,13 @@
 		AAFD0E1A1DDCDC620019EF03 /* PitchResultsModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFD0E191DDCDC620019EF03 /* PitchResultsModelData.swift */; };
 		AAFD0E1E1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */; };
 		C04FC772F5442066639C311A /* Pods_Amap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730B22C94A0E292BE5556150 /* Pods_Amap.framework */; };
+		FC1CBE2A1E67682800AE4B0D /* WelcomeScreenTutorialForCompanyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CBE291E67682800AE4B0D /* WelcomeScreenTutorialForCompanyView.swift */; };
+		FC1CBE2C1E67686000AE4B0D /* CompanyTutorialConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CBE2B1E67686000AE4B0D /* CompanyTutorialConstants.swift */; };
+		FC286EC01E676F2C007EBAC5 /* CompanyProfileScreenTutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC286EBF1E676F2C007EBAC5 /* CompanyProfileScreenTutorialView.swift */; };
+		FC286EC41E677645007EBAC5 /* CompanyAgenciesSearchEngineTutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC286EC31E677645007EBAC5 /* CompanyAgenciesSearchEngineTutorialView.swift */; };
+		FC286EC61E677879007EBAC5 /* CompanyPitchesTutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC286EC51E677879007EBAC5 /* CompanyPitchesTutorialView.swift */; };
+		FC286EC81E677E25007EBAC5 /* CompanyPitchesSecondTutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC286EC71E677E25007EBAC5 /* CompanyPitchesSecondTutorialView.swift */; };
+		FC286ECA1E67847D007EBAC5 /* CompanyDashboardTutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC286EC91E67847D007EBAC5 /* CompanyDashboardTutorialView.swift */; };
 		FC6CD6501E32026300855438 /* CaseCardInfoToEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6CD64F1E32026300855438 /* CaseCardInfoToEditView.swift */; };
 		FCA774F61E577CB600FC3C40 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCA774F41E577CB600FC3C40 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -550,6 +557,13 @@
 		AAFD0E191DDCDC620019EF03 /* PitchResultsModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchResultsModelData.swift; sourceTree = "<group>"; };
 		AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterAccordingToUserAndAgencyView.swift; sourceTree = "<group>"; };
 		D32EBDE6D734E5F3142D1570 /* Pods-Amap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amap.release.xcconfig"; path = "Pods/Target Support Files/Pods-Amap/Pods-Amap.release.xcconfig"; sourceTree = "<group>"; };
+		FC1CBE291E67682800AE4B0D /* WelcomeScreenTutorialForCompanyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeScreenTutorialForCompanyView.swift; sourceTree = "<group>"; };
+		FC1CBE2B1E67686000AE4B0D /* CompanyTutorialConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyTutorialConstants.swift; sourceTree = "<group>"; };
+		FC286EBF1E676F2C007EBAC5 /* CompanyProfileScreenTutorialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyProfileScreenTutorialView.swift; sourceTree = "<group>"; };
+		FC286EC31E677645007EBAC5 /* CompanyAgenciesSearchEngineTutorialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyAgenciesSearchEngineTutorialView.swift; sourceTree = "<group>"; };
+		FC286EC51E677879007EBAC5 /* CompanyPitchesTutorialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyPitchesTutorialView.swift; sourceTree = "<group>"; };
+		FC286EC71E677E25007EBAC5 /* CompanyPitchesSecondTutorialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyPitchesSecondTutorialView.swift; sourceTree = "<group>"; };
+		FC286EC91E67847D007EBAC5 /* CompanyDashboardTutorialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyDashboardTutorialView.swift; sourceTree = "<group>"; };
 		FC6CD64F1E32026300855438 /* CaseCardInfoToEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaseCardInfoToEditView.swift; sourceTree = "<group>"; };
 		FCA774F51E577CB600FC3C40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1273,6 +1287,7 @@
 		AAB973FD1DF896DA0024B663 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FC1CBE261E6767A900AE4B0D /* Tutorial */,
 				AAEA2EC41E08EA3E007949A4 /* Visualize_Dashboard */,
 				AA04AC871DFDDF37000BF566 /* Visualize_Directory */,
 				AA13CDE91DFB6C53002E1A4D /* Edit/Visualize_Company */,
@@ -1515,6 +1530,20 @@
 				AAFB06461E03D1A00032249C /* PitchCompanyShareView.swift */,
 			);
 			name = SharePitchCompany;
+			sourceTree = "<group>";
+		};
+		FC1CBE261E6767A900AE4B0D /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				FC1CBE291E67682800AE4B0D /* WelcomeScreenTutorialForCompanyView.swift */,
+				FC286EBF1E676F2C007EBAC5 /* CompanyProfileScreenTutorialView.swift */,
+				FC286EC31E677645007EBAC5 /* CompanyAgenciesSearchEngineTutorialView.swift */,
+				FC286EC51E677879007EBAC5 /* CompanyPitchesTutorialView.swift */,
+				FC286EC71E677E25007EBAC5 /* CompanyPitchesSecondTutorialView.swift */,
+				FC286EC91E67847D007EBAC5 /* CompanyDashboardTutorialView.swift */,
+				FC1CBE2B1E67686000AE4B0D /* CompanyTutorialConstants.swift */,
+			);
+			name = Tutorial;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1805,6 +1834,7 @@
 				AA04AC861DFDDCC6000BF566 /* GenericAgencyData.swift in Sources */,
 				AADD0C541DB980EF0095A51C /* WhenGonnaToShowPitchView.swift in Sources */,
 				AA8997991D89CB09009513E3 /* BrandModelData.swift in Sources */,
+				FC286EC61E677879007EBAC5 /* CompanyPitchesTutorialView.swift in Sources */,
 				AAFD0E1E1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift in Sources */,
 				AADD0C501DB96F6F0095A51C /* RecommendationView.swift in Sources */,
 				AA13CDEC1DFB6C9C002E1A4D /* DetailedInfoCompanyContactView.swift in Sources */,
@@ -1825,6 +1855,7 @@
 				AA8F6C0C1D7908AE0021683C /* VisualizeExclusiveView.swift in Sources */,
 				AA0BD3701DB54F840057387D /* ArchivedPitchEvaluationView.swift in Sources */,
 				AAC05F941DFB0AC40091ADF4 /* PitchRecommendationsView.swift in Sources */,
+				FC1CBE2A1E67682800AE4B0D /* WelcomeScreenTutorialForCompanyView.swift in Sources */,
 				AA7F58E61D90852C0057F67B /* PitchSkillCategory.swift in Sources */,
 				AA02375C1D81FF100014915C /* NoPitchAssignedView.swift in Sources */,
 				AACBE2821DDE4A58007314C3 /* CustomTextFieldWithTitleAndPickerForDashboardView.swift in Sources */,
@@ -1835,6 +1866,7 @@
 				AADA935A1DC1016400CA5DBD /* DidProjectActivePitchSurveyView.swift in Sources */,
 				AA2DB84E1D53B0D900E9FB8A /* ExistingAccountView.swift in Sources */,
 				AAFB06491E03FDC00032249C /* PitchRecommendationImageLabelView.swift in Sources */,
+				FC1CBE2C1E67686000AE4B0D /* CompanyTutorialConstants.swift in Sources */,
 				AA09496A1D529A59000E76E1 /* CreateAccountConstants.swift in Sources */,
 				AA87B76D1D88723E00BCA3E6 /* DetailedNavigationEvaluatPitchView.swift in Sources */,
 				AAFB06471E03D1A00032249C /* PitchCompanyShareView.swift in Sources */,
@@ -1861,6 +1893,7 @@
 				AA7232BE1DF668C500BF3DAD /* NoFilterResultsView.swift in Sources */,
 				AA7495731D77885D0082B6DF /* AgencyProfilePicNameButtonsView.swift in Sources */,
 				AACBE28D1DDF7B1A007314C3 /* DashboardSecondScreenTutorialView.swift in Sources */,
+				FC286EC01E676F2C007EBAC5 /* CompanyProfileScreenTutorialView.swift in Sources */,
 				AADA935C1DC109B000CA5DBD /* WhenProjectWillActivePitchSurveyView.swift in Sources */,
 				AAFD0E1A1DDCDC620019EF03 /* PitchResultsModelData.swift in Sources */,
 				045F5C281D650CE100F0C077 /* CasesView.swift in Sources */,
@@ -1895,6 +1928,7 @@
 				AA8997951D89B9D5009513E3 /* EvaluatePitchView.swift in Sources */,
 				AA92D63C1D50EE0F00CE7D95 /* SplashViewController.swift in Sources */,
 				AAE7F2D61D7E27CB0045AE8E /* VisualizeSkillsView.swift in Sources */,
+				FC286EC41E677645007EBAC5 /* CompanyAgenciesSearchEngineTutorialView.swift in Sources */,
 				AADD0C461DB926260095A51C /* DidReceiveRulingView.swift in Sources */,
 				AADA93581DC0FC5C00CA5DBD /* WhenYouWillSignTheContractPitchSurveyView.swift in Sources */,
 				AA87B7691D8865E200BCA3E6 /* SuccessfullyCreationOfPitchView.swift in Sources */,
@@ -1919,6 +1953,7 @@
 				AA9A6CEB1D87156700B85C17 /* AddPitchAndWriteProjectNameView.swift in Sources */,
 				AACBE2931DDF8D83007314C3 /* ProfileScreenTutorialView.swift in Sources */,
 				046229641D62746D0087E572 /* ExtensionView.swift in Sources */,
+				FC286EC81E677E25007EBAC5 /* CompanyPitchesSecondTutorialView.swift in Sources */,
 				AAF347AA1D7A4B0F00D386E5 /* VisualizeNumberOfEmployeesView.swift in Sources */,
 				AA9A6CED1D871B2A00B85C17 /* CreateAddNewPitchAndWriteProjectNameViewController.swift in Sources */,
 				AAB61E8E1D52335D00407FFD /* GoldenPitchConstants.swift in Sources */,
@@ -1981,6 +2016,7 @@
 				AA39775F1DB5E554009A41C2 /* LookForPitchCardView.swift in Sources */,
 				047818AE1D5E883100BB498C /* ExclusiveView.swift in Sources */,
 				AA14418F1DC32F5C00EB013E /* VisualizeMainCardsDashboardViewController.swift in Sources */,
+				FC286ECA1E67847D007EBAC5 /* CompanyDashboardTutorialView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

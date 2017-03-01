@@ -61,14 +61,15 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
     
 //    self.requestForAllPitchesAndTheirEvaluations()
 //    
-//    let notToShowPitchesTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowPitchesTutorial + UserSession.session.email)
+    let notToShowWelcomeTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowCompanyWelcomeScreen + UserSession.session.email)
 //    
-//    if notToShowPitchesTutorial == false {
-//      
-//      let tutorialPitches = PitchesTutorialView.init(frame: CGRect.init())
-//      let rootViewController = UtilityManager.sharedInstance.currentViewController()
-//      rootViewController.view.addSubview(tutorialPitches)
-//      
+    if notToShowWelcomeTutorial == false {
+      
+      let welcomeScreen = WelcomeScreenTutorialForCompanyView.init(frame: CGRect.init())
+      let rootViewController = UtilityManager.sharedInstance.currentViewController()
+      rootViewController.view.addSubview(welcomeScreen)
+    }
+//
     }
   
   private func addGestures() {
@@ -148,6 +149,7 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
     
     searchView = LookForCompanyPitchView.init(frame: frameForNewView,
                           newArrayOfPitchesToFilter: arrayOfPitchesByUserWithoutModifications)
+    searchView.searchView.mainTextField.placeholder = "Nombre"
     searchView.delegate = self
     
     self.view.addSubview(searchView)

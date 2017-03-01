@@ -16,10 +16,20 @@ class UtilityManager: NSObject {
   let apiToken = "Token 40e97aa81c2be2de4b99f1c243bec9c4" //DEVELOPMENT "Token 40e97aa81c2be2de4b99f1c243bec9c4" //PRODUCTION "Token 732f80decfc02b204a53e2480e5b7ec5"
   let kLastValidUserEmail = "kLastValidUserEmail"
   let kLastValidUserPassword =  "kLastValidUserPassword"
+  
+  //Agency
   let kNotToShowProfileTutorial = "kNotToShowProfileTutorial"
   let kNotToShowPitchesTutorial = "kNotToShowPitchesTutorial"
   let kNotToShowDashboardTutorial = "kNotToShowDashboardTutorial"
   let kSavedPhotoAndSavedName = "kSavedPhotoAndSavedName"
+  
+  //Company - Anunciante
+  let kNotToShowCompanyWelcomeScreen = "kNotToShowCompanyWelcomeScreenTutorial"
+  let kNotToShowCompanyProfileTutorial = "kNotToShowCompanyProfileTutorial"
+  let kNotToShowCompanyAgenciesSearchEngineTutorial = "kNotToShowCompanyAgenciesSearchEngineTutorial"
+  let kNotToShowCompanyPitchesTutorial = "kNotToShowCompanyPitchesTutorial"
+  let kNotToShowCompanyPitchesSecondTutorial = "kNotToShowCompanyPitchesSecondTutorial"
+  let kNotToShowCompanyDashboardTutorial = "kNotToShowCompanyDashboardTutorial"
   
   let kDocuments = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
   let kcache = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true) [0]

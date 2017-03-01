@@ -22,7 +22,7 @@ protocol LookForCompanyPitchViewDelegate {
 class LookForCompanyPitchView: UIView, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
   
   private var cancelButton: UIButton! = nil
-  private var searchView: CustomTextFieldWithTitleView! = nil
+  var searchView: CustomTextFieldWithTitleView! = nil
   private var noResultsLabel: UILabel! = nil
   private var mainTableView: UITableView! = nil
   private var arrayOfFilteredProjects = Array<PitchEvaluationByUserModelDataForCompany>()
