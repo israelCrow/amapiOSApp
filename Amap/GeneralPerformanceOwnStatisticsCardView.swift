@@ -88,7 +88,8 @@ class GeneralPerformanceOwnStatisticsCardView: UIView, CustomTextFieldWithTitleA
     
     self.backgroundColor = UIColor.whiteColor()
     self.createMainScrollView()
-    self.createSelectorOfInformationView()
+    self.createTitleLabel()
+//    self.createSelectorOfInformationView()
     self.createFaces()
     self.createCircleGraph()
     self.createRecommendations()
@@ -209,7 +210,7 @@ class GeneralPerformanceOwnStatisticsCardView: UIView, CustomTextFieldWithTitleA
     ]
     
     let frameForFacesView = CGRect.init(x: 0.0,
-                                        y: selectorOfInformationView.frame.origin.y + selectorOfInformationView.frame.size.height + (22.0 * UtilityManager.sharedInstance.conversionHeight),
+                                        y: 100.0 * UtilityManager.sharedInstance.conversionHeight, //selectorOfInformationView.frame.origin.y + selectorOfInformationView.frame.size.height + (22.0 * UtilityManager.sharedInstance.conversionHeight),
                                         width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 60.0 * UtilityManager.sharedInstance.conversionHeight)
     

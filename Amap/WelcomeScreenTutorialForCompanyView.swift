@@ -31,7 +31,7 @@ class WelcomeScreenTutorialForCompanyView: UIView {
     self.backgroundColor = UIColor.init(white: 0.0, alpha: 0.85)
     
     self.createWelcomeLabel()
-    self.createDescriptionLabel()
+//    self.createDescriptionLabel()
     
   }
   
@@ -62,7 +62,7 @@ class WelcomeScreenTutorialForCompanyView: UIView {
     welcomeLabel.attributedText = stringWithFormat
     welcomeLabel.sizeToFit()
     let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (welcomeLabel.frame.size.width / 2.0),
-                               y: 267.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: (self.frame.size.height / 2.0) - (welcomeLabel.frame.size.height / 2.0),//267.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: welcomeLabel.frame.size.width,
                                height: welcomeLabel.frame.size.height)
     
@@ -91,7 +91,7 @@ class WelcomeScreenTutorialForCompanyView: UIView {
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: TutorialConstants.WelcomeScreen.descriptionText,
+      string: "",
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color

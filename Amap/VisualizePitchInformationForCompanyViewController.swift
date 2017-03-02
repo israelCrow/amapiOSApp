@@ -314,7 +314,7 @@ class VisualizePitchInformationForCompanyViewController: UIViewController {
         
       }
       
-      finalHeight += 140
+      finalHeight += 160
       
       let newContentSize = CGSize.init(width: mainScrollView.contentSize.width,
                                       height: finalHeight)

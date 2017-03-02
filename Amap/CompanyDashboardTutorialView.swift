@@ -67,7 +67,7 @@ class CompanyDashboardTutorialView: UIView {
     leftBottomLabel.attributedText = stringWithFormat
     leftBottomLabel.sizeToFit()
     let newFrame = CGRect.init(x: 20.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 541.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 571.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: leftBottomLabel.frame.size.width,
                                height: leftBottomLabel.frame.size.height)
     
@@ -103,7 +103,7 @@ class CompanyDashboardTutorialView: UIView {
     )
     bottomProfileLabel.attributedText = stringWithFormat
     bottomProfileLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 37.0 * UtilityManager.sharedInstance.conversionWidth,
+    let newFrame = CGRect.init(x: 22.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 653.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: bottomProfileLabel.frame.size.width,
                                height: bottomProfileLabel.frame.size.height)
@@ -117,8 +117,8 @@ class CompanyDashboardTutorialView: UIView {
   private func createProfileImageView() {
     
     profileImageView = UIImageView.init(image: UIImage.init(named: "iconDashboardWhite"))
-    let imageViewFrame = CGRect.init(x: 50.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 623 * UtilityManager.sharedInstance.conversionHeight,
+    let imageViewFrame = CGRect.init(x: 35.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 626 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 25.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
     profileImageView.frame = imageViewFrame

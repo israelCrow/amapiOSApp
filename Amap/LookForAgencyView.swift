@@ -99,6 +99,7 @@ class LookForAgencyView: UIView, UITableViewDelegate, UITableViewDataSource, UIT
     searchView.mainTextField.addTarget(self,
                                        action: #selector(textDidChange),
                                        forControlEvents: UIControlEvents.EditingChanged)
+    searchView.mainTextField.placeholder = "Nombre de la agencia"
     searchView.mainTextField.returnKeyType = .Search
     searchView.mainTextField.delegate = self
     

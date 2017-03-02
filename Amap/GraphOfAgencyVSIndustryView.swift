@@ -124,13 +124,13 @@ class GraphOfAgencyVSIndustryView: UIView {
     if UserSession.session.role == "4" || UserSession.session.role == "5" {
       
       font = UIFont(name: "SFUIDisplay-Ultralight",
-                    size: 30.0 * UtilityManager.sharedInstance.conversionWidth)
+                    size: 20.0 * UtilityManager.sharedInstance.conversionWidth)
       
       stringWithFormat = NSMutableAttributedString(
         string: VisualizeDashboardConstants.GraphOfAgencyVSIndustry.companyPerformanceLabelText,
         attributes:[NSFontAttributeName: font!,
           NSParagraphStyleAttributeName: style,
-          NSKernAttributeName: CGFloat(2.0),
+          NSKernAttributeName: CGFloat(1.4),
           NSForegroundColorAttributeName: color
         ]
       )

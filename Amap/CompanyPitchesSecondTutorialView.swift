@@ -68,8 +68,8 @@ class CompanyPitchesSecondTutorialView: UIView {
     )
     rightBottomLabel.attributedText = stringWithFormat
     rightBottomLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 112.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 108.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: 112.5 * UtilityManager.sharedInstance.conversionWidth,
+                               y: 88.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: rightBottomLabel.frame.size.width,
                                height: rightBottomLabel.frame.size.height)
     
@@ -105,8 +105,8 @@ class CompanyPitchesSecondTutorialView: UIView {
     )
     bottomProfileLabel.attributedText = stringWithFormat
     bottomProfileLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 130.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 646.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: 115.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: 136.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: bottomProfileLabel.frame.size.width,
                                height: bottomProfileLabel.frame.size.height)
     
@@ -119,8 +119,8 @@ class CompanyPitchesSecondTutorialView: UIView {
   private func createProfileImageView() {
     
     profileImageView = UIImageView.init(image: UIImage.init(named: "smallWhiteSearchIcon"))
-    let imageViewFrame = CGRect.init(x: 78.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 109.0 * UtilityManager.sharedInstance.conversionHeight,
+    let imageViewFrame = CGRect.init(x: 79.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 88.0 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 14.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 14.0 * UtilityManager.sharedInstance.conversionHeight)
     profileImageView.frame = imageViewFrame
@@ -133,7 +133,7 @@ class CompanyPitchesSecondTutorialView: UIView {
     
     closeImageView = UIImageView.init(image: UIImage.init(named: "clear"))
     let imageViewFrame = CGRect.init(x: 274.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 109.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     y: 94.0 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 14.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 14.0 * UtilityManager.sharedInstance.conversionHeight)
     closeImageView.frame = imageViewFrame

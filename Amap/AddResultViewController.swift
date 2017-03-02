@@ -1729,9 +1729,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       if nextScreenToShowWithTag == 13 {
         
         didSignContractSelectedValue = 0
-        self.moveDidProjectActiveView(.center)
-        
-//        self.moveWhenYouWillSignView(.center)   //originally
+        self.moveWhenYouWillSignView(.center)   //originally
         
     }
     
@@ -1758,15 +1756,14 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     }else
       if nextScreenToShowWithTag == 12 { //is 12 and means that you press "no"
         
-        self.dismissDetailedNavigation()
-        self.navigationController?.popToRootViewControllerAnimated(true)
+//        self.dismissDetailedNavigation()
+//        self.navigationController?.popToRootViewControllerAnimated(true)
  
         //originally
+        self.moveDidProjectActiveView(.left)
         
-//        self.moveDidProjectActiveView(.left)
-//        
-//        didProjectActiveSelectedValue = 0
-//        self.moveWhenProjectWillActiveView(.center)
+        didProjectActiveSelectedValue = 0
+        self.moveWhenProjectWillActiveView(.center)
         
       }
 
@@ -1789,8 +1786,12 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   func whenProjectWillActiveNextButtonPressed(dateSelected: String) {
     
     whenProjectWillActiveSelectedValue = dateSelected
+    self.dismissDetailedNavigation()
+    self.navigationController?.popToRootViewControllerAnimated(true)
     
-    self.saveDataForPitchSurvey()
+    
+    //originally
+//    self.saveDataForPitchSurvey()
     
   }
   

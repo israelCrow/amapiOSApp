@@ -67,7 +67,7 @@ class CompanyPitchesTutorialView: UIView {
     rightBottomLabel.attributedText = stringWithFormat
     rightBottomLabel.sizeToFit()
     let newFrame = CGRect.init(x: 65.5 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 541.0 * UtilityManager.sharedInstance.conversionHeight,
+                               y: 561.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: rightBottomLabel.frame.size.width,
                                height: rightBottomLabel.frame.size.height)
     
@@ -89,7 +89,7 @@ class CompanyPitchesTutorialView: UIView {
     bottomProfileLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIText-Regular",
-                      size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 9.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.whiteColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
@@ -103,8 +103,8 @@ class CompanyPitchesTutorialView: UIView {
     )
     bottomProfileLabel.attributedText = stringWithFormat
     bottomProfileLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 130.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 646.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: 125.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: 654.5 * UtilityManager.sharedInstance.conversionHeight,
                                width: bottomProfileLabel.frame.size.width,
                                height: bottomProfileLabel.frame.size.height)
     
@@ -117,9 +117,9 @@ class CompanyPitchesTutorialView: UIView {
   private func createProfileImageView() {
     
     profileImageView = UIImageView.init(image: UIImage.init(named: "iconPitchesWhite"))
-    let imageViewFrame = CGRect.init(x: 306.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 623.0 * UtilityManager.sharedInstance.conversionHeight,
-                                     width: 16.3 * UtilityManager.sharedInstance.conversionWidth,
+    let imageViewFrame = CGRect.init(x: 131.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 626.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: 23.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
     profileImageView.frame = imageViewFrame
     

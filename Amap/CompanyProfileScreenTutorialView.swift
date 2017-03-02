@@ -81,7 +81,7 @@ class CompanyProfileScreenTutorialView: UIView {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: 66.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    width: 100.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
     bottomProfileLabel = UILabel.init(frame: frameForLabel)
@@ -103,8 +103,8 @@ class CompanyProfileScreenTutorialView: UIView {
     )
     bottomProfileLabel.attributedText = stringWithFormat
     bottomProfileLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 270.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 653.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: 290.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: 654.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: bottomProfileLabel.frame.size.width,
                                height: bottomProfileLabel.frame.size.height)
     
@@ -117,8 +117,8 @@ class CompanyProfileScreenTutorialView: UIView {
   private func createProfileImageView() {
     
     profileImageView = UIImageView.init(image: UIImage.init(named: "brandBlack"))
-    let imageViewFrame = CGRect.init(x: 306.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 623.0 * UtilityManager.sharedInstance.conversionHeight,
+    let imageViewFrame = CGRect.init(x: 321.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 627.0 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 16.3 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
     profileImageView.frame = imageViewFrame

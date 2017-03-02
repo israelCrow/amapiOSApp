@@ -261,56 +261,89 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     } else
       if UserSession.session.role == "4" || UserSession.session.role == "5" {
         
-        let userOne =  AgencyUserModelData.init(newId: "-1",
-                                         newFirstName: "Usuario 1",
-                                          newLastName: "One")
-        
-        let userTwo =  AgencyUserModelData.init(newId: "-2",
-                                                newFirstName: "Usuario 2",
-                                                newLastName: "Two")
-        
-        arrayOfUsers = [userOne, userTwo]//
-        
-        let scoreOne = PitchEvaluationAveragePerMonthModelData.init(newId: "-1",
-                                                             newMonthYear: "octubre-2016",
-                                                                 newScore: "45")
-        
-        let scoreTwo = PitchEvaluationAveragePerMonthModelData.init(newId: "-2",
-                                                                    newMonthYear: "noviembre-2016",
-                                                                    newScore: "87")
-        
-        arrayOfScoresByAgency = [scoreOne, scoreTwo]//
-        
-        arrayOfScoresByIndustry = [scoreTwo, scoreOne]//
-        
-        numberOfPitchesByAgency = [
-          "happitch": 7,
-          "happy":    11,
-          "ok":       5,
-          "unhappy":  15,
-          "lost":     6,
-          "won":      5
-        ]
-        
         UtilityManager.sharedInstance.showLoader()
         
-        
-        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSummaryByClient({ (numberOfPitchesByClientForDashboardSummary, arrayOfBrands, recommendations) in
+        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByAgency(nil) { (arrayOfScoresPerMonthOfAgency, arrayOfUsers) in
           
-          self.arrayOfOwnBrands = arrayOfBrands
-          self.numberOfPitchesByMyself = numberOfPitchesByClientForDashboardSummary //number Of pitches by company
-          self.recommendations = recommendations
+          print(arrayOfUsers)
+          print(arrayOfScoresPerMonthOfAgency)
           
-          RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByIndustry(nil, actionsToMakeAfterGetingInfo: { (arrayOfScoresPerMonthOfIndustry) in
+          self.arrayOfUsers = arrayOfUsers
+          self.arrayOfScoresByAgency = arrayOfScoresPerMonthOfAgency
+          
+          RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSummaryByClient({ (numberOfPitchesByClientForDashboardSummary, arrayOfBrands, recommendations) in
             
-            self.arrayOfScoresByIndustry = arrayOfScoresPerMonthOfIndustry
-            self.createCards()
+            self.arrayOfOwnBrands = arrayOfBrands
+            self.numberOfPitchesByMyself = numberOfPitchesByClientForDashboardSummary //number Of pitches by company
+            self.recommendations = recommendations
             
-            UtilityManager.sharedInstance.hideLoader()
+            RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByIndustry(nil, actionsToMakeAfterGetingInfo: { (arrayOfScoresPerMonthOfIndustry) in
+              
+              self.arrayOfScoresByIndustry = arrayOfScoresPerMonthOfIndustry
+              self.createCards()
+              
+              UtilityManager.sharedInstance.hideLoader()
+              
+            })
             
           })
           
-        })
+        }
+        
+        
+        
+        
+        
+//        let userOne =  AgencyUserModelData.init(newId: "-1",
+//                                         newFirstName: "Usuario 1",
+//                                          newLastName: "One")
+//        
+//        let userTwo =  AgencyUserModelData.init(newId: "-2",
+//                                                newFirstName: "Usuario 2",
+//                                                newLastName: "Two")
+//        
+//        arrayOfUsers = [userOne, userTwo]//
+//        
+//        let scoreOne = PitchEvaluationAveragePerMonthModelData.init(newId: "-1",
+//                                                             newMonthYear: "octubre-2016",
+//                                                                 newScore: "45")
+//        
+//        let scoreTwo = PitchEvaluationAveragePerMonthModelData.init(newId: "-2",
+//                                                                    newMonthYear: "noviembre-2016",
+//                                                                    newScore: "87")
+//        
+//        arrayOfScoresByAgency = [scoreOne, scoreTwo]//
+//        
+//        arrayOfScoresByIndustry = [scoreTwo, scoreOne]//
+//        
+//        numberOfPitchesByAgency = [
+//          "happitch": 7,
+//          "happy":    11,
+//          "ok":       5,
+//          "unhappy":  15,
+//          "lost":     6,
+//          "won":      5
+//        ]
+//        
+//        UtilityManager.sharedInstance.showLoader()
+//        
+//        
+//        RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsDashboardSummaryByClient({ (numberOfPitchesByClientForDashboardSummary, arrayOfBrands, recommendations) in
+//          
+//          self.arrayOfOwnBrands = arrayOfBrands
+//          self.numberOfPitchesByMyself = numberOfPitchesByClientForDashboardSummary //number Of pitches by company
+//          self.recommendations = recommendations
+//          
+//          RequestToServerManager.sharedInstance.requestToGetPitchEvaluationsAveragePerMonthByIndustry(nil, actionsToMakeAfterGetingInfo: { (arrayOfScoresPerMonthOfIndustry) in
+//            
+//            self.arrayOfScoresByIndustry = arrayOfScoresPerMonthOfIndustry
+//            self.createCards()
+//            
+//            UtilityManager.sharedInstance.hideLoader()
+//            
+//          })
+//          
+//        })
         
       }
     
@@ -654,7 +687,7 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
       
     }
     
-    graphAccordingBrand = GraphAccordingToUserView.init(frame: frameForFrontAndBack, newArrayOfUsers: arrayOfBrands, newDropDownTitleText: "Elige la marca a visualizar")
+    graphAccordingBrand = GraphAccordingToUserView.init(frame: frameForFrontAndBack, newArrayOfUsers: arrayOfBrands, newDropDownTitleText: "Desempeño por marca")
     graphAccordingBrand.tag = 2
     graphAccordingBrand.delegate = self
     graphAccordingBrand.layer.shadowColor = UIColor.blackColor().CGColor

@@ -138,14 +138,16 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
     
-//    if UserSession.session.role == "2" || UserSession.session.role == "3" {
-//      
-//      titleText = "Desempeño de la agencia"
-//      
-//    }
+    var titleText = VisualizeDashboardConstants.GeneralPerformanceCardView.selectorLabelText
+    
+    if UserSession.session.role == "4" || UserSession.session.role == "5" {
+      
+      titleText = ""
+      
+    }
     
     let stringWithFormat = NSMutableAttributedString(
-      string: VisualizeDashboardConstants.GeneralPerformanceCardView.selectorLabelText,
+      string: titleText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSKernAttributeName: CGFloat(1.4),
@@ -184,13 +186,26 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
   
   private func createSelectorOfInformationView() {
     
-    let frameForView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+    var frameForView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                    y: 80.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
+    var finalText = ""
+    
+    if UserSession.session.role == "4" || UserSession.session.role == "5" {
+      
+      finalText = "Desempeño por persona"
+      
+      frameForView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                                 y: 60.0 * UtilityManager.sharedInstance.conversionHeight,
+                                 width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
+                                 height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+    }
+    
     selectorOfInformationView = CustomTextFieldWithTitleAndPickerForDashboardView.init(frame: frameForView,
-                                                                           textLabel: "",//VisualizeDashboardConstants.GeneralPerformanceCardView.selectorLabelText,
+                                                                           textLabel: finalText,//VisualizeDashboardConstants.GeneralPerformanceCardView.selectorLabelText,
                                                                            nameOfImage: "dropdown",
                                                                            newOptionsOfPicker: optionsForSelector)
     
@@ -207,7 +222,7 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
   private func createSelectorOfInformationViewWithTitle() {
     
     let frameForView = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
-                                   y: 80.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   y: 60.0 * UtilityManager.sharedInstance.conversionHeight,
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
@@ -218,6 +233,7 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
     
     selectorOfInformationView.tag = 1
     selectorOfInformationView.delegate = self
+    selectorOfInformationView.mainTextField.placeholder = "Elegir la marca"
     //    selectorOfInformationView.mainTextField.addTarget(self,
     //                                              action: #selector(howManyDaysToShowEdited),
     //                                              forControlEvents: .AllEditingEvents)

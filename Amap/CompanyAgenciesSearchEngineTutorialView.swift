@@ -66,8 +66,8 @@ class CompanyAgenciesSearchEngineTutorialView: UIView {
     )
     rightBottomLabel.attributedText = stringWithFormat
     rightBottomLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 158.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 541.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: 163.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: 563.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: rightBottomLabel.frame.size.width,
                                height: rightBottomLabel.frame.size.height)
     
@@ -81,7 +81,7 @@ class CompanyAgenciesSearchEngineTutorialView: UIView {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: 50.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    width: 150.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
     bottomProfileLabel = UILabel.init(frame: frameForLabel)
@@ -89,13 +89,13 @@ class CompanyAgenciesSearchEngineTutorialView: UIView {
     bottomProfileLabel.lineBreakMode = .ByWordWrapping
     
     let font = UIFont(name: "SFUIText-Regular",
-                      size: 10.0 * UtilityManager.sharedInstance.conversionWidth)
+                      size: 8.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.whiteColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "Directorio",
+      string: "Directorio de agencias",
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color
@@ -103,8 +103,8 @@ class CompanyAgenciesSearchEngineTutorialView: UIView {
     )
     bottomProfileLabel.attributedText = stringWithFormat
     bottomProfileLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 219.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 619.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: 192.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: 655.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: bottomProfileLabel.frame.size.width,
                                height: bottomProfileLabel.frame.size.height)
     
@@ -117,10 +117,10 @@ class CompanyAgenciesSearchEngineTutorialView: UIView {
   private func createProfileImageView() {
     
     profileImageView = UIImageView.init(image: UIImage.init(named: "directorioWhite"))
-    let imageViewFrame = CGRect.init(x: 306.0 * UtilityManager.sharedInstance.conversionWidth,
-                                     y: 623.0 * UtilityManager.sharedInstance.conversionHeight,
-                                     width: 16.3 * UtilityManager.sharedInstance.conversionWidth,
-                                     height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+    let imageViewFrame = CGRect.init(x: 223.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     y: 625.0 * UtilityManager.sharedInstance.conversionHeight,
+                                     width: 25.0 * UtilityManager.sharedInstance.conversionWidth,
+                                     height: 24.0 * UtilityManager.sharedInstance.conversionHeight)
     profileImageView.frame = imageViewFrame
     
     self.addSubview(profileImageView)

@@ -33,7 +33,7 @@ class VisualizeDashboardConstants {
   enum GraphOfAgencyVSIndustry {
     
     static let agencyPerformanceLabelText = "Performance de tu agencia vs. la industria"
-    static let companyPerformanceLabelText = "Performance del anunciante" //Performance de tu compañía
+    static let companyPerformanceLabelText = "Performance\nvs. la industria" //Performance de tu compañía
     static let noEnoughInfoLabelText = "Aún no tenemos información para mostrarte, entre más pitches agregues mejor información verás aquí"
     
   }

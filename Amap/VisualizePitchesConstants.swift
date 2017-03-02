@@ -144,10 +144,10 @@ class VisualizePitchesConstants {
     static let rightButtonItemText = "Cerrar"
     
     static let evaluationLabelText = "HAPPITCH®"
-    static let faceOneLabelText = "70 - 100\nHappitch"
+    static let faceOneLabelText = "70 - 87\nHappitch"
     static let faceTwoLabelText = "59 - 69\nHappy"
     static let faceThreeLabelText = "45 - 58\nUnhappy"  //Ok
-    static let faceFourLabelText = "0 - 44\nBadpitch"  //Unhappy
+    static let faceFourLabelText = "-4 - 44\nBadpitch"  //Unhappy
     
     static let statisticsLabelText = "Estadísticas"
     static let descriptionStatisticsLabelTextForAgency = "HAPPITCH® es una herramienta que te permite visualizar tu rate de bateo, compararte con las demás agencias y contra la industria; evaluando tu desempeño en la participación de pitches."
