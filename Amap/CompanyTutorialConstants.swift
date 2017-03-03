@@ -33,10 +33,9 @@ class CompanyTutorialConstants {
     
   }
   
-  enum DashboardSecondScreenTutotial {
+  enum CompanyDashboardTutorialSecondPart {
     
-    static let topLabelText = "Aquí puedes filtrar la información por miembro del equipo o de toda la agencia"
-    static let bottomDashBoardLabelText = "Dashboard"
+    static let labelText = "Mientras más información nos des más completo estará tu panel de estadísticas para que puedas tomas decisiones benéficas para tu negocio y nuestra industria"
     
   }
   

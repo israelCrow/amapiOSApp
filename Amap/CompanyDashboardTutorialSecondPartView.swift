@@ -1,14 +1,14 @@
 //
-//  CompanyDashboardTutorialView.swift
+//  CompanyDashboardTutorialSecondPartView.swift
 //  Amap
 //
-//  Created by Alejandro Aristi C on 01/03/17.
+//  Created by Alejandro Aristi C on 02/03/17.
 //  Copyright © 2017 Alejandro Aristi C. All rights reserved.
 //
 
 import UIKit
 
-class CompanyDashboardTutorialView: UIView {
+class CompanyDashboardTutorialSecondPartView: UIView {
   
   private var leftBottomLabel: UILabel! = nil
   private var bottomProfileLabel: UILabel! = nil
@@ -32,19 +32,19 @@ class CompanyDashboardTutorialView: UIView {
     
     self.backgroundColor = UIColor.init(white: 0.0, alpha: 0.85)
     
-    self.createRightBottomLabel()
-    self.createBottomProfileLabel()
+    self.createLeftBottomLabel()
     
-    self.createProfileImageView()
+//    self.createBottomProfileLabel()
+//    self.createProfileImageView()
     
   }
   
   
-  private func createRightBottomLabel() {
+  private func createLeftBottomLabel() {
     
     let frameForLabel = CGRect.init(x: 0.0,
                                     y: 0.0,
-                                    width: 198.0 * UtilityManager.sharedInstance.conversionWidth,
+                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                     height: CGFloat.max)
     
     leftBottomLabel = UILabel.init(frame: frameForLabel)
@@ -55,10 +55,10 @@ class CompanyDashboardTutorialView: UIView {
                       size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
     let color = UIColor.whiteColor()
     let style = NSMutableParagraphStyle()
-    style.alignment = NSTextAlignment.Left
+    style.alignment = NSTextAlignment.Center
     
     let stringWithFormat = NSMutableAttributedString(
-      string: "Aquí verás las estadísticas de la campaña",
+      string: CompanyTutorialConstants.CompanyDashboardTutorialSecondPart.labelText,
       attributes:[NSFontAttributeName: font!,
         NSParagraphStyleAttributeName: style,
         NSForegroundColorAttributeName: color
@@ -66,8 +66,8 @@ class CompanyDashboardTutorialView: UIView {
     )
     leftBottomLabel.attributedText = stringWithFormat
     leftBottomLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 20.0 * UtilityManager.sharedInstance.conversionWidth,
-                               y: 571.0 * UtilityManager.sharedInstance.conversionHeight,
+    let newFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (leftBottomLabel.frame.size.width / 2.0),
+                               y: (self.frame.size.height / 2.0) - (leftBottomLabel.frame.size.height / 2.0),
                                width: leftBottomLabel.frame.size.width,
                                height: leftBottomLabel.frame.size.height)
     
@@ -139,13 +139,10 @@ class CompanyDashboardTutorialView: UIView {
   
   @objc private func tapToThisView() {
     
-    let companyDashboardTutorialSecondPart = CompanyDashboardTutorialSecondPartView.init(frame: CGRect.init())
-    let rootViewController = UtilityManager.sharedInstance.currentViewController()
+    NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kNotToShowCompanyDashboardTutorialSecondPart + UserSession.session.email)
+    NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kNotToShowCompanyWelcomeScreen + UserSession.session.email)
+    
     self.removeFromSuperview()
-    
-    NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kNotToShowCompanyDashboardTutorial + UserSession.session.email)
-    
-    rootViewController.view.addSubview(companyDashboardTutorialSecondPart)
     
   }
   

@@ -30,6 +30,7 @@ class UtilityManager: NSObject {
   let kNotToShowCompanyPitchesTutorial = "kNotToShowCompanyPitchesTutorial"
   let kNotToShowCompanyPitchesSecondTutorial = "kNotToShowCompanyPitchesSecondTutorial"
   let kNotToShowCompanyDashboardTutorial = "kNotToShowCompanyDashboardTutorial"
+  let kNotToShowCompanyDashboardTutorialSecondPart = "kNotToShowCompanyDashboardTutorialSecondPart"
   
   let kDocuments = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
   let kcache = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true) [0]
