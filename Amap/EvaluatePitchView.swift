@@ -813,10 +813,10 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
   
   private func checkIfAllElementsSelected() {
     
-    let notDesirableCharacters = NSCharacterSet.decimalDigitCharacterSet().invertedSet
-    let lettersInHowManyDaysToShow = howManyDaysToShow.mainTextField.text!.rangeOfCharacterFromSet(notDesirableCharacters)
+//    let notDesirableCharacters = NSCharacterSet.decimalDigitCharacterSet().invertedSet
+//    let lettersInHowManyDaysToShow = howManyDaysToShow.mainTextField.text!.rangeOfCharacterFromSet(notDesirableCharacters)
     
-    if isClearObjectivesViewEdited == true && isYouKnowTheProjectBudgetEdited == true && isYouKnowTheSelectionCriteriaEdited == true  && isInvolvementOfMarketingEdited == true && isHowManyAgenciesParticipateEdited == true && isHowManyDaysToShowEdited == true && UtilityManager.sharedInstance.isValidText(howManyDaysToShow.mainTextField.text!) && lettersInHowManyDaysToShow == nil && isYouKnowHowManyPresentationRounds == true && isHowManyDaysTheyGiveTheRulingEdited == true && isDeliverIntelectualPropertyJustToPitchEdited == true && isClearDeliverableEdited == true {
+    if isClearObjectivesViewEdited == true && isYouKnowTheProjectBudgetEdited == true && isYouKnowTheSelectionCriteriaEdited == true  && isInvolvementOfMarketingEdited == true && isHowManyAgenciesParticipateEdited == true && isHowManyDaysToShowEdited == true && UtilityManager.sharedInstance.isValidText(howManyDaysToShow.mainTextField.text!) && isYouKnowHowManyPresentationRounds == true && isHowManyDaysTheyGiveTheRulingEdited == true && isDeliverIntelectualPropertyJustToPitchEdited == true && isClearDeliverableEdited == true { //&& lettersInHowManyDaysToShow == nil && isYouKnowHowManyPresentationRounds == true && isHowManyDaysTheyGiveTheRulingEdited == true && isDeliverIntelectualPropertyJustToPitchEdited == true && isClearDeliverableEdited == true {
     
       if youKnowHowManyPresentationRounds.returnValueSelectedFromSegmentControl() == "Sí" {
       
