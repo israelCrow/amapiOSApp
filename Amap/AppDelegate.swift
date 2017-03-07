@@ -8,6 +8,7 @@
 
 import UIKit
 import GooglePlaces
+import OneSignal
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
     
+    self.registerForPushNotifications(launchOptions)
     self.initGooglePlaces()
     self.loadController()
     self.adaptInterface()
@@ -96,6 +98,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
   }
 
+  func registerForPushNotifications(launchOptions: [NSObject: AnyObject]?) {
+
+    OneSignal.initWithLaunchOptions(launchOptions, appId: "ec4f3c30-1bf5-4db3-bb51-8c18631b3c36")
+    OneSignal.IdsAvailable { (userId, pushToken) in
+      
+      UserSession.session.oneSignalUUID = userId
+      //print("User ID from OneSignal: \(userId)")
+      
+    }
+    
+//    let notificationSettings = UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil)
+//    application.registerUserNotificationSettings(notificationSettings)
+  
+  }
+  
+//  func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+//    
+//    if notificationSettings.types != .None {
+//    
+//      application.registerForRemoteNotifications()
+//    
+//    }
+//    
+//  }
+//  
+//  func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+//    
+//    let tokenChars = UnsafePointer<CChar>(deviceToken.bytes)
+//    var tokenString = ""
+//    
+//    for i in 0..<deviceToken.length {
+//      
+//      tokenString += String(format: "%02.2hhx", arguments: [tokenChars[i]])
+//      
+//    }
+//    
+//    print("Device Token:", tokenString)
+//    
+//  }
+//  
+//  func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+//    
+//    print("Failed to register:", error)
+//    
+//  }
+  
 
 }
 
@@ -125,7 +173,6 @@ extension UIApplication {
 }
 
 extension UIWindow {
-  
   
   func visibleViewController() -> UIViewController? {
     if let rootViewController: UIViewController  = self.rootViewController {

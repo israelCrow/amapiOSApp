@@ -1623,6 +1623,14 @@
 					AA92D6061D50E7D300CE7D95 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = R75AHL2ZJ3;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					AA92D61A1D50E7D300CE7D95 = {
 						CreatedOnToolsVersion = 7.3.1;

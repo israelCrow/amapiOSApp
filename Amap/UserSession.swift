@@ -21,6 +21,7 @@ class UserSession: NSObject {
   var is_member_amap: Bool! = nil
   var agency_id: String! = nil
   var company_id: String! = nil
+  var oneSignalUUID: String! = nil
   
   private override init(){}
 

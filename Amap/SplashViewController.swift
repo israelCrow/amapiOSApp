@@ -64,10 +64,13 @@ class SplashViewController: UIViewController {
     requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
     requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
     
+    let finalUUID = (UserSession.session.oneSignalUUID != nil ? UserSession.session.oneSignalUUID : "")
+    
     let values = [
       "user_session" :
         [ "email" : email,
-          "password" : password
+          "password" : password,
+          "device_token" : finalUUID
       ]
     ]
     

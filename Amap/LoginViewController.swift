@@ -203,11 +203,15 @@ class LoginViewController: UIViewController, GoldenPitchLoginViewDelegate {
         requestConnection.HTTPMethod = "POST"
         requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
         requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
-        
+      
+      
+      let finalUUID = (UserSession.session.oneSignalUUID != nil ? UserSession.session.oneSignalUUID : "")
+
         let values = [
             "user_session" :
                 [ "email" : name,
-                    "password" : email
+                  "password" : email,
+                  "device_token" : finalUUID
             ]
         ]
         

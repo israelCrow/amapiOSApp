@@ -53,6 +53,10 @@
 		<string>SF-UI-Text-Ultrathin.otf</string>
 		<string>SF-UI-Text-UltrathinItalic.otf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

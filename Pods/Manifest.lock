@@ -11,6 +11,7 @@ PODS:
     - GooglePlaces (= 2.0.1)
   - GooglePlaces (2.0.1):
     - GoogleMaps/Base (= 2.0.1)
+  - OneSignal (2.3.5)
   - YouTubePlayer (0.3.0)
   - YTVimeoExtractor (1.0.0)
 
@@ -20,6 +21,7 @@ DEPENDENCIES:
   - GoogleMaps (= 2.0.1)
   - GooglePlacePicker (= 2.0.1)
   - GooglePlaces (= 2.0.1)
+  - OneSignal
   - YouTubePlayer (= 0.3.0)
   - YTVimeoExtractor (= 1.0.0)
 
@@ -29,9 +31,10 @@ SPEC CHECKSUMS:
   GoogleMaps: f09da64fc987c1aa29394567c3cab5a3df83c402
   GooglePlacePicker: e7b11b732e40dbe76e8ab4c5fc2f4a7c32b96578
   GooglePlaces: 72fab1d1651c6df0322f2aad245ffb15b80d3c56
+  OneSignal: 4cb42948ebc141bd5deb54d3fda25105db94f6d4
   YouTubePlayer: 88713a96c356f2c88da8925eb61438eda88bcd57
   YTVimeoExtractor: fa329a7cc99fc3d0b4e1fa6fd9d1d5eab1835c7d
 
-PODFILE CHECKSUM: e3a5d3dc8015b5adf73b666cf878b9e25b9a28bc
+PODFILE CHECKSUM: 69b609c994cbbfe76a7310b05764c920917d499f
 
 COCOAPODS: 1.2.0

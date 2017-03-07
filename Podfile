@@ -10,5 +10,6 @@ pod 'GoogleMaps', '2.0.1'
 pod 'YouTubePlayer', '0.3.0'
 pod 'YTVimeoExtractor', '1.0.0'
 pod 'CorePlot', '2.1'
+pod 'OneSignal'
 
 end
