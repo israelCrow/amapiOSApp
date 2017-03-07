@@ -315,15 +315,17 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
                                    width: 220.0 * UtilityManager.sharedInstance.conversionWidth,
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
-//    var segmentsArray = [String]()
-//    
-//    for i in 1...30 {
-//      
-//      segmentsArray.append(String(i))
-//      
-//    }
+    var segmentsArray = [String]()
     
-    let segmentsArray = ["1 a 5", "6 a 10", "11 a 14", "+ de 15"]
+    for i in 1...15 {  //...30
+      
+      segmentsArray.append(String(i))
+      
+    }
+    
+    segmentsArray.append("+ de 15")
+    
+//    let segmentsArray = ["1 a 5", "6 a 10", "11 a 14", "+ de 15"]
     
 //    CustomTextFieldWithTitleView.init(frame: frameForView,
 //                                      title: "¿Cuántas semanas les dieron para presentar?",
@@ -617,26 +619,33 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
 //    }
 
     var howManyDaysToPresent = howManyDaysToShow.mainTextField.text!
-    if howManyDaysToPresent == "1 a 5" {
-      
-      howManyDaysToPresent = "1 - 5"
-      
-    } else
-      if howManyDaysToPresent == "6 a 10" {
-        
-        howManyDaysToPresent = "6 - 10"
-        
-      } else
-      if howManyDaysToPresent == "11 a 14" {
-          
-        howManyDaysToPresent = "11 - 14"
-        
-      }else
-      if howManyDaysToPresent == "+ de 15" {
-      
-        howManyDaysToPresent = "+15"
-        
-      }
+    
+    if howManyDaysToPresent == "+ de 15" {
+    
+      howManyDaysToPresent = "16"
+    
+    }
+    
+//    if howManyDaysToPresent == "1 a 5" {
+//      
+//      howManyDaysToPresent = "1 - 5"
+//      
+//    } else
+//      if howManyDaysToPresent == "6 a 10" {
+//        
+//        howManyDaysToPresent = "6 - 10"
+//        
+//      } else
+//      if howManyDaysToPresent == "11 a 14" {
+//          
+//        howManyDaysToPresent = "11 - 14"
+//        
+//      }else
+//      if howManyDaysToPresent == "+ de 15" {
+//      
+//        howManyDaysToPresent = "+15"
+//        
+//      }
     
     
 //    let howManyWeeks = (UtilityManager.sharedInstance.isValidText(howManyDaysToShow.mainTextField.text!) == true ? howManyDaysToShow.mainTextField.text! : "1s")

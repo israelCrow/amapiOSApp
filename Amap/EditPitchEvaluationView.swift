@@ -422,15 +422,17 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
                                    height: 68.0 * UtilityManager.sharedInstance.conversionHeight)
     
     
-    let segmentsArray = ["1 a 5", "6 a 10", "11 a 14", "+ de 15"]
+//    let segmentsArray = ["1 a 5", "6 a 10", "11 a 14", "+ de 15"]
     
-//    var segmentsArray = [String]()
-//    
-//    for i in 1...30 {
-//      
-//      segmentsArray.append(String(i))
-//      
-//    }
+    var segmentsArray = [String]()
+    
+    for i in 1...15 {  //...30
+      
+      segmentsArray.append(String(i))
+      
+    }
+    
+    segmentsArray.append("+ de 15")
     
     howManyDaysToShow = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
                                                                    textLabel: "¿Cuántos días te dieron para presentar?",
@@ -447,26 +449,32 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
       
       var time_to_present = pitchEvaluationInfoFromServer["time_to_present"] as! String
       
-      if time_to_present == "1 - 5" {
+//      if time_to_present != "1 - 5" {
+//        
+//        time_to_present = "1 a 5"
+//        
+//      } else
+//        if time_to_present == "6 - 10" {
+//          
+//          time_to_present = "6 a 10"
+//          
+//        } else
+//        if time_to_present == "11 - 14" {
+//            
+//          time_to_present = "11 a 14"
+//            
+//        }else
+//        if time_to_present == "+15" {
+//              
+//          time_to_present = "+ de 15"
+//              
+//        }
+      
+      if time_to_present == "16" {
         
-        time_to_present = "1 a 5"
+        time_to_present = "+ de 15"
         
-      } else
-        if time_to_present == "6 - 10" {
-          
-          time_to_present = "6 a 10"
-          
-        } else
-        if time_to_present == "11 - 14" {
-            
-          time_to_present = "11 a 14"
-            
-        }else
-        if time_to_present == "+15" {
-              
-          time_to_present = "+ de 15"
-              
-        }
+      }
       
       howManyDaysToShow.mainTextField.text = time_to_present
       
@@ -870,26 +878,33 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     //    }
     
     var howManyDaysToPresent = howManyDaysToShow.mainTextField.text!
-    if howManyDaysToPresent == "1 a 5" {
+
+    if howManyDaysToPresent == "+ de 15" {
       
-      howManyDaysToPresent = "1 - 5"
+      howManyDaysToPresent = "16"
       
-    } else
-      if howManyDaysToPresent == "6 a 10" {
-        
-        howManyDaysToPresent = "6 - 10"
-        
-      } else
-        if howManyDaysToPresent == "11 a 14" {
-          
-          howManyDaysToPresent = "11 - 14"
-          
-        }else
-          if howManyDaysToPresent == "+ de 15" {
-            
-            howManyDaysToPresent = "+15"
-            
     }
+    
+//    if howManyDaysToPresent == "1 a 5" {
+//      
+//      howManyDaysToPresent = "1 - 5"
+//      
+//    } else
+//      if howManyDaysToPresent == "6 a 10" {
+//        
+//        howManyDaysToPresent = "6 - 10"
+//        
+//      } else
+//        if howManyDaysToPresent == "11 a 14" {
+//          
+//          howManyDaysToPresent = "11 - 14"
+//          
+//        }else
+//          if howManyDaysToPresent == "+ de 15" {
+//            
+//            howManyDaysToPresent = "+15"
+//            
+//    }
     
     //    let howManyWeeks = (UtilityManager.sharedInstance.isValidText(howManyDaysToShow.mainTextField.text!) == true ? howManyDaysToShow.mainTextField.text! : "1s")
     //    let howManyWeeksWithoutSpaces = howManyWeeks.stringByReplacingOccurrencesOfString(" ", withString: "")
@@ -1065,8 +1080,8 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
   
   private func checkIfAllElementsSelected() {
     
-    //    let notDesirableCharacters = NSCharacterSet.decimalDigitCharacterSet().invertedSet
-    //    let lettersInHowManyDaysToShow = howManyDaysToShow.mainTextField.text!.rangeOfCharacterFromSet(notDesirableCharacters)
+//        let notDesirableCharacters = NSCharacterSet.decimalDigitCharacterSet().invertedSet
+//        let lettersInHowManyDaysToShow = howManyDaysToShow.mainTextField.text!.rangeOfCharacterFromSet(notDesirableCharacters)
     
     if isClearObjectivesViewEdited == true && isYouKnowTheProjectBudgetEdited == true && isYouKnowTheSelectionCriteriaEdited == true  && isInvolvementOfMarketingEdited == true && isHowManyAgenciesParticipateEdited == true && isHowManyDaysToShowEdited == true && UtilityManager.sharedInstance.isValidText(howManyDaysToShow.mainTextField.text!) && isYouKnowHowManyPresentationRounds == true && isHowManyDaysTheyGiveTheRulingEdited == true && isDeliverIntelectualPropertyJustToPitchEdited == true && isClearDeliverableEdited == true { //&& lettersInHowManyDaysToShow == nil && isYouKnowHowManyPresentationRounds == true && isHowManyDaysTheyGiveTheRulingEdited == true && isDeliverIntelectualPropertyJustToPitchEdited == true && isClearDeliverableEdited == true {
       

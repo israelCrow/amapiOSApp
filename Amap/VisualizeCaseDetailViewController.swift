@@ -538,19 +538,19 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
       
       if ( UtilityManager.sharedInstance.validateIfLinkIsYoutube(caseData.case_video_url) == true || UtilityManager.sharedInstance.validateIfLinkIsVimeo(caseData.case_video_url) == true ) == false{
         
-        if caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + (75.0 * UtilityManager.sharedInstance.conversionHeight) >= mainScrollView.frame.size.height {
+        if caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + (95.0 * UtilityManager.sharedInstance.conversionHeight) >= mainScrollView.frame.size.height {
           
           mainScrollView.contentSize = CGSize.init(width: mainScrollView.contentSize.width,
-                                                   height: caseNameLabel.frame.size.height + linkLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + ( (78.0 + 180.0) * UtilityManager.sharedInstance.conversionHeight))
+                                                   height: caseNameLabel.frame.size.height + linkLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + ( (78.0 + 190.0) * UtilityManager.sharedInstance.conversionHeight))
           
         }
 
       } else {
         
-        if caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + playerVimeoYoutube.frame.size.height + (130.0 * UtilityManager.sharedInstance.conversionHeight) >= mainScrollView.frame.size.height {
+        if caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + playerVimeoYoutube.frame.size.height + (150.0 * UtilityManager.sharedInstance.conversionHeight) >= mainScrollView.frame.size.height {
           
           mainScrollView.contentSize = CGSize.init(width: mainScrollView.contentSize.width,
-                                                   height: caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + playerVimeoYoutube.frame.size.height  + ( (78.0 + 210.0) * UtilityManager.sharedInstance.conversionHeight))
+                                                   height: caseNameLabel.frame.size.height + caseDescriptionLabel.frame.size.height + sizeInPixels.height + playerVimeoYoutube.frame.size.height  + ( (78.0 + 220.0) * UtilityManager.sharedInstance.conversionHeight))
           
         }
         
