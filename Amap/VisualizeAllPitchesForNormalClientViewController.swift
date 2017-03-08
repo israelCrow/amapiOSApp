@@ -68,6 +68,7 @@ class VisualizeAllPitchesForNormalClientViewController: UIViewController, UIText
       let welcomeScreen = WelcomeScreenTutorialForCompanyView.init(frame: CGRect.init())
       let rootViewController = UtilityManager.sharedInstance.currentViewController()
       rootViewController.view.addSubview(welcomeScreen)
+      
     }
 //
     }

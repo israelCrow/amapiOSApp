@@ -426,13 +426,13 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     
     var segmentsArray = [String]()
     
-    for i in 1...15 {  //...30
+    for i in 1...14 {  //...30
       
       segmentsArray.append(String(i))
       
     }
     
-    segmentsArray.append("+ de 15")
+    segmentsArray.append("15 o más")
     
     howManyDaysToShow = CustomTextFieldWithTitleAndPickerView.init(frame: frameForView,
                                                                    textLabel: "¿Cuántos días te dieron para presentar?",
@@ -470,9 +470,9 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
 //              
 //        }
       
-      if time_to_present == "16" {
+      if time_to_present == "15" {
         
-        time_to_present = "+ de 15"
+        time_to_present = "15 o más"
         
       }
       
@@ -879,9 +879,9 @@ class EditPitchEvaluationView: UIView, CustomSegmentedControlWithTitleViewDelega
     
     var howManyDaysToPresent = howManyDaysToShow.mainTextField.text!
 
-    if howManyDaysToPresent == "+ de 15" {
+    if howManyDaysToPresent == "15 o más" {
       
-      howManyDaysToPresent = "16"
+      howManyDaysToPresent = "15"
       
     }
     

@@ -121,12 +121,14 @@ class WelcomeScreenTutorialForCompanyView: UIView {
   
   @objc private func tapToThisView() {
     
-    let companyProfileTutorial = CompanyProfileScreenTutorialView.init(frame: CGRect.init())
+    let companyPitchesTutorial = CompanyPitchesTutorialView.init(frame: CGRect.init())
     let rootViewController = UtilityManager.sharedInstance.currentViewController()
     
     self.removeFromSuperview()
     
-    rootViewController.view.addSubview(companyProfileTutorial)
+    NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kNotToShowCompanyWelcomeScreen + UserSession.session.email)
+    
+    rootViewController.view.addSubview(companyPitchesTutorial)
     
   }
   

@@ -266,6 +266,7 @@
 		AAFD0E1A1DDCDC620019EF03 /* PitchResultsModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFD0E191DDCDC620019EF03 /* PitchResultsModelData.swift */; };
 		AAFD0E1E1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */; };
 		C04FC772F5442066639C311A /* Pods_Amap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 730B22C94A0E292BE5556150 /* Pods_Amap.framework */; };
+		FC0990291E7099B400E1884A /* PitchWinnerSurveyModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0990281E7099B400E1884A /* PitchWinnerSurveyModelData.swift */; };
 		FC1CBE2A1E67682800AE4B0D /* WelcomeScreenTutorialForCompanyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CBE291E67682800AE4B0D /* WelcomeScreenTutorialForCompanyView.swift */; };
 		FC1CBE2C1E67686000AE4B0D /* CompanyTutorialConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CBE2B1E67686000AE4B0D /* CompanyTutorialConstants.swift */; };
 		FC286EC01E676F2C007EBAC5 /* CompanyProfileScreenTutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC286EBF1E676F2C007EBAC5 /* CompanyProfileScreenTutorialView.swift */; };
@@ -558,6 +559,7 @@
 		AAFD0E191DDCDC620019EF03 /* PitchResultsModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchResultsModelData.swift; sourceTree = "<group>"; };
 		AAFD0E1D1DDD982B0019EF03 /* FilterAccordingToUserAndAgencyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterAccordingToUserAndAgencyView.swift; sourceTree = "<group>"; };
 		D32EBDE6D734E5F3142D1570 /* Pods-Amap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Amap.release.xcconfig"; path = "Pods/Target Support Files/Pods-Amap/Pods-Amap.release.xcconfig"; sourceTree = "<group>"; };
+		FC0990281E7099B400E1884A /* PitchWinnerSurveyModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchWinnerSurveyModelData.swift; sourceTree = "<group>"; };
 		FC1CBE291E67682800AE4B0D /* WelcomeScreenTutorialForCompanyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeScreenTutorialForCompanyView.swift; sourceTree = "<group>"; };
 		FC1CBE2B1E67686000AE4B0D /* CompanyTutorialConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyTutorialConstants.swift; sourceTree = "<group>"; };
 		FC286EBF1E676F2C007EBAC5 /* CompanyProfileScreenTutorialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyProfileScreenTutorialView.swift; sourceTree = "<group>"; };
@@ -674,6 +676,7 @@
 				AACB8CBC1D9D8EE60099D4ED /* PitchEvaluationByUserModelData.swift */,
 				AAE307B41DF9C7580030508E /* PitchEvaluationByUserModelDataForCompany.swift */,
 				AAFD0E191DDCDC620019EF03 /* PitchResultsModelData.swift */,
+				FC0990281E7099B400E1884A /* PitchWinnerSurveyModelData.swift */,
 				AA8997961D89CA5A009513E3 /* CompanyModelData.swift */,
 				AA8997981D89CB09009513E3 /* BrandModelData.swift */,
 				AA7F58E11D9066C40057F67B /* ProjectPitchModelData.swift */,
@@ -1932,6 +1935,7 @@
 				AABF34931DFBDF18003EC7B6 /* EditConflictsView.swift in Sources */,
 				AA104AA01DFA6CBE00129935 /* VisualizePitchInformationForCompanyViewController.swift in Sources */,
 				041DA48A1D66213400BAE262 /* ExtensionUIIMageView.swift in Sources */,
+				FC0990291E7099B400E1884A /* PitchWinnerSurveyModelData.swift in Sources */,
 				04AB39321D5D06EC009B1D5C /* EditAgencyProfileViewController.swift in Sources */,
 				AA896A491D9ADC940046CC26 /* PitchModelData.swift in Sources */,
 				AACBE2891DDE9900007314C3 /* PitchesTutorialView.swift in Sources */,
@@ -2184,6 +2188,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Amap/Charts/ThirdParty/Realm/ios",
@@ -2259,6 +2264,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Amap/Charts/ThirdParty/Realm/ios",

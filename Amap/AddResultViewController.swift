@@ -66,6 +66,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   private var rightFrameForCards: CGRect! = nil
   
   private var infoSelectedBefore: PitchResultsModelData! = nil
+  private var winnerSurveyInfoSelectedBefore: PitchWinnerSurveyModelData! = nil
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -239,6 +240,8 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   private func createAllCards() {
     
     if showDirectlyPitchSurvey != nil && showDirectlyPitchSurvey == true {
+      
+      
       
 //      self.changeNavigationRigthButtonItemToNothing()
       self.createDidSignContractView()

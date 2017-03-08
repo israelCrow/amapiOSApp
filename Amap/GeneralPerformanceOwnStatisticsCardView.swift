@@ -381,7 +381,7 @@ class GeneralPerformanceOwnStatisticsCardView: UIView, CustomTextFieldWithTitleA
     pieChart.startAngle = CGFloat(M_PI_2)
     pieChart.sliceDirection = .CounterClockwise
     pieChart.labelOffset = -0.6 * pieChart.pieRadius
-    pieChart.overlayFill = CPTFill.init(gradient: overlayGradient)
+//    pieChart.overlayFill = CPTFill.init(gradient: overlayGradient)
     
     
     // 3 - Configure border style

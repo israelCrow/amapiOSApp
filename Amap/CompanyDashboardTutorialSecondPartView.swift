@@ -140,7 +140,6 @@ class CompanyDashboardTutorialSecondPartView: UIView {
   @objc private func tapToThisView() {
     
     NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kNotToShowCompanyDashboardTutorialSecondPart + UserSession.session.email)
-    NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kNotToShowCompanyWelcomeScreen + UserSession.session.email)
     
     self.removeFromSuperview()
     

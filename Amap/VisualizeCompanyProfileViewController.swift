@@ -138,6 +138,17 @@ class VisualizeCompanyProfileViewController: UIViewController, DetailedInfoCompa
     
     self.createAndAddFlipCard()
     
+    let notToShowProfileTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowCompanyProfileTutorial + UserSession.session.email)
+    
+    if notToShowProfileTutorial == false {
+      
+      let profileTutorial = CompanyProfileScreenTutorialView.init(frame: CGRect.init())
+      let rootViewController = UtilityManager.sharedInstance.currentViewController()
+      
+      rootViewController.view.addSubview(profileTutorial)
+      
+    }
+    
   }
   
   private func createAndAddFlipCard() {

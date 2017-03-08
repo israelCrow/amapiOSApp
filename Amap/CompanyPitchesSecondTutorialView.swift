@@ -154,13 +154,13 @@ class CompanyPitchesSecondTutorialView: UIView {
   
   @objc private func tapToThisView() {
     
-    let companyDashboardTutorial = CompanyDashboardTutorialView.init(frame: CGRect.init())
-    let rootViewController = UtilityManager.sharedInstance.currentViewController()
+//    let companyDashboardTutorial = CompanyDashboardTutorialView.init(frame: CGRect.init())
+//    let rootViewController = UtilityManager.sharedInstance.currentViewController()
     
     self.removeFromSuperview()
     NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kNotToShowCompanyPitchesSecondTutorial + UserSession.session.email)
     
-    rootViewController.view.addSubview(companyDashboardTutorial)
+//    rootViewController.view.addSubview(companyDashboardTutorial)
     
   }
   

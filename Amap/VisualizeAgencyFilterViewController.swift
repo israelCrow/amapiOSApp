@@ -112,6 +112,16 @@ class VisualizeAgencyFilterViewController: UIViewController, LookForAgencyViewDe
     
     self.createAndAddFlipCard()
     
+    let notToShowDirectoryTutorial = NSUserDefaults.standardUserDefaults().boolForKey(UtilityManager.sharedInstance.kNotToShowCompanyAgenciesSearchEngineTutorial + UserSession.session.email)
+    
+    if notToShowDirectoryTutorial == false {
+      
+      let dicrectoryScreenTutorial = CompanyAgenciesSearchEngineTutorialView.init(frame: CGRect.init())
+      let rootViewController = UtilityManager.sharedInstance.currentViewController()
+      rootViewController.view.addSubview(dicrectoryScreenTutorial)
+      
+    }
+    
   }
   
   private func createAndAddFlipCard() {

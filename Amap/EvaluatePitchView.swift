@@ -317,13 +317,13 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
     
     var segmentsArray = [String]()
     
-    for i in 1...15 {  //...30
+    for i in 1...14 {  //...30
       
       segmentsArray.append(String(i))
       
     }
     
-    segmentsArray.append("+ de 15")
+    segmentsArray.append("15 o más")
     
 //    let segmentsArray = ["1 a 5", "6 a 10", "11 a 14", "+ de 15"]
     
@@ -620,9 +620,9 @@ class EvaluatePitchView: UIView, CustomSegmentedControlWithTitleViewDelegate, Cu
 
     var howManyDaysToPresent = howManyDaysToShow.mainTextField.text!
     
-    if howManyDaysToPresent == "+ de 15" {
+    if howManyDaysToPresent == "15 o más" {
     
-      howManyDaysToPresent = "16"
+      howManyDaysToPresent = "15"
     
     }
     

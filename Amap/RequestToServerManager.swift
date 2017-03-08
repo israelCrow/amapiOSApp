@@ -3038,6 +3038,133 @@ class RequestToServerManager: NSObject {
     }
     
   }
+  
+  func requestToGetPitchEvaluationsAveragePerMonthByCompany(extraParams: [String: AnyObject]?,actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthOfCompany:[PitchEvaluationAveragePerMonthModelData] , arrayOfBrands: [BrandModelData], arrayOfUsersFromCompany: [AgencyUserModelData]) -> Void) {
+    
+    let urlToRequest = "\(typeOfServer)/pitch_evaluations/average_per_month_by_company"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    //print(caseData)
+    
+    var finalId = ""
+
+    if UserSession.session.company_id != nil {
+      
+      finalId = UserSession.session.company_id
+        
+    }
+    
+    var params = ["id" : finalId,
+                  "auth_token" : UserSession.session.auth_token
+    ]
+    
+    if extraParams != nil {
+      
+      params["start_date"] = (extraParams!["start_date"] as? String != nil ? extraParams!["start_date"] as! String : "2017-1-1")
+      params["end_date"] = (extraParams!["end_date"] as? String != nil ? extraParams!["end_date"] as! String : "2017-12-12")
+      
+    }
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<400)
+      .responseJSON{ response in
+        
+        //print(response)
+        
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          
+          print(json)
+          
+          let arrayOfBrands = json["brands"] as? Array<[String: AnyObject]>
+          let arrayOfScores = json["average_per_month"] as? Array<[String: AnyObject]>
+          let arrayOfUsers = json["users"] as? Array<[String: AnyObject]>
+          
+          var arrayOfBrandsModelData = [BrandModelData]()
+          
+          if arrayOfBrands != nil {
+            
+            for brand in arrayOfBrands! {
+              
+              let newId = (brand["id"] as? Int != nil ? String(brand["id"] as! Int) : "-1")
+              let newName = (brand["name"] as? String != nil ? brand["name"] as! String : "")
+              
+              let newBrand = BrandModelData.init(newId: newId,
+                newName: newName,
+                newContactName: nil,
+                newContactEMail: nil,
+                newContactPosition: nil,
+                newProprietaryCompany: nil)
+              
+              arrayOfBrandsModelData.append(newBrand)
+              
+            }
+            
+          }
+          
+          
+          var arrayOfScoresModelData = [PitchEvaluationAveragePerMonthModelData]()
+          
+          if arrayOfScores != nil {
+            
+            for score in arrayOfScores! {
+              
+              let newId: String? = (score["id"] as? Int != nil ? String(score["id"] as! Int) : nil)
+              let newMonthYear = (score["month_year"] as? String != nil ? score["month_year"] as! String : "")
+              let newScore = (score["score"] as? Int != nil ? String(score["score"] as! Int) : "")
+              
+              let newScoreModelData = PitchEvaluationAveragePerMonthModelData.init(newId: newId,
+                newMonthYear: newMonthYear,
+                newScore: newScore)
+              
+              arrayOfScoresModelData.append(newScoreModelData)
+              
+            }
+            
+          }
+          
+          var arrayOfUsersFromCompany = [AgencyUserModelData]()
+          
+          if arrayOfUsers != nil {
+            
+            for user in arrayOfUsers! {
+              
+              let newId = (user["id"] as? Int != nil ? String(user["id"] as! Int) : "-1")
+              let newFirstName = (user["first_name"] as? String != nil ? user["first_name"] as! String : "")
+              let newLastName = (user["last_name"] as? String != nil ? user["last_name"] as! String : "")
+              let newMail = (user["email"] as? String != nil ? user["email"] as! String : "")
+              
+              let newUser = AgencyUserModelData.init(newId: newId,
+                newFirstName: newFirstName,
+                newLastName: newLastName)
+              newUser.email = newMail
+              
+              arrayOfUsersFromCompany.append(newUser)
+              
+            }
+            
+          }
+          
+          actionsToMakeAfterGetingInfo(arrayOfScoresPerMonthOfCompany: arrayOfScoresModelData, arrayOfBrands: arrayOfBrandsModelData, arrayOfUsersFromCompany: arrayOfUsersFromCompany)
+          
+        }else{
+          
+          UtilityManager.sharedInstance.hideLoader()
+          print("ERROR DELETING CASE")
+        }
+        
+    }
+    
+  }
+
+  
 
   func requestToGetPitchEvaluationsAveragePerMonthByUser(params: [String: AnyObject],actionsToMakeAfterGetingInfo: (arrayOfScoresPerMonthByUser:[PitchEvaluationAveragePerMonthModelData]) -> Void) {
     

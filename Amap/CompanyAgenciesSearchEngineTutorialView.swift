@@ -139,13 +139,8 @@ class CompanyAgenciesSearchEngineTutorialView: UIView {
   
   @objc private func tapToThisView() {
     
-    let companyPitchesTutorial = CompanyPitchesTutorialView.init(frame: CGRect.init())
-    let rootViewController = UtilityManager.sharedInstance.currentViewController()
-    
     self.removeFromSuperview()
     NSUserDefaults.standardUserDefaults().setBool(true, forKey: UtilityManager.sharedInstance.kNotToShowCompanyAgenciesSearchEngineTutorial + UserSession.session.email)
-    
-    rootViewController.view.addSubview(companyPitchesTutorial)
     
   }
   

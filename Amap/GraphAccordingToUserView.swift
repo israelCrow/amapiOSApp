@@ -12,6 +12,7 @@ protocol GrapAccordingToUserViewDelegate {
   
   func getEvaluationsAveragePerMonth(params: [String: AnyObject], sender: GraphAccordingToUserView)
   func flipCardToShowFilterOfGraphAccordingToUser(sender: GraphAccordingToUserView)
+  func showOnlyValueFromAgencyOrCompany(sender: GraphAccordingToUserView)
   
 }
 
@@ -24,6 +25,7 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
   private var optionsForSelector = [String]()
   private var arrayOfAgencyUsersModelData = [AgencyUserModelData]()
   private var numberOfUserSelected = 0
+  private var createForUsers: Bool = false
   
   private var viewForNoAmapUser: UIView! = nil
   
@@ -48,8 +50,9 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
   }
   
   //Despite the model is AgencyUserModelData, the info is about the Brands of the Company
-  init(frame: CGRect, newArrayOfUsers: [AgencyUserModelData], newDropDownTitleText: String) {
+  init(frame: CGRect, newArrayOfUsers: [AgencyUserModelData], newDropDownTitleText: String, forUsers: Bool) {
     
+    createForUsers = forUsers
     dropDownTitleText = newDropDownTitleText
     arrayOfAgencyUsersModelData = newArrayOfUsers
     
@@ -73,19 +76,70 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
   
   private func initValues() {
     
-    for user in arrayOfAgencyUsersModelData {
+    if UserSession.session.role == "2" || UserSession.session.role == "3" {
       
-      if user.email != "" && user.email != nil {
-      
-        optionsForSelector.append(user.email)
-      
-      } else {
+      for user in arrayOfAgencyUsersModelData {
         
-        optionsForSelector.append("user without email")
+        if user.email != "" && user.email != nil {
+          
+          optionsForSelector.append(user.email)
+          
+        } else {
+          
+          optionsForSelector.append("user without email")
+          
+        }
         
       }
       
-    }
+      optionsForSelector.append("Ninguna")
+      
+    } else
+    
+      if UserSession.session.role == "4" || UserSession.session.role == "5" { //I know this is the same that the first "if" but the client doesn't know what he wants so i decided to make this and change it when is necessary
+        
+        if createForUsers == true {
+          
+          for user in arrayOfAgencyUsersModelData {
+            
+            if user.firstName != "" && user.firstName != nil {
+              
+              optionsForSelector.append(user.firstName)
+              
+            } else {
+              
+              optionsForSelector.append("user without name")
+              
+            }
+            
+          }
+          
+          optionsForSelector.append("Ninguna")
+          
+        } else {
+          
+          for user in arrayOfAgencyUsersModelData {
+            
+            if user.email != "" && user.email != nil {
+              
+              optionsForSelector.append(user.email)
+              
+            } else {
+              
+              optionsForSelector.append("user without email")
+              
+            }
+            
+          }
+          
+          optionsForSelector.append("Ninguna")
+          
+        }
+        
+        
+      }
+    
+
     
 //    optionsForSelector = ["Performance General", "Usuario 1", "Usuario 2"]
     
@@ -328,16 +382,24 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
   
   func userSelected(numberOfElementInArrayOfUsers: Int) {
     
-    if arrayOfAgencyUsersModelData[numberOfElementInArrayOfUsers].id != nil {
-    
-      numberOfUserSelected = numberOfElementInArrayOfUsers
+    if numberOfElementInArrayOfUsers < arrayOfAgencyUsersModelData.count {
       
-      let params: [String: AnyObject] = [
-        "id": arrayOfAgencyUsersModelData[numberOfElementInArrayOfUsers].id,
-        "auth_token": UserSession.session.auth_token
-      ]
+      if arrayOfAgencyUsersModelData[numberOfElementInArrayOfUsers].id != nil {
+        
+        numberOfUserSelected = numberOfElementInArrayOfUsers
+        
+        let params: [String: AnyObject] = [
+          "id": arrayOfAgencyUsersModelData[numberOfElementInArrayOfUsers].id,
+          "auth_token": UserSession.session.auth_token
+        ]
+        
+        self.delegate?.getEvaluationsAveragePerMonth(params, sender: self)
+        
+      }
       
-      self.delegate?.getEvaluationsAveragePerMonth(params, sender: self)
+    } else {
+      
+      self.delegate?.showOnlyValueFromAgencyOrCompany(self)
       
     }
     
