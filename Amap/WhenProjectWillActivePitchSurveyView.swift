@@ -17,7 +17,7 @@ protocol WhenProjectWillActivePitchSurveyViewDelegate {
 class WhenProjectWillActivePitchSurveyView: UIView, UITextFieldDelegate {
   
   private var thumbsUpImageView: UIImageView! = nil
-  private var whenProjectWillActiveView: CustomTextFieldWithTitleView! = nil
+  var whenProjectWillActiveView: CustomTextFieldWithTitleView! = nil
   private var titleLabel: UILabel! = nil
   private var nextButton: UIButton! = nil
   private var containerViewForPicker: UIView! = nil

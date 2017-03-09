@@ -50,7 +50,7 @@ class YouWonThisPitchView: UIView {
     self.createYouWonThisPitchLabel()
     self.createDetailedPartView()
     
-    if pitchData.hasPitchWinnerSurvey == false {
+    if pitchData.isWinnerSurveyClosed != nil && pitchData.isWinnerSurveyClosed == false {
       self.createDetailedLabel()
       self.createNextButton()
     }

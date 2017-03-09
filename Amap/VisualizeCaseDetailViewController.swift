@@ -632,7 +632,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
         
       }
       
-    mailComposeVC.setMessageBody("Conoce el caso \(caseData.name) de \(AgencyModel.Data.name). \n\(finalText)\n\nDescarga Android\nDescarga iOS", isHTML: false)
+    mailComposeVC.setMessageBody("Conoce el caso \(caseData.name) de \(AgencyModel.Data.name). \n\(finalText)\n\nDescarga Android\nDescarga iOS\n\nhttps://itunes.apple.com/us/app/happitch/id1211739378?l=es&ls=1&mt=8", isHTML: false)
       
     self.presentViewController(mailComposeVC, animated: true, completion: nil)
     
@@ -661,7 +661,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
       
     mailComposeVC.setSubject("Caso \(caseData.name)")
       
-    mailComposeVC.setMessageBody("Descarga Happitch y conoce el caso \(caseData.name) de \(AgencyModel.Data.name). \n\(finalText)\n\nDescarga Android\nDescarga iOS", isHTML: false)
+    mailComposeVC.setMessageBody("Descarga Happitch y conoce el caso \(caseData.name) de \(AgencyModel.Data.name). \n\(finalText)\n\nDescarga Android\n\nDescarga iOS\nhttps://itunes.apple.com/us/app/happitch/id1211739378?l=es&ls=1&mt=8", isHTML: false)
       
     self.presentViewController(mailComposeVC, animated: true, completion: nil)
     
@@ -700,7 +700,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
         
     }
     
-    let textToShare = "Conoce el caso \(caseData.name) de \(AgencyModel.Data.name):\n\(finalText)\n\nDescarga Android\nDescarga iOS"
+    let textToShare = "Conoce el caso \(caseData.name) de \(AgencyModel.Data.name):\n\(finalText)\n\nDescarga Android\n\nDescarga iOS\nhttps://itunes.apple.com/us/app/happitch/id1211739378?l=es&ls=1&mt=8"
     
     let activityItems: [AnyObject] = [textToShare]
     
@@ -725,7 +725,7 @@ class VisualizeCaseDetailViewController: UIViewController, MFMailComposeViewCont
     if imageCase.image != nil {
       
       
-      let textToShare = "Descarga Happitch y conoce el caso \(caseData.name) de \(AgencyModel.Data.name)\n\nDescarga Android\nDescarga iOS"
+      let textToShare = "Descarga Happitch y conoce el caso \(caseData.name) de \(AgencyModel.Data.name)\n\nDescarga Android\n\nDescarga iOS\nhttps://itunes.apple.com/us/app/happitch/id1211739378?l=es&ls=1&mt=8"
       
       let activityItems: [AnyObject] = [textToShare, imageCase.image!]
       

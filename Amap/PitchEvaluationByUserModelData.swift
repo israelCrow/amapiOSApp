@@ -24,6 +24,7 @@ class PitchEvaluationByUserModelData {
   var evaluationStatus: Bool! = nil //to know if has a pitch evaluation
   var hasResults: Bool! = nil       //to know if the questionnaire "add results" has been done
   var hasPitchWinnerSurvey: Bool! = nil //to know if the questionnaire "winner survey" has been done
+  var isWinnerSurveyClosed: Bool! = nil
   var pitchWinnerSurveyId: String! = nil
   var pitchResultsId: String! = nil
   var arrayOfRecommendations: [RecommendationModelData]! = nil

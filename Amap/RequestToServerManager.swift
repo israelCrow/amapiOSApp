@@ -809,6 +809,8 @@ class RequestToServerManager: NSObject {
                 let newHasResults = (pitchEvaluationByUser["has_results"] as? Bool != nil ? pitchEvaluationByUser["has_results"] as! Bool : false)
                 let newHasPitchWinnerSurvey = (pitchEvaluationByUser["has_pitch_winner_survey"] as? Bool != nil ? pitchEvaluationByUser["has_pitch_winner_survey"] as! Bool : false)
                 let newPitchsResultsId = (pitchEvaluationByUser["pitch_results_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_results_id"] as! Int) : "-1")
+                let newPitchWinnerSurveyId = (pitchEvaluationByUser["pitch_winner_survey_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_winner_survey_id"] as! Int) : "-1")
+                let newPitchWinnerSurveyClosed = (pitchEvaluationByUser["is_winner_survey_closed"] as? Bool != nil ? pitchEvaluationByUser["is_winner_survey_closed"] as! Bool : false)
                 
                 
                 
@@ -832,6 +834,122 @@ class RequestToServerManager: NSObject {
                   
                 }
                 
+                
+                var arrayOfRecommendations = [RecommendationModelData]()
+                
+                let recommendationsFromServer = (pitchEvaluationByUser["recommendations"] as? Array<[String: AnyObject]> != nil ? pitchEvaluationByUser["recommendations"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
+                
+                for recommendation in recommendationsFromServer {
+                  
+                  let newBody = (recommendation["body"] as? String != nil ? recommendation["body"] as! String : "")
+                  let newRecoId = (recommendation["reco_id"] as? String != nil ? recommendation["reco_id"] as! String : "")
+                  
+                  var nameOfIcon = ""
+                  if newRecoId != "" {
+                    
+                    if newRecoId == "agency_communication" {
+                      
+                      nameOfIcon = "communication"
+                      
+                    }else
+                      
+                      if newRecoId == "agency_list" {
+                        
+                        nameOfIcon = "communication"
+                        
+                      }else
+                        
+                        if newRecoId == "agency_budget_1" {
+                          
+                          nameOfIcon = "list"
+                          
+                        }else
+                          
+                          if newRecoId == "agency_budget_3" {
+                            
+                            nameOfIcon = "budget"
+                            
+                          }else
+                            
+                            if newRecoId == "agency_sharing" {
+                              
+                              nameOfIcon = "budget"
+                              
+                            }else
+                              
+                              if newRecoId == "agency_budget_5" {
+                                
+                                nameOfIcon = "budget"
+                                
+                              }else
+                                
+                                if newRecoId == "agency_budget_7" {
+                                  
+                                  nameOfIcon = "budget"
+                                  
+                                }else
+                                  
+                                  if newRecoId == "agency_number_5" {
+                                    
+                                    nameOfIcon = "budget"
+                                    
+                                  }else
+                                    
+                                    if newRecoId == "agency_number_7" {
+                                      
+                                      nameOfIcon = "budget"
+                                      
+                                    }else
+                                      
+                                      if newRecoId == "agency_time" {
+                                        
+                                        nameOfIcon = "criteria"
+                                        
+                                      }else
+                                        
+                                        if newRecoId == "agency_property" {
+                                          
+                                          nameOfIcon = "eye"
+                                          
+                                        }else
+                                          
+                                          if newRecoId == "agency_deliverable" {
+                                            
+                                            nameOfIcon = "number"
+                                            
+                                          }else
+                                            
+                                            if newRecoId == "agency_careful" {
+                                              
+                                              nameOfIcon = "time"
+                                              
+                                            }else
+                                              
+                                              if newRecoId == "agency_speak" {
+                                                
+                                                nameOfIcon = "more_time"
+                                                
+                                              }else
+                                                
+                                                if newRecoId == "agency_alert" {
+                                                  
+                                                  nameOfIcon = "property"
+                                                  
+                    }
+                    
+                    
+                  }
+                  
+                  let newRecommendation = RecommendationModelData.init(newBody: newBody,
+                    newRecoId: newRecoId)
+                  newRecommendation.iconName = nameOfIcon
+                  
+                  arrayOfRecommendations.append(newRecommendation)
+                  
+                }
+
+                
+                
                 let newPitchEvaluationByUser = PitchEvaluationByUserModelData.init(
                   newPitchEvaluationId: newPitchEvaluationId,
                   newPitchId: newPitchId,
@@ -849,9 +967,14 @@ class RequestToServerManager: NSObject {
                   newHasPitchWinnerSurvey: newHasPitchWinnerSurvey,
                   newPitchResultsId: newPitchsResultsId)
                 
+                newPitchEvaluationByUser.arrayOfRecommendations = arrayOfRecommendations
+                newPitchEvaluationByUser.pitchWinnerSurveyId = newPitchWinnerSurveyId
+                newPitchEvaluationByUser.isWinnerSurveyClosed = newPitchWinnerSurveyClosed
+                
                 newArrayOfPitchesByUser.append(newPitchEvaluationByUser)
                 
               }
+              
               
               functionToMakeAfterSearching(allPitches: newArrayOfPitchesByUser)
               
@@ -879,6 +1002,131 @@ class RequestToServerManager: NSObject {
                   
                   let newPitchesTypesPercentage = (pitchEvaluationForCompany["pitch_types_percentage"] as? [String: AnyObject] != nil ? pitchEvaluationForCompany["pitch_types_percentage"] as! [String: AnyObject] : [String: AnyObject]())
                   
+                  var arrayOfRecommendations = [RecommendationModelData]()
+                  
+                  let recommendationsFromServer = (pitchEvaluationForCompany["recommendations"] as? Array<[String: AnyObject]> != nil ? pitchEvaluationForCompany["recommendations"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
+                  
+                  for recommendation in recommendationsFromServer {
+                    
+                    let newBody = (recommendation["body"] as? String != nil ? recommendation["body"] as! String : "")
+                    let newRecoId = (recommendation["reco_id"] as? String != nil ? recommendation["reco_id"] as! String : "")
+                    
+                    var nameOfIcon = ""
+                    if newRecoId != "" {
+                      
+                      if newRecoId == "client_objective_25" {
+                        
+                        nameOfIcon = "communication"
+                        
+                      }else
+                        
+                        if newRecoId == "client_objective_50" {
+                          
+                          nameOfIcon = "communication"
+                          
+                        }else
+                          
+                          if newRecoId == "client_objective_75" {
+                            
+                            nameOfIcon = "list"
+                            
+                          }else
+                            
+                            if newRecoId == "client_budget_25" {
+                              
+                              nameOfIcon = "budget"
+                              
+                            }else
+                              
+                              if newRecoId == "client_budget_50" {
+                                
+                                nameOfIcon = "budget"
+                                
+                              }else
+                                
+                                if newRecoId == "client_budget_75" {
+                                  
+                                  nameOfIcon = "budget"
+                                  
+                                }else
+                                  
+                                  if newRecoId == "client_budget_100" {
+                                    
+                                    nameOfIcon = "budget"
+                                    
+                                  }else
+                                    
+                                    if newRecoId == "client_criteria" {
+                                      
+                                      nameOfIcon = "criteria"
+                                      
+                                    }else
+                                      
+                                      if newRecoId == "client_number_5" {
+                                        
+                                        nameOfIcon = "eye"
+                                        
+                                      }else
+                                        
+                                        if newRecoId == "client_number_7" {
+                                          
+                                          nameOfIcon = "number"
+                                          
+                                        }else
+                                          
+                                          if newRecoId == "client_time" {
+                                            
+                                            nameOfIcon = "time"
+                                            
+                                          }else
+                                            
+                                            if newRecoId == "client_more_time" {
+                                              
+                                              nameOfIcon = "more_time"
+                                              
+                                            }else
+                                              
+                                              if newRecoId == "client_property" {
+                                                
+                                                nameOfIcon = "property"
+                                                
+                                              }else
+                                                
+                                                if newRecoId == "client_deliverable_25" {
+                                                  
+                                                  nameOfIcon = "deliverable"
+                                                  
+                                                }else
+                                                  
+                                                  if newRecoId == "client_deliverable_50" {
+                                                    
+                                                    nameOfIcon = "deliverable"
+                                                    
+                                                  }else
+                                                    
+                                                    if newRecoId == "client_deliverable_75" {
+                                                      
+                                                      nameOfIcon = "deliverable"
+                                                      
+                                                    }else
+                                                      
+                                                      if newRecoId == "client_deliverable_100" {
+                                                        
+                                                        nameOfIcon = "deliverable"
+                                                        
+                      }
+                      
+                    }
+                    
+                    let newRecommendation = RecommendationModelData.init(newBody: newBody,
+                      newRecoId: newRecoId)
+                    newRecommendation.iconName = nameOfIcon
+                    
+                    arrayOfRecommendations.append(newRecommendation)
+                    
+                  }
+
+                  
                   let newPitchEvaluationForCompany = PitchEvaluationByUserModelDataForCompany.init(newBrandName: newBrandName,
                     newBreakDown: newBreakDown,
                     newBriefDate: newBriefDate,
@@ -889,6 +1137,7 @@ class RequestToServerManager: NSObject {
                     newPitchTypesPercentage: newPitchesTypesPercentage,
                     newWinner: newWinner)
                   
+                  newPitchEvaluationForCompany.recommendations = arrayOfRecommendations
                   newArrayOfPitchesByUserForCompany.append(newPitchEvaluationForCompany)
                   
                 }
@@ -1177,6 +1426,7 @@ class RequestToServerManager: NSObject {
                 let newHasPitchWinnerSurvey = (pitchEvaluationByUser["has_pitch_winner_survey"] as? Bool != nil ? pitchEvaluationByUser["has_pitch_winner_survey"] as! Bool : false)
                 let newPitchsResultsId = (pitchEvaluationByUser["pitch_results_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_results_id"] as! Int) : "-1")
                 let newPitchWinnerSurveyId = (pitchEvaluationByUser["pitch_winner_survey_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_winner_survey_id"] as! Int) : "-1")
+                let newPitchWinnerSurveyClosed = (pitchEvaluationByUser["is_winner_survey_closed"] as? Bool != nil ? pitchEvaluationByUser["is_winner_survey_closed"] as! Bool : false)
                 
                 let arrayOfEvaluationPitchSkillCategories = (pitchEvaluationByUser["skill_categories"] as? Array<[String: AnyObject]> != nil ? pitchEvaluationByUser["skill_categories"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
                 
@@ -1330,6 +1580,7 @@ class RequestToServerManager: NSObject {
                 
                 newPitchEvaluationByUser.arrayOfRecommendations = arrayOfRecommendations
                 newPitchEvaluationByUser.pitchWinnerSurveyId = newPitchWinnerSurveyId
+                newPitchEvaluationByUser.isWinnerSurveyClosed = newPitchWinnerSurveyClosed
                 
                 newArrayOfPitchesByUser.append(newPitchEvaluationByUser)
                 
@@ -2419,6 +2670,8 @@ class RequestToServerManager: NSObject {
   
   func requestToGetPitchSurvey(pitchSurveyId: String, functionToMakeWhenThereIsPitchSurvey: (pitchWinnerSurvey: PitchWinnerSurveyModelData) -> Void, functionToMakeWhenThereIsNotPitchSurveyResult: () -> Void) {
     
+    print(pitchSurveyId)
+    
     //    UtilityManager.sharedInstance.showLoader()
     
     let urlToRequest = "\(typeOfServer)/pitch_winner_surveys/" + pitchSurveyId
@@ -2460,7 +2713,7 @@ class RequestToServerManager: NSObject {
     }
   }
   
-  func requestToUpdateSurveyPitch(params: [String: AnyObject], actionsToMakeAfterSuccesfullyPitchSurveyUpdated: (pitchSurveyUpdated: PitchResultsModelData)-> Void, actionsToMakeWhenErrorToUpdate: ()-> Void) {
+  func requestToUpdateSurveyPitch(params: [String: AnyObject], actionsToMakeAfterSuccesfullyPitchSurveyUpdated: (pitchSurveyUpdated: PitchWinnerSurveyModelData)-> Void, actionsToMakeWhenErrorToUpdate: ()-> Void) {
     
     let urlToRequest = "\(typeOfServer)/pitch_winner_surveys/update"
     
@@ -2478,6 +2731,21 @@ class RequestToServerManager: NSObject {
           
           let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
           print(json)
+          
+          let newSurveyId = (json["id"] as? Int != nil ? String(json["id"] as! Int) : "-1")
+          let newSignedContract = (json["was_contract_signed"] as? Bool != nil ? json["was_contract_signed"] as! Bool : false)
+          let newSignatureDate = (json["contract_signature_date"] as? String != nil ? json["contract_signature_date"] as! String : "")
+          let newActivedProject = (json["was_project_activated"] as? Bool != nil ? json["was_project_activated"] as! Bool : false)
+          let newActivationDate = (json["when_will_it_activate"] as? String != nil ? json["when_will_it_activate"] as! String : "")
+          
+          let newWinnerSurveyData = PitchWinnerSurveyModelData.init(newPitchResultsId: newSurveyId,
+            newAgencyId: nil,
+            newAlreadySign: newSignedContract,
+            newDateOfSign: newSignatureDate,
+            newAlreadyActive: newActivedProject,
+            newDateOfActivation: newActivationDate)
+          
+          actionsToMakeAfterSuccesfullyPitchSurveyUpdated(pitchSurveyUpdated: newWinnerSurveyData)
           
         }else {
           
@@ -2735,7 +3003,8 @@ class RequestToServerManager: NSObject {
               let newHasResults = (pitchEvaluationByUser["has_results"] as? Bool != nil ? pitchEvaluationByUser["has_results"] as! Bool : false)
               let newHasPitchWinnerSurvey = (pitchEvaluationByUser["has_pitch_winner_survey"] as? Bool != nil ? pitchEvaluationByUser["has_pitch_winner_survey"] as! Bool : false)
               let newPitchsResultsId = (pitchEvaluationByUser["pitch_results_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_results_id"] as! Int) : "-1")
-              
+              let newPitchWinnerSurveyId = (pitchEvaluationByUser["pitch_winner_survey_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_winner_survey_id"] as! Int) : "-1")
+              let newPitchWinnerSurveyClosed = (pitchEvaluationByUser["is_winner_survey_closed"] as? Bool != nil ? pitchEvaluationByUser["is_winner_survey_closed"] as! Bool : false)
               
               
               let arrayOfEvaluationPitchSkillCategories = (pitchEvaluationByUser["skill_categories"] as? Array<[String: AnyObject]> != nil ? pitchEvaluationByUser["skill_categories"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
@@ -2991,6 +3260,8 @@ class RequestToServerManager: NSObject {
                 newPitchResultsId: newPitchsResultsId)
               
               newPitchEvaluationByUser.arrayOfRecommendations = arrayOfRecommendations
+              newPitchEvaluationByUser.pitchWinnerSurveyId = newPitchWinnerSurveyId
+              newPitchEvaluationByUser.isWinnerSurveyClosed = newPitchWinnerSurveyClosed
               
               newArrayOfPitchesByUser.append(newPitchEvaluationByUser)
               

@@ -17,7 +17,7 @@ protocol WhenYouWillSignTheContractPitchSurveyViewDelegate {
 class WhenYouWillSignTheContractPitchSurveyView: UIView, UITextFieldDelegate {
   
   private var thumbsUpImageView: UIImageView! = nil
-  private var whenYouWillSignTheContractView: CustomTextFieldWithTitleView! = nil
+  var whenYouWillSignTheContractView: CustomTextFieldWithTitleView! = nil
   private var titleLabel: UILabel! = nil
   private var nextButton: UIButton! = nil
   private var containerViewForPicker: UIView! = nil

@@ -474,12 +474,12 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject == true {
     
-      didSignContractView.didSignContractView.mainSegmentedControl.selectedSegmentIndex = 0
+      didSignContractView.didSignContractView.mainSegmentedControl.selectedSegmentIndex = 1
       
     } else
       if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject == false {
       
-        didSignContractView.didSignContractView.mainSegmentedControl.selectedSegmentIndex = 1
+        didSignContractView.didSignContractView.mainSegmentedControl.selectedSegmentIndex = 2
         
       }
     
@@ -496,12 +496,12 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject == true {
       
-      didProjectActiveView.didProjectActiveView.mainSegmentedControl.selectedSegmentIndex = 0
+      didProjectActiveView.didProjectActiveView.mainSegmentedControl.selectedSegmentIndex = 1
       
     } else
       if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject == false {
         
-        didProjectActiveView.didProjectActiveView.mainSegmentedControl.selectedSegmentIndex = 1
+        didProjectActiveView.didProjectActiveView.mainSegmentedControl.selectedSegmentIndex = 2
         
     }
     
@@ -516,6 +516,12 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     whenYouWillSignView.alpha = 0.0
     whenYouWillSignView.delegate = self
     
+    if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.dateOfSignForTheProject != nil && pitchSurveyDataSelectedBefore.dateOfSignForTheProject != "" {
+    
+      whenYouWillSignView.whenYouWillSignTheContractView.mainTextField.text = pitchSurveyDataSelectedBefore.dateOfSignForTheProject
+    
+    }
+    
     containerAndGradientView.addSubview(whenYouWillSignView)
     
   }
@@ -526,6 +532,12 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     whenProjectWillActiveView.regionPosition = .right
     whenProjectWillActiveView.alpha = 0.0
     whenProjectWillActiveView.delegate = self
+    
+    if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.dateOfActiveTheProject != nil && pitchSurveyDataSelectedBefore.dateOfActiveTheProject != "" {
+      
+      whenProjectWillActiveView.whenProjectWillActiveView.mainTextField.text = pitchSurveyDataSelectedBefore.dateOfActiveTheProject
+      
+    }
     
     containerAndGradientView.addSubview(whenProjectWillActiveView)
     
@@ -1792,25 +1804,16 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     if nextScreenToShowWithTag == -1 {
       
-      if didSignContractSelectedValue == 1 {
-      
-        didProjectActiveSelectedValue = 1
+      didProjectActiveSelectedValue = 1
         
-        if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.pitchWinnerSurveyId != "-1" {
+      if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.pitchWinnerSurveyId != "-1" {
           
-          self.updatePitchSurvey()
+        self.updatePitchSurvey()
           
-        } else {
-        
-          self.saveDataForPitchSurvey()
-          
-        }
-        
       } else {
         
-        self.dismissDetailedNavigation()
-        self.navigationController?.popToRootViewControllerAnimated(true)
-        
+        self.saveDataForPitchSurvey()
+          
       }
       
     }else
