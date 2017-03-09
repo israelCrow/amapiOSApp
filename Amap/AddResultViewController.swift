@@ -44,6 +44,7 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   private var whenProjectWillActiveView: WhenProjectWillActivePitchSurveyView! = nil
   
   //Pitch Survey Results
+  private var pitchSurveyDataSelectedBefore: PitchWinnerSurveyModelData! = nil
   private var showDirectlyPitchSurvey: Bool! = nil
   private var didSignContractSelectedValue: Int! = nil
   private var didProjectActiveSelectedValue: Int! = nil
@@ -241,14 +242,39 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     
     if showDirectlyPitchSurvey != nil && showDirectlyPitchSurvey == true {
       
-      
-      
-//      self.changeNavigationRigthButtonItemToNothing()
-      self.createDidSignContractView()
-      self.moveDidSignContractView(.center)
-      self.createDidProjectActiveView()
-      self.createWhenYouWillSignView()
-      self.createWhenProjectWillActiveView()
+      if pitchEvaluationData.pitchWinnerSurveyId != nil && pitchEvaluationData.pitchWinnerSurveyId != "-1" {
+        
+        UtilityManager.sharedInstance.showLoader()
+        
+        RequestToServerManager.sharedInstance.requestToGetPitchSurvey(pitchEvaluationData.pitchWinnerSurveyId, functionToMakeWhenThereIsPitchSurvey: { (pitchWinnerSurvey) in
+          
+          self.pitchSurveyDataSelectedBefore = pitchWinnerSurvey
+          
+          //      self.changeNavigationRigthButtonItemToNothing()
+          self.createDidSignContractView()
+          self.moveDidSignContractView(.center)
+          self.createDidProjectActiveView()
+          self.createWhenYouWillSignView()
+          self.createWhenProjectWillActiveView()
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          }, functionToMakeWhenThereIsNotPitchSurveyResult: {
+            
+            //Do something
+            
+        })
+        
+      } else {
+        
+        //      self.changeNavigationRigthButtonItemToNothing()
+        self.createDidSignContractView()
+        self.moveDidSignContractView(.center)
+        self.createDidProjectActiveView()
+        self.createWhenYouWillSignView()
+        self.createWhenProjectWillActiveView()
+        
+      }
       
     } else {
       
@@ -446,6 +472,17 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     didSignContractView.alpha = 0.0
     didSignContractView.delegate = self
     
+    if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject == true {
+    
+      didSignContractView.didSignContractView.mainSegmentedControl.selectedSegmentIndex = 0
+      
+    } else
+      if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject == false {
+      
+        didSignContractView.didSignContractView.mainSegmentedControl.selectedSegmentIndex = 1
+        
+      }
+    
     containerAndGradientView.addSubview(didSignContractView)
     
   }
@@ -456,6 +493,17 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     didProjectActiveView.regionPosition = .right
     didProjectActiveView.alpha = 0.0
     didProjectActiveView.delegate = self
+    
+    if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject == true {
+      
+      didProjectActiveView.didProjectActiveView.mainSegmentedControl.selectedSegmentIndex = 0
+      
+    } else
+      if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject != nil && pitchSurveyDataSelectedBefore.alreadySignForTheProject == false {
+        
+        didProjectActiveView.didProjectActiveView.mainSegmentedControl.selectedSegmentIndex = 1
+        
+    }
     
     containerAndGradientView.addSubview(didProjectActiveView)
     
@@ -1747,7 +1795,16 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
       if didSignContractSelectedValue == 1 {
       
         didProjectActiveSelectedValue = 1
-        self.saveDataForPitchSurvey()
+        
+        if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.pitchWinnerSurveyId != "-1" {
+          
+          self.updatePitchSurvey()
+          
+        } else {
+        
+          self.saveDataForPitchSurvey()
+          
+        }
         
       } else {
         
@@ -1789,9 +1846,16 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
   func whenProjectWillActiveNextButtonPressed(dateSelected: String) {
     
     whenProjectWillActiveSelectedValue = dateSelected
-    self.dismissDetailedNavigation()
-    self.navigationController?.popToRootViewControllerAnimated(true)
     
+    if pitchSurveyDataSelectedBefore != nil && pitchSurveyDataSelectedBefore.pitchWinnerSurveyId != "-1" {
+      
+      self.updatePitchSurvey()
+      
+    } else {
+      
+      self.saveDataForPitchSurvey()
+      
+    }
     
     //originally
 //    self.saveDataForPitchSurvey()
@@ -1862,6 +1926,67 @@ class AddResultViewController: UIViewController, DidYouShowYourProposalViewDeleg
     ]
     
     return finalParams as! [String : AnyObject]
+    
+  }
+  
+  private func createParamsForUpdatePitchSurvey() -> [String: AnyObject] {
+    
+    var pitchResult = [String:AnyObject]()
+    
+    pitchResult["pitch_id"] = pitchEvaluationData.pitchId
+    pitchResult["agency_id"] = AgencyModel.Data.id
+    
+    if didSignContractSelectedValue != nil {
+      
+      pitchResult["was_contract_signed"] = didSignContractSelectedValue
+      
+    }
+    if whenYouWillSignSelectedValue != nil {
+      
+      pitchResult["contract_signature_date"] = whenYouWillSignSelectedValue
+      
+    }
+    if didProjectActiveSelectedValue != nil {
+      
+      pitchResult["was_project_activated"] = didProjectActiveSelectedValue
+      
+    }
+    if whenProjectWillActiveSelectedValue != nil {
+      
+      pitchResult["when_will_it_activate"] = whenProjectWillActiveSelectedValue
+      
+    }
+    
+    let finalParams: [String: AnyObject] = [
+      "auth_token"  : UserSession.session.auth_token,
+      "id": pitchSurveyDataSelectedBefore.pitchWinnerSurveyId!,
+      "pitch_winner_survey": pitchResult
+    ]
+    
+    return finalParams
+    
+  }
+  
+  private func updatePitchSurvey() {
+    
+    let finalParamsToUpdate = self.createParamsForUpdatePitchSurvey()
+    
+    UtilityManager.sharedInstance.showLoader()
+    
+    RequestToServerManager.sharedInstance.requestToUpdateSurveyPitch(finalParamsToUpdate, actionsToMakeAfterSuccesfullyPitchSurveyUpdated: { (pitchSurveyUpdated) in
+      
+      self.dismissDetailedNavigation()
+      self.navigationController?.popToRootViewControllerAnimated(true)
+      
+      UtilityManager.sharedInstance.hideLoader()
+      
+      }) { 
+        
+        self.dismissDetailedNavigation()
+        self.navigationController?.popToRootViewControllerAnimated(true)
+        
+        UtilityManager.sharedInstance.hideLoader()
+    }
     
   }
   

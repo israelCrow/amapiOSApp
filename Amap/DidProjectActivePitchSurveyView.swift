@@ -18,7 +18,7 @@ class DidProjectActivePitchSurveyView: UIView, CustomSegmentedControlWithTitleVi
   
   private var thumbsUpImageView: UIImageView! = nil
   private var titleLabel: UILabel! = nil
-  private var didProjectActiveView: CustomSegmentedControlWithTitleView! = nil
+  var didProjectActiveView: CustomSegmentedControlWithTitleView! = nil
   private var nextButton: UIButton! = nil
   var regionPosition: PositionOfCardsAddResults! = nil
   

@@ -1176,6 +1176,7 @@ class RequestToServerManager: NSObject {
                 let newHasResults = (pitchEvaluationByUser["has_results"] as? Bool != nil ? pitchEvaluationByUser["has_results"] as! Bool : false)
                 let newHasPitchWinnerSurvey = (pitchEvaluationByUser["has_pitch_winner_survey"] as? Bool != nil ? pitchEvaluationByUser["has_pitch_winner_survey"] as! Bool : false)
                 let newPitchsResultsId = (pitchEvaluationByUser["pitch_results_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_results_id"] as! Int) : "-1")
+                let newPitchWinnerSurveyId = (pitchEvaluationByUser["pitch_winner_survey_id"] as? Int != nil ? String(pitchEvaluationByUser["pitch_winner_survey_id"] as! Int) : "-1")
                 
                 let arrayOfEvaluationPitchSkillCategories = (pitchEvaluationByUser["skill_categories"] as? Array<[String: AnyObject]> != nil ? pitchEvaluationByUser["skill_categories"] as! Array<[String: AnyObject]> : Array<[String: AnyObject]>())
                 
@@ -1328,6 +1329,7 @@ class RequestToServerManager: NSObject {
                   newPitchResultsId: newPitchsResultsId)
                 
                 newPitchEvaluationByUser.arrayOfRecommendations = arrayOfRecommendations
+                newPitchEvaluationByUser.pitchWinnerSurveyId = newPitchWinnerSurveyId
                 
                 newArrayOfPitchesByUser.append(newPitchEvaluationByUser)
                 
@@ -2414,6 +2416,81 @@ class RequestToServerManager: NSObject {
         }
     }
   }
+  
+  func requestToGetPitchSurvey(pitchSurveyId: String, functionToMakeWhenThereIsPitchSurvey: (pitchWinnerSurvey: PitchWinnerSurveyModelData) -> Void, functionToMakeWhenThereIsNotPitchSurveyResult: () -> Void) {
+    
+    //    UtilityManager.sharedInstance.showLoader()
+    
+    let urlToRequest = "\(typeOfServer)/pitch_winner_surveys/" + pitchSurveyId
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "GET"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          print(json)
+          
+          let newSurveyId = (json["id"] as? Int != nil ? String(json["id"] as! Int) : "-1")
+          let newSignedContract = (json["was_contract_signed"] as? Bool != nil ? json["was_contract_signed"] as! Bool : false)
+          let newSignatureDate = (json["contract_signature_date"] as? String != nil ? json["contract_signature_date"] as! String : "")
+          let newActivedProject = (json["was_project_activated"] as? Bool != nil ? json["was_project_activated"] as! Bool : false)
+          let newActivationDate = (json["when_will_it_activate"] as? String != nil ? json["when_will_it_activate"] as! String : "")
+          
+          let newWinnerSurveyData = PitchWinnerSurveyModelData.init(newPitchResultsId: newSurveyId,
+            newAgencyId: nil,
+            newAlreadySign: newSignedContract,
+            newDateOfSign: newSignatureDate,
+            newAlreadyActive: newActivedProject,
+            newDateOfActivation: newActivationDate)
+          
+          functionToMakeWhenThereIsPitchSurvey(pitchWinnerSurvey: newWinnerSurveyData)
+          
+        } else {
+          
+          print("ERROR \(response)")
+          UtilityManager.sharedInstance.hideLoader()
+          
+        }
+    }
+  }
+  
+  func requestToUpdateSurveyPitch(params: [String: AnyObject], actionsToMakeAfterSuccesfullyPitchSurveyUpdated: (pitchSurveyUpdated: PitchResultsModelData)-> Void, actionsToMakeWhenErrorToUpdate: ()-> Void) {
+    
+    let urlToRequest = "\(typeOfServer)/pitch_winner_surveys/update"
+    
+    let requestConnection = NSMutableURLRequest(URL: NSURL.init(string: urlToRequest)!)
+    requestConnection.HTTPMethod = "POST"
+    requestConnection.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    requestConnection.setValue(UtilityManager.sharedInstance.apiToken, forHTTPHeaderField: "Authorization")
+    
+    requestConnection.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(params, options: [])
+    
+    Alamofire.request(requestConnection)
+      .validate(statusCode: 200..<500)
+      .responseJSON{ response in
+        if response.response?.statusCode == 200 {
+          
+          let json = try! NSJSONSerialization.JSONObjectWithData(response.data!, options: [])
+          print(json)
+          
+        }else {
+          
+          actionsToMakeWhenErrorToUpdate()
+          
+          UtilityManager.sharedInstance.hideLoader()
+          
+          print("ERROR")
+          
+        }
+    }
+  }
+
   
   func requestToUpdatePitchResults(params: [String: AnyObject], actionsToMakeAfterSuccesfullyPitchResultsSaved: (pitchResultsUpdated: PitchResultsModelData)-> Void) {
     

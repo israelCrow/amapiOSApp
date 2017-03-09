@@ -18,7 +18,7 @@ class DidSignContractPitchSurveyView: UIView, CustomSegmentedControlWithTitleVie
   
   private var thumbsUpImageView: UIImageView! = nil
   private var titleLabel: UILabel! = nil
-  private var didSignContractView: CustomSegmentedControlWithTitleView! = nil
+  var didSignContractView: CustomSegmentedControlWithTitleView! = nil
   private var nextButton: UIButton! = nil
   var regionPosition: PositionOfCardsAddResults! = nil
   
