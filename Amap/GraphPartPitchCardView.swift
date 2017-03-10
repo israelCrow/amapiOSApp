@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol GraphPartPitchCardViewDelegate {
+  
+  func showMailToContactAmap(sender: GraphPartPitchCardView)
+  
+}
+
 class GraphPartPitchCardView: UIView {
   
   var containerAndGradientView: GradientView! = nil
@@ -15,6 +21,9 @@ class GraphPartPitchCardView: UIView {
   private var arrayOfFinalQualifications = [Int]()
   private var arrayOfAgencyNames = [String]()
   private var arrayOfBarGraphic = [GraphView]()
+  var contactButton: UIButton = UIButton.init()
+  
+  var delegate : GraphPartPitchCardViewDelegate?
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
@@ -534,15 +543,21 @@ class GraphPartPitchCardView: UIView {
                                      y: 228.0 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 157.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 30.0 * UtilityManager.sharedInstance.conversionHeight)
-    let contactButton = UIButton.init(frame: frameForButton)
+    contactButton = UIButton.init(frame: frameForButton)
     contactButton.addTarget(self,
-                            action: nil,
+                            action: #selector(contactAmapButtonPressed),
                             forControlEvents: .TouchUpInside)
     contactButton.backgroundColor = UIColor.blackColor()
     contactButton.setAttributedTitle(stringWithFormat, forState: .Normal)
     contactButton.setAttributedTitle(stringWithFormatWhenpressed, forState: .Highlighted)
     
     self.addSubview(contactButton)
+    
+  }
+  
+  @objc private func contactAmapButtonPressed() {
+    
+    self.delegate?.showMailToContactAmap(self)
     
   }
   

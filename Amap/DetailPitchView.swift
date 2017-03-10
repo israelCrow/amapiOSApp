@@ -234,7 +234,7 @@ class DetailPitchView: UIView, DetailPitchCanceledDeclinedButtonsDelegate, Detai
                               height: 185.0 * UtilityManager.sharedInstance.conversionHeight)
     
     var stringForButton = ""
-    if pastInfoFromAddResults != nil && pastInfoFromAddResults.wasPitchWon != nil && (pastInfoFromAddResults.wasPitchWon == true || pastInfoFromAddResults.wasPitchWon == false) {
+    if pastInfoFromAddResults != nil && pastInfoFromAddResults.wasPitchWon != nil && (pastInfoFromAddResults.wasPitchWon == true || pastInfoFromAddResults.wasPitchWon == false) { //Explain
       
       stringForButton = "encuesta ya realizada"
       

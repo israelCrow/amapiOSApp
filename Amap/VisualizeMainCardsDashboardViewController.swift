@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 protocol VisualizeMainCardsDashboardViewControllerShowAndHideDelegate {
   
@@ -15,7 +16,7 @@ protocol VisualizeMainCardsDashboardViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewDelegate,  GrapAccordingToUserViewDelegate, FilterAccordingToUserAndAgencyViewDelegate, GraphOfAgencyVSIndustryViewDelegate, GeneralPerformanceCardViewDelegate, GeneralPerformanceOwnStatisticsCardViewDelegate {
+class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewDelegate,  GrapAccordingToUserViewDelegate, FilterAccordingToUserAndAgencyViewDelegate, GraphOfAgencyVSIndustryViewDelegate, GeneralPerformanceCardViewDelegate, GeneralPerformanceOwnStatisticsCardViewDelegate, MFMailComposeViewControllerDelegate {
   
   enum ScrollDirection {
     case toLeft
@@ -961,6 +962,38 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
   
   }
   
+  func contactAmapButtonPressedFromGraphOfAgencyVSIndustry(sender: GraphOfAgencyVSIndustryView) {
+    
+    let mailComposeVC = MFMailComposeViewController()
+    mailComposeVC.mailComposeDelegate = self
+    
+    mailComposeVC.setToRecipients(["amap@amap.com.mx"])
+    mailComposeVC.setSubject("Contactar a AMAP desde Happitch :)")
+    
+    let finalText = ""
+    
+    mailComposeVC.setMessageBody(finalText, isHTML: false)
+    
+    self.presentViewController(mailComposeVC, animated: true, completion: nil)
+    
+  }
+  
+  func showMailToContactAmap(sender: GraphAccordingToUserView) {
+  
+    let mailComposeVC = MFMailComposeViewController()
+    mailComposeVC.mailComposeDelegate = self
+    
+    mailComposeVC.setToRecipients(["amap@amap.com.mx"])
+    mailComposeVC.setSubject("Contactar a AMAP desde Happitch :)")
+    
+    let finalText = ""
+    
+    mailComposeVC.setMessageBody(finalText, isHTML: false)
+    
+    self.presentViewController(mailComposeVC, animated: true, completion: nil)
+  
+  }
+  
   private func orderScoresPerMonth(arrayOfSscoresToOrder: [PitchEvaluationAveragePerMonthModelData]) -> [Double] {
     
     var finalArrayOfScores = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
@@ -1664,6 +1697,27 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
       
     }
     
+    
+  }
+  
+  //MARK: - MailDelegate
+  
+  func showSendMailErrorAlert() {
+    
+    let alertController = UIAlertController(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
+    }
+    
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
+  
+  func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    
+    controller.dismissViewControllerAnimated(true, completion: nil)
     
   }
   

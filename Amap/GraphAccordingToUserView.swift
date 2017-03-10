@@ -13,6 +13,7 @@ protocol GrapAccordingToUserViewDelegate {
   func getEvaluationsAveragePerMonth(params: [String: AnyObject], sender: GraphAccordingToUserView)
   func flipCardToShowFilterOfGraphAccordingToUser(sender: GraphAccordingToUserView)
   func showOnlyValueFromAgencyOrCompany(sender: GraphAccordingToUserView)
+  func showMailToContactAmap(sender: GraphAccordingToUserView)
   
 }
 
@@ -493,13 +494,19 @@ class GraphAccordingToUserView: UIView, CustomTextFieldWithTitleAndPickerForDash
                                      height: 30.0 * UtilityManager.sharedInstance.conversionHeight)
     let contactButton = UIButton.init(frame: frameForButton)
     contactButton.addTarget(self,
-                            action: nil,
+                            action: #selector(contactAmapButtonPressed),
                             forControlEvents: .TouchUpInside)
     contactButton.backgroundColor = UIColor.blackColor()
     contactButton.setAttributedTitle(stringWithFormat, forState: .Normal)
     contactButton.setAttributedTitle(stringWithFormatWhenpressed, forState: .Highlighted)
     
     viewForNoAmapUser.addSubview(contactButton)
+    
+  }
+  
+  @objc private func contactAmapButtonPressed() {
+    
+    self.delegate?.showMailToContactAmap(self)
     
   }
   

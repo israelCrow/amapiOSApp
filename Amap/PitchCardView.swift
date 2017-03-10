@@ -15,10 +15,11 @@ protocol PitchCardViewDelegate {
   func askForArchiveThisPitchCard(params: [String: AnyObject])
   func upSwipeDetectedInPitchCard()
   func showAlreadyArchivedMessage(alert: UIAlertController)
+  func showMailToContactAmapFromPitchCardView(sender: PitchCardView)
   
 }
 
-class PitchCardView: UIView {
+class PitchCardView: UIView, GraphPartPitchCardViewDelegate {
   
   private var contentView: UIView! = nil
   private var addPitchButton: UIButton! = nil
@@ -72,6 +73,7 @@ class PitchCardView: UIView {
     let tapGestureWhenTap = UITapGestureRecognizer.init(target: self,
                                                         action: #selector(cardPressed))
     tapGestureWhenTap.numberOfTapsRequired = 1
+//    tapGestureWhenTap.cancelsTouchesInView = false
     
     contentView.addGestureRecognizer(tapGestureWhenTap)
     
@@ -233,6 +235,8 @@ class PitchCardView: UIView {
     graphPart = GraphPartPitchCardView.init(frame: frameForGraphPart,
                          newArrayOfQualifications: arrayOfQualifications,
                             newArrayOfAgencyNames: arrayOfAgencyNames)
+    
+    graphPart.delegate = self
     contentView.addSubview(graphPart)
     //contentView.bringSubviewToFront(addPitchButton)
     
@@ -365,6 +369,14 @@ class PitchCardView: UIView {
   @objc private func addPitchButtonPushed() {
     
     self.delegate?.pushCreateAddNewPitchAndWriteBrandNameViewControllerFromPitchCard()
+    
+  }
+  
+  //MARK: - GraphPartPitchCardViewDelegate
+  
+  func showMailToContactAmap(sender: GraphPartPitchCardView) {
+    
+    self.delegate?.showMailToContactAmapFromPitchCardView(self)
     
   }
 

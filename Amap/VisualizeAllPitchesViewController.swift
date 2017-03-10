@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 protocol VisualizeAllPitchesViewControllerShowAndHideDelegate {
   
@@ -18,7 +19,7 @@ protocol VisualizeAllPitchesViewControllerShowAndHideDelegate {
   
 }
 
-class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate, DetailPitchViewDelegate, CanceledPitchEvaluationViewDelegate, ArchivedPitchEvaluationViewDelegate, DeletedPitchEvaluationViewDelegate, DeclinedPitchEvaluationViewDelegate, LookForPitchCardViewDelegate, FilterPitchCardViewDelegate, PendingEvaluationCardViewDelegate, YouWonThisPitchViewDelegate, AddResultViewControllerDelegate, EditPitchEvaluationViewControllerDelegate {
+class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iCarouselDataSource, NoPitchAssignedViewDelegate, CreateAddNewPitchAndWriteCompanyNameViewControllerDelegate, PitchCardViewDelegate, DetailPitchViewDelegate, CanceledPitchEvaluationViewDelegate, ArchivedPitchEvaluationViewDelegate, DeletedPitchEvaluationViewDelegate, DeclinedPitchEvaluationViewDelegate, LookForPitchCardViewDelegate, FilterPitchCardViewDelegate, PendingEvaluationCardViewDelegate, YouWonThisPitchViewDelegate, AddResultViewControllerDelegate, EditPitchEvaluationViewControllerDelegate, MFMailComposeViewControllerDelegate {
   
   private let kNotificationCenterForLookingForPitchEvaluation = "LookForThisPitchEvaluation"
   
@@ -979,6 +980,22 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
   
   //MARK: - PitchCardViewDelegate
   
+  func showMailToContactAmapFromPitchCardView(sender: PitchCardView) {
+    
+    let mailComposeVC = MFMailComposeViewController()
+    mailComposeVC.mailComposeDelegate = self
+    
+    mailComposeVC.setToRecipients([VisualizePitchesConstants.InfoPitchesViewAndViewController.mailLabelText])
+    mailComposeVC.setSubject("Contactar a AMAP desde Happitch :)")
+    
+    let finalText = ""
+    
+    mailComposeVC.setMessageBody(finalText, isHTML: false)
+    
+    self.presentViewController(mailComposeVC, animated: true, completion: nil)
+    
+  }
+  
   func showAlreadyArchivedMessage(alert: UIAlertController) {
     
     self.presentViewController(alert, animated: true, completion: nil)
@@ -1174,9 +1191,13 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     arrayOfQualifications.insert(updatedPitchEvaluationDataByUser.score, atIndex: 0)
     let arrayOfAgencyNames: [String] = [AgencyModel.Data.name]
     
-    return GraphPartPitchCardView.init(frame: frameForGraphPart,
+    let copyOfGraph = GraphPartPitchCardView.init(frame: frameForGraphPart,
                                        newArrayOfQualifications: arrayOfQualifications,
                                        newArrayOfAgencyNames: arrayOfAgencyNames)
+    copyOfGraph.contactButton.alpha = 0.0
+    copyOfGraph.contactButton.userInteractionEnabled = false
+    
+    return copyOfGraph
    
   }
   
@@ -1193,9 +1214,13 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
     arrayOfQualifications.insert(frontCard.getPitchEvaluationByUserData().score, atIndex: 0)
     let arrayOfAgencyNames: [String] = [AgencyModel.Data.name]
     
-    return GraphPartPitchCardView.init(frame: frameForGraphPart,
+    let copyOfGraph = GraphPartPitchCardView.init(frame: frameForGraphPart,
                                             newArrayOfQualifications: arrayOfQualifications,
                                             newArrayOfAgencyNames: arrayOfAgencyNames)
+    copyOfGraph.contactButton.alpha = 0.0
+    copyOfGraph.contactButton.userInteractionEnabled = false
+    
+    return copyOfGraph
     
   }
   
@@ -2617,6 +2642,27 @@ class VisualizeAllPitchesViewController: UIViewController, iCarouselDelegate, iC
 
       
     }
+    
+  }
+  
+  //MARK: - MailDelegate
+  
+  func showSendMailErrorAlert() {
+    
+    let alertController = UIAlertController(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: UIAlertControllerStyle.Alert)
+    
+    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel) { (result : UIAlertAction) -> Void in
+      
+    }
+    
+    alertController.addAction(okAction)
+    self.presentViewController(alertController, animated: true, completion: nil)
+    
+  }
+  
+  func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    
+    controller.dismissViewControllerAnimated(true, completion: nil)
     
   }
   

@@ -17,7 +17,7 @@ class RequestToServerManager: NSObject {
   static let productionServer = "https://amap-prod.herokuapp.com/api"     // https:// amap-prod.herokuapp. com/ api
   
   //Change this for development or production
-  let typeOfServer = developmentServer
+  let typeOfServer = productionServer
   //
   
   func requestForAgencyData(functionToMakeWhenBringInfo: ()-> Void) {

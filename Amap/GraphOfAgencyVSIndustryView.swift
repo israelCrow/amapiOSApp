@@ -11,6 +11,7 @@ import UIKit
 protocol GraphOfAgencyVSIndustryViewDelegate {
   
   func filterFromGraphOfAgencyVSIndustryPressed(sender: GraphOfAgencyVSIndustryView)
+  func contactAmapButtonPressedFromGraphOfAgencyVSIndustry(sender: GraphOfAgencyVSIndustryView)
   
 }
 
@@ -379,13 +380,19 @@ class GraphOfAgencyVSIndustryView: UIView {
                                      height: 30.0 * UtilityManager.sharedInstance.conversionHeight)
     let contactButton = UIButton.init(frame: frameForButton)
     contactButton.addTarget(self,
-                            action: nil,
+                            action: #selector(contactAmapButtonPressed),
                             forControlEvents: .TouchUpInside)
     contactButton.backgroundColor = UIColor.blackColor()
     contactButton.setAttributedTitle(stringWithFormat, forState: .Normal)
     contactButton.setAttributedTitle(stringWithFormatWhenpressed, forState: .Highlighted)
     
     viewForNoAmapUser.addSubview(contactButton)
+    
+  }
+  
+  @objc private func contactAmapButtonPressed() {
+    
+    self.delegate?.contactAmapButtonPressedFromGraphOfAgencyVSIndustry(self)
     
   }
   

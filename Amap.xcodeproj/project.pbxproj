@@ -1566,7 +1566,6 @@
 				3AEEB49F75BE3BCE6624B5D7 /* [CP] Embed Pods Frameworks */,
 				FBCF67C25E4C578244E96DAA /* [CP] Copy Pods Resources */,
 				AAA115A21DD3F61E00DA6B21 /* Embed Frameworks */,
-				FC5E602D1E70FFF000F84372 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1837,19 +1836,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Amap/Pods-Amap-resources.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		FC5E602D1E70FFF000F84372 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2336,7 +2322,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pequenocuervo.Happitch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "68392113-ad1e-4a22-83b3-116d93f4314e";
 				SWIFT_OBJC_BRIDGING_HEADER = "Amap/Amap-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
