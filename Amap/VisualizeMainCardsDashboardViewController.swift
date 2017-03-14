@@ -516,7 +516,20 @@ class VisualizeMainCardsDashboardViewController: UIViewController, UIScrollViewD
     secondFilterView.tag = 2
     secondFilterView.delegate = self
     
-    graphAccordingUser = GraphAccordingToUserView.init(frame: frameForFrontAndBack, newArrayOfUsers: arrayOfUsers)
+    //this change of frame is just for iphone 4 (or simulator inside ipad)
+    
+    var finalFrameForGraphAccordingUser = frameForFrontAndBack
+    
+    if UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 {
+      
+      finalFrameForGraphAccordingUser = CGRect.init(x: finalFrameForGraphAccordingUser.origin.x,
+                                                    y: finalFrameForGraphAccordingUser.origin.y,
+                                                width: finalFrameForGraphAccordingUser.size.width,
+                                               height: finalFrameForGraphAccordingUser.size.height + (70.0 * UtilityManager.sharedInstance.conversionHeight))
+      
+    }
+    
+    graphAccordingUser = GraphAccordingToUserView.init(frame: finalFrameForGraphAccordingUser, newArrayOfUsers: arrayOfUsers)
     graphAccordingUser.delegate = self
     graphAccordingUser.layer.shadowColor = UIColor.blackColor().CGColor
     graphAccordingUser.layer.shadowOpacity = 0.25
