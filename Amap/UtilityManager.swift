@@ -35,7 +35,7 @@ class UtilityManager: NSObject {
   let kDocuments = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
   let kcache = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true) [0]
   
-  static let baseScreen = CGSize.init(width: 375.0, height: 667.0)
+  static let baseScreen = (UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 ? CGSize.init(width: 375.0, height: 562.5) : CGSize.init(width: 375.0, height: 667.0))  //CGSize.init(width: 375.0, height: 562.5)
   static let screenSize = CGSize.init(width: UIScreen.mainScreen().bounds.size.width, height: UIScreen.mainScreen().bounds.size.height)
   static let frameOfConversion = CGSize.init(width: screenSize.height/baseScreen.height, height: screenSize.width/baseScreen.width)
   
