@@ -91,10 +91,22 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
     
     private func createGoldenPitchStar() {
         goldenPitchStarImageView = UIImageView.init(image: UIImage.init(named: "logo"))
-        let goldenPitchStarFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (52.0 * UtilityManager.sharedInstance.conversionWidth),
+        var goldenPitchStarFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (52.0 * UtilityManager.sharedInstance.conversionWidth),
                                                y: 30.0 * UtilityManager.sharedInstance.conversionHeight,
                                            width: 104.0 * UtilityManager.sharedInstance.conversionWidth,
                                           height: 139.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+      //this is for screen in "ipad version" 
+      if UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 {
+        
+        goldenPitchStarFrame = CGRect.init(x: (self.frame.size.width / 2.0) - (26.0 * UtilityManager.sharedInstance.conversionWidth),
+                                           y: 15.0 * UtilityManager.sharedInstance.conversionHeight,
+                                           width: 52.0 * UtilityManager.sharedInstance.conversionWidth,
+                                           height: 69.5 * UtilityManager.sharedInstance.conversionHeight)
+        
+      }
+      
+      
         goldenPitchStarImageView.frame = goldenPitchStarFrame
         
         self.addSubview(goldenPitchStarImageView)
@@ -176,11 +188,21 @@ class GoldenPitchLoginView: UIView, UITextFieldDelegate {
         )
         writeNameDescriptionLabel.attributedText = stringWithFormat
         writeNameDescriptionLabel.sizeToFit()
-        let newFrame = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+        var newFrame = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
                                    y: (210 * UtilityManager.sharedInstance.conversionHeight),
                                    width: writeNameDescriptionLabel.frame.size.width,
                                    height: writeNameDescriptionLabel.frame.size.height)
+      
+      //this is for screen in "ipad version"
+      if UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 {
         
+        newFrame = CGRect.init(x: 38.0 * UtilityManager.sharedInstance.conversionWidth,
+                               y: (100 * UtilityManager.sharedInstance.conversionHeight),
+                               width: writeNameDescriptionLabel.frame.size.width,
+                               height: writeNameDescriptionLabel.frame.size.height)
+        
+      }
+      
         writeNameDescriptionLabel.frame = newFrame
         
         self.addSubview(writeNameDescriptionLabel)

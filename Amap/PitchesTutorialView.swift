@@ -148,10 +148,20 @@ class PitchesTutorialView: UIView {
     )
     bottomLabel.attributedText = stringWithFormat
     bottomLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 109.0 * UtilityManager.sharedInstance.conversionWidth,
+    var newFrame = CGRect.init(x: 109.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 553.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: bottomLabel.frame.size.width,
                                height: bottomLabel.frame.size.height)
+    
+    //this is for screen in "ipad version"
+    if UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 {
+      
+      newFrame = CGRect.init(x: 109.0 * UtilityManager.sharedInstance.conversionWidth,
+                             y: 465.0 * UtilityManager.sharedInstance.conversionHeight,
+                             width: bottomLabel.frame.size.width,
+                             height: bottomLabel.frame.size.height)
+      
+    }
     
     bottomLabel.frame = newFrame
     
@@ -185,10 +195,20 @@ class PitchesTutorialView: UIView {
     )
     bottomPitchesLabel.attributedText = stringWithFormat
     bottomPitchesLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 170.0 * UtilityManager.sharedInstance.conversionWidth,
+    var newFrame = CGRect.init(x: 170.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 653.0 * UtilityManager.sharedInstance.conversionHeight,
                            width: bottomPitchesLabel.frame.size.width,
                           height: bottomPitchesLabel.frame.size.height)
+    
+    //this is for screen in "ipad version"
+    if UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 {
+      
+      newFrame = CGRect.init(x: 110.0 * UtilityManager.sharedInstance.conversionWidth,
+                             y: 535.0 * UtilityManager.sharedInstance.conversionHeight,
+                             width: bottomLabel.frame.size.width,
+                             height: bottomLabel.frame.size.height)
+      
+    }
     
     bottomPitchesLabel.frame = newFrame
     
@@ -203,6 +223,7 @@ class PitchesTutorialView: UIView {
                                      y: 92.0 * UtilityManager.sharedInstance.conversionHeight,
                                          width: 25.0 * UtilityManager.sharedInstance.conversionWidth,
                                         height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+    
     lookForImageView.frame = imageViewFrame
     
     self.addSubview(lookForImageView)
@@ -225,10 +246,22 @@ class PitchesTutorialView: UIView {
   private func createPitchesImageView() {
     
     pitchesImageView = UIImageView.init(image: UIImage.init(named: "iconPitchesWhite"))
-    let imageViewFrame = CGRect.init(x: 176.0 * UtilityManager.sharedInstance.conversionWidth,
+    var imageViewFrame = CGRect.init(x: 176.0 * UtilityManager.sharedInstance.conversionWidth,
                                      y: 623.0 * UtilityManager.sharedInstance.conversionHeight,
                                  width: 23.0 * UtilityManager.sharedInstance.conversionWidth,
                                 height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    //this is for screen in "ipad version"
+    if UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 {
+      
+      imageViewFrame = CGRect.init(x: 174.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   y: 514.0 * UtilityManager.sharedInstance.conversionHeight,
+                                   width: 23.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+    }
+    
+    
     pitchesImageView.frame = imageViewFrame
     
     self.addSubview(pitchesImageView)

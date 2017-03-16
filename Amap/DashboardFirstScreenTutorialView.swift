@@ -66,10 +66,20 @@ class DashboardFirstScreenTutorialView: UIView {
     )
     lefBottomLabel.attributedText = stringWithFormat
     lefBottomLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 25.0 * UtilityManager.sharedInstance.conversionWidth,
+    var newFrame = CGRect.init(x: 25.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 530.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: lefBottomLabel.frame.size.width,
                                height: lefBottomLabel.frame.size.height)
+    
+    //this is for screen in "ipad version"
+    if UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 {
+      
+      newFrame = CGRect.init(x: 25.0 * UtilityManager.sharedInstance.conversionWidth,
+                             y: 440.0 * UtilityManager.sharedInstance.conversionHeight,
+                             width: lefBottomLabel.frame.size.width,
+                             height: lefBottomLabel.frame.size.height)
+      
+    }
     
     lefBottomLabel.frame = newFrame
     
@@ -103,10 +113,20 @@ class DashboardFirstScreenTutorialView: UIView {
     )
     bottomDashboardLabel.attributedText = stringWithFormat
     bottomDashboardLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 37.0 * UtilityManager.sharedInstance.conversionWidth,
+    var newFrame = CGRect.init(x: 37.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 653.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: bottomDashboardLabel.frame.size.width,
                                height: bottomDashboardLabel.frame.size.height)
+    
+    //this is for screen in "ipad version"
+    if UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 {
+      
+      newFrame = CGRect.init(x: 36.0 * UtilityManager.sharedInstance.conversionWidth,
+                             y: 548.0 * UtilityManager.sharedInstance.conversionHeight,
+                             width: bottomDashboardLabel.frame.size.width,
+                             height: bottomDashboardLabel.frame.size.height)
+      
+    }
     
     bottomDashboardLabel.frame = newFrame
     
@@ -117,10 +137,21 @@ class DashboardFirstScreenTutorialView: UIView {
   private func createDashboardImageView() {
     
     dashboardImageView = UIImageView.init(image: UIImage.init(named: "iconDashboardWhite"))
-    let imageViewFrame = CGRect.init(x: 50.0 * UtilityManager.sharedInstance.conversionWidth,
+    var imageViewFrame = CGRect.init(x: 50.0 * UtilityManager.sharedInstance.conversionWidth,
                                      y: 623 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 25.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    //this is for screen in "ipad version"
+    if UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 {
+      
+      imageViewFrame = CGRect.init(x: 50.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   y: 515 * UtilityManager.sharedInstance.conversionHeight,
+                                   width: 25.0 * UtilityManager.sharedInstance.conversionWidth,
+                                   height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+    }
+    
     dashboardImageView.frame = imageViewFrame
     
     self.addSubview(dashboardImageView)

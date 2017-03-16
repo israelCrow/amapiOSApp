@@ -51,8 +51,17 @@ class ProfileScreenTutorialView: UIView {
     rightBottomLabel.numberOfLines = 0
     rightBottomLabel.lineBreakMode = .ByWordWrapping
     
-    let font = UIFont(name: "SFUIText-Light",
+    var font = UIFont(name: "SFUIText-Light",
                       size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+    
+    //this is for screen in "ipad version"
+    if UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 {
+      
+      font = UIFont(name: "SFUIText-Light",
+                    size: 16.0 * UtilityManager.sharedInstance.conversionWidth)
+      
+    }
+    
     let color = UIColor.whiteColor()
     let style = NSMutableParagraphStyle()
     style.alignment = NSTextAlignment.Right
@@ -66,10 +75,20 @@ class ProfileScreenTutorialView: UIView {
     )
     rightBottomLabel.attributedText = stringWithFormat
     rightBottomLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 216.0 * UtilityManager.sharedInstance.conversionWidth,
+    var newFrame = CGRect.init(x: 216.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 541.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: rightBottomLabel.frame.size.width,
                                height: rightBottomLabel.frame.size.height)
+    
+    //this is for screen in "ipad version"
+    if UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 {
+      
+      newFrame = CGRect.init(x: 200.0 * UtilityManager.sharedInstance.conversionWidth,
+                             y: 465.0 * UtilityManager.sharedInstance.conversionHeight,
+                             width: rightBottomLabel.frame.size.width,
+                             height: rightBottomLabel.frame.size.height)
+      
+    }
     
     rightBottomLabel.frame = newFrame
     
@@ -103,10 +122,20 @@ class ProfileScreenTutorialView: UIView {
     )
     bottomProfileLabel.attributedText = stringWithFormat
     bottomProfileLabel.sizeToFit()
-    let newFrame = CGRect.init(x: 278.0 * UtilityManager.sharedInstance.conversionWidth,
+    var newFrame = CGRect.init(x: 278.0 * UtilityManager.sharedInstance.conversionWidth,
                                y: 653.0 * UtilityManager.sharedInstance.conversionHeight,
                                width: bottomProfileLabel.frame.size.width,
                                height: bottomProfileLabel.frame.size.height)
+    
+    //this is for screen in "ipad version"
+    if UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 {
+      
+      newFrame = CGRect.init(x: 276.0 * UtilityManager.sharedInstance.conversionWidth,
+                            y: 548.0 * UtilityManager.sharedInstance.conversionHeight,
+                                 width: bottomProfileLabel.frame.size.width,
+                                 height: bottomProfileLabel.frame.size.height)
+      
+    }
     
     bottomProfileLabel.frame = newFrame
     
@@ -117,10 +146,21 @@ class ProfileScreenTutorialView: UIView {
   private func createProfileImageView() {
     
     profileImageView = UIImageView.init(image: UIImage.init(named: "white_agencyBlack"))
-    let imageViewFrame = CGRect.init(x: 306.0 * UtilityManager.sharedInstance.conversionWidth,
+    var imageViewFrame = CGRect.init(x: 306.0 * UtilityManager.sharedInstance.conversionWidth,
                                      y: 623.0 * UtilityManager.sharedInstance.conversionHeight,
                                      width: 14.0 * UtilityManager.sharedInstance.conversionWidth,
                                      height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+    
+    //this is for screen in "ipad version"
+    if UIScreen.mainScreen().bounds.size.width == 320.0 && UIScreen.mainScreen().bounds.size.height == 480.0 {
+      
+      imageViewFrame = CGRect.init(x: 305.0 * UtilityManager.sharedInstance.conversionWidth,
+                                       y: 516.0 * UtilityManager.sharedInstance.conversionHeight,
+                                       width: 14.0 * UtilityManager.sharedInstance.conversionWidth,
+                                       height: 25.0 * UtilityManager.sharedInstance.conversionHeight)
+      
+    }
+    
     profileImageView.frame = imageViewFrame
     
     self.addSubview(profileImageView)
